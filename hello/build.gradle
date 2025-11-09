@@ -1,0 +1,20 @@
+plugins {
+  id 'java'
+  alias(libs.plugins.quarkus)
+}
+
+dependencies {
+	implementation enforcedPlatform(libs.quarkus.bom)
+	
+	implementation libs.quarkus.arc
+	implementation libs.quarkus.rest.jackson
+	
+	testImplementation libs.quarkus.junit5
+}
+
+group = 'com.erdouglass.hello'
+version = '1.0.0-SNAPSHOT'
+
+quarkusDev {
+  jvmArgs = ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
+}

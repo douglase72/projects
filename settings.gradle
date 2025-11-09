@@ -1,0 +1,23 @@
+pluginManagement {
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+}
+
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+  }
+}
+
+rootProject.name='projects'
+
+include 'hello'
+include 'web-services'
+
+// EMDB
+include 'emdb-media-service'
+project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')

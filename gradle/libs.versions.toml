@@ -1,0 +1,52 @@
+# libs.versions.toml
+# This is the Gradle version catalog file.
+# It centralizes dependency versions and coordinates for the entire project.
+
+[versions]
+jakarta-data = "1.0.1"
+jakartaee-platform = "11.0.0"
+microprofile-config="3.1"
+opentelemetry = "1.40.0"
+quarkus = "3.29.2"
+slf4j = "2.0.17"
+
+[libraries]
+# Jakarta EE
+jakarta-bom = { group = "jakarta.platform", name = "jakarta.jakartaee-bom", version.ref = "jakartaee-platform" }
+jakarta-cdi = { group = "jakarta.enterprise", name = "jakarta.enterprise.cdi-api" }
+jakarta-data = { group = "jakarta.data", name = "jakarta.data-api", version.ref = "jakarta-data" }
+jakarta-validation = { group = "jakarta.validation", name = "jakarta.validation-api" }
+jakarta-ws-rs = { group = "jakarta.ws.rs", name = "jakarta.ws.rs-api" }
+
+# MicroProfile
+microprofile-config = { group = "org.eclipse.microprofile.config", name = "microprofile-config-api", version.ref = "microprofile-config" }
+
+# OpenTelemetry
+opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api" }
+opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", version.ref = "opentelemetry" }
+
+# Quarkus
+quarkus-arc = { group = "io.quarkus", name = "quarkus-arc" }
+quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref = "quarkus" }
+quarkus-flyway = { group = "io.quarkus", name = "quarkus-flyway" }
+quarkus-hibernate-orm = { group = "io.quarkus", name = "quarkus-hibernate-orm" }
+quarkus-hibernate-validator = { group = "io.quarkus", name = "quarkus-hibernate-validator" }
+quarkus-jackson = { group = "io.quarkus", name = "quarkus-jackson" }
+quarkus-jdbc-postgres = { group = "io.quarkus", name = "quarkus-jdbc-postgresql" }
+quarkus-junit5 = { group = "io.quarkus", name = "quarkus-junit5" }
+quarkus-junit5-mockito = { group = "io.quarkus", name = "quarkus-junit5-mockito" }
+quarkus-kafka = { group = "io.quarkus", name = "quarkus-messaging-kafka" }
+quarkus-opentelemetry = { group = "io.quarkus", name = "quarkus-opentelemetry" }
+quarkus-prometheus = { group = "io.quarkus", name = "quarkus-micrometer-registry-prometheus" }
+quarkus-rabbitmq = { group = "io.quarkus", name = "quarkus-messaging-rabbitmq" }
+quarkus-rest = { group = "io.quarkus", name = "quarkus-rest" }
+quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-client-jackson" }
+quarkus-rest-jackson = { group = "io.quarkus", name = "quarkus-rest-jackson" }
+quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
+quarkus-virtual-threads = { group = "io.quarkus", name = "quarkus-virtual-threads" }
+
+# SLF4J
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
