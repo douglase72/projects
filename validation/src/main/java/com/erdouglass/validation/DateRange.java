@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE_USE }) 
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = DateRangeValidator.class)
 @Documented

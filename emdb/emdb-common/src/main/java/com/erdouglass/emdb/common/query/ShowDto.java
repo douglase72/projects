@@ -1,7 +1,5 @@
 package com.erdouglass.emdb.common.query;
 
-/// # EMDB Shared Constants
-///
 /// A non-instantiable utility class that centralizes validation constants for the
 /// application.
 ///

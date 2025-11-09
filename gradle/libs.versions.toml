@@ -11,6 +11,12 @@ quarkus = "3.29.2"
 slf4j = "2.0.17"
 
 [libraries]
+# Flyway
+flyway-database-postgres = { group = "org.flywaydb", name = "flyway-database-postgresql" } 
+
+# Hibernate
+hibernate-jpamodelgen = { group = "org.hibernate.orm", name = "hibernate-jpamodelgen" }
+
 # Jakarta EE
 jakarta-bom = { group = "jakarta.platform", name = "jakarta.jakartaee-bom", version.ref = "jakartaee-platform" }
 jakarta-cdi = { group = "jakarta.enterprise", name = "jakarta.enterprise.cdi-api" }
