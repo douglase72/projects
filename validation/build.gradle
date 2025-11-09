@@ -1,0 +1,9 @@
+plugins {
+  id 'java-library' 
+}
+
+dependencies {
+	implementation platform(libs.jakarta.bom)
+	
+	compileOnly libs.jakarta.validation
+}

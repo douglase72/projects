@@ -16,8 +16,11 @@ dependencyResolutionManagement {
 rootProject.name='projects'
 
 include 'hello'
+include 'validation'
 include 'web-services'
 
 // EMDB
+include 'emdb-common'
+project(':emdb-common').projectDir = file('emdb/emdb-common')
 include 'emdb-media-service'
 project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
