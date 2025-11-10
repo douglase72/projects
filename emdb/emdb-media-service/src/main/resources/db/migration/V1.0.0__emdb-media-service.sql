@@ -19,10 +19,6 @@
         release_date date,
         revenue integer,
         runtime integer,
-        deleted boolean not null,
         primary key (id),
         unique (name, release_date)
     );
-
-    comment on column emdb_media.Movies.deleted is
-        'Soft-delete indicator';

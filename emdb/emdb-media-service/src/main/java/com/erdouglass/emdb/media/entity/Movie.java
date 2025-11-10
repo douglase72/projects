@@ -3,8 +3,6 @@ package com.erdouglass.emdb.media.entity;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.hibernate.annotations.SoftDelete;
-
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.common.query.ShowStatus;
 import com.erdouglass.validation.DateRange;
@@ -35,7 +33,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 /// @see com.erdouglass.emdb.media.entity.Show
 /// @see com.erdouglass.emdb.media.entity.BasicEntity
 @Entity
-@SoftDelete
 @Table(
     name = "Movies",
     uniqueConstraints = @UniqueConstraint(columnNames = {"name", "release_date"})

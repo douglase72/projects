@@ -71,8 +71,9 @@ public class MovieService {
     command.poster().ifPresent(movie::poster);
     command.tagline().ifPresent(movie::tagline);
     command.overview().ifPresent(movie::overview);
-    LOGGER.infof("Updated: %s", movie);
-		return movie;
+    var updatedMovie = repository.update(movie);
+    LOGGER.infof("Updated: %s", updatedMovie);
+		return updatedMovie;
 	}
 	
   @Transactional
