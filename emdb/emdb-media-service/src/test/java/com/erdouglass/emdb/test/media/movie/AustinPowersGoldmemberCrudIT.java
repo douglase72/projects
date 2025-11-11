@@ -35,9 +35,10 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   @Order(1)
   void testCreateMovie() throws IOException, InterruptedException {
   	var createRequest = MovieCreateCommand.builder()
+  			.source("tmdb")
+  			.externalId(818L)
 				.title("Austin Powers in Goldmember")
 				.releaseDate(LocalDate.parse("2002-07-26"))
-				.tmdbId(818)
 				.score(5.992f)
 				.status(ShowStatus.RELEASED)
 				.runtime(94)
@@ -92,6 +93,33 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   
   @Test
   @Order(3)
+  void testFindByNaturalId() throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder()
+        .uri(UriBuilder.fromUri(MOVIES_URL).path("tmdb/818").build())
+        .build();
+    long startTime = System.nanoTime();
+    var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+    var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
+    assertEquals(200, response.statusCode()); 
+    assertEquals("Austin Powers in Goldmember", movie.title());
+    assertEquals("2002-07-26", movie.releaseDate().toString());
+    assertEquals(5.992f, movie.score());
+    assertEquals(ShowStatus.RELEASED, movie.status());
+    assertEquals(94, movie.runtime());
+    assertEquals(63000000, movie.budget());
+    assertEquals(296938801, movie.revenue());
+    assertEquals("https://www.warnerbros.com/movies/austin-powers-goldmember", movie.homepage());
+    assertEquals("en", movie.originalLanguage());
+    assertEquals("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg", movie.backdrop());
+    assertEquals("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", movie.poster());
+    assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
+    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());
+    LOGGER.infof("Found default movie details in: %d ms", et);
+  }
+  
+  @Test
+  @Order(4)
   void testUpdateMovie() throws IOException, InterruptedException {
   	var patchRequest = MovieUpdateCommand.builder()
   			.releaseDate(LocalDate.parse("2000-01-01"))
@@ -125,7 +153,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   }
   
   @Test
-  @Order(4)
+  @Order(5)
   void testDeleteMovie() throws IOException, InterruptedException {
     var request = HttpRequest.newBuilder()
         .uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).build())
@@ -139,7 +167,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   }
   
   @Test
-  @Order(5)
+  @Order(6)
   void testVerifyDeletedMovie() throws IOException, InterruptedException {
     var request = HttpRequest.newBuilder()
         .uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).build())

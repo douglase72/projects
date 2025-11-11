@@ -2,14 +2,17 @@ package com.erdouglass.emdb.media.controller;
 
 import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.command.MovieUpdateCommand;
+import com.erdouglass.emdb.common.configuration.Configuration;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -49,6 +52,15 @@ public class MovieResource {
 	@Inject
 	MovieService service;
 	
+	/// Handles the HTTP `POST` request to create a new movie.
+	///
+	/// It validates the incoming `MovieCreateCommand`, maps it to an entity,
+	/// and persists it via the `MovieService`.
+	///
+	/// @param request The `MovieCreateCommand` DTO, validated to ensure correctness.
+	/// @return A JAX-RS `Response` with status `201 Created`, a `Location`
+	///         header pointing to the new resource, and the created `MovieDto`
+	///         in the response body.
 	@POST
 	public Response create(@NotNull @Valid MovieCreateCommand request) {
 		var movie = service.create(mapper.toMovie(request));
@@ -59,12 +71,43 @@ public class MovieResource {
     return Response.created(location).entity(mapper.toMovieDto(movie)).build();
 	}
 	
+	/// Handles the HTTP `GET` request to find a movie by its primary (surrogate) key.
+	///
+	/// @param id The primary key (`id`) of the movie, passed as a URL path parameter.
+	/// @return The corresponding `MovieDto`.
+	/// @throws com.erdouglass.emdb.exception.ResourceNotFoundException
+	///         (which is mapped to a 404 response) if the movie does not exist.
   @GET
   @Path("{id}")
   public MovieDto findById(@PathParam("id") @NotNull @Positive Long id) {
   	return mapper.toMovieDto(service.findById(id));
   }
   
+	/// Handles the HTTP `GET` request to find a movie by its natural (business) key.
+	///
+	/// @param source The data source (e.g., "tmdb"), passed as a URL path parameter.
+	/// @param externalId The external ID from the source, passed as a URL path parameter.
+	/// @return The corresponding `MovieDto`.
+	/// @throws com.erdouglass.emdb.exception.ResourceNotFoundException
+	///         (which is mapped to a 404 response) if the movie does not exist.
+  @GET
+  @Path("{source}/{externalId}")
+  public MovieDto findByNaturalId(
+  		@PathParam("source") @NotBlank @Size(max = Configuration.SOURCE_MAX_LENGTH) String source,
+  		@PathParam("externalId") @NotNull @Positive Long externalId) {
+  	return mapper.toMovieDto(service.findByNaturalId(source, externalId));
+  }
+  
+	/// Handles the HTTP `PATCH` request to partially update an existing movie.
+	///
+	/// It validates the incoming `MovieUpdateCommand` and applies its
+	/// present fields to the movie found by the given ID.
+	///
+	/// @param id The primary key (`id`) of the movie to update.
+	/// @param request The `MovieUpdateCommand` DTO containing the fields to update.
+	/// @return The fully updated `MovieDto`.
+	/// @throws com.erdouglass.emdb.exception.ResourceNotFoundException
+	///         (which is mapped to a 404 response) if the movie does not exist.
   @PATCH
   @Path("{id}")
   public MovieDto update(
@@ -74,6 +117,12 @@ public class MovieResource {
     return mapper.toMovieDto(movie);
   }
   
+	/// Handles the HTTP `DELETE` request to delete a movie by its primary key.
+	///
+	/// @param id The primary key (`id`) of the movie to delete.
+	/// @return A JAX-RS `Response` with status `204 No Content`.
+	/// @throws com.erdouglass.emdb.exception.ResourceNotFoundException
+	///         (which is mapped to a 404 response) if the movie does not exist.
   @DELETE
   @Path("{id}")
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {

@@ -1,7 +1,8 @@
 import axios, { type AxiosInstance } from 'axios';
 
 import { Movie } from "../model/Movie.js";
-import { MovieRequest } from '../model/MovieRequest.js';
+import { MovieCreateRequest } from '../model/MovieCreateRequest.js';
+import { MovieUpdateRequest } from '../model/MovieUpdateRequest.js';
 
 /**
  * Service class for interacting with the Movie Media API.
@@ -22,7 +23,7 @@ export class MovieService {
    * @param request - The movie data to create.
    * @returns A promise that resolves to the newly created Movie object.
    */
-  async create(request: MovieRequest): Promise<Movie> {
+  async create(request: MovieCreateRequest): Promise<Movie> {
     const start = performance.now();
     const { data: movie } = await this.client.post<Movie>('/movies', request);
     const et = (performance.now() - start).toLocaleString(undefined, {
@@ -57,7 +58,7 @@ export class MovieService {
    * @param request - The movie data to update.
    * @returns A promise that resolves to the updated Movie object.
    */
-  async update(id: number, request: MovieRequest): Promise<Movie> {
+  async update(id: number, request: MovieUpdateRequest): Promise<Movie> {
     const start = performance.now();
     const { data: movie } = await this.client.patch<Movie>(`/movies/${id}`, request);
     const et = (performance.now() - start).toLocaleString(undefined, {

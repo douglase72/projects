@@ -16,59 +16,59 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/// A mapped superclass that provides common fields for "show-like" entities.
+/// A {@code @MappedSuperclass} that extends {@link BasicEntity}
+/// to provide common fields for "show" media, such as movies
+/// and TV series.
 ///
-/// It extends `BasicEntity` (specifying `Integer` for the `tmdbId`) and is
-/// intended to be extended by concrete entities like `Movie` and `Series`.
+/// It includes fields like name, overview, poster, score,
+/// and status.
 ///
-/// This class includes properties shared by all "show" types, such as:
-/// * `name` (title)
-/// * `overview`
-/// * `score`
-/// * `poster` / `backdrop` paths
-/// * `status` (e.g., RELEASED, IN_PRODUCTION)
-/// * `tagline`
+/// Getters for nullable fields return an {@link Optional}
+/// to ensure null-safe handling.
 ///
-/// ## Design Pattern
-///
-/// A key feature of this class is the use of `Optional`-wrapping getters
-/// (e.g., `overview()`, `tagline()`). This provides a null-safe, functional
-/// way for the service layer to interact with entity data without risking
-/// `NullPointerException`s.
-///
-/// @see com.erdouglass.emdb.media.entity.Movie
-/// @see com.erdouglass.emdb.media.entity.BasicEntity
+/// @param <T> The data type of the external identifier, inherited
+///            from {@link BasicEntity}.
 @MappedSuperclass
-public abstract class Show extends BasicEntity<Integer> {
+public abstract class Show<T> extends BasicEntity<T> {
 
+	/// The path or URL to the backdrop image.
 	@Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH)
   private String backdrop;
 	
+	/// The URL of the show's official homepage.
 	@Size(max = Configuration.URL_MAX_LENGTH) 
 	String homepage;
 	
+	/// The name or title of the show. Cannot be blank.
 	@NotBlank
 	@Size(max = ShowDto.NAME_MAX_LENGTH)
 	private String name;
 	
+	/// The ISO 639-1 code for the original language (e.g., "en").
 	@Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) 
 	String originalLanguage;
 	
+	/// A short summary or plot overview of the show.
   @Size(max = ShowDto.OVERVIEW_MAX_LENGTH)
   @Column(length = ShowDto.OVERVIEW_MAX_LENGTH)
   private String overview;
   
+  /// The path or URL to the poster image.
   @Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH)
   private String poster;
   
+  /// The user score or rating, typically on a scale of 0 to 10.
   @Min(0) @Max(10)
   private Float score;
   
+  /// The current production status of the show (e.g., RELEASED, CANCELED).
+  /// Cannot be null.
 	@NotNull
   @Enumerated(EnumType.STRING)
   @Column(length = ShowDto.STATUS_MAX_LENGTH)
 	private ShowStatus status;
 	
+	/// A short, catchy tagline for the show.
   @Size(max = ShowDto.TAGLINE_MAX_LENGTH)
   private String tagline;
   
@@ -76,8 +76,8 @@ public abstract class Show extends BasicEntity<Integer> {
   	super();
   }
   
-  protected Show(String name, Integer tmdbId, ShowStatus status) {
-  	super(tmdbId);
+  protected Show(String source, T externalId, String name, ShowStatus status) {
+  	super(source, externalId);
   	this.name = name;
   	this.status = status;
   }

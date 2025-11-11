@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.service;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.command.MovieUpdateCommand;
+import com.erdouglass.emdb.common.configuration.Configuration;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.repository.MovieRepository;
 import com.erdouglass.webservices.ResourceNotFoundException;
@@ -11,8 +12,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 /// Implements the business logic for all `Movie`-related operations.
 ///
@@ -39,6 +42,10 @@ public class MovieService {
 	@Inject
 	MovieRepository repository;
 	
+	/// Persists a new, validated {@link Movie} entity in the database.
+	///
+	/// @param movie The movie object to create. Must be valid and not null.
+	/// @return The persisted {@code Movie} entity, now containing its generated ID.
 	@Transactional
 	public Movie create(@NotNull @Valid Movie movie) {
 		var newMovie = repository.insert(movie);
@@ -46,6 +53,11 @@ public class MovieService {
 		return newMovie;
 	}
 	
+	/// Finds a {@link Movie} by its surrogate primary key (ID).
+	///
+	/// @param id The primary key of the movie to find. Must be positive and not null.
+	/// @return The found {@code Movie} entity.
+	/// @throws ResourceNotFoundException if no movie is found with the given ID.
 	@Transactional
 	public Movie findById(@NotNull @Positive Long id) {
 		var movie = repository.findById(id)
@@ -54,6 +66,34 @@ public class MovieService {
   	return movie;		
 	}
 	
+	/// Finds a {@link Movie} by its natural business key (source + externalId).
+	///
+	/// @param source The data source (e.g., "tmdb"). Must not be blank.
+	/// @param externalId The external identifier. Must be positive and not null.
+	/// @return The found {@code Movie} entity.
+	/// @throws ResourceNotFoundException if no movie is found with the given key.
+	@Transactional
+	public Movie findByNaturalId(
+			@NotBlank @Size(max = Configuration.SOURCE_MAX_LENGTH) String source,
+			@NotNull @Positive Long externalId) {
+		var movie = repository.findByNaturalId(source, externalId)
+				.orElseThrow(() -> {
+					var msg = String.format("No movie found with id: %s, %d", source, externalId);
+					throw new ResourceNotFoundException(msg);
+				});
+  	LOGGER.infof("Found: %s", movie);
+  	return movie;		
+	}
+	
+	/// Applies a partial update to an existing {@link Movie} using a command object.
+	///
+	/// This method fetches the existing movie and then applies only the non-empty
+	/// {@code Optional} fields from the {@code MovieUpdateCommand} to it.
+	///
+	/// @param id The ID of the movie to update. Must be positive and not null.
+	/// @param command The command object containing the partial updates.
+	/// @return The updated, persisted {@code Movie} entity.
+	/// @throws ResourceNotFoundException if no movie is found with the given ID.
 	@Transactional
 	public Movie update(@NotNull @Positive Long id, @NotNull @Valid MovieUpdateCommand command) {
     var movie = repository.findById(id)
@@ -76,6 +116,12 @@ public class MovieService {
 		return updatedMovie;
 	}
 	
+	/// Deletes a {@link Movie} by its surrogate primary key (ID).
+	///
+	/// It first fetches the movie to ensure it exists before attempting deletion.
+	///
+	/// @param id The ID of the movie to delete. Must be positive and not null.
+	/// @throws ResourceNotFoundException if the movie does not exist.
   @Transactional
   public void delete(@NotNull @Positive Long id) {
     var movie = repository.findById(id)

@@ -26,7 +26,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class MovieMapper {
 	
   public Movie toMovie(MovieCreateCommand command) {
-    var movie = new Movie(command.title(), command.tmdbId(), command.status());
+    var movie = new Movie(
+    		command.source().toLowerCase(), 
+    		command.externalId(), 
+    		command.title(), 
+    		command.status());
     movie.releaseDate(command.releaseDate());
     movie.score(command.score() == 0 ? null : command.score());
     movie.runtime(command.runtime() == 0 ? null : command.runtime());

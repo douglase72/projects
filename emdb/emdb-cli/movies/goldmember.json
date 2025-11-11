@@ -1,7 +1,8 @@
-{
+{ 
+  "source": "tmdb",
+  "externalId": 818,
   "title": "Austin Powers in Goldmember",
   "releaseDate": "2002-07-26",
-  "tmdbId": 818,
   "score": 5.992,
   "status": "RELEASED",
   "runtime": 94,
