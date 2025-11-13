@@ -24,3 +24,5 @@ include 'emdb-common'
 project(':emdb-common').projectDir = file('emdb/emdb-common')
 include 'emdb-media-service'
 project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
+include 'emdb-scraper-service'
+project(':emdb-scraper-service').projectDir = file('emdb/emdb-scraper-service')

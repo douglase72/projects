@@ -34,8 +34,7 @@ import jakarta.validation.constraints.Size;
 /// @see com.erdouglass.emdb.common.command.MovieUpdateCommand
 /// @see com.erdouglass.emdb.common.query.MovieDto
 public record MovieCreateCommand(
-		@NotBlank @Size(max = Configuration.SOURCE_MAX_LENGTH) String source,
-		@NotNull @Positive Long externalId,
+		@NotNull @Positive Integer tmdbId,
 		@NotBlank @Size(max = ShowDto.NAME_MAX_LENGTH) String title,
 		@DateRange(min = MovieDto.MIN_DATE, max = MovieDto.MAX_DATE) LocalDate releaseDate,
 		@Min(0) @Max(10) Float score,
@@ -60,8 +59,7 @@ public record MovieCreateCommand(
 
     public MovieCreateCommand build() {
       return new MovieCreateCommand(
-      		source,
-      		externalId,
+      		tmdbId,
       		title, 
       		releaseDate,
       		score,

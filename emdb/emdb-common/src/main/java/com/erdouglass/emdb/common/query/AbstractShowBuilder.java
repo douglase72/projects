@@ -11,13 +11,12 @@ package com.erdouglass.emdb.common.query;
 /// @param <T> The concrete builder type that extends this class.
 public abstract class AbstractShowBuilder<T> {
 	protected String backdrop;
-	protected Long externalId;
 	protected String overview;
 	protected String poster;
 	protected Float score;
-	protected String source;
 	protected ShowStatus status;
 	protected String tagline;
+	protected Integer tmdbId;
 
 	protected AbstractShowBuilder() {
 
@@ -25,11 +24,6 @@ public abstract class AbstractShowBuilder<T> {
 
 	public T backdrop(String backdrop) {
 		this.backdrop = backdrop;
-		return self();
-	}
-	
-	public T externalId(Long externalId) {
-		this.externalId = externalId;
 		return self();
 	}
 
@@ -47,11 +41,6 @@ public abstract class AbstractShowBuilder<T> {
 		this.score = score;
 		return self();
 	}
-	
-	public T source(String source) {
-		this.source = source;
-		return self();
-	}
 
 	public T status(ShowStatus status) {
 		this.status = status;
@@ -60,6 +49,11 @@ public abstract class AbstractShowBuilder<T> {
 
 	public T tagline(String tagline) {
 		this.tagline = tagline;
+		return self();
+	}
+	
+	public T tmdbId(Integer tmdbId) {
+		this.tmdbId = tmdbId;
 		return self();
 	}
 

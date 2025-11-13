@@ -2,17 +2,14 @@ package com.erdouglass.emdb.media.controller;
 
 import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.command.MovieUpdateCommand;
-import com.erdouglass.emdb.common.configuration.Configuration;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -83,19 +80,21 @@ public class MovieResource {
   	return mapper.toMovieDto(service.findById(id));
   }
   
-	/// Handles the HTTP `GET` request to find a movie by its natural (business) key.
+	/// Handles the HTTP `GET` request to find a movie by its natural
+	/// business key (TMDB ID).
 	///
-	/// @param source The data source (e.g., "tmdb"), passed as a URL path parameter.
-	/// @param externalId The external ID from the source, passed as a URL path parameter.
+	/// This endpoint allows for retrieval using the external identifier
+	/// (e.g., from The Movie Database) instead of the internal surrogate key.
+	///
+	/// @param tmdbId The TMDB identifier (`tmdbId`) of the movie, passed as a
+	///               URL path parameter.
 	/// @return The corresponding `MovieDto`.
 	/// @throws com.erdouglass.emdb.exception.ResourceNotFoundException
 	///         (which is mapped to a 404 response) if the movie does not exist.
   @GET
-  @Path("{source}/{externalId}")
-  public MovieDto findByNaturalId(
-  		@PathParam("source") @NotBlank @Size(max = Configuration.SOURCE_MAX_LENGTH) String source,
-  		@PathParam("externalId") @NotNull @Positive Long externalId) {
-  	return mapper.toMovieDto(service.findByNaturalId(source, externalId));
+  @Path("tmdb/{tmdbId}")
+  public MovieDto findByTmdbId(@PathParam("tmdbId") @NotNull @Positive Integer tmdbId) {
+  	return mapper.toMovieDto(service.findByTmdbId(tmdbId));
   }
   
 	/// Handles the HTTP `PATCH` request to partially update an existing movie.

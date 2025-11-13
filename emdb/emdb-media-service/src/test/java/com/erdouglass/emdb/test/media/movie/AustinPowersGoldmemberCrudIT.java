@@ -35,8 +35,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   @Order(1)
   void testCreateMovie() throws IOException, InterruptedException {
   	var createRequest = MovieCreateCommand.builder()
-  			.source("tmdb")
-  			.externalId(818L)
+  			.tmdbId(818)
 				.title("Austin Powers in Goldmember")
 				.releaseDate(LocalDate.parse("2002-07-26"))
 				.score(5.992f)
@@ -75,6 +74,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
     assertEquals(200, response.statusCode()); 
+    assertEquals(818, movie.tmdbId());
     assertEquals("Austin Powers in Goldmember", movie.title());
     assertEquals("2002-07-26", movie.releaseDate().toString());
     assertEquals(5.992f, movie.score());
@@ -93,7 +93,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   
   @Test
   @Order(3)
-  void testFindByNaturalId() throws IOException, InterruptedException {
+  void testFindByTmdbId() throws IOException, InterruptedException {
     var request = HttpRequest.newBuilder()
         .uri(UriBuilder.fromUri(MOVIES_URL).path("tmdb/818").build())
         .build();
@@ -102,6 +102,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
     assertEquals(200, response.statusCode()); 
+    assertEquals(818, movie.tmdbId());
     assertEquals("Austin Powers in Goldmember", movie.title());
     assertEquals("2002-07-26", movie.releaseDate().toString());
     assertEquals(5.992f, movie.score());
@@ -136,6 +137,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
     movieId = movie.id();
     assertEquals(200, response.statusCode());
+    assertEquals(818, movie.tmdbId());
     assertEquals("Austin Powers in Goldmember", movie.title());
     assertEquals("2000-01-01", movie.releaseDate().toString());
     assertEquals(6.5f, movie.score());

@@ -57,6 +57,7 @@ import jakarta.validation.constraints.Size;
 /// @see com.erdouglass.emdb.common.query.ShowDto
 public record MovieDto(
 		@NotNull @Positive Long id,
+		@NotNull @Positive Integer tmdbId,
 		@NotBlank @Size(max = ShowDto.NAME_MAX_LENGTH) String title,
 		@DateRange(min = MIN_DATE, max = MAX_DATE) LocalDate releaseDate,
 		@Min(0) @Max(10) Float score,
@@ -80,6 +81,7 @@ public record MovieDto(
   @Override
   public String toString() {
   	return "MovieDto[id=" + id
+  			+ ", tmdbId=" + tmdbId
   			+ ", title=" + title
   			+ ", releaseDate=" + releaseDate
   			+ ", status=" + status
@@ -93,7 +95,8 @@ public record MovieDto(
 
     public MovieDto build() {
       return new MovieDto(
-      		id, 
+      		id,
+      		tmdbId,
       		title, 
       		releaseDate,
       		score,

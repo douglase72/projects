@@ -3,7 +3,6 @@ package com.erdouglass.emdb.media.service;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.command.MovieUpdateCommand;
-import com.erdouglass.emdb.common.configuration.Configuration;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.repository.MovieRepository;
 import com.erdouglass.webservices.ResourceNotFoundException;
@@ -12,10 +11,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 /// Implements the business logic for all `Movie`-related operations.
 ///
@@ -66,21 +63,18 @@ public class MovieService {
   	return movie;		
 	}
 	
-	/// Finds a {@link Movie} by its natural business key (source + externalId).
-	///
-	/// @param source The data source (e.g., "tmdb"). Must not be blank.
-	/// @param externalId The external identifier. Must be positive and not null.
-	/// @return The found {@code Movie} entity.
-	/// @throws ResourceNotFoundException if no movie is found with the given key.
+  /// Finds a {@link Movie} by its natural business key (TMDB ID).
+  ///
+  /// This allows looking up a movie using the external identifier provided
+  /// by The Movie Database, rather than the internal database ID.
+  ///
+  /// @param tmdbId The external TMDB identifier. Must be positive and not null.
+  /// @return The found {@code Movie} entity.
+  /// @throws ResourceNotFoundException if no movie is found with the given TMDB ID.
 	@Transactional
-	public Movie findByNaturalId(
-			@NotBlank @Size(max = Configuration.SOURCE_MAX_LENGTH) String source,
-			@NotNull @Positive Long externalId) {
-		var movie = repository.findByNaturalId(source, externalId)
-				.orElseThrow(() -> {
-					var msg = String.format("No movie found with id: %s, %d", source, externalId);
-					throw new ResourceNotFoundException(msg);
-				});
+	public Movie findByTmdbId(@NotNull @Positive Integer tmdbId) {
+		var movie = repository.findByTmdbId(tmdbId)
+				.orElseThrow(() -> new ResourceNotFoundException("No movie found with tmdbId: " + tmdbId));
   	LOGGER.infof("Found: %s", movie);
   	return movie;		
 	}

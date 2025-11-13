@@ -41,15 +41,17 @@ public interface MovieRepository {
 	@Find
 	Optional<Movie> findById(Long id);
 	
-	/// Finds a {@link Movie} by its natural (business) key, which is the
-	/// combination of the data source and the external ID.
+	/// Finds a {@link Movie} by its natural business key (TMDB ID).
 	///
-	/// @param source The data source (e.g., "tmdb").
-	/// @param externalId The external identifier (must be a {@code Long}).
+	/// This is primarily used during data ingestion to check if a movie
+	/// already exists before attempting an insert, or to retrieve specific
+	/// content based on external references.
+	///
+	/// @param tmdbId The external TMDB identifier.
 	/// @return An {@link Optional} containing the found movie, or
-	///         {@link Optional#empty()} if not found.
-	@Query("WHERE source = :source AND externalId = :externalId")
-	Optional<Movie> findByNaturalId(String source, Long externalId);
+	///         {@link Optional#empty()} if no match is found.
+	@Query("WHERE tmdbId = :tmdbId")
+	Optional<Movie> findByTmdbId(Integer tmdbId);
 	
 	/// Updates an existing {@link Movie} in the database.
 	///

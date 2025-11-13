@@ -4,9 +4,8 @@
     create table emdb_media.Movies (
         id bigint not null,
         created timestamp(6) with time zone not null,
-        external_id bigint not null,
         modified timestamp(6) with time zone not null,
-        source varchar(10) not null,
+        tmdb_id integer not null unique,
         backdrop varchar(37),
         homepage varchar(2048),
         name varchar(140) not null,
@@ -20,6 +19,5 @@
         release_date date,
         revenue integer,
         runtime integer,
-        primary key (id),
-        constraint UQ_movie_source_external_id unique (source, external_id)
+        primary key (id)
     );

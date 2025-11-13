@@ -16,20 +16,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/// A {@code @MappedSuperclass} that extends {@link BasicEntity}
-/// to provide common fields for "show" media, such as movies
-/// and TV series.
+/// An abstract base class representing shared attributes of visual media content.
 ///
-/// It includes fields like name, overview, poster, score,
-/// and status.
+/// This class consolidates common properties found in both Movies and TV Shows,
+/// such as the title (`name`), `overview`, `score`, `status`, and associated
+/// imagery (`poster`, `backdrop`).
 ///
-/// Getters for nullable fields return an {@link Optional}
-/// to ensure null-safe handling.
-///
-/// @param <T> The data type of the external identifier, inherited
-///            from {@link BasicEntity}.
+/// It extends {@link BasicEntity} to inherit identity management and auditing
+/// timestamps.
 @MappedSuperclass
-public abstract class Show<T> extends BasicEntity<T> {
+public abstract class Show extends BasicEntity<Integer> {
 
 	/// The path or URL to the backdrop image.
 	@Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH)
@@ -76,8 +72,8 @@ public abstract class Show<T> extends BasicEntity<T> {
   	super();
   }
   
-  protected Show(String source, T externalId, String name, ShowStatus status) {
-  	super(source, externalId);
+  protected Show(Integer tmdbId, String name, ShowStatus status) {
+  	super(tmdbId);
   	this.name = name;
   	this.status = status;
   }
