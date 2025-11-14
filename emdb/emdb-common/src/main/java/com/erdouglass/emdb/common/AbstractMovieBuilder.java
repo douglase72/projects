@@ -1,15 +1,15 @@
-package com.erdouglass.emdb.common.query;
+package com.erdouglass.emdb.common;
 
 import java.time.LocalDate;
 
 public abstract class AbstractMovieBuilder<T> extends AbstractShowBuilder<T> {
-	protected Integer budget;
-	protected String homepage;
-	protected String originalLanguage;
-	protected LocalDate releaseDate;
-	protected Integer revenue;
-	protected Integer runtime;
-	protected String title;
+  protected Integer budget;
+  protected String homepage;
+  protected String originalLanguage;
+  protected LocalDate releaseDate;
+  protected Integer revenue;
+  protected Integer runtime;
+  protected String title;
   
   protected AbstractMovieBuilder() {
 

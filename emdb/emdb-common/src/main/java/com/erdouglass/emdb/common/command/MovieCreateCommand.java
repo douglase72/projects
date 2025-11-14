@@ -2,11 +2,10 @@ package com.erdouglass.emdb.common.command;
 
 import java.time.LocalDate;
 
-import com.erdouglass.emdb.common.configuration.Configuration;
-import com.erdouglass.emdb.common.query.AbstractMovieBuilder;
-import com.erdouglass.emdb.common.query.MovieDto;
-import com.erdouglass.emdb.common.query.ShowDto;
-import com.erdouglass.emdb.common.query.ShowStatus;
+import com.erdouglass.emdb.common.AbstractMovieBuilder;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
 import jakarta.validation.constraints.Max;
@@ -34,23 +33,31 @@ import jakarta.validation.constraints.Size;
 /// @see com.erdouglass.emdb.common.command.MovieUpdateCommand
 /// @see com.erdouglass.emdb.common.query.MovieDto
 public record MovieCreateCommand(
-		@NotNull @Positive Integer tmdbId,
-		@NotBlank @Size(max = ShowDto.NAME_MAX_LENGTH) String title,
-		@DateRange(min = MovieDto.MIN_DATE, max = MovieDto.MAX_DATE) LocalDate releaseDate,
-		@Min(0) @Max(10) Float score,
-		@NotNull ShowStatus status,
-		@PositiveOrZero Integer runtime,
-		@PositiveOrZero Integer budget,
-		@PositiveOrZero Integer revenue,
-		@Size(max = Configuration.URL_MAX_LENGTH) String homepage,
-		@Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
-    @Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH) String backdrop,
-    @Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH) String poster,
-    @Size(max = ShowDto.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowDto.OVERVIEW_MAX_LENGTH) String overview) {
+	@NotNull @Positive Integer tmdbId,
+	@NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
+	@DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
+	@Min(0) @Max(10) Float score,
+	@NotNull ShowStatus status,
+	@PositiveOrZero Integer runtime,
+	@PositiveOrZero Integer budget,
+	@PositiveOrZero Integer revenue,
+	@Size(max = Configuration.URL_MAX_LENGTH) String homepage,
+	@Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
+    @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop,
+    @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
+    @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
 	
   public static Builder builder() {
     return new Builder();
+  }
+  
+  @Override
+  public String toString() {
+  	return "MovieCreateCommand[tmdbId=" + tmdbId
+  			+ ", title=" + title
+  			+ ", releaseDate=" + releaseDate
+  			+ "]";
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {

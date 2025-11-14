@@ -43,9 +43,9 @@ public abstract class BasicEntity<T> {
   
   /// The natural business key derived from The Movie Database (TMDB).
   /// This is immutable and determines the identity of the entity.
-	@NotNull
-	@Column(name = "tmdb_id", unique = true, updatable = false)
-	private T tmdbId;
+  @NotNull
+  @Column(name = "tmdb_id", unique = true, updatable = false)
+  private T tmdbId;
 
   /// Default protected constructor for JPA and proxying.
   protected BasicEntity() {

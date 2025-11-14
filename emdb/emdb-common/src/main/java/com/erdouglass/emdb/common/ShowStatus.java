@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.query;
+package com.erdouglass.emdb.common;
 
 import java.util.Map;
 import java.util.Optional;
@@ -27,15 +27,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /// @see com.erdouglass.emdb.common.query.MovieDto
 /// @see com.erdouglass.emdb.common.command.MovieCreateCommand
 public enum ShowStatus {
-	CANCELED("Canceled"),
-	ENDED("Ended"),
-	IN_PRODUCTION("In Production"),
-	PILOT("Pilot"),
-	PLANNED("Planned"),
-	POST_PRODUCTION("Post Production"),
-	RELEASED("Released"),
-	RETURNING_SERIES("Returning Series"),
-	RUMORED("Rumored");
+  CANCELED("Canceled"),
+  ENDED("Ended"),
+  IN_PRODUCTION("In Production"),
+  PILOT("Pilot"),
+  PLANNED("Planned"),
+  POST_PRODUCTION("Post Production"),
+  RELEASED("Released"),
+  RETURNING_SERIES("Returning Series"),
+  RUMORED("Rumored");
 	
   private static final Map<String, ShowStatus> CACHE = Stream.of(values())
       .collect(Collectors.toMap(ShowStatus::name, Function.identity()));

@@ -2,7 +2,10 @@ package com.erdouglass.emdb.common.query;
 
 import java.time.LocalDate;
 
-import com.erdouglass.emdb.common.configuration.Configuration;
+import com.erdouglass.emdb.common.AbstractMovieBuilder;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
 import jakarta.validation.constraints.Max;
@@ -28,15 +31,6 @@ import jakarta.validation.constraints.Size;
 /// * **Builder Pattern:** A fluent `Builder` is provided for easy
 ///     construction, particularly in test environments or mapping logic.
 ///
-/// ## Usage
-/// ```java
-/// MovieDto movie = MovieDto.builder()
-///     .id(1L)
-///     .title("Inception")
-///     .releaseDate(LocalDate.of(2010, 7, 16))
-///     .build();
-/// ```
-///
 /// @param id The unique identifier for the movie.
 /// @param title The title of the movie.
 /// @param releaseDate The theatrical release date.
@@ -54,25 +48,23 @@ import jakarta.validation.constraints.Size;
 ///
 /// @see com.erdouglass.emdb.common.command.MovieCreateCommand
 /// @see com.erdouglass.emdb.common.command.MovieUpdateCommand
-/// @see com.erdouglass.emdb.common.query.ShowDto
+/// @see com.erdouglass.emdb.common.ShowConstants
 public record MovieDto(
-		@NotNull @Positive Long id,
-		@NotNull @Positive Integer tmdbId,
-		@NotBlank @Size(max = ShowDto.NAME_MAX_LENGTH) String title,
-		@DateRange(min = MIN_DATE, max = MAX_DATE) LocalDate releaseDate,
-		@Min(0) @Max(10) Float score,
-		@NotNull @Size(max = ShowDto.STATUS_MAX_LENGTH) ShowStatus status,
-		@PositiveOrZero Integer runtime,
-		@PositiveOrZero Integer budget,
-		@PositiveOrZero Integer revenue,
-		@Size(max = Configuration.URL_MAX_LENGTH) String homepage,
-		@Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
-    @Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH) String backdrop,
-    @Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH) String poster,
-    @Size(max = ShowDto.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowDto.OVERVIEW_MAX_LENGTH) String overview) {	
-	public static final String MIN_DATE = "1888-01-01";
-	public static final String MAX_DATE = "2100-01-01";
+	@NotNull @Positive Long id,
+	@NotNull @Positive Integer tmdbId,
+	@NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
+	@DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
+	@Min(0) @Max(10) Float score,
+	@NotNull @Size(max = ShowConstants.STATUS_MAX_LENGTH) ShowStatus status,
+	@PositiveOrZero Integer runtime,
+	@PositiveOrZero Integer budget,
+	@PositiveOrZero Integer revenue,
+	@Size(max = Configuration.URL_MAX_LENGTH) String homepage,
+	@Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
+    @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop,
+    @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
+    @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {	
 	
   public static Builder builder() {
     return new Builder();

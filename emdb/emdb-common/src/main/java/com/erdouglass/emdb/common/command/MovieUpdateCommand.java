@@ -3,10 +3,9 @@ package com.erdouglass.emdb.common.command;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import com.erdouglass.emdb.common.configuration.Configuration;
-import com.erdouglass.emdb.common.query.MovieDto;
-import com.erdouglass.emdb.common.query.ShowDto;
-import com.erdouglass.emdb.common.query.ShowStatus;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
 import jakarta.validation.constraints.Max;
@@ -39,19 +38,19 @@ import jakarta.validation.constraints.Size;
 /// @see com.erdouglass.emdb.common.command.MovieCreateCommand
 /// @see com.erdouglass.emdb.common.query.MovieDto
 public record MovieUpdateCommand(
-		Optional<@Size(max = ShowDto.NAME_MAX_LENGTH) String> title,
-		Optional<@DateRange(min = MovieDto.MIN_DATE, max = MovieDto.MAX_DATE) LocalDate> releaseDate,
-		Optional<@Min(0) @Max(10) Float> score,
-		Optional<ShowStatus> status,
+	Optional<@Size(max = ShowConstants.NAME_MAX_LENGTH) String> title,
+	Optional<@DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate> releaseDate,
+	Optional<@Min(0) @Max(10) Float> score,
+	Optional<ShowStatus> status,
     Optional<@PositiveOrZero Integer> runtime,
     Optional<@PositiveOrZero Integer> budget,
     Optional<@PositiveOrZero Integer> revenue,
     Optional<@Size(max = Configuration.URL_MAX_LENGTH) String> homepage,
     Optional<@Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String> originalLanguage,
-    Optional<@Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH) String> backdrop,
-    Optional<@Size(min = ShowDto.POSTER_MIN_LENGTH, max = ShowDto.POSTER_MAX_LENGTH) String> poster,
-    Optional<@Size(max = ShowDto.TAGLINE_MAX_LENGTH) String> tagline,
-    Optional<@Size(max = ShowDto.OVERVIEW_MAX_LENGTH) String> overview) {
+    Optional<@Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String> backdrop,
+    Optional<@Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String> poster,
+    Optional<@Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String> tagline,
+    Optional<@Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String> overview) {
 	
   public static Builder builder() {
     return new Builder();
