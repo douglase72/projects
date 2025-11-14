@@ -13,6 +13,7 @@ dependencies {
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.kafka
 	implementation libs.quarkus.rest.jackson
+	implementation libs.quarkus.rest.client.jackson
 	
 	testImplementation libs.quarkus.junit5
 }

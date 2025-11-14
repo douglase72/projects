@@ -1,18 +1,23 @@
 package com.erdouglass.emdb.scraper.producer;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.CreditType;
-import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.command.MovieCreditCreateCommand;
 import com.erdouglass.emdb.common.command.MovieMessage;
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
+import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
+import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
+import com.erdouglass.emdb.scraper.dto.TmdbMovie;
+import com.erdouglass.emdb.scraper.mapper.TmdbCreditMapper;
+import com.erdouglass.emdb.scraper.mapper.TmdbMovieMapper;
+import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -20,17 +25,43 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class TmdbMovieScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
+  private static final String CREDITS = "credits";
+  
+  @Inject
+  @ConfigProperty(name = "tmdb.cast.limit")
+  Integer castLimit;
+
+  @Inject
+  @ConfigProperty(name = "tmdb.crew.limit")
+  Integer crewLimit;
+  
+  @Inject
+  TmdbCreditMapper creditMapper;
 
   @Inject
   @Channel("movies")
   Emitter<MovieMessage> emitter;
+  
+  @Inject
+  @RestClient
+  TmdbMovieClient movieClient;
+  
+  @Inject
+  TmdbMovieMapper movieMapper;
+  
+  @Inject
+  @RestClient
+  TmdbPersonClient personClient;
+  
+  @Inject
+  TmdbPersonMapper personMapper;
 
   public void ingest(int tmdbId) {
     LOGGER.infof("Ingesting TMDB movie id: %d", tmdbId);
-    var movie = findMovie(tmdbId);
-    var credits = findCredits(movie);
-    var people = findPeople();
-    var message = new MovieMessage(movie, credits, people);
+    var tmdbMovie = findMovie(tmdbId);
+    var credits = findCredits(tmdbMovie);
+    var people = findPeople(credits);
+    var message = new MovieMessage(movieMapper.toMovieCreateCommand(tmdbMovie), credits, people);
     emitter.send(message);
     LOGGER.infof("Sent: %s", message);
   }
@@ -39,50 +70,30 @@ public class TmdbMovieScraper {
     LOGGER.infof("Synchronizing EMDB movie id: %d with TMDB movie id: %d", emdbId, tmdbId);
   }
   
-  private List<MovieCreditCreateCommand> findCredits(MovieCreateCommand movie) {
-    var credits = List.of(
-        MovieCreditCreateCommand.builder()
-          .creditType(CreditType.CAST)
-          .personId(34)
-          .role("Austin Powers / Dr. Evil / Goldmember / Fat Bastard")
-          .order(0)
-          .build(),
-        MovieCreditCreateCommand.builder()
-          .creditType(CreditType.CAST)
-          .personId(565)
-          .role("Scott Evil")
-          .order(2)
-          .build());
+  private List<MovieCreditCreateCommand> findCredits(TmdbMovie movie) {
+    var cast = movie.credits().cast().stream()
+        .limit(castLimit)
+        .map(creditMapper::toCastCredit);
+    var crew = movie.credits().crew().stream()
+        .limit(crewLimit)
+        .map(creditMapper::toCrewCredit);
+    var credits = Stream.concat(cast, crew).toList();
     LOGGER.infof("Found: %d credits", credits.size());
     return credits;
   }
 
-  private MovieCreateCommand findMovie(int tmdbId) {
-    var movie = MovieCreateCommand.builder()
-        .tmdbId(tmdbId)
-        .title("Austin Powers in Goldmember")
-        .releaseDate(LocalDate.parse("2002-07-26"))
-        .score(5.992f)
-        .status(ShowStatus.RELEASED)
-        .runtime(94)
-        .budget(63000000)
-        .revenue(296938801)
-        .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
-        .originalLanguage("en")
-        .backdrop("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg")
-        .poster("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg")
-        .tagline("The grooviest movie of the summer has a secret, baby!")
-        .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
-        .build();
-    LOGGER.infof("Found: %s", movie);
-    return movie;
+  private TmdbMovie findMovie(int tmdbId) {
+    var tmdbMovie = movieClient.findById(tmdbId, CREDITS);
+    LOGGER.infof("Found: %s", tmdbMovie);    
+    return tmdbMovie;
   }
 
-  private List<PersonCreateCommand> findPeople() {
-    var people = List.of(
-        PersonCreateCommand.builder().tmdbId(3).name("Harrison Ford").build(),
-        PersonCreateCommand.builder().tmdbId(565).name("Rutger Hauer").build(),
-        PersonCreateCommand.builder().tmdbId(1893).name("Elizabeth Hurely").build());
+  private List<PersonCreateCommand> findPeople(List<MovieCreditCreateCommand> credits) {
+    var people = credits.stream()
+        .map(MovieCreditCreateCommand::personId)
+        .distinct()
+        .map(id -> personMapper.toPersonCreateCommand(personClient.findById(id.intValue())))
+        .toList();
     LOGGER.infof("Found: %d people", people.size());
     return people;
   }
