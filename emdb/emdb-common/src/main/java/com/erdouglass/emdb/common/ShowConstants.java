@@ -26,6 +26,12 @@ public final class ShowConstants {
 
   /// The minimum length for an image path string, like `backdrop` or `poster`.
   public static final int POSTER_MIN_LENGTH = 31;
+  
+  /// The minimum valid air date for a series.
+  public static final String SERIES_MIN_DATE = "1928-09-10";
+  
+  /// The maximum length for the type of series.
+  public static final int SERIES_TYPE_MAX_LENGTH = 40;
 
   /// The maximum length for a production `status` string (e.g., "Released").
   public static final int STATUS_MAX_LENGTH = 16;
@@ -33,7 +39,6 @@ public final class ShowConstants {
   /// The maximum length for a movie's `tagline`.
   public static final int TAGLINE_MAX_LENGTH = 150;
 
-  private ShowConstants() {
-  }
+  private ShowConstants() { }
 
 }

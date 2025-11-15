@@ -5,8 +5,10 @@ import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-public record MovieMessage(@NotNull @Valid MovieCreateCommand movie,
-    @NotNull @Valid List<MovieCreditCreateCommand> credits, @NotNull @Valid List<PersonCreateCommand> people) {
+public record MovieMessage(
+  @NotNull @Valid MovieCreateCommand movie,
+  @NotNull @Valid List<MovieCreditCreateCommand> credits, 
+  @NotNull @Valid List<PersonCreateCommand> people) {
 
   @Override
   public String toString() {

@@ -1,62 +1,71 @@
 package com.erdouglass.emdb.common.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.erdouglass.emdb.common.CreditConstants;
 import com.erdouglass.emdb.common.CreditType;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-public record MovieCreditCreateCommand(
-    @NotBlank String tmdbId,
+public record SeriesCreditCreateCommand(
     @NotNull CreditType creditType,
     @NotNull @Positive Long personId,
-    @Size(max = CreditConstants.ROLE_MAX_LENGTH) String role,    
+    @NotEmpty @Valid List<Role> roles,
     @PositiveOrZero Integer order) {
-	
+
+  public record Role(
+      @NotBlank String tmdbId,
+      @Size(max = CreditConstants.ROLE_MAX_LENGTH) String role,
+      @NotNull @PositiveOrZero Integer episodeCount) {
+    
+    public static Role of(String tmdbId, String role, Integer episodeCount) {
+      return new Role(tmdbId, role, episodeCount);
+    }
+  }
+  
   public static Builder builder() {
     return new Builder();
   }
   
   public static final class Builder {
     private CreditType creditType;
-    private Integer order;
     private Long personId;
-    private String role;
-    private String tmdbId;
-    
-    private Builder() { }
-    
-    public MovieCreditCreateCommand build() {
-      return new MovieCreditCreateCommand(tmdbId, creditType, personId, role, order);
+    private List<Role> roles = new ArrayList<>();
+    private Integer order;
+
+    private Builder() {
+    }
+
+    public SeriesCreditCreateCommand build() {
+      return new SeriesCreditCreateCommand(creditType, personId, roles, order);
     }
     
     public Builder creditType(CreditType creditType) {
       this.creditType = creditType;
       return this;
     }
-    
+
     public Builder order(Integer order) {
       this.order = order;
       return this;
-    }    
-    
+    }
+
     public Builder personId(long personId) {
       this.personId = personId;
       return this;
     }
-    
-    public Builder role(String role) {
-      this.role = role;
-      return this;
-    }
-    
-    public Builder tmdbId(String tmdbId) {
-      this.tmdbId = tmdbId;
+
+    public Builder roles(List<Role> roles) {
+      this.roles = new ArrayList<>(roles);
       return this;
     }
   }
-
+  
 }

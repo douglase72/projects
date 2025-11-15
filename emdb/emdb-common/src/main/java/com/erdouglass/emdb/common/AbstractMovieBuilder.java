@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 public abstract class AbstractMovieBuilder<T> extends AbstractShowBuilder<T> {
   protected Integer budget;
-  protected String homepage;
-  protected String originalLanguage;
   protected LocalDate releaseDate;
   protected Integer revenue;
   protected Integer runtime;
@@ -17,16 +15,6 @@ public abstract class AbstractMovieBuilder<T> extends AbstractShowBuilder<T> {
   
   public T budget(Integer budget) {
     this.budget = budget;
-    return self();
-  }
-  
-  public T homepage(String homepage) {
-    this.homepage = homepage;
-    return self();
-  }
-  
-  public T originalLanguage(String originalLanguage) {
-    this.originalLanguage = originalLanguage;
     return self();
   }
 

@@ -8,10 +8,11 @@ import com.erdouglass.emdb.scraper.dto.TmdbMovie.CrewCredit;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class TmdbCreditMapper {
+public class TmdbMovieCreditMapper {
   
   public MovieCreditCreateCommand toCastCredit(CastCredit credit) {
     return MovieCreditCreateCommand.builder()
+        .tmdbId(credit.credit_id())
         .creditType(CreditType.CAST)
         .personId(credit.id())
         .role(credit.character())
@@ -21,6 +22,7 @@ public class TmdbCreditMapper {
   
   public MovieCreditCreateCommand toCrewCredit(CrewCredit credit) {
     return MovieCreditCreateCommand.builder()
+        .tmdbId(credit.credit_id())
         .creditType(CreditType.CAST)
         .personId(credit.id())
         .role(credit.job())

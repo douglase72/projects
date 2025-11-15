@@ -9,23 +9,23 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.command.MovieCreditCreateCommand;
-import com.erdouglass.emdb.common.command.MovieMessage;
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
-import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
+import com.erdouglass.emdb.common.command.SeriesCreditCreateCommand;
+import com.erdouglass.emdb.common.command.SeriesMessage;
 import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
-import com.erdouglass.emdb.scraper.dto.TmdbMovie;
-import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
-import com.erdouglass.emdb.scraper.mapper.TmdbMovieMapper;
+import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
+import com.erdouglass.emdb.scraper.dto.TmdbSeries;
 import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
+import com.erdouglass.emdb.scraper.mapper.TmdbSeriesCreditMapper;
+import com.erdouglass.emdb.scraper.mapper.TmdbSeriesMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-public class TmdbMovieScraper {
+public class TmdbSeriesScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
-  private static final String CREDITS = "credits";
+  private static final String CREDITS = "aggregate_credits";
   
   @Inject
   @ConfigProperty(name = "tmdb.cast.limit")
@@ -36,18 +36,11 @@ public class TmdbMovieScraper {
   Integer crewLimit;
   
   @Inject
-  TmdbMovieCreditMapper creditMapper;
-
-  @Inject
-  @Channel("movies")
-  Emitter<MovieMessage> emitter;
+  TmdbSeriesCreditMapper creditMapper;
   
   @Inject
-  @RestClient
-  TmdbMovieClient movieClient;
-  
-  @Inject
-  TmdbMovieMapper movieMapper;
+  @Channel("series")
+  Emitter<SeriesMessage> emitter;
   
   @Inject
   @RestClient
@@ -55,47 +48,54 @@ public class TmdbMovieScraper {
   
   @Inject
   TmdbPersonMapper personMapper;
+  
+  @Inject
+  @RestClient
+  TmdbSeriesClient seriesClient;
+  
+  @Inject
+  TmdbSeriesMapper seriesMapper;
 
   public void ingest(int tmdbId) {
-    LOGGER.infof("Ingesting TMDB movie id: %d", tmdbId);
-    var tmdbMovie = findMovie(tmdbId);
-    var credits = findCredits(tmdbMovie);
+    LOGGER.infof("Ingesting TMDB series id: %d", tmdbId);
+    var tmdbSeries = findSeries(tmdbId);
+    var credits = findCredits(tmdbSeries);
     var people = findPeople(credits);
-    var message = new MovieMessage(movieMapper.toMovieCreateCommand(tmdbMovie), credits, people);
+    var message = new SeriesMessage(seriesMapper.toSeriesCreateCommand(tmdbSeries), credits, people);
     emitter.send(message);
     LOGGER.infof("Sent: %s", message);
   }
-
+  
   public void synchronize(long emdbId, int tmdbId) {
-    LOGGER.infof("Synchronizing EMDB movie id: %d with TMDB movie id: %d", emdbId, tmdbId);
+    LOGGER.infof("Synchronizing EMDB series id: %d with TMDB series id: %d", emdbId, tmdbId);
   }
   
-  private List<MovieCreditCreateCommand> findCredits(TmdbMovie movie) {
-    var cast = movie.credits().cast().stream()
+  private List<SeriesCreditCreateCommand> findCredits(TmdbSeries series) {
+    var cast = series.aggregate_credits().cast().stream()
         .limit(castLimit)
         .map(creditMapper::toCastCredit);
-    var crew = movie.credits().crew().stream()
+    var crew = series.aggregate_credits().crew().stream()
         .limit(crewLimit)
         .map(creditMapper::toCrewCredit);
     var credits = Stream.concat(cast, crew).toList();
     LOGGER.infof("Found: %d credits", credits.size());
     return credits;
   }
-
-  private TmdbMovie findMovie(int tmdbId) {
-    var tmdbMovie = movieClient.findById(tmdbId, CREDITS);
-    LOGGER.infof("Found: %s", tmdbMovie);    
-    return tmdbMovie;
+  
+  private TmdbSeries findSeries(int tmdbId) {
+    var tmdbSeries = seriesClient.findById(tmdbId, CREDITS);
+    LOGGER.infof("Found: %s", tmdbSeries);    
+    return tmdbSeries;
   }
-
-  private List<PersonCreateCommand> findPeople(List<MovieCreditCreateCommand> credits) {
+  
+  private List<PersonCreateCommand> findPeople(List<SeriesCreditCreateCommand> credits) {
     var people = credits.stream()
-        .map(MovieCreditCreateCommand::personId)
+        .map(SeriesCreditCreateCommand::personId)
         .distinct()
         .map(id -> personMapper.toPersonCreateCommand(personClient.findById(id.intValue())))
         .toList();
     LOGGER.infof("Found: %d people", people.size());
     return people;
   }
-
+  
 }

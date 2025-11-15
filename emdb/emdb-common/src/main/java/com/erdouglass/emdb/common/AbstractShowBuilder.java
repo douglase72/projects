@@ -11,6 +11,8 @@ package com.erdouglass.emdb.common;
 /// @param <T> The concrete builder type that extends this class.
 public abstract class AbstractShowBuilder<T> {
   protected String backdrop;
+  protected String homepage;
+  protected String originalLanguage;
   protected String overview;
   protected String poster;
   protected Float score;
@@ -26,9 +28,19 @@ public abstract class AbstractShowBuilder<T> {
     this.backdrop = backdrop;
     return self();
   }
+  
+  public T homepage(String homepage) {
+    this.homepage = homepage;
+    return self();
+  }
 
   public T overview(String overview) {
     this.overview = overview;
+    return self();
+  }
+  
+  public T originalLanguage(String originalLanguage) {
+    this.originalLanguage = originalLanguage;
     return self();
   }
 
