@@ -2,9 +2,9 @@ import { ShowStatus } from "./ShowStatus.js";
 
 export interface Movie {
   id: number;
+  tmdbId: number;
   title: string;
   releaseDate: string | null;
-  tmdbId: number;
   score: number | null;
   status: ShowStatus;
   runtime: number | null;

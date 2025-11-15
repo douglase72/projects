@@ -1,0 +1,57 @@
+services:
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - projects
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s --fail http://localhost:9200/_cluster/health?wait_for_status=yellow"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
+    container_name: filebeat
+    hostname: ${HOSTNAME}
+    user: root
+    command: filebeat -e --strict.perms=false
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro 
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    networks:
+      - projects
+    depends_on:
+      elasticsearch:
+        condition: service_healthy      
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - projects
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+volumes:
+  elasticsearch-data:
+    
+networks:
+  projects:
+    name: projects
+    driver: bridge

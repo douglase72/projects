@@ -18,7 +18,7 @@ dependencies {
   implementation libs.quarkus.hibernate.orm	
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.jdbc.postgres
-	implementation libs.quarkus.kafka
+	implementation libs.quarkus.logging
 	implementation libs.quarkus.rest.jackson
 	
 	testImplementation libs.quarkus.junit5
@@ -29,5 +29,8 @@ group = 'com.erdouglass.emdb'
 version = '1.0.0-SNAPSHOT'
 
 quarkusDev {
-  jvmArgs = ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
+  jvmArgs = [
+  	'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+  	'--enable-native-access=ALL-UNNAMED',
+  ]
 }

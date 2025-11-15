@@ -1,0 +1,15 @@
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+  - add_host_metadata:
+      netinfo.enabled: true
+
+setup.kibana:
+  host: "kibana:5601"
+  protocol: "http"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]

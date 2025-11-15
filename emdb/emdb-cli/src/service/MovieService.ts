@@ -13,7 +13,7 @@ export class MovieService {
 
   constructor() {
     this.client = axios.create({
-      baseURL: "http://localhost:60312/emdb-media/api",
+      baseURL: "http://localhost:60332/api",
     });
   }
 
