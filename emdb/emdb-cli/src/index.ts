@@ -1,31 +1,41 @@
 import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
+import { IngestRequest } from './model/IngestRequest.js';
 import { MovieService } from './service/MovieService.js';
+import { MovieScraperClient } from './client/MovieScraperClient.js';
 
 const program = new Command();
 
 const langMapper = new Intl.DisplayNames(['en'], { type: 'language' });
 const movieService = new MovieService();
+const movieScraper = new MovieScraperClient();
 
 program
   .name('emdb-cli')
   .description('An EMDB command line interface')
   .version('1.0.0');
 
+// npm start -- ingest-movie 818
+program
+  .command('ingest-movie')
+  .description('Ingest a movie from TMDB into EMDB')
+  .argument('<id>', 'The TMDB id of the movie to ingest')
+  .action(ingest);
+
 // npm start -- create-movie ./movies/goldmember.json
 program
   .command('create-movie')
   .description('Create a movie in EMDB')
   .argument('<file>', 'The file containing the movie')
-  .action(createMovie);
+  .action(create);
 
 // npm start -- find-movie 1
 program
   .command('find-movie')
   .description('Find a movie in EMDB')
   .argument('<id>', 'The EMDB id of the movie to find')
-  .action(findMovie);
+  .action(findById);
 
 // npm start -- update-movie 3 ./movies/goldmember-update.json
 program
@@ -33,18 +43,18 @@ program
   .description('Update a movie in EMDB')
   .argument('<id>', 'The EMDB id of the movie to update')
   .argument('<file>', 'The file containing the movie update')
-  .action(updateMovie);
+  .action(update);
 
 // npm start -- delete-movie 2
 program
   .command('delete-movie')
   .description('Delete a movie in EMDB')
   .argument('<id>', 'The EMDB id of the movie to delete')
-  .action(deleteMovie);
+  .action(deleteById);
 
 program.parse(process.argv); 
 
-async function createMovie(movieFileName: string) {
+async function create(movieFileName: string) {
   console.log(`Creating movie from ${movieFileName} ...`);
 
   try {
@@ -56,7 +66,7 @@ async function createMovie(movieFileName: string) {
   }    
 }
 
-async function findMovie(id: number) {
+async function findById(id: number) {
   console.log(`Finding EMDB movie: ${id} ...`);
   try {
     const movie = await movieService.findById(id);
@@ -69,7 +79,22 @@ async function findMovie(id: number) {
   }  
 }
 
-async function updateMovie(id: number, movieFileName: string) {
+async function ingest(id: number) {
+  try {
+    const start = performance.now();
+    const request: IngestRequest = { tmdbId: id };
+    const response = await movieScraper.ingest(request);
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    });
+    console.log(`Ingest request for TMDB movie: ${id} took: ${et} ms.`);
+  } catch (error) {
+    console.error(`Error sending ingest request: ${error}`);
+  }   
+}
+
+async function update(id: number, movieFileName: string) {
   console.log(`Updating movie from ${movieFileName} ...`);
   try {
     const movieFile = await fs.readFile(movieFileName, 'utf-8');
@@ -80,7 +105,7 @@ async function updateMovie(id: number, movieFileName: string) {
   }  
 }
 
-async function deleteMovie(id: number) {
+async function deleteById(id: number) {
   console.log(`Deleting EMDB movie: ${id} ...`);
   try {
     await movieService.deleteById(id);

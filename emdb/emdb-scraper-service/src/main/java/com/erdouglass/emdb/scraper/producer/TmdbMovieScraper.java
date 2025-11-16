@@ -21,6 +21,8 @@ import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @ApplicationScoped
 public class TmdbMovieScraper {
@@ -56,7 +58,7 @@ public class TmdbMovieScraper {
   @Inject
   TmdbPersonMapper personMapper;
 
-  public void ingest(int tmdbId) {
+  public void ingest(@NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Ingesting TMDB movie id: %d", tmdbId);
     var tmdbMovie = findMovie(tmdbId);
     var credits = findCredits(tmdbMovie);
@@ -66,7 +68,7 @@ public class TmdbMovieScraper {
     LOGGER.infof("Sent: %s", message);
   }
 
-  public void synchronize(long emdbId, int tmdbId) {
+  public void synchronize(@NotNull @Positive Long emdbId, @NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Synchronizing EMDB movie id: %d with TMDB movie id: %d", emdbId, tmdbId);
   }
   

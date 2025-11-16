@@ -1,4 +1,33 @@
 services:
+  
+  kafka:
+    image: confluentinc/cp-kafka:8.1.0
+    container_name: kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_CLUSTER_ID: '8NIOB3KqRZWS2Uypf-qgfQ'
+      KAFKA_LISTENERS: 'PLAINTEXT://:9092,CONTROLLER://:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    tmpfs:
+      - /var/lib/kafka/data:uid=1000,gid=1000
+    networks:
+      - projects
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
       
   emdb-media:
     image: emdb-media:latest
@@ -23,6 +52,36 @@ services:
       - co.elastic.logs/json.add_error_key=true
     networks:
       - projects
+    depends_on:
+      kafka:
+        condition: service_healthy
+      
+  emdb-scraper:
+    image: emdb-scraper:latest
+    container_name: emdb-scraper
+    build:
+      context: ./emdb-scraper-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60336:60316
+    env_file:
+      - ./emdb-scraper-service/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - co.elastic.logs/enabled=true
+      - co.elastic.logs/json.keys_under_root=true
+      - co.elastic.logs/json.add_error_key=true
+    networks:
+      - projects
+    depends_on:
+      kafka:
+        condition: service_healthy
         
 networks:
   projects:

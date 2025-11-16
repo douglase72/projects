@@ -21,6 +21,8 @@ import com.erdouglass.emdb.scraper.mapper.TmdbSeriesMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @ApplicationScoped
 public class TmdbSeriesScraper {
@@ -56,7 +58,7 @@ public class TmdbSeriesScraper {
   @Inject
   TmdbSeriesMapper seriesMapper;
 
-  public void ingest(int tmdbId) {
+  public void ingest(@NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Ingesting TMDB series id: %d", tmdbId);
     var tmdbSeries = findSeries(tmdbId);
     var credits = findCredits(tmdbSeries);
@@ -66,7 +68,7 @@ public class TmdbSeriesScraper {
     LOGGER.infof("Sent: %s", message);
   }
   
-  public void synchronize(long emdbId, int tmdbId) {
+  public void synchronize(@NotNull @Positive Long emdbId, @NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Synchronizing EMDB series id: %d with TMDB series id: %d", emdbId, tmdbId);
   }
   

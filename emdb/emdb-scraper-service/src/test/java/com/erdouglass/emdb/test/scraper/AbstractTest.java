@@ -17,12 +17,12 @@ public abstract class AbstractTest {
         .registerModule(new JavaTimeModule());
     
     // Docker
-    //MOVIES_URL = "http://localhost:60356/api/movies";
-    //SERIES_URL = "http://localhost:60356/api/series";
+    MOVIES_URL = "http://localhost:60336/api/movies";
+    SERIES_URL = "http://localhost:60336/api/series";
     
     // Development
-    MOVIES_URL = "http://localhost:60316/emdb-scraper/api/movies";
-    SERIES_URL = "http://localhost:60316/emdb-scraper/api/series";   
+    //MOVIES_URL = "http://localhost:60316/emdb-scraper/api/movies";
+    //SERIES_URL = "http://localhost:60316/emdb-scraper/api/series";   
   }
 
 }
