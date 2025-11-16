@@ -1,7 +1,7 @@
 package com.erdouglass.emdb.scraper.controller;
 
-import com.erdouglass.emdb.scraper.dto.IngestRequest;
-import com.erdouglass.emdb.scraper.dto.SynchronizeRequest;
+import com.erdouglass.emdb.common.command.IngestRequest;
+import com.erdouglass.emdb.common.command.SynchronizeRequest;
 import com.erdouglass.emdb.scraper.producer.TmdbSeriesScraper;
 
 import jakarta.inject.Inject;

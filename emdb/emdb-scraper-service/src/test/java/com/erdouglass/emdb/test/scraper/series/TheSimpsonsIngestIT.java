@@ -7,17 +7,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.TimeUnit;
 
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.erdouglass.emdb.scraper.dto.IngestRequest;
+import com.erdouglass.emdb.common.command.IngestRequest;
 import com.erdouglass.emdb.test.scraper.AbstractTest;
 
 import jakarta.ws.rs.core.UriBuilder;
 
 class TheSimpsonsIngestIT extends AbstractTest {
-  private static final Logger LOGGER = LoggerFactory.getLogger(TheSimpsonsIngestIT.class);
+  private static final Logger LOGGER = Logger.getLogger(TheSimpsonsIngestIT.class);
 
   @Test
   void testIngest() throws IOException, InterruptedException {
@@ -28,7 +27,7 @@ class TheSimpsonsIngestIT extends AbstractTest {
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     assertEquals(202, response.statusCode());
-    LOGGER.info("Ingest series request took: {} ms", et);
+    LOGGER.infof("Ingest series request took: %d ms", et);
   }
 
 }

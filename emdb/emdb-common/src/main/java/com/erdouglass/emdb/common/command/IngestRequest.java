@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.scraper.dto;
+package com.erdouglass.emdb.common.command;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
