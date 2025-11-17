@@ -110,7 +110,8 @@ public class MovieResource {
   ///         (which is mapped to a 404 response) if the movie does not exist.
   @PATCH
   @Path("{id}")
-  public MovieDto update(@PathParam("id") @NotNull @Positive Long id, @NotNull @Valid MovieUpdateCommand request) {
+  public MovieDto update(
+      @PathParam("id") @NotNull @Positive Long id, @NotNull @Valid MovieUpdateCommand request) {
     var movie = service.update(id, request);
     return mapper.toMovieDto(movie);
   }

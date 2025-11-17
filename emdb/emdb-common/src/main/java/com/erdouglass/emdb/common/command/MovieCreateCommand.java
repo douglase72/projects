@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.common.command;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.erdouglass.emdb.common.AbstractMovieBuilder;
 import com.erdouglass.emdb.common.Configuration;
@@ -8,6 +10,7 @@ import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -16,22 +19,6 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-/// A Data Transfer Object (DTO) representing a command to create a new movie.
-///
-/// This record is used as the request body for `POST /api/movies` endpoints.
-/// Its primary purpose is to capture and validate all required information
-/// for a new movie entity *before* it reaches the service layer.
-///
-/// ## Validation
-/// All fields are aggressively validated using Jakarta Bean Validation annotations
-/// (e.g., `@NotBlank`, `@NotNull`, `@DateRange`). This ensures that no
-/// invalid movie can be created. Unlike `MovieUpdateCommand`, fields here are
-/// not `Optional` as they are required for creation.
-///
-/// A fluent `Builder` is provided for easy construction.
-///
-/// @see com.erdouglass.emdb.common.command.MovieUpdateCommand
-/// @see com.erdouglass.emdb.common.query.MovieDto
 public record MovieCreateCommand(
 	@NotNull @Positive Integer tmdbId,
 	@NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
@@ -46,7 +33,9 @@ public record MovieCreateCommand(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @NotNull @Valid List<MovieCreditCreateCommand> credits,
+    @NotNull @Valid List<PersonCreateCommand> people) {
 	
   public static Builder builder() {
     return new Builder();
@@ -57,10 +46,14 @@ public record MovieCreateCommand(
   	return "MovieCreateCommand[tmdbId=" + tmdbId
   			+ ", title=" + title
   			+ ", releaseDate=" + releaseDate
+  	        + ", credits=" + credits.size() 
+  	        + ", people=" + people.size() 
   			+ "]";
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private List<MovieCreditCreateCommand> credits = new ArrayList<>();
+    private List<PersonCreateCommand> people = new ArrayList<>();
 
     private Builder() { }
 
@@ -79,7 +72,19 @@ public record MovieCreateCommand(
       		backdrop,
       		poster,
       		tagline,
-      		overview);
+      		overview,
+      		credits,
+      		people);
+    }
+    
+    public Builder credits(List<MovieCreditCreateCommand> credits) {
+      this.credits = new ArrayList<>(credits);
+      return this;
+    }
+    
+    public Builder people(List<PersonCreateCommand> people) {
+      this.people = new ArrayList<>(people);
+      return this;
     }
 
     @Override

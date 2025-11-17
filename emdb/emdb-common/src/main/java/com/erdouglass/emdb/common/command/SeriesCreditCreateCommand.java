@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Size;
 
 public record SeriesCreditCreateCommand(
     @NotNull CreditType creditType,
-    @NotNull @Positive Long personId,
+    @NotNull @Positive Integer id,
     @NotEmpty @Valid List<Role> roles,
     @PositiveOrZero Integer order) {
 
@@ -36,7 +36,7 @@ public record SeriesCreditCreateCommand(
   
   public static final class Builder {
     private CreditType creditType;
-    private Long personId;
+    private Integer id;
     private List<Role> roles = new ArrayList<>();
     private Integer order;
 
@@ -44,7 +44,7 @@ public record SeriesCreditCreateCommand(
     }
 
     public SeriesCreditCreateCommand build() {
-      return new SeriesCreditCreateCommand(creditType, personId, roles, order);
+      return new SeriesCreditCreateCommand(creditType, id, roles, order);
     }
     
     public Builder creditType(CreditType creditType) {
@@ -57,8 +57,8 @@ public record SeriesCreditCreateCommand(
       return this;
     }
 
-    public Builder personId(long personId) {
-      this.personId = personId;
+    public Builder personId(Integer personId) {
+      this.id = personId;
       return this;
     }
 

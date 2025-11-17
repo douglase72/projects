@@ -10,14 +10,13 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
+import com.erdouglass.emdb.common.command.SeriesCreateCommand;
 import com.erdouglass.emdb.common.command.SeriesCreditCreateCommand;
-import com.erdouglass.emdb.common.command.SeriesMessage;
 import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
 import com.erdouglass.emdb.scraper.dto.TmdbSeries;
 import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 import com.erdouglass.emdb.scraper.mapper.TmdbSeriesCreditMapper;
-import com.erdouglass.emdb.scraper.mapper.TmdbSeriesMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -42,7 +41,7 @@ public class TmdbSeriesScraper {
   
   @Inject
   @Channel("series")
-  Emitter<SeriesMessage> emitter;
+  Emitter<SeriesCreateCommand> emitter;
   
   @Inject
   @RestClient
@@ -54,22 +53,37 @@ public class TmdbSeriesScraper {
   @Inject
   @RestClient
   TmdbSeriesClient seriesClient;
-  
-  @Inject
-  TmdbSeriesMapper seriesMapper;
 
   public void ingest(@NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Ingesting TMDB series id: %d", tmdbId);
     var tmdbSeries = findSeries(tmdbId);
     var credits = findCredits(tmdbSeries);
-    var people = findPeople(credits);
-    var message = new SeriesMessage(seriesMapper.toSeriesCreateCommand(tmdbSeries), credits, people);
+    var people = findPeople(tmdbSeries, credits);
+    var message = createMessage(tmdbSeries, credits, people);
     emitter.send(message);
     LOGGER.infof("Sent: %s", message);
   }
   
   public void synchronize(@NotNull @Positive Long emdbId, @NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Synchronizing EMDB series id: %d with TMDB series id: %d", emdbId, tmdbId);
+  }
+  
+  private SeriesCreateCommand createMessage(
+      TmdbSeries series, List<SeriesCreditCreateCommand> credits, List<PersonCreateCommand> people) {
+    return SeriesCreateCommand.builder()
+        .tmdbId(series.id())
+        .name(series.name())
+        .score(series.vote_average())
+        .status(series.status())
+        .homepage(series.homepage())
+        .originalLanguage(series.original_language())
+        .backdrop(series.backdrop_path())
+        .poster(series.poster_path())
+        .tagline(series.tagline())
+        .overview(series.overview()) 
+        .credits(credits)
+        .people(people)
+        .build();
   }
   
   private List<SeriesCreditCreateCommand> findCredits(TmdbSeries series) {
@@ -80,7 +94,7 @@ public class TmdbSeriesScraper {
         .limit(crewLimit)
         .map(creditMapper::toCrewCredit);
     var credits = Stream.concat(cast, crew).toList();
-    LOGGER.infof("Found: %d credits", credits.size());
+    LOGGER.infof("Found: %d credits in %s", credits.size(), series);
     return credits;
   }
   
@@ -90,13 +104,13 @@ public class TmdbSeriesScraper {
     return tmdbSeries;
   }
   
-  private List<PersonCreateCommand> findPeople(List<SeriesCreditCreateCommand> credits) {
+  private List<PersonCreateCommand> findPeople(TmdbSeries series, List<SeriesCreditCreateCommand> credits) {
     var people = credits.stream()
-        .map(SeriesCreditCreateCommand::personId)
+        .map(SeriesCreditCreateCommand::id)
         .distinct()
-        .map(id -> personMapper.toPersonCreateCommand(personClient.findById(id.intValue())))
+        .map(id -> personMapper.toPersonCreateCommand(personClient.findById(id)))
         .toList();
-    LOGGER.infof("Found: %d people", people.size());
+    LOGGER.infof("Found: %d people in %s", people.size(), series);
     return people;
   }
   

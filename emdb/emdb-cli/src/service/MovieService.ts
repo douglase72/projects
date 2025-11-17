@@ -2,17 +2,16 @@ import axios, { type AxiosInstance } from 'axios';
 
 import { IngestRequest } from '../model/IngestRequest.js';
 import { Movie } from "../model/Movie.js";
+import { MovieUpdateRequest } from '../model/MovieUpdateRequest.js';
 
-/**
- * Service class for interacting with the Movie Media API.
- * Provides methods for CRUD (Create, Read, Update, Delete) operations on movies.
- */
 export class MovieService {
+  private static readonly LANG_MAPPER = new Intl.DisplayNames(['en'], { type: 'language' });
+
   private readonly client: AxiosInstance;
 
   constructor() {
     this.client = axios.create({
-      baseURL: "http://localhost:60310/emdb/api",
+      baseURL: process.env.BASE_URL,
     });
   }
 
@@ -23,7 +22,19 @@ export class MovieService {
 
   async findById(id: number): Promise<Movie> {
     const { data: movie } = await this.client.get<Movie>(`/movies/${id}`);
+    if (movie.originalLanguage) {
+      movie.originalLanguage = MovieService.LANG_MAPPER.of(movie.originalLanguage) ?? null;;
+    }
     return movie;    
+  }
+
+  async update(id: number, request: MovieUpdateRequest): Promise<Movie> {
+    const { data: movie } = await this.client.patch<Movie>(`/movies/${id}`, request);
+    return movie;
+  }
+
+  async deleteById(id: number) {
+    await this.client.delete<Movie>(`/movies/${id}`);
   }
 
 }

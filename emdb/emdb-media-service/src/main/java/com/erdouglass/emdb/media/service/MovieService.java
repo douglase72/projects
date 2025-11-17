@@ -14,24 +14,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-/// Implements the business logic for all `Movie`-related operations.
-///
-/// This service acts as the intermediary between the `MovieResource` (web layer)
-/// and the `MovieRepository` (data access layer).
-///
-/// Its primary responsibilities include:
-///
-/// * Managing transactions (`@Transactional`) for all database operations.
-/// * Fetching entities from the repository or throwing a `ResourceNotFoundException`
-///     if an entity is not found.
-/// * Containing the "patch" logic for applying partial updates from a
-///     `MovieUpdateCommand` to an existing `Movie` entity.
-/// * Coordinating the `create` and `delete` operations.
-/// * Logging all major operations.
-///
-/// @see com.erdouglass.emdb.media.repository.MovieRepository
-/// @see com.erdouglass.emdb.media.controller.MovieResource
-/// @see com.erdouglass.emdb.media.entity.Movie
 @ApplicationScoped
 public class MovieService {
   private static final Logger LOGGER = Logger.getLogger(MovieService.class);
@@ -39,10 +21,6 @@ public class MovieService {
   @Inject
   MovieRepository repository;
 
-  /// Persists a new, validated {@link Movie} entity in the database.
-  ///
-  /// @param movie The movie object to create. Must be valid and not null.
-  /// @return The persisted {@code Movie} entity, now containing its generated ID.
   @Transactional
   public Movie create(@NotNull @Valid Movie movie) {
     var newMovie = repository.insert(movie);

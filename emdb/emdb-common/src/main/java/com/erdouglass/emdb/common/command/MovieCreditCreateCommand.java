@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size;
 public record MovieCreditCreateCommand(
     @NotBlank String tmdbId,
     @NotNull CreditType creditType,
-    @NotNull @Positive Long personId,
+    @NotNull @Positive Integer id,
     @Size(max = CreditConstants.ROLE_MAX_LENGTH) String role,    
     @PositiveOrZero Integer order) {
 	
@@ -23,14 +23,14 @@ public record MovieCreditCreateCommand(
   public static final class Builder {
     private CreditType creditType;
     private Integer order;
-    private Long personId;
+    private Integer id;
     private String role;
     private String tmdbId;
     
     private Builder() { }
     
     public MovieCreditCreateCommand build() {
-      return new MovieCreditCreateCommand(tmdbId, creditType, personId, role, order);
+      return new MovieCreditCreateCommand(tmdbId, creditType, id, role, order);
     }
     
     public Builder creditType(CreditType creditType) {
@@ -43,8 +43,8 @@ public record MovieCreditCreateCommand(
       return this;
     }    
     
-    public Builder personId(long personId) {
-      this.personId = personId;
+    public Builder personId(Integer tmdbId) {
+      this.id = tmdbId;
       return this;
     }
     

@@ -1,10 +1,14 @@
 package com.erdouglass.emdb.common.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.erdouglass.emdb.common.AbstractSeriesBuilder;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -23,7 +27,9 @@ public record SeriesCreateCommand(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @NotNull @Valid List<SeriesCreditCreateCommand> credits,
+    @NotNull @Valid List<PersonCreateCommand> people) {
 
   public static Builder builder() {
     return new Builder();
@@ -37,6 +43,8 @@ public record SeriesCreateCommand(
   }
   
   public static final class Builder extends AbstractSeriesBuilder<Builder> {
+    private List<SeriesCreditCreateCommand> credits = new ArrayList<>();
+    private List<PersonCreateCommand> people = new ArrayList<>();
     
     private Builder() {}
     
@@ -52,7 +60,19 @@ public record SeriesCreateCommand(
             backdrop,
             poster,
             tagline,
-            overview);
+            overview,
+            credits,
+            people);
+    }
+    
+    public Builder credits(List<SeriesCreditCreateCommand> credits) {
+      this.credits = new ArrayList<>(credits);
+      return this;
+    }
+    
+    public Builder people(List<PersonCreateCommand> people) {
+      this.people = new ArrayList<>(people);
+      return this;
     }
     
     @Override

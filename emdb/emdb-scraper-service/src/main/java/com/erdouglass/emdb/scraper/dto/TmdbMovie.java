@@ -66,7 +66,6 @@ public record TmdbMovie(
     return "TmdbMovie[id=" + id 
         + ", title=" + title 
         + ", release_date=" + release_date 
-        + ", status=" + status 
         + "]";
   }
 

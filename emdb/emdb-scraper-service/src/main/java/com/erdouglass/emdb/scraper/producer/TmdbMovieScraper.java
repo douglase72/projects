@@ -9,14 +9,13 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.command.MovieCreditCreateCommand;
-import com.erdouglass.emdb.common.command.MovieMessage;
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 import com.erdouglass.emdb.scraper.dto.TmdbMovie;
 import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
-import com.erdouglass.emdb.scraper.mapper.TmdbMovieMapper;
 import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -42,14 +41,11 @@ public class TmdbMovieScraper {
 
   @Inject
   @Channel("movies")
-  Emitter<MovieMessage> emitter;
+  Emitter<MovieCreateCommand> emitter;
   
   @Inject
   @RestClient
   TmdbMovieClient movieClient;
-  
-  @Inject
-  TmdbMovieMapper movieMapper;
   
   @Inject
   @RestClient
@@ -62,14 +58,36 @@ public class TmdbMovieScraper {
     LOGGER.infof("Ingesting TMDB movie id: %d", tmdbId);
     var tmdbMovie = findMovie(tmdbId);
     var credits = findCredits(tmdbMovie);
-    var people = findPeople(credits);
-    var message = new MovieMessage(movieMapper.toMovieCreateCommand(tmdbMovie), credits, people);
+    var people = findPeople(tmdbMovie, credits);    
+    var message = createMessage(tmdbMovie, credits, people);
     emitter.send(message);
     LOGGER.infof("Sent: %s", message);
   }
 
   public void synchronize(@NotNull @Positive Long emdbId, @NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Synchronizing EMDB movie id: %d with TMDB movie id: %d", emdbId, tmdbId);
+  }
+  
+  private MovieCreateCommand createMessage(
+      TmdbMovie movie, List<MovieCreditCreateCommand> credits, List<PersonCreateCommand> people) {
+    return MovieCreateCommand.builder()
+        .tmdbId(movie.id())
+        .title(movie.title())
+        .releaseDate(movie.release_date())
+        .score(movie.vote_average())
+        .status(movie.status())
+        .runtime(movie.runtime())
+        .budget(movie.budget())
+        .revenue(movie.revenue())
+        .homepage(movie.homepage())
+        .originalLanguage(movie.original_language())
+        .backdrop(movie.backdrop_path())
+        .poster(movie.poster_path())
+        .tagline(movie.tagline())
+        .overview(movie.overview())
+        .credits(credits)
+        .people(people)
+        .build();
   }
   
   private List<MovieCreditCreateCommand> findCredits(TmdbMovie movie) {
@@ -80,7 +98,7 @@ public class TmdbMovieScraper {
         .limit(crewLimit)
         .map(creditMapper::toCrewCredit);
     var credits = Stream.concat(cast, crew).toList();
-    LOGGER.infof("Found: %d credits", credits.size());
+    LOGGER.infof("Found: %d credits in %s", credits.size(), movie);
     return credits;
   }
 
@@ -90,13 +108,13 @@ public class TmdbMovieScraper {
     return tmdbMovie;
   }
 
-  private List<PersonCreateCommand> findPeople(List<MovieCreditCreateCommand> credits) {
+  private List<PersonCreateCommand> findPeople(TmdbMovie movie, List<MovieCreditCreateCommand> credits) {
     var people = credits.stream()
-        .map(MovieCreditCreateCommand::personId)
+        .map(MovieCreditCreateCommand::id)
         .distinct()
-        .map(id -> personMapper.toPersonCreateCommand(personClient.findById(id.intValue())))
+        .map(id -> personMapper.toPersonCreateCommand(personClient.findById(id)))
         .toList();
-    LOGGER.infof("Found: %d people", people.size());
+    LOGGER.infof("Found: %d people in %s", people.size(), movie);
     return people;
   }
 
