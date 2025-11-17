@@ -1,10 +1,10 @@
 package com.erdouglass.emdb.media.mapper;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.entity.Movie;
-
-import jakarta.enterprise.context.ApplicationScoped;
 
 /// A CDI bean responsible for mapping between `Movie` DTOs and `Movie` entities.
 ///

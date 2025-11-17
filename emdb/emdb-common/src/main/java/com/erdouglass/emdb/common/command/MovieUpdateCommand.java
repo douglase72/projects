@@ -3,15 +3,15 @@ package com.erdouglass.emdb.common.command;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.ShowConstants;
-import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.validation.DateRange;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
+import com.erdouglass.validation.DateRange;
 
 /// A Data Transfer Object (DTO) representing a command to partially update an
 /// existing movie.
@@ -87,8 +87,7 @@ public record MovieUpdateCommand(
           backdrop,
           poster,
           tagline,
-          overview
-      );
+          overview);
   	}
   	
     public Builder title(String title) {

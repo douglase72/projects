@@ -1,18 +1,18 @@
 package com.erdouglass.emdb.media.service;
 
-import org.jboss.logging.Logger;
-
-import com.erdouglass.emdb.common.command.MovieUpdateCommand;
-import com.erdouglass.emdb.media.entity.Movie;
-import com.erdouglass.emdb.media.repository.MovieRepository;
-import com.erdouglass.webservices.ResourceNotFoundException;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+
+import org.jboss.logging.Logger;
+
+import com.erdouglass.emdb.common.command.MovieUpdateCommand;
+import com.erdouglass.emdb.media.entity.Movie;
+import com.erdouglass.emdb.media.repository.MovieRepository;
+import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class MovieService {

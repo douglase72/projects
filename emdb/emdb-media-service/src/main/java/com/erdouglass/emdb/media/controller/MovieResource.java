@@ -1,11 +1,5 @@
 package com.erdouglass.emdb.media.controller;
 
-import com.erdouglass.emdb.common.command.MovieCreateCommand;
-import com.erdouglass.emdb.common.command.MovieUpdateCommand;
-import com.erdouglass.emdb.common.query.MovieDto;
-import com.erdouglass.emdb.media.mapper.MovieMapper;
-import com.erdouglass.emdb.media.service.MovieService;
-
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -21,6 +15,12 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
+
+import com.erdouglass.emdb.common.command.MovieCreateCommand;
+import com.erdouglass.emdb.common.command.MovieUpdateCommand;
+import com.erdouglass.emdb.common.query.MovieDto;
+import com.erdouglass.emdb.media.mapper.MovieMapper;
+import com.erdouglass.emdb.media.service.MovieService;
 
 /// The JAX-RS resource (controller) for handling all HTTP requests related to Movies.
 /// This class defines the `/movies` API endpoint.

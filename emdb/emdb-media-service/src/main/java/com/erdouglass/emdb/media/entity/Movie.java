@@ -3,15 +3,15 @@ package com.erdouglass.emdb.media.entity;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import com.erdouglass.emdb.common.ShowConstants;
-import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.validation.DateRange;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PositiveOrZero;
+
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
+import com.erdouglass.validation.DateRange;
 
 /// A concrete entity representing a specific movie (film).
 ///
@@ -22,7 +22,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 /// defined in {@link BasicEntity}.
 @Entity
 @Table(name = "Movies")
-@SequenceGenerator(name = BasicEntity.SEQUENCE_GENERATOR, sequenceName = "movie_sequence", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(
+    name = BasicEntity.SEQUENCE_GENERATOR, 
+    sequenceName = "movie_sequence", 
+    initialValue = 1, 
+    allocationSize = 1)
 public class Movie extends Show {
 
   /// The production budget of the movie, in dollars.
@@ -87,8 +91,13 @@ public class Movie extends Show {
 
   @Override
   public String toString() {
-    return "Movie[id=" + id() + ", tmdbId=" + tmdbId() + ", name=" + name() + ", releaseDate=" + releaseDate
-        + ", status=" + status() + ", created=" + created() + ", modified=" + modified() + "]";
+    return "Movie[id=" + id() 
+        + ", tmdbId=" + tmdbId() 
+        + ", name=" + name() 
+        + ", releaseDate=" + releaseDate
+        + ", status=" + status() 
+        + ", created=" + created() 
+        + ", modified=" + modified() + "]";
   }
 
 }

@@ -9,8 +9,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import jakarta.ws.rs.core.UriBuilder;
+
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,6 @@ import com.erdouglass.emdb.common.command.MovieUpdateCommand;
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.test.media.AbstractTest;
-
-import jakarta.ws.rs.core.UriBuilder;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -109,7 +108,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Created movie in: %d ms", et);
   }
 
-  @Disabled
   @Test
   @Order(2)
   void testFindById() throws IOException, InterruptedException {
@@ -138,7 +136,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Found default movie details in: %d ms", et);
   }
 
-  @Disabled
   @Test
   @Order(3)
   void testFindByTmdbId() throws IOException, InterruptedException {
@@ -167,7 +164,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Found default movie details in: %d ms", et);
   }
 
-  @Disabled
   @Test
   @Order(4)
   void testUpdateMovie() throws IOException, InterruptedException {
@@ -184,7 +180,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
-    movieId = movie.id();
     assertEquals(200, response.statusCode());
     assertEquals(818, movie.tmdbId());
     assertEquals("Austin Powers in Goldmember", movie.title());
@@ -205,7 +200,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Updated movie in: %d ms", et);
   }
 
-  @Disabled
   @Test
   @Order(5)
   void testDeleteMovie() throws IOException, InterruptedException {
@@ -220,7 +214,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Deleted movie in: %d ms", et);
   }
 
-  @Disabled
   @Test
   @Order(6)
   void testVerifyDeletedMovie() throws IOException, InterruptedException {

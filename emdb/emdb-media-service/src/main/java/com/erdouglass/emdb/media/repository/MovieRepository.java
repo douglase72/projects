@@ -2,14 +2,14 @@ package com.erdouglass.emdb.media.repository;
 
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.entity.Movie;
-
 import jakarta.data.repository.Delete;
 import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 import jakarta.data.repository.Update;
+
+import com.erdouglass.emdb.media.entity.Movie;
 
 /// The Jakarta Data repository interface for the `Movie` entity.
 ///

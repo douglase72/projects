@@ -2,10 +2,6 @@ package com.erdouglass.emdb.media.entity;
 
 import java.util.Optional;
 
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.ShowConstants;
-import com.erdouglass.emdb.common.ShowStatus;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +11,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 
 /// An abstract base class representing shared attributes of visual media content.
 ///

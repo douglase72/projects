@@ -2,6 +2,8 @@ package com.erdouglass.emdb.media.consumer;
 
 import java.util.concurrent.CompletionStage;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
@@ -9,7 +11,6 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.common.command.SeriesCreateCommand;
 
 import io.smallrye.reactive.messaging.annotations.Blocking;
-import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class SeriesConsumer extends Consumer<SeriesCreateCommand> {
