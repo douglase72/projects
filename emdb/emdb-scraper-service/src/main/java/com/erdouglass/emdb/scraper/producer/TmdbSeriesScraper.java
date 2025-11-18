@@ -75,6 +75,7 @@ public class TmdbSeriesScraper {
         .name(series.name())
         .score(series.vote_average())
         .status(series.status())
+        .type(series.type())
         .homepage(series.homepage())
         .originalLanguage(series.original_language())
         .backdrop(series.backdrop_path())

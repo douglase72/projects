@@ -22,6 +22,7 @@ public record TmdbSeries(
     @NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String name,
     @PositiveOrZero Float vote_average,
     @NotNull @Size(max = ShowConstants.STATUS_MAX_LENGTH) ShowStatus status,
+    @Size(max = ShowConstants.SERIES_TYPE_MAX_LENGTH) String type,
     @Size(max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String original_language,    
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop_path,

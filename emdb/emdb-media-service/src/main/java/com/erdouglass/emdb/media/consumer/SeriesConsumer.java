@@ -3,18 +3,25 @@ package com.erdouglass.emdb.media.consumer;
 import java.util.concurrent.CompletionStage;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
-import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.command.SeriesCreateCommand;
+import com.erdouglass.emdb.media.mapper.SeriesMapper;
+import com.erdouglass.emdb.media.service.SeriesService;
 
 import io.smallrye.reactive.messaging.annotations.Blocking;
 
 @ApplicationScoped
 public class SeriesConsumer extends Consumer<SeriesCreateCommand> {
-  private static final Logger LOGGER = Logger.getLogger(SeriesConsumer.class);
+  
+  @Inject
+  SeriesMapper seriesMapper;
+  
+  @Inject
+  SeriesService seriesService;
   
   @Blocking
   @Incoming("series")
@@ -24,8 +31,7 @@ public class SeriesConsumer extends Consumer<SeriesCreateCommand> {
   
   @Override
   protected void process(Message<SeriesCreateCommand> message) {
-    var series = message.getPayload();
-    LOGGER.infof("series: %s", series);
+    seriesService.create(seriesMapper.toSeries(message.getPayload()));
   }
   
 }

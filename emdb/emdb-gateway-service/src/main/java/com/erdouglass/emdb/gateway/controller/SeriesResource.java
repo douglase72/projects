@@ -1,0 +1,64 @@
+package com.erdouglass.emdb.gateway.controller;
+
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import com.erdouglass.emdb.common.command.IngestRequest;
+import com.erdouglass.emdb.common.command.SeriesUpdateCommand;
+import com.erdouglass.emdb.common.query.SeriesDto;
+import com.erdouglass.emdb.gateway.client.SeriesMediaClient;
+import com.erdouglass.emdb.gateway.client.SeriesScraperClient;
+
+@Path("/series")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class SeriesResource {
+
+  @Inject
+  @RestClient
+  SeriesMediaClient mediaClient;
+  
+  @Inject
+  @RestClient
+  SeriesScraperClient scraperClient;
+  
+  @POST
+  @Path("/ingest")
+  public Response ingest(@NotNull @Valid IngestRequest request) {
+    return scraperClient.ingest(request);
+  }
+  
+  @GET
+  @Path("{id}")
+  public SeriesDto findById(@PathParam("id") @NotNull @Positive Long id) {
+    return mediaClient.findById(id);
+  }
+  
+  @PATCH
+  @Path("{id}")
+  public SeriesDto update(
+      @PathParam("id") @NotNull @Positive Long id, @NotNull @Valid SeriesUpdateCommand request) {
+    return mediaClient.update(id, request);
+  }
+  
+  @DELETE
+  @Path("{id}")
+  public Response delete(@PathParam("id") @NotNull @Positive Long id) {
+    return mediaClient.delete(id);
+  }
+  
+}

@@ -58,7 +58,7 @@ async function ingest(id: number) {
     });
     console.log(`Ingest request for TMDB movie: ${id} took: ${et} ms.`);
   } catch (error) {
-    console.error(`Error sending ingest request: ${error}`);
+    console.error(`Error sending movie ingest request: ${error}`);
   }   
 }
 
