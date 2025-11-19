@@ -1,9 +1,18 @@
 package com.erdouglass.emdb.scraper.producer;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -12,29 +21,16 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
 import com.erdouglass.emdb.common.command.SeriesCreateCommand;
 import com.erdouglass.emdb.common.command.SeriesCreditCreateCommand;
-import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
 import com.erdouglass.emdb.scraper.dto.TmdbSeries;
-import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 import com.erdouglass.emdb.scraper.mapper.TmdbSeriesCreditMapper;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import io.quarkus.scheduler.Scheduled;
 
 @ApplicationScoped
-public class TmdbSeriesScraper {
+public class TmdbSeriesScraper extends TmdbScraper<TmdbSeries> {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
   private static final String CREDITS = "aggregate_credits";
-  
-  @Inject
-  @ConfigProperty(name = "tmdb.cast.limit")
-  Integer castLimit;
-
-  @Inject
-  @ConfigProperty(name = "tmdb.crew.limit")
-  Integer crewLimit;
   
   @Inject
   TmdbSeriesCreditMapper creditMapper;
@@ -45,27 +41,66 @@ public class TmdbSeriesScraper {
   
   @Inject
   @RestClient
-  TmdbPersonClient personClient;
-  
-  @Inject
-  TmdbPersonMapper personMapper;
-  
-  @Inject
-  @RestClient
   TmdbSeriesClient seriesClient;
+  
+  /// Periodically ingests and synchronizes TV series data from TMDB.
+  ///
+  /// Cron Examples:
+  /// <ul>
+  /// <li>{@code @Scheduled(cron = "0 0 0 * * ?")} - Run every day at midnight UTC (17:00:00 MST)</li>
+  /// <li>{@code @Scheduled(cron = "0 10 0 * * ?")} - Run every day at 00:10:00 UTC (17:10:00 MST)</li>
+  /// <li>{@code @Scheduled(every = "75s", delayed = "75s")} - Run every 75 seconds</li>
+  /// </ul>
+  @Scheduled(cron = "0 0 0 * * ?")
+  public void cron() {
+    // Get the TMDB ids of all TV series that have changed in the last 24 hours.
+    var endDate = LocalDate.now();
+    var startDate = endDate.minusDays(1); 
+    var tmdbIds = findTmdbChanges(startDate, endDate);
+    
+    // Get the EMDB ids of all TV series
+    var emdbIds = Map.of(71912, 12L, 456, 1L);
+    
+    // Ingest or synchronize each changed TV series from TMDB with EMDB.
+    for (var tmdbId : tmdbIds) {
+      var emdbId = emdbIds.get(tmdbId);
+      if (emdbId == null) {
+        ingest(tmdbId);
+      } else {
+        synchronize(emdbId, tmdbId);
+      }
+    }   
+  }
 
+  /// Ingest a TV series from TMDB.
+  ///
+  /// This is a potentially long running process
+  @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Ingesting TMDB series id: %d", tmdbId);
-    var tmdbSeries = findSeries(tmdbId);
-    var credits = findCredits(tmdbSeries);
-    var people = findPeople(tmdbSeries, credits);
-    var message = createMessage(tmdbSeries, credits, people);
-    emitter.send(message);
-    LOGGER.infof("Sent: %s", message);
+    try {
+      var tmdbSeries = findSeries(tmdbId);
+      var credits = findCredits(tmdbSeries);
+      var people = findPeople(tmdbSeries, credits);
+      var message = createMessage(tmdbSeries, credits, people);
+      emitter.send(message);
+      LOGGER.infof("Sent: %s", message);
+    } catch (Exception e) {
+      LOGGER.error(e);
+    }
   }
   
+  /// Synchronize a TV series in EMDB with the one from TMDB.
+  ///
+  /// This is a potentially long running process
+  @Override
   public void synchronize(@NotNull @Positive Long emdbId, @NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Synchronizing EMDB series id: %d with TMDB series id: %d", emdbId, tmdbId);
+    try {
+      Thread.sleep(3000);
+    } catch (Exception e) {
+      LOGGER.error(e);
+    }
   }
   
   private SeriesCreateCommand createMessage(
@@ -99,12 +134,6 @@ public class TmdbSeriesScraper {
     return credits;
   }
   
-  private TmdbSeries findSeries(int tmdbId) {
-    var tmdbSeries = seriesClient.findById(tmdbId, CREDITS);
-    LOGGER.infof("Found: %s", tmdbSeries);    
-    return tmdbSeries;
-  }
-  
   private List<PersonCreateCommand> findPeople(TmdbSeries series, List<SeriesCreditCreateCommand> credits) {
     var people = credits.stream()
         .map(SeriesCreditCreateCommand::id)
@@ -113,6 +142,21 @@ public class TmdbSeriesScraper {
         .toList();
     LOGGER.infof("Found: %d people in %s", people.size(), series);
     return people;
+  }
+  
+  private TmdbSeries findSeries(int tmdbId) {
+    var tmdbSeries = seriesClient.findById(tmdbId, CREDITS);
+    Set<ConstraintViolation<TmdbSeries>> violations = validator.validate(tmdbSeries);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException("Invalid TMDB series " + tmdbId, violations);
+    }
+    LOGGER.infof("Found: %s", tmdbSeries);    
+    return tmdbSeries;
+  }
+  
+  private List<Integer> findTmdbChanges(LocalDate startDate, LocalDate endDate) {
+    LOGGER.infof("Looking for TMDB series changes between %s - %s", startDate, endDate);
+    return List.of(66732, 456, 200875);
   }
   
 }

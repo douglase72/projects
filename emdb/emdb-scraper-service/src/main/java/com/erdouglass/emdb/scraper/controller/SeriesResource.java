@@ -1,9 +1,5 @@
 package com.erdouglass.emdb.scraper.controller;
 
-import com.erdouglass.emdb.common.command.IngestRequest;
-import com.erdouglass.emdb.common.command.SynchronizeRequest;
-import com.erdouglass.emdb.scraper.producer.TmdbSeriesScraper;
-
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,13 +11,18 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import com.erdouglass.emdb.common.command.IngestRequest;
+import com.erdouglass.emdb.common.command.SynchronizeRequest;
+import com.erdouglass.emdb.scraper.dto.TmdbSeries;
+import com.erdouglass.emdb.scraper.producer.TmdbScraper;
+
 @Path("/series")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SeriesResource {
 
   @Inject
-  TmdbSeriesScraper scraper;
+  TmdbScraper<TmdbSeries> scraper;
   
   @POST
   @Path("/ingest")

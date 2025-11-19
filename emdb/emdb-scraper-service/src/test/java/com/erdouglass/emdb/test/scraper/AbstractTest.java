@@ -20,7 +20,7 @@ public abstract class AbstractTest {
     //MOVIES_URL = "http://localhost:60336/api/movies";
     //SERIES_URL = "http://localhost:60336/api/series";
     
-    // Development
+    // Scraper Service
     MOVIES_URL = "http://localhost:60316/emdb-scraper/api/movies";
     SERIES_URL = "http://localhost:60316/emdb-scraper/api/series";   
   }

@@ -24,7 +24,7 @@ public record TmdbMovie(
     @NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate release_date,
     @PositiveOrZero Float vote_average, 
-    @NotNull @Size(max = ShowConstants.STATUS_MAX_LENGTH) ShowStatus status,
+    @NotNull ShowStatus status,
     @NotNull @PositiveOrZero Integer runtime,
     @NotNull @PositiveOrZero Integer budget,
     @NotNull @PositiveOrZero Integer revenue,

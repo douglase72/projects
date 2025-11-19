@@ -1,9 +1,16 @@
 package com.erdouglass.emdb.scraper.producer;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -13,28 +20,13 @@ import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.command.MovieCreditCreateCommand;
 import com.erdouglass.emdb.common.command.PersonCreateCommand;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
-import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 import com.erdouglass.emdb.scraper.dto.TmdbMovie;
 import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
-import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @ApplicationScoped
-public class TmdbMovieScraper {
+public class TmdbMovieScraper extends TmdbScraper<TmdbMovie> {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
   private static final String CREDITS = "credits";
-  
-  @Inject
-  @ConfigProperty(name = "tmdb.cast.limit")
-  Integer castLimit;
-
-  @Inject
-  @ConfigProperty(name = "tmdb.crew.limit")
-  Integer crewLimit;
   
   @Inject
   TmdbMovieCreditMapper creditMapper;
@@ -46,14 +38,8 @@ public class TmdbMovieScraper {
   @Inject
   @RestClient
   TmdbMovieClient movieClient;
-  
-  @Inject
-  @RestClient
-  TmdbPersonClient personClient;
-  
-  @Inject
-  TmdbPersonMapper personMapper;
 
+  @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Ingesting TMDB movie id: %d", tmdbId);
     var tmdbMovie = findMovie(tmdbId);
@@ -64,6 +50,7 @@ public class TmdbMovieScraper {
     LOGGER.infof("Sent: %s", message);
   }
 
+  @Override
   public void synchronize(@NotNull @Positive Long emdbId, @NotNull @Positive Integer tmdbId) {
     LOGGER.infof("Synchronizing EMDB movie id: %d with TMDB movie id: %d", emdbId, tmdbId);
   }
@@ -104,6 +91,10 @@ public class TmdbMovieScraper {
 
   private TmdbMovie findMovie(int tmdbId) {
     var tmdbMovie = movieClient.findById(tmdbId, CREDITS);
+    Set<ConstraintViolation<TmdbMovie>> violations = validator.validate(tmdbMovie);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException("Invalid TMDB movie " + tmdbId, violations);
+    }
     LOGGER.infof("Found: %s", tmdbMovie);    
     return tmdbMovie;
   }
