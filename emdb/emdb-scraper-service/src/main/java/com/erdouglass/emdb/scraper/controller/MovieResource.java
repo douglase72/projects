@@ -13,8 +13,7 @@ import jakarta.ws.rs.core.Response.Status;
 
 import com.erdouglass.emdb.common.command.IngestRequest;
 import com.erdouglass.emdb.common.command.SynchronizeRequest;
-import com.erdouglass.emdb.scraper.dto.TmdbMovie;
-import com.erdouglass.emdb.scraper.producer.TmdbScraper;
+import com.erdouglass.emdb.scraper.producer.TmdbMovieProducer;
 
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -22,7 +21,14 @@ import com.erdouglass.emdb.scraper.producer.TmdbScraper;
 public class MovieResource {
 	
   @Inject
-  TmdbScraper<TmdbMovie> scraper;
+  TmdbMovieProducer scraper;
+  
+  @POST
+  @Path("/cron")
+  public Response cron() {
+    scraper.cron();
+    return Response.status(Status.ACCEPTED).build();
+  }
 	
   @POST
   @Path("/ingest")
