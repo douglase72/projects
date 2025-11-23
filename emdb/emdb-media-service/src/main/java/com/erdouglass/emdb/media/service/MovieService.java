@@ -24,7 +24,7 @@ public class MovieService {
   @Transactional
   public Movie create(@NotNull @Valid Movie movie) {
     var newMovie = repository.insert(movie);
-    LOGGER.infof("Created: %s", newMovie);
+    LOGGER.infof("Created: %s", newMovie);   
     return newMovie;
   }
 

@@ -45,13 +45,14 @@ public class TmdbMovieProcessor {
     statusEmitter.send(MovieStatus.of(tmdbId, MessageType.INGEST, MessageStatus.RECEIVED));
 
     // Get the movie details plus cast and crew from TMDB.
+    LOGGER.infof("Found: %d", tmdbId);
     statusEmitter.send(MovieStatus.of(tmdbId, MessageType.INGEST, MessageStatus.EXTRACTED));
 
     // Send the command to create the movie to EMDB.
     var command = MovieCreateCommand.builder()
         .tmdbId(tmdbId)
         .title("Austin Powers in Goldmember")
-        .releaseDate(LocalDate.parse("2002-07-26"))
+        .releaseDate(LocalDate.parse("1702-07-26"))
         .score(5.992f)
         .status(ShowStatus.RELEASED)
         .runtime(94)
@@ -65,7 +66,6 @@ public class TmdbMovieProcessor {
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")        
         .build();
     createEmitter.send(command);
-    LOGGER.debugf("Sent: %s", command);
   }
 
 }

@@ -14,7 +14,7 @@ public record MovieStatus(
     RECEIVED,
     EXTRACTED,
     LOADED,
-    COMPLETED;
+    FAILED;
   }
 
   public enum MessageType {
