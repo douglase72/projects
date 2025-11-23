@@ -16,7 +16,7 @@ dependencies {
 	implementation libs.quarkus.rest.jackson
 	implementation libs.quarkus.rest.client.jackson
 	implementation libs.quarkus.scheduler
-	implementation libs.zstd.jni
+	implementation libs.quarkus.virtual.threads
 	
 	testImplementation libs.quarkus.junit5
 }

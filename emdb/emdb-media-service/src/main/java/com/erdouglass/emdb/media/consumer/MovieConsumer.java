@@ -1,37 +1,38 @@
 package com.erdouglass.emdb.media.consumer;
 
-import java.util.concurrent.CompletionStage;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.eclipse.microprofile.reactive.messaging.Message;
+import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.command.MovieCreateCommand;
-import com.erdouglass.emdb.media.mapper.MovieMapper;
-import com.erdouglass.emdb.media.service.MovieService;
+import com.erdouglass.emdb.common.query.MovieStatus;
+import com.erdouglass.emdb.common.query.MovieStatus.MessageStatus;
+import com.erdouglass.emdb.common.query.MovieStatus.MessageType;
 
-import io.smallrye.reactive.messaging.annotations.Blocking;
+import io.smallrye.common.annotation.RunOnVirtualThread;
+import io.vertx.core.json.JsonObject;
 
 @ApplicationScoped
-public class MovieConsumer extends Consumer<MovieCreateCommand> {
+public class MovieConsumer {
+  private static final Logger LOGGER = Logger.getLogger(MovieConsumer.class);
   
   @Inject
-  MovieMapper movieMapper;
+  @Channel("movie-status-out") 
+  Emitter<MovieStatus> statusEmitter;
   
-  @Inject
-  MovieService movieService;
-
-  @Blocking
-  @Incoming("movies")
-  public CompletionStage<Void> consume(Message<MovieCreateCommand> message) {
-    return super.consume(message);
-  }
-  
-  @Override
-  protected void process(Message<MovieCreateCommand> message) {
-    movieService.create(movieMapper.toMovie(message.getPayload()));
+  @RunOnVirtualThread
+  @Incoming("movie-create-in")
+  public void create(JsonObject jsonObject) {
+    MovieCreateCommand command = jsonObject.mapTo(MovieCreateCommand.class);
+    LOGGER.debugf("Received: %s", command);
+    
+    // Simulate loading the movie data in the database.
+    LOGGER.debugf("Created: %s", command.title());
+    statusEmitter.send(MovieStatus.of(command.tmdbId(), MessageType.INGEST, MessageStatus.LOADED));
   }
 
 }

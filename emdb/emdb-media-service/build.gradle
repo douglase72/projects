@@ -18,9 +18,10 @@ dependencies {
   implementation libs.quarkus.hibernate.orm	
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.jdbc.postgres
-	implementation libs.quarkus.kafka
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
+	implementation libs.quarkus.virtual.threads
 	
 	testImplementation libs.quarkus.junit5
 	testImplementation libs.flyway.database.postgres
