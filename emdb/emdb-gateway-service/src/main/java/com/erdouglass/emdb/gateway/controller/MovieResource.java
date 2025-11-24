@@ -3,6 +3,7 @@ package com.erdouglass.emdb.gateway.controller;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.common.command.IngestRequest;
+import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.command.MovieUpdateCommand;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.gateway.client.MovieMediaClient;
@@ -40,6 +41,11 @@ public class MovieResource {
   @Path("/ingest")
   public Response ingest(@NotNull @Valid IngestRequest request) {
     return scraperClient.ingest(request);
+  }
+  
+  @POST
+  public Response create(@NotNull @Valid MovieCreateCommand request) {
+    return mediaClient.create(request);
   }
   
   @GET
