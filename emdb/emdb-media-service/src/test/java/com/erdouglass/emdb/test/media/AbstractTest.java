@@ -28,13 +28,6 @@ public abstract class AbstractTest {
         .registerModule(new Jdk8Module());
     DB_PASSWORD = ConfigProvider.getConfig().getValue("quarkus.datasource.password", String.class);
     DB_USERNAME = ConfigProvider.getConfig().getValue("quarkus.datasource.username", String.class);
-    
-    // Docker
-    //MOVIES_URL = "http://localhost:60332/api/movies";
-    //PEOPLE_URL = "http://localhost:60332/api/people";
-    //SERIES_URL = "http://localhost:60332/api/series";
-    
-    // Development
     MOVIES_URL = "http://localhost:60312/emdb-media/api/movies";
     PEOPLE_URL = "http://localhost:60312/emdb-media/api/people";
     SERIES_URL = "http://localhost:60312/emdb-media/api/series";

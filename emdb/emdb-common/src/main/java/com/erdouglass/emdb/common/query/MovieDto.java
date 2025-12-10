@@ -45,10 +45,6 @@ import jakarta.validation.constraints.Size;
 /// @param poster The path to the poster image.
 /// @param tagline The movie's tagline.
 /// @param overview A brief overview or summary of the movie.
-///
-/// @see com.erdouglass.emdb.common.command.MovieCreateCommand
-/// @see com.erdouglass.emdb.common.command.MovieUpdateCommand
-/// @see com.erdouglass.emdb.common.ShowConstants
 public record MovieDto(
 	@NotNull @Positive Long id,
 	@NotNull @Positive Integer tmdbId,

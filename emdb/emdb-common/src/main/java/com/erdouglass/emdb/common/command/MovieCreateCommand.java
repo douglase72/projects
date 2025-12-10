@@ -29,9 +29,6 @@ import jakarta.validation.constraints.Size;
 /// not `Optional` as they are required for creation.
 ///
 /// A fluent `Builder` is provided for easy construction.
-///
-/// @see com.erdouglass.emdb.common.command.MovieUpdateCommand
-/// @see com.erdouglass.emdb.common.query.MovieDto
 public record MovieCreateCommand(
 	@NotNull @Positive Integer tmdbId,
 	@NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
