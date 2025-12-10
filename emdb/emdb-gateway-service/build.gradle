@@ -12,9 +12,7 @@ dependencies {
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
-	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
-	implementation libs.quarkus.rest.client.jackson
 	
 	testImplementation libs.quarkus.junit5
 }

@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.emdb.common.command.MovieCreateCommand;
 import com.erdouglass.emdb.common.query.MovieDto;
+import com.erdouglass.emdb.common.request.MovieCreateRequest;
 import com.erdouglass.emdb.test.media.AbstractTest;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -34,7 +33,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
   @Test
   @Order(1)
   void testCreateMovie() throws IOException, InterruptedException {
-    var createRequest = MovieCreateCommand.builder()
+    var createRequest = MovieCreateRequest.builder()
         .tmdbId(818)
         .title("Austin Powers in Goldmember")
         .releaseDate(LocalDate.parse("2002-07-26"))
@@ -61,7 +60,6 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Created movie in: %d ms", et);
   }
 
-  @Disabled
   @Test
   @Order(2)
   void testFindById() throws IOException, InterruptedException {
@@ -84,9 +82,7 @@ class AustinPowersGoldmemberCrudIT extends AbstractTest {
     assertEquals("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg", movie.backdrop());
     assertEquals("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", movie.poster());
     assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
-    assertEquals(
-        "The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.",
-        movie.overview());
+    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());
     LOGGER.infof("Found default movie details in: %d ms", et);
   }
 

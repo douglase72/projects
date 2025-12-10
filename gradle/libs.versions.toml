@@ -13,6 +13,8 @@ slf4j = "2.0.17"
 zstd-jni = "1.5.5-11"
 
 [libraries]
+awaitility = { group = "org.awaitility", name = "awaitility" } 
+
 # Flyway
 flyway-database-postgres = { group = "org.flywaydb", name = "flyway-database-postgresql" } 
 
@@ -32,6 +34,7 @@ microprofile-config = { group = "org.eclipse.microprofile.config", name = "micro
 # OpenTelemetry
 opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api" }
 opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", version.ref = "opentelemetry" }
+opentelemetry-instrumentation = { group = "io.opentelemetry.instrumentation", name = "opentelemetry-instrumentation-annotations" }
 
 # Quarkus
 quarkus-arc = { group = "io.quarkus", name = "quarkus-arc" }
@@ -52,10 +55,13 @@ quarkus-rest = { group = "io.quarkus", name = "quarkus-rest" }
 quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-client-jackson" }
 quarkus-rest-jackson = { group = "io.quarkus", name = "quarkus-rest-jackson" }
 quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
-quarkus-virtual-threads = { group = "io.quarkus", name = "quarkus-virtual-threads" }
 
 # SLF4J
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+
+# SmallRye
+smallrye-messaging-in-memory = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-in-memory" }
+smallrye-messaging-jackson = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-jackson", version = "4.24.0" }	
 
 # Zstd (for Kafka compression)
 zstd-jni = { group = "com.github.luben", name = "zstd-jni", version.ref = "zstd-jni" }
