@@ -12,6 +12,8 @@ dependencies {
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.opentelemetry
+	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	
 	testImplementation libs.quarkus.junit5

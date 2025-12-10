@@ -25,8 +25,8 @@ public class MovieResource {
   @Path("/ingest")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response ingest(@NotNull @Valid IngestRequest request) {
-    service.ingest(request.tmdbId());
-    return Response.status(Status.ACCEPTED).build();
+    var traceId = service.ingest(request.tmdbId());
+    return Response.status(Status.ACCEPTED).entity(traceId).build();
   }
 
 }

@@ -15,8 +15,14 @@ public abstract class AbstractTest {
     HTTP_CLIENT = HttpClient.newBuilder().build();
     OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new JavaTimeModule());
-    MOVIES_URL = "http://localhost:60310/emdb/api/movies";
-    SERIES_URL = "http://localhost:60310/emdb/api/series";
+    
+    // Docker
+    MOVIES_URL = "http://localhost:60330/emdb/api/movies";
+    SERIES_URL = "http://localhost:60330/emdb/api/series";
+    
+    // Development
+    //MOVIES_URL = "http://localhost:60310/emdb/api/movies";
+    //SERIES_URL = "http://localhost:60310/emdb/api/series";
   }  
 
 }

@@ -26,8 +26,9 @@ class AustinPowersGoldmemberIngestIT extends AbstractTest {
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+    var traceId = response.body();
     assertEquals(202, response.statusCode());
-    LOGGER.infof("Ingest movie request took: %d ms", et);
+    LOGGER.infof("Movie ingest request id: %s took %d ms", traceId, et);
   }
 
 }
