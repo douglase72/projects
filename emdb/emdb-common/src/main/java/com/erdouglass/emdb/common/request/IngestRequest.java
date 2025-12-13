@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 /// The external Data Transfer Object (DTO) for the Ingest REST Endpoint.
 ///
 /// This represents the JSON payload received by `POST /<show>/ingest`.
-/// It is converted into an internal {@link IngestCommand} message.
+/// It is converted into an internal {@link IngestMessage} message.
 ///
 /// @param tmdbId The ID of the movie on The Movie Database (TMDB).
 public record IngestRequest(@NotNull @Positive Integer tmdbId) {

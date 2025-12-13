@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 ///     to find the correct enum constant.
 ///
 /// @see com.erdouglass.emdb.common.query.MovieDto
-/// @see com.erdouglass.emdb.common.command.MovieCreateCommand
+/// @see com.erdouglass.emdb.common.command.MovieCreateMessage
 public enum ShowStatus {
   CANCELED("Canceled"),
   ENDED("Ended"),
