@@ -87,7 +87,7 @@ public class TmdbMovieScraper {
           .source(EventSource.SCRAPER)
           .type(EventType.SUBMITTED)
           .message(String.format("TMDB movie %d queued for persistence", message.tmdbId()))
-          .percentComplete(66)
+          .percentComplete(67)
           .tmdbId(818)
           .title("Austin Powers in Goldmember")
           .releaseDate(LocalDate.parse("2002-07-26"))
