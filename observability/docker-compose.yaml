@@ -27,6 +27,7 @@ services:
     command: filebeat -e --strict.perms=false
     volumes:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./nanos-template.json:/usr/share/filebeat/nanos-template.json:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro 
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
     networks:
@@ -47,6 +48,15 @@ services:
     depends_on:
       elasticsearch:
         condition: service_healthy
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.74.0
+    container_name: jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    networks:
+      - projects
 
 volumes:
   elasticsearch-data:

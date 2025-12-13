@@ -36,13 +36,11 @@ public class AuditService {
     var complete = meta.getInteger(PERCENT_COMPLETE);
     var lag = meta.getLong(LATENCY);
     var tmdbId = message.getInteger(TMDB_ID);
-    var log = String.format(
-        "Trace ID: %s, Timestamp: %s, TMDB ID: %d, Source: %s, Type: %s, Message: %s, Complete: %d", 
-        traceId, timestamp, tmdbId, source, type, msg, complete);
+    var log = String.format("TMDB ID: %d, Source: %s, Type: %s, Message: %s, Complete: %d%%", 
+        tmdbId, source, type, msg, complete);
     if (type == EventType.STARTED) {
-      log = String.format(
-          "Trace ID: %s, Timestamp: %s, TMDB ID: %d, Source: %s, Type: %s, Message: %s, Complete: %d, Latency: %d", 
-          traceId, timestamp, tmdbId, source, type, msg, complete, lag);
+      log = String.format("TMDB ID: %d, Source: %s, Type: %s, Message: %s, Complete: %d%%, Latency: %d ms", 
+          tmdbId, source, type, msg, complete, lag);
     }
     LOGGER.info(log);
   }

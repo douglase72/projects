@@ -25,6 +25,16 @@ import io.opentelemetry.context.Context;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
+/// Service responsible for scraping movie metadata from The Movie Database (TMDB).
+///
+/// This component acts as a **Consumer** for ingest commands and a **Producer** for 
+/// both movie creation requests and audit trail updates. It bridges the gap between 
+/// the external TMDB API and the internal `emdb-media-service`.
+///
+/// **Architecture Note:**
+/// This service is designed to handle long-running operations. It runs on a worker 
+/// thread (due to {@code @Blocking}) to prevent blocking the underlying 
+/// reactive event loop.
 @ApplicationScoped
 public class TmdbMovieScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
@@ -41,16 +51,17 @@ public class TmdbMovieScraper {
   
   /// Ingest the TMDB movie identified in the given message.
   ///
+  /// **Note**
   /// This method takes one message at a time from the movie-ingest-in queue and scrapes 
   /// TMDB for the relevant data including movie details, movie credits, and movie cast
   /// and crew. This can be a long running task that gets off loaded to a platform thread
   /// so that the event I/O thread does not get blocked.
   ///
-  /// @param message the {@link AuditMessage} containing the TMDB ID of the movie to ingest.
+  /// @param message The {@link AuditMessage} containing the execution context (Trace ID) 
+  ///                and the specific TMDB ID to be scraped.
   @Blocking
   @Incoming("movie-ingest-in")
   public void onMessage(@NotNull @Valid AuditMessage message) {
-    LOGGER.infof("Received: %s", message);
     var meta = message.meta();
     var tmdbId = message.tmdbId();
     var traceId = message.meta().traceId();
@@ -76,7 +87,7 @@ public class TmdbMovieScraper {
           .source(EventSource.SCRAPER)
           .type(EventType.SUBMITTED)
           .message(String.format("TMDB movie %d queued for persistence", message.tmdbId()))
-          .percentComplete(67)
+          .percentComplete(66)
           .tmdbId(818)
           .title("Austin Powers in Goldmember")
           .releaseDate(LocalDate.parse("2002-07-26"))
@@ -96,14 +107,16 @@ public class TmdbMovieScraper {
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(CREATE_KEY)
           .build()));
-      LOGGER.infof("Sent: %s", createMessage);
     } catch (Exception e) {
       updateProgress(traceId, EventType.FAILED, e.getMessage(), 0, tmdbId);
-      var msg = String.format("[%s] Failed to scrape TMDB movie %d", traceId, tmdbId);
+      var msg = String.format("Failed to scrape TMDB movie %d", tmdbId);
       LOGGER.error(msg, e);
     }
   }
   
+  /// Helper method to publish a progress update without lag calculation.
+  /// 
+  /// @see #updateProgress(String, EventType, String, Integer, Long, Integer)
   private void updateProgress(
       String traceId, 
       EventType type, 
@@ -113,6 +126,25 @@ public class TmdbMovieScraper {
     updateProgress(traceId, type, message, complete, null, tmdbId);
   }
   
+  /// Publishes an asynchronous status update to the `audit-trail-out` channel.
+  ///
+  /// **Note**
+  /// By default, SmallRye Reactive Messaging buffers messages emitted during the execution 
+  /// of an {@code @Incoming} method until that method completes. This behavior delays 
+  /// UI progress bars.
+  ///
+  /// To bypass this buffering and send the status **immediately**, this method:
+  /// 1. Captures the current {@link Context} (to preserve OpenTelemetry/MDC traces).
+  /// 2. Spawns a **Virtual Thread**.
+  /// 3. Executes the emit operation within that isolated thread, forcing an immediate flush 
+  ///    to the broker.
+  ///
+  /// @param traceId  The OpenTelemetry trace ID for distributed tracing.
+  /// @param type     The {@link EventType} (e.g., STARTED, PROGRESS, FAILED).
+  /// @param message  A human-readable status description.
+  /// @param complete The percentage of completion (0-100).
+  /// @param lag      Optional calculation of consumer lag in milliseconds.
+  /// @param tmdbId   The ID of the movie being processed.
   private void updateProgress(
       String traceId, 
       EventType type, 
@@ -120,14 +152,18 @@ public class TmdbMovieScraper {
       Integer complete, 
       Long lag, 
       Integer tmdbId) {
-    var ctx = Context.current();
-    Thread.ofVirtual().start(ctx.wrap(() -> {
-      var updateMessage = AuditMessage.of(traceId, EventSource.SCRAPER, type, message, complete, lag, tmdbId);
-      auditEmitter.send(Message.of(updateMessage)
-          .addMetadata(OutgoingRabbitMQMetadata.builder()
-          .withRoutingKey(UPDATE_KEY)
-          .build()));      
-    }));    
+    try {
+      var ctx = Context.current();
+      Thread.ofVirtual().start(ctx.wrap(() -> {
+        var updateMessage = AuditMessage.of(traceId, EventSource.SCRAPER, type, message, complete, lag, tmdbId);
+        auditEmitter.send(Message.of(updateMessage)
+            .addMetadata(OutgoingRabbitMQMetadata.builder()
+                .withRoutingKey(UPDATE_KEY)
+                .build()));      
+      })).join();
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

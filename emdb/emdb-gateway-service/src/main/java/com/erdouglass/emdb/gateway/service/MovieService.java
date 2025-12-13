@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Positive;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
-import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.command.AuditMessage;
 import com.erdouglass.emdb.common.command.AuditMetadata.EventSource;
@@ -19,7 +18,6 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 public class MovieService {
-  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
   private static final String INGEST_KEY = "movie.ingest";
   
   @Inject
@@ -35,7 +33,6 @@ public class MovieService {
             .withRoutingKey(INGEST_KEY)
             .build());
     emitter.send(message);
-    LOGGER.infof("Sent: %s", cmd);
     return traceId;
   }
 

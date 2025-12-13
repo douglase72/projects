@@ -32,7 +32,6 @@ public class MovieConsumer {
   @RunOnVirtualThread
   @Incoming("movie-create-in")
   public void onMessage(MovieCreateMessage message) {
-    LOGGER.infof("Received: %s", message);
     var meta = message.meta();
     var tmdbId = message.tmdbId();
     var traceId = message.meta().traceId();
@@ -40,7 +39,7 @@ public class MovieConsumer {
     try {
       var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
       var lag = Duration.between(meta.timestamp(), Instant.now()).toMillis();
-      updateProgress(traceId, EventType.STARTED, msg, 68, lag, tmdbId);
+      updateProgress(traceId, EventType.STARTED, msg, 70, lag, tmdbId);
       
       Thread.sleep(1000);
       msg = String.format("Persistence completed for TMDB movie %d", tmdbId);
