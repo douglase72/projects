@@ -11,15 +11,6 @@ cd "$PROJECT_ROOT"
 echo "Building emdb-gateway-service..."
 gradle :emdb-gateway-service:clean :emdb-gateway-service:build -x :emdb-gateway-service:test
 
-echo "Building emdb-scraper-service..."
-gradle :emdb-scraper-service:clean :emdb-scraper-service:build -x :emdb-scraper-service:test
-
-echo "Building emdb-media-service..."
-gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
-
-echo "Building emdb-audit-service..."
-gradle :emdb-audit-service:clean :emdb-audit-service:build -x :emdb-audit-service:test
-
 echo "Stopping and removing old containers..."
 cd "$SCRIPT_DIR"
 docker compose -f docker-compose.yaml down
