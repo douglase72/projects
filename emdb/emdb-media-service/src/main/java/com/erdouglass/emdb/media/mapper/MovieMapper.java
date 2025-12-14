@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
+import com.erdouglass.emdb.common.command.MovieCreateMessage;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.common.request.MovieCreateRequest;
 import com.erdouglass.emdb.media.entity.Movie;
@@ -22,6 +23,22 @@ public class MovieMapper {
     movie.poster(request.poster());
     movie.tagline(request.tagline());
     movie.overview(request.overview());
+    return movie;
+  }
+  
+  public Movie toMovie(MovieCreateMessage message) {
+    var movie = new Movie(message.tmdbId(), message.title(), message.status());
+    movie.releaseDate(message.releaseDate());
+    movie.score(message.score() == 0 ? null : message.score());
+    movie.runtime(message.runtime() == 0 ? null : message.runtime());
+    movie.budget(message.budget() == 0 ? null : message.budget());
+    movie.revenue(message.revenue() == 0 ? null : message.revenue());
+    movie.homepage(message.homepage());
+    movie.originalLanguage(message.originalLanguage());
+    movie.backdrop(message.backdrop());
+    movie.poster(message.poster());
+    movie.tagline(message.tagline());
+    movie.overview(message.overview());
     return movie;
   }
   

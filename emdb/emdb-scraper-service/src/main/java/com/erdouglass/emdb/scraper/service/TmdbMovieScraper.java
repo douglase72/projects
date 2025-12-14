@@ -1,7 +1,5 @@
 package com.erdouglass.emdb.scraper.service;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,8 +17,10 @@ import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.command.AuditMessage;
 import com.erdouglass.emdb.common.command.AuditMetadata.EventSource;
 import com.erdouglass.emdb.common.command.AuditMetadata.EventType;
+import com.erdouglass.emdb.common.command.IngestMessage;
 import com.erdouglass.emdb.common.command.MovieCreateMessage;
 
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -39,7 +39,6 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 public class TmdbMovieScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
   private static final String CREATE_KEY = "movie.create";
-  private static final String UPDATE_KEY = "audit.update";
   
   @Inject
   @Channel("movie-create-out") 
@@ -61,15 +60,13 @@ public class TmdbMovieScraper {
   ///                and the specific TMDB ID to be scraped.
   @Blocking
   @Incoming("movie-ingest-in")
-  public void onMessage(@NotNull @Valid AuditMessage message) {
-    var meta = message.meta();
+  public void onMessage(@NotNull @Valid IngestMessage message) {
     var tmdbId = message.tmdbId();
-    var traceId = message.meta().traceId();
+    var traceId = Span.current().getSpanContext().getTraceId();
     
     try {
       var msg = String.format("Ingest started for TMDB movie %d", tmdbId);
-      var lag = Duration.between(meta.timestamp(), Instant.now()).toMillis();
-      updateProgress(traceId, EventType.STARTED, msg, 1, lag, tmdbId);
+      updateProgress(traceId, EventType.STARTED, msg, 1, tmdbId);
       
       // Get the movie details from TMDB and update the progress.
       Thread.sleep(1000);
@@ -79,15 +76,10 @@ public class TmdbMovieScraper {
       // Get the movie cast and crew from TMDB and update the progress.
       Thread.sleep(3000);
       msg = String.format("Fetched %d people for TMDB movie %d", 359, message.tmdbId());
-      updateProgress(traceId, EventType.PROGRESS, msg, 66, tmdbId);    
+      updateProgress(traceId, EventType.PROGRESS, msg, 66, tmdbId);   
       
       // Put the create message in the queue for the media service to consume.
       var createMessage = MovieCreateMessage.builder()
-          .traceId(meta.traceId())
-          .source(EventSource.SCRAPER)
-          .type(EventType.SUBMITTED)
-          .message(String.format("TMDB movie %d queued for persistence", message.tmdbId()))
-          .percentComplete(67)
           .tmdbId(818)
           .title("Austin Powers in Goldmember")
           .releaseDate(LocalDate.parse("2002-07-26"))
@@ -107,23 +99,13 @@ public class TmdbMovieScraper {
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(CREATE_KEY)
           .build()));
+      msg = String.format("TMDB movie %d queued for persistence", message.tmdbId());
+      updateProgress(traceId, EventType.PROGRESS, msg, 67, tmdbId);  
     } catch (Exception e) {
-      updateProgress(traceId, EventType.FAILED, e.getMessage(), 0, tmdbId);
       var msg = String.format("Failed to scrape TMDB movie %d", tmdbId);
+      updateProgress(traceId, EventType.FAILED, msg, 0, tmdbId);
       LOGGER.error(msg, e);
     }
-  }
-  
-  /// Helper method to publish a progress update without lag calculation.
-  /// 
-  /// @see #updateProgress(String, EventType, String, Integer, Long, Integer)
-  private void updateProgress(
-      String traceId, 
-      EventType type, 
-      String message, 
-      Integer complete, 
-      Integer tmdbId) {
-    updateProgress(traceId, type, message, complete, null, tmdbId);
   }
   
   /// Publishes an asynchronous status update to the `audit-trail-out` channel.
@@ -143,23 +125,14 @@ public class TmdbMovieScraper {
   /// @param type     The {@link EventType} (e.g., STARTED, PROGRESS, FAILED).
   /// @param message  A human-readable status description.
   /// @param complete The percentage of completion (0-100).
-  /// @param lag      Optional calculation of consumer lag in milliseconds.
   /// @param tmdbId   The ID of the movie being processed.
   private void updateProgress(
-      String traceId, 
-      EventType type, 
-      String message, 
-      Integer complete, 
-      Long lag, 
-      Integer tmdbId) {
+      String traceId, EventType type, String message, Integer complete, Integer tmdbId) {
     try {
       var ctx = Context.current();
       Thread.ofVirtual().start(ctx.wrap(() -> {
-        var updateMessage = AuditMessage.of(traceId, EventSource.SCRAPER, type, message, complete, lag, tmdbId);
-        auditEmitter.send(Message.of(updateMessage)
-            .addMetadata(OutgoingRabbitMQMetadata.builder()
-                .withRoutingKey(UPDATE_KEY)
-                .build()));      
+        var updateMessage = AuditMessage.of(traceId, EventSource.SCRAPER, type, message, complete, tmdbId);
+        auditEmitter.send(updateMessage);
       })).join();
     } catch (InterruptedException e) {
       throw new RuntimeException(e);

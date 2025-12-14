@@ -21,19 +21,7 @@ public record AuditMessage(
       Integer percentComplete,
       Integer tmdbId) {
     return new AuditMessage(
-        new AuditMetadata(traceId, Instant.now(), source, type, message, percentComplete, null), tmdbId);
-  }
-  
-  public static AuditMessage of(
-      String traceId, 
-      EventSource source, 
-      EventType type,
-      String message, 
-      Integer percentComplete,
-      Long latency,
-      Integer tmdbId) {
-    return new AuditMessage(
-        new AuditMetadata(traceId, Instant.now(), source, type, message, percentComplete, latency), tmdbId);
+        new AuditMetadata(traceId, Instant.now(), source, type, message, percentComplete), tmdbId);
   }
 
 }

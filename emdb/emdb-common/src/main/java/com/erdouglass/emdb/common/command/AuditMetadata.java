@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 public record AuditMetadata(
     @NotBlank String traceId,
@@ -14,8 +13,7 @@ public record AuditMetadata(
     @NotNull EventSource source,
     @NotNull EventType type,
     @NotBlank String message,
-    @NotNull @Min(0) @Max(100) Integer percentComplete,
-    @Positive Long latency) {
+    @NotNull @Min(0) @Max(100) Integer percentComplete) {
   
   public enum EventSource {
     GATEWAY("emdb-gateway-service"),

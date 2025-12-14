@@ -107,6 +107,8 @@ services:
       dockerfile: src/main/docker/Dockerfile
     ports:
       - 60338:60318
+    env_file:
+      - ./emdb-audit-service/.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     logging:
