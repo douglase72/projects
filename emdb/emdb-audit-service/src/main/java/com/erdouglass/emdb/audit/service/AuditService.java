@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
-import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.audit.entity.AuditLog;
 import com.erdouglass.emdb.audit.repository.AuditRepository;
@@ -26,23 +25,17 @@ public class AuditService {
   @Incoming("audit-trail-in")
   public void onMessage(AuditMessage message) {
     var meta = message.meta();
-    MDC.put("event.created", meta.timestamp().toString()); 
-    
-    try {
-      var log = new AuditLog(meta.traceId());
-      log.timestamp(meta.timestamp());
-      log.tmdbId(message.tmdbId());
-      log.source(meta.source());
-      log.type(meta.type());
-      log.message(meta.message());
-      log.percentComplete(meta.percentComplete());
-      var msg = String.format("[%d%%] Source: %s, Type: %s, Message: %s", 
-          log.percentComplete(), log.source(), log.type(), log.message());
-      repository.insert(log);
-      LOGGER.info(msg);
-    } finally {
-      MDC.remove("event.created");
-    }
+    var log = new AuditLog(meta.traceId());
+    log.timestamp(meta.timestamp());
+    log.tmdbId(message.tmdbId());
+    log.source(meta.source());
+    log.type(meta.type());
+    log.message(meta.message());
+    log.percentComplete(meta.percentComplete());
+    var msg = String.format("[%d%%] Source: %s, Type: %s, Message: %s", 
+        log.percentComplete(), log.source(), log.type(), log.message());
+    repository.insert(log);
+    LOGGER.info(msg);
   }
   
 }

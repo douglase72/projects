@@ -79,6 +79,8 @@ public class TmdbMovieScraper {
       updateProgress(traceId, EventType.PROGRESS, msg, 66, tmdbId);   
       
       // Put the create message in the queue for the media service to consume.
+      msg = String.format("TMDB movie %d queued for persistence", message.tmdbId());
+      updateProgress(traceId, EventType.PROGRESS, msg, 67, tmdbId); 
       var createMessage = MovieCreateMessage.builder()
           .tmdbId(818)
           .title("Austin Powers in Goldmember")
@@ -98,9 +100,7 @@ public class TmdbMovieScraper {
       createEmitter.send(Message.of(createMessage)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(CREATE_KEY)
-          .build()));
-      msg = String.format("TMDB movie %d queued for persistence", message.tmdbId());
-      updateProgress(traceId, EventType.PROGRESS, msg, 67, tmdbId);  
+          .build())); 
     } catch (Exception e) {
       var msg = String.format("Failed to scrape TMDB movie %d", tmdbId);
       updateProgress(traceId, EventType.FAILED, msg, 0, tmdbId);

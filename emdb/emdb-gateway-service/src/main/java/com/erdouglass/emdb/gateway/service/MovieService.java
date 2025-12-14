@@ -31,12 +31,12 @@ public class MovieService {
   
   public String ingest(@NotNull @Positive Integer tmdbId) {
     var traceId = Span.current().getSpanContext().getTraceId();
+    var msg = String.format("TMDB movie %d submitted for ingestion", tmdbId);
+    updateProgress(traceId, EventType.SUBMITTED, msg, 0, tmdbId);
     var ingestMessage = IngestMessage.of(tmdbId);
     ingestEmitter.send(Message.of(ingestMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(INGEST_KEY)
         .build()));
-    var msg = String.format("TMDB movie %d submitted for ingestion", tmdbId);
-    updateProgress(traceId, EventType.SUBMITTED, msg, 0, tmdbId);
     return traceId;
   }
   
