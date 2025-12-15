@@ -10,4 +10,5 @@ dependencies {
       
   compileOnly libs.jakarta.validation
   compileOnly libs.quarkus.jackson
+  compileOnly libs.quarkus.rabbitmq
 }

@@ -66,6 +66,31 @@ services:
       rabbitmq:
         condition: service_healthy
         
+  emdb-audit:
+    image: emdb-audit:latest
+    container_name: emdb-audit
+    build:
+      context: ./emdb-audit-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60334:60314
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - co.elastic.logs/enabled=true
+      - co.elastic.logs/json.keys_under_root=true
+      - co.elastic.logs/json.add_error_key=true
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
 volumes:
   rabbitmq_data:
 
