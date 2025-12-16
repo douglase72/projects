@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.command;
+package com.erdouglass.emdb.common.message;
 
 import java.time.Instant;
 

@@ -11,8 +11,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.command.AuditMessage;
-import com.erdouglass.emdb.common.command.IngestMessage;
+import com.erdouglass.emdb.common.message.AuditMessage;
+import com.erdouglass.emdb.common.message.AuditMessage.MessageSource;
+import com.erdouglass.emdb.common.message.AuditMessage.MessageType;
+import com.erdouglass.emdb.common.message.IngestMessage;
 
 import io.opentelemetry.api.trace.Span;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -33,7 +35,7 @@ public class MovieService {
   public String ingest(@NotNull @Positive Integer tmdbId) {
     var jobId = Span.current().getSpanContext().getTraceId();
     var msg = String.format("TMDB movie %d submitted for ingestion", tmdbId);
-    var auditMessage = AuditMessage.of(jobId, msg);
+    var auditMessage = AuditMessage.of(jobId, MessageSource.GATEWAY, MessageType.SUBMITTED, msg, 0);
     auditEmitter.send(Message.of(auditMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(Configuration.AUDIT_KEY)
         .build()));

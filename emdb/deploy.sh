@@ -17,6 +17,9 @@ gradle :emdb-scraper-service:clean :emdb-scraper-service:build -x :emdb-scraper-
 echo "Building emdb-audit-service..."
 gradle :emdb-audit-service:clean :emdb-audit-service:build -x :emdb-audit-service:test
 
+echo "Building emdb-media-service..."
+gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
+
 echo "Stopping and removing old containers..."
 cd "$SCRIPT_DIR"
 docker compose -f docker-compose.yaml down

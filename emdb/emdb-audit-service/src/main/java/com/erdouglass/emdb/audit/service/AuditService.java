@@ -1,14 +1,11 @@
 package com.erdouglass.emdb.audit.service;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import jakarta.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.command.AuditMessage;
+import com.erdouglass.emdb.common.message.AuditMessage;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
@@ -19,8 +16,8 @@ public class AuditService {
   @RunOnVirtualThread
   @Incoming("audit-log-in")
   public void onMessage(AuditMessage message) {
-    var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
-    LOGGER.infof("Received: %s, latency: %d ms", message, latency);
+    LOGGER.infof("[%d%%] %s, %s, %s", 
+        message.progress(), message.type(), message.source(), message.message());
   }
   
 }
