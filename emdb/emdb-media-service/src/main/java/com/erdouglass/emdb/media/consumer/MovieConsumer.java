@@ -13,10 +13,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.message.AuditMessage;
+import com.erdouglass.emdb.common.message.JobMessage;
+import com.erdouglass.emdb.common.message.JobMessage.JobSource;
+import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
-import com.erdouglass.emdb.common.message.AuditMessage.MessageSource;
-import com.erdouglass.emdb.common.message.AuditMessage.MessageType;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -26,8 +26,8 @@ public class MovieConsumer {
   private static final Logger LOGGER = Logger.getLogger(MovieConsumer.class);
   
   @Inject
-  @Channel("audit-log-out")
-  Emitter<AuditMessage> auditEmitter;
+  @Channel("job-log-out")
+  Emitter<JobMessage> jobEmitter;
   
   @RunOnVirtualThread
   @Incoming("movie-create-in")
@@ -39,25 +39,25 @@ public class MovieConsumer {
     
     try {
       var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
-      updateProgress(jobId, MessageType.PROGRESS, msg, 72); 
+      updateProgress(jobId, JobStatus.PROGRESS, msg, 72); 
       
-      Thread.sleep(1000);
+      Thread.sleep(3000);
       msg = String.format("Persistence completed for TMDB movie %d", tmdbId);
-      updateProgress(jobId, MessageType.COMPLETED, msg, 100);      
+      updateProgress(jobId, JobStatus.COMPLETED, msg, 100);      
     } catch (Exception e) {
       var msg = String.format("Failed to persist TMDB movie %d", tmdbId);
-      updateProgress(jobId, MessageType.FAILED, msg, 0);
+      updateProgress(jobId, JobStatus.FAILED, msg, 0);
       LOGGER.error(msg, e);
     } 
   }
   
   private void updateProgress(
-      String jobId, MessageType type, String message, Integer progress) {
-    var auditMessage = AuditMessage.of(jobId, MessageSource.SCRAPER, type, message, progress);
-    auditEmitter.send(Message.of(auditMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withRoutingKey(Configuration.AUDIT_KEY)
+      String id, JobStatus status, String message, Integer progress) {
+    var jobMessage = JobMessage.of(id, JobSource.SCRAPER, status, message, progress);
+    jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
+        .withRoutingKey(Configuration.JOB_KEY)
         .build()));
-    LOGGER.infof("Sent: %s", auditMessage);    
+    LOGGER.infof("Sent: %s", jobMessage);
   }
 
 }

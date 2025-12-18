@@ -15,6 +15,7 @@ dependencies {
 	implementation libs.quarkus.opentelemetry
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
+	implementation libs.quarkus.rest.client.jackson
 	
 	testImplementation libs.quarkus.junit5
 }

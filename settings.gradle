@@ -21,11 +21,11 @@ include 'web-services'
 // EMDB
 include 'emdb-common'
 project(':emdb-common').projectDir = file('emdb/emdb-common')
-include 'emdb-audit-service'
-project(':emdb-audit-service').projectDir = file('emdb/emdb-audit-service')
 include 'emdb-gateway-service'
 project(':emdb-gateway-service').projectDir = file('emdb/emdb-gateway-service')
 include 'emdb-media-service'
+include 'emdb-job-service'
+project(':emdb-job-service').projectDir = file('emdb/emdb-job-service')
 project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
 include 'emdb-scraper-service'
 project(':emdb-scraper-service').projectDir = file('emdb/emdb-scraper-service')

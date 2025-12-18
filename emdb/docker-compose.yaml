@@ -67,10 +67,10 @@ services:
         condition: service_healthy
         
   emdb-audit:
-    image: emdb-audit:latest
-    container_name: emdb-audit
+    image: emdb-job:latest
+    container_name: emdb-job
     build:
-      context: ./emdb-audit-service
+      context: ./emdb-job-service
       dockerfile: src/main/docker/Dockerfile
     ports:
       - 60334:60314
