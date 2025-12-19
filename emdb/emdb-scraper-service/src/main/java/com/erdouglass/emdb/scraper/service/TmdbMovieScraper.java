@@ -44,13 +44,13 @@ public class TmdbMovieScraper {
     var jobId = message.jobId();
     var tmdbId = message.tmdbId();
     var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
-    LOGGER.infof("Received: %s, latency: %d ms", message, latency);
+    LOGGER.infof("Message: %s, latency: %d ms", message, latency);
     
     try {
       var msg = String.format("Ingest started for TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.STARTED, msg, 1);
       
-      Thread.sleep(1000);
+      Thread.sleep(2000);
       msg = String.format("Fetched TMDB movie %d details", message.tmdbId());
       updateProgress(jobId, JobStatus.PROGRESS, msg, 30);
       
@@ -108,7 +108,13 @@ public class TmdbMovieScraper {
     try {
       var ctx = Context.current();
       Thread.ofVirtual().start(ctx.wrap(() -> {
-        var jobMessage = JobMessage.of(id, JobSource.SCRAPER, status, message, progress);
+        var jobMessage = JobMessage.builder()
+            .id(id)
+            .source(JobSource.SCRAPER)
+            .status(status)
+            .content(message)
+            .progress(progress)
+            .build();
         jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
             .withRoutingKey(Configuration.JOB_KEY)
             .build()));

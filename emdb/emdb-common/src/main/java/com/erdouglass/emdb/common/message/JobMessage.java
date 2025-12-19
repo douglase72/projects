@@ -17,11 +17,6 @@ public record JobMessage(
     @NotBlank String content,
     @NotNull @Min(0) @Max(100) Integer progress) {
   
-  public static JobMessage of(
-      String jobId, JobSource source, JobStatus status, String content, Integer progress) {
-    return new JobMessage(jobId, Instant.now(), source, status, content, progress);
-  }
-  
   public enum JobSource {
     GATEWAY("emdb-gateway-service"),
     MEDIA("emdb-media-service"),
@@ -60,6 +55,55 @@ public record JobMessage(
     public String toString() {
       return status;
     }
+  }
+  
+  public static Builder builder() {
+    return new Builder();
+  }
+  
+  public static final class Builder {
+    private String id;
+    private Instant timestamp = Instant.now();
+    private JobSource source;
+    private JobStatus status;
+    private String content;
+    private Integer progress;
+    
+    Builder() { }
+    
+    public JobMessage build() {
+      return new JobMessage(id, timestamp, source, status, content, progress);
+    }
+    
+    public Builder content(String content) {
+      this.content = content;
+      return this;
+    }
+    
+    public Builder id(String id) {
+      this.id = id;
+      return this;
+    }
+    
+    public Builder progress(Integer progress) {
+      this.progress = progress;
+      return this;
+    }
+    
+    public Builder source(JobSource source) {
+      this.source = source;
+      return this;
+    } 
+    
+    public Builder status(JobStatus status) {
+      this.status = status;
+      return this;
+    }
+    
+    public Builder timestamp(Instant timestamp) {
+      this.timestamp = timestamp;
+      return this;
+    }  
   }
 
 }

@@ -66,7 +66,7 @@ services:
       rabbitmq:
         condition: service_healthy
         
-  emdb-audit:
+  emdb-job:
     image: emdb-job:latest
     container_name: emdb-job
     build:
@@ -76,6 +76,8 @@ services:
       - 60334:60314
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-job-service/.env
     logging:
       driver: "json-file"
       options:

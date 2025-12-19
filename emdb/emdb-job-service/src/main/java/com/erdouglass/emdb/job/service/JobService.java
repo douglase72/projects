@@ -1,34 +1,56 @@
 package com.erdouglass.emdb.job.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.message.JobMessage;
+import com.erdouglass.emdb.job.mapper.JobMapper;
+import com.erdouglass.emdb.job.repository.JobRepository;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.infrastructure.Infrastructure;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 
 @ApplicationScoped
 public class JobService {
   private static final Logger LOGGER = Logger.getLogger(JobService.class);
+  private static final int BUFFER_SIZE = 256;
   
   private final BroadcastProcessor<JobMessage> broadcaster = BroadcastProcessor.create();
   
+  @Inject
+  JobMapper mapper;
+  
+  @Inject
+  JobRepository repository;
+  
+  @Transactional
   @RunOnVirtualThread
   @Incoming("job-log-in")
   public void onMessage(JobMessage message) {
-    LOGGER.infof("[%d%%] %s, %s, %s", 
-        message.progress(), message.status(), message.source(), message.content());
+    var log = mapper.toJobLog(message);
+    repository.insert(log);
+    LOGGER.infof("[%d%%] %s, %s, %s", log.progress(), log.status(), log.source(), log.content());
     broadcaster.onNext(message);
   }
   
   public Multi<JobMessage> stream(String jobId) {
-    return broadcaster
-        .onOverflow().buffer(256) 
-        .filter(m -> m.id().equals(jobId));
+    var historyStream = Uni.createFrom().item(jobId)
+        .runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+        .map(id -> repository.findByJobId(id)) 
+        .onItem().transformToMulti(list -> Multi.createFrom().iterable(list))
+        .map(mapper::toJobMessage);
+    var liveStream = Multi.createFrom().publisher(broadcaster)
+        .onOverflow().buffer(BUFFER_SIZE)
+        .filter(job -> job.id().equals(jobId));
+    return Multi.createBy().concatenating()
+        .streams(historyStream, liveStream); 
   }
   
 }

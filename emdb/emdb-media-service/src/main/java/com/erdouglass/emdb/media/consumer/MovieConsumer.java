@@ -35,7 +35,7 @@ public class MovieConsumer {
     var jobId = message.jobId();
     var tmdbId = message.tmdbId();
     var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
-    LOGGER.infof("Received: %s, latency: %d ms", message, latency);
+    LOGGER.infof("Message: %s, latency: %d ms", message, latency);
     
     try {
       var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
@@ -53,7 +53,13 @@ public class MovieConsumer {
   
   private void updateProgress(
       String id, JobStatus status, String message, Integer progress) {
-    var jobMessage = JobMessage.of(id, JobSource.SCRAPER, status, message, progress);
+    var jobMessage = JobMessage.builder()
+        .id(id)
+        .source(JobSource.MEDIA)
+        .status(status)
+        .content(message)
+        .progress(progress)
+        .build();
     jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));

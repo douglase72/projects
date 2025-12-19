@@ -35,18 +35,26 @@ public class MovieService {
   public String ingest(@NotNull @Positive Integer tmdbId) {
     var jobId = Span.current().getSpanContext().getTraceId();
     var msg = String.format("TMDB movie %d submitted for ingestion", tmdbId);
-    var jobMessage = JobMessage.of(jobId, JobSource.GATEWAY, JobStatus.SUBMITTED, msg, 0);
+    var jobMessage = JobMessage.builder()
+        .id(jobId)
+        .source(JobSource.GATEWAY)
+        .status(JobStatus.SUBMITTED)
+        .content(msg)
+        .progress(0)
+        .build();
     auditEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));
-    LOGGER.infof("Sent: %s", jobMessage);
-    
-    var ingestMessage = IngestMessage.of(jobId, tmdbId);
-    ingestEmitter.send(Message.of(ingestMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
+    LOGGER.infof("Sent: %s", jobMessage);   
+    sendMessage(IngestMessage.of(jobId, tmdbId));
+    return jobId;
+  }
+  
+  private void sendMessage(IngestMessage message) {
+    ingestEmitter.send(Message.of(message).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(INGEST_KEY)
         .build())); 
-    LOGGER.infof("Sent: %s", ingestMessage);
-    return jobId;
+    LOGGER.infof("Sent: %s", message);
   }
 
 }

@@ -29,5 +29,7 @@ docker compose -f docker-compose.yaml down
 echo "Building Docker images..."
 cd "$SCRIPT_DIR"
 docker compose -f docker-compose.yaml up -d --build
-
+stty sane
+tput cnorm
+echo "" 
 echo "Deployment complete."
