@@ -11,7 +11,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import com.erdouglass.emdb.common.request.IngestRequest;
+import com.erdouglass.emdb.common.request.MovieCreateRequest;
+import com.erdouglass.emdb.gateway.client.MovieClient;
 import com.erdouglass.emdb.gateway.service.MovieService;
 
 @Path("/movies")
@@ -19,7 +23,16 @@ import com.erdouglass.emdb.gateway.service.MovieService;
 public class MovieResource {
   
   @Inject
+  @RestClient
+  MovieClient client;
+  
+  @Inject
   MovieService service;
+  
+  @POST
+  public Response create(@NotNull @Valid MovieCreateRequest request) {
+    return client.create(request);
+  }
   
   @POST
   @Path("/cron")

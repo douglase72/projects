@@ -18,6 +18,8 @@ import com.erdouglass.emdb.common.message.JobMessage;
 import com.erdouglass.emdb.common.message.JobMessage.JobSource;
 import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
+import com.erdouglass.emdb.media.mapper.MovieMapper;
+import com.erdouglass.emdb.media.service.MovieService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -29,6 +31,12 @@ public class MovieConsumer {
   @Inject
   @Channel("job-log-out")
   Emitter<JobMessage> jobEmitter;
+  
+  @Inject
+  MovieMapper mapper;
+  
+  @Inject
+  MovieService service;
   
   @RunOnVirtualThread
   @Incoming("movie-create-in")
@@ -42,8 +50,8 @@ public class MovieConsumer {
       var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.PROGRESS, msg, 72); 
       
-      Thread.sleep(3000);
-      msg = String.format("Persistence completed for TMDB movie %d", tmdbId);
+      var movie = service.create(mapper.toMovie(message));
+      msg = String.format("Ingest completed for TMDB movie %d", movie.tmdbId());
       updateProgress(jobId, JobStatus.COMPLETED, msg, 100);      
     } catch (Exception e) {
       var msg = String.format("Failed to persist TMDB movie %d", tmdbId);

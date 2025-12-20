@@ -34,7 +34,7 @@ public class MovieResource {
         .path("/{id}")
         .resolveTemplate("id", movie.id())
         .build();
-    return Response.created(location).build();
+    return Response.created(location).entity(mapper.toMovieDto(movie)).build();
   }
 
 }
