@@ -71,7 +71,6 @@ public class TmdbMovieScheduler {
     jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));
-    LOGGER.infof("Sent: %s", jobMessage);
   }
   
   @Incoming("movie-cron-in")

@@ -2,25 +2,28 @@ package com.erdouglass.emdb.scraper.service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.message.IngestMessage;
 import com.erdouglass.emdb.common.message.JobMessage;
 import com.erdouglass.emdb.common.message.JobMessage.JobSource;
 import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
+import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
+import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
 
 import io.opentelemetry.context.Context;
 import io.smallrye.reactive.messaging.annotations.Blocking;
@@ -30,6 +33,11 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 public class TmdbMovieScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
   private static final String CREATE_KEY = "movie.create";
+  private static final String CREDITS = "credits";
+  
+  @Inject
+  @RestClient
+  TmdbMovieClient client;
   
   @Inject
   @Channel("job-log-out")
@@ -38,6 +46,9 @@ public class TmdbMovieScraper {
   @Inject
   @Channel("movie-create-out") 
   Emitter<MovieCreateMessage> createEmitter;
+  
+  @Inject
+  Validator validator;
   
   @Blocking
   @Incoming("movie-ingest-in")
@@ -51,44 +62,58 @@ public class TmdbMovieScraper {
       var msg = String.format("Ingest started for TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.STARTED, msg, 1);
       
-      Thread.sleep(2000);
-      msg = String.format("Fetched TMDB movie %d details", message.tmdbId());
-      updateProgress(jobId, JobStatus.PROGRESS, msg, 30);
+      var tmdbMovie = findMovie(tmdbId, jobId);
       
       Thread.sleep(3000);
       msg = String.format("Fetched %d people for TMDB movie %d", 359, message.tmdbId());
       updateProgress(jobId, JobStatus.PROGRESS, msg, 70);
       
       // Send create movie message to media service
-      msg = String.format("TMDB movie %d queued for persistence", message.tmdbId());
-      updateProgress(jobId, JobStatus.PROGRESS, msg, 71);
-      var createMessage = MovieCreateMessage.builder()
-          .id(jobId)
-          .tmdbId(818)
-          .title("Austin Powers in Goldmember")
-          .releaseDate(LocalDate.parse("2002-07-26"))
-          .score(5.992f)
-          .status(ShowStatus.RELEASED)
-          .runtime(94)
-          .budget(63000000)
-          .revenue(296938801)
-          .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
-          .originalLanguage("en")
-          .backdrop("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg")
-          .poster("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg")
-          .tagline("The grooviest movie of the summer has a secret, baby!")
-          .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")        
-          .build();
-      createEmitter.send(Message.of(createMessage)
-          .addMetadata(OutgoingRabbitMQMetadata.builder()
-          .withRoutingKey(CREATE_KEY)
-          .build())); 
-      LOGGER.infof("Sent: %s", createMessage);  
+      sendMessage(tmdbMovie, jobId);
     } catch (Exception e) {
       var msg = String.format("Failed to scrape TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.FAILED, msg, 0);
       LOGGER.error(msg, e);
     }
+  }
+  
+  private void sendMessage(TmdbMovieDto movie, UUID jobId) {
+    var msg = String.format("TMDB movie %d queued for persistence", movie.id());
+    updateProgress(jobId, JobStatus.PROGRESS, msg, 71);
+    var createMessage = MovieCreateMessage.builder()
+        .id(jobId)
+        .tmdbId(movie.id())
+        .title(movie.title())
+        .releaseDate(movie.release_date())
+        .score(movie.vote_average())
+        .status(movie.status())
+        .runtime(movie.runtime())
+        .budget(movie.budget())
+        .revenue(movie.revenue())
+        .homepage(movie.homepage())
+        .originalLanguage(movie.original_language())
+        .backdrop(movie.backdrop_path())
+        .poster(movie.poster_path())
+        .tagline(movie.tagline())
+        .overview(movie.overview())
+        .build(); 
+    createEmitter.send(Message.of(createMessage)
+        .addMetadata(OutgoingRabbitMQMetadata.builder()
+        .withRoutingKey(CREATE_KEY)
+        .build())); 
+    LOGGER.infof("Sent: %s", createMessage);  
+  }
+  
+  private TmdbMovieDto findMovie(int tmdbId, UUID jobId) {
+    var tmdbMovie = client.findById(tmdbId, CREDITS);
+    var violations = validator.validate(tmdbMovie);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException(violations);
+    }
+    var msg = String.format("Fetched TMDB movie %d details", tmdbId);
+    updateProgress(jobId, JobStatus.PROGRESS, msg, 30);
+    LOGGER.infof("Found: %s", tmdbMovie);
+    return tmdbMovie;
   }
   
   /// Publishes an asynchronous status update to the `audit-trail-out` channel.
@@ -119,7 +144,6 @@ public class TmdbMovieScraper {
         jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
             .withRoutingKey(Configuration.JOB_KEY)
             .build()));
-        LOGGER.infof("Sent: %s", jobMessage);          
       })).join();
     } catch (InterruptedException e) {
       throw new RuntimeException(e);

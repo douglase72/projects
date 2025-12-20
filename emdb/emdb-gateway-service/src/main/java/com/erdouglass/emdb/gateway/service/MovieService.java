@@ -60,7 +60,6 @@ public class MovieService {
     jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));
-    LOGGER.infof("Sent: %s", jobMessage);   
     
     var ingestMessage = IngestMessage.of(jobId, tmdbId);
     ingestEmitter.send(Message.of(ingestMessage).addMetadata(OutgoingRabbitMQMetadata.builder()

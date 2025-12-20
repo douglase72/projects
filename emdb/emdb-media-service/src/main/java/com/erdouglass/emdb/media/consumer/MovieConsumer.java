@@ -64,7 +64,6 @@ public class MovieConsumer {
     jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));
-    LOGGER.infof("Sent: %s", jobMessage);
   }
 
 }

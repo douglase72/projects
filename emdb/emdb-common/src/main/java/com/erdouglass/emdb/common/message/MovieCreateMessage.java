@@ -45,8 +45,6 @@ public record MovieCreateMessage(
     return "MovieCreateMessage[id=" + id
         + ", timestamp=" + timestamp
         + ", tmdbId=" + tmdbId
-        + ", title=" + title
-        + ", releaseDate=" + releaseDate
         + "]";
   } 
   

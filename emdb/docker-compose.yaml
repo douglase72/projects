@@ -51,6 +51,8 @@ services:
       - 60332:60312
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-scraper-service/.env
     logging:
       driver: "json-file"
       options:
