@@ -5,6 +5,8 @@ import { Movie } from '../model/Movie.js';
 import { MovieCreateRequest } from '../model/MovieCreateRequest.js';
 
 export class MovieService {
+  private static readonly LANG_MAPPER = new Intl.DisplayNames(['en'], { type: 'language' });
+
   private readonly client: AxiosInstance;
 
     constructor() {
@@ -15,6 +17,9 @@ export class MovieService {
 
   async create(request: MovieCreateRequest): Promise<Movie> {
     const { data: movie } = await this.client.post<Movie>(`/movies`, request);
+    if (movie.originalLanguage) {
+      movie.originalLanguage = MovieService.LANG_MAPPER.of(movie.originalLanguage) ?? null;
+    }    
     return movie;
   }
 
@@ -26,6 +31,14 @@ export class MovieService {
   async ingest(request: IngestRequest): Promise<string> {
     const { data } = await this.client.post<string>('/movies/ingest', request);
     return data;
+  }
+
+  async findById(id: number): Promise<Movie> {
+    const { data: movie } = await this.client.get<Movie>(`/movies/${id}`);
+    if (movie.originalLanguage) {
+      movie.originalLanguage = MovieService.LANG_MAPPER.of(movie.originalLanguage) ?? null;
+    }
+    return movie;    
   }
   
 }

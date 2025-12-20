@@ -38,6 +38,16 @@ Examples:
 `)  
   .action(ingest);
 
+movieCommand
+  .command('find')
+  .description('Find a movie in EMDB')
+  .argument('<id>', 'The id of the movie to find')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie find 1
+`)  
+  .action(findById);
+
 async function create(fileName: string) {
   try {
     const movieService = new MovieService();
@@ -78,4 +88,19 @@ async function ingest(tmdbId: number) {
   } catch (error) {
     console.error(`${error}`);
   }
+}
+
+async function findById(id: number) {
+  try {
+    const movieService = new MovieService();
+    const start = performance.now();
+    const movie = await movieService.findById(id);
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Found: ${movie.title} in: ${et} ms.`);
+    console.log(movie);
+  } catch (error) {
+    console.error(`Error finding movie: ${error}`);
+  }  
 }

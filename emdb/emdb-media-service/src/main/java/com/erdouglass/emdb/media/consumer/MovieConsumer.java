@@ -51,6 +51,9 @@ public class MovieConsumer {
       updateProgress(jobId, JobStatus.PROGRESS, msg, 72); 
       
       var movie = service.create(mapper.toMovie(message));
+      msg = String.format("Created EMDB movie %d", movie.id());
+      updateProgress(jobId, JobStatus.PROGRESS, msg, 99);  
+      
       msg = String.format("Ingest completed for TMDB movie %d", movie.tmdbId());
       updateProgress(jobId, JobStatus.COMPLETED, msg, 100);      
     } catch (Exception e) {
