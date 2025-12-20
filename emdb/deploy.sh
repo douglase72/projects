@@ -17,6 +17,9 @@ gradle :emdb-scraper-service:clean :emdb-scraper-service:build -x :emdb-scraper-
 echo "Building emdb-job-service..."
 gradle :emdb-job-service:clean :emdb-job-service:build -x :emdb-job-service:test
 
+echo "Building emdb-scheduler-service..."
+gradle :emdb-scheduler-service:clean :emdb-scheduler-service:build -x :emdb-scheduler-service:test
+
 echo "Building emdb-media-service..."
 gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
 

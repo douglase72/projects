@@ -22,6 +22,13 @@ public class MovieResource {
   MovieService service;
   
   @POST
+  @Path("/cron")
+  public Response cron() {
+    service.cron();
+    return Response.status(Status.ACCEPTED).build();
+  }
+  
+  @POST
   @Path("/ingest")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response ingest(@NotNull @Valid IngestRequest request) {

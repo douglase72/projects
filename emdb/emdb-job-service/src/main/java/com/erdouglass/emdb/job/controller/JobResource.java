@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.job.controller;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -24,7 +26,7 @@ public class JobResource {
   @Path("{id}")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   @RestStreamElementType(MediaType.APPLICATION_JSON)
-  public Multi<JobMessage> streamJob(@PathParam("id") String id) {
+  public Multi<JobMessage> streamJob(@PathParam("id") UUID id) {
       return service.stream(id);
   }
   

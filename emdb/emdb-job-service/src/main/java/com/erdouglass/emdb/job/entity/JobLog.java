@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.job.entity;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,9 +38,9 @@ public class JobLog {
   @NotBlank
   private String content;
   
-  @NotBlank 
+  @NotNull 
   @Column(name = "job_id")
-  private String jobId;
+  private UUID jobId;
   
   @NotNull 
   @Min(0) @Max(100)
@@ -68,11 +69,11 @@ public class JobLog {
     return content;
   }
   
-  public JobLog(String jobId) {
+  public JobLog(UUID jobId) {
     this.jobId = jobId;
   }
   
-  public String jobId() {
+  public UUID jobId() {
     return jobId;
   }
   

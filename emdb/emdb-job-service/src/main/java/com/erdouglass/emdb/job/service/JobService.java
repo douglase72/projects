@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.job.service;
 
+import java.util.UUID;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -36,11 +38,11 @@ public class JobService {
   public void onMessage(JobMessage message) {
     var log = mapper.toJobLog(message);
     repository.insert(log);
-    LOGGER.infof("[%d%%] %s, %s, %s", log.progress(), log.status(), log.source(), log.content());
+    LOGGER.infof("%s, [%d%%] %s, %s, %s", log.jobId(), log.progress(), log.status(), log.source(), log.content());
     broadcaster.onNext(message);
   }
   
-  public Multi<JobMessage> stream(String jobId) {
+  public Multi<JobMessage> stream(UUID jobId) {
     var historyStream = Uni.createFrom().item(jobId)
         .runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
         .map(id -> repository.findByJobId(id)) 

@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.consumer;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -32,7 +33,7 @@ public class MovieConsumer {
   @RunOnVirtualThread
   @Incoming("movie-create-in")
   public void onMessage(MovieCreateMessage message) {
-    var jobId = message.jobId();
+    var jobId = message.id();
     var tmdbId = message.tmdbId();
     var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
     LOGGER.infof("Message: %s, latency: %d ms", message, latency);
@@ -52,7 +53,7 @@ public class MovieConsumer {
   }
   
   private void updateProgress(
-      String id, JobStatus status, String message, Integer progress) {
+      UUID id, JobStatus status, String message, Integer progress) {
     var jobMessage = JobMessage.builder()
         .id(id)
         .source(JobSource.MEDIA)

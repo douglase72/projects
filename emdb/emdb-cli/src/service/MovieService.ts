@@ -11,6 +11,11 @@ export class MovieService {
     });
   }
 
+async cron(): Promise<number> {
+    const { status } = await this.client.post<number>('/movies/cron');
+    return status;    
+  } 
+
   async ingest(request: IngestRequest): Promise<string> {
     const { data } = await this.client.post<string>('/movies/ingest', request);
     return data;

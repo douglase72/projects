@@ -3,6 +3,7 @@ package com.erdouglass.emdb.scraper.service;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -41,7 +42,7 @@ public class TmdbMovieScraper {
   @Blocking
   @Incoming("movie-ingest-in")
   public void onMessage(IngestMessage message) {
-    var jobId = message.jobId();
+    var jobId = message.id();
     var tmdbId = message.tmdbId();
     var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
     LOGGER.infof("Message: %s, latency: %d ms", message, latency);
@@ -62,7 +63,7 @@ public class TmdbMovieScraper {
       msg = String.format("TMDB movie %d queued for persistence", message.tmdbId());
       updateProgress(jobId, JobStatus.PROGRESS, msg, 71);
       var createMessage = MovieCreateMessage.builder()
-          .jobId(jobId)
+          .id(jobId)
           .tmdbId(818)
           .title("Austin Powers in Goldmember")
           .releaseDate(LocalDate.parse("2002-07-26"))
@@ -104,7 +105,7 @@ public class TmdbMovieScraper {
   ///    to the broker.
   ///
   private void updateProgress(
-      String id, JobStatus status, String message, Integer progress) {
+      UUID id, JobStatus status, String message, Integer progress) {
     try {
       var ctx = Context.current();
       Thread.ofVirtual().start(ctx.wrap(() -> {

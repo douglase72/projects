@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.job.repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.Query;
@@ -15,6 +16,6 @@ public interface JobRepository {
   JobLog insert(JobLog log);
   
   @Query("WHERE jobId = :jobId ORDER BY timestamp")
-  List<JobLog> findByJobId(String jobId);
+  List<JobLog> findByJobId(UUID jobId);
   
 }

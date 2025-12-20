@@ -2,6 +2,7 @@ package com.erdouglass.emdb.common.message;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,7 +19,7 @@ import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
 public record MovieCreateMessage(
-    @NotBlank String jobId,
+    @NotNull UUID id,
     @NotNull Instant timestamp,
     @NotNull @Positive Integer tmdbId,
     @NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
@@ -41,7 +42,7 @@ public record MovieCreateMessage(
   
   @Override
   public String toString() {
-    return "MovieCreateMessage[jobId=" + jobId
+    return "MovieCreateMessage[id=" + id
         + ", timestamp=" + timestamp
         + ", tmdbId=" + tmdbId
         + ", title=" + title
@@ -50,13 +51,13 @@ public record MovieCreateMessage(
   } 
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
-    private String jobId;
+    private UUID id;
     
     private Builder() { }
 
     public MovieCreateMessage build() {
       return new MovieCreateMessage(
-          jobId,
+          id,
           Instant.now(),
           tmdbId,
           title, 
@@ -74,8 +75,8 @@ public record MovieCreateMessage(
           overview);
     }
     
-    public Builder jobId(String jobId) {
-      this.jobId = jobId;
+    public Builder id(UUID id) {
+      this.id = id;
       return this;
     }
 

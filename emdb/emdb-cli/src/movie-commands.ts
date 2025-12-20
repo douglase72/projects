@@ -9,6 +9,15 @@ const movieCommand = new Command('movie')
   .description('Perform CRUD operations on movies');
 
 movieCommand
+  .command('cron')
+  .description('Execute the movie cron job now')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie cron
+`)  
+  .action(cron);
+
+movieCommand
   .command('ingest')
   .description('Ingest a movie from TMDB into EMDB')
   .argument('<tmdbId>', 'The TMDB id of the movie to ingest')
@@ -17,6 +26,17 @@ Examples:
   $ emdb-cli movie ingest 335984
 `)  
   .action(ingest);
+
+async function cron() {
+  try {
+    const movieService = new MovieService();
+    await movieService.cron(); 
+    const start = new Date();
+    console.log(`Cron job started at ${start.toISOString()}.`);
+  } catch (error) {
+    console.error(`Error sending movie cron request: ${error}`);
+  }   
+}
 
 async function ingest(tmdbId: number) {
   try {

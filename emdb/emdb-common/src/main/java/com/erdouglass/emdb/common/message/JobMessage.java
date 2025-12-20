@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.common.message;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -10,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public record JobMessage(
-    @NotBlank String id,
+    @NotNull UUID id,
     @NotNull Instant timestamp,
     @NotNull JobSource source,
     @NotNull JobStatus status,
@@ -62,7 +63,7 @@ public record JobMessage(
   }
   
   public static final class Builder {
-    private String id;
+    private UUID id;
     private Instant timestamp = Instant.now();
     private JobSource source;
     private JobStatus status;
@@ -80,7 +81,7 @@ public record JobMessage(
       return this;
     }
     
-    public Builder id(String id) {
+    public Builder id(UUID id) {
       this.id = id;
       return this;
     }

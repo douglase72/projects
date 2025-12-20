@@ -93,6 +93,31 @@ services:
       rabbitmq:
         condition: service_healthy
         
+  emdb-scheduler:
+    image: emdb-scheduler:latest
+    container_name: emdb-scheduler
+    build:
+      context: ./emdb-scheduler-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60336:60316
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - co.elastic.logs/enabled=true
+      - co.elastic.logs/json.keys_under_root=true
+      - co.elastic.logs/json.add_error_key=true
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
   emdb-media:
     image: emdb-media:latest
     container_name: emdb-media
