@@ -6,7 +6,10 @@ import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -38,8 +41,12 @@ public class MovieConsumer {
   @Inject
   MovieService service;
   
+  @Inject
+  Validator validator;
+  
   @RunOnVirtualThread
   @Incoming("movie-create-in")
+  @Retry(maxRetries = 3, abortOn = { ConstraintViolationException.class })
   public void onMessage(MovieCreateMessage message) {
     var jobId = message.id();
     var tmdbId = message.tmdbId();
@@ -47,6 +54,10 @@ public class MovieConsumer {
     LOGGER.infof("Message: %s, latency: %d ms", message, latency);
     
     try {
+      var violations = validator.validate(message);
+      if (!violations.isEmpty()) {
+        throw new ConstraintViolationException(violations);
+      }      
       var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.PROGRESS, msg, 72); 
       
@@ -55,11 +66,15 @@ public class MovieConsumer {
       updateProgress(jobId, JobStatus.PROGRESS, msg, 99);  
       
       msg = String.format("Ingest completed for TMDB movie %d", movie.tmdbId());
-      updateProgress(jobId, JobStatus.COMPLETED, msg, 100);      
+      updateProgress(jobId, JobStatus.COMPLETED, msg, 100);
+    } catch (ConstraintViolationException e) {
+      var msg = String.format("Failed to validate TMDB movie %d", tmdbId);
+      updateProgress(jobId, JobStatus.FAILED, msg, 0);
+      throw new RuntimeException(msg, e);
     } catch (Exception e) {
       var msg = String.format("Failed to persist TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.FAILED, msg, 0);
-      LOGGER.error(msg, e);
+      throw e;
     } 
   }
   
@@ -76,5 +91,7 @@ public class MovieConsumer {
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));
   }
+  
+  
 
 }

@@ -132,6 +132,10 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-media-service/.env
+    environment:
+      - EMDB_CLI_MOVIES=/movies
+    volumes:
+      - /home/erdouglass/projects/emdb/emdb-cli/movies:/movies
     logging:
       driver: "json-file"
       options:
