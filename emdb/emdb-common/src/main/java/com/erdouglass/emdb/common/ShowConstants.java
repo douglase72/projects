@@ -27,6 +27,9 @@ public static final int POSTER_MAX_LENGTH = 37;
 /// The minimum length for an image path string, like `backdrop` or `poster`.
 public static final int POSTER_MIN_LENGTH = 31;
 
+/// The maximum length for a persons role.
+public static final int ROLE_MAX_LENGTH = 100;
+
 /// The minimum valid air date for a series.
 public static final String SERIES_MIN_DATE = "1928-09-10";
 

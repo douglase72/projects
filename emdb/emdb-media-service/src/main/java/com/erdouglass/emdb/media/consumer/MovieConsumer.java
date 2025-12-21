@@ -74,7 +74,7 @@ public class MovieConsumer {
     } catch (Exception e) {
       var msg = String.format("Failed to persist TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.FAILED, msg, 0);
-      throw e;
+      throw new RuntimeException(msg, e);
     } 
   }
   

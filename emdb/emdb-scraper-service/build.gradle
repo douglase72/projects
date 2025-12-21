@@ -10,6 +10,7 @@ dependencies {
 	implementation project(':web-services')
 	
 	implementation libs.quarkus.arc
+	implementation libs.quarkus.fault.tolerance
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
 	implementation libs.quarkus.opentelemetry
@@ -18,6 +19,7 @@ dependencies {
 	implementation libs.quarkus.rest.client.jackson
 	
 	testImplementation libs.quarkus.junit5
+	testImplementation libs.smallrye.messaging.in.memory
 }
 
 group = 'com.erdouglass.emdb'
