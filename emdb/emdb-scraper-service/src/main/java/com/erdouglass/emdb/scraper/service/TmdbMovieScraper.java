@@ -127,8 +127,7 @@ public class TmdbMovieScraper {
   /// 1. Captures the current {@link Context} (to preserve OpenTelemetry/MDC traces).
   /// 2. Spawns a **Virtual Thread**.
   /// 3. Executes the emit operation within that isolated thread, forcing an immediate flush 
-  ///    to the broker.
-  ///
+  ///    to the broker
   private void updateProgress(
       UUID id, JobStatus status, String message, Integer progress) {
     try {
