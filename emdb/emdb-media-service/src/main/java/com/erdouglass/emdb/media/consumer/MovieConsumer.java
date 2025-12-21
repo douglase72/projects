@@ -91,7 +91,5 @@ public class MovieConsumer {
         .withRoutingKey(Configuration.JOB_KEY)
         .build()));
   }
-  
-  
 
 }

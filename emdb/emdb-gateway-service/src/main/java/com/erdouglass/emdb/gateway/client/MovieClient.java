@@ -1,7 +1,9 @@
 package com.erdouglass.emdb.gateway.client;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -13,6 +15,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.common.request.MovieCreateRequest;
+import com.erdouglass.emdb.common.request.MovieUpdateRequest;
 
 @RegisterRestClient()
 @Consumes(MediaType.APPLICATION_JSON)
@@ -25,5 +28,13 @@ public interface MovieClient {
   @GET
   @Path("{id}")
   public MovieDto findById(@PathParam("id") Long id);
+  
+  @PATCH
+  @Path("{id}")
+  public MovieDto update(@PathParam("id") Long id, MovieUpdateRequest request);
+  
+  @DELETE
+  @Path("{id}")
+  public Response delete(@PathParam("id") Long id);
 
 }

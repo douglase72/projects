@@ -48,6 +48,27 @@ Examples:
 `)  
   .action(findById);
 
+movieCommand
+  .command('update')
+  .description('Update a movie in EMDB')
+  .argument('<id>', 'The id of the movie to update')
+  .argument('<file>', 'The file containing the movie update')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie update 1 goldmember.json
+`)
+  .action(update);
+
+movieCommand
+  .command('delete')
+  .description('Delete a movie in EMDB')
+  .argument('<id>', 'The id of the movie to delete')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie delete 1
+`)  
+  .action(deleteById);  
+
 async function create(fileName: string) {
   try {
     const movieService = new MovieService();
@@ -103,4 +124,34 @@ async function findById(id: number) {
   } catch (error) {
     console.error(`Error finding movie: ${error}`);
   }  
+}
+
+async function update(id: number, fileName: string) {
+  try {
+    const movieService = new MovieService();
+    const file = await fs.readFile(fileName, 'utf-8');
+    const start = performance.now();
+    const movie = await movieService.update(id, JSON.parse(file));
+       const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Updated: ${movie.title} in: ${et} ms.`);
+    console.log(movie);
+  } catch (error) {
+    console.error(`Error updating movie: ${error}`);
+  }
+}
+
+async function deleteById(id: number) {
+  try {
+    const movieService = new MovieService();
+    const start = performance.now();
+    await movieService.deleteById(id);
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Deleted: ${id} in: ${et} ms.`);
+  } catch (error) {
+    console.error(`Error deleting movie: ${error}`);
+  }    
 }

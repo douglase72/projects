@@ -3,6 +3,7 @@ import axios, { type AxiosInstance } from 'axios';
 import { IngestRequest } from '../model/IngestRequest.js';
 import { Movie } from '../model/Movie.js';
 import { MovieCreateRequest } from '../model/MovieCreateRequest.js';
+import { MovieUpdateRequest } from '../model/MovieUpdateRequest.js';
 
 export class MovieService {
   private static readonly LANG_MAPPER = new Intl.DisplayNames(['en'], { type: 'language' });
@@ -40,5 +41,17 @@ export class MovieService {
     }
     return movie;    
   }
+
+  async update(id: number, request: MovieUpdateRequest): Promise<Movie> {
+    const { data: movie } = await this.client.patch<Movie>(`/movies/${id}`, request);
+    if (movie.originalLanguage) {
+      movie.originalLanguage = MovieService.LANG_MAPPER.of(movie.originalLanguage) ?? null;
+    }    
+    return movie;
+  }
+
+  async deleteById(id: number) {
+    await this.client.delete<Movie>(`/movies/${id}`);
+  }  
   
 }
