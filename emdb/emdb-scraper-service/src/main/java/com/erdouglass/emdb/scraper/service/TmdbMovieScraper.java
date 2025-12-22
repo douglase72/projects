@@ -36,6 +36,12 @@ import io.opentelemetry.context.Context;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
+/// Orchestrator for scraping Movie data from The Movie Database (TMDB).
+///
+/// This service consumes ingestion requests, fetches raw data from external APIs,
+/// validates the structure, and aggregates the results into a unified {@link MovieCreateMessage}.
+/// It handles the complexity of "fan-out" requests where a single movie requires
+/// subsequent calls to fetch detailed profiles for every cast and crew member.
 @ApplicationScoped
 public class TmdbMovieScraper extends TmdbScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
@@ -57,6 +63,24 @@ public class TmdbMovieScraper extends TmdbScraper {
   @Inject
   TmdbMovieCreditMapper mapper;
   
+  /// Ingest the TMDB movie identified in the given message.
+  ///
+  /// This method executes the following workflow:
+  /// 1.  **Validation**: Verifies the incoming message structure.
+  /// 2.  **Job Tracking**: Emits a `STARTED` status to the job log.
+  /// 3.  **Movie Fetch**: Retrieves the core movie details and credit IDs from TMDB.
+  /// 4.  **Credit Expansion**: Iterates through cast and crew to fetch detailed person profiles.
+  ///     (This step is rate-limited to prevent API throttling).
+  /// 5.  **Completion**: Compiles all data into a {@link MovieCreateMessage} and publishes
+  ///     it to the `movie-create-out` channel.
+  /// 
+  /// **Note**
+  /// This method takes one message at a time from the movie-ingest queue and scrapes 
+  /// TMDB for the relevant data including movie details, movie credits, and movie cast
+  /// and crew. This can be a long running task that gets off loaded to a platform thread
+  /// so that the event I/O thread does not get blocked.
+  ///
+  /// @param message The {@link IngestMessage} containing the TMDB ID to be scraped.
   @Override
   @Blocking
   @Incoming("movie-ingest-in")
@@ -91,6 +115,13 @@ public class TmdbMovieScraper extends TmdbScraper {
     }
   }
   
+  /// Extracts and filters credits from the raw movie DTO.
+  ///
+  /// The list is truncated based on the configured {@code castLimit} and {@code crewLimit}
+  /// to keep message sizes manageable.
+  ///
+  /// @param movie the raw TMDB movie data containing embedded credits.
+  /// @return a combined list of Cast and Crew creation messages.
   private List<MovieCreditCreateMessage> findCredits(TmdbMovieDto movie) {
     var cast = movie.credits().cast().stream()
         .limit(castLimit)
@@ -103,6 +134,11 @@ public class TmdbMovieScraper extends TmdbScraper {
     return credits;    
   }
   
+  /// Fetches core movie details from the TMDB API.
+  ///
+  /// @param tmdbId the external TMDB ID.
+  /// @param jobId  the current job correlation ID for progress updates.
+  /// @return the validated {@link TmdbMovieDto}.
   private TmdbMovieDto findMovie(int tmdbId, UUID jobId) {
     var tmdbMovie = client.findById(tmdbId, CREDITS);
     var violations = validator.validate(tmdbMovie);
@@ -115,6 +151,15 @@ public class TmdbMovieScraper extends TmdbScraper {
     return tmdbMovie;
   }
   
+  /// Fetches detailed person information for every unique credit.
+  ///
+  /// This method utilizes a {@link RateLimiter} to strictly control the flow of
+  /// outgoing requests to the Person API, preventing 429 Too Many Requests errors.
+  ///
+  /// @param credits the list of credits associated with the movie.
+  /// @param tmdbId  the movie ID (for logging).
+  /// @param jobId   the current job correlation ID.
+  /// @return a list of unique, detailed {@link PersonCreateMessage}s.
   private List<PersonCreateMessage> findPeople(List<MovieCreditCreateMessage> credits, int tmdbId, UUID jobId) {
     var rateLimiter = RateLimiter.create(rateLimit); 
     var people = credits.stream()
@@ -131,6 +176,7 @@ public class TmdbMovieScraper extends TmdbScraper {
     return people;
   }
   
+/// Helper to fetch a single person by ID.
   private TmdbPersonDto findPerson(int tmdbId) {
     var tmdbPerson = personClient.findById(tmdbId);
     var violations = validator.validate(tmdbPerson);
@@ -140,6 +186,12 @@ public class TmdbMovieScraper extends TmdbScraper {
     return tmdbPerson;
   }
   
+  /// Assembles and publishes the final {@link MovieCreateMessage}.
+  ///
+  /// @param movie   the core movie data.
+  /// @param credits the list of cast and crew credits.
+  /// @param people  the list of detailed person profiles.
+  /// @param jobId   the correlation ID.
   private void sendMessage(
       TmdbMovieDto movie, 
       List<MovieCreditCreateMessage> credits, 

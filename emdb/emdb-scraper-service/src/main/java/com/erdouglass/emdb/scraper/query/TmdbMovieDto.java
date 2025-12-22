@@ -18,7 +18,13 @@ import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
-public record TmdbMovieDto(    
+/// Data Transfer Object representing the response from TMDB's Movie Details endpoint.
+///
+/// This record maps the JSON response structure of {@code GET /movie/{movie_id}}, including
+/// nested {@code credits} when the {@code append_to_response=credits} query parameter is used.
+/// It utilizes Jakarta Validation annotations to ensure the integrity of external data
+/// before it enters the system.
+public record TmdbMovieDto(
     @NotNull @Positive Integer id,
     @NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate release_date,

@@ -20,10 +20,6 @@ public abstract class AbstractShowBuilder<T> {
   protected String tagline;
   protected Integer tmdbId;
 
-  protected AbstractShowBuilder() {
-
-  }
-
   public T backdrop(String backdrop) {
     this.backdrop = backdrop;
     return self();
@@ -70,4 +66,5 @@ public abstract class AbstractShowBuilder<T> {
   }
 
   protected abstract T self();
+  
 }

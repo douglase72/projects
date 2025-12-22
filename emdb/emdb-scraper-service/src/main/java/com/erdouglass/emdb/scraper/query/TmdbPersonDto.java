@@ -14,6 +14,11 @@ import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.validation.DateRange;
 
+/// Data Transfer Object representing the response from TMDB's Person Details endpoint.
+///
+/// This record maps the JSON response structure of {@code GET /person/{person_id}}.
+/// It serves as the source of truth for creating detailed 
+/// {@link com.erdouglass.emdb.media.entity.Person} entities.
 public record TmdbPersonDto(
     @NotNull @Positive Integer id,
     @NotEmpty @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,

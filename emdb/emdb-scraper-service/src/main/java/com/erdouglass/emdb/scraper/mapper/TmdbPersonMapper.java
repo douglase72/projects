@@ -16,11 +16,9 @@ public class TmdbPersonMapper {
         .birthDate(tmdbPerson.birthday())
         .deathDate(tmdbPerson.deathday())
         .gender(Gender.from(tmdbPerson.gender()))
-        .homepage(tmdbPerson.homepage())
         .birthPlace(tmdbPerson.place_of_birth())
         .profile(tmdbPerson.profile_path())
         .biography(tmdbPerson.biography())
-        .aliases(tmdbPerson.also_known_as())
         .build();
   }
   

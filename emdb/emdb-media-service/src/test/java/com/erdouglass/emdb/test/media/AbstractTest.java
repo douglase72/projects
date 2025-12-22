@@ -14,18 +14,20 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public abstract class AbstractTest {
   protected static final HttpClient HTTP_CLIENT;
   protected static final ObjectMapper OBJECT_MAPPER;
-  protected static final String MOVIES_URL;
   private static final String DB_PASSWORD;
   private static final String DB_USERNAME;
+  protected static final String MOVIES_URL;
+  protected static final String PEOPLE_URL;
     
   static {
     HTTP_CLIENT = HttpClient.newBuilder().build();
     OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new JavaTimeModule())
         .registerModule(new Jdk8Module());
-    MOVIES_URL = "http://localhost:60318/emdb-media/api/movies";
     DB_PASSWORD = ConfigProvider.getConfig().getValue("quarkus.datasource.password", String.class);
     DB_USERNAME = ConfigProvider.getConfig().getValue("quarkus.datasource.username", String.class);
+    MOVIES_URL = "http://localhost:60318/emdb-media/api/movies";
+    PEOPLE_URL = "http://localhost:60318/emdb-media/api/people"; 
   }
   
   @BeforeAll

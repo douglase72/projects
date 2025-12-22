@@ -8,11 +8,7 @@ public abstract class AbstractMovieBuilder<T> extends AbstractShowBuilder<T> {
   protected Integer revenue;
   protected Integer runtime;
   protected String title;
-  
-  protected AbstractMovieBuilder() {
-
-  }
-  
+    
   public T budget(Integer budget) {
     this.budget = budget;
     return self();

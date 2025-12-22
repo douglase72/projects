@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.message;
+package com.erdouglass.emdb.common.request;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,7 @@ import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.validation.DateRange;
 
-public record PersonCreateMessage(
+public record PersonCreateRequest(
     @NotNull @Positive Integer tmdbId,
     @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate birthDate,
@@ -30,8 +30,8 @@ public record PersonCreateMessage(
     
     private Builder() { }
     
-    public PersonCreateMessage build() {
-      return new PersonCreateMessage(
+    public PersonCreateRequest build() {
+      return new PersonCreateRequest(
             tmdbId,
             name, 
             birthDate, 
@@ -46,6 +46,6 @@ public record PersonCreateMessage(
     protected Builder self() {
       return this;
     }
-  } 
+  }  
 
 }
