@@ -6,6 +6,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 import { movieCommand } from './movie-commands.js';
+import { personCommand } from './person-commands.js';
 
 process.env.DOTENV_CONFIG_QUIET = 'true';
 const __filename = fileURLToPath(import.meta.url);
@@ -18,4 +19,5 @@ program
   .description('An EMDB command line interface')
   .version('1.0.0');
 program.addCommand(movieCommand);
+program.addCommand(personCommand);
 program.parse(process.argv);

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.controller;
+package com.erdouglass.emdb.gateway.controller;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -14,13 +14,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriBuilder;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.common.request.PersonCreateRequest;
 import com.erdouglass.emdb.common.request.PersonUpdateRequest;
-import com.erdouglass.emdb.media.mapper.PersonMapper;
-import com.erdouglass.emdb.media.service.PersonService;
+import com.erdouglass.emdb.gateway.client.PersonClient;
 
 @Path("/people")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,25 +28,18 @@ import com.erdouglass.emdb.media.service.PersonService;
 public class PersonResource {
   
   @Inject
-  PersonMapper mapper;
-  
-  @Inject
-  PersonService service;
-  
+  @RestClient
+  PersonClient client;
+
   @POST
   public Response create(@NotNull @Valid PersonCreateRequest request) {
-    var person = service.create(mapper.toPerson(request));
-    var location = UriBuilder.fromResource(MovieResource.class)
-        .path("/{id}")
-        .resolveTemplate("id", person.id())
-        .build();
-    return Response.created(location).entity(mapper.toPersonDto(person)).build();
+    return client.create(request);
   }
   
   @GET
   @Path("{id}")
   public PersonDto findById(@PathParam("id") @NotNull @Positive Long id) {
-    return mapper.toPersonDto(service.findById(id));
+    return client.findById(id);
   }
   
   @PATCH
@@ -54,15 +47,13 @@ public class PersonResource {
   public PersonDto update(
       @PathParam("id") @NotNull @Positive Long id, 
       @NotNull @Valid PersonUpdateRequest request) {
-    var movie = service.update(id, request);
-    return mapper.toPersonDto(movie);
+    return client.update(id, request);
   }
   
   @DELETE
   @Path("{id}")
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
-    service.delete(id);
-    return Response.noContent().build();
+    return client.delete(id);
   }
-
+  
 }

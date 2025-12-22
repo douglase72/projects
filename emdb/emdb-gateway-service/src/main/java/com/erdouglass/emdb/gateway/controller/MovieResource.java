@@ -27,6 +27,7 @@ import com.erdouglass.emdb.gateway.service.MovieService;
 
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
   
   @Inject
@@ -50,7 +51,6 @@ public class MovieResource {
   
   @POST
   @Path("/ingest")
-  @Consumes(MediaType.APPLICATION_JSON)
   public Response ingest(@NotNull @Valid IngestRequest request) {
     var jobId = service.ingest(request.tmdbId());
     return Response.status(Status.ACCEPTED).entity(jobId).build();

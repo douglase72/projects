@@ -7,7 +7,7 @@ import { MovieService } from './service/MovieService.js';
 export { movieCommand };
 
 const movieCommand = new Command('movie')
-  .description('Perform CRUD operations on movies');
+  .description('Perform CRUD operations on a movie');
 
 movieCommand
   .command('create')

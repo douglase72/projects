@@ -10,7 +10,7 @@ export class MovieService {
 
   private readonly client: AxiosInstance;
 
-    constructor() {
+  constructor() {
     this.client = axios.create({
       baseURL: process.env.BASE_URL,
     });
