@@ -20,8 +20,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.common.Gender;
+import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.query.PersonDto;
-import com.erdouglass.emdb.common.request.PersonCreateRequest;
 import com.erdouglass.emdb.common.request.PersonUpdateRequest;
 import com.erdouglass.emdb.test.media.AbstractTest;
 
@@ -35,7 +35,7 @@ class HarrisonFordCrudIT extends AbstractTest {
   @Test
   @Order(1)
   void testCreatePerson() throws IOException, InterruptedException {
-    var createRequest = PersonCreateRequest.builder()
+    var createRequest = PersonCreateDto.builder()
         .tmdbId(3)
         .name("Harrison Ford")
         .birthDate(LocalDate.parse("1942-07-13"))

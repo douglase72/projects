@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.query.PersonDto;
-import com.erdouglass.emdb.common.request.PersonCreateRequest;
 import com.erdouglass.emdb.common.request.PersonUpdateRequest;
 
 @RegisterRestClient()
@@ -23,7 +23,7 @@ import com.erdouglass.emdb.common.request.PersonUpdateRequest;
 public interface PersonClient {
 
   @POST
-  public Response create(PersonCreateRequest request);
+  public Response create(PersonCreateDto request);
   
   @GET
   @Path("{id}")

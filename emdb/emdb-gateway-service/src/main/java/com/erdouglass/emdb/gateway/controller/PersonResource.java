@@ -17,8 +17,8 @@ import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.query.PersonDto;
-import com.erdouglass.emdb.common.request.PersonCreateRequest;
 import com.erdouglass.emdb.common.request.PersonUpdateRequest;
 import com.erdouglass.emdb.gateway.client.PersonClient;
 
@@ -32,7 +32,7 @@ public class PersonResource {
   PersonClient client;
 
   @POST
-  public Response create(@NotNull @Valid PersonCreateRequest request) {
+  public Response create(@NotNull @Valid PersonCreateDto request) {
     return client.create(request);
   }
   

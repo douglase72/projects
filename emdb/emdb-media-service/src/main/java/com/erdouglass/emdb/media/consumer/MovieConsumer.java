@@ -21,7 +21,6 @@ import com.erdouglass.emdb.common.message.JobMessage;
 import com.erdouglass.emdb.common.message.JobMessage.JobSource;
 import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
-import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
@@ -34,9 +33,6 @@ public class MovieConsumer {
   @Inject
   @Channel("job-log-out")
   Emitter<JobMessage> jobEmitter;
-  
-  @Inject
-  MovieMapper mapper;
   
   @Inject
   MovieService service;
@@ -61,7 +57,7 @@ public class MovieConsumer {
       var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
       updateProgress(jobId, JobStatus.PROGRESS, msg, 72); 
       
-      var movie = service.create(mapper.toMovie(message));
+      var movie = service.create(message);
       msg = String.format("Created EMDB movie %d", movie.id());
       updateProgress(jobId, JobStatus.PROGRESS, msg, 99);  
       

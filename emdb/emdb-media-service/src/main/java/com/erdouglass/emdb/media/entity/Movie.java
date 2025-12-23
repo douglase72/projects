@@ -1,14 +1,18 @@
 package com.erdouglass.emdb.media.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PositiveOrZero;
 
+import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
@@ -33,6 +37,12 @@ public class Movie extends Show {
   /// Must be zero or positive.
   @PositiveOrZero
   private Integer budget;
+  
+  /// The credits collection in a movie is a bidirectional association 
+  /// specified by the mappedBy field which maps the {@link Movie#id} 
+  /// primary key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _MovieCredit.MOVIE)
+  private List<MovieCredit> credits = new ArrayList<>();
 
   /// The theatrical release date of the movie.
   @Column(name = "release_date")
@@ -63,6 +73,22 @@ public class Movie extends Show {
 
   public Optional<Integer> budget() {
     return Optional.ofNullable(budget);
+  }
+  
+  public List<MovieCredit> cast() {
+    return credits.stream().filter(c -> c.type() == CreditType.CAST).toList();
+  }
+  
+  public void credits(List<MovieCredit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<MovieCredit> credits() {
+    return List.copyOf(credits);
+  }
+  
+  public List<MovieCredit> crew() {
+    return credits.stream().filter(c -> c.type() == CreditType.CREW).toList();
   }
 
   public void releaseDate(LocalDate releaseDate) {

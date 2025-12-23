@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.service;
 
+import java.util.List;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -9,8 +11,14 @@ import jakarta.validation.constraints.Positive;
 
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.message.MovieCreateMessage;
 import com.erdouglass.emdb.common.request.MovieUpdateRequest;
 import com.erdouglass.emdb.media.entity.Movie;
+import com.erdouglass.emdb.media.entity.MovieCredit;
+import com.erdouglass.emdb.media.entity.Movie_;
+import com.erdouglass.emdb.media.mapper.MovieMapper;
+import com.erdouglass.emdb.media.mapper.PersonMapper;
+import com.erdouglass.emdb.media.query.MovieCreditStatus;
 import com.erdouglass.emdb.media.repository.MovieRepository;
 import com.erdouglass.webservices.ResourceNotFoundException;
 
@@ -24,32 +32,41 @@ public class MovieService {
   private static final Logger LOGGER = Logger.getLogger(MovieService.class);
   
   @Inject
+  MovieCreditService creditService;
+  
+  @Inject
+  MovieMapper movieMapper;
+  
+  @Inject
+  PersonMapper personMapper;
+  
+  @Inject
+  PersonService personService;
+  
+  @Inject
   MovieRepository repository;
   
-  /// Persists a new {@link Movie} to the database.
-  ///
-  /// This method operates within a transaction. It delegates the insertion to the
-  /// repository and logs the creation event.
-  ///
-  /// @param movie the {@link Movie} entity to create. Must not be {@code null}
-  ///        and must be valid.
-  /// @return the persisted movie instance with its generated ID.
   @Transactional
-  public Movie create(@NotNull @Valid Movie movie) {
-    var newMovie = repository.insert(movie);
-    LOGGER.infof("Created: %s", newMovie);   
-    return newMovie;
+  public Movie create(MovieCreateMessage message) {
+    var movie = repository.insert(movieMapper.toMovie(message));
+    if (!message.credits().isEmpty()) {
+      var credits = creditService.synchronizeAll(movie.id(), message.credits());
+      movie.credits(credits.stream().map(MovieCreditStatus::credit).toList());
+    }
+    LOGGER.infof("Created: %s", movie);
+    return movie;
   }
   
-  /// Retrieves a specific {@link Movie} by its unique identifier.
-  ///
-  /// @param id the unique identifier of the movie. Must be a positive number.
-  /// @return the found {@link Movie} entity.
-  /// @throws ResourceNotFoundException if no movie exists with the provided {@code id}.
   @Transactional
-  public Movie findById(@NotNull @Positive Long id) {
+  public Movie findById(@NotNull @Positive Long id, String append) {
     var movie = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    movie.credits(List.of());
+    if (append != null) {
+      if (append.contains(Movie_.CREDITS)) {
+        movie.credits(creditService.findAll(id));
+      }
+    }
     LOGGER.infof("Found: %s", movie);
     return movie;
   }
@@ -82,6 +99,7 @@ public class MovieService {
     request.tagline().ifPresent(movie::tagline);
     request.overview().ifPresent(movie::overview);
     var updatedMovie = repository.update(movie);
+    updatedMovie.credits(List.of());
     LOGGER.infof("Updated: %s", updatedMovie);
     return updatedMovie;
   }
@@ -97,6 +115,8 @@ public class MovieService {
   public void delete(@NotNull @Positive Long id) {
     var movie = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    movie.credits(creditService.findAll(id));
+    creditService.deleteByIdIn(movie.credits().stream().map(MovieCredit::id).toList());
     repository.deleteById(id);
     LOGGER.infof("Deleted: %s", movie);
   }

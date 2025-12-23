@@ -17,6 +17,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.AbstractMovieBuilder;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.MovieCreditCreateDto;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
@@ -38,8 +39,7 @@ public record MovieCreateMessage(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
     @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @NotNull List<@Valid MovieCreditCreateMessage> credits,
-    @NotNull List<@Valid PersonCreateMessage> people) {
+    @NotNull List<@Valid MovieCreditCreateDto> credits) {
   
   public static Builder builder() {
     return new Builder();
@@ -54,9 +54,8 @@ public record MovieCreateMessage(
   } 
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
-    private List<MovieCreditCreateMessage> credits = new ArrayList<>();
+    private List<MovieCreditCreateDto> credits = new ArrayList<>();
     private UUID id;
-    private List<PersonCreateMessage> people = new ArrayList<>();  
     
     private Builder() { }
 
@@ -78,22 +77,16 @@ public record MovieCreateMessage(
           poster,
           tagline,
           overview,
-          credits,
-          people);
+          credits);
     }
     
-    public Builder credits(List<MovieCreditCreateMessage> credits) {
+    public Builder credits(List<MovieCreditCreateDto> credits) {
       this.credits = new ArrayList<>(credits);
       return this;
     }
     
     public Builder id(UUID id) {
       this.id = id;
-      return this;
-    }
-    
-    public Builder people(List<PersonCreateMessage> people) {
-      this.people = new ArrayList<>(people);
       return this;
     }
 

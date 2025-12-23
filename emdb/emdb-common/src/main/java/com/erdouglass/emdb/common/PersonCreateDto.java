@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.request;
+package com.erdouglass.emdb.common;
 
 import java.time.LocalDate;
 
@@ -7,12 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.AbstractPersonBuilder;
-import com.erdouglass.emdb.common.Gender;
-import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.validation.DateRange;
 
-public record PersonCreateRequest(
+public record PersonCreateDto(
     @NotNull @Positive Integer tmdbId,
     @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate birthDate,
@@ -30,8 +27,8 @@ public record PersonCreateRequest(
     
     private Builder() { }
     
-    public PersonCreateRequest build() {
-      return new PersonCreateRequest(
+    public PersonCreateDto build() {
+      return new PersonCreateDto(
             tmdbId,
             name, 
             birthDate, 

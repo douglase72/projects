@@ -3,14 +3,14 @@ package com.erdouglass.emdb.scraper.mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import com.erdouglass.emdb.common.Gender;
-import com.erdouglass.emdb.common.message.PersonCreateMessage;
+import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.scraper.query.TmdbPersonDto;
 
 @ApplicationScoped
 public class TmdbPersonMapper {
 
-  public PersonCreateMessage toPersonCreateCommand(TmdbPersonDto tmdbPerson) {
-    return PersonCreateMessage.builder()
+  public PersonCreateDto toPersonCreateDto(TmdbPersonDto tmdbPerson) {
+    return PersonCreateDto.builder()
         .tmdbId(tmdbPerson.id())
         .name(tmdbPerson.name())
         .birthDate(tmdbPerson.birthday())

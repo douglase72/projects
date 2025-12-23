@@ -1,19 +1,16 @@
-package com.erdouglass.emdb.common.message;
+package com.erdouglass.emdb.common;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.CreditType;
-import com.erdouglass.emdb.common.ShowConstants;
-
-public record MovieCreditCreateMessage(
+public record MovieCreditCreateDto(
     @NotBlank String tmdbId,
-    @NotNull CreditType creditType,
-    @NotNull @Positive Integer id,
-    @Size(max = ShowConstants.ROLE_MAX_LENGTH) String role,    
+    @NotNull CreditType type,
+    @Size(max = ShowConstants.ROLE_MAX_LENGTH) String role,
+    @NotNull @Valid PersonCreateDto person,
     @PositiveOrZero Integer order) {
   
   public static Builder builder() {
@@ -21,20 +18,20 @@ public record MovieCreditCreateMessage(
   }
   
   public static final class Builder {
-    private CreditType creditType;
     private Integer order;
-    private Integer id;
+    private PersonCreateDto person;
     private String role;
     private String tmdbId;
+    private CreditType type;
     
     private Builder() { }
     
-    public MovieCreditCreateMessage build() {
-      return new MovieCreditCreateMessage(tmdbId, creditType, id, role, order);
+    public MovieCreditCreateDto build() {
+      return new MovieCreditCreateDto(tmdbId, type, role, person, order);
     }
     
-    public Builder creditType(CreditType creditType) {
-      this.creditType = creditType;
+    public Builder type(CreditType type) {
+      this.type = type;
       return this;
     }
     
@@ -43,8 +40,8 @@ public record MovieCreditCreateMessage(
       return this;
     }    
     
-    public Builder personId(Integer tmdbId) {
-      this.id = tmdbId;
+    public Builder person(PersonCreateDto person) {
+      this.person = person;
       return this;
     }
     

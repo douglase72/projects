@@ -1,7 +1,10 @@
 package com.erdouglass.emdb.common.request;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +15,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.AbstractMovieBuilder;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.MovieCreditCreateDto;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
@@ -30,7 +34,8 @@ public record MovieCreateRequest(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @NotNull List<@Valid MovieCreditCreateDto> credits) {
   
   public static Builder builder() {
     return new Builder();
@@ -45,6 +50,7 @@ public record MovieCreateRequest(
   } 
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private List<MovieCreditCreateDto> credits = new ArrayList<>();
     
     private Builder() { }
 
@@ -63,7 +69,13 @@ public record MovieCreateRequest(
           backdrop,
           poster,
           tagline,
-          overview);
+          overview,
+          credits);
+    }
+    
+    public Builder credits(List<MovieCreditCreateDto> credits) {
+      this.credits = new ArrayList<>(credits);
+      return this;
     }
 
     @Override

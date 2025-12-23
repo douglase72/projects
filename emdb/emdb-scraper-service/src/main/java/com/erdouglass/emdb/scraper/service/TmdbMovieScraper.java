@@ -19,13 +19,13 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.MovieCreditCreateDto;
+import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.message.IngestMessage;
 import com.erdouglass.emdb.common.message.JobMessage;
 import com.erdouglass.emdb.common.message.JobMessage.JobSource;
 import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
-import com.erdouglass.emdb.common.message.MovieCreditCreateMessage;
-import com.erdouglass.emdb.common.message.PersonCreateMessage;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
@@ -122,7 +122,7 @@ public class TmdbMovieScraper extends TmdbScraper {
   ///
   /// @param movie the raw TMDB movie data containing embedded credits.
   /// @return a combined list of Cast and Crew creation messages.
-  private List<MovieCreditCreateMessage> findCredits(TmdbMovieDto movie) {
+  private List<MovieCreditCreateDto> findCredits(TmdbMovieDto movie) {
     var cast = movie.credits().cast().stream()
         .limit(castLimit)
         .map(mapper::toCastCredit);
@@ -160,14 +160,14 @@ public class TmdbMovieScraper extends TmdbScraper {
   /// @param tmdbId  the movie ID (for logging).
   /// @param jobId   the current job correlation ID.
   /// @return a list of unique, detailed {@link PersonCreateMessage}s.
-  private List<PersonCreateMessage> findPeople(List<MovieCreditCreateMessage> credits, int tmdbId, UUID jobId) {
+  private List<PersonCreateDto> findPeople(List<MovieCreditCreateDto> credits, int tmdbId, UUID jobId) {
     var rateLimiter = RateLimiter.create(rateLimit); 
     var people = credits.stream()
-        .map(MovieCreditCreateMessage::id)
+        .map(MovieCreditCreateDto::id)
         .distinct()
         .map(id -> {
           rateLimiter.acquire(); 
-          return personMapper.toPersonCreateCommand(findPerson(id));
+          return personMapper.toPersonCreateDto(findPerson(id));
         })
         .toList();
     var msg = String.format("Fetched %d people for TMDB movie %d", people.size(), tmdbId);
@@ -194,8 +194,8 @@ public class TmdbMovieScraper extends TmdbScraper {
   /// @param jobId   the correlation ID.
   private void sendMessage(
       TmdbMovieDto movie, 
-      List<MovieCreditCreateMessage> credits, 
-      List<PersonCreateMessage> people,
+      List<MovieCreditCreateDto> credits, 
+      List<PersonCreateDto> people,
       UUID jobId) {
     var msg = String.format("TMDB movie %d queued for persistence", movie.id());
     updateProgress(jobId, JobStatus.PROGRESS, msg, 71);

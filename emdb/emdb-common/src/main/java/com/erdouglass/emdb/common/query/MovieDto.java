@@ -1,13 +1,10 @@
 package com.erdouglass.emdb.common.query;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.erdouglass.emdb.common.AbstractMovieBuilder;
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.ShowConstants;
-import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.validation.DateRange;
-
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +12,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+
+import com.erdouglass.emdb.common.AbstractMovieBuilder;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
+import com.erdouglass.validation.DateRange;
 
 /// Represents the public-facing Data Transfer Object (DTO) for a Movie.
 ///
@@ -60,7 +63,12 @@ public record MovieDto(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {   
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits) {  
+  
+  public record Credits(List<@Valid MovieCreditDto> cast, List<@Valid MovieCreditDto> crew) {
+    
+  }
     
   public static Builder builder() {
     return new Builder();
@@ -76,11 +84,17 @@ public record MovieDto(
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private List<MovieCreditDto> cast = new ArrayList<>();
+    private List<MovieCreditDto> crew = new ArrayList<>();
     private Long id;
 
     private Builder() { }
 
     public MovieDto build() {
+      Credits credits = null;
+      if (!cast.isEmpty() || !crew.isEmpty()) {
+        credits = new Credits(cast.stream().toList(), crew.stream().toList());
+      }
       return new MovieDto(
             id,
             tmdbId,
@@ -96,8 +110,19 @@ public record MovieDto(
             backdrop,
             poster,
             tagline,
-            overview);
+            overview,
+            credits);
     }
+    
+    public Builder cast(List<MovieCreditDto> cast) {
+      this.cast = new ArrayList<>(cast);
+      return this;
+    }
+    
+    public Builder crew(List<MovieCreditDto> crew) {
+      this.crew = new ArrayList<>(crew);
+      return this;
+    }    
 
     public Builder id(Long id) {
       this.id = id;

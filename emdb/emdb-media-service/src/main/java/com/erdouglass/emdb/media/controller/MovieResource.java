@@ -12,6 +12,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
@@ -31,6 +32,10 @@ import com.erdouglass.emdb.media.service.MovieService;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
+  public static final String APPEND = "append";
+  
+  @Inject
+  MovieCreditResource creditResource;
   
   @Inject
   MovieMapper mapper;
@@ -48,7 +53,7 @@ public class MovieResource {
   /// @return a {@link Response} containing the created {@link MovieDto} and location header.
   @POST
   public Response create(@NotNull @Valid MovieCreateRequest request) {
-    var movie = service.create(mapper.toMovie(request));
+    var movie = service.create(mapper.toMovieCreateMessage(request));
     var location = UriBuilder
         .fromResource(MovieResource.class)
         .path("/{id}")
@@ -57,14 +62,12 @@ public class MovieResource {
     return Response.created(location).entity(mapper.toMovieDto(movie)).build();
   }
   
-  /// Handles HTTP GET requests to retrieve a single movie by ID.
-  ///
-  /// @param id the ID of the movie to retrieve.
-  /// @return the {@link MovieDto} representing the requested movie.
   @GET
   @Path("{id}")
-  public MovieDto findById(@PathParam("id") @NotNull @Positive Long id) {
-    return mapper.toMovieDto(service.findById(id));
+  public MovieDto findById(
+      @PathParam("id") @NotNull @Positive Long id,
+      @QueryParam(APPEND) String append) {
+    return mapper.toMovieDto(service.findById(id, append));
   }
   
   /// Handles HTTP PATCH requests to partially update a movie.
@@ -96,5 +99,10 @@ public class MovieResource {
     service.delete(id);
     return Response.noContent().build();
   }
+  
+  @Path("/{id}/credits")
+  public MovieCreditResource credits() {
+    return creditResource;
+  } 
 
 }
