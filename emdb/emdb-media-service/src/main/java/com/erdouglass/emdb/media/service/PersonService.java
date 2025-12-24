@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,7 @@ public class PersonService {
   
   @Transactional
   public List<PersonStatus> createAll(@NotEmpty List<@Valid Person> people) {
-    var results = insert(people);
+    var results = insert(Set.copyOf(people));
     LOGGER.infof("Created: %d people", results.stream()
             .filter(r -> r.statusCode() == StatusCode.CREATED)
             .count());
@@ -88,9 +89,9 @@ public class PersonService {
     LOGGER.infof("Deleted: %s", movie);
   }
   
-  private List<PersonStatus> insert(List<Person> people) {
+  private List<PersonStatus> insert(Set<Person> people) {
     var results = new ArrayList<PersonStatus>();
-    var peopleToInsert = new ArrayList<Person>();
+    List<Person> peopleToInsert = new ArrayList<>();
     var tmdbIds = people.stream().map(Person::tmdbId).toList();
     var existingPeople = repository.findByTmdbIdIn(tmdbIds).stream()
         .collect(Collectors.toMap(Person::tmdbId, Function.identity())); 

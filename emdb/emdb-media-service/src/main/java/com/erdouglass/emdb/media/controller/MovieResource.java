@@ -17,6 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.common.request.MovieCreateRequest;
 import com.erdouglass.emdb.common.request.MovieUpdateRequest;
@@ -32,7 +33,6 @@ import com.erdouglass.emdb.media.service.MovieService;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
-  public static final String APPEND = "append";
   
   @Inject
   MovieCreditResource creditResource;
@@ -63,10 +63,10 @@ public class MovieResource {
   }
   
   @GET
-  @Path("{id}")
+  @Path("/{id}")
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id,
-      @QueryParam(APPEND) String append) {
+      @QueryParam(Configuration.APPEND) String append) {
     return mapper.toMovieDto(service.findById(id, append));
   }
   
@@ -79,7 +79,7 @@ public class MovieResource {
   /// @param request the payload containing fields to update.
   /// @return the updated {@link MovieDto}.
   @PATCH
-  @Path("{id}")
+  @Path("/{id}")
   public MovieDto update(
       @PathParam("id") @NotNull @Positive Long id, 
       @NotNull @Valid MovieUpdateRequest request) {
@@ -94,7 +94,7 @@ public class MovieResource {
   /// @param id the ID of the movie to delete.
   /// @return a {@link Response} indicating successful deletion.
   @DELETE
-  @Path("{id}")
+  @Path("/{id}")
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     service.delete(id);
     return Response.noContent().build();

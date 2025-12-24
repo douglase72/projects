@@ -19,7 +19,7 @@ export class PersonService {
   }
   
   async findById(id: number): Promise<Person> {
-    const { data: person } = await this.client.get<Person>(`/people/${id}`);
+    const { data: person } = await this.client.get<Person>(`/people/${id}?append=credits`);
     return person;    
   }
 

@@ -35,7 +35,7 @@ export class MovieService {
   }
 
   async findById(id: number): Promise<Movie> {
-    const { data: movie } = await this.client.get<Movie>(`/movies/${id}`);
+    const { data: movie } = await this.client.get<Movie>(`/movies/${id}?append=credits`);
     if (movie.originalLanguage) {
       movie.originalLanguage = MovieService.LANG_MAPPER.of(movie.originalLanguage) ?? null;
     }

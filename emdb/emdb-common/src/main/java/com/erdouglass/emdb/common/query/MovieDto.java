@@ -3,6 +3,7 @@ package com.erdouglass.emdb.common.query;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -72,6 +73,14 @@ public record MovieDto(
     
   public static Builder builder() {
     return new Builder();
+  }
+  
+  public List<MovieCreditDto> cast() {
+    return Optional.ofNullable(credits).map(c -> c.cast().stream().toList()).orElse(List.of());
+  }
+  
+  public List<MovieCreditDto> crew() {
+    return Optional.ofNullable(credits).map(c -> c.crew().stream().toList()).orElse(List.of());
   }
   
   @Override

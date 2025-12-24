@@ -55,7 +55,10 @@ class MovieIngestIT {
     assertEquals("Austin Powers in Goldmember", createMessage.title());
     assertEquals("2002-07-26", createMessage.releaseDate().toString());
     assertEquals(3, createMessage.credits().size());
-    assertEquals(3, createMessage.people().size());
+    var cast = createMessage.cast();
+    assertEquals("Austin Powers / Dr. Evil / Goldmember / Fat Bastard", cast.get(0).role());
+    assertEquals("Foxxy Cleopatra", cast.get(1).role());
+    assertEquals("Scott Evil", cast.get(2).role());
   }
 
 }

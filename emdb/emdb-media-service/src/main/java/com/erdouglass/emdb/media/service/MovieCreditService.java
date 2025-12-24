@@ -79,7 +79,7 @@ public class MovieCreditService {
     
     if (!creditsToInsert.isEmpty()) {
       var insertedCredits = creditRepository.insertAll(creditsToInsert);
-      LOGGER.infof("Inserted: %d movie credits", insertedCredits.size());
+      LOGGER.infof("Created: %d movie credits", insertedCredits.size());
     }
     
     if (!creditsToUpdate.isEmpty()) {

@@ -8,11 +8,13 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.common.request.MovieCreateRequest;
 import com.erdouglass.emdb.common.request.MovieUpdateRequest;
@@ -27,7 +29,7 @@ public interface MovieClient {
   
   @GET
   @Path("{id}")
-  public MovieDto findById(@PathParam("id") Long id);
+  public MovieDto findById(@PathParam("id") Long id, @QueryParam(Configuration.APPEND) String append);
   
   @PATCH
   @Path("{id}")

@@ -12,11 +12,13 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.common.request.PersonUpdateRequest;
@@ -37,13 +39,15 @@ public class PersonResource {
   }
   
   @GET
-  @Path("{id}")
-  public PersonDto findById(@PathParam("id") @NotNull @Positive Long id) {
-    return client.findById(id);
+  @Path("/{id}")
+  public PersonDto findById(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @QueryParam(Configuration.APPEND) String append) {
+    return client.findById(id, append);
   }
   
   @PATCH
-  @Path("{id}")
+  @Path("/{id}")
   public PersonDto update(
       @PathParam("id") @NotNull @Positive Long id, 
       @NotNull @Valid PersonUpdateRequest request) {
@@ -51,7 +55,7 @@ public class PersonResource {
   }
   
   @DELETE
-  @Path("{id}")
+  @Path("/{id}")
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     return client.delete(id);
   }

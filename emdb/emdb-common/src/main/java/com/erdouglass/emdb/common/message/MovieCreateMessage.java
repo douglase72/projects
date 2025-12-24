@@ -17,6 +17,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.AbstractMovieBuilder;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.MovieCreditCreateDto;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
@@ -43,6 +44,14 @@ public record MovieCreateMessage(
   
   public static Builder builder() {
     return new Builder();
+  }
+  
+  public List<MovieCreditCreateDto> cast() {
+    return credits.stream().filter(c -> c.type() == CreditType.CAST).toList();
+  }
+  
+  public List<MovieCreditCreateDto> crew() {
+    return credits.stream().filter(c -> c.type() == CreditType.CREW).toList();
   }
   
   @Override

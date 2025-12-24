@@ -120,7 +120,7 @@ async function findById(id: number) {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
     console.log(`Found: ${movie.title} in: ${et} ms.`);
-    console.log(movie);
+    console.dir(movie, { depth: null, colors: true }); 
   } catch (error) {
     console.error(`Error finding movie: ${error}`);
   }  

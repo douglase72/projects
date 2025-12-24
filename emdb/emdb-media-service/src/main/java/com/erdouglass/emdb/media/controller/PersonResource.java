@@ -20,6 +20,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.common.query.ResponseDto;
@@ -33,7 +34,6 @@ import com.erdouglass.webservices.ResponseStatus;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonResource {
-  public static final String APPEND = "append";
   
   @Inject
   PersonMapper mapper;
@@ -65,7 +65,7 @@ public class PersonResource {
   @Path("/{id}")
   public PersonDto findById(
       @PathParam("id") @NotNull @Positive Long id,
-      @QueryParam(APPEND) String append) {
+      @QueryParam(Configuration.APPEND) String append) {
     return mapper.toPersonDto(service.findById(id, append));
   }
   

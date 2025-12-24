@@ -3,7 +3,10 @@ package com.erdouglass.emdb.scraper.service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,6 +22,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.MovieCreditCreateDto;
 import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.message.IngestMessage;
@@ -27,8 +31,10 @@ import com.erdouglass.emdb.common.message.JobMessage.JobSource;
 import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
-import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
+import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
+import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CastCredit;
+import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CrewCredit;
 import com.erdouglass.emdb.scraper.query.TmdbPersonDto;
 import com.google.common.util.concurrent.RateLimiter;
 
@@ -61,7 +67,7 @@ public class TmdbMovieScraper extends TmdbScraper {
   Emitter<JobMessage> jobEmitter;
   
   @Inject
-  TmdbMovieCreditMapper mapper;
+  TmdbPersonMapper mapper;
   
   /// Ingest the TMDB movie identified in the given message.
   ///
@@ -100,10 +106,10 @@ public class TmdbMovieScraper extends TmdbScraper {
       updateProgress(jobId, JobStatus.STARTED, msg, 1);
       
       // Send the message to create the movie to the media service.
-      var tmdbMovie = findMovie(tmdbId, jobId);
-      var credits = findCredits(tmdbMovie);
-      var people = findPeople(credits, tmdbId, jobId);
-      sendMessage(tmdbMovie, credits, people, jobId);
+      var movie = findMovie(tmdbId, jobId);
+      var people = findPeople(movie, jobId);
+      var credits = createCredits(movie, people);
+      sendMessage(movie, credits, jobId);
     } catch (ConstraintViolationException e) {
       var msg = String.format("Failed to validate message %s", message);
       updateProgress(jobId, JobStatus.FAILED, msg, 0);
@@ -115,20 +121,24 @@ public class TmdbMovieScraper extends TmdbScraper {
     }
   }
   
-  /// Extracts and filters credits from the raw movie DTO.
-  ///
-  /// The list is truncated based on the configured {@code castLimit} and {@code crewLimit}
-  /// to keep message sizes manageable.
-  ///
-  /// @param movie the raw TMDB movie data containing embedded credits.
-  /// @return a combined list of Cast and Crew creation messages.
-  private List<MovieCreditCreateDto> findCredits(TmdbMovieDto movie) {
+  private List<MovieCreditCreateDto> createCredits(TmdbMovieDto movie, Map<Integer, PersonCreateDto> people) {
     var cast = movie.credits().cast().stream()
         .limit(castLimit)
-        .map(mapper::toCastCredit);
+        .map(c -> MovieCreditCreateDto.builder()
+            .tmdbId(c.credit_id())
+            .type(CreditType.CAST)
+            .role(c.character())
+            .person(people.get(c.id()))
+            .order(c.order())
+            .build());
     var crew = movie.credits().crew().stream()
         .limit(crewLimit)
-        .map(mapper::toCrewCredit);
+        .map(c -> MovieCreditCreateDto.builder()
+            .tmdbId(c.credit_id())
+            .type(CreditType.CREW)
+            .role(c.job())
+            .person(people.get(c.id()))
+            .build());
     var credits = Stream.concat(cast, crew).toList();
     LOGGER.info(String.format("Found %d credits in TMDB movie %d", credits.size(), movie.id()));
     return credits;    
@@ -151,32 +161,23 @@ public class TmdbMovieScraper extends TmdbScraper {
     return tmdbMovie;
   }
   
-  /// Fetches detailed person information for every unique credit.
-  ///
-  /// This method utilizes a {@link RateLimiter} to strictly control the flow of
-  /// outgoing requests to the Person API, preventing 429 Too Many Requests errors.
-  ///
-  /// @param credits the list of credits associated with the movie.
-  /// @param tmdbId  the movie ID (for logging).
-  /// @param jobId   the current job correlation ID.
-  /// @return a list of unique, detailed {@link PersonCreateMessage}s.
-  private List<PersonCreateDto> findPeople(List<MovieCreditCreateDto> credits, int tmdbId, UUID jobId) {
-    var rateLimiter = RateLimiter.create(rateLimit); 
-    var people = credits.stream()
-        .map(MovieCreditCreateDto::id)
+  private Map<Integer, PersonCreateDto> findPeople(TmdbMovieDto movie, UUID jobId) {
+    var rateLimiter = RateLimiter.create(rateLimit);
+    var people = Stream.concat(
+        movie.credits().cast().stream().limit(castLimit).map(CastCredit::id), 
+        movie.credits().crew().stream().limit(crewLimit).map(CrewCredit::id))
         .distinct()
         .map(id -> {
           rateLimiter.acquire(); 
           return personMapper.toPersonCreateDto(findPerson(id));
         })
-        .toList();
-    var msg = String.format("Fetched %d people for TMDB movie %d", people.size(), tmdbId);
+        .collect(Collectors.toMap(PersonCreateDto::tmdbId, Function.identity()));
+    var msg = String.format("Fetched %d people for TMDB movie %d", people.size(), movie.id());
     updateProgress(jobId, JobStatus.PROGRESS, msg, 70);
     LOGGER.info(msg);
     return people;
   }
   
-/// Helper to fetch a single person by ID.
   private TmdbPersonDto findPerson(int tmdbId) {
     var tmdbPerson = personClient.findById(tmdbId);
     var violations = validator.validate(tmdbPerson);
@@ -192,11 +193,7 @@ public class TmdbMovieScraper extends TmdbScraper {
   /// @param credits the list of cast and crew credits.
   /// @param people  the list of detailed person profiles.
   /// @param jobId   the correlation ID.
-  private void sendMessage(
-      TmdbMovieDto movie, 
-      List<MovieCreditCreateDto> credits, 
-      List<PersonCreateDto> people,
-      UUID jobId) {
+  private void sendMessage(TmdbMovieDto movie, List<MovieCreditCreateDto> credits, UUID jobId) {
     var msg = String.format("TMDB movie %d queued for persistence", movie.id());
     updateProgress(jobId, JobStatus.PROGRESS, msg, 71);
     var createMessage = MovieCreateMessage.builder()
@@ -216,7 +213,6 @@ public class TmdbMovieScraper extends TmdbScraper {
         .tagline(movie.tagline())
         .overview(movie.overview())
         .credits(credits)
-        .people(people)
         .build(); 
     createEmitter.send(Message.of(createMessage)
         .addMetadata(OutgoingRabbitMQMetadata.builder()

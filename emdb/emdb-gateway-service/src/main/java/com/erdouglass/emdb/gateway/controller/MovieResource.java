@@ -12,12 +12,14 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.common.request.IngestRequest;
 import com.erdouglass.emdb.common.request.MovieCreateRequest;
@@ -58,14 +60,16 @@ public class MovieResource {
   }
   
   @GET
-  @Path("{id}")
+  @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public MovieDto findById(@PathParam("id") @NotNull @Positive Long id) {
-    return client.findById(id);
+  public MovieDto findById(
+      @PathParam("id") @NotNull @Positive Long id,
+      @QueryParam(Configuration.APPEND) String append) {
+    return client.findById(id, append);
   }
   
   @PATCH
-  @Path("{id}")
+  @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public MovieDto update(
       @PathParam("id") @NotNull @Positive Long id, 
@@ -74,7 +78,7 @@ public class MovieResource {
   }
   
   @DELETE
-  @Path("{id}")
+  @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     return client.delete(id);
