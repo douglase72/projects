@@ -9,11 +9,14 @@
 
     /* Output */
     "outDir": "./dist", // Where to output compiled JavaScript
-    "rootDir": "./src", // Where your TypeScript source code is
 
     /* Strictness */
     "strict": true, // Enable all strict type-checking options
-    "skipLibCheck": true // Skip type checking of all declaration files (*.d.ts)
+    "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
+    
+    "paths": {
+      "@emdb/common": ["../emdb-common/src/index.ts"]
+    }
   },
   "include": ["src/**/*"] // Tells 'tsc' to only look in the 'src' folder
 }

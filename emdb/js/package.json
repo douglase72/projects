@@ -1,0 +1,9 @@
+{
+  "name": "emdb-monorepo",
+  "private": true,
+  "workspaces": [
+    "emdb-ui",
+    "emdb-cli",
+    "emdb-common"
+  ]
+}

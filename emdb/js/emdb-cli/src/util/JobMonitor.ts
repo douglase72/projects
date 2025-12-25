@@ -1,7 +1,7 @@
 import { EventSource } from 'eventsource';
 import { sprintf } from 'sprintf-js';
 
-import { Job, JobStatus } from '../model/Job.js';
+import { Job, JobStatus } from '@emdb/common';
 
 export function monitorJob(id: string): Promise<void> {
   return new Promise((resolve, reject) => {

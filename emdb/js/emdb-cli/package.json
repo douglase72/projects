@@ -2,30 +2,32 @@
   "name": "emdb-cli",
   "version": "1.0.0",
   "description": "An EMDB CLI",
+  "type": "module",
   "main": "dist/emdb-cli.js",
   "bin": {
     "emdb-cli": "dist/emdb-cli.js"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "build": "tsup",
+    "watch": "tsup --watch", 
     "start": "node dist/emdb-cli.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
-  "devDependencies": {
-    "@types/node": "^25.0.2",
-    "@types/sprintf-js": "^1.1.4",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
-  },
   "dependencies": {
+    "@emdb/common": "*",
     "axios": "^1.13.2",
     "commander": "^14.0.2",
     "dotenv": "^17.2.3",
     "eventsource": "^4.1.0",
     "sprintf-js": "^1.1.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.2",
+    "@types/sprintf-js": "^1.1.4",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   }
 }

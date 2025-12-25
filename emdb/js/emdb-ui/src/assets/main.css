@@ -1,0 +1,8 @@
+@import '@fontsource-variable/montserrat'; 
+
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+html {
+  font-family: 'Montserrat', sans-serif;
+}

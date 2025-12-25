@@ -1,9 +1,11 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import { IngestRequest } from '../model/IngestRequest.js';
-import { Movie } from '../model/Movie.js';
-import { MovieCreateRequest } from '../model/MovieCreateRequest.js';
-import { MovieUpdateRequest } from '../model/MovieUpdateRequest.js';
+import {
+  IngestRequest,
+  type Movie, 
+  MovieCreateRequest, 
+  MovieUpdateRequest, 
+} from '@emdb/common';
 
 export class MovieService {
   private static readonly LANG_MAPPER = new Intl.DisplayNames(['en'], { type: 'language' });

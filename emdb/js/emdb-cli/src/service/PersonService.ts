@@ -1,8 +1,10 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import { Person } from '../model/Person.js';
-import { PersonCreateRequest } from '../model/PersonCreateRequest.js';
-import { PersonUpdateRequest } from '../model/PersonUpdateRequest.js';
+import {
+  type Person, 
+  PersonCreateRequest, 
+  PersonUpdateRequest, 
+} from '@emdb/common';
 
 export class PersonService {
   private readonly client: AxiosInstance;
