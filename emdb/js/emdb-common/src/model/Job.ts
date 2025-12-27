@@ -5,7 +5,8 @@ export enum JobStatus {
   FETCHED = "Fetched",
   PROGRESS = "Progress",
   COMPLETED = "Completed",
-  FAILED = "Failed"
+  FAILED = "Failed",
+  HEARTBEAT = "Heartbeat",
 }
 
 export interface Job {

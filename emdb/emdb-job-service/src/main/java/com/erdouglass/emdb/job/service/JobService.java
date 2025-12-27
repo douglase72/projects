@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.job.service;
 
+import java.time.Duration;
 import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,6 +24,7 @@ import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 public class JobService {
   private static final Logger LOGGER = Logger.getLogger(JobService.class);
   private static final int BUFFER_SIZE = 256;
+  private static final int HEARTBEAT = 60;
   
   private final BroadcastProcessor<JobMessage> broadcaster = BroadcastProcessor.create();
   
@@ -49,8 +51,18 @@ public class JobService {
         .map(mapper::toJobMessage);
     var liveStream = Multi.createFrom().publisher(broadcaster)
         .onOverflow().buffer(BUFFER_SIZE);
+    var heartbeatStream = Multi.createFrom().ticks().every(Duration.ofSeconds(HEARTBEAT))
+        .map(_ -> JobMessage.builder()
+            .id(UUID.randomUUID())
+            .tmdbId(999999999)
+            .status(JobMessage.JobStatus.HEARTBEAT)
+            .source(JobMessage.JobSource.GATEWAY)
+            .content("Keep-Alive")
+            .progress(0)
+            .build());
+    var persistentStream = Multi.createBy().merging().streams(liveStream, heartbeatStream);
     return Multi.createBy().concatenating()
-        .streams(historyStream, liveStream); 
+        .streams(historyStream, persistentStream); 
   }
   
   public Multi<JobMessage> findById(UUID jobId) {

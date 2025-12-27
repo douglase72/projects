@@ -10,16 +10,18 @@ export function monitorJob(id: string): Promise<void> {
 
     eventSource.onmessage = (event: MessageEvent) => {
       const job: Job = JSON.parse(event.data);
-      const progress = `[${job.progress}%]`;
-      console.log(sprintf("%-7s %-10s %s", progress, job.status, job.content));
+      if (job.status !== JobStatus.HEARTBEAT) {
+        const progress = `[${job.progress}%]`;
+        console.log(sprintf("%-7s %-10s %s", progress, job.status, job.content));
 
-      // Close the connection.
-      if (job.status === JobStatus.COMPLETED) {
-        eventSource.close();
-        resolve();
-      } else if (job.status === JobStatus.FAILED) {
-        eventSource.close();
-        reject(new Error(`Job ${id} Failed`));
+        // Close the connection.
+        if (job.status === JobStatus.COMPLETED) {
+          eventSource.close();
+          resolve();
+        } else if (job.status === JobStatus.FAILED) {
+          eventSource.close();
+          reject(new Error(`Job ${id} Failed`));
+        }
       }
     }
 

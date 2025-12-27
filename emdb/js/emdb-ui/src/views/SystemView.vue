@@ -46,10 +46,7 @@
   const connected = ref(false);
   let eventSource: EventSource | null = null;
 
-  /**
-   * 1. Group by TMDB ID first (so they stick together)
-   * 2. Sort by Time descending (newest logs for that movie at the top)
-   */
+  // Sort by Time descending (newest logs at the top)
   const defaultSort = ref<DataTableSortMeta[]>([
     { field: 'timestamp', order: -1 } 
   ]);  
@@ -84,7 +81,9 @@
     eventSource.onmessage = (event) => {
       try {
         const job: Job = JSON.parse(event.data);
-        jobs.value.unshift(job);
+        if (job.status !== JobStatus.HEARTBEAT) {
+          jobs.value.unshift(job);
+        }
       } catch (e) {
         console.error("Failed to parse SSE message", e);
       }
@@ -92,8 +91,7 @@
 
     eventSource.onerror = (err) => {
       connected.value = false;
-      eventSource?.close();
-      console.error("SSE Error:", err);
+      console.warn("Connection lost, attempting to reconnect...", err);
     };
   });
 

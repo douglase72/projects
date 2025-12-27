@@ -45,7 +45,8 @@ public record JobMessage(
     STARTED("Started"),
     PROGRESS("Progress"),
     COMPLETED("Completed"),
-    FAILED("Failed");
+    FAILED("Failed"),
+    HEARTBEAT("Heartbeat");
     
     private final String status;
     
