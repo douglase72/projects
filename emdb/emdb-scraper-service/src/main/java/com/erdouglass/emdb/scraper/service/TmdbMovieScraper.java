@@ -102,8 +102,7 @@ public class TmdbMovieScraper extends TmdbScraper {
       if (!violations.isEmpty()) {
         throw new ConstraintViolationException(violations);
       }
-      var msg = String.format("Ingest started for TMDB movie %d", tmdbId);
-      updateProgress(jobId, JobStatus.STARTED, msg, 1);
+      updateProgress(jobId, tmdbId, JobStatus.STARTED, "TMDB movie ingest started", 1);
       
       // Send the message to create the movie to the media service.
       var movie = findMovie(tmdbId, jobId);
@@ -112,11 +111,11 @@ public class TmdbMovieScraper extends TmdbScraper {
       sendMessage(movie, credits, jobId);
     } catch (ConstraintViolationException e) {
       var msg = String.format("Failed to validate message %s", message);
-      updateProgress(jobId, JobStatus.FAILED, msg, 0);
+      updateProgress(jobId, tmdbId, JobStatus.FAILED, msg, 0);
       throw new RuntimeException(msg, e);
     } catch (Exception e) {
-      var msg = String.format("Failed to scrape TMDB movie %d", tmdbId);
-      updateProgress(jobId, JobStatus.FAILED, msg, 0);
+      var msg = "Failed to ingest movie from TMDB";
+      updateProgress(jobId, tmdbId, JobStatus.FAILED, msg, 0);
       throw new RuntimeException(msg, e);
     }
   }
@@ -155,8 +154,7 @@ public class TmdbMovieScraper extends TmdbScraper {
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }
-    var msg = String.format("Fetched TMDB movie %d details", tmdbId);
-    updateProgress(jobId, JobStatus.PROGRESS, msg, 30);
+    updateProgress(jobId, tmdbId, JobStatus.PROGRESS, "Fetched movie from TMDB", 30);
     LOGGER.infof("Fetched: %s", tmdbMovie);
     return tmdbMovie;
   }
@@ -172,8 +170,8 @@ public class TmdbMovieScraper extends TmdbScraper {
           return personMapper.toPersonCreateDto(findPerson(id));
         })
         .collect(Collectors.toMap(PersonCreateDto::tmdbId, Function.identity()));
-    var msg = String.format("Fetched %d people for TMDB movie %d", people.size(), movie.id());
-    updateProgress(jobId, JobStatus.PROGRESS, msg, 70);
+    var msg = String.format("Fetched %d people for TMDB movie", people.size());
+    updateProgress(jobId, movie.id(), JobStatus.PROGRESS, msg, 70);
     LOGGER.info(msg);
     return people;
   }
@@ -194,8 +192,7 @@ public class TmdbMovieScraper extends TmdbScraper {
   /// @param people  the list of detailed person profiles.
   /// @param jobId   the correlation ID.
   private void sendMessage(TmdbMovieDto movie, List<MovieCreditCreateDto> credits, UUID jobId) {
-    var msg = String.format("TMDB movie %d queued for persistence", movie.id());
-    updateProgress(jobId, JobStatus.PROGRESS, msg, 71);
+    updateProgress(jobId, movie.id(), JobStatus.PROGRESS, "TMDB movie queued for persistence", 71);
     var createMessage = MovieCreateMessage.builder()
         .id(jobId)
         .tmdbId(movie.id())
@@ -233,12 +230,13 @@ public class TmdbMovieScraper extends TmdbScraper {
   /// 2. Spawns a **Virtual Thread**.
   /// 3. Executes the emit operation within that isolated thread, forcing an immediate flush 
   ///    to the broker
-  private void updateProgress(UUID id, JobStatus status, String message, Integer progress) {
+  private void updateProgress(UUID id, int tmdbId, JobStatus status, String message, int progress) {
     try {
       var ctx = Context.current();
       Thread.ofVirtual().start(ctx.wrap(() -> {
         var jobMessage = JobMessage.builder()
             .id(id)
+            .tmdbId(tmdbId)
             .source(JobSource.SCRAPER)
             .status(status)
             .content(message)

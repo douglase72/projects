@@ -1,20 +1,19 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import {
+import type {
   IngestRequest,
-  type Movie, 
-  MovieCreateRequest, 
-  MovieUpdateRequest, 
+  Movie,
+  MovieCreateRequest,
+  MovieUpdateRequest,
 } from '@emdb/common';
 
 export class MovieService {
   private static readonly LANG_MAPPER = new Intl.DisplayNames(['en'], { type: 'language' });
-
   private readonly client: AxiosInstance;
 
-  constructor() {
+  constructor(url: string = "http://localhost:60330/emdb/api") {
     this.client = axios.create({
-      baseURL: process.env.BASE_URL,
+      baseURL: url,
     });
   }
 
@@ -34,7 +33,7 @@ export class MovieService {
   async ingest(request: IngestRequest): Promise<string> {
     const { data } = await this.client.post<string>('/movies/ingest', request);
     return data;
-  }
+  }  
 
   async findById(id: number): Promise<Movie> {
     const { data: movie } = await this.client.get<Movie>(`/movies/${id}?append=credits`);
@@ -55,5 +54,5 @@ export class MovieService {
   async deleteById(id: number) {
     await this.client.delete<Movie>(`/movies/${id}`);
   }  
-  
+
 }

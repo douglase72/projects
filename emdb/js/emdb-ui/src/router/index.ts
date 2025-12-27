@@ -9,6 +9,17 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
+    {
+      path: '/movie/:id',
+      name: 'movie',
+      component: () => import('@/views/MovieView.vue'),
+      props: route => ({ id: Number(route.params.id) }) 
+    },
+    {
+      path: '/system',
+      name: 'system',
+      component: () => import('@/views/SystemView.vue')
+    },
   ],
 })
 

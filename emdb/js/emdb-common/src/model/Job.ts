@@ -1,5 +1,6 @@
 
 export enum JobStatus {
+  SUBMITTED = "Submitted",
   STARTED = "Started",
   FETCHED = "Fetched",
   PROGRESS = "Progress",
@@ -14,4 +15,5 @@ export interface Job {
   source: string;
   status: JobStatus;
   timestamp: string;
+  tmdbId: number;
 }

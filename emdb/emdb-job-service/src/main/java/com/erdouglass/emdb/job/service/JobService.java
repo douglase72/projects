@@ -42,10 +42,21 @@ public class JobService {
     broadcaster.onNext(message);
   }
   
-  public Multi<JobMessage> stream(UUID jobId) {
+  public Multi<JobMessage> findAll() {
+    var historyStream = Uni.createFrom().item(() -> repository.findAll())
+        .runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+        .onItem().transformToMulti(list -> Multi.createFrom().iterable(list))
+        .map(mapper::toJobMessage);
+    var liveStream = Multi.createFrom().publisher(broadcaster)
+        .onOverflow().buffer(BUFFER_SIZE);
+    return Multi.createBy().concatenating()
+        .streams(historyStream, liveStream); 
+  }
+  
+  public Multi<JobMessage> findById(UUID jobId) {
     var historyStream = Uni.createFrom().item(jobId)
         .runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
-        .map(id -> repository.findByJobId(id)) 
+        .map(id -> repository.findById(id)) 
         .onItem().transformToMulti(list -> Multi.createFrom().iterable(list))
         .map(mapper::toJobMessage);
     var liveStream = Multi.createFrom().publisher(broadcaster)

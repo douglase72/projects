@@ -14,13 +14,17 @@ import com.erdouglass.emdb.common.message.JobMessage;
 import io.smallrye.mutiny.Multi;
 
 @RegisterRestClient()
-@Produces(MediaType.APPLICATION_JSON)
 public interface JobClient {
+  
+  @GET 
+  @Produces(MediaType.SERVER_SENT_EVENTS)
+  @RestStreamElementType(MediaType.APPLICATION_JSON)
+  public Multi<JobMessage> findAll();
 
   @GET
   @Path("{id}")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   @RestStreamElementType(MediaType.APPLICATION_JSON)
-  Multi<JobMessage> jobs(@PathParam("id") String jobId);
+  Multi<JobMessage> findById(@PathParam("id") String jobId);
   
 }

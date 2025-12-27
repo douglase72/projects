@@ -22,12 +22,19 @@ public class JobResource {
   @Inject
   JobService service;
   
+  @GET 
+  @Produces(MediaType.SERVER_SENT_EVENTS)
+  @RestStreamElementType(MediaType.APPLICATION_JSON)
+  public Multi<JobMessage> findAll() {
+    return service.findAll(); 
+  }
+  
   @GET
   @Path("{id}")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   @RestStreamElementType(MediaType.APPLICATION_JSON)
   public Multi<JobMessage> streamJob(@PathParam("id") UUID id) {
-      return service.stream(id);
+      return service.findById(id);
   }
   
 }

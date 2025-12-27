@@ -7,21 +7,23 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public record JobMessage(
+    @NotBlank String content,
     @NotNull UUID id,
-    @NotNull Instant timestamp,
+    @NotNull @Min(0) @Max(100) Integer progress,
     @NotNull JobSource source,
     @NotNull JobStatus status,
-    @NotBlank String content,
-    @NotNull @Min(0) @Max(100) Integer progress) {
+    @NotNull Instant timestamp,
+    @NotNull @Positive Integer tmdbId) {
   
   public enum JobSource {
     GATEWAY("emdb-gateway-service"),
     MEDIA("emdb-media-service"),
-    SCHEDULER("emdb-scheduler_service"),
+    SCHEDULER("emdb-scheduler-service"),
     SCRAPER("emdb-scraper-service"),
     USER("emdb-user-service");
     
@@ -63,17 +65,18 @@ public record JobMessage(
   }
   
   public static final class Builder {
+    private String content;
     private UUID id;
-    private Instant timestamp = Instant.now();
+    private Integer progress;
     private JobSource source;
     private JobStatus status;
-    private String content;
-    private Integer progress;
+    private Instant timestamp = Instant.now();
+    private Integer tmdbId;
     
     Builder() { }
     
     public JobMessage build() {
-      return new JobMessage(id, timestamp, source, status, content, progress);
+      return new JobMessage(content, id, progress, source, status, timestamp, tmdbId);
     }
     
     public Builder content(String content) {
@@ -103,6 +106,11 @@ public record JobMessage(
     
     public Builder timestamp(Instant timestamp) {
       this.timestamp = timestamp;
+      return this;
+    }
+    
+    public Builder tmdbId(Integer tmdbId) {
+      this.tmdbId = tmdbId;
       return this;
     }  
   }

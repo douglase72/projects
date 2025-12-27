@@ -60,12 +60,12 @@ public class TmdbMovieScheduler {
   }
   
   private void sendJobMessage(UUID jobId, int tmdbId) {
-    var msg = String.format("TMDB movie %d submitted for ingestion", tmdbId);
     var jobMessage = JobMessage.builder()
         .id(jobId)
+        .tmdbId(tmdbId)
         .source(JobSource.SCHEDULER)
         .status(JobStatus.SUBMITTED)
-        .content(msg)
+        .content("TMDB movie submitted for ingestion")
         .progress(0)
         .build();
     jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()

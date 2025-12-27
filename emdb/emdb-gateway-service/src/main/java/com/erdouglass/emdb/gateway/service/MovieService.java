@@ -52,9 +52,10 @@ public class MovieService {
     var jobId = UUID.randomUUID();
     var jobMessage = JobMessage.builder()
         .id(jobId)
+        .tmdbId(tmdbId)
         .source(JobSource.GATEWAY)
         .status(JobStatus.SUBMITTED)
-        .content(String.format("TMDB movie %d submitted for ingestion", tmdbId))
+        .content("TMDB movie submitted for ingestion")
         .progress(0)
         .build();
     jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()

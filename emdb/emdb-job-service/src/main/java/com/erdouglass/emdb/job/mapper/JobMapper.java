@@ -9,7 +9,7 @@ import com.erdouglass.emdb.job.entity.JobLog;
 public class JobMapper {
   
   public JobLog toJobLog(JobMessage message) {
-    var log = new JobLog(message.id());
+    var log = new JobLog(message.id(), message.tmdbId());
     log.timestamp(message.timestamp());
     log.source(message.source());
     log.status(message.status());
@@ -21,6 +21,7 @@ public class JobMapper {
   public JobMessage toJobMessage(JobLog log) {
     return JobMessage.builder()
         .id(log.jobId())
+        .tmdbId(log.tmdbId())
         .timestamp(log.timestamp())
         .source(log.source())
         .status(log.status())

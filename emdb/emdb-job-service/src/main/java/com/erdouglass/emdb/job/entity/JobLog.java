@@ -57,8 +57,17 @@ public class JobLog {
   @NotNull
   private Instant timestamp;
   
+  @NotNull
+  @Column(name = "tmdb_id", updatable = false)
+  private Integer tmdbId;
+  
   JobLog() {
     
+  }
+  
+  public JobLog(UUID jobId, Integer tmdbId) {
+    this.jobId = jobId;
+    this.tmdbId = tmdbId;
   }
   
   public void content(String content) {
@@ -67,10 +76,6 @@ public class JobLog {
   
   public String content() {
     return content;
-  }
-  
-  public JobLog(UUID jobId) {
-    this.jobId = jobId;
   }
   
   public UUID jobId() {
@@ -109,10 +114,15 @@ public class JobLog {
     return timestamp;
   }
   
+  public Integer tmdbId() {
+    return tmdbId;
+  }
+  
   @Override
   public String toString() {
     return "AuditLog[id=" + id
         + ", jobId=" + jobId
+        + ", tmdbId=" + tmdbId
         + ", timestamp=" + timestamp
         + ", source=" + source
         + ", status=" + status

@@ -9,5 +9,6 @@
         source varchar(255) not null check ((source in ('GATEWAY','MEDIA','SCHEDULER','SCRAPER','USER'))),
         status varchar(255) not null check ((status in ('SUBMITTED','STARTED','PROGRESS','COMPLETED','FAILED'))),
         timestamp timestamp(6) with time zone not null,
+        tmdb_id integer not null,
         primary key (id)
     );

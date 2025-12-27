@@ -22,12 +22,19 @@ public class JobResource {
   @RestClient
   JobClient client;
   
+  @GET 
+  @Produces(MediaType.SERVER_SENT_EVENTS)
+  @RestStreamElementType(MediaType.APPLICATION_JSON)
+  public Multi<JobMessage> findAll() {
+    return client.findAll(); 
+  }
+  
   @GET
   @Path("/{id}")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   @RestStreamElementType(MediaType.APPLICATION_JSON)
-  public Multi<JobMessage> stream(@PathParam("id") String id) {
-    return client.jobs(id);
+  public Multi<JobMessage> findById(@PathParam("id") String id) {
+    return client.findById(id);
   }
 
 }

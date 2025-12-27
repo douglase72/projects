@@ -54,30 +54,28 @@ public class MovieConsumer {
       if (!violations.isEmpty()) {
         throw new ConstraintViolationException(violations);
       }      
-      var msg = String.format("Persistence started for TMDB movie %d", tmdbId);
-      updateProgress(jobId, JobStatus.PROGRESS, msg, 72); 
+      updateProgress(jobId, tmdbId, JobStatus.PROGRESS, "Persistence started for TMDB movie", 72); 
       
-      var movie = service.create(message);
-      msg = String.format("Created EMDB movie %d", movie.id());
-      updateProgress(jobId, JobStatus.PROGRESS, msg, 99);  
+      service.create(message);
+      updateProgress(jobId, tmdbId, JobStatus.PROGRESS, "Created EMDB movie", 99);  
       
-      msg = String.format("Ingest completed for TMDB movie %d", movie.tmdbId());
-      updateProgress(jobId, JobStatus.COMPLETED, msg, 100);
+      updateProgress(jobId, tmdbId, JobStatus.COMPLETED, "TMDB movie ingest completed", 100);
     } catch (ConstraintViolationException e) {
-      var msg = String.format("Failed to validate TMDB movie %d", tmdbId);
-      updateProgress(jobId, JobStatus.FAILED, msg, 0);
+      var msg = "Failed to validate TMDB movie";
+      updateProgress(jobId, tmdbId, JobStatus.FAILED, msg, 0);
       throw new RuntimeException(msg, e);
     } catch (Exception e) {
-      var msg = String.format("Failed to persist TMDB movie %d", tmdbId);
-      updateProgress(jobId, JobStatus.FAILED, msg, 0);
+      var msg = "Failed to persist TMDB movie";
+      updateProgress(jobId, tmdbId, JobStatus.FAILED, msg, 0);
       throw new RuntimeException(msg, e);
     } 
   }
   
   private void updateProgress(
-      UUID id, JobStatus status, String message, Integer progress) {
+      UUID id, int tmdbId, JobStatus status, String message, int progress) {
     var jobMessage = JobMessage.builder()
         .id(id)
+        .tmdbId(tmdbId)
         .source(JobSource.MEDIA)
         .status(status)
         .content(message)

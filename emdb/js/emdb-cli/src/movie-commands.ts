@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
 import { monitorJob } from './util/JobMonitor.js';
-import { MovieService } from './service/MovieService.js';
+import { MovieService } from '@emdb/common';
 
 export { movieCommand };
 
@@ -71,10 +71,10 @@ Examples:
 
 async function create(fileName: string) {
   try {
-    const movieService = new MovieService();
+    const service = new MovieService(process.env.BASE_URL);
     const file = await fs.readFile(fileName, 'utf-8');
     const start = performance.now();
-    const movie = await movieService.create(JSON.parse(file));
+    const movie = await service.create(JSON.parse(file));
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
@@ -87,8 +87,8 @@ async function create(fileName: string) {
 
 async function cron() {
   try {
-    const movieService = new MovieService();
-    await movieService.cron(); 
+    const service = new MovieService(process.env.BASE_URL);
+    await service.cron(); 
     const start = new Date();
     console.log(`Cron job started at ${start.toISOString()}.`);
   } catch (error) {
@@ -98,8 +98,8 @@ async function cron() {
 
 async function ingest(tmdbId: number) {
   try {
-    const movieService = new MovieService();
-    const jobId = await movieService.ingest({ tmdbId: tmdbId });
+    const service = new MovieService(process.env.BASE_URL);
+    const jobId = await service.ingest({ tmdbId: tmdbId });
     const start = performance.now();
     await monitorJob(jobId);
     const et = (performance.now() - start).toLocaleString(undefined, {
@@ -113,9 +113,9 @@ async function ingest(tmdbId: number) {
 
 async function findById(id: number) {
   try {
-    const movieService = new MovieService();
+    const service = new MovieService(process.env.BASE_URL);
     const start = performance.now();
-    const movie = await movieService.findById(id);
+    const movie = await service.findById(id);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
@@ -128,10 +128,10 @@ async function findById(id: number) {
 
 async function update(id: number, fileName: string) {
   try {
-    const movieService = new MovieService();
+    const service = new MovieService(process.env.BASE_URL);
     const file = await fs.readFile(fileName, 'utf-8');
     const start = performance.now();
-    const movie = await movieService.update(id, JSON.parse(file));
+    const movie = await service.update(id, JSON.parse(file));
        const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
@@ -144,9 +144,9 @@ async function update(id: number, fileName: string) {
 
 async function deleteById(id: number) {
   try {
-    const movieService = new MovieService();
+    const service = new MovieService(process.env.BASE_URL);
     const start = performance.now();
-    await movieService.deleteById(id);
+    await service.deleteById(id);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
