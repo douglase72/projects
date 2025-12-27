@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 5s
+  
+scrape_configs:
+  - job_name: 'scraper'
+    static_configs:
+      - targets: ['emdb-scraper:60312'] 
+        labels:
+          application: 'scraper'
+    metrics_path: '/api/q/metrics'
+    
+  - job_name: 'media'
+    static_configs:
+      - targets: ['emdb-media:60318'] 
+        labels:
+          application: 'media'
+    metrics_path: '/api/q/metrics'

@@ -5,8 +5,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,13 +19,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.MovieCreditCreateDto;
 import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.message.IngestMessage;
-import com.erdouglass.emdb.common.message.JobMessage;
-import com.erdouglass.emdb.common.message.JobMessage.JobSource;
 import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
@@ -35,10 +30,8 @@ import com.erdouglass.emdb.scraper.mapper.TmdbPersonMapper;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CastCredit;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CrewCredit;
-import com.erdouglass.emdb.scraper.query.TmdbPersonDto;
-import com.google.common.util.concurrent.RateLimiter;
 
-import io.opentelemetry.context.Context;
+import io.micrometer.core.instrument.Timer;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
@@ -61,10 +54,6 @@ public class TmdbMovieScraper extends TmdbScraper {
   @Inject
   @Channel("movie-create-out") 
   Emitter<MovieCreateMessage> createEmitter;
-  
-  @Inject
-  @Channel("job-log-out")
-  Emitter<JobMessage> jobEmitter;
   
   @Inject
   TmdbPersonMapper mapper;
@@ -95,7 +84,7 @@ public class TmdbMovieScraper extends TmdbScraper {
     var jobId = message.id();
     var tmdbId = message.tmdbId();
     var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
-    LOGGER.infof("Message: %s, latency: %d ms", message, latency);
+    LOGGER.infof("Message: %s, movie-ingest queue latency: %d ms", message, latency);
     
     try {
       var violations = validator.validate(message);
@@ -104,11 +93,12 @@ public class TmdbMovieScraper extends TmdbScraper {
       }
       updateProgress(jobId, tmdbId, JobStatus.STARTED, "TMDB movie ingest started", 1);
       
-      // Send the message to create the movie to the media service.
-      var movie = findMovie(tmdbId, jobId);
-      var people = findPeople(movie, jobId);
-      var credits = createCredits(movie, people);
-      sendMessage(movie, credits, jobId);
+      var timer = Timer.builder("scraper.method.duration")
+          .description("Measures the time to scrape a movie from TMDB")
+          .tag("class", "TmdbMovieScraper") 
+          .tag("method", "scrape") 
+          .register(registry);
+      timer.record(() -> scrape(tmdbId, jobId));
     } catch (ConstraintViolationException e) {
       var msg = String.format("Failed to validate message %s", message);
       updateProgress(jobId, tmdbId, JobStatus.FAILED, msg, 0);
@@ -149,7 +139,12 @@ public class TmdbMovieScraper extends TmdbScraper {
   /// @param jobId  the current job correlation ID for progress updates.
   /// @return the validated {@link TmdbMovieDto}.
   private TmdbMovieDto findMovie(int tmdbId, UUID jobId) {
-    var tmdbMovie = client.findById(tmdbId, CREDITS);
+    var timer = Timer.builder("scraper.method.duration")
+        .description("Measures the time to fetch the movie from TMDB")
+        .tag("class", "TmdbMovieScraper")
+        .tag("method", "findMovie") 
+        .register(registry);
+    var tmdbMovie = timer.record(() -> client.findById(tmdbId, CREDITS));
     var violations = validator.validate(tmdbMovie);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
@@ -159,30 +154,19 @@ public class TmdbMovieScraper extends TmdbScraper {
     return tmdbMovie;
   }
   
-  private Map<Integer, PersonCreateDto> findPeople(TmdbMovieDto movie, UUID jobId) {
-    var rateLimiter = RateLimiter.create(rateLimit);
-    var people = Stream.concat(
+  private void scrape(int tmdbId, UUID jobId) {
+    var movie = findMovie(tmdbId, jobId);
+    var timer = Timer.builder("scraper.method.duration")
+        .description("Measures the time to fetch people from TMDB")
+        .tag("class", "TmdbMovieScraper")
+        .tag("method", "findPeople") 
+        .register(registry);
+    var ids = Stream.concat(
         movie.credits().cast().stream().limit(castLimit).map(CastCredit::id), 
-        movie.credits().crew().stream().limit(crewLimit).map(CrewCredit::id))
-        .distinct()
-        .map(id -> {
-          rateLimiter.acquire(); 
-          return personMapper.toPersonCreateDto(findPerson(id));
-        })
-        .collect(Collectors.toMap(PersonCreateDto::tmdbId, Function.identity()));
-    var msg = String.format("Fetched %d people for TMDB movie", people.size());
-    updateProgress(jobId, movie.id(), JobStatus.PROGRESS, msg, 70);
-    LOGGER.info(msg);
-    return people;
-  }
-  
-  private TmdbPersonDto findPerson(int tmdbId) {
-    var tmdbPerson = personClient.findById(tmdbId);
-    var violations = validator.validate(tmdbPerson);
-    if (!violations.isEmpty()) {
-      throw new ConstraintViolationException(violations);
-    }
-    return tmdbPerson;
+        movie.credits().crew().stream().limit(crewLimit).map(CrewCredit::id));
+    var people = timer.record(() -> findPeople(ids, tmdbId, jobId));
+    var credits = createCredits(movie, people);
+    sendMessage(movie, credits, jobId);
   }
   
   /// Assembles and publishes the final {@link MovieCreateMessage}.
@@ -216,39 +200,6 @@ public class TmdbMovieScraper extends TmdbScraper {
         .withRoutingKey(CREATE_KEY)
         .build())); 
     LOGGER.infof("Sent: %s", createMessage);  
-  }
-  
-  /// Publishes an asynchronous status update to the `audit-trail-out` channel.
-  ///
-  /// **Note**
-  /// By default, SmallRye Reactive Messaging buffers messages emitted during the execution 
-  /// of an {@code @Incoming} method until that method completes. This behavior delays 
-  /// UI progress bars.
-  ///
-  /// To bypass this buffering and send the status **immediately**, this method:
-  /// 1. Captures the current {@link Context} (to preserve OpenTelemetry/MDC traces).
-  /// 2. Spawns a **Virtual Thread**.
-  /// 3. Executes the emit operation within that isolated thread, forcing an immediate flush 
-  ///    to the broker
-  private void updateProgress(UUID id, int tmdbId, JobStatus status, String message, int progress) {
-    try {
-      var ctx = Context.current();
-      Thread.ofVirtual().start(ctx.wrap(() -> {
-        var jobMessage = JobMessage.builder()
-            .id(id)
-            .tmdbId(tmdbId)
-            .source(JobSource.SCRAPER)
-            .status(status)
-            .content(message)
-            .progress(progress)
-            .build();
-        jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
-            .withRoutingKey(Configuration.JOB_KEY)
-            .build()));
-      })).join();
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    } 
   }
 
 }

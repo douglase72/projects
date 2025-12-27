@@ -47,7 +47,7 @@ public class MovieConsumer {
     var jobId = message.id();
     var tmdbId = message.tmdbId();
     var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
-    LOGGER.infof("Message: %s, latency: %d ms", message, latency);
+    LOGGER.infof("Message: %s, movie-create queue latency: %d ms", message, latency);
     
     try {
       var violations = validator.validate(message);

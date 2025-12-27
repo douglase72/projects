@@ -21,6 +21,7 @@ dependencies {
 	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.logging
 	implementation libs.quarkus.opentelemetry
+	implementation libs.quarkus.prometheus
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	
