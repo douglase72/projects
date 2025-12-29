@@ -3,15 +3,15 @@ global:
   
 scrape_configs:
   - job_name: 'scraper'
+    metrics_path: '/api/q/metrics'
     static_configs:
-      - targets: ['emdb-scraper:60312'] 
+      - targets: ['emdb-scraper:60314'] 
         labels:
           application: 'scraper'
-    metrics_path: '/api/q/metrics'
     
   - job_name: 'media'
+    metrics_path: '/api/q/metrics'
     static_configs:
-      - targets: ['emdb-media:60318'] 
+      - targets: ['emdb-media:60316'] 
         labels:
           application: 'media'
-    metrics_path: '/api/q/metrics'

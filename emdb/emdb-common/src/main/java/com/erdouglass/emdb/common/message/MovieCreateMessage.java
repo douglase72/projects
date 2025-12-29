@@ -1,10 +1,8 @@
 package com.erdouglass.emdb.common.message;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -24,8 +22,6 @@ import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.validation.DateRange;
 
 public record MovieCreateMessage(
-    @NotNull UUID id,
-    @NotNull Instant timestamp,
     @NotNull @Positive Integer tmdbId,
     @NotBlank @Size(max = ShowConstants.NAME_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
@@ -56,22 +52,19 @@ public record MovieCreateMessage(
   
   @Override
   public String toString() {
-    return "MovieCreateMessage[id=" + id
-        + ", timestamp=" + timestamp
-        + ", tmdbId=" + tmdbId
+    return "MovieCreateMessage[tmdbId=" + tmdbId
+        + ", title=" + title
+        + ", releaseDate=" + releaseDate
         + "]";
   } 
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
     private List<MovieCreditCreateDto> credits = new ArrayList<>();
-    private UUID id;
     
     private Builder() { }
 
     public MovieCreateMessage build() {
       return new MovieCreateMessage(
-          id,
-          Instant.now(),
           tmdbId,
           title, 
           releaseDate,
@@ -91,11 +84,6 @@ public record MovieCreateMessage(
     
     public Builder credits(List<MovieCreditCreateDto> credits) {
       this.credits = new ArrayList<>(credits);
-      return this;
-    }
-    
-    public Builder id(UUID id) {
-      this.id = id;
       return this;
     }
 

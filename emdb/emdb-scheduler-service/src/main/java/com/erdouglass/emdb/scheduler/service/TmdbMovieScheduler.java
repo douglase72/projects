@@ -1,5 +1,4 @@
 package com.erdouglass.emdb.scheduler.service;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -16,10 +15,8 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.message.CronMessage;
 import com.erdouglass.emdb.common.message.IngestMessage;
-import com.erdouglass.emdb.common.message.JobMessage;
-import com.erdouglass.emdb.common.message.JobMessage.JobSource;
-import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 
+import io.opentelemetry.api.baggage.Baggage;
 import io.quarkus.scheduler.Scheduled;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
@@ -28,12 +25,8 @@ public class TmdbMovieScheduler {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScheduler.class);
   
   @Inject
-  @Channel("job-log-out")
-  Emitter<JobMessage> jobEmitter;
-  
-  @Inject
   @Channel("movie-ingest-out") 
-  Emitter<IngestMessage> ingestEmitter;
+  Emitter<IngestMessage> emitter;
   
   /// Periodically fetches and synchronizes movie data from TMDB.
   /// 
@@ -45,39 +38,29 @@ public class TmdbMovieScheduler {
   public void cron() {
     var tmdbIds = List.of(816, 335984);
     for (var tmdbId : tmdbIds) {
-      var jobId = UUID.randomUUID();
-      sendJobMessage(jobId, tmdbId);
-      sendIngestMessage(jobId, tmdbId);
-    }   
-  }
-  
-  private void sendIngestMessage(UUID jobId, int tmdbId) {
-    var ingestMessage = IngestMessage.of(jobId, tmdbId);
-    ingestEmitter.send(Message.of(ingestMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withRoutingKey(Configuration.INGEST_KEY)
-        .build())); 
-    LOGGER.infof("Sent: %s", ingestMessage);
-  }
-  
-  private void sendJobMessage(UUID jobId, int tmdbId) {
-    var jobMessage = JobMessage.builder()
-        .id(jobId)
-        .tmdbId(tmdbId)
-        .source(JobSource.SCHEDULER)
-        .status(JobStatus.SUBMITTED)
-        .content("TMDB movie submitted for ingestion")
-        .progress(0)
-        .build();
-    jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withRoutingKey(Configuration.JOB_KEY)
-        .build()));
+      ingest(tmdbId);
+    }
   }
   
   @Incoming("movie-cron-in")
   public void executeNow(CronMessage message) {
-    var latency = Duration.between(message.timestamp(), Instant.now()).toMillis();
-    LOGGER.infof("Message: %s, latency: %d ms", message, latency);
     cron();
+  }
+  
+  private void ingest(int tmdbId) {
+    var jobId = UUID.randomUUID();
+    var baggage = Baggage.current().toBuilder()
+        .put("job-id", jobId.toString())
+        .put("job-start-time", Instant.now().toString())
+        .build();
+    try (var _ = baggage.makeCurrent()) {
+      var message = IngestMessage.of(tmdbId);
+      emitter.send(Message.of(message)
+          .addMetadata(OutgoingRabbitMQMetadata.builder()
+          .withRoutingKey(Configuration.INGEST_KEY)
+          .build()));       
+      LOGGER.infof("Sent: %s for TMDB movie %d", jobId, message.tmdbId());
+    }
   }
 
 }

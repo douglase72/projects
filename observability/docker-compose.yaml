@@ -64,7 +64,7 @@ services:
     ports:
       - 9091:9090
     volumes:
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml     
     networks:
       - projects
 

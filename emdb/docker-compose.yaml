@@ -26,69 +26,6 @@ services:
       - 60330:60310
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "5"
-    labels:
-      - co.elastic.logs/enabled=true
-      - co.elastic.logs/json.keys_under_root=true
-      - co.elastic.logs/json.add_error_key=true
-    networks:
-      - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-        
-  emdb-scraper:
-    image: emdb-scraper:latest
-    container_name: emdb-scraper
-    build:
-      context: ./emdb-scraper-service
-      dockerfile: src/main/docker/Dockerfile
-    ports:
-      - 60332:60312
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    env_file:
-      - ./emdb-scraper-service/.env
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "5"
-    labels:
-      - co.elastic.logs/enabled=true
-      - co.elastic.logs/json.keys_under_root=true
-      - co.elastic.logs/json.add_error_key=true
-    networks:
-      - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-        
-  emdb-job:
-    image: emdb-job:latest
-    container_name: emdb-job
-    build:
-      context: ./emdb-job-service
-      dockerfile: src/main/docker/Dockerfile
-    ports:
-      - 60334:60314
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    env_file:
-      - ./emdb-job-service/.env
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "5"
-    labels:
-      - co.elastic.logs/enabled=true
-      - co.elastic.logs/json.keys_under_root=true
-      - co.elastic.logs/json.add_error_key=true
     networks:
       - projects
     depends_on:
@@ -102,18 +39,27 @@ services:
       context: ./emdb-scheduler-service
       dockerfile: src/main/docker/Dockerfile
     ports:
-      - 60336:60316
+      - 60332:60312
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "5"
-    labels:
-      - co.elastic.logs/enabled=true
-      - co.elastic.logs/json.keys_under_root=true
-      - co.elastic.logs/json.add_error_key=true
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
+  emdb-scraper:
+    image: emdb-scraper:latest
+    container_name: emdb-scraper
+    build:
+      context: ./emdb-scraper-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60334:60314
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-scraper-service/.env
     networks:
       - projects
     depends_on:
@@ -127,24 +73,11 @@ services:
       context: ./emdb-media-service
       dockerfile: src/main/docker/Dockerfile
     ports:
-      - 60338:60318
+      - 60336:60316
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-media-service/.env
-    environment:
-      - EMDB_CLI_MOVIES=/movies
-    volumes:
-      - /home/erdouglass/projects/emdb/emdb-cli/movies:/movies
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "5"
-    labels:
-      - co.elastic.logs/enabled=true
-      - co.elastic.logs/json.keys_under_root=true
-      - co.elastic.logs/json.add_error_key=true
     networks:
       - projects
     depends_on:

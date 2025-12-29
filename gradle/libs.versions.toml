@@ -5,6 +5,7 @@
 [versions]
 jakarta-data = "1.0.1"
 jakartaee-platform = "11.0.0"
+micometer = "1.4.7"
 microprofile-config="3.1"
 opentelemetry = "1.40.0"
 quarkus = "3.30.5"
@@ -27,6 +28,8 @@ jakarta-cdi = { group = "jakarta.enterprise", name = "jakarta.enterprise.cdi-api
 jakarta-data = { group = "jakarta.data", name = "jakarta.data-api", version.ref = "jakarta-data" }
 jakarta-validation = { group = "jakarta.validation", name = "jakarta.validation-api" }
 jakarta-ws-rs = { group = "jakarta.ws.rs", name = "jakarta.ws.rs-api" }
+
+micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel", version.ref = "micometer"}
 
 # MicroProfile
 microprofile-config = { group = "org.eclipse.microprofile.config", name = "microprofile-config-api", version.ref = "microprofile-config" }

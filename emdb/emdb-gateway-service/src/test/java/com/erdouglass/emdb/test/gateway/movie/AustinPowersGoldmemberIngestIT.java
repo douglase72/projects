@@ -17,18 +17,19 @@ import com.erdouglass.emdb.test.gateway.AbstractTest;
 
 class AustinPowersGoldmemberIngestIT extends AbstractTest {
   private static final Logger LOGGER = Logger.getLogger(AustinPowersGoldmemberIngestIT.class);
+  private static final String INGEST = "ingest";
       
   @Test
   void testIngest() throws IOException, InterruptedException {
     var ingestRequest = new IngestRequest(818);
-    var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).path("ingest").build())
+    var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).path(INGEST).build())
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(ingestRequest))).build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     var jobId = response.body();
     assertEquals(202, response.statusCode());
-    LOGGER.infof("Movie ingest job: %s took %d ms", jobId, et);
+    LOGGER.infof("Movie ingest request %s completed in %d ms", jobId, et);
   }
 
 }

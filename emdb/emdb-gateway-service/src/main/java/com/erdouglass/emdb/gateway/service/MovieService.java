@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.gateway.service;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,10 +16,8 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.message.CronMessage;
 import com.erdouglass.emdb.common.message.IngestMessage;
-import com.erdouglass.emdb.common.message.JobMessage;
-import com.erdouglass.emdb.common.message.JobMessage.JobSource;
-import com.erdouglass.emdb.common.message.JobMessage.JobStatus;
 
+import io.opentelemetry.api.baggage.Baggage;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
@@ -34,39 +33,28 @@ public class MovieService {
   @Channel("movie-ingest-out") 
   Emitter<IngestMessage> ingestEmitter;
   
-  @Inject
-  @Channel("job-log-out")
-  Emitter<JobMessage> jobEmitter;
-  
   public void cron() {
-    var cronMessage = CronMessage.of(UUID.randomUUID());
-    var message = Message.of(cronMessage)
+    var message = Message.of(new CronMessage())
         .addMetadata(OutgoingRabbitMQMetadata.builder()
             .withRoutingKey(CRON_KEY)
-            .build());           
+            .build());
     cronEmitter.send(message);
-    LOGGER.infof("Sent: %s", cronMessage);    
   }
   
   public UUID ingest(@NotNull @Positive Integer tmdbId) {
     var jobId = UUID.randomUUID();
-    var jobMessage = JobMessage.builder()
-        .id(jobId)
-        .tmdbId(tmdbId)
-        .source(JobSource.GATEWAY)
-        .status(JobStatus.SUBMITTED)
-        .content("TMDB movie submitted for ingestion")
-        .progress(0)
+    var baggage = Baggage.current().toBuilder()
+        .put("job-id", jobId.toString())
+        .put("job-start-time", Instant.now().toString())
         .build();
-    jobEmitter.send(Message.of(jobMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withRoutingKey(Configuration.JOB_KEY)
-        .build()));
-    
-    var ingestMessage = IngestMessage.of(jobId, tmdbId);
-    ingestEmitter.send(Message.of(ingestMessage).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withRoutingKey(Configuration.INGEST_KEY)
-        .build())); 
-    LOGGER.infof("Sent: %s", ingestMessage);
+    try (var _ = baggage.makeCurrent()) {
+      var message = IngestMessage.of(tmdbId);
+      ingestEmitter.send(Message.of(message)
+          .addMetadata(OutgoingRabbitMQMetadata.builder()
+          .withRoutingKey(Configuration.INGEST_KEY)
+          .build())); 
+      LOGGER.infof("Sent: %s, %s", jobId, message);
+    }
     return jobId;
   }
 

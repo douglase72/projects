@@ -21,6 +21,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.query.MovieDto;
+import com.erdouglass.emdb.common.request.CronRequest;
 import com.erdouglass.emdb.common.request.IngestRequest;
 import com.erdouglass.emdb.common.request.MovieCreateRequest;
 import com.erdouglass.emdb.common.request.MovieUpdateRequest;
@@ -29,6 +30,7 @@ import com.erdouglass.emdb.gateway.service.MovieService;
 
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
   
   @Inject
@@ -39,21 +41,19 @@ public class MovieResource {
   MovieService service;
   
   @POST
-  @Consumes(MediaType.APPLICATION_JSON)
   public Response create(@NotNull @Valid MovieCreateRequest request) {
     return client.create(request);
   }
   
   @POST
   @Path("/cron")
-  public Response cron() {
+  public Response cron(@NotNull @Valid CronRequest request) {
     service.cron();
     return Response.status(Status.ACCEPTED).build();
   }
   
   @POST
   @Path("/ingest")
-  @Consumes(MediaType.APPLICATION_JSON)
   public Response ingest(@NotNull @Valid IngestRequest request) {
     var jobId = service.ingest(request.tmdbId());
     return Response.status(Status.ACCEPTED).entity(jobId).build();
@@ -61,7 +61,6 @@ public class MovieResource {
   
   @GET
   @Path("/{id}")
-  @Consumes(MediaType.APPLICATION_JSON)
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {
@@ -70,7 +69,6 @@ public class MovieResource {
   
   @PATCH
   @Path("/{id}")
-  @Consumes(MediaType.APPLICATION_JSON)
   public MovieDto update(
       @PathParam("id") @NotNull @Positive Long id, 
       @NotNull @Valid MovieUpdateRequest request) {
@@ -79,7 +77,6 @@ public class MovieResource {
   
   @DELETE
   @Path("/{id}")
-  @Consumes(MediaType.APPLICATION_JSON)
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     return client.delete(id);
   }

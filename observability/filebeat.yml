@@ -18,6 +18,11 @@ filebeat.autodiscover:
 processors:
   - add_host_metadata:
       netinfo.enabled: true
+  - decode_json_fields:
+      fields: ["message"]
+      target: ""
+      overwrite_keys: true
+      add_error_key: true  
 
 setup.kibana:
   host: "kibana:5601"

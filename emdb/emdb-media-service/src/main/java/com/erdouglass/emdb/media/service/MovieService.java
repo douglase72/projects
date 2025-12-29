@@ -53,7 +53,7 @@ public class MovieService {
       var credits = creditService.synchronizeAll(movie.id(), message.credits());
       movie.credits(credits.stream().map(MovieCreditStatus::credit).toList());
     }
-    LOGGER.infof("Created: %s", movie);
+    LOGGER.debugf("Created: %s", movie);
     return movie;
   }
   
@@ -67,7 +67,7 @@ public class MovieService {
         movie.credits(creditService.findAll(id));
       }
     }
-    LOGGER.infof("Found: %s", movie);
+    LOGGER.debugf("Found: %s", movie);
     return movie;
   }
   
@@ -100,7 +100,7 @@ public class MovieService {
     request.overview().ifPresent(movie::overview);
     var updatedMovie = repository.update(movie);
     updatedMovie.credits(List.of());
-    LOGGER.infof("Updated: %s", updatedMovie);
+    LOGGER.debugf("Updated: %s", updatedMovie);
     return updatedMovie;
   }
   
@@ -118,7 +118,7 @@ public class MovieService {
     movie.credits(creditService.findAll(id));
     creditService.deleteByIdIn(movie.credits().stream().map(MovieCredit::id).toList());
     repository.deleteById(id);
-    LOGGER.infof("Deleted: %s", movie);
+    LOGGER.debugf("Deleted: %s", movie);
   }
 
 }
