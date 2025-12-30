@@ -41,6 +41,14 @@ public class MovieService {
     cronEmitter.send(message);
   }
   
+  /// Initiates the ingest job for the given movie.
+  ///
+  /// This method initiates the movie ingest job by creating the {@link IngestMessage}
+  /// for the given TMDB movie ID and putting it in the movie-ingest queue.for the
+  /// emdb-scraper-service to consume.
+  ///
+  /// @param tmdbId the TMDB ID of the movie to ingest
+  /// @return jobId the {@link UUID} of the ingest job
   public UUID ingest(@NotNull @Positive Integer tmdbId) {
     var jobId = UUID.randomUUID();
     var baggage = Baggage.current().toBuilder()
@@ -53,7 +61,7 @@ public class MovieService {
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(Configuration.INGEST_KEY)
           .build())); 
-      LOGGER.infof("Sent: %s, %s", jobId, message);
+      LOGGER.infof("Sent: %s for TMDB movie %d", jobId, tmdbId);
     }
     return jobId;
   }
