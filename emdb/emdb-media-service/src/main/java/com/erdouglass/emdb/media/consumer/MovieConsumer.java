@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.consumer;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -10,6 +11,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
@@ -35,7 +37,8 @@ public class MovieConsumer {
   
   @RunOnVirtualThread
   @Incoming("movie-create-in")
-  public void onMessage(MovieCreateMessage message) {
+  public CompletionStage<Void> onMessage(Message<MovieCreateMessage> wrapper) {
+    var message = wrapper.getPayload();
     var jobId = Baggage.current().getEntryValue("job-id"); 
     LOGGER.infof("Received: %s for TMDB movie %d", jobId, message.tmdbId());
     
@@ -46,12 +49,15 @@ public class MovieConsumer {
       long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
       LOGGER.infof("Created %s in %d ms", movie, et);
       logIngestTime(jobId, message.tmdbId());
+      return wrapper.ack();
     } catch (ConstraintViolationException e) {
       var msg = String.format("Failed to validate TMDB movie %d", message.tmdbId());
-      throw new RuntimeException(msg, e);
+      LOGGER.error(msg, e);
+      return wrapper.nack(e);
     } catch (Exception e) {
-      var msg = String.format("Failed to ingest TMDB movie", message.tmdbId());
-      throw new RuntimeException(msg, e);
+      var msg = String.format("Failed to ingest TMDB movie %d", message.tmdbId());
+      LOGGER.error(msg, e);
+      return wrapper.nack(e);
     }
   }
   

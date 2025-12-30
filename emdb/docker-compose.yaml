@@ -78,6 +78,10 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-media-service/.env
+    environment:
+      - EMDB_CLI_MOVIES=/movies
+    volumes:
+      - /home/erdouglass/projects/emdb/js/emdb-cli/movies:/movies
     networks:
       - projects
     depends_on:
