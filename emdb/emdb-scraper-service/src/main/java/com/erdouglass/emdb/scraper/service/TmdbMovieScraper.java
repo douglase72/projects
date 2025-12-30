@@ -1,8 +1,9 @@
 package com.erdouglass.emdb.scraper.service;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,12 +15,17 @@ import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.CreditType;
+import com.erdouglass.emdb.common.MovieCreditCreateDto;
+import com.erdouglass.emdb.common.PersonCreateDto;
 import com.erdouglass.emdb.common.message.IngestMessage;
 import com.erdouglass.emdb.common.message.MovieCreateMessage;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
+import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CastCredit;
+import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CrewCredit;
 
-import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.annotation.Timed;
 import io.opentelemetry.api.baggage.Baggage;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -50,27 +56,52 @@ public class TmdbMovieScraper extends TmdbScraper {
   @Blocking
   @Incoming("movie-ingest-in")
   @Outgoing("movie-create-out")
+  @Timed(
+      value = "emdb.method.duration", 
+      extraTags = {"method", "Movie Scrape"}
+  )
   public Message<MovieCreateMessage> onMessage(IngestMessage message) {
     var jobId = Baggage.current().getEntryValue("job-id");
-    LOGGER.infof("Received: %s for TMDB movie %d", jobId, message.tmdbId());    
-    logQueueTime(message.tmdbId());    
-    var timer = Timer.builder("emdb.method.duration")
-        .description("Measures the time to scrape a movie from TMDB")
-        .tag("class", "TmdbMovieScraper") 
-        .tag("method", "Movie Scrape")
-        .register(registry);
-    var createMessage = timer.record(() -> scrape(message.tmdbId()));
-    LOGGER.infof("Sent: %s for TMDB movie %d", jobId, message.tmdbId());
-    return Message.of(createMessage)
-        .addMetadata(OutgoingRabbitMQMetadata.builder()
-            .withRoutingKey(CREATE_KEY)
+    LOGGER.infof("Received: %s for TMDB movie %d", jobId, message.tmdbId());
+    var start = System.nanoTime();
+    var movie = findMovie(message.tmdbId());
+    var ids = Stream.concat(
+        movie.credits().cast().stream().limit(castLimit).map(CastCredit::id), 
+        movie.credits().crew().stream().limit(crewLimit).map(CrewCredit::id));
+    var people = findPeople(ids, message.tmdbId());
+    var credits = createCredits(movie, people);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Scraped TMDB movie %d in %d ms", movie.id(), et);
+    return createMessage(movie, credits, jobId);
+  }
+  
+  private List<MovieCreditCreateDto> createCredits(TmdbMovieDto movie, Map<Integer, PersonCreateDto> people) {
+    var cast = movie.credits().cast().stream()
+        .limit(castLimit)
+        .map(c -> MovieCreditCreateDto.builder()
+            .tmdbId(c.credit_id())
+            .type(CreditType.CAST)
+            .role(c.character())
+            .person(people.get(c.id()))
+            .order(c.order())
             .build());
+    var crew = movie.credits().crew().stream()
+        .limit(crewLimit)
+        .map(c -> MovieCreditCreateDto.builder()
+            .tmdbId(c.credit_id())
+            .type(CreditType.CREW)
+            .role(c.job())
+            .person(people.get(c.id()))
+            .build());
+    var credits = Stream.concat(cast, crew).toList();
+    LOGGER.info(String.format("Found %d credits in TMDB movie %d", credits.size(), movie.id()));
+    return credits;
   }
   
   private TmdbMovieDto findMovie(int tmdbId) {
-    long startTime = System.nanoTime();
+    var start = System.nanoTime();
     var movie = client.findById(tmdbId, CREDITS);
-    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
     var violations = validator.validate(movie);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
@@ -79,15 +110,9 @@ public class TmdbMovieScraper extends TmdbScraper {
     return movie;
   }
   
-  private void logQueueTime(int tmdbId) {
-    var start = Instant.parse(Baggage.current().getEntryValue("job-start-time"));
-    var et = Duration.between(start, Instant.now());
-    LOGGER.infof("TMDB movie %d queued for %d ms", tmdbId, et.toMillis());
-  }
-  
-  private MovieCreateMessage scrape(int tmdbId) {
-    var movie = findMovie(tmdbId);
-    return MovieCreateMessage.builder()
+  private Message<MovieCreateMessage> createMessage(
+      TmdbMovieDto movie, List<MovieCreditCreateDto> credits, String jobId) {
+    var message = MovieCreateMessage.builder()
         .tmdbId(movie.id())
         .title(movie.title())
         .releaseDate(movie.release_date())
@@ -103,6 +128,11 @@ public class TmdbMovieScraper extends TmdbScraper {
         .tagline(movie.tagline())
         .overview(movie.overview())        
         .build();
+    LOGGER.infof("Sent: %s for TMDB movie %d", jobId, movie.id());
+    return Message.of(message)
+        .addMetadata(OutgoingRabbitMQMetadata.builder()
+            .withRoutingKey(CREATE_KEY)
+            .build());
   }
 
 }

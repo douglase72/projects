@@ -36,7 +36,7 @@ public class TmdbMovieScheduler {
   /// - @Scheduled(cron = "0 10 0 * * ?") - Run every day at 00:10:00 UTC
   @Scheduled(cron = "0 0 8 * * ?")
   public void cron() {
-    var tmdbIds = List.of(816, 335984);
+    var tmdbIds = List.of(816, 335984, 818);
     for (var tmdbId : tmdbIds) {
       ingest(tmdbId);
     }
