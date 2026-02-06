@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 5s
+  
+scrape_configs:
+  - job_name: 'gateway'
+    metrics_path: '/emdb/api/q/metrics'
+    static_configs:
+      - targets: ['emdb-gateway:60310'] 
+        labels:
+          application: 'gateway'
+          
+  - job_name: 'scheduler'
+    metrics_path: '/api/q/metrics'
+    static_configs:
+      - targets: ['emdb-scheduler:60312'] 
+        labels:
+          application: 'scheduler'
+
+  - job_name: 'scraper'
+    metrics_path: '/api/q/metrics'
+    static_configs:
+      - targets: ['emdb-scraper:60314'] 
+        labels:
+          application: 'scraper'
+    
+  - job_name: 'media'
+    metrics_path: '/api/q/metrics'
+    static_configs:
+      - targets: ['emdb-media:60316'] 
+        labels:
+          application: 'media'
+          
+  - job_name: 'job'
+    metrics_path: '/api/q/metrics'
+    static_configs:
+      - targets: ['emdb-job:60318'] 
+        labels:
+          application: 'job'
+          

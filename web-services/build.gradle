@@ -1,0 +1,17 @@
+plugins {
+  id 'java-library' 
+  id("org.kordamp.gradle.jandex") version "2.3.0"
+}
+
+dependencies {
+	implementation platform(libs.jakarta.bom)
+	implementation platform(libs.opentelemetry.bom)
+	
+	compileOnly libs.jakarta.validation
+	compileOnly libs.jakarta.ws.rs
+  compileOnly libs.microprofile.config
+  compileOnly libs.opentelemetry.api	
+	compileOnly libs.slf4j.api
+	
+	implementation libs.jakarta.data
+}

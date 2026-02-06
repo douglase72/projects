@@ -1,0 +1,16 @@
+plugins {
+  id 'java-library' 
+  id("org.kordamp.gradle.jandex") version "2.3.0"
+}
+
+dependencies {
+  api platform(libs.quarkus.bom)
+  
+  implementation project(':emdb-common')
+  
+  implementation libs.guava
+  
+  compileOnly libs.quarkus.arc
+  compileOnly libs.quarkus.hibernate.validator
+  compileOnly libs.quarkus.rest.client.jackson
+}

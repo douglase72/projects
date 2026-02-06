@@ -1,0 +1,129 @@
+services:
+
+  rabbitmq:
+    image: rabbitmq:4.2.1-management
+    container_name: rabbitmq 
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq   
+    networks:
+      - projects
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  emdb-gateway:
+    image: emdb-gateway:latest
+    container_name: emdb-gateway
+    build:
+      context: ./emdb-gateway-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60330:60310
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
+  emdb-scheduler:
+    image: emdb-scheduler:latest
+    container_name: emdb-scheduler
+    build:
+      context: ./emdb-scheduler-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60332:60312
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
+  emdb-scraper:
+    image: emdb-scraper:latest
+    container_name: emdb-scraper
+    build:
+      context: ./emdb-scraper-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60334:60314
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-scraper-service/.env
+    volumes:
+      - /home/erdouglass/projects/emdb/media-data/images:/images
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
+  emdb-media:
+    image: emdb-media:latest
+    container_name: emdb-media
+    build:
+      context: ./emdb-media-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60336:60316
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-media-service/.env
+    volumes:
+      - /home/erdouglass/projects/emdb/media-data/images:/images
+      - /home/erdouglass/projects/emdb/media-data/movies:/movies
+      - /home/erdouglass/projects/emdb/media-data/people:/people
+      - /home/erdouglass/projects/emdb/media-data/series:/series
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
+  emdb-job:
+    image: emdb-job:latest
+    container_name: emdb-job
+    build:
+      context: ./emdb-job-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60338:60318
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-job-service/.env
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  emdb-ui:
+    image: emdb-ui:latest
+    container_name: emdb-ui
+    build:
+      context: ./emdb-ui
+      dockerfile: Dockerfile
+    networks:
+      - projects
+    depends_on:
+      - emdb-gateway 
+        
+volumes:
+  rabbitmq_data:
+
+networks:
+  projects:
+    name: projects
+    external: true

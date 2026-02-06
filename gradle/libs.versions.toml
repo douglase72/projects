@@ -1,0 +1,78 @@
+# libs.versions.toml
+# This is the Gradle version catalog file.
+# It centralizes dependency versions and coordinates for the entire project.
+
+[versions]
+guava = "33.5.0-jre"
+jakarta-data = "1.0.1"
+jakartaee-platform = "11.0.0"
+micometer = "1.4.7"
+microprofile-config="3.1"
+opentelemetry = "1.40.0"
+quarkus = "3.31.1"
+quarkus-logging-json = "3.3.1"
+slf4j = "2.0.17"
+zstd-jni = "1.5.5-11"
+
+[libraries]
+awaitility = { group = "org.awaitility", name = "awaitility" } 
+
+# Flyway
+flyway-database-postgres = { group = "org.flywaydb", name = "flyway-database-postgresql" } 
+
+# Google
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+# Hibernate
+hibernate-jpamodelgen = { group = "org.hibernate.orm", name = "hibernate-jpamodelgen" }
+
+# Jakarta EE
+jakarta-bom = { group = "jakarta.platform", name = "jakarta.jakartaee-bom", version.ref = "jakartaee-platform" }
+jakarta-cdi = { group = "jakarta.enterprise", name = "jakarta.enterprise.cdi-api" }
+jakarta-data = { group = "jakarta.data", name = "jakarta.data-api", version.ref = "jakarta-data" }
+jakarta-validation = { group = "jakarta.validation", name = "jakarta.validation-api" }
+jakarta-ws-rs = { group = "jakarta.ws.rs", name = "jakarta.ws.rs-api" }
+
+micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel", version.ref = "micometer"}
+
+# MicroProfile
+microprofile-config = { group = "org.eclipse.microprofile.config", name = "microprofile-config-api", version.ref = "microprofile-config" }
+
+# OpenTelemetry
+opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api" }
+opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", version.ref = "opentelemetry" }
+opentelemetry-instrumentation = { group = "io.opentelemetry.instrumentation", name = "opentelemetry-instrumentation-annotations" }
+
+# Quarkus
+quarkus-arc = { group = "io.quarkus", name = "quarkus-arc" }
+quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref = "quarkus" }
+quarkus-fault-tolerance = { group = "io.quarkus", name = "quarkus-smallrye-fault-tolerance" }
+quarkus-flyway = { group = "io.quarkus", name = "quarkus-flyway" }
+quarkus-hibernate-orm = { group = "io.quarkus", name = "quarkus-hibernate-orm" }
+quarkus-hibernate-validator = { group = "io.quarkus", name = "quarkus-hibernate-validator" }
+quarkus-jackson = { group = "io.quarkus", name = "quarkus-jackson" }
+quarkus-jdbc-postgres = { group = "io.quarkus", name = "quarkus-jdbc-postgresql" }
+quarkus-junit5 = { group = "io.quarkus", name = "quarkus-junit5" }
+quarkus-junit5-mockito = { group = "io.quarkus", name = "quarkus-junit5-mockito" }
+quarkus-kafka = { group = "io.quarkus", name = "quarkus-messaging-kafka" }
+quarkus-logging = { group = "io.quarkiverse.loggingjson", name = "quarkus-logging-json", version.ref = "quarkus-logging-json" }
+quarkus-opentelemetry = { group = "io.quarkus", name = "quarkus-opentelemetry" }
+quarkus-prometheus = { group = "io.quarkus", name = "quarkus-micrometer-registry-prometheus" }
+quarkus-rabbitmq = { group = "io.quarkus", name = "quarkus-messaging-rabbitmq" }
+quarkus-rest = { group = "io.quarkus", name = "quarkus-rest" }
+quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-client-jackson" }
+quarkus-rest-jackson = { group = "io.quarkus", name = "quarkus-rest-jackson" }
+quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
+
+# SLF4J
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+
+# SmallRye
+smallrye-messaging-in-memory = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-in-memory" }
+smallrye-messaging-jackson = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-jackson", version = "4.24.0" }	
+
+# Zstd (for Kafka compression)
+zstd-jni = { group = "com.github.luben", name = "zstd-jni", version.ref = "zstd-jni" }
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }

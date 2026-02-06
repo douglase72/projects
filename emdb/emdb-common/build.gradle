@@ -1,0 +1,14 @@
+plugins {
+  id 'java-library' 
+  id("org.kordamp.gradle.jandex") version "2.3.0"
+}
+
+dependencies {
+  api platform(libs.quarkus.bom)
+  
+  api project(':validation')
+      
+  compileOnly libs.jakarta.validation
+  compileOnly libs.jakarta.ws.rs
+  compileOnly libs.quarkus.rabbitmq
+}
