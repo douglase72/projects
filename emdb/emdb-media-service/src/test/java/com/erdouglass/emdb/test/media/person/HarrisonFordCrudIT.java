@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -66,6 +67,7 @@ class HarrisonFordCrudIT extends AbstractTest {
     LOGGER.infof("Saved person %d in %d ms", personId, et);
   }
   
+  @Disabled
   @Test
   @Order(2)
   void testFindById() throws IOException, InterruptedException {

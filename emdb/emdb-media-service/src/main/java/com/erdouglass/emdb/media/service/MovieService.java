@@ -6,7 +6,6 @@ import java.util.Optional;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -32,10 +31,13 @@ public class MovieService extends MediaService {
   Emitter<SaveMovie> dlqEmitter;
   
   @Inject
-  MovieMapper movieMapper;
+  MovieMapper mapper;
   
   @Inject
-  TmdbMovieScraper movieScraper;
+  PersonService personService;
+  
+  @Inject
+  TmdbMovieScraper scraper;
   
   @Inject
   MovieRepository repository;
@@ -44,16 +46,13 @@ public class MovieService extends MediaService {
   public void ingest(@NotNull @Positive Integer tmdbId, String jobId) {
     var existingMovie = findByTmdbId(tmdbId);
     var command = existingMovie
-        .map(movieMapper::toSaveMovie)
+        .map(mapper::toSaveMovie)
         .orElseGet(() -> SaveMovie.builder().tmdbId(tmdbId).build());
-    var saveMovie = movieScraper.scrape(command, jobId);
+    var saveCommand = scraper.scrape(command, jobId);
     
     try {
-      validate(saveMovie);
-      var movie = save(movieMapper.toMovie(saveMovie));
-      savePeople(saveMovie.people().stream()
-          .map(personMapper::toPerson)
-          .toList());
+      validate(saveCommand);
+      var movie = save(saveCommand);
       LOGGER.infof("Saved: %s", movie);
       existingMovie.ifPresent(m -> {
         if (!Objects.equals(m.tmdbBackdrop().orElse(null), movie.tmdbBackdrop().orElse(null))) {
@@ -63,21 +62,23 @@ public class MovieService extends MediaService {
           m.poster().ifPresent(imageService::delete);
         }      
       });
+      
+      // TODO: Delete each persons old image
     } catch (Exception e) {
-      dlqEmitter.send(Message.of(saveMovie)
+      dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey("movie.invalid")
           .build()));
       throw new RuntimeException(e);
     }
-    
-    // TODO: Delete each persons old image
   }
   
   @Transactional
-  public Movie save(@NotNull @Valid Movie movie) {
+  public Movie save(SaveMovie command) {
+    var movie = mapper.toMovie(command);
     repository.findByTmdbId(movie.tmdbId()).ifPresent(m -> movie.id(m.id()));
     var savedMovie = repository.save(movie);
+    personService.saveAll(command.people());
     return savedMovie; 
   }
   

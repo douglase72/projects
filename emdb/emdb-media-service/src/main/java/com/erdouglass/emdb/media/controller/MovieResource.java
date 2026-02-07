@@ -33,7 +33,7 @@ public class MovieResource {
   
   @POST
   public MovieDto save(@NotNull @Valid SaveMovie command) {
-    var movie = service.save(mapper.toMovie(command));
+    var movie = service.save(command);
     return mapper.toMovieDto(movie);
   } 
   

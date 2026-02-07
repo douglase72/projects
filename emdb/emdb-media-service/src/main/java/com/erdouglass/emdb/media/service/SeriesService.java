@@ -6,7 +6,6 @@ import java.util.Optional;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -23,10 +22,10 @@ public class SeriesService extends MediaService {
   private static final Logger LOGGER = Logger.getLogger(SeriesService.class);
   
   @Inject
-  SeriesMapper seriesMapper;
+  SeriesMapper mapper;
   
   @Inject
-  TmdbSeriesScraper seriesScraper;
+  TmdbSeriesScraper scraper;
   
   @Inject
   SeriesRepository repository;
@@ -35,10 +34,10 @@ public class SeriesService extends MediaService {
   public void ingest(@NotNull @Positive Integer tmdbId, String jobId) {
     var existingSeries = findByTmdbId(tmdbId);
     var command = existingSeries
-        .map(seriesMapper::toSaveSeries)
+        .map(mapper::toSaveSeries)
         .orElseGet(() -> SaveSeries.builder().tmdbId(tmdbId).build());
-    var saveCommand = seriesScraper.scrape(command, jobId);
-    var series = save(seriesMapper.toSeries(saveCommand));
+    var saveCommand = scraper.scrape(command, jobId);
+    var series = save(saveCommand);
     LOGGER.infof("Saved: %s", series);
     existingSeries.ifPresent(s -> {
       if (!Objects.equals(s.tmdbBackdrop().orElse(null), series.tmdbBackdrop().orElse(null))) {
@@ -51,7 +50,8 @@ public class SeriesService extends MediaService {
   }  
   
   @Transactional
-  public Series save(@NotNull @Valid Series series) {
+  public Series save(SaveSeries command) {
+    var series = mapper.toSeries(command);
     repository.findByTmdbId(series.tmdbId()).ifPresent(s -> series.id(s.id()));
     var savedSeries = repository.save(series);
     return savedSeries;     

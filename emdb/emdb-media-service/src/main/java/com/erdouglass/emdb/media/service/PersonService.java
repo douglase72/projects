@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -21,6 +19,7 @@ import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus.Status;
 import com.erdouglass.emdb.media.entity.Person;
+import com.erdouglass.emdb.media.mapper.PersonMapper;
 import com.erdouglass.emdb.media.repository.PersonRepository;
 import com.erdouglass.emdb.scraper.service.TmdbPersonScraper;
 
@@ -29,7 +28,10 @@ public class PersonService extends MediaService {
   private static final Logger LOGGER = Logger.getLogger(PersonService.class);
   
   @Inject
-  TmdbPersonScraper personScraper;
+  PersonMapper mapper;
+  
+  @Inject
+  TmdbPersonScraper scraper;
   
   @Inject
   PersonRepository repository;
@@ -38,10 +40,10 @@ public class PersonService extends MediaService {
   public void ingest(@NotNull @Positive Integer tmdbId, String jobId) {
     var existingPerson = findByTmdbId(tmdbId);
     var command = existingPerson
-        .map(personMapper::toSavePerson)
+        .map(mapper::toSavePerson)
         .orElseGet(() -> SavePerson.builder().tmdbId(tmdbId).build());
-    var saveCommand = personScraper.scrape(command, jobId);
-    var person = personService.save(personMapper.toPerson(saveCommand));
+    var saveCommand = scraper.scrape(command, jobId);
+    var person = save(saveCommand);
     LOGGER.infof("Saved: %s", person);
     existingPerson.ifPresent(p -> {
       if (!Objects.equals(p.tmdbProfile().orElse(null), person.tmdbProfile().orElse(null))) {
@@ -51,14 +53,16 @@ public class PersonService extends MediaService {
   }
   
   @Transactional
-  public Person save(@NotNull @Valid Person person) {
+  public Person save(SavePerson command) {
+    var person = mapper.toPerson(command);
     repository.findByTmdbId(person.tmdbId()).ifPresent(p -> person.id(p.id()));
     var savedPerson = repository.save(person);
     return savedPerson;  
   }
   
   @Transactional
-  public List<PersonStatus> saveAll(@NotEmpty List<@Valid Person> people) {
+  public List<PersonStatus> saveAll(List<SavePerson> commands) {
+    var people = commands.stream().map(mapper::toPerson).toList();
     List<PersonStatus> results = new ArrayList<>();
     List<Person> peopleToInsert = new ArrayList<>();
     List<Person> peopleToUpdate = new ArrayList<>();

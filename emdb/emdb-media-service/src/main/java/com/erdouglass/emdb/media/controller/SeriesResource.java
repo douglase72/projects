@@ -33,7 +33,7 @@ public class SeriesResource {
   
   @POST
   public SeriesDto save(@NotNull @Valid SaveSeries command) {
-    var series = service.save(mapper.toSeries(command));
+    var series = service.save(command);
     return mapper.toSeriesDto(series);
   }
   

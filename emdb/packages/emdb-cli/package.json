@@ -1,0 +1,27 @@
+{
+  "name": "emdb-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/emdb-cli.js",
+  "bin": {
+    "emdb-cli": "dist/emdb-cli.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x dist/emdb-cli.js",
+    "dev": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^25.2.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@emdb/common": "*",
+    "axios": "^1.13.4",
+    "commander": "^14.0.3",
+    "dotenv": "^17.2.4"
+  }
+}

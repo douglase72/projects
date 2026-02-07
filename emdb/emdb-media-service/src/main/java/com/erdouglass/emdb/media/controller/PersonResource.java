@@ -40,14 +40,14 @@ public class PersonResource {
   
   @POST
   public PersonDto save(@NotNull @Valid SavePerson command) {
-    var person = service.save(mapper.toPerson(command));
+    var person = service.save(command);
     return mapper.toPersonDto(person);
   }
   
   @POST
   @Path("/batch")
   public Response saveAll(@NotEmpty List<@Valid SavePerson> commands) {
-    var results = service.saveAll(commands.stream().map(mapper::toPerson).toList()).stream()
+    var results = service.saveAll(commands).stream()
         .map(this::toResponse)
         .toList();    
     return Response.status(ResponseStatus.MULTI_STATUS).entity(results).build();
