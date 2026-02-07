@@ -32,42 +32,6 @@ services:
       rabbitmq:
         condition: service_healthy
         
-  emdb-scheduler:
-    image: emdb-scheduler:latest
-    container_name: emdb-scheduler
-    build:
-      context: ./emdb-scheduler-service
-      dockerfile: src/main/docker/Dockerfile
-    ports:
-      - 60332:60312
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-        
-  emdb-scraper:
-    image: emdb-scraper:latest
-    container_name: emdb-scraper
-    build:
-      context: ./emdb-scraper-service
-      dockerfile: src/main/docker/Dockerfile
-    ports:
-      - 60334:60314
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    env_file:
-      - ./emdb-scraper-service/.env
-    volumes:
-      - /home/erdouglass/projects/emdb/media-data/images:/images
-    networks:
-      - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-        
   emdb-media:
     image: emdb-media:latest
     container_name: emdb-media
@@ -90,31 +54,13 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-        
-  emdb-job:
-    image: emdb-job:latest
-    container_name: emdb-job
-    build:
-      context: ./emdb-job-service
-      dockerfile: src/main/docker/Dockerfile
-    ports:
-      - 60338:60318
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    env_file:
-      - ./emdb-job-service/.env
-    networks:
-      - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
 
   emdb-ui:
     image: emdb-ui:latest
     container_name: emdb-ui
     build:
-      context: ./emdb-ui
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: packages/emdb-ui/Dockerfile
     networks:
       - projects
     depends_on:

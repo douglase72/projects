@@ -11,6 +11,15 @@ cd "$PROJECT_ROOT"
 echo "Building emdb-gateway-service..."
 gradle :emdb-gateway-service:clean :emdb-gateway-service:build -x :emdb-gateway-service:test
 
+echo "Building emdb-media-service..."
+gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
+
+echo "Cleaning media data..."
+docker run --rm \
+  -v /home/erdouglass/projects/emdb/media-data/images:/data \
+  alpine \
+  sh -c "rm -rf /data/*"
+
 echo "Stopping and removing old containers..."
 cd "$SCRIPT_DIR"
 docker compose -f docker-compose.yaml down

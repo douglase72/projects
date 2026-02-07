@@ -16,6 +16,8 @@ import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 
+import io.micrometer.core.annotation.Timed;
+
 @ApplicationScoped
 public class TmdbPersonScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbPersonScraper.class);
@@ -27,6 +29,10 @@ public class TmdbPersonScraper {
   @Inject
   TmdbImageService imageService;
   
+  @Timed(
+      value = "emdb.scrape.duration", 
+      extraTags = {"media", "person"}
+  )
   public SavePerson scrape(@NotNull @Valid SavePerson command, @NotBlank String jobId) {
     var start = System.nanoTime();
     var tmdbPerson = client.findById(command.tmdbId());

@@ -13,6 +13,8 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.comand.IngestMedia;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import io.opentelemetry.api.baggage.Baggage;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 
@@ -33,6 +35,9 @@ public class IngestService {
   @Inject
   SeriesService seriesService;
   
+  @Inject
+  MeterRegistry registry;  
+  
   @Blocking
   @Incoming("ingest-media-in")
   public CompletionStage<Void> onMessage(Message<IngestMedia> wrapper) {
@@ -50,7 +55,12 @@ public class IngestService {
       }
       var et = Duration.between(start, Instant.now());
       LOGGER.infof("Ingest Job %s for TMDB %s %d completed in %d ms", 
-          jobId, command.type(), command.tmdbId(), et.toMillis());      
+          jobId, command.type(), command.tmdbId(), et.toMillis()); 
+      Timer.builder("emdb.ingest.duration")
+        .description("Measures the time to ingest a movie from TMDB")
+        .tag("media", command.type().toString())
+        .register(registry)
+        .record(et);
       return wrapper.ack();
     } catch (Exception e) {
       var msg = String.format("Failed to ingest TMDB media %d", command.tmdbId());
@@ -63,7 +73,7 @@ public class IngestService {
     var start = Instant.parse(Baggage.current().getEntryValue("job-start-time"));
     var et = Duration.between(start, Instant.now());
     LOGGER.infof("Ingest Job %s for TMDB %s %d sat in the ingest-media queue for %d ms", 
-        jobId, command.type(), command.tmdbId(), et.toMillis());
+        jobId, command.type(), command.tmdbId(), et.toMillis());    
   }
 
 }

@@ -15,6 +15,8 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
 
+import io.micrometer.core.annotation.Timed;
+
 @ApplicationScoped
 public class TmdbSeriesScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbSeriesScraper.class);
@@ -27,6 +29,10 @@ public class TmdbSeriesScraper {
   @Inject
   TmdbImageService imageService;  
   
+  @Timed(
+      value = "emdb.scrape.duration", 
+      extraTags = {"media", "series"}
+  )
   public SaveSeries scrape(@NotNull @Valid SaveSeries command, @NotBlank String jobId) {
     var start = System.nanoTime();
     var tmdbSeries = client.findById(command.tmdbId(), CREDITS);

@@ -11,26 +11,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Button: typeof import('primevue/button')['default']
-    Column: typeof import('primevue/column')['default']
-    ConfirmDialog: typeof import('primevue/confirmdialog')['default']
-    DataTable: typeof import('primevue/datatable')['default']
-    DatePicker: typeof import('primevue/datepicker')['default']
-    Dialog: typeof import('primevue/dialog')['default']
-    EditForm: typeof import('./components/EditForm.vue')['default']
-    EditToolbar: typeof import('./components/EditToolbar.vue')['default']
-    Fieldset: typeof import('primevue/fieldset')['default']
-    FileUpload: typeof import('primevue/fileupload')['default']
-    ImportDialog: typeof import('./components/ImportDialog.vue')['default']
-    InputGroup: typeof import('primevue/inputgroup')['default']
-    InputNumber: typeof import('primevue/inputnumber')['default']
-    InputText: typeof import('primevue/inputtext')['default']
-    RadioButton: typeof import('primevue/radiobutton')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Select: typeof import('primevue/select')['default']
-    Tag: typeof import('primevue/tag')['default']
-    Textarea: typeof import('primevue/textarea')['default']
     Toast: typeof import('primevue/toast')['default']
   }
 }

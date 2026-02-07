@@ -56,6 +56,7 @@ quarkus-junit5 = { group = "io.quarkus", name = "quarkus-junit5" }
 quarkus-junit5-mockito = { group = "io.quarkus", name = "quarkus-junit5-mockito" }
 quarkus-kafka = { group = "io.quarkus", name = "quarkus-messaging-kafka" }
 quarkus-logging = { group = "io.quarkiverse.loggingjson", name = "quarkus-logging-json", version.ref = "quarkus-logging-json" }
+quarkus-micrometer = { group = "io.quarkus", name = "quarkus-micrometer" }
 quarkus-opentelemetry = { group = "io.quarkus", name = "quarkus-opentelemetry" }
 quarkus-prometheus = { group = "io.quarkus", name = "quarkus-micrometer-registry-prometheus" }
 quarkus-rabbitmq = { group = "io.quarkus", name = "quarkus-messaging-rabbitmq" }

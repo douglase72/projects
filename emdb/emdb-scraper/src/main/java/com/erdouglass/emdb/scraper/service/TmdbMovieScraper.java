@@ -21,6 +21,8 @@ import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CastCredit;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CrewCredit;
 
+import io.micrometer.core.annotation.Timed;
+
 @ApplicationScoped
 public class TmdbMovieScraper extends TmdbScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
@@ -30,6 +32,10 @@ public class TmdbMovieScraper extends TmdbScraper {
   @RestClient
   TmdbMovieClient client;
   
+  @Timed(
+      value = "emdb.scrape.duration", 
+      extraTags = {"media", "movie"}
+  )
   public SaveMovie scrape(@NotNull @Valid SaveMovie command, @NotBlank String jobId) {
     var start = System.nanoTime();
     var tmdbMovie = client.findById(command.tmdbId(), CREDITS);
@@ -47,8 +53,7 @@ public class TmdbMovieScraper extends TmdbScraper {
         .tmdbId(tmdbMovie.id())
         .title(tmdbMovie.title())
         .releaseDate(tmdbMovie.release_date())
-        //.score(tmdbMovie.vote_average())
-        .score(-1f)
+        .score(tmdbMovie.vote_average())
         .status(tmdbMovie.status())
         .runtime(tmdbMovie.runtime())
         .budget(tmdbMovie.budget())

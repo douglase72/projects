@@ -11,13 +11,13 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import com.erdouglass.emdb.scraper.query.TmdbPersonDto;
 
-@RegisterRestClient()
+@RegisterRestClient(configKey = "tmdb-person") 
 @ClientHeaderParam(name = "Authorization", value = "Bearer ${tmdb.token}")
 @Produces(MediaType.APPLICATION_JSON)
 public interface TmdbPersonClient {
 
   @GET
-  @Path("/{id}")
+  @Path("/person/{id}")
   public TmdbPersonDto findById(@PathParam("id") Integer id);
   
 }

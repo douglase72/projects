@@ -8,7 +8,7 @@ import jakarta.ws.rs.PathParam;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient()
+@RegisterRestClient(configKey = "tmdb-image")
 public interface TmdbImageClient {
   
   @GET

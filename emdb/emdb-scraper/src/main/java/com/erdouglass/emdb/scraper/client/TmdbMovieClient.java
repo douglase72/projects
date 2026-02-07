@@ -12,13 +12,13 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
 
-@RegisterRestClient()
+@RegisterRestClient(configKey = "tmdb-movie")
 @ClientHeaderParam(name = "Authorization", value = "Bearer ${tmdb.token}")
 @Produces(MediaType.APPLICATION_JSON)
 public interface TmdbMovieClient {
 
   @GET
-  @Path("/{id}")
+  @Path("/movie/{id}")
   public TmdbMovieDto findById(@PathParam("id") Integer id, @QueryParam("append_to_response") String append);  
   
 }

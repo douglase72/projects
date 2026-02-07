@@ -11,6 +11,7 @@ public record IngestMedia(
     @NotNull IngestSource source) {
   
   public enum IngestSource {
+    CLI,
     CRON,
     UI;
   }

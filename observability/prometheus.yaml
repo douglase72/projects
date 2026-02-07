@@ -15,13 +15,6 @@ scrape_configs:
       - targets: ['emdb-scheduler:60312'] 
         labels:
           application: 'scheduler'
-
-  - job_name: 'scraper'
-    metrics_path: '/api/q/metrics'
-    static_configs:
-      - targets: ['emdb-scraper:60314'] 
-        labels:
-          application: 'scraper'
     
   - job_name: 'media'
     metrics_path: '/api/q/metrics'

@@ -4,7 +4,7 @@ import { useToast } from "primevue/usetoast";
 
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { ImageSize } from '@/models/ImageSize';
-import type { Movie } from '@/models/Movie';
+import type { Movie } from '@emdb/common';
 import type { Person } from '@/models/Person';
 import type { Series } from '@/models/Series';
 

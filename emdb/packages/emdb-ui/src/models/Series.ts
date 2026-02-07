@@ -1,5 +1,5 @@
 import { SeriesType } from "./SeriesType";
-import { ShowStatus } from "./ShowStatus";
+import { ShowStatus } from '@emdb/common';
 
 export interface Series {
   id: number;
