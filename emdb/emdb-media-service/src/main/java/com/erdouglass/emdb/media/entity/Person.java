@@ -67,6 +67,10 @@ public class Person extends BasicEntity<Integer> {
   Person() {
 
   }
+  
+  public Person(String name) {
+    this.name = name;
+  }
 
   public Person(Integer tmdbId, String name) {
     super(tmdbId);

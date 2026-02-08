@@ -1,8 +1,13 @@
 <template>
   <header class="m-4">
     <div class="text-4xl font-bold mb-4">Person</div>
-    <div>
+    <div class="flex flex-col">
       <RouterLink to="/" class="hover:text-zinc-300">Home</RouterLink>
+      <RouterLink v-if="person" 
+                  :to="`/person/${person.id}/edit`" 
+                  class="hover:text-zinc-300">
+        Person Edit
+      </RouterLink>      
     </div>    
   </header>
 
@@ -38,7 +43,7 @@
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Person } from '@/models/Person';
+  import type { Person } from '@emdb/common';
 
   const { findImage, findPerson } = useEmdbApi();
   const route = useRoute();

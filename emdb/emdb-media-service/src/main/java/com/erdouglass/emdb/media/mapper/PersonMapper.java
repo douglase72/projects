@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.media.entity.Person;
 
@@ -20,6 +21,17 @@ public class PersonMapper {
     person.biography(command.biography());
     return person;
   }
+  
+  public Person toPerson(UpdatePerson command) {
+    var person = new Person(command.name());
+    person.birthDate(command.birthDate());
+    person.deathDate(command.deathDate());
+    person.gender(command.gender());
+    person.birthPlace(command.birthPlace());
+    person.profile(command.profile());
+    person.biography(command.biography());
+    return person;
+  }  
   
   public SavePerson toSavePerson(Person person) {
     return SavePerson.builder()

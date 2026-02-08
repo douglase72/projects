@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.entity.Movie;
 
@@ -27,6 +28,23 @@ public class MovieMapper {
     movie.overview(command.overview());
     return movie;
   }
+  
+  public Movie toMovie(UpdateMovie command) {
+    var movie = new Movie(command.title());
+    movie.releaseDate(command.releaseDate());
+    movie.score(command.score());
+    movie.status(command.status());
+    movie.runtime(command.runtime());
+    movie.budget(command.budget());
+    movie.revenue(command.revenue());
+    movie.homepage(command.homepage());
+    movie.originalLanguage(command.originalLanguage());
+    movie.backdrop(command.backdrop());
+    movie.poster(command.poster());
+    movie.tagline(command.tagline());
+    movie.overview(command.overview());
+    return movie;
+  } 
   
   public SaveMovie toSaveMovie(Movie movie) {
     return SaveMovie.builder()

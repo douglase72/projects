@@ -15,16 +15,19 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.repository.MovieRepository;
 import com.erdouglass.emdb.scraper.service.TmdbMovieScraper;
+import com.erdouglass.webservices.ResourceNotFoundException;
 
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 public class MovieService extends MediaService {
-  private static final Logger LOGGER = Logger.getLogger(MovieService.class); 
+  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
+  private static final String ROUTE_KEY = "movie.invalid";
   
   @Inject
   @Channel("movie-dlq-out")
@@ -67,7 +70,7 @@ public class MovieService extends MediaService {
     } catch (Exception e) {
       dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
-          .withRoutingKey("movie.invalid")
+          .withRoutingKey(ROUTE_KEY)
           .build()));
       throw new RuntimeException(e);
     }
@@ -91,5 +94,24 @@ public class MovieService extends MediaService {
   public Optional<Movie> findByTmdbId(@NotNull @Positive Integer id) {
     return repository.findByTmdbId(id);
   }
+  
+  @Transactional
+  public Movie update(Long id, UpdateMovie command) {
+    var existingMovie = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Movie not found with Id: " + id));
+    var movie = mapper.toMovie(command);
+    movie.id(existingMovie.id());
+    movie.tmdbId(existingMovie.tmdbId());
+    var updatedMovie = repository.update(movie);
+    return updatedMovie;
+  }
+  
+  @Transactional
+  public void deleteById(Long id) {
+    var movie = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    repository.deleteById(id);
+    LOGGER.infof("Deleted: %s", movie);
+  }    
   
 }

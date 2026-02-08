@@ -13,19 +13,31 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus.Status;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
 import com.erdouglass.emdb.media.repository.PersonRepository;
 import com.erdouglass.emdb.scraper.service.TmdbPersonScraper;
+import com.erdouglass.webservices.ResourceNotFoundException;
+
+import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 public class PersonService extends MediaService {
   private static final Logger LOGGER = Logger.getLogger(PersonService.class);
+  private static final String ROUTE_KEY = "person.invalid";
+  
+  @Inject
+  @Channel("person-dlq-out")
+  Emitter<SavePerson> dlqEmitter;
   
   @Inject
   PersonMapper mapper;
@@ -43,13 +55,23 @@ public class PersonService extends MediaService {
         .map(mapper::toSavePerson)
         .orElseGet(() -> SavePerson.builder().tmdbId(tmdbId).build());
     var saveCommand = scraper.scrape(command, jobId);
-    var person = save(saveCommand);
-    LOGGER.infof("Saved: %s", person);
-    existingPerson.ifPresent(p -> {
-      if (!Objects.equals(p.tmdbProfile().orElse(null), person.tmdbProfile().orElse(null))) {
+    
+    try {
+      validate(saveCommand);
+      var person = save(saveCommand);
+      LOGGER.infof("Saved: %s", person);
+      existingPerson.ifPresent(p -> {
+        if (!Objects.equals(p.tmdbProfile().orElse(null), person.tmdbProfile().orElse(null))) {
           p.profile().ifPresent(imageService::delete);
-      }
-    });      
+        }
+      });  
+    } catch (Exception e) {
+      dlqEmitter.send(Message.of(saveCommand)
+          .addMetadata(OutgoingRabbitMQMetadata.builder()
+          .withRoutingKey(ROUTE_KEY)
+          .build()));
+      throw new RuntimeException(e);      
+    }
   }
   
   @Transactional
@@ -95,12 +117,31 @@ public class PersonService extends MediaService {
   
   @Transactional
   public Optional<Person> findById(@NotNull @Positive Long id, String append) {
-    return repository.findById(id);
+    return  repository.findById(id);
   }
   
   @Transactional
   Optional<Person> findByTmdbId(@NotNull @Positive Integer id) {
     return repository.findByTmdbId(id);
+  }
+  
+  @Transactional
+  public Person update(Long id, UpdatePerson command) {
+    var existingPerson = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Person not found with Id: " + id));
+    var person = mapper.toPerson(command);
+    person.id(existingPerson.id());
+    person.tmdbId(existingPerson.tmdbId());
+    var updatedPerson = repository.update(person);
+    return updatedPerson;
+  }
+  
+  @Transactional
+  public void deleteById(Long id) {
+    var movie = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
+    repository.deleteById(id);
+    LOGGER.infof("Deleted: %s", movie);
   }
   
 }

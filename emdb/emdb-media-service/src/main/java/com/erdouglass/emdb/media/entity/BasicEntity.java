@@ -74,6 +74,10 @@ public abstract class BasicEntity<T> {
   public Instant modified() {
     return modified;
   }
+  
+  public void tmdbId(T tmdbId) {
+    this.tmdbId = tmdbId;
+  }
 
   public T tmdbId() {
     return tmdbId;

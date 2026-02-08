@@ -8,7 +8,6 @@ public abstract class AbstractShowBuilder<T> {
   protected ShowStatus status;
   protected String tagline;
   protected String title;
-  protected Integer tmdbId;
 
   public T homepage(String homepage) {
     this.homepage = homepage;
@@ -42,11 +41,6 @@ public abstract class AbstractShowBuilder<T> {
   
   public T title(String title) {
     this.title = title;
-    return self();
-  }
-
-  public T tmdbId(Integer tmdbId) {
-    this.tmdbId = tmdbId;
     return self();
   }
 

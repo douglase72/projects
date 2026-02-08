@@ -48,6 +48,7 @@ public record MovieDto(
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private Integer tmdbId;
     private String backdrop;
     private Long id;
     private String poster;
@@ -86,6 +87,11 @@ public record MovieDto(
     public Builder poster(String poster) {
       this.poster = poster;
       return this;
+    }
+    
+    public Builder tmdbId(Integer tmdbId) {
+      this.tmdbId = tmdbId;
+      return self();
     }
 
     @Override

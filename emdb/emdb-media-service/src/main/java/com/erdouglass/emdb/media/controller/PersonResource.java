@@ -8,8 +8,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -20,6 +22,7 @@ import jakarta.ws.rs.core.Response;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.EmdbResponse;
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
@@ -61,7 +64,18 @@ public class PersonResource {
     var person = service.findById(id, append)
         .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
     return mapper.toPersonDto(person);
-  } 
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public PersonDto update(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @NotNull @Valid UpdatePerson command) {
+    var person = service.update(id, command);
+    return mapper.toPersonDto(person);
+  }
+  
+  
   
   private EmdbResponse toResponse(PersonStatus personStatus) {
     var person = personStatus.person();
@@ -72,6 +86,13 @@ public class PersonResource {
       default -> throw new IllegalArgumentException("Invalid status: " + personStatus.status());
     };
     return EmdbResponse.of(person.id(), person.tmdbId(), code);
+  } 
+  
+  @DELETE
+  @Path("/{id}")
+  public Response deleteById(@PathParam("id") @NotNull @Positive Long id) {
+    service.deleteById(id);
+    return Response.noContent().build();
   }  
 
 }

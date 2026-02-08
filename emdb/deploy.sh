@@ -16,9 +16,11 @@ gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-servic
 
 echo "Cleaning media data..."
 docker run --rm \
-  -v /home/erdouglass/projects/emdb/media-data/images:/data \
+  -v /home/erdouglass/projects/emdb/media-data/images:/images \
+  -v /home/erdouglass/projects/emdb/media-data/movies:/movies \
+  -v /home/erdouglass/projects/emdb/media-data/people:/people \
   alpine \
-  sh -c "rm -rf /data/*"
+  sh -c "rm -rf /images/* /movies/* /people/*"
 
 echo "Stopping and removing old containers..."
 cd "$SCRIPT_DIR"

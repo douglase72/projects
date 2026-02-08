@@ -44,6 +44,10 @@ public class Movie extends Show {
   Movie() {
 
   }
+  
+  public Movie(String title) {
+    super(title);
+  }
 
   public Movie(Integer tmdbId, String title) {
     super(tmdbId, title);
@@ -83,8 +87,13 @@ public class Movie extends Show {
 
   @Override
   public String toString() {
-    return "Movie[id=" + id() + ", tmdbId=" + tmdbId() + ", title=" + title() + ", releaseDate=" + releaseDate
-        + ", created=" + created() + ", modified=" + modified() + "]";
+    return "Movie[id=" + id() 
+      + ", tmdbId=" + tmdbId() 
+      + ", title=" + title() 
+      + ", releaseDate=" + releaseDate
+      + ", created=" + created() 
+      + ", modified=" + modified() 
+      + "]";
   }
 
 }

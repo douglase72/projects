@@ -41,6 +41,7 @@ public record SaveSeries(
   }
   
   public static final class Builder extends AbstractSeriesBuilder<Builder> {
+    private Integer tmdbId;
     private UUID backdrop;
     private UUID poster;
     private String tmdbBackdrop;
@@ -83,7 +84,12 @@ public record SaveSeries(
     public Builder tmdbPoster(String tmdbPoster) {
       this.tmdbPoster = tmdbPoster;
       return this;
-    }  
+    }
+    
+    public Builder tmdbId(Integer tmdbId) {
+      this.tmdbId = tmdbId;
+      return this;
+    }
 
     @Override
     protected Builder self() {

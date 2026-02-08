@@ -36,6 +36,7 @@ public record SavePerson(
   }
   
   public static final class Builder extends AbstractPersonBuilder<Builder> {
+    private Integer tmdbId;
     private UUID profile;
     private String tmdbProfile;
     
@@ -57,6 +58,11 @@ public record SavePerson(
     public Builder profile(UUID profile) {
       this.profile = profile;
       return self();
+    }
+    
+    public Builder tmdbId(Integer tmdbId) {
+      this.tmdbId = tmdbId;
+      return this;
     }
     
     public Builder tmdbProfile(String tmdbProfile) {

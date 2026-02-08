@@ -15,10 +15,20 @@ const router = createRouter({
       component: () => import('@/views/MovieView.vue'),
     },
     {
+      path: '/movie/:id/edit',
+      name: 'MovieEdit',
+      component: () => import('@/views/MovieEditView.vue'),
+    },    
+    {
       path: '/person/:id',
       name: 'Person',
       component: () => import('@/views/PersonView.vue'),
     },
+    {
+      path: '/person/:id/edit',
+      name: 'PersonEdit',
+      component: () => import('@/views/PersonEditView.vue'),
+    },    
     {
       path: '/series/:id',
       name: 'Series',

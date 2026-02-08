@@ -1,9 +1,7 @@
-import { Gender } from "./Gender";
+import { Gender } from "./Gender.js";
 
-export interface Person {
-  id: number;
-  tmdbId: number;
-  name: string; 
+export interface UpdatePerson {
+  name: string;
   birthDate: string | null;
   deathDate: string | null;
   gender: Gender | null;

@@ -83,6 +83,10 @@ public abstract class Show extends BasicEntity<Integer> {
   protected Show() {
     super();
   }
+  
+  protected Show(String title) {
+    this.title = title;
+  }
 
   protected Show(Integer tmdbId, String title) {
     super(tmdbId);

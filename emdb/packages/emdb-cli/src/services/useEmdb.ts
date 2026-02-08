@@ -1,8 +1,13 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import type { IngestMedia } from '@emdb/common';
-import type { Movie } from '@emdb/common';
 import type { SaveMovie } from "../models/SaveMovie.js";
+import type { SavePerson } from '../models/SavePerson.js';
+import type { 
+  IngestMedia, 
+  Movie, 
+  Person, 
+  UpdateMovie,
+  UpdatePerson } from '@emdb/common';
 
 export function useEmdb() {
   const apiUrl = process.env.API_URL;
@@ -15,9 +20,22 @@ export function useEmdb() {
     baseURL: apiUrl,
   });
 
- const findMovie = async (id: number): Promise<Movie> => {
+  const deleteMovie = async (id: number) => {
+    client.delete<number>(`/movies/${id}`);
+  }
+
+  const deletePerson = async (id: number) => {
+    client.delete<number>(`/people/${id}`);
+  }  
+
+  const findMovie = async (id: number): Promise<Movie> => {
     const { data: movie } = await client.get<Movie>(`/movies/${id}`);
     return movie;
+  };  
+
+  const findPerson = async (id: number): Promise<Person> => {
+    const { data: person } = await client.get<Person>(`/people/${id}`);
+    return person;
   };  
 
   const ingest = async (command: IngestMedia): Promise<string> => {
@@ -30,10 +48,31 @@ export function useEmdb() {
     return movie;
   };
 
+  const savePerson = async (command: SavePerson): Promise<Person> => {
+    const { data: person } = await client.post<Person>('/people', command);
+    return person;
+  };  
+
+  const updateMovie = async (id:number, command: UpdateMovie): Promise<Movie> => {
+    const { data: movie } = await client.put<Movie>(`/movies/${id}`, command);
+    return movie;
+  };  
+
+  const updatePerson = async (id:number, command: UpdatePerson): Promise<Person> => {
+    const { data: person } = await client.put<Person>(`/people/${id}`, command);
+    return person;
+  };    
+
   return {
+    deleteMovie,
+    deletePerson,
     findMovie,
+    findPerson,
     ingest,
-    saveMovie
+    saveMovie,
+    savePerson,
+    updateMovie,
+    updatePerson
   };
 
 }

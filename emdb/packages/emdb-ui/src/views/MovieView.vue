@@ -1,8 +1,13 @@
 <template>
   <header class="m-4">
     <div class="text-4xl font-bold mb-4">Movie</div>
-    <div>
+    <div class="flex flex-col">
       <RouterLink to="/" class="hover:text-zinc-300">Home</RouterLink>
+      <RouterLink v-if="movie" 
+                  :to="`/movie/${movie.id}/edit`" 
+                  class="hover:text-zinc-300">
+        Movie Edit
+      </RouterLink>
     </div>
   </header>
 
@@ -63,8 +68,7 @@
   const movie = ref<Movie>();
 
   onMounted(async () => {
-    const routeId = route.params.id;
-    const id = Number(routeId);
+    const id = Number(route.params.id);
     if (Number.isNaN(id)) {
       router.push('/'); 
       return;

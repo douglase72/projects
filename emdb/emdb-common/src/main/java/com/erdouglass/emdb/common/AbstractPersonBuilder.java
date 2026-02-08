@@ -9,7 +9,6 @@ public abstract class AbstractPersonBuilder<T> {
   protected LocalDate deathDate;
   protected Gender gender;
   protected String name;
-  protected Integer tmdbId;
   
   public T biography(String biography) {
     this.biography = biography;
@@ -38,11 +37,6 @@ public abstract class AbstractPersonBuilder<T> {
   
   public T name(String name) {
     this.name = name;
-    return self();
-  }
-  
-  public T tmdbId(Integer tmdbId) {
-    this.tmdbId = tmdbId;
     return self();
   }
   
