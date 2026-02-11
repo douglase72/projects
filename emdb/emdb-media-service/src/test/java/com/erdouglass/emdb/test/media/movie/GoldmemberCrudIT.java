@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,16 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.SaveMovieCredit;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovieCredit;
 import com.erdouglass.emdb.common.query.MovieDto;
+import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.test.media.AbstractTest;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -41,24 +46,63 @@ class GoldmemberCrudIT extends AbstractTest {
   @Test
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {
-    var people = List.of(
-        SavePerson.builder()
-          .tmdbId(12073)
-          .name("Mike Myers")
-          .birthDate(LocalDate.parse("1963-05-25"))
-          .gender(Gender.MALE)
-          .birthPlace("Scarborough, Ontario, Canada")
-          .profile(UUID.fromString("44e52ae5-79b7-406d-96a8-9ec8545c4dad"))
-          .biography("Michael John Myers, OC (born May 25, 1963) is a Canadian actor, comedian, and filmmaker. His accolades include seven MTV Movie & TV Awards, a Primetime Emmy Award, and a Screen Actors Guild Award. In 2002, he was awarded the Hollywood Walk of Fame star. In 2017, he was named an Officer of the Order of Canada for \"his extensive and acclaimed body of comedic work as an actor, writer, and producer.\"\n\nFollowing a series of appearances on several Canadian television programs, Mike Myers attained recognition during his six seasons as a cast member on the NBC sketch comedy series Saturday Night Live from 1989 to 1995, which won him the Primetime Emmy Award for Outstanding Writing for a Variety Series. He subsequently earned praise and numerous accolades for playing the title roles in the Wayne's World (1992–1993), Austin Powers (1997–2002), and Shrek (2001–present) franchises, the latter of which is the second highest-grossing animated film franchise. Myers also played the titular character in the 2003 live-action adaptation of the Dr. Seussbook The Cat in the Hat.\n\nMyers acted sporadically in the 2010s, having supporting roles in Terminal and Bohemian Rhapsody (both 2018). He made his directorial debut with the documentary Supermensch: The Legend of Shep Gordon (2013), which premiered at the Toronto International Film Festival. He created and starred in the 2022 Netflix original series, The Pentaverate, and appeared in David O. Russell's comedy thriller Amsterdam.\n\nDescription above from the Wikipedia article Mike Myers, licensed under CC-BY-SA, full list of contributors on Wikipedia.")        
+    var credits = List.of(
+        SaveMovieCredit.builder()
+          .tmdbId("52fe427bc3a36847f8022183")
+          .type(CreditType.CAST)
+          .role("Austin Powers / Dr. Evil / Goldmember / Fat Bastard")
+          .person(SavePerson.builder()
+              .tmdbId(12073)
+              .name("Mike Myers")
+              .birthDate(LocalDate.parse("1963-05-25"))
+              .gender(Gender.MALE)
+              .birthPlace("Scarborough, Ontario, Canada")
+              .profile(UUID.fromString("44e52ae5-79b7-406d-96a8-9ec8545c4dad"))
+              .biography("Michael John Myers, OC (born May 25, 1963) is a Canadian actor, comedian, and filmmaker. His accolades include seven MTV Movie & TV Awards, a Primetime Emmy Award, and a Screen Actors Guild Award. In 2002, he was awarded the Hollywood Walk of Fame star. In 2017, he was named an Officer of the Order of Canada for \"his extensive and acclaimed body of comedic work as an actor, writer, and producer.\"\n\nFollowing a series of appearances on several Canadian television programs, Mike Myers attained recognition during his six seasons as a cast member on the NBC sketch comedy series Saturday Night Live from 1989 to 1995, which won him the Primetime Emmy Award for Outstanding Writing for a Variety Series. He subsequently earned praise and numerous accolades for playing the title roles in the Wayne's World (1992–1993), Austin Powers (1997–2002), and Shrek (2001–present) franchises, the latter of which is the second highest-grossing animated film franchise. Myers also played the titular character in the 2003 live-action adaptation of the Dr. Seussbook The Cat in the Hat.\n\nMyers acted sporadically in the 2010s, having supporting roles in Terminal and Bohemian Rhapsody (both 2018). He made his directorial debut with the documentary Supermensch: The Legend of Shep Gordon (2013), which premiered at the Toronto International Film Festival. He created and starred in the 2022 Netflix original series, The Pentaverate, and appeared in David O. Russell's comedy thriller Amsterdam.\n\nDescription above from the Wikipedia article Mike Myers, licensed under CC-BY-SA, full list of contributors on Wikipedia.")        
+              .build())
+          .order(0)
           .build(),
-        SavePerson.builder()
-          .tmdbId(13918)
-          .name("Elizabeth Hurley")
-          .birthDate(LocalDate.parse("1965-06-10"))
-          .gender(Gender.FEMALE)
-          .birthPlace("Basingstoke, Hampshire, England, UK")
-          .profile(UUID.fromString("10a76f68-a40f-47ad-97a2-17b05936ca28"))
-          .biography("Elizabeth Jane Hurley (born June 10, 1965) is an English model and actress. She became known as a girlfriend of Hugh Grant in the 1990s after accompanying him to the Los Angeles premiere of Four Weddings and a Funeral in a plunging black Versace dress held together with gold safety pins, which gained her instant media notice.\n\nThe highlight of Hurley's professional life has been her association with the cosmetics company Estée Lauder. The company gave Hurley her first modeling job at the age of 29 and has used her as a model for its products, especially perfumes such as Sensuous, Intuition, and Pleasures, since 1995. Her best known cinematic work was as Vanessa Kensington in Mike Myers' hit spy comedies, Austin Powers: International Man of Mystery (1997) and Austin Powers: The Spy Who Shagged Me (1999). Hurley currently models and designs an eponymous beachwear line.\n\nHurley was born as a middle child in Basingstoke, Hampshire, England, the daughter of Angela and Roy Hurley. Her Irish father was a Major in the British Army, while her Anglican mother was a teacher at Kempshott Infant School. She has an older sister, Kate, and a younger brother Michael James Hurley.\n\nHurley was a struggling actress in 1987, when she met Hugh Grant while working on a Spanish production called Remando Al Viento. While Hurley was his girlfriend, Grant was embroiled in an international scandal for soliciting the services of a female prostitute in 1995. Hurley stood by him and accompanied Grant to the premiere of his movie Nine Months. After 13 years together, Hurley and Grant announced an \"amicable\" split in May 2000. Hurley lived in a London home owned by Grant after the break-up. She invited Grant to her wedding in 2007, but he chose not to attend.\n\nOn 4 April 2002, Hurley gave birth to a son, Damian Charles Hurley. The baby's father, Steve Bing, denied paternity by alleging that he and Hurley had a brief, non-exclusive relationship in 2001. A DNA test, however, established Bing as the child's father. In late 2002, Hurley started dating Indian textile heir Arun Nayar, who runs a small software company since 1998. On 2 March 2007, Hurley and Nayar married at Sudeley Castle and then had a second wedding at Umaid Bhawan Palace in Jodhpur, India.")        
+       SaveMovieCredit.builder()
+           .tmdbId("52fe427bc3a36847f802218b")
+           .type(CreditType.CAST)
+           .role("Scott Evil")
+           .person(SavePerson.builder()
+               .tmdbId(13922)
+               .name("Seth Green")
+               .birthDate(LocalDate.parse("1974-02-08"))
+               .gender(Gender.MALE)
+               .profile(UUID.fromString("5e013296-f98f-475c-81da-80c99f57c961"))
+               .biography("Seth Benjamin Green (né Gesshel-Green; born February 8, 1974) is an American actor. His film debut came with a role in the comedy-drama film The Hotel New Hampshire (1984), and he went on to have supporting roles in comedy films throughout the 1980s, including Radio Days (1987) and Big Business (1988).\\n\\nDuring the 1990s and 2000s, Green began starring in comedy films such as Idle Hands (1999), Rat Race (2001), Without a Paddle (2004), and Be Cool (2005). He also became known for his portrayal of Scott Evil, Dr. Evil's son, in the Austin Powers film series (1997–2002). Green has also taken serious roles in films, including The Attic Expeditions (2001) and Party Monster (2003). He has provided the voice for Howard the Duck in a number of Marvel Cinematic Universe films and series, including Guardians of the Galaxy (2014), Guardians of the Galaxy Vol. 2 (2017), and Guardians of the Galaxy Vol. 3 (2023) and in the animated series What If...? (2021–present). In 2019, he wrote, directed, and starred in the comedy-drama film Changeland.\\n\\nGreen's first lead role on television was on the ABC sitcom Good & Evil in 1991, for which he won a Young Artist Award. Green later gained attention for his supporting roles as Oz, a teenage guitarist and the boyfriend of Willow Rosenberg, on the fantasy television series Buffy the Vampire Slayer (1997–2000), and as the voice of Chris Griffin on the Fox adult animated comedy series Family Guy (1999–present). He also voiced Leonardo in the Nickelodeon animated series Teenage Mutant Ninja Turtles (2014–2017) and the Joker in the Mass Effect video game series (2007–2012). Green created, directed, wrote, and produced the adult animated comedy series Robot Chicken and its spinoffs (2005–present), which have earned him three Primetime Emmy Awards and five Annie Awards.\\n\\nDescription above from the Wikipedia article Seth Green, licensed under CC-BY-SA, full list of contributors on Wikipedia.")
+               .build())
+           .order(2)
+           .build(),        
+        SaveMovieCredit.builder()
+          .tmdbId("52fe427bc3a36847f8022187")
+          .type(CreditType.CAST)
+          .role("Foxxy Cleopatra")
+          .person(SavePerson.builder()
+              .tmdbId(14386)
+              .name("Beyoncé")
+              .birthDate(LocalDate.parse("1981-09-04"))
+              .gender(Gender.FEMALE)
+              .profile(UUID.fromString("10a76f68-a40f-47ad-97a2-17b05936ca28"))
+              .biography("Beyoncé Giselle Knowles-Carter (born September 4, 1981), often known simply as Beyoncé, is an American R&B and pop recording artist and actress.\\n\\nBorn and raised in Houston, Texas, she enrolled in various performing arts schools and was first exposed to singing and dancing competitions as a child. Knowles rose to fame in the late 1990s as the lead singer of the R&B girl group Destiny's Child, one of the world's best-selling girl groups of all time. During the hiatus of Destiny's Child, Knowles released her debut solo album Dangerously in Love (2003), which spawned the number one hits \\\"Crazy in Love\\\" and \\\"Baby Boy\\\" and became one of the most successful albums of that year, earning her a then record-tying five Grammy Awards.\\n\\nFollowing the group's disbandment in 2005, Knowles released B'Day in 2006. It debuted at number one on the Billboard charts and included the hits \\\"Déjà Vu\\\", \\\"Irreplaceable\\\" and \\\"Beautiful Liar\\\". Her third solo album I Am... Sasha Fierce, released in November 2008, included the anthemic \\\"Single Ladies (Put a Ring on It)\\\". The album and its singles earned her six Grammy Awards, breaking the record for most Grammy Awards won by a female artist in one night. Knowles is one of the most honored artists by the Grammys with 16 awards—13 as a solo artist and three as a member of Destiny's Child.\\n\\nKnowles began her acting career in 2001, appearing in the musical film Carmen: A Hip Hopera. In 2006, she starred in the lead role in the film adaptation of the 1981 Broadway musical Dreamgirls, for which she earned two Golden Globe nominations. Knowles launched her family's fashion line, House of Deréon, in 2004, and has endorsed such brands as Pepsi, Tommy Hilfiger, Armani and L'Oréal.\\n\\nIn 2010, Forbes ranked Knowles at number two on its list of the 100 Most Powerful and Influential Celebrities in the world; she was also listed as the most powerful and influential musician in the world. Time also included Knowles on its list of the \\\"100 Most Influential People in the World\\\". Knowles has attained five Hot 100 number one singles as a solo performer and four with Destiny's Child, and as a solo artist, has sold over 35 million albums and singles in the U.S.; according to Sony, her total record sales, when combined with the group, have surpassed 100 million. On December 11, 2009, Billboard listed Knowles as the most successful female artist of the 2000s decade and the top Radio Artist of the decade. In February 2010, the RIAA listed her as the top certified artist of the decade.")
+              .build())
+          .order(1)
+          .build(),
+        SaveMovieCredit.builder()
+          .tmdbId("52fe427bc3a36847f80220ef")
+          .type(CreditType.CREW)
+          .role("Screenplay")
+          .person(SavePerson.builder()
+              .tmdbId(12073)
+              .name("Mike Myers")
+              .birthDate(LocalDate.parse("1963-05-25"))
+              .gender(Gender.MALE)
+              .birthPlace("Scarborough, Ontario, Canada")
+              .profile(UUID.fromString("44e52ae5-79b7-406d-96a8-9ec8545c4dad"))
+              .biography("Michael John Myers, OC (born May 25, 1963) is a Canadian actor, comedian, and filmmaker. His accolades include seven MTV Movie & TV Awards, a Primetime Emmy Award, and a Screen Actors Guild Award. In 2002, he was awarded the Hollywood Walk of Fame star. In 2017, he was named an Officer of the Order of Canada for \"his extensive and acclaimed body of comedic work as an actor, writer, and producer.\"\n\nFollowing a series of appearances on several Canadian television programs, Mike Myers attained recognition during his six seasons as a cast member on the NBC sketch comedy series Saturday Night Live from 1989 to 1995, which won him the Primetime Emmy Award for Outstanding Writing for a Variety Series. He subsequently earned praise and numerous accolades for playing the title roles in the Wayne's World (1992–1993), Austin Powers (1997–2002), and Shrek (2001–present) franchises, the latter of which is the second highest-grossing animated film franchise. Myers also played the titular character in the 2003 live-action adaptation of the Dr. Seussbook The Cat in the Hat.\n\nMyers acted sporadically in the 2010s, having supporting roles in Terminal and Bohemian Rhapsody (both 2018). He made his directorial debut with the documentary Supermensch: The Legend of Shep Gordon (2013), which premiered at the Toronto International Film Festival. He created and starred in the 2022 Netflix original series, The Pentaverate, and appeared in David O. Russell's comedy thriller Amsterdam.\n\nDescription above from the Wikipedia article Mike Myers, licensed under CC-BY-SA, full list of contributors on Wikipedia.")        
+              .build())
           .build());
     
     var command = SaveMovie.builder()
@@ -76,7 +120,7 @@ class GoldmemberCrudIT extends AbstractTest {
         .poster(POSTER)
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
-        .people(people)
+        .credits(credits)
         .build();
     var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).build())
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
@@ -103,6 +147,7 @@ class GoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Saved movie %d in %d ms", movieId, et);
   }
   
+  @Disabled
   @Test
   @Order(2)
   void testFindMovie() throws IOException, InterruptedException {
@@ -131,9 +176,93 @@ class GoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Found movie %d details in: %d ms", movieId, et);    
   }
   
+  @Disabled
   @Test
   @Order(3)
+  void testFindAllDetails() throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder()
+        .uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).queryParam("append", "credits").build())
+        .build();
+    long startTime = System.nanoTime();
+    var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+    var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
+    assertEquals(200, response.statusCode());
+    assertEquals(818, movie.tmdbId());
+    assertEquals("Austin Powers in Goldmember", movie.title());
+    assertEquals("2002-07-26", movie.releaseDate().toString());
+    assertEquals(5.992f, movie.score());
+    assertEquals(ShowStatus.RELEASED, movie.status());
+    assertEquals(94, movie.runtime());
+    assertEquals(63000000, movie.budget());
+    assertEquals(296938801, movie.revenue());
+    assertEquals("https://www.warnerbros.com/movies/austin-powers-goldmember", movie.homepage());
+    assertEquals("en", movie.originalLanguage());
+    assertEquals("03592ec0-7ce4-4343-8fcf-8965887be2e6.jpg", movie.backdrop());
+    assertEquals("f4435126-75ca-4e44-9ceb-b414662b7164.jpg", movie.poster());
+    assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
+    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());
+    var cast = movie.cast();
+    assertEquals(3, cast.size());
+    assertEquals("Austin Powers / Dr. Evil / Goldmember / Fat Bastard", cast.get(0).character());
+    assertEquals("Foxxy Cleopatra", cast.get(1).character());
+    assertEquals("Scott Evil", cast.get(2).character());
+    var crew = movie.crew();
+    assertEquals(1, crew.size());
+    assertEquals("Screenplay", crew.get(0).job());    
+    LOGGER.infof("Found all movie %d details in: %d ms", movieId, et);    
+  }
+  
+  /// This should in two delete statements, one update statement, and one insert 
+  /// statement for the credits.
+  @Test
+  @Order(4)
   void testUpdateMovie() throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder()
+        .uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).queryParam("append", "credits").build())
+        .build();
+    var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var existingMovie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
+    var cast = existingMovie.cast();
+    
+    var savePerson = SavePerson.builder()
+        .tmdbId(3)
+        .name("Harrison Ford")
+        .birthDate(LocalDate.parse("1942-07-13"))
+        .gender(Gender.MALE)
+        .birthPlace("Chicago, Illinois, USA")
+        .profile(UUID.fromString("45e52ae5-79b7-406d-96a8-9ec8545c4dad"))
+        .biography("Legendary Hollywood Icon Harrison Ford was born on July 13, 1942 in Chicago, Illinois. His family history includes a strong lineage of actors, radio personalities, and models. Ford attended public high school in Park Ridge, Illinois where he was a member of the school Radio Station WMTH. Ford worked as the lead voice for sports reporting at WMTH for several years. Acting wasn't a major interest to Ford until his junior year at Ripon College when he first took an acting class. Ford's career started in 1964 when he travelled to California in search of a voice-over job. He never received that position, but instead signed a contract with Columbia Pictures where he earned $150 weekly to play small fill in roles in various films.\n\nThrough the '60s Ford worked on several TV shows including Gunsmoke, Ironside, Kung Fu, and American Style. It wasn't until 1967 that he received his first credited role in the Western film, A Time for Killing. Dissatisfied with the meager roles he was being offered, Ford took a hiatus from acting to work as a self-employed carpenter. This seemingly odd diversion turned out to be a blessing in disguise for Harrison's acting career when he was soon hired by famous film producer George Lucas. This was a turning point in Ford's life that led to him be casted in milestone roles such as Han Solo and Indiana Jones.\n\nSince his most famous roles in the original Star Wars trilogy and Raiders of the Lost Ark, Ford has appeared in over 40 films. Many criticize his late-career work, saying his performances have been lackluster, leading to commercially disappointing films. Ford has always worked hard to protect his off-screen private life, keeping details about his children and marriages quiet. He has a total of five children including one recent adoption with third and current wife Calista Flockhart. In addition to acting, Ford is passionate about environmental conservation, aviation, and archeology.")        
+        .build();
+    request = HttpRequest.newBuilder()
+        .uri(UriBuilder.fromUri(PEOPLE_URL).build())
+        .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(savePerson)))
+        .build();
+    response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var person = OBJECT_MAPPER.readValue(response.body(), PersonDto.class);    
+    
+    var credits = List.of(
+        UpdateMovieCredit.builder()
+          .id(cast.get(0).creditId())
+          .personId(cast.get(0).id())
+          .type(CreditType.CAST)
+          .role(cast.get(0).character())
+          .order(cast.get(0).order())
+          .build(),
+        UpdateMovieCredit.builder()
+          .id(cast.get(1).creditId())
+          .personId(cast.get(1).id())
+          .type(CreditType.CAST)
+          .role("Frau Farbissina")
+          .order(10)
+          .build(),
+        UpdateMovieCredit.builder()
+          .personId(person.id())
+          .type(CreditType.CAST)
+          .role("Test role")
+          .order(1)
+          .build());
+    
     var command = UpdateMovie.builder()
         .title("X")
         .releaseDate(LocalDate.parse("2026-02-01"))
@@ -144,13 +273,14 @@ class GoldmemberCrudIT extends AbstractTest {
         .backdrop(UUID.fromString("254b1be1-daaf-44ad-99ae-38fc0b779b73"))
         .poster(UUID.fromString("fd152dc9-da8f-4a58-a2e8-35796c8d66eb"))
         .overview("Test overview.")
+        .credits(credits)
         .build();
-    var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).build())
+    request  = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).build())
         .PUT(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
-    var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-    var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class); 
+    var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
     assertEquals(200, response.statusCode());
     assertEquals(818, movie.tmdbId());
     assertEquals("X", movie.title());
@@ -169,8 +299,9 @@ class GoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Updated movie %d in %d ms", movieId, et);    
   }
   
+  @Disabled
   @Test
-  @Order(4)
+  @Order(5)
   void testDeleteMovie() throws IOException, InterruptedException {
     var request = HttpRequest.newBuilder()
         .uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).build())

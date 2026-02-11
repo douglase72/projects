@@ -1,0 +1,117 @@
+package com.erdouglass.emdb.media.entity;
+
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
+
+import com.erdouglass.emdb.common.CreditType;
+
+@Entity
+@Table(name = "Credits")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Credit {
+  private static final int CREDIT_TYPE_MAX_LENGTH = 4;
+  
+  /// The timestamp when this entity was first persisted.
+  @CreationTimestamp
+  @Column(nullable = false, updatable = false)
+  private Instant created;
+  
+  /// The surrogate primary key has no business meaning.
+  @Id
+  @GeneratedValue
+  @UuidGenerator(style = UuidGenerator.Style.TIME)
+  private UUID id;
+  
+  /// The timestamp when this entity was last updated.
+  @UpdateTimestamp
+  @Column(nullable = false)
+  private Instant modified;
+  
+  @PositiveOrZero
+  @Column(name = "credit_order")
+  private Integer order;  
+  
+  /// The @JoinColumn annotation maps the {@link Person#id} primary key to the
+  /// foreign key in the Credits table. A {@code Credit} can't exist without a 
+  /// {@link Movie} or {@link Series}.
+  @ManyToOne
+  @JoinColumn(name = "person_id", updatable = false, nullable = false)
+  private Person person;
+  
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "credit_type", updatable = false, length = CREDIT_TYPE_MAX_LENGTH)
+  private CreditType type;  
+  
+  Credit() {
+    
+  }
+  
+  public Instant created() {
+    return created;
+  }
+  
+  public void id(UUID id) {
+    this.id = id;
+  }
+
+  public UUID id() {
+    return id;
+  }
+  
+  public Instant modified() {
+    return modified;
+  }
+  
+  public void order(Integer order) {
+    this.order = order;
+  }
+  
+  public Optional<Integer> order() {
+    return Optional.ofNullable(order);
+  }  
+  
+  public void person(Person person) {
+    this.person = person;
+  }
+  
+  public Person person() {
+    return person;
+  }
+  
+  public void type(CreditType type) {
+    this.type = type;
+  }
+  
+  public CreditType type() {
+    return type;
+  }
+  
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "[id=" + id()
+      + ", type=" + type()
+      + ", order=" + order().orElse(null)
+      + "]";
+  }  
+
+}

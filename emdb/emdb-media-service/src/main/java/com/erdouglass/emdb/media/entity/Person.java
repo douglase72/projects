@@ -147,8 +147,7 @@ public class Person extends BasicEntity<Integer> {
   /// @return `true` if all mutable fields are effectively equal;
   ///         `false` otherwise.
   public boolean isEqualTo(Person other) {
-    return Objects.equals(tmdbId(), other.tmdbId()) 
-        && Objects.equals(name, other.name)
+    return Objects.equals(name, other.name)
         && Objects.equals(birthDate, other.birthDate) 
         && Objects.equals(deathDate, other.deathDate)
         && Objects.equals(gender, other.gender) 

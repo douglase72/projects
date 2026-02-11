@@ -1,7 +1,11 @@
 package com.erdouglass.emdb.common.query;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -32,11 +36,24 @@ public record MovieDto(
     @EmdbImage String backdrop,
     @EmdbImage String poster,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits) {
+  
+  public record Credits(List<@Valid MovieCreditDto> cast, List<@Valid MovieCreditDto> crew) {
+    
+  }
   
   public static Builder builder() {
     return new Builder();
   }
+  
+  public List<MovieCreditDto> cast() {
+    return Optional.ofNullable(credits).map(c -> c.cast().stream().toList()).orElse(List.of());
+  }
+  
+  public List<MovieCreditDto> crew() {
+    return Optional.ofNullable(credits).map(c -> c.crew().stream().toList()).orElse(List.of());
+  }  
   
   @Override
   public String toString() {
@@ -48,6 +65,8 @@ public record MovieDto(
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private List<MovieCreditDto> cast = new ArrayList<>();
+    private List<MovieCreditDto> crew = new ArrayList<>();    
     private Integer tmdbId;
     private String backdrop;
     private Long id;
@@ -56,6 +75,10 @@ public record MovieDto(
     private Builder() { }
 
     public MovieDto build() {
+      Credits credits = null;
+      if (!cast.isEmpty() || !crew.isEmpty()) {
+        credits = new Credits(cast.stream().toList(), crew.stream().toList());
+      }      
       return new MovieDto(
             id,
             tmdbId,
@@ -71,13 +94,24 @@ public record MovieDto(
             backdrop,
             poster,
             tagline,
-            overview);
+            overview,
+            credits);
     }
     
     public Builder backdrop(String backdrop) {
       this.backdrop = backdrop;
       return this;
     }
+    
+    public Builder cast(List<MovieCreditDto> cast) {
+      this.cast = new ArrayList<>(cast);
+      return this;
+    }
+    
+    public Builder crew(List<MovieCreditDto> crew) {
+      this.crew = new ArrayList<>(crew);
+      return this;
+    }     
 
     public Builder id(Long id) {
       this.id = id;

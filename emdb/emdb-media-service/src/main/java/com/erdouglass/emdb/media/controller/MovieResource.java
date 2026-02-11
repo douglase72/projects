@@ -22,7 +22,6 @@ import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
-import com.erdouglass.webservices.ResourceNotFoundException;
 
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
@@ -46,9 +45,7 @@ public class MovieResource {
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {
-    var movie = service.findById(id, append)
-        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
-    return mapper.toMovieDto(movie);
+    return mapper.toMovieDto(service.findById(id, append));
   } 
   
   @PUT

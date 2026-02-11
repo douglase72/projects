@@ -2,7 +2,6 @@ package com.erdouglass.emdb.common.comand;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +36,7 @@ public record SaveMovie(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbPoster,
     @Size(min = 1, max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @NotNull List<@Valid SavePerson> people) {
+    @NotNull List<@Valid SaveMovieCredit> credits) {
   
   public static Builder builder() {
     return new Builder();
@@ -51,12 +50,12 @@ public record SaveMovie(
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
-    private Integer tmdbId;
+    private List<SaveMovieCredit> credits = new ArrayList<>();
     private UUID backdrop;
     private UUID poster;
+    private Integer tmdbId;
     private String tmdbBackdrop;
     private String tmdbPoster;
-    private List<SavePerson> people = new ArrayList<>();
     
     private Builder() { }
 
@@ -78,7 +77,12 @@ public record SaveMovie(
             tmdbPoster,
             tagline,
             overview,
-            people);
+            credits);
+    }
+    
+    public Builder credits(List<SaveMovieCredit> credits) {
+      this.credits = List.copyOf(credits);
+      return this;
     }
     
     public Builder backdrop(UUID backdrop) {
@@ -88,11 +92,6 @@ public record SaveMovie(
     
     public Builder tmdbBackdrop(String tmdbBackdrop) {
       this.tmdbBackdrop = tmdbBackdrop;
-      return this;
-    }
-    
-    public Builder people(Collection<SavePerson> people) {
-      this.people = List.copyOf(people);
       return this;
     }
     

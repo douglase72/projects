@@ -79,6 +79,9 @@ public abstract class TmdbScraper {
     if (command == null || !Objects.equals(person.profile_path(), command.tmdbProfile())) {
       cmd.profile(imageService.save(person.profile_path()))
         .tmdbProfile(person.profile_path());
+    } else {
+      cmd.profile(command.profile())
+        .tmdbProfile(command.tmdbProfile());
     }
     return cmd.build();
   } 

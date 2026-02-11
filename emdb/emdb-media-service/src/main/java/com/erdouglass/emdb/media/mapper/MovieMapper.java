@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
@@ -9,6 +10,9 @@ import com.erdouglass.emdb.media.entity.Movie;
 
 @ApplicationScoped
 public class MovieMapper {
+  
+  @Inject
+  MovieCreditMapper mapper;
   
   public Movie toMovie(SaveMovie command) {
     var movie = new Movie(command.tmdbId(), command.title());
@@ -63,7 +67,8 @@ public class MovieMapper {
         .poster(movie.poster().orElse(null))
         .tmdbPoster(movie.tmdbPoster().orElse(null))
         .tagline(movie.tagline().orElse(null))
-        .overview(movie.overview().orElse(null))       
+        .overview(movie.overview().orElse(null))
+        .credits(movie.credits().stream().map(mapper::toSaveMovieCredit).toList())
         .build();
   }
   
@@ -84,6 +89,8 @@ public class MovieMapper {
         .poster(movie.poster().map(p -> String.format("%s.jpg", p)).orElse(null))
         .tagline(movie.tagline().orElse(null))
         .overview(movie.overview().orElse(null))
+        .cast(movie.cast().stream().map(mapper::toMovieCreditDto).toList())
+        .crew(movie.crew().stream().map(mapper::toMovieCreditDto).toList())
         .build();
   }
   

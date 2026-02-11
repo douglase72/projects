@@ -1,4 +1,16 @@
+import { Gender } from "./Gender.js";
 import { ShowStatus } from "./ShowStatus.js";
+
+interface MovieCredit {
+  creditId: string;
+  id: number;
+  name: string;
+  gender: Gender;
+  profile: string | null;
+  character: string | null;
+  job: string | null;
+  order: number | null;
+}
 
 export interface Movie {
   id: number;
@@ -15,5 +27,9 @@ export interface Movie {
   backdrop: string | null;
   poster: string | null;
   tagline: string | null;
-  overview: string | null;  
+  overview: string | null; 
+  credits: {
+    cast: MovieCredit[];
+    crew: MovieCredit[];
+  };
 }

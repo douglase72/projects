@@ -117,7 +117,12 @@ public class PersonService extends MediaService {
   
   @Transactional
   public Optional<Person> findById(@NotNull @Positive Long id, String append) {
-    return  repository.findById(id);
+    return repository.findById(id);
+  }
+  
+  @Transactional
+  public List<Person> findByIdIn(List<Long> ids) {
+    return repository.findByIdIn(ids);
   }
   
   @Transactional

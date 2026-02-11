@@ -1,5 +1,18 @@
 import { ShowStatus } from "./ShowStatus.js";
 
+export enum CreditType {
+  CAST = "cast",
+  CREW = "crew",
+}
+
+export interface UpdateMovieCredit {
+  id: string | null;
+  personId: number;
+  type: CreditType;
+  role: string | null;
+  order: number | null;
+}
+
 export interface UpdateMovie {
   title: string;
   releaseDate: string | null;
@@ -13,5 +26,6 @@ export interface UpdateMovie {
   backdrop: string | null;
   poster: string | null;
   tagline: string | null;
-  overview: string | null;  
+  overview: string | null;
+  credits: UpdateMovieCredit[]; 
 }

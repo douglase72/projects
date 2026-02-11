@@ -19,6 +19,9 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
   @Query("WHERE tmdbId = :tmdbId")
   Optional<Person> findByTmdbId(Integer tmdbId); 
   
+  @Query("WHERE id IN :ids")
+  List<Person> findByIdIn(List<Long> ids);
+  
   /// Finds multiple people by a list of natural business keys.
   /// This is used for efficient batch processing to minimize database round-trips.
   ///

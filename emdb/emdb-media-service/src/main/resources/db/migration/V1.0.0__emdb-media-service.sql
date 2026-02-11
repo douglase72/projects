@@ -5,6 +5,19 @@
 
     create sequence emdb_media.series_sequence start with 1 increment by 1;
 
+    create table emdb_media.Credits (
+        DTYPE varchar(31) not null check ((DTYPE in ('Credit','MovieCredit'))),
+        id uuid not null,
+        created timestamp(6) with time zone not null,
+        modified timestamp(6) with time zone not null,
+        credit_order integer,
+        credit_type varchar(4) not null check ((credit_type in ('CAST','CREW'))),
+        role varchar(100),
+        person_id bigint not null,
+        movie_id bigint not null,
+        primary key (id)
+    );
+
     create table emdb_media.Movies (
         id bigint not null,
         created timestamp(6) with time zone not null,
@@ -64,3 +77,13 @@
         type varchar(11) check ((type in ('SCRIPTED','REALITY','DOCUMENTARY','NEWS','TALK_SHOW','MINISERIES','VIDEO'))),
         primary key (id)
     );
+
+    alter table if exists emdb_media.Credits 
+       add constraint FK78ndg1w4qadcmsrfywco5nyi4 
+       foreign key (person_id) 
+       references emdb_media.People;
+
+    alter table if exists emdb_media.Credits 
+       add constraint FKsalqaewfk7tbamki5csq55yam 
+       foreign key (movie_id) 
+       references emdb_media.Movies;

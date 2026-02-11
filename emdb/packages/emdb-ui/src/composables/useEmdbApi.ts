@@ -48,7 +48,7 @@ export function useEmdbApi() {
 
   const findMovie = async (id: number): Promise<Movie | undefined> => {
     try {
-      const { data: movie } = await client.get<Movie>(`/movies/${id}`);
+      const { data: movie } = await client.get<Movie>(`/movies/${id}?append=credits`);
       return movie;
     } catch (e) {
       handleError(e, 'Load Failed');

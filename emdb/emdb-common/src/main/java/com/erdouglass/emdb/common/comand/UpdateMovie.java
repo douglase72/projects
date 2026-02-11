@@ -1,10 +1,14 @@
 package com.erdouglass.emdb.common.comand;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
@@ -27,13 +31,15 @@ public record UpdateMovie(
     UUID backdrop,
     UUID poster,
     @Size(min = 1, max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @NotNull List<@Valid UpdateMovieCredit> credits) {
   
   public static Builder builder() {
     return new Builder();
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private List<UpdateMovieCredit> credits = new ArrayList<>();
     private UUID backdrop;
     private UUID poster;
     
@@ -53,11 +59,17 @@ public record UpdateMovie(
             backdrop,
             poster,
             tagline,
-            overview);
+            overview,
+            credits);
     }
     
     public Builder backdrop(UUID backdrop) {
       this.backdrop = backdrop;
+      return this;
+    }
+    
+    public Builder credits(List<UpdateMovieCredit> credits) {
+      this.credits = List.copyOf(credits);
       return this;
     }
     

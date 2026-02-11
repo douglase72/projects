@@ -67,7 +67,7 @@
   import * as z from 'zod';
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
-  import type { Movie, UpdateMovie } from '@emdb/common';
+  import { CreditType, type Movie, type UpdateMovie } from '@emdb/common';
 
   const route = useRoute();
   const router = useRouter();
@@ -100,6 +100,21 @@
   const handleSave = async (form: any) => {
     if (!movie.value) return;
 
+    const cast = (movie.value.credits.cast || []).map(c => ({
+      id: c.creditId,
+      personId: c.id,
+      type: CreditType.CAST,
+      role: c.character,
+      order: c.order
+    }));
+    const crew = (movie.value.credits.crew || []).map(c => ({
+      id: c.creditId,
+      personId: c.id,
+      type: CreditType.CREW,
+      role: c.job,
+      order: c.order
+    }));
+
     const command: UpdateMovie = {
       title: form.title,
       releaseDate: toDateString(form.releaseDate),
@@ -114,6 +129,7 @@
       poster: form.poster.replace(/\.jpg$/i, ''),
       tagline: form.tagline,
       overview: form.overview,
+      credits: [...cast, ...crew]
     };
     const updatedMovie = await updateMovie(movie.value.id, command);
     if (updatedMovie) {
