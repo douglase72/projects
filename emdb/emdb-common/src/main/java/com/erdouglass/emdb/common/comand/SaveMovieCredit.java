@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.common.comand;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -10,7 +9,6 @@ import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.ShowConstants;
 
 public record SaveMovieCredit(
-    @NotBlank String tmdbId,
     @NotNull CreditType type,
     @Size(max = ShowConstants.ROLE_MAX_LENGTH) String role,
     @NotNull @Valid SavePerson person,
@@ -24,13 +22,12 @@ public record SaveMovieCredit(
     private Integer order;
     private SavePerson person;
     private String role;
-    private String tmdbId;
     private CreditType type;
     
     private Builder() { }
     
     public SaveMovieCredit build() {
-      return new SaveMovieCredit(tmdbId, type, role, person, order);
+      return new SaveMovieCredit(type, role, person, order);
     }
     
     public Builder type(CreditType type) {
@@ -50,11 +47,6 @@ public record SaveMovieCredit(
     
     public Builder role(String role) {
       this.role = role;
-      return this;
-    }
-    
-    public Builder tmdbId(String tmdbId) {
-      this.tmdbId = tmdbId;
       return this;
     }
   }   

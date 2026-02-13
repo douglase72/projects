@@ -3,6 +3,7 @@ import axios, { type AxiosInstance } from 'axios';
 import type { SaveMovie } from "../models/SaveMovie.js";
 import type { SavePerson } from '../models/SavePerson.js';
 import type { 
+  ExecuteScheduler,
   IngestMedia, 
   Movie, 
   Person, 
@@ -22,11 +23,16 @@ export function useEmdb() {
 
   const deleteMovie = async (id: number) => {
     client.delete<number>(`/movies/${id}`);
-  }
+  };
 
   const deletePerson = async (id: number) => {
     client.delete<number>(`/people/${id}`);
-  }  
+  };
+
+  const executeScheduler = async (command: ExecuteScheduler): Promise<number> => {
+    const { status } = await client.post('/scheduler', command);
+    return status;
+  };
 
   const findMovie = async (id: number): Promise<Movie> => {
     const { data: movie } = await client.get<Movie>(`/movies/${id}`);
@@ -66,6 +72,7 @@ export function useEmdb() {
   return {
     deleteMovie,
     deletePerson,
+    executeScheduler,
     findMovie,
     findPerson,
     ingest,

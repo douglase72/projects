@@ -11,6 +11,7 @@ public abstract class AbstractTest {
   protected static final String INGEST_URL;
   protected static final String MOVIES_URL;
   protected static final String PEOPLE_URL;
+  protected static final String SCHEDULER_URL;
   protected static final String SERIES_URL;
   
   static {
@@ -18,6 +19,7 @@ public abstract class AbstractTest {
     OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new JavaTimeModule());
     INGEST_URL = "http://localhost:60310/emdb/api/ingest";
+    SCHEDULER_URL = "http://localhost:60310/emdb/api/scheduler";
     MOVIES_URL = "http://localhost:60310/emdb/api/movies";
     PEOPLE_URL = "http://localhost:60310/emdb/api/people";
     SERIES_URL = "http://localhost:60310/emdb/api/series";

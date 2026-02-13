@@ -15,14 +15,14 @@ import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.gateway.service.IngestService;
 
 @Path("/ingest")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class IngestResource {
   
   @Inject
   IngestService ingestService;
   
   @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
   public Response ingest(@NotNull @Valid IngestMedia command) {
     var jobId = ingestService.ingest(command);
     return Response.status(Status.ACCEPTED).entity(jobId).build();

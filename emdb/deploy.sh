@@ -11,6 +11,9 @@ cd "$PROJECT_ROOT"
 echo "Building emdb-gateway-service..."
 gradle :emdb-gateway-service:clean :emdb-gateway-service:build -x :emdb-gateway-service:test
 
+echo "Building emdb-scheduler-service..."
+gradle :emdb-scheduler-service:clean :emdb-scheduler-service:build -x :emdb-scheduler-service:test
+
 echo "Building emdb-media-service..."
 gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
 

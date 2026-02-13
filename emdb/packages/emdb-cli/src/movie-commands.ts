@@ -2,7 +2,11 @@ import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
 import { useEmdb } from './services/useEmdb.js';
-import { IngestSource, MediaType } from '@emdb/common';
+import { 
+  IngestSource, 
+  MediaType, 
+  SchedulerType, 
+  type ExecuteScheduler } from '@emdb/common';
 
 export { movieCommand };
 
@@ -48,6 +52,15 @@ Examples:
   $ emdb-cli movie save Austin-Powers-in-Goldmember-20260205-202941.json
 `)  
   .action(save);
+
+movieCommand
+  .command('scheduler')
+  .description('Execute the movie scheduler')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie scheduler
+`)  
+  .action(scheduler);
 
 movieCommand
   .command('update')
@@ -119,6 +132,20 @@ async function save(fileName: string) {
     console.log(`Saved ${movie.title} in: ${et} ms.`);    
     console.log(movie);
   } catch (error: any) {
+    console.dir(error, { depth: null }); 
+    process.exit(1);
+  }
+};
+
+async function scheduler() {
+  try {
+    const { executeScheduler } = useEmdb();
+    const command: ExecuteScheduler = {
+      type: SchedulerType.MOVIES
+    };
+    const status = await executeScheduler(command);
+    console.log(`Status: ${status}`);
+  }  catch (error: any) {
     console.dir(error, { depth: null }); 
     process.exit(1);
   }

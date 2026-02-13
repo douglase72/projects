@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,6 @@ class GoldmemberCrudIT extends AbstractTest {
   void testSaveMovie() throws IOException, InterruptedException {
     var credits = List.of(
         SaveMovieCredit.builder()
-          .tmdbId("52fe427bc3a36847f8022183")
           .type(CreditType.CAST)
           .role("Austin Powers / Dr. Evil / Goldmember / Fat Bastard")
           .person(SavePerson.builder()
@@ -63,7 +61,6 @@ class GoldmemberCrudIT extends AbstractTest {
           .order(0)
           .build(),
        SaveMovieCredit.builder()
-           .tmdbId("52fe427bc3a36847f802218b")
            .type(CreditType.CAST)
            .role("Scott Evil")
            .person(SavePerson.builder()
@@ -77,7 +74,6 @@ class GoldmemberCrudIT extends AbstractTest {
            .order(2)
            .build(),        
         SaveMovieCredit.builder()
-          .tmdbId("52fe427bc3a36847f8022187")
           .type(CreditType.CAST)
           .role("Foxxy Cleopatra")
           .person(SavePerson.builder()
@@ -91,7 +87,6 @@ class GoldmemberCrudIT extends AbstractTest {
           .order(1)
           .build(),
         SaveMovieCredit.builder()
-          .tmdbId("52fe427bc3a36847f80220ef")
           .type(CreditType.CREW)
           .role("Screenplay")
           .person(SavePerson.builder()
@@ -147,7 +142,6 @@ class GoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Saved movie %d in %d ms", movieId, et);
   }
   
-  @Disabled
   @Test
   @Order(2)
   void testFindMovie() throws IOException, InterruptedException {
@@ -176,7 +170,6 @@ class GoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Found movie %d details in: %d ms", movieId, et);    
   }
   
-  @Disabled
   @Test
   @Order(3)
   void testFindAllDetails() throws IOException, InterruptedException {
@@ -299,7 +292,6 @@ class GoldmemberCrudIT extends AbstractTest {
     LOGGER.infof("Updated movie %d in %d ms", movieId, et);    
   }
   
-  @Disabled
   @Test
   @Order(5)
   void testDeleteMovie() throws IOException, InterruptedException {

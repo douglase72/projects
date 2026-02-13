@@ -23,13 +23,3 @@ dependencies {
 
 group = 'com.erdouglass.emdb'
 version = '1.0.0-SNAPSHOT'
-
-quarkusDev {
-  jvmArgs = [
-    '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
-  ]
-}
-
-
-
-

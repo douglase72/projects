@@ -84,7 +84,6 @@ public class MovieService extends MediaService {
       var start = System.nanoTime();
       validate(saveCommand);
       var movie = save(saveCommand);
-      LOGGER.infof("Saved: %s", movie);
       existingMovie.ifPresent(m -> {
         if (!Objects.equals(m.tmdbBackdrop().orElse(null), movie.tmdbBackdrop().orElse(null))) {
           m.backdrop().ifPresent(imageService::delete);
@@ -107,6 +106,7 @@ public class MovieService extends MediaService {
   
   @Transactional
   public Movie save(SaveMovie command) {
+    long start = System.nanoTime();
     var movie = mapper.toMovie(command);
     repository.findByTmdbId(movie.tmdbId()).ifPresent(m -> movie.id(m.id()));
     var savedMovie = repository.save(movie);
@@ -116,11 +116,14 @@ public class MovieService extends MediaService {
         .toList()).stream()
         .collect(Collectors.toMap(s -> s.person().tmdbId(), s -> s.person()));
     saveCredits(savedMovie, savedPeople, command.credits());
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Saved %s in %d ms", savedMovie, et);
     return savedMovie; 
   }
   
   @Transactional
   public Movie findById(@NotNull @Positive Long id, String append) {
+    long start = System.nanoTime();
     var movie = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
     movie.credits(List.of());
@@ -129,6 +132,8 @@ public class MovieService extends MediaService {
         movie.credits(creditRepository.findAll(id));
       }
     }
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Found %s in %d ms", movie, et);    
     return movie;
   }
   
@@ -143,6 +148,7 @@ public class MovieService extends MediaService {
   
   @Transactional
   public Movie update(Long id, UpdateMovie command) {
+    long start = System.nanoTime();
     var existingMovie = findById(id, "credits");
     var movie = mapper.toMovie(command);
     movie.id(existingMovie.id());
@@ -157,57 +163,22 @@ public class MovieService extends MediaService {
       } else {
         updateCommands.put(cmd.id(), cmd);
       }
-    }    
-    
-    List<MovieCredit> creditsToDelete = new ArrayList<>();
-    List<MovieCredit> creditsToUpdate = new ArrayList<>();
-    for (var credit : existingMovie.credits()) {
-      var cmd = updateCommands.get(credit.id());
-      if (cmd != null) {
-        if (isUpdatable(credit, cmd)) {
-          creditsToUpdate.add(credit);
-        }        
-      } else {
-        creditsToDelete.add(credit);
-      }
     }
-    
-    if (!creditsToDelete.isEmpty()) {
-      creditRepository.deleteAll(creditsToDelete); 
-    }
-
-    if (!creditsToUpdate.isEmpty()) {
-      creditRepository.updateAll(creditsToUpdate);
-    }    
-    
-    if (!createCommands.isEmpty()) {
-      Set<Long> personIds = createCommands.stream()
-          .map(UpdateMovieCredit::personId)
-          .collect(Collectors.toSet());
-      var people = personService.findByIdIn(List.copyOf(personIds)).stream()
-          .collect(Collectors.toMap(Person::id, Function.identity()));
-      List<MovieCredit> creditsToInsert = new ArrayList<>();
-      for (var cmd : createCommands) {
-        var person = people.get(cmd.personId());
-        if (person == null) {
-          throw new ResourceNotFoundException("Person not found: " + cmd.personId());
-        }
-        creditsToInsert.add(creditMapper.toMovieCredit(cmd, updatedMovie, person));
-      }
-      
-      if (!creditsToInsert.isEmpty()) {
-        creditRepository.insertAll(creditsToInsert);
-      }     
-    }
+    updateCredits(existingMovie.credits(), updateCommands);
+    insertCredits(updatedMovie, createCommands);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Updated %s in %d ms", movie, et);
     return updatedMovie;
   }
   
   @Transactional
   public void deleteById(Long id) {
-    var movie = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    long start = System.nanoTime();
+    var movie = findById(id, "credits");
+    creditRepository.deleteAll(movie.credits());
     repository.deleteById(id);
-    LOGGER.infof("Deleted: %s", movie);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Deleted %s in %d ms", movie, et);    
   }
   
   private void deleteImages(SaveMovie command, List<SaveMovieCredit> credits) {
@@ -222,6 +193,28 @@ public class MovieService extends MediaService {
           imageService.delete(oldPerson.profile());
         }
       }
+    }    
+  }
+  
+  private void insertCredits(Movie movie, List<UpdateMovieCredit> commands) {
+    if (!commands.isEmpty()) {
+      Set<Long> personIds = commands.stream()
+          .map(UpdateMovieCredit::personId)
+          .collect(Collectors.toSet());
+      var people = personService.findByIdIn(List.copyOf(personIds)).stream()
+          .collect(Collectors.toMap(Person::id, Function.identity()));
+      List<MovieCredit> creditsToInsert = new ArrayList<>();
+      for (var cmd : commands) {
+        var person = people.get(cmd.personId());
+        if (person == null) {
+          throw new ResourceNotFoundException("Person not found: " + cmd.personId());
+        }
+        creditsToInsert.add(creditMapper.toMovieCredit(cmd, movie, person));
+      }
+      
+      if (!creditsToInsert.isEmpty()) {
+        creditRepository.insertAll(creditsToInsert);
+      }     
     }    
   }
   
@@ -273,6 +266,27 @@ public class MovieService extends MediaService {
       var updatedCredits = creditRepository.updateAll(creditsToUpdate);
       LOGGER.infof("Updated: %d movie credits", updatedCredits.size());
     }
+  }
+  
+  private void updateCredits(List<MovieCredit> credits, Map<UUID, UpdateMovieCredit> commands) {
+    List<MovieCredit> creditsToDelete = new ArrayList<>();
+    List<MovieCredit> creditsToUpdate = new ArrayList<>();
+    for (var credit : credits) {
+      var cmd = commands.get(credit.id());
+      if (cmd != null) {
+        if (isUpdatable(credit, cmd)) {
+          creditsToUpdate.add(credit);
+        }        
+      } else {
+        creditsToDelete.add(credit);
+      }
+    }
+    if (!creditsToDelete.isEmpty()) {
+      creditRepository.deleteAll(creditsToDelete); 
+    }
+    if (!creditsToUpdate.isEmpty()) {
+      creditRepository.updateAll(creditsToUpdate);
+    }    
   }
   
 }

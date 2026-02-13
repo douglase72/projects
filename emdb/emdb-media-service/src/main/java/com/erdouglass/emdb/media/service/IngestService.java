@@ -16,7 +16,7 @@ import com.erdouglass.emdb.common.comand.IngestMedia;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import io.opentelemetry.api.baggage.Baggage;
-import io.smallrye.reactive.messaging.annotations.Blocking;
+import io.smallrye.common.annotation.RunOnVirtualThread;
 
 /// This class consumes the {@link IngestMedia} command. It takes one command at a time 
 /// from the ingest-media queue and extracts, transforms, and loads the relevant data 
@@ -38,7 +38,7 @@ public class IngestService {
   @Inject
   MeterRegistry registry;  
   
-  @Blocking
+  @RunOnVirtualThread
   @Incoming("ingest-media-in")
   public CompletionStage<Void> onMessage(Message<IngestMedia> wrapper) {
     var command = wrapper.getPayload();
@@ -47,7 +47,7 @@ public class IngestService {
     LOGGER.infof("Ingest Job %s for TMDB %s %d started", jobId, command.type(), command.tmdbId());  
     
     try {
-      var start = Instant.parse(Baggage.current().getEntryValue("job-start-time"));
+      var start = Instant.now(); 
       switch (command.type()) {
         case MOVIE -> movieService.ingest(command.tmdbId(), jobId);
         case SERIES -> seriesService.ingest(command.tmdbId(), jobId);
