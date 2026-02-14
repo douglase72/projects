@@ -18,6 +18,9 @@ import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.ExecuteScheduler;
 import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.common.comand.IngestMedia.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
+import com.erdouglass.emdb.common.service.IngestStatusService;
 
 import io.opentelemetry.api.baggage.Baggage;
 import io.quarkus.scheduler.Scheduled;
@@ -37,7 +40,10 @@ public class TmdbSchedulerService {
   
   @Inject
   @Channel("ingest-media-out") 
-  Emitter<IngestMedia> emitter;  
+  Emitter<IngestMedia> emitter;
+  
+  @Inject
+  IngestStatusService statusService;
   
   @Scheduled(cron = "0 0 8 * * ?")  
   public void ingestMovies() {
@@ -74,13 +80,20 @@ public class TmdbSchedulerService {
         .put("job-id", jobId)
         .put("job-start-time", Instant.now().toString())
         .build();
-    var command = IngestMedia.of(tmdbId, type, IngestSource.CRON);
+    var command = IngestMedia.of(tmdbId, type, IngestSource.SCHEDULER);
     try (var _ = baggage.makeCurrent()) {
       emitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(Configuration.MEDIA_KEY)
           .build()));
-      LOGGER.infof("Ingest Job %s for TMDB %s %d submitted", jobId, command.type(), command.tmdbId());  
+      LOGGER.infof("Ingest Job %s for TMDB %s %d submitted", jobId, command.type(), command.tmdbId());
+      statusService.send(IngestStatusChanged.builder()
+          .id(jobId)
+          .status(IngestStatus.SUBMITTED)
+          .tmdbId(command.tmdbId())
+          .source(com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource.SCHEDULER)
+          .type(command.type())
+          .build());
     }
   }
 

@@ -90,11 +90,11 @@
   const confirm = useConfirm();
   const router = useRouter();
 
-  import { useEmdbApi } from '@/composables/useEmdbApi';
+  import { useTime } from '@/composables/useTime';
   import { ShowStatus } from '@emdb/common';
   import { SUPPORTED_CODES, useLanguage } from '@/composables/useLanguage';
 
-  const { toDate } = useEmdbApi();
+  const { toDate } = useTime();
   const { languageCodes } = useLanguage();
   const statusOptions = Object.values(ShowStatus);  
 

@@ -12,7 +12,7 @@ public record IngestMedia(
   
   public enum IngestSource {
     CLI,
-    CRON,
+    SCHEDULER,
     UI;
   }
   

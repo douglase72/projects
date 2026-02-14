@@ -11,12 +11,12 @@ import com.erdouglass.emdb.common.ShowConstants;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public record IngestStatusChanged(
+    @NotNull IngestStatus status,
     @NotNull String id,
+    @NotNull Instant timestamp,
     @Positive Long emdbId,
     @NotNull @Positive Integer tmdbId,
-    @NotNull Instant timestamp,
     @NotNull IngestSource source,
-    @NotNull IngestStatus status,
     @NotNull MediaType type,
     @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name) {
   
@@ -24,7 +24,6 @@ public record IngestStatusChanged(
     GATEWAY("emdb-gateway-service"),
     MEDIA("emdb-media-service"),
     SCHEDULER("emdb-scheduler-service"),
-    SCRAPER("emdb-scraper-service"),
     USER("emdb-user-service");
     
     private final String source;
@@ -78,7 +77,7 @@ public record IngestStatusChanged(
     Builder() { }
     
     public IngestStatusChanged build() {
-      return new IngestStatusChanged(id, emdbId, tmdbId, timestamp, source, status, type, name);
+      return new IngestStatusChanged(status, id, timestamp, emdbId, tmdbId, source, type, name);
     }
     
     public Builder emdbId(Long emdbId) {

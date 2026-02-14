@@ -64,7 +64,7 @@ public class PersonService extends MediaService {
         if (!Objects.equals(p.tmdbProfile().orElse(null), person.tmdbProfile().orElse(null))) {
           p.profile().ifPresent(imageService::delete);
         }
-      });  
+      }); 
     } catch (Exception e) {
       dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

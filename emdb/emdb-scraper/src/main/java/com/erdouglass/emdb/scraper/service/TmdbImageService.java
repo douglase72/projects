@@ -30,7 +30,6 @@ public class TmdbImageService {
   String imageData;  
   
   public UUID save(@NotNull String image) {
-    if (image == null) return null;
     var emdbImage = UUID.randomUUID();
     
     try {

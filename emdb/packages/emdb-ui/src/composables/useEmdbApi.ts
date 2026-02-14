@@ -73,16 +73,6 @@ export function useEmdbApi() {
     }    
   };
 
-  const toDate = (dateString: string | null | undefined) => {
-    if (!dateString) return null;
-    const [year, month, day] = dateString.split('-').map(Number) as [number, number, number];
-    return new Date(year, month - 1, day); 
-  };
-
-  const toDateString = (date: Date | null) => {
-    return date ? date.toLocaleDateString('en-CA') : null;
-  };  
-
   const updateMovie = async (id: number, command: UpdateMovie): Promise<Movie | undefined> => {
     try {
       const { data: movie } = await client.put<Movie>(`/movies/${id}`, command);
@@ -118,8 +108,6 @@ export function useEmdbApi() {
     findMovie,
     findPerson, 
     findSeries,
-    toDate,
-    toDateString,
     updateMovie,
     updatePerson,
   }

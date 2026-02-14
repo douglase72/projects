@@ -82,12 +82,14 @@
   import * as z from 'zod';
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
+  import { useTime } from '@/composables/useTime';
   import { Gender, type Person, type UpdatePerson } from '@emdb/common';
 
   const confirm = useConfirm();
   const route = useRoute();
   const router = useRouter();
-  const { deletePerson, findPerson, toDate, toDateString, updatePerson } = useEmdbApi();
+  const { deletePerson, findPerson, updatePerson } = useEmdbApi();
+  const { toDate, toDateString } = useTime();
 
   const person = ref<Person>();
   const genderOptions = Object.values(Gender);

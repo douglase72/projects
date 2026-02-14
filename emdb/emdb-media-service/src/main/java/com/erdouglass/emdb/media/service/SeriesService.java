@@ -37,6 +37,7 @@ public class SeriesService extends MediaService {
         .map(mapper::toSaveSeries)
         .orElseGet(() -> SaveSeries.builder().tmdbId(tmdbId).build());
     var saveCommand = scraper.scrape(command, jobId);
+    
     var series = save(saveCommand);
     LOGGER.infof("Saved: %s", series);
     existingSeries.ifPresent(s -> {
@@ -46,7 +47,7 @@ public class SeriesService extends MediaService {
       if (!Objects.equals(s.tmdbPoster().orElse(null), series.tmdbPoster().orElse(null))) {
         s.poster().ifPresent(imageService::delete);
       }      
-    });     
+    });
   }  
   
   @Transactional

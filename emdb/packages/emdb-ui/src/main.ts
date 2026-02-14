@@ -28,13 +28,6 @@ app.use(PrimeVue, {
       }
     }
   },
-  pt: {
-    button: {
-      root: ({ props }: { props: any }) => ({
-        class: !props.size ? 'p-button-sm' : undefined
-      })
-    }
-  }  
 });
 app.use(ConfirmationService);
 app.use(ToastService);

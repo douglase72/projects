@@ -6,12 +6,16 @@ import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import com.erdouglass.emdb.common.service.IngestStatusService;
 import com.erdouglass.emdb.scraper.service.TmdbImageService;
 
 public abstract class MediaService {
   
   @Inject
-  TmdbImageService imageService;
+  TmdbImageService imageService;  
+  
+  @Inject
+  IngestStatusService statusService;  
   
   @Inject
   Validator validator;

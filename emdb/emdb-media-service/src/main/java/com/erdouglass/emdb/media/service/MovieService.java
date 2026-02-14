@@ -23,11 +23,15 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.SaveMovieCredit;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.comand.UpdateMovieCredit;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.entity.MovieCredit;
 import com.erdouglass.emdb.media.entity.Movie_;
@@ -81,7 +85,6 @@ public class MovieService extends MediaService {
     var saveCommand = scraper.scrape(command, jobId);
     
     try {
-      var start = System.nanoTime();
       validate(saveCommand);
       var movie = save(saveCommand);
       existingMovie.ifPresent(m -> {
@@ -92,9 +95,16 @@ public class MovieService extends MediaService {
           m.poster().ifPresent(imageService::delete);
         } 
       });
-      deleteImages(saveCommand, command.credits());
-      var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-      LOGGER.infof("Loaded TMDB movie %d in %d ms", movie.tmdbId(), et);      
+      deleteImages(saveCommand, command.credits()); 
+      statusService.send(IngestStatusChanged.builder()
+          .id(jobId)
+          .status(IngestStatus.COMPLETED)
+          .tmdbId(tmdbId)
+          .source(IngestSource.MEDIA)
+          .type(MediaType.MOVIE)
+          .name(movie.title())
+          .emdbId(movie.id())
+          .build());
     } catch (Exception e) {
       dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

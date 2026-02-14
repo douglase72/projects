@@ -12,6 +12,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.comand.IngestMedia;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
+import com.erdouglass.emdb.common.service.IngestStatusService;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
@@ -36,6 +40,9 @@ public class IngestService {
   SeriesService seriesService;
   
   @Inject
+  IngestStatusService statusService;  
+  
+  @Inject
   MeterRegistry registry;  
   
   @RunOnVirtualThread
@@ -44,10 +51,17 @@ public class IngestService {
     var command = wrapper.getPayload();
     var jobId = Baggage.current().getEntryValue("job-id");
     logQueueDuration(jobId, command);
-    LOGGER.infof("Ingest Job %s for TMDB %s %d started", jobId, command.type(), command.tmdbId());  
+    LOGGER.infof("Ingest Job %s for TMDB %s %d started", jobId, command.type(), command.tmdbId());
+    statusService.send(IngestStatusChanged.builder()
+        .id(jobId)
+        .status(IngestStatus.STARTED)
+        .tmdbId(command.tmdbId())
+        .source(IngestSource.MEDIA)
+        .type(command.type())
+        .build());
     
     try {
-      var start = Instant.now(); 
+      var start = Instant.now();
       switch (command.type()) {
         case MOVIE -> movieService.ingest(command.tmdbId(), jobId);
         case SERIES -> seriesService.ingest(command.tmdbId(), jobId);

@@ -77,8 +77,10 @@ public abstract class TmdbScraper {
         .birthPlace(person.place_of_birth())
         .biography(person.biography());
     if (command == null || !Objects.equals(person.profile_path(), command.tmdbProfile())) {
-      cmd.profile(imageService.save(person.profile_path()))
-        .tmdbProfile(person.profile_path());
+      if (person.profile_path() != null) {
+        cmd.profile(imageService.save(person.profile_path()))
+          .tmdbProfile(person.profile_path());
+      }
     } else {
       cmd.profile(command.profile())
         .tmdbProfile(command.tmdbProfile());

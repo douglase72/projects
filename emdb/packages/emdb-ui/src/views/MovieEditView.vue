@@ -67,11 +67,13 @@
   import * as z from 'zod';
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
+  import { useTime } from '@/composables/useTime';
   import { CreditType, type Movie, type UpdateMovie } from '@emdb/common';
 
   const route = useRoute();
   const router = useRouter();
-  const { deleteMovie, findMovie, toDateString , updateMovie } = useEmdbApi();
+  const { deleteMovie, findMovie, updateMovie } = useEmdbApi();
+  const { toDateString } = useTime();
 
   const schema = z.object({
     releaseDate: z.date().nullable(),

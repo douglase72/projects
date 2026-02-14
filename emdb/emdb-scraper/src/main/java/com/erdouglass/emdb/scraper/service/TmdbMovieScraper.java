@@ -18,9 +18,14 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.CreditType;
+import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.SaveMovieCredit;
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
+import com.erdouglass.emdb.common.service.IngestStatusService;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CastCredit;
@@ -36,6 +41,9 @@ public class TmdbMovieScraper extends TmdbScraper {
   @Inject
   @RestClient
   TmdbMovieClient client;
+  
+  @Inject
+  IngestStatusService statusService;  
   
   @Timed(
       value = "emdb.scrape.duration", 
@@ -83,7 +91,15 @@ public class TmdbMovieScraper extends TmdbScraper {
         .tmdbPoster(tmdbMovie.poster_path());
     }
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Ingest Job %s for TMDB movie %d extracted in %d ms", jobId, command.tmdbId(), et);    
+    LOGGER.infof("Ingest Job %s for TMDB movie %d extracted in %d ms", jobId, command.tmdbId(), et); 
+    statusService.send(IngestStatusChanged.builder()
+        .id(jobId)
+        .status(IngestStatus.EXTRACTED)
+        .tmdbId(command.tmdbId())
+        .source(IngestSource.MEDIA)
+        .type(MediaType.MOVIE)
+        .name(tmdbMovie.title())
+        .build());
     return cmd.build();
   }
   
