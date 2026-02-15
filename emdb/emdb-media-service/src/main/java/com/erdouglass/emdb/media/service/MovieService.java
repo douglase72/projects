@@ -77,7 +77,7 @@ public class MovieService extends MediaService {
   MovieRepository repository;
   
   @Override
-  public void ingest(@NotNull @Positive Integer tmdbId, String jobId) {
+  public void ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
     var existingMovie = findByTmdbId(tmdbId);
     var command = existingMovie
         .map(mapper::toSaveMovie)

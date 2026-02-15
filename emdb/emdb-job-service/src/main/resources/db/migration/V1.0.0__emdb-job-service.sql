@@ -1,11 +1,12 @@
 
     create table emdb_job.Ingest_Jobs (
         id uuid not null,
+        current_source varchar(255) not null check ((current_source in ('GATEWAY','MEDIA','SCHEDULER','SCRAPER','USER'))),
+        current_status varchar(255) not null check ((current_status in ('SUBMITTED','STARTED','EXTRACTED','COMPLETED','FAILED','HEARTBEAT'))),
         emdb_id bigint,
+        history jsonb,
+        modified timestamp(6) with time zone not null,
         name varchar(140),
-        source varchar(255) not null check ((source in ('GATEWAY','MEDIA','SCHEDULER','SCRAPER','USER'))),
-        status varchar(255) not null check ((status in ('SUBMITTED','STARTED','EXTRACTED','COMPLETED','FAILED','HEARTBEAT'))),
-        timestamp timestamp(6) with time zone not null,
         tmdb_id integer not null,
         type varchar(255) not null check ((type in ('MOVIE','PERSON','SERIES'))),
         primary key (id)

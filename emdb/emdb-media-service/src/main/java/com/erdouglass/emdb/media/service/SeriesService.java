@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.service;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -31,7 +32,7 @@ public class SeriesService extends MediaService {
   SeriesRepository repository;
   
   @Override
-  public void ingest(@NotNull @Positive Integer tmdbId, String jobId) {
+  public void ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
     var existingSeries = findByTmdbId(tmdbId);
     var command = existingSeries
         .map(mapper::toSaveSeries)

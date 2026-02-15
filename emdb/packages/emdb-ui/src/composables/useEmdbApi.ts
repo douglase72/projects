@@ -4,7 +4,14 @@ import { useToast } from "primevue/usetoast";
 
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { ImageSize } from '@/models/ImageSize';
-import type { Movie, Person, UpdateMovie, UpdatePerson } from '@emdb/common';
+import {
+  type ExecuteScheduler,
+  type IngestMedia,
+  type Movie, 
+  type Person,
+  SchedulerType, 
+  type UpdateMovie, 
+  type UpdatePerson } from '@emdb/common';
 import type { Series } from '@/models/Series';
 
 const client = axios.create({
@@ -19,11 +26,7 @@ export function useEmdbApi() {
   const deleteMovie = async (movie: Movie) => {
     try {
       await client.delete<number>(`/movies/${movie.id}`);
-      toast.add({ 
-        severity: 'success', 
-        summary: 'Success', 
-        detail: `Deleted ${movie.title}`, 
-        life: 5000});
+      toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${movie.title}`, life: 5000 });
     } catch (e) {
       handleError(e, 'Delete Failed');
     }
@@ -32,15 +35,22 @@ export function useEmdbApi() {
   const deletePerson = async (person: Person) => {
     try {
       await client.delete<number>(`/people/${person.id}`);
-      toast.add({ 
-        severity: 'success', 
-        summary: 'Success', 
-        detail: `Deleted ${person.name}`, 
-        life: 5000});
+      toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${person.name}`, life: 5000 });
     } catch (e) {
       handleError(e, 'Delete Failed');
     }
-  };  
+  };
+
+  const executeMovieScheduler = async () => {
+    try {
+      const command: ExecuteScheduler = { type: SchedulerType.MOVIES };
+      await client.post('/scheduler', command);
+      const msg = `Movie scheduler job submitted`;
+      toast.add({ severity: 'info', summary: msg, life: 5000 }); 
+    } catch (e) {
+      handleError(e, 'Movie Scheduler Failed');
+    }     
+  }
   
   const findImage = (image: string, size: ImageSize) => {
     return `${import.meta.env.VITE_IMAGE_URL}/${size}/${image}`;
@@ -73,14 +83,20 @@ export function useEmdbApi() {
     }    
   };
 
+  const ingest = async (command: IngestMedia) => {
+    try {
+      const { data: jobId } = await client.post<string>('/ingest', command);
+      const msg = `Ingest job ${jobId} submitted for TMDB ${command.type} ${command.tmdbId}`;
+      toast.add({ severity: 'info', summary: msg, life: 5000 }); 
+    } catch (e) {
+      handleError(e, 'Ingest Failed');
+    }           
+  };  
+
   const updateMovie = async (id: number, command: UpdateMovie): Promise<Movie | undefined> => {
     try {
       const { data: movie } = await client.put<Movie>(`/movies/${id}`, command);
-      toast.add({ 
-        severity: 'success', 
-        summary: 'Success', 
-        detail: `Saved ${movie.title}`, 
-        life: 5000 });      
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved ${movie.title}`, life: 5000 });      
       return movie;
     } catch (e) {
       handleError(e, 'Update Failed');
@@ -90,11 +106,7 @@ export function useEmdbApi() {
   const updatePerson = async (id: number, command: UpdatePerson): Promise<Person | undefined> => {
     try {
       const { data: person } = await client.put<Person>(`/people/${id}`, command);
-      toast.add({ 
-        severity: 'success', 
-        summary: 'Success', 
-        detail: `Saved ${person.name}`, 
-        life: 5000 });
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved ${person.name}`, life: 5000 });
       return person;
     } catch (e) {
       handleError(e, 'Update Failed');
@@ -104,6 +116,8 @@ export function useEmdbApi() {
   return {
     deleteMovie,
     deletePerson,
+    executeMovieScheduler,
+    ingest,
     findImage,
     findMovie,
     findPerson, 

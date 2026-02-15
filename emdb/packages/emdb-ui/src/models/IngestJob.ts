@@ -1,5 +1,11 @@
 import { MediaType } from "@emdb/common";
 
+export interface JobStatus {
+  status: IngestStatus;
+  timestamp: string;
+  source: IngestSource;
+}
+
 export enum IngestSource {
   GATEWAY = "emdb-gateway-service",
   MEDIA = "emdb-media-service",
@@ -25,4 +31,5 @@ export interface IngestJob {
   status: IngestStatus;
   type: MediaType;
   name: string | null;
+  history: JobStatus[];
 }

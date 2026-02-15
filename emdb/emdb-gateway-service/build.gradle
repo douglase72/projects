@@ -9,6 +9,8 @@ dependencies {
 	implementation project(':emdb-common')
 	implementation project(':web-services')
 	
+	implementation libs.jug
+	
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging

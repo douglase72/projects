@@ -1,12 +1,12 @@
 package com.erdouglass.emdb.scraper.service;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -18,7 +18,7 @@ import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
 import io.micrometer.core.annotation.Timed;
 
 @ApplicationScoped
-public class TmdbSeriesScraper {
+public class TmdbSeriesScraper extends TmdbScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbSeriesScraper.class);
   private static final String CREDITS = "aggregate_credits";
   
@@ -33,7 +33,7 @@ public class TmdbSeriesScraper {
       value = "emdb.scrape.duration", 
       extraTags = {"media", "series"}
   )
-  public SaveSeries scrape(@NotNull @Valid SaveSeries command, @NotBlank String jobId) {
+  public SaveSeries scrape(@NotNull @Valid SaveSeries command, @NotNull UUID jobId) {
     var start = System.nanoTime();
     var tmdbSeries = client.findById(command.tmdbId(), CREDITS);
     var cmd = SaveSeries.builder()

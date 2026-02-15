@@ -3,6 +3,7 @@ package com.erdouglass.emdb.scraper.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,7 +12,6 @@ import java.util.stream.Stream;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -49,7 +49,7 @@ public class TmdbMovieScraper extends TmdbScraper {
       value = "emdb.scrape.duration", 
       extraTags = {"media", "movie"}
   )
-  public SaveMovie scrape(@NotNull @Valid SaveMovie command, @NotBlank String jobId) {
+  public SaveMovie scrape(@NotNull @Valid SaveMovie command, @NotNull UUID jobId) {
     var start = System.nanoTime();
     var tmdbMovie = client.findById(command.tmdbId(), CREDITS);
     var ids = Stream.concat(
@@ -96,7 +96,7 @@ public class TmdbMovieScraper extends TmdbScraper {
         .id(jobId)
         .status(IngestStatus.EXTRACTED)
         .tmdbId(command.tmdbId())
-        .source(IngestSource.MEDIA)
+        .source(IngestSource.SCRAPER)
         .type(MediaType.MOVIE)
         .name(tmdbMovie.title())
         .build());

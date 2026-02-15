@@ -14,7 +14,6 @@ import jakarta.ws.rs.core.Response.Status;
 import org.jboss.resteasy.reactive.RestStreamElementType;
 
 import com.erdouglass.emdb.common.comand.IngestMedia;
-import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.gateway.service.IngestService;
 
 import io.smallrye.mutiny.Multi;
@@ -36,9 +35,8 @@ public class IngestResource {
   @Path("/jobs")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   @RestStreamElementType(MediaType.APPLICATION_JSON)
-  public Multi<IngestStatusChanged> sendEvents() {
-    var liveStream = service.stream();  
-    return liveStream;
+  public Multi<Object> sendEvents() {
+    return service.stream();
   }
   
 }

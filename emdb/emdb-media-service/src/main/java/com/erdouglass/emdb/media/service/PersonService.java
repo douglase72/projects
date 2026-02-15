@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class PersonService extends MediaService {
   PersonRepository repository;
   
   @Override
-  public void ingest(@NotNull @Positive Integer tmdbId, String jobId) {
+  public void ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
     var existingPerson = findByTmdbId(tmdbId);
     var command = existingPerson
         .map(mapper::toSavePerson)

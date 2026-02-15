@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.job.service;
 
+import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,54 +12,48 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
-import com.erdouglass.emdb.job.mapper.IngestStatusChangedMapper;
+import com.erdouglass.emdb.job.mapper.IngestJobMapper;
+import com.erdouglass.emdb.job.query.IngestJobDto;
 import com.erdouglass.emdb.job.repository.IngestJobRepository;
 
-import io.smallrye.reactive.messaging.annotations.Blocking;
+import io.smallrye.common.annotation.RunOnVirtualThread;
 
-/// Consumes {@link IngestStatusChanged} events to maintain a persistent history of 
-/// ingest operations.
-///
-/// This consumer listens to the {@code ingest-status-in} channel and updates the
-/// persistent store (Database) whenever an {@link IngestStatusChanged} event occurs.
-/// It acts as the "Historian" of the system, ensuring that every state change
-/// (e.g., SUBMITTED -> STARTED -> COMPLETED) is recorded reliably.
 @ApplicationScoped
 public class IngestJobService {
   private static final Logger LOGGER = Logger.getLogger(IngestJobService.class);
   
   @Inject
-  IngestStatusChangedMapper mapper;
+  IngestJobMapper mapper;
   
   @Inject
   IngestJobRepository repository;
 
-  /// Persists the {@link IngestStatusChanged} event to the database.
-  ///
-  /// **Concurrency Strategy:**
-  /// This method is annotated with {@link Blocking} to enforce sequential execution.
-  /// This prevents race conditions (e.g., {@code OptimisticLockingFailureException})
-  /// where parallel threads might attempt to INSERT and UPDATE the same Job ID simultaneously.
-  ///
-  /// @param wrapper The reactive message containing the event payload.
-  /// @return A {@link CompletionStage} indicating the Ack/Nack status of the message.
-  @Blocking
+  @RunOnVirtualThread
   @Transactional
-  @Incoming("ingest-status-in")
+  @Incoming("job-history-in")
   public CompletionStage<Void> onMessage(Message<IngestStatusChanged> wrapper) {
     var event = wrapper.getPayload();
-    LOGGER.debugf("Received: %s", event);
+    LOGGER.infof("Received: %s", event);
     
     try {
-      var job = mapper.toIngestJob(event);
-      repository.save(job);
-      LOGGER.infof("Saved: %s", job);
+      repository.findById(event.id()).ifPresentOrElse(j -> {
+        j.status(event.status(), event.timestamp(), event.source());
+        j.name(event.name());
+        j.emdbId(event.emdbId());
+        repository.update(j);
+      }, 
+      () -> repository.insert(mapper.toIngestJob(event)));
       return wrapper.ack();
     } catch (Exception e) {
       var msg = String.format("Failed to persist event %s", event);
       LOGGER.error(msg, e);
       return wrapper.nack(e);
     }
+  }
+  
+  @Transactional
+  public List<IngestJobDto> findAll() {
+    return repository.findAll().map(mapper::toIngestJobDto).toList();
   }
   
 }

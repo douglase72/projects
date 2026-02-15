@@ -12,6 +12,7 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Configuration;
@@ -20,6 +21,8 @@ import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.service.IngestStatusService;
+import com.erdouglass.emdb.gateway.client.JobClient;
+import com.fasterxml.uuid.Generators;
 
 import io.opentelemetry.api.baggage.Baggage;
 import io.smallrye.mutiny.Multi;
@@ -35,7 +38,11 @@ public class IngestService {
   
   @Inject
   @ConfigProperty(name = "emdb.heartbeat.interval")
-  Integer heartbeatInterval;  
+  Integer heartbeatInterval; 
+  
+  @Inject
+  @RestClient
+  JobClient client;  
   
   @Inject
   @Channel("ingest-media-out") 
@@ -44,10 +51,10 @@ public class IngestService {
   @Inject
   IngestStatusService statusService;
   
-  public String ingest(IngestMedia command) {
-    var jobId = UUID.randomUUID().toString();
+  public UUID ingest(IngestMedia command) {
+    var jobId = Generators.timeBasedEpochGenerator().generate();
     var baggage = Baggage.current().toBuilder()
-        .put("job-id", jobId)
+        .put("job-id", jobId.toString())
         .put("job-start-time", Instant.now().toString())
         .build();
     try (var _ = baggage.makeCurrent()) {
@@ -76,15 +83,20 @@ public class IngestService {
   /// Provides the stream of real-time events.
   ///
   /// @return A Multi stream that emits events as they arrive.  
-  public Multi<IngestStatusChanged> stream() {
-    Multi<IngestStatusChanged> heartbeat = Multi.createFrom()
+  public Multi<Object> stream() {
+    var history = client.findAll()
+        .onItem().transformToMulti(list -> Multi.createFrom().iterable(list));
+    var heartbeat = Multi.createFrom()
         .ticks().every(Duration.ofSeconds(heartbeatInterval))
         .map(_ -> IngestStatusChanged.builder()
-            .id(UUID.randomUUID().toString())
             .status(IngestStatus.HEARTBEAT)
             .source(IngestSource.GATEWAY)
-            .build());  
-    return Multi.createBy().merging().streams(broadcaster, heartbeat);
+            .build());
+    var live = Multi.createBy()
+        .merging()
+        .streams(broadcaster.onOverflow().buffer(256), heartbeat)
+        .onItem().castTo(Object.class);
+    return Multi.createBy().merging().streams(history, live);
   }
 
 }

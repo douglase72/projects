@@ -17,6 +17,9 @@ gradle :emdb-scheduler-service:clean :emdb-scheduler-service:build -x :emdb-sche
 echo "Building emdb-media-service..."
 gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
 
+echo "Building emdb-job-service..."
+gradle :emdb-job-service:clean :emdb-job-service:build -x :emdb-job-service:test
+
 echo "Cleaning media data..."
 docker run --rm \
   -v /home/erdouglass/projects/emdb/media-data/images:/images \

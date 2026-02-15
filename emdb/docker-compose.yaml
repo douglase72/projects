@@ -70,6 +70,24 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+        
+  emdb-job:
+    image: emdb-job:latest
+    container_name: emdb-job
+    build:
+      context: ./emdb-job-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60338:60318
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-job-service/.env
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   emdb-ui:
     image: emdb-ui:latest

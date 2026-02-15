@@ -1,66 +1,35 @@
-package com.erdouglass.emdb.common.event;
+package com.erdouglass.emdb.job.query;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.ShowConstants;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 
-public record IngestStatusChanged(
-    @NotNull IngestStatus status,
+public record IngestJobDto(
     @NotNull UUID id,
     @NotNull Instant timestamp,
+    @NotNull IngestStatus status,
     @Positive Long emdbId,
     @NotNull @Positive Integer tmdbId,
     @NotNull IngestSource source,
     @NotNull MediaType type,
-    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name) {
+    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name,
+    @NotEmpty List<JobStatus> history) {
   
-  public enum IngestSource {
-    GATEWAY("emdb-gateway"),
-    MEDIA("emdb-media"),
-    SCHEDULER("emdb-scheduler"),
-    SCRAPER("emdb-scraper"),
-    USER("emdb-user");
-    
-    private final String source;
-    
-    IngestSource(String source) {
-      this.source = source;
-    }
-    
-    @Override
-    @JsonValue
-    public String toString() {
-      return source;
-    }
-  }
-  
-  public enum IngestStatus {
-    SUBMITTED("Submitted"),
-    STARTED("Started"),
-    EXTRACTED("Extracted"),
-    COMPLETED("Completed"),
-    FAILED("Failed"),
-    HEARTBEAT("Heartbeat");
-    
-    private final String status;
-    
-    IngestStatus(String status) {
-      this.status = status;
-    }
-    
-    @Override
-    @JsonValue
-    public String toString() {
-      return status;
-    }    
-  }
+  public record JobStatus(
+      @NotNull IngestStatus status,
+      @NotNull Instant timestamp,
+      @NotNull IngestSource source) { }  
   
   public static Builder builder() {
     return new Builder();
@@ -68,6 +37,7 @@ public record IngestStatusChanged(
   
   public static final class Builder {
     private Long emdbId;
+    private List<JobStatus> history = new ArrayList<>();
     private UUID id;
     private String name;
     private IngestSource source;
@@ -78,12 +48,17 @@ public record IngestStatusChanged(
     
     Builder() { }
     
-    public IngestStatusChanged build() {
-      return new IngestStatusChanged(status, id, timestamp, emdbId, tmdbId, source, type, name);
+    public IngestJobDto build() {
+      return new IngestJobDto(id, timestamp, status, emdbId, tmdbId, source, type, name, history);
     }
     
     public Builder emdbId(Long emdbId) {
       this.emdbId = emdbId;
+      return this;
+    }
+    
+    public Builder history(List<JobStatus> history) {
+      this.history = List.copyOf(history);
       return this;
     }
     
@@ -121,6 +96,6 @@ public record IngestStatusChanged(
       this.type = type;
       return this;
     }      
-  }
+  }  
 
 }

@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -49,7 +50,7 @@ public class IngestService {
   @Incoming("ingest-media-in")
   public CompletionStage<Void> onMessage(Message<IngestMedia> wrapper) {
     var command = wrapper.getPayload();
-    var jobId = Baggage.current().getEntryValue("job-id");
+    var jobId = UUID.fromString(Baggage.current().getEntryValue("job-id"));
     logQueueDuration(jobId, command);
     LOGGER.infof("Ingest Job %s for TMDB %s %d started", jobId, command.type(), command.tmdbId());
     statusService.send(IngestStatusChanged.builder()
@@ -83,7 +84,7 @@ public class IngestService {
     }
   }
   
-  private void logQueueDuration(String jobId, IngestMedia command) {
+  private void logQueueDuration(UUID jobId, IngestMedia command) {
     var start = Instant.parse(Baggage.current().getEntryValue("job-start-time"));
     var et = Duration.between(start, Instant.now());
     LOGGER.infof("Ingest Job %s for TMDB %s %d sat in the ingest-media queue for %d ms", 

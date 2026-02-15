@@ -2,7 +2,6 @@ package com.erdouglass.emdb.scheduler.service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,6 +20,7 @@ import com.erdouglass.emdb.common.comand.IngestMedia.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.service.IngestStatusService;
+import com.fasterxml.uuid.Generators;
 
 import io.opentelemetry.api.baggage.Baggage;
 import io.quarkus.scheduler.Scheduled;
@@ -75,9 +75,9 @@ public class TmdbSchedulerService {
   } 
   
   private void ingest(int tmdbId, MediaType type) {
-    var jobId = UUID.randomUUID().toString();
+    var jobId = Generators.timeBasedEpochGenerator().generate();
     var baggage = Baggage.current().toBuilder()
-        .put("job-id", jobId)
+        .put("job-id", jobId.toString())
         .put("job-start-time", Instant.now().toString())
         .build();
     var command = IngestMedia.of(tmdbId, type, IngestSource.SCHEDULER);

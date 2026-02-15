@@ -7,10 +7,33 @@
   </header>
 
   <main class="m-8">
-    <section>
+    <section class="flex gap-x-8 mt-12 items-start">
+      <Fieldset legend="Ingest">
+        <div class="inline-grid grid-cols-[1fr_auto] gap-y-4 gap-x-6">
+          <InputGroup>
+            <InputNumber v-model="movieId" inputId="movie" placeholder="TMDB Movie ID"
+                         :min="1" :useGrouping="false" /> 
+            <Button label="Ingest" icon="pi pi-check" @click="ingestMovie" :disabled="!movieId" />                  
+          </InputGroup>
+          <Button label="Movie Scheduler" icon="pi pi-check" @click="executeMovieScheduler" />
+        </div>
+      </Fieldset>
+    </section>
+
+    <section class="mt-10">
       <DataTable :value="jobs"
+                 dataKey="id"
+                 v-model:expandedRows="expandedRows"
                  paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
                  tableStyle="min-width: 50rem">
+
+        <Column expander style="width: 5rem" />
+
+        <Column field="timestamp" header="Timestamp">
+          <template #body="slotProps">
+            {{ toDateTime(slotProps.data.timestamp) }}
+          </template>          
+        </Column>
 
         <Column field="status" header="Status">
           <template #body="slotProps">
@@ -20,16 +43,6 @@
           </template>
         </Column>
 
-        <Column field="id" header="Job ID" />
-
-        <Column field="timestamp" header="Timestamp" class="min-w-50">
-          <template #body="slotProps">
-            {{ toDateTime(slotProps.data.timestamp) }}
-          </template>          
-        </Column> 
-        
-        <Column field="tmdbId" header="TMDB ID" />
-
         <Column field="name" header="Name">
           <template #body="slotProps">
             <RouterLink v-if="slotProps.data.emdbId"
@@ -38,10 +51,33 @@
               {{ slotProps.data.name }}
             </RouterLink>
           </template>   
-        </Column>
+        </Column> 
+        
+        <Column field="tmdbId" header="TMDB ID" />
         
         <Column field="type" header="Media Type" />
 
+        <template #expansion="slotProps">
+          <div class="max-w-160 mx-30">
+            <DataTable :value="slotProps.data.history">
+              <template #header>Job Id: {{ slotProps.data.id }}</template>
+              <Column field="timestamp" header="Timestamp">
+                <template #body="slotProps">
+                  {{ toDateTime(slotProps.data.timestamp) }}
+                </template>          
+              </Column>
+              <Column field="status" header="Status">
+                <template #body="slotProps">
+                  <Tag :value="slotProps.data.status" 
+                       :severity="ingestStatus(slotProps.data.status)" 
+                       rounded />
+                </template>
+              </Column>              
+              <Column field="source" header="Source" />
+            </DataTable>
+          </div>
+        </template>
+        
         <template #footer>
           <div class="flex justify-end">
             <Tag :value="connection.label" :severity="connection.severity" rounded />
@@ -55,17 +91,34 @@
 <script setup lang="ts">
   import { onMounted, onUnmounted, ref} from 'vue';
 
+  import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useTime } from '@/composables/useTime';
   import { ConnectionStatus, type ConnectionStatusValue } from '@/models/ConnectionStatus';
   import { type IngestJob, IngestStatus} from '@/models/IngestJob';
-  import { MediaType } from '@emdb/common';
+  import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 
+  const { executeMovieScheduler, ingest } = useEmdbApi();
   const { handleError } = useErrorHandler();
   const { toDateTime } = useTime();
+
+  const movieId = ref(null);
   const connection = ref<ConnectionStatusValue>(ConnectionStatus.DISCONNECTED);
   let eventSource: EventSource | null = null;
   const jobs = ref<IngestJob[]>([]);
+  const expandedRows = ref({});
+
+  const ingestMovie = async () => {
+    if (movieId.value !== null) {
+      const command: IngestMedia = {
+        tmdbId: movieId.value,
+        type: MediaType.MOVIE,
+        source: IngestSource.UI,
+      };
+      await ingest(command);
+      movieId.value = null;
+    }
+  };  
 
   const ingestStatus = (status: IngestStatus) => {
     switch (status) {
@@ -104,11 +157,42 @@
         const job: IngestJob = JSON.parse(event.data);
         if (job.status !== IngestStatus.HEARTBEAT) {
           const index = jobs.value.findIndex(j => j.id === job.id);
-          if (index !== -1) {
-            jobs.value[index] = job;
+          const existingJob = jobs.value[index];
+
+          if (index !== -1 && existingJob) {
+            const historyMap = new Map();
+            if (existingJob.history) {
+              existingJob.history.forEach(h => historyMap.set(h.status, h));
+            }
+            if (job.history) {
+              job.history.forEach(h => historyMap.set(h.status, h));
+            }
+            if (!job.history) {
+              historyMap.set(job.status, { status: job.status, timestamp: job.timestamp, source: job.source });
+            } 
+            
+            existingJob.history = Array.from(historyMap.values()).sort((a, b) => 
+              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+            );            
+            const incomingTime = new Date(job.timestamp).getTime();
+            const existingTime = new Date(existingJob.timestamp).getTime();
+            if (incomingTime > existingTime) {
+              existingJob.status = job.status;
+              existingJob.timestamp = job.timestamp;
+              existingJob.source = job.source;
+              if (job.emdbId) existingJob.emdbId = job.emdbId;
+              if (job.name) existingJob.name = job.name;                      
+            }
           } else {
-            jobs.value.unshift(job);
-          }          
+            if (!job.history) {
+              job.history = [{ status: job.status, timestamp: job.timestamp, source: job.source }];
+            }
+            jobs.value.unshift(job);           
+          }
+
+          jobs.value.sort((a, b) => 
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );           
         }
       } catch (e) {
         handleError(e, 'Failed to process server sent event.');
