@@ -1,7 +1,7 @@
 
 export enum SchedulerType {
   MOVIES = "MOVIES",
-  SEROES = "SERIES",
+  SERIES = "SERIES",
   PEOPLE = "PEOPLE",
 }
 

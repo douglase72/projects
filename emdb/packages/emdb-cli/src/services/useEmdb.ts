@@ -6,9 +6,12 @@ import type {
   ExecuteScheduler,
   IngestMedia, 
   Movie, 
-  Person, 
+  Person,
+  Series, 
   UpdateMovie,
-  UpdatePerson } from '@emdb/common';
+  UpdatePerson,
+  UpdateSeries } from '@emdb/common';
+import type { SaveSeries } from '../models/SaveSeries.js';
 
 export function useEmdb() {
   const apiUrl = process.env.API_URL;
@@ -25,6 +28,10 @@ export function useEmdb() {
     client.delete<number>(`/movies/${id}`);
   };
 
+  const deleteSeries = async (id: number) => {
+    client.delete<number>(`/series/${id}`);
+  };
+
   const deletePerson = async (id: number) => {
     client.delete<number>(`/people/${id}`);
   };
@@ -37,7 +44,12 @@ export function useEmdb() {
   const findMovie = async (id: number): Promise<Movie> => {
     const { data: movie } = await client.get<Movie>(`/movies/${id}`);
     return movie;
-  };  
+  }; 
+  
+  const findSeries = async (id: number): Promise<Series> => {
+    const { data: series } = await client.get<Series>(`/series/${id}`);
+    return series;
+  };   
 
   const findPerson = async (id: number): Promise<Person> => {
     const { data: person } = await client.get<Person>(`/people/${id}`);
@@ -52,6 +64,11 @@ export function useEmdb() {
   const saveMovie = async (command: SaveMovie): Promise<Movie> => {
     const { data: movie } = await client.post<Movie>('/movies', command);
     return movie;
+  };  
+  
+  const saveSeries = async (command: SaveSeries): Promise<Series> => {
+    const { data: series } = await client.post<Series>('/series', command);
+    return series;
   };
 
   const savePerson = async (command: SavePerson): Promise<Person> => {
@@ -62,6 +79,11 @@ export function useEmdb() {
   const updateMovie = async (id:number, command: UpdateMovie): Promise<Movie> => {
     const { data: movie } = await client.put<Movie>(`/movies/${id}`, command);
     return movie;
+  };
+  
+  const updateSeries = async (id:number, command: UpdateSeries): Promise<Series> => {
+    const { data: series } = await client.put<Series>(`/series/${id}`, command);
+    return series;
   };  
 
   const updatePerson = async (id:number, command: UpdatePerson): Promise<Person> => {
@@ -72,14 +94,18 @@ export function useEmdb() {
   return {
     deleteMovie,
     deletePerson,
+    deleteSeries,
     executeScheduler,
     findMovie,
     findPerson,
     ingest,
     saveMovie,
     savePerson,
+    saveSeries,
+    findSeries,
     updateMovie,
-    updatePerson
+    updatePerson,
+    updateSeries
   };
 
 }

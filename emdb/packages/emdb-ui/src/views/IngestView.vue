@@ -16,6 +16,20 @@
             <Button label="Ingest" icon="pi pi-check" @click="ingestMovie" :disabled="!movieId" />                  
           </InputGroup>
           <Button label="Movie Scheduler" icon="pi pi-check" @click="executeMovieScheduler" />
+
+          <InputGroup>
+            <InputNumber v-model="seriesId" inputId="series" placeholder="TMDB Series ID"
+                         :min="1" :useGrouping="false" size="small" /> 
+            <Button label="Ingest" icon="pi pi-check" @click="ingestSeries" :disabled="!seriesId" />        
+          </InputGroup>
+          <Button label="Series Scheduler" icon="pi pi-check" @click="executeSeriesScheduler" />
+          
+          <InputGroup>
+            <InputNumber v-model="personId" inputId="person" placeholder="TMDB Person ID"
+                         :min="1" :useGrouping="false" size="small" /> 
+            <Button label="Ingest" icon="pi pi-check" @click="ingestPerson" :disabled="!personId" />        
+          </InputGroup>
+          <Button label="Execute Person Cron" icon="pi pi-check" @click="executePersonScheduler" />    
         </div>
       </Fieldset>
     </section>
@@ -98,11 +112,13 @@
   import { type IngestJob, IngestStatus} from '@/models/IngestJob';
   import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 
-  const { executeMovieScheduler, ingest } = useEmdbApi();
+  const { executeMovieScheduler, executePersonScheduler, executeSeriesScheduler, ingest } = useEmdbApi();
   const { handleError } = useErrorHandler();
   const { toDateTime } = useTime();
 
   const movieId = ref(null);
+  const personId = ref(null);
+  const seriesId = ref(null);
   const connection = ref<ConnectionStatusValue>(ConnectionStatus.DISCONNECTED);
   let eventSource: EventSource | null = null;
   const jobs = ref<IngestJob[]>([]);
@@ -118,7 +134,31 @@
       await ingest(command);
       movieId.value = null;
     }
-  };  
+  };
+  
+  const ingestPerson = async () => {
+    if (personId.value !== null) {
+      const command: IngestMedia = {
+        tmdbId: personId.value,
+        type: MediaType.PERSON,
+        source: IngestSource.UI,
+      };
+      await ingest(command);
+      personId.value = null;
+    }
+  };    
+  
+  const ingestSeries = async () => {
+    if (seriesId.value !== null) {
+      const command: IngestMedia = {
+        tmdbId: seriesId.value,
+        type: MediaType.SERIES,
+        source: IngestSource.UI,
+      };
+      await ingest(command);
+      movieId.value = null;
+    }
+  };   
 
   const ingestStatus = (status: IngestStatus) => {
     switch (status) {
@@ -186,6 +226,10 @@
           } else {
             if (!job.history) {
               job.history = [{ status: job.status, timestamp: job.timestamp, source: job.source }];
+            } else {
+              job.history.sort((a, b) => 
+                new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+              );              
             }
             jobs.value.unshift(job);           
           }

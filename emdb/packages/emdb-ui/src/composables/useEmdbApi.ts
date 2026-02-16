@@ -9,10 +9,11 @@ import {
   type IngestMedia,
   type Movie, 
   type Person,
-  SchedulerType, 
+  SchedulerType,
+  type Series, 
   type UpdateMovie, 
-  type UpdatePerson } from '@emdb/common';
-import type { Series } from '@/models/Series';
+  type UpdatePerson,
+  type UpdateSeries } from '@emdb/common';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL
@@ -27,6 +28,15 @@ export function useEmdbApi() {
     try {
       await client.delete<number>(`/movies/${movie.id}`);
       toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${movie.title}`, life: 5000 });
+    } catch (e) {
+      handleError(e, 'Delete Failed');
+    }
+  };
+
+  const deleteSeries = async (series: Series) => {
+    try {
+      await client.delete<number>(`/series/${series.id}`);
+      toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${series.title}`, life: 5000 });
     } catch (e) {
       handleError(e, 'Delete Failed');
     }
@@ -50,7 +60,29 @@ export function useEmdbApi() {
     } catch (e) {
       handleError(e, 'Movie Scheduler Failed');
     }     
-  }
+  };
+
+  const executePersonScheduler = async () => {
+    try {
+      const command: ExecuteScheduler = { type: SchedulerType.PEOPLE };
+      await client.post('/scheduler', command);
+      const msg = `Person scheduler job submitted`;
+      toast.add({ severity: 'info', summary: msg, life: 5000 }); 
+    } catch (e) {
+      handleError(e, 'Person Scheduler Failed');
+    }     
+  };  
+
+  const executeSeriesScheduler = async () => {
+    try {
+      const command: ExecuteScheduler = { type: SchedulerType.SERIES };
+      await client.post('/scheduler', command);
+      const msg = `Series scheduler job submitted`;
+      toast.add({ severity: 'info', summary: msg, life: 5000 }); 
+    } catch (e) {
+      handleError(e, 'Series Scheduler Failed');
+    }     
+  };  
   
   const findImage = (image: string, size: ImageSize) => {
     return `${import.meta.env.VITE_IMAGE_URL}/${size}/${image}`;
@@ -103,6 +135,16 @@ export function useEmdbApi() {
     }
   };
 
+  const updateSeries = async (id: number, command: UpdateSeries): Promise<Series | undefined> => {
+    try {
+      const { data: series } = await client.put<Series>(`/series/${id}`, command);
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved ${series.title}`, life: 5000 });      
+      return series;
+    } catch (e) {
+      handleError(e, 'Update Failed');
+    }
+  };
+
   const updatePerson = async (id: number, command: UpdatePerson): Promise<Person | undefined> => {
     try {
       const { data: person } = await client.put<Person>(`/people/${id}`, command);
@@ -116,7 +158,10 @@ export function useEmdbApi() {
   return {
     deleteMovie,
     deletePerson,
+    deleteSeries,
     executeMovieScheduler,
+    executePersonScheduler,
+    executeSeriesScheduler,
     ingest,
     findImage,
     findMovie,
@@ -124,6 +169,7 @@ export function useEmdbApi() {
     findSeries,
     updateMovie,
     updatePerson,
+    updateSeries,
   }
 
 }

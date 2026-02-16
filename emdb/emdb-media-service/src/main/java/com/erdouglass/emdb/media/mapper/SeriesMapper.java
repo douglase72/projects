@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.common.query.SeriesDto;
 import com.erdouglass.emdb.media.entity.Series;
 
@@ -23,6 +24,20 @@ public class SeriesMapper {
     series.tagline(command.tagline());
     series.overview(command.overview());
     return series;
+  }
+  
+  public Series toSeries(UpdateSeries command) {
+    var series = new Series(command.title());
+    series.score(command.score());
+    series.status(command.status());
+    series.type(command.type());
+    series.homepage(command.homepage());
+    series.originalLanguage(command.originalLanguage());
+    series.backdrop(command.backdrop());
+    series.poster(command.poster());
+    series.tagline(command.tagline());
+    series.overview(command.overview());
+    return series;    
   }
   
   public SaveSeries toSaveSeries(Series series) {

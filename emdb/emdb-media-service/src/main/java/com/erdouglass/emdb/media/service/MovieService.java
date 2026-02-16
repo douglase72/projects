@@ -133,7 +133,6 @@ public class MovieService extends MediaService {
   
   @Transactional
   public Movie findById(@NotNull @Positive Long id, String append) {
-    long start = System.nanoTime();
     var movie = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
     movie.credits(List.of());
@@ -142,8 +141,6 @@ public class MovieService extends MediaService {
         movie.credits(creditRepository.findAll(id));
       }
     }
-    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Found %s in %d ms", movie, et);    
     return movie;
   }
   
@@ -160,10 +157,10 @@ public class MovieService extends MediaService {
   public Movie update(Long id, UpdateMovie command) {
     long start = System.nanoTime();
     var existingMovie = findById(id, "credits");
-    var movie = mapper.toMovie(command);
-    movie.id(existingMovie.id());
-    movie.tmdbId(existingMovie.tmdbId());
-    var updatedMovie = repository.update(movie);
+    var newMovie = mapper.toMovie(command);
+    newMovie.id(existingMovie.id());
+    newMovie.tmdbId(existingMovie.tmdbId());
+    var updatedMovie = repository.update(newMovie);
     
     List<UpdateMovieCredit> createCommands = new ArrayList<>();
     Map<UUID, UpdateMovieCredit> updateCommands = new HashMap<>();
@@ -177,7 +174,7 @@ public class MovieService extends MediaService {
     updateCredits(existingMovie.credits(), updateCommands);
     insertCredits(updatedMovie, createCommands);
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Updated %s in %d ms", movie, et);
+    LOGGER.infof("Updated %s in %d ms", updatedMovie, et);
     return updatedMovie;
   }
   
@@ -185,6 +182,8 @@ public class MovieService extends MediaService {
   public void deleteById(Long id) {
     long start = System.nanoTime();
     var movie = findById(id, "credits");
+    movie.backdrop().ifPresent(imageService::delete);
+    movie.poster().ifPresent(imageService::delete);
     creditRepository.deleteAll(movie.credits());
     repository.deleteById(id);
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);

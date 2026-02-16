@@ -55,12 +55,18 @@ public class TmdbSchedulerService {
   
   @Scheduled(cron = "0 0 9 * * ?")
   public void ingestSeries() {
-    LOGGER.info("Running series ingest process.");
+    var changedSeries = List.of(1399, 456);
+    for (var tmdbId : changedSeries) {      
+      ingest(tmdbId, MediaType.SERIES);
+    }
   }
   
   @Scheduled(cron = "0 0 11 * * ?")
   public void ingestPeople() {
-    LOGGER.info("Running person ingest process.");
+    var changedPeople = List.of(13918, 12073);
+    for (var tmdbId : changedPeople) {      
+      ingest(tmdbId, MediaType.PERSON);
+    }    
   }
   
   @RunOnVirtualThread

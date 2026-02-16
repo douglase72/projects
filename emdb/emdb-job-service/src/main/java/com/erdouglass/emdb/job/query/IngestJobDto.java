@@ -2,6 +2,7 @@ package com.erdouglass.emdb.job.query;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,7 +59,9 @@ public record IngestJobDto(
     }
     
     public Builder history(List<JobStatus> history) {
-      this.history = List.copyOf(history);
+      this.history = history.stream()
+          .sorted(Comparator.comparing(JobStatus::timestamp))
+          .toList();
       return this;
     }
     

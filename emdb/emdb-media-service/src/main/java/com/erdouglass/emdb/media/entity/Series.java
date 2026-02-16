@@ -35,6 +35,10 @@ public class Series extends Show {
     
   }
   
+  public Series(String title) {
+    super(title);
+  }
+  
   public Series(Integer tmdbId, String title) {
     super(tmdbId, title);
   }

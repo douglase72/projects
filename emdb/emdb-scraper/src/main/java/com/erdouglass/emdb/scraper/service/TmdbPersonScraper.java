@@ -13,13 +13,17 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Gender;
+import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 
 import io.micrometer.core.annotation.Timed;
 
 @ApplicationScoped
-public class TmdbPersonScraper {
+public class TmdbPersonScraper extends TmdbScraper {
   private static final Logger LOGGER = Logger.getLogger(TmdbPersonScraper.class);
   
   @Inject
@@ -51,7 +55,15 @@ public class TmdbPersonScraper {
         .tmdbProfile(tmdbPerson.profile_path());
     }    
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Ingest Job %s for TMDB person %d extracted in %d ms", jobId, command.tmdbId(), et);      
+    LOGGER.infof("Ingest Job %s for TMDB person %d extracted in %d ms", jobId, command.tmdbId(), et);
+    statusService.send(IngestStatusChanged.builder()
+        .id(jobId)
+        .status(IngestStatus.EXTRACTED)
+        .tmdbId(command.tmdbId())
+        .source(IngestSource.SCRAPER)
+        .type(MediaType.PERSON)
+        .name(tmdbPerson.name())
+        .build());    
     return cmd.build();
   }
   

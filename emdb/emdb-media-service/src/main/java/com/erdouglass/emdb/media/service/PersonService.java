@@ -19,8 +19,12 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdatePerson;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus.Status;
 import com.erdouglass.emdb.media.entity.Person;
@@ -65,7 +69,16 @@ public class PersonService extends MediaService {
         if (!Objects.equals(p.tmdbProfile().orElse(null), person.tmdbProfile().orElse(null))) {
           p.profile().ifPresent(imageService::delete);
         }
-      }); 
+      });
+      statusService.send(IngestStatusChanged.builder()
+          .id(jobId)
+          .status(IngestStatus.COMPLETED)
+          .tmdbId(tmdbId)
+          .source(IngestSource.MEDIA)
+          .type(MediaType.PERSON)
+          .name(person.name())
+          .emdbId(person.id())
+          .build());
     } catch (Exception e) {
       dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

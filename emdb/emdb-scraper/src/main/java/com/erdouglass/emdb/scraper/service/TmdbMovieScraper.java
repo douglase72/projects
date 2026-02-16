@@ -25,7 +25,6 @@ import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
-import com.erdouglass.emdb.common.service.IngestStatusService;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto;
 import com.erdouglass.emdb.scraper.query.TmdbMovieDto.CastCredit;
@@ -41,9 +40,6 @@ public class TmdbMovieScraper extends TmdbScraper {
   @Inject
   @RestClient
   TmdbMovieClient client;
-  
-  @Inject
-  IngestStatusService statusService;  
   
   @Timed(
       value = "emdb.scrape.duration", 

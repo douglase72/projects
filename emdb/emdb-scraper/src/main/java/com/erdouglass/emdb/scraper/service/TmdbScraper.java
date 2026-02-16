@@ -17,6 +17,7 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.service.IngestStatusService;
 import com.erdouglass.emdb.scraper.client.TmdbPersonClient;
 import com.erdouglass.emdb.scraper.query.TmdbPersonDto;
 
@@ -46,6 +47,9 @@ public abstract class TmdbScraper {
   
   @Inject
   TmdbRateLimiter rateLimiter;
+  
+  @Inject
+  IngestStatusService statusService;  
   
   protected Map<Integer, SavePerson> findPeople(List<Integer> ids, Map<Integer, SavePerson> existingPeople) {
     var start = System.nanoTime();  

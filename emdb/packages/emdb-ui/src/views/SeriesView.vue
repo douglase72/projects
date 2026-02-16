@@ -1,8 +1,13 @@
 <template>
   <header class="m-4">
     <div class="text-4xl font-bold mb-4">Series</div>
-    <div>
+    <div class="flex flex-col">
       <RouterLink to="/" class="hover:text-zinc-300">Home</RouterLink>
+      <RouterLink v-if="series" 
+                  :to="`/series/${series.id}/edit`" 
+                  class="hover:text-zinc-300">
+        Series Edit
+      </RouterLink>      
     </div>    
   </header>
 
@@ -51,7 +56,7 @@
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useLanguage } from '@/composables/useLanguage';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Series } from '@/models/Series';
+  import type { Series } from '@emdb/common';
 
   const { findImage, findSeries } = useEmdbApi();
   const { formatLanguage } = useLanguage();

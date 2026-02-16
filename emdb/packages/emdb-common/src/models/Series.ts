@@ -1,5 +1,5 @@
-import { SeriesType } from "./SeriesType";
-import { ShowStatus } from '@emdb/common';
+import { SeriesType } from "./SeriesType.js";
+import { ShowStatus } from "./ShowStatus.js";
 
 export interface Series {
   id: number;

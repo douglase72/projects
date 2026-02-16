@@ -80,6 +80,13 @@ public class IngestService {
     } catch (Exception e) {
       var msg = String.format("Failed to ingest TMDB media %d", command.tmdbId());
       LOGGER.error(msg, e);
+      statusService.send(IngestStatusChanged.builder()
+          .id(jobId)
+          .status(IngestStatus.FAILED)
+          .tmdbId(command.tmdbId())
+          .source(IngestSource.MEDIA)
+          .type(command.type())
+          .build());
       return wrapper.nack(e);
     }
   }

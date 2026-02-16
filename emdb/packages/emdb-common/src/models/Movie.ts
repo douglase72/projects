@@ -1,7 +1,7 @@
 import { Gender } from "./Gender.js";
 import { ShowStatus } from "./ShowStatus.js";
 
-interface MovieCredit {
+export interface MovieCredit {
   creditId: string;
   id: number;
   name: string;

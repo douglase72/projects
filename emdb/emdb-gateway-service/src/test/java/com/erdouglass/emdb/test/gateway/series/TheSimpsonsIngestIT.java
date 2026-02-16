@@ -22,7 +22,7 @@ class TheSimpsonsIngestIT extends AbstractTest {
   
   @Test
   void testIngest() throws IOException, InterruptedException {
-    var command = IngestMedia.of(456, MediaType.SERIES, IngestSource.UI);
+    var command = IngestMedia.of(456, MediaType.SERIES, IngestSource.CLI);
     var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(INGEST_URL).build())
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
