@@ -12,11 +12,12 @@ public class IngestJobMapper {
   public IngestJob toIngestJob(IngestStatusChanged event) {
     var job = new IngestJob();
     job.id(event.id());
-    job.status(event.status(), event.timestamp(), event.source());
+    job.status(event.status(), event.timestamp(), event.source(), event.message());
     job.emdbId(event.emdbId());
     job.tmdbId(event.tmdbId());
     job.type(event.type());
     job.name(event.name());
+    job.message(event.message());
     return job;
   }
   

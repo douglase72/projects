@@ -30,7 +30,8 @@ public record IngestJobDto(
   public record JobStatus(
       @NotNull IngestStatus status,
       @NotNull Instant timestamp,
-      @NotNull IngestSource source) { }  
+      @NotNull IngestSource source,
+      String message) { }  
   
   public static Builder builder() {
     return new Builder();

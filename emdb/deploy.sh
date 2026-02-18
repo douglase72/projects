@@ -25,8 +25,9 @@ docker run --rm \
   -v /home/erdouglass/projects/emdb/media-data/images:/images \
   -v /home/erdouglass/projects/emdb/media-data/movies:/movies \
   -v /home/erdouglass/projects/emdb/media-data/people:/people \
+  -v /home/erdouglass/projects/emdb/media-data/series:/series \
   alpine \
-  sh -c "rm -rf /images/* /movies/* /people/*"
+  sh -c "rm -rf /images/* /movies/* /people/* /series/*"
 
 echo "Stopping and removing old containers..."
 cd "$SCRIPT_DIR"

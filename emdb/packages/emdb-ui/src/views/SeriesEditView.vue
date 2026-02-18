@@ -1,6 +1,6 @@
 <template>
   <header class="m-4">
-    <div class="text-4xl font-bold mb-4">Movie Edit</div>
+    <div class="text-4xl font-bold mb-4">Series Edit</div>
     <div class="flex flex-col">
       <RouterLink to="/" class="hover:text-zinc-300">Home</RouterLink>
     </div>

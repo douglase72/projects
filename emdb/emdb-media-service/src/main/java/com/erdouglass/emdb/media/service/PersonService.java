@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,7 +56,8 @@ public class PersonService extends MediaService {
   PersonRepository repository;
   
   @Override
-  public void ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
+  public Duration ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
+    var start = Instant.now();
     var existingPerson = findByTmdbId(tmdbId);
     var command = existingPerson
         .map(mapper::toSavePerson)
@@ -70,6 +73,10 @@ public class PersonService extends MediaService {
           p.profile().ifPresent(imageService::delete);
         }
       });
+      var et = Duration.between(start, Instant.now());
+      var msg = String.format("Ingest Job for TMDB %s %d completed in %d ms", 
+          MediaType.PERSON, person.tmdbId(), et.toMillis());
+      LOGGER.info(msg);      
       statusService.send(IngestStatusChanged.builder()
           .id(jobId)
           .status(IngestStatus.COMPLETED)
@@ -78,7 +85,9 @@ public class PersonService extends MediaService {
           .type(MediaType.PERSON)
           .name(person.name())
           .emdbId(person.id())
+          .message(msg)
           .build());
+      return et;
     } catch (Exception e) {
       dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

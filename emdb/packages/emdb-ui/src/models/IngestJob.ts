@@ -4,6 +4,7 @@ export interface JobStatus {
   status: IngestStatus;
   timestamp: string;
   source: IngestSource;
+  message: string | null;
 }
 
 export enum IngestSource {
@@ -31,5 +32,6 @@ export interface IngestJob {
   status: IngestStatus;
   type: MediaType;
   name: string | null;
+  message: string | null;
   history: JobStatus[];
 }

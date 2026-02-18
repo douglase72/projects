@@ -50,6 +50,8 @@ public class IngestJob {
   @Column(name = "current_status")
   private IngestStatus currentStatus;
   
+  private String message;
+  
   @NotNull
   private Instant modified;
   
@@ -89,6 +91,14 @@ public class IngestJob {
     return id;
   }
   
+  public void message(String message) {
+    this.message = message;
+  }
+  
+  public String message() {
+    return message;
+  }
+  
   public Instant modified() {
     return modified;
   }
@@ -101,11 +111,11 @@ public class IngestJob {
     return Optional.ofNullable(name);
   }
   
-  public void status(IngestStatus status, Instant timestamp, IngestSource source) {
+  public void status(IngestStatus status, Instant timestamp, IngestSource source, String message) {
     this.currentStatus = status;
     this.modified = timestamp;
     this.currentSource = source;
-    this.history.add(new JobStatus(status, timestamp, source));
+    this.history.add(new JobStatus(status, timestamp, source, message));
   }
   
   public IngestSource source() {

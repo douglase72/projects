@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.service;
 
+import java.time.Duration;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
@@ -22,7 +23,7 @@ public abstract class MediaService {
   @Inject
   Validator validator;
   
-  public abstract void ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId);
+  public abstract Duration ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId);
   
   protected <T> void validate(T command) {
     var violations = validator.validate(command);

@@ -19,14 +19,14 @@ public record IngestStatusChanged(
     @NotNull @Positive Integer tmdbId,
     @NotNull IngestSource source,
     @NotNull MediaType type,
-    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name) {
+    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name,
+    String message) {
   
   public enum IngestSource {
     GATEWAY("emdb-gateway"),
     MEDIA("emdb-media"),
     SCHEDULER("emdb-scheduler"),
-    SCRAPER("emdb-scraper"),
-    USER("emdb-user");
+    SCRAPER("emdb-scraper");
     
     private final String source;
     
@@ -69,6 +69,7 @@ public record IngestStatusChanged(
   public static final class Builder {
     private Long emdbId;
     private UUID id;
+    private String message;
     private String name;
     private IngestSource source;
     private IngestStatus status;
@@ -79,7 +80,7 @@ public record IngestStatusChanged(
     Builder() { }
     
     public IngestStatusChanged build() {
-      return new IngestStatusChanged(status, id, timestamp, emdbId, tmdbId, source, type, name);
+      return new IngestStatusChanged(status, id, timestamp, emdbId, tmdbId, source, type, name, message);
     }
     
     public Builder emdbId(Long emdbId) {
@@ -89,6 +90,11 @@ public record IngestStatusChanged(
     
     public Builder id(UUID id) {
       this.id = id;
+      return this;
+    }
+    
+    public Builder message(String message) {
+      this.message = message;
       return this;
     }
     

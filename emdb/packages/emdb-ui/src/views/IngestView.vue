@@ -72,7 +72,7 @@
         <Column field="type" header="Media Type" />
 
         <template #expansion="slotProps">
-          <div class="max-w-160 mx-30">
+          <div class="mx-25">
             <DataTable :value="slotProps.data.history">
               <template #header>Job Id: {{ slotProps.data.id }}</template>
               <Column field="timestamp" header="Timestamp">
@@ -87,7 +87,7 @@
                        rounded />
                 </template>
               </Column>              
-              <Column field="source" header="Source" />
+              <Column field="message" header="Message" />
             </DataTable>
           </div>
         </template>
@@ -208,7 +208,11 @@
               job.history.forEach(h => historyMap.set(h.status, h));
             }
             if (!job.history) {
-              historyMap.set(job.status, { status: job.status, timestamp: job.timestamp, source: job.source });
+              historyMap.set(job.status, { 
+                status: job.status, 
+                timestamp: job.timestamp, 
+                source: job.source,
+                message: job.message });
             } 
             
             existingJob.history = Array.from(historyMap.values()).sort((a, b) => 
@@ -220,12 +224,17 @@
               existingJob.status = job.status;
               existingJob.timestamp = job.timestamp;
               existingJob.source = job.source;
+              existingJob.message = job.message;
               if (job.emdbId) existingJob.emdbId = job.emdbId;
-              if (job.name) existingJob.name = job.name;                      
+              if (job.name) existingJob.name = job.name;
             }
           } else {
             if (!job.history) {
-              job.history = [{ status: job.status, timestamp: job.timestamp, source: job.source }];
+              job.history = [{ 
+                status: job.status, 
+                timestamp: job.timestamp, 
+                source: job.source,
+                message: job.message }];
             } else {
               job.history.sort((a, b) => 
                 new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()

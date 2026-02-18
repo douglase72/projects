@@ -27,5 +27,13 @@ public class IngestStatusService {
         .withRoutingKey(ROUTE_KEY)
         .build()));     
   }
+  
+  public String causedBy(Throwable throwable) {
+    Throwable rootCause = throwable;
+    while (rootCause.getCause() != null && rootCause != rootCause.getCause()) {
+      rootCause = rootCause.getCause();
+    }
+    return rootCause.getMessage(); 
+  }
 
 }

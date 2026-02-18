@@ -45,7 +45,7 @@ public class TmdbSchedulerService {
   @Inject
   IngestStatusService statusService;
   
-  @Scheduled(cron = "0 0 8 * * ?")  
+  @Scheduled(cron = "{emdb.movie.scheduler}")  
   public void ingestMovies() {
     var changedMovies = List.of(335984, 818);
     for (var tmdbId : changedMovies) {      
@@ -53,7 +53,7 @@ public class TmdbSchedulerService {
     }    
   }
   
-  @Scheduled(cron = "0 0 9 * * ?")
+  @Scheduled(cron = "{emdb.series.scheduler}")
   public void ingestSeries() {
     var changedSeries = List.of(1399, 456);
     for (var tmdbId : changedSeries) {      
@@ -61,7 +61,7 @@ public class TmdbSchedulerService {
     }
   }
   
-  @Scheduled(cron = "0 0 11 * * ?")
+  @Scheduled(cron = "{emdb.person.scheduler}")
   public void ingestPeople() {
     var changedPeople = List.of(13918, 12073);
     for (var tmdbId : changedPeople) {      

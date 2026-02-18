@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +79,8 @@ public class MovieService extends MediaService {
   MovieRepository repository;
   
   @Override
-  public void ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
+  public Duration ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
+    var start = Instant.now();
     var existingMovie = findByTmdbId(tmdbId);
     var command = existingMovie
         .map(mapper::toSaveMovie)
@@ -95,7 +98,11 @@ public class MovieService extends MediaService {
           m.poster().ifPresent(imageService::delete);
         } 
       });
-      deleteImages(saveCommand, command.credits()); 
+      deleteImages(saveCommand, command.credits());
+      var et = Duration.between(start, Instant.now());
+      var msg = String.format("Ingest Job for TMDB %s %d completed in %d ms", 
+          MediaType.MOVIE, movie.tmdbId(), et.toMillis());
+      LOGGER.info(msg);
       statusService.send(IngestStatusChanged.builder()
           .id(jobId)
           .status(IngestStatus.COMPLETED)
@@ -104,7 +111,9 @@ public class MovieService extends MediaService {
           .type(MediaType.MOVIE)
           .name(movie.title())
           .emdbId(movie.id())
+          .message(msg)
           .build());
+      return et;
     } catch (Exception e) {
       dlqEmitter.send(Message.of(saveCommand)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

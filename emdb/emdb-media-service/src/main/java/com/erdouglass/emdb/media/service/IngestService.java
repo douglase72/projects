@@ -62,15 +62,11 @@ public class IngestService {
         .build());
     
     try {
-      var start = Instant.now();
-      switch (command.type()) {
+      var et = switch (command.type()) {
         case MOVIE -> movieService.ingest(command.tmdbId(), jobId);
         case SERIES -> seriesService.ingest(command.tmdbId(), jobId);
         case PERSON -> personService.ingest(command.tmdbId(), jobId);
-      }
-      var et = Duration.between(start, Instant.now());
-      LOGGER.infof("Ingest Job %s for TMDB %s %d completed in %d ms", 
-          jobId, command.type(), command.tmdbId(), et.toMillis()); 
+      };
       Timer.builder("emdb.ingest.duration")
         .description("Measures the time to ingest a movie from TMDB")
         .tag("media", command.type().toString())
@@ -78,7 +74,7 @@ public class IngestService {
         .record(et);
       return wrapper.ack();
     } catch (Exception e) {
-      var msg = String.format("Failed to ingest TMDB media %d", command.tmdbId());
+      var msg = String.format("Failed to ingest TMDB %s %d", command.type(), command.tmdbId());
       LOGGER.error(msg, e);
       statusService.send(IngestStatusChanged.builder()
           .id(jobId)
@@ -86,6 +82,7 @@ public class IngestService {
           .tmdbId(command.tmdbId())
           .source(IngestSource.MEDIA)
           .type(command.type())
+          .message(statusService.causedBy(e))
           .build());
       return wrapper.nack(e);
     }

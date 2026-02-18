@@ -37,9 +37,10 @@ public class IngestJobService {
     
     try {
       repository.findById(event.id()).ifPresentOrElse(j -> {
-        j.status(event.status(), event.timestamp(), event.source());
+        j.status(event.status(), event.timestamp(), event.source(), event.message());
         j.name(event.name());
         j.emdbId(event.emdbId());
+        j.message(event.message());
         repository.update(j);
       }, 
       () -> repository.insert(mapper.toIngestJob(event)));

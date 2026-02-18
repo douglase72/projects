@@ -16,7 +16,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.opentelemetry.api.baggage.Baggage;
@@ -35,7 +35,7 @@ public class SeriesDlqService {
   
   @RunOnVirtualThread
   @Incoming("series-dlq-in")
-  public void onMessage(SaveMovie command) {
+  public void onMessage(SaveSeries command) {
     var jobId = Baggage.current().getEntryValue("job-id");
     LOGGER.infof("Series DLQ Received: Command[id=%s, %s]", jobId, command);
     
