@@ -9,7 +9,7 @@ dependencies {
   implementation project(':emdb-common')
   
   implementation libs.guava
-    
+      
   implementation libs.quarkus.arc
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.micrometer 

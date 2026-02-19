@@ -1,5 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import IngestView from '@/views/IngestView.vue'
+import MovieView from '@/views/MovieView.vue'
+import MovieEditView from '@/views/MovieEditView.vue'
+import PersonView from '@/views/PersonView.vue'
+import PersonEditView from '@/views/PersonEditView.vue'
+import SeriesView from '@/views/SeriesView.vue'
+import SeriesEditView from '@/views/SeriesEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,37 +19,37 @@ const router = createRouter({
     {
       path: '/ingest',
       name: 'Ingest',
-      component: () => import('@/views/IngestView.vue')
+      component: IngestView,
     },   
     {
       path: '/movie/:id',
       name: 'Movie',
-      component: () => import('@/views/MovieView.vue'),
+      component: MovieView,
     },
     {
       path: '/movie/:id/edit',
       name: 'MovieEdit',
-      component: () => import('@/views/MovieEditView.vue'),
+      component: MovieEditView,
     },    
     {
       path: '/person/:id',
       name: 'Person',
-      component: () => import('@/views/PersonView.vue'),
+      component: PersonView,
     },
     {
       path: '/person/:id/edit',
       name: 'PersonEdit',
-      component: () => import('@/views/PersonEditView.vue'),
+      component: PersonEditView,
     },    
     {
       path: '/series/:id',
       name: 'Series',
-      component: () => import('@/views/SeriesView.vue'),
+      component: SeriesView,
     },
     {
       path: '/series/:id/edit',
       name: 'SeriesEdit',
-      component: () => import('@/views/SeriesEditView.vue'),
+      component: SeriesEditView,
     },                 
   ],
 })

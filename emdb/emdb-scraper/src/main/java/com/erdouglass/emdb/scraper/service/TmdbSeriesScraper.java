@@ -38,7 +38,7 @@ public class TmdbSeriesScraper extends TmdbScraper {
       extraTags = {"media", "series"}
   )
   public SaveSeries scrape(@NotNull @Valid SaveSeries command, @NotNull UUID jobId) {
-    var start = System.nanoTime();
+    var start = System.nanoTime();    
     var tmdbSeries = client.findById(command.tmdbId(), CREDITS);
     
     // Create the command to save the series.

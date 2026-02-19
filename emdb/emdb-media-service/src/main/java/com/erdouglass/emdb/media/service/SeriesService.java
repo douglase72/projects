@@ -73,7 +73,7 @@ public class SeriesService extends MediaService {
       });
       var et = Duration.between(start, Instant.now());
       var msg = String.format("Ingest Job for TMDB %s %d completed in %d ms", 
-          MediaType.PERSON, series.tmdbId(), et.toMillis());
+          MediaType.SERIES, series.tmdbId(), et.toMillis());
       LOGGER.info(msg);         
       statusService.send(IngestStatusChanged.builder()
           .id(jobId)

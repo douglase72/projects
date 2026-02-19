@@ -49,6 +49,7 @@ opentelemetry-instrumentation = { group = "io.opentelemetry.instrumentation", na
 # Quarkus
 quarkus-arc = { group = "io.quarkus", name = "quarkus-arc" }
 quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref = "quarkus" }
+quarkus-context-propagation = { group = "io.quarkus", name = "quarkus-smallrye-context-propagation" }
 quarkus-fault-tolerance = { group = "io.quarkus", name = "quarkus-smallrye-fault-tolerance" }
 quarkus-flyway = { group = "io.quarkus", name = "quarkus-flyway" }
 quarkus-hibernate-orm = { group = "io.quarkus", name = "quarkus-hibernate-orm" }
