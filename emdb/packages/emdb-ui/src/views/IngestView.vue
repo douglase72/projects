@@ -156,7 +156,7 @@
         source: IngestSource.UI,
       };
       await ingest(command);
-      movieId.value = null;
+      seriesId.value = null;
     }
   };   
 

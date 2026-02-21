@@ -52,14 +52,6 @@ public class IngestService {
     var command = wrapper.getPayload();
     var jobId = UUID.fromString(Baggage.current().getEntryValue("job-id"));
     logQueueDuration(jobId, command);
-    LOGGER.infof("Ingest Job %s for TMDB %s %d started", jobId, command.type(), command.tmdbId());
-    statusService.send(IngestStatusChanged.builder()
-        .id(jobId)
-        .status(IngestStatus.STARTED)
-        .tmdbId(command.tmdbId())
-        .source(IngestSource.MEDIA)
-        .type(command.type())
-        .build());
     
     try {
       var et = switch (command.type()) {
@@ -91,8 +83,17 @@ public class IngestService {
   private void logQueueDuration(UUID jobId, IngestMedia command) {
     var start = Instant.parse(Baggage.current().getEntryValue("job-start-time"));
     var et = Duration.between(start, Instant.now());
-    LOGGER.infof("Ingest Job %s for TMDB %s %d sat in the ingest-media queue for %d ms", 
-        jobId, command.type(), command.tmdbId(), et.toMillis());    
+    var msg = String.format("Ingest Job for TMDB %s %d sat in the ingest-media queue for %d ms", 
+        command.type(), command.tmdbId(), et.toMillis());
+    LOGGER.info(msg);
+    statusService.send(IngestStatusChanged.builder()
+        .id(jobId)
+        .status(IngestStatus.STARTED)
+        .tmdbId(command.tmdbId())
+        .source(IngestSource.MEDIA)
+        .type(command.type())
+        .message(msg)
+        .build());
   }
 
 }

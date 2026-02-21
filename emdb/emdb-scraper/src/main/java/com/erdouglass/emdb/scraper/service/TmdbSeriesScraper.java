@@ -65,7 +65,8 @@ public class TmdbSeriesScraper extends TmdbScraper {
         .tmdbPoster(tmdbSeries.poster_path());
     }    
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Ingest Job %s for TMDB series %d extracted in %d ms", jobId, command.tmdbId(), et);
+    var msg = String.format("Ingest Job for TMDB series %d extracted in %d ms", tmdbSeries.id(), et);
+    LOGGER.info(msg); 
     statusService.send(IngestStatusChanged.builder()
         .id(jobId)
         .status(IngestStatus.EXTRACTED)
@@ -73,6 +74,7 @@ public class TmdbSeriesScraper extends TmdbScraper {
         .source(IngestSource.SCRAPER)
         .type(MediaType.SERIES)
         .name(tmdbSeries.name())
+        .message(msg)
         .build());    
     return cmd.build();    
   }

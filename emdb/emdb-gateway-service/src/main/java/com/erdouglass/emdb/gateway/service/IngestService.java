@@ -62,13 +62,15 @@ public class IngestService {
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(Configuration.MEDIA_KEY)
           .build()));
-      LOGGER.infof("Ingest Job %s for TMDB %s %d submitted", jobId, command.type(), command.tmdbId());
+      var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
+      LOGGER.info(msg);
       statusService.send(IngestStatusChanged.builder()
           .id(jobId)
           .status(IngestStatus.SUBMITTED)
           .tmdbId(command.tmdbId())
           .source(IngestSource.GATEWAY)
           .type(command.type())
+          .message(msg)
           .build());
     }
     return jobId;

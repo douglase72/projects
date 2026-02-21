@@ -87,7 +87,8 @@ public class TmdbMovieScraper extends TmdbScraper {
         .tmdbPoster(tmdbMovie.poster_path());
     }
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Ingest Job %s for TMDB movie %d extracted in %d ms", jobId, command.tmdbId(), et); 
+    var msg = String.format("Ingest Job for TMDB movie %d extracted in %d ms", tmdbMovie.id(), et);
+    LOGGER.info(msg); 
     statusService.send(IngestStatusChanged.builder()
         .id(jobId)
         .status(IngestStatus.EXTRACTED)
@@ -95,6 +96,7 @@ public class TmdbMovieScraper extends TmdbScraper {
         .source(IngestSource.SCRAPER)
         .type(MediaType.MOVIE)
         .name(tmdbMovie.title())
+        .message(msg)
         .build());
     return cmd.build();
   }

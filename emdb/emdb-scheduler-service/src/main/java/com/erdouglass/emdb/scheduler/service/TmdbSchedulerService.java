@@ -92,13 +92,14 @@ public class TmdbSchedulerService {
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(Configuration.MEDIA_KEY)
           .build()));
-      LOGGER.infof("Ingest Job %s for TMDB %s %d submitted", jobId, command.type(), command.tmdbId());
+      var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
       statusService.send(IngestStatusChanged.builder()
           .id(jobId)
           .status(IngestStatus.SUBMITTED)
           .tmdbId(command.tmdbId())
-          .source(com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource.SCHEDULER)
+          .source(IngestStatusChanged.IngestSource.SCHEDULER)
           .type(command.type())
+          .message(msg)
           .build());
     }
   }

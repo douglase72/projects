@@ -55,7 +55,8 @@ public class TmdbPersonScraper extends TmdbScraper {
         .tmdbProfile(tmdbPerson.profile_path());
     }    
     var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    LOGGER.infof("Ingest Job %s for TMDB person %d extracted in %d ms", jobId, command.tmdbId(), et);
+    var msg = String.format("Ingest Job for TMDB person %d extracted in %d ms", tmdbPerson.id(), et);
+    LOGGER.info(msg); 
     statusService.send(IngestStatusChanged.builder()
         .id(jobId)
         .status(IngestStatus.EXTRACTED)
@@ -63,6 +64,7 @@ public class TmdbPersonScraper extends TmdbScraper {
         .source(IngestSource.SCRAPER)
         .type(MediaType.PERSON)
         .name(tmdbPerson.name())
+        .message(msg)
         .build());    
     return cmd.build();
   }

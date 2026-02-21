@@ -12,7 +12,7 @@
   </header>
 
   <main class="m-8">
-    <div v-if="movie" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
+    <section v-if="movie" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
       <div>{{ movie.id }}</div>
       <div>TMDB ID</div>
@@ -47,7 +47,22 @@
       <div>{{ movie.tagline }}</div>
       <div>Overview</div>
       <div>{{ movie.overview }}</div>
-    </div>
+    </section>
+    
+    <section v-if="movie" class="mt-8">
+      <Carousel :value="movie.credits.cast" 
+                :numVisible="6" 
+                :numScroll="4"
+                :showIndicators="false">
+        <template #item="slotProps">
+          <div>
+            <img :src="findImage(slotProps.data.profile, ImageSize.W154)"
+                 :alt="slotProps.data.name" 
+                 loading="lazy" />
+          </div>
+        </template>
+      </Carousel>
+    </section>
   </main>
 </template>
 
