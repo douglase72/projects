@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdatePerson;
@@ -9,6 +10,9 @@ import com.erdouglass.emdb.media.entity.Person;
 
 @ApplicationScoped
 public class PersonMapper {
+  
+  @Inject
+  PersonCreditMapper mapper;  
 
   public Person toPerson(SavePerson command) {
     var person = new Person(command.tmdbId(), command.name());
@@ -58,6 +62,8 @@ public class PersonMapper {
         .birthPlace(person.birthPlace().orElse(null))
         .profile(person.profile().map(p -> String.format("%s.jpg", p)).orElse(null))
         .biography(person.biography().orElse(null))
+        .cast(person.cast().stream().map(mapper::toPersonCreditDto).toList())
+        .crew(person.crew().stream().map(mapper::toPersonCreditDto).toList())        
         .build();
   }
   

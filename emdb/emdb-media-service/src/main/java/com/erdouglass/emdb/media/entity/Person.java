@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.media.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,12 +11,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
+import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.emdb.common.ShowConstants;
@@ -43,6 +47,12 @@ public class Person extends BasicEntity<Integer> {
   @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH)
   @Column(name = "birth_place")
   private String birthPlace;
+  
+  /// The credits collection in a person is a bidirectional association 
+  /// specified by the mappedBy field which maps the {@link Person#id} primary
+  /// key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _Credit.PERSON)
+  private List<Credit> credits = new ArrayList<>();  
 
   @Past
   @Column(name = "death_date")
@@ -96,6 +106,22 @@ public class Person extends BasicEntity<Integer> {
   public void birthDate(LocalDate birthDate) {
     this.birthDate = birthDate;
   }
+  
+  public List<Credit> cast() {
+    return credits.stream().filter(c -> c.type() == CreditType.CAST).toList();
+  }
+  
+  public void credits(List<Credit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<Credit> credits() {
+    return List.copyOf(credits);
+  }
+  
+  public List<Credit> crew() {
+    return credits.stream().filter(c -> c.type() == CreditType.CREW).toList();
+  }  
 
   public Optional<LocalDate> birthDate() {
     return Optional.ofNullable(birthDate);

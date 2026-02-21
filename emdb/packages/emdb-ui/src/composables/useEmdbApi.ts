@@ -99,7 +99,7 @@ export function useEmdbApi() {
 
   const findPerson = async (id: number): Promise<Person | undefined> => {
     try {
-      const { data: person } = await client.get<Person>(`/people/${id}`);
+      const { data: person } = await client.get<Person>(`/people/${id}?append=credits`);
       return person;
     } catch (e) {
       handleError(e, 'Load Failed');

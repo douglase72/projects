@@ -30,7 +30,9 @@ import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus.Status;
 import com.erdouglass.emdb.media.entity.Person;
+import com.erdouglass.emdb.media.entity.Person_;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
+import com.erdouglass.emdb.media.repository.CreditRepository;
 import com.erdouglass.emdb.media.repository.PersonRepository;
 import com.erdouglass.emdb.scraper.service.TmdbPersonScraper;
 import com.erdouglass.webservices.ResourceNotFoundException;
@@ -41,6 +43,9 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 public class PersonService extends MediaService {
   private static final Logger LOGGER = Logger.getLogger(PersonService.class);
   private static final String ROUTE_KEY = "person.invalid";
+  
+  @Inject
+  CreditRepository creditRepository;  
   
   @Inject
   @Channel("person-dlq-out")
@@ -125,7 +130,7 @@ public class PersonService extends MediaService {
         peopleToUpdate.add(person);
         results.add(PersonStatus.of(person, Status.UPDATED));
       } else {
-        results.add(PersonStatus.of(person, Status.UNCHANGED));
+        results.add(PersonStatus.of(existingPerson, Status.UNCHANGED));
       }
     }
     
@@ -139,8 +144,17 @@ public class PersonService extends MediaService {
   }  
   
   @Transactional
-  public Optional<Person> findById(@NotNull @Positive Long id, String append) {
-    return repository.findById(id);
+  public Person findById(@NotNull @Positive Long id, String append) {
+    var person = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Person not found with id: " + id));
+    person.credits(List.of());
+    if (append != null) {
+      if (append.contains(Person_.CREDITS)) {
+        person.credits(creditRepository.findByPersonId(id));
+      }
+    }    
+    LOGGER.infof("Found: %s", person);
+    return person;
   }
   
   @Transactional

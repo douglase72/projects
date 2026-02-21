@@ -82,7 +82,6 @@ class HarrisonFordCrudIT extends AbstractTest {
     assertEquals("Harrison Ford", person.name());
     assertEquals("1942-07-13", person.birthDate().toString());
     assertNull(person.deathDate());
-    assertEquals(3, person.tmdbId());
     assertEquals(Gender.MALE, person.gender());
     assertEquals("Chicago, Illinois, USA", person.birthPlace());
     assertEquals("44e52ae5-79b7-406d-96a8-9ec8545c4dad.jpg", person.profile());

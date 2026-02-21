@@ -77,7 +77,7 @@ public record MovieDto(
     public MovieDto build() {
       Credits credits = null;
       if (!cast.isEmpty() || !crew.isEmpty()) {
-        credits = new Credits(cast.stream().toList(), crew.stream().toList());
+        credits = new Credits(List.copyOf(cast), List.copyOf(crew));
       }      
       return new MovieDto(
             id,

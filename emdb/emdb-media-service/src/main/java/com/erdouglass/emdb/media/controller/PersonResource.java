@@ -27,7 +27,6 @@ import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
 import com.erdouglass.emdb.media.service.PersonService;
-import com.erdouglass.webservices.ResourceNotFoundException;
 import com.erdouglass.webservices.ResponseStatus;
 
 @Path("/people")
@@ -61,8 +60,7 @@ public class PersonResource {
   public PersonDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {
-    var person = service.findById(id, append)
-        .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
+    var person = service.findById(id, append);
     return mapper.toPersonDto(person);
   }
   
@@ -74,8 +72,6 @@ public class PersonResource {
     var person = service.update(id, command);
     return mapper.toPersonDto(person);
   }
-  
-  
   
   private EmdbResponse toResponse(PersonStatus personStatus) {
     var person = personStatus.person();

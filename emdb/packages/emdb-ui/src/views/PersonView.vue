@@ -12,7 +12,7 @@
   </header>
 
   <main class="m-8">
-    <div v-if="person" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
+    <section v-if="person" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
       <div>{{ person.id }}</div>
       <div>TMDB ID</div>
@@ -33,23 +33,46 @@
       </div>  
       <div>Biography</div>
       <div>{{ person.biography }}</div>                 
-    </div>
+    </section>
+
+    <section class="mt-8">
+      <Carousel :value="credits" 
+                :numVisible="6" 
+                :numScroll="4"
+                :showIndicators="false">
+        <template #item="slotProps">
+          <ShowCard :show="slotProps.data" />
+        </template>
+      </Carousel>
+    </section>    
   </main>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Person } from '@emdb/common';
+  import { MediaType, type Person, type PersonCredit } from '@emdb/common';
+  import type { Show } from '@/models/Show';
 
   const { findImage, findPerson } = useEmdbApi();
   const route = useRoute();
   const router = useRouter();
 
   const person = ref<Person>();
+  const credits = computed<Show[]>(() => {
+    if (!person.value?.credits?.cast) return [];
+    return person.value.credits.cast.slice(0, 18).map((credit: PersonCredit) => ({
+      id: credit.id,
+      title: credit.title,
+      poster: credit.poster,
+      date: credit.releaseDate,
+      score: credit.score,
+      type: MediaType.MOVIE,
+    }));
+  });
 
   onMounted(async () => {
     const routeId = route.params.id;
@@ -59,5 +82,6 @@
       return;
     }
     person.value = await findPerson(id);
+    console.log(person.value);
   });
 </script>

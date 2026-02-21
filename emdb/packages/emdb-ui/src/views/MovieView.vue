@@ -49,17 +49,13 @@
       <div>{{ movie.overview }}</div>
     </section>
     
-    <section v-if="movie" class="mt-8">
-      <Carousel :value="movie.credits.cast" 
+    <section class="mt-8">
+      <Carousel :value="cast" 
                 :numVisible="6" 
                 :numScroll="4"
                 :showIndicators="false">
         <template #item="slotProps">
-          <div>
-            <img :src="findImage(slotProps.data.profile, ImageSize.W154)"
-                 :alt="slotProps.data.name" 
-                 loading="lazy" />
-          </div>
+          <ActorCard :actor="slotProps.data" />
         </template>
       </Carousel>
     </section>
@@ -67,13 +63,15 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useLanguage } from '@/composables/useLanguage';
+  import type { Actor } from '@/models/Actor';
+  import ActorCard from '@/components/ActorCard.vue';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Movie } from "@emdb/common";
+  import type { Movie, MovieCredit } from "@emdb/common";
 
   const { findImage, findMovie } = useEmdbApi();
   const { formatLanguage } = useLanguage();
@@ -81,6 +79,16 @@
   const router = useRouter();
 
   const movie = ref<Movie>();
+  const cast = computed<Actor[]>(() => {
+    if (!movie.value?.credits?.cast) return [];
+    return movie.value.credits.cast.slice(0, 18).map((credit: MovieCredit) => ({
+      id: credit.id,
+      name: credit.name,
+      profile: credit.profile,
+      character: credit.character,
+      numberOfEpisodes: null,
+    }));
+  });
 
   onMounted(async () => {
     const id = Number(route.params.id);

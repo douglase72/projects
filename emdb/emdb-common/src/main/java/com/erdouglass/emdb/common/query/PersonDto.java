@@ -1,7 +1,10 @@
 package com.erdouglass.emdb.common.query;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -22,13 +25,20 @@ public record PersonDto(
     Gender gender,
     @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH) String birthPlace,
     @EmdbImage String profile,
-    @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH) String biography) {
+    @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH) String biography,
+    @Valid Credits credits) {
+  
+  public record Credits(List<@Valid PersonCreditDto> cast, List<@Valid PersonCreditDto> crew) {
+    
+  }  
   
   public static Builder builder() {
     return new Builder();
   }
   
   public static final class Builder extends AbstractPersonBuilder<Builder> {
+    private List<PersonCreditDto> cast = new ArrayList<>();
+    private List<PersonCreditDto> crew = new ArrayList<>();    
     private Integer tmdbId;
     private Long id;
     private String profile;
@@ -36,6 +46,10 @@ public record PersonDto(
     private Builder() { }
 
     public PersonDto build() {
+      Credits credits = null;
+      if (!cast.isEmpty() || !crew.isEmpty()) {
+        credits = new Credits(List.copyOf(cast), List.copyOf(crew));
+      }
       return new PersonDto(
             id,
             tmdbId,
@@ -45,8 +59,19 @@ public record PersonDto(
             gender,
             birthPlace,
             profile,
-            biography);
+            biography,
+            credits);
     }
+    
+    public Builder cast(List<PersonCreditDto> cast) {
+      this.cast = new ArrayList<>(cast);
+      return this;
+    }
+    
+    public Builder crew(List<PersonCreditDto> crew) {
+      this.crew = new ArrayList<>(crew);
+      return this;
+    }    
     
     public Builder id(Long id) {
       this.id = id;
