@@ -32,11 +32,11 @@ import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.query.SeriesDto;
-import com.erdouglass.emdb.media.entity.Movie_;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.entity.Role;
 import com.erdouglass.emdb.media.entity.Series;
 import com.erdouglass.emdb.media.entity.SeriesCredit;
+import com.erdouglass.emdb.media.entity.Series_;
 import com.erdouglass.emdb.media.mapper.SeriesCreditMapper;
 import com.erdouglass.emdb.media.mapper.SeriesMapper;
 import com.erdouglass.emdb.media.repository.RoleRepository;
@@ -186,7 +186,7 @@ public class SeriesService extends MediaService {
     var series = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No series found with id: " + id));    
     series.credits(List.of());
-    if (append != null && append.contains(Movie_.CREDITS)) {
+    if (append != null && append.contains(Series_.CREDITS)) {
       series.credits(creditRepository.findBySeriesId(id));
     }
     return series;

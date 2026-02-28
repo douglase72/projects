@@ -5,12 +5,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
+import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.media.dto.PersonStatus;
 import com.erdouglass.emdb.media.dto.PersonStatus.Status;
 import com.erdouglass.emdb.media.entity.Person;
@@ -37,6 +39,7 @@ import com.erdouglass.emdb.media.repository.PersonRepository;
 import com.erdouglass.emdb.scraper.service.TmdbPersonScraper;
 import com.erdouglass.webservices.ResourceNotFoundException;
 
+import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
@@ -61,9 +64,10 @@ public class PersonService extends MediaService {
   PersonRepository repository;
   
   @Override
+  @ActivateRequestContext
   public Duration ingest(@NotNull @Positive Integer tmdbId, @NotNull UUID jobId) {
     var start = Instant.now();
-    var existingPerson = findByTmdbId(tmdbId);
+    var existingPerson = repository.findByTmdbId(tmdbId);
     var command = existingPerson
         .map(mapper::toSavePerson)
         .orElseGet(() -> SavePerson.builder().tmdbId(tmdbId).build());
@@ -71,7 +75,7 @@ public class PersonService extends MediaService {
     
     try {
       validate(saveCommand);
-      var person = save(saveCommand);
+      var person = QuarkusTransaction.requiringNew().call(() -> savePerson(saveCommand));
       LOGGER.infof("Saved: %s", person);
       existingPerson.ifPresent(p -> {
         if (!Objects.equals(p.tmdbProfile().orElse(null), person.tmdbProfile().orElse(null))) {
@@ -103,11 +107,12 @@ public class PersonService extends MediaService {
   }
   
   @Transactional
-  public Person save(SavePerson command) {
-    var person = mapper.toPerson(command);
-    repository.findByTmdbId(person.tmdbId()).ifPresent(p -> person.id(p.id()));
-    var savedPerson = repository.save(person);
-    return savedPerson;  
+  public PersonDto save(SavePerson command) {
+    long start = System.nanoTime();
+    var person = savePerson(command);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Saved %s in %d ms", person, et);
+    return mapper.toPersonDto(person);
   }
   
   @Transactional
@@ -144,17 +149,12 @@ public class PersonService extends MediaService {
   }  
   
   @Transactional
-  public Person findById(@NotNull @Positive Long id, String append) {
-    var person = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Person not found with id: " + id));
-    person.credits(List.of());
-    if (append != null) {
-      if (append.contains(Person_.CREDITS)) {
-        person.credits(creditRepository.findByPersonId(id));
-      }
-    }    
-    LOGGER.infof("Found: %s", person);
-    return person;
+  public PersonDto findById(@NotNull @Positive Long id, String append) {
+    long start = System.nanoTime();
+    var person = findPersonById(id, append);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Found %s in %d ms", person, et);
+    return mapper.toPersonDto(person);
   }
   
   @Transactional
@@ -163,27 +163,43 @@ public class PersonService extends MediaService {
   }
   
   @Transactional
-  Optional<Person> findByTmdbId(@NotNull @Positive Integer id) {
-    return repository.findByTmdbId(id);
-  }
-  
-  @Transactional
-  public Person update(Long id, UpdatePerson command) {
-    var existingPerson = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Person not found with Id: " + id));
-    var person = mapper.toPerson(command);
-    person.id(existingPerson.id());
-    person.tmdbId(existingPerson.tmdbId());
-    var updatedPerson = repository.update(person);
-    return updatedPerson;
+  public PersonDto update(Long id, UpdatePerson command) {
+    long start = System.nanoTime();
+    var existingPerson = findPersonById(id, "credits");
+    var newPerson = mapper.toPerson(command);
+    newPerson.id(existingPerson.id());
+    newPerson.tmdbId(existingPerson.tmdbId());
+    var updatedPerson = repository.update(newPerson);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Updated %s in %d ms", updatedPerson, et);
+    return mapper.toPersonDto(updatedPerson);
   }
   
   @Transactional
   public void deleteById(Long id) {
-    var movie = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
+    long start = System.nanoTime();
+    var person = findPersonById(id, null);
+    person.profile().ifPresent(imageService::delete);
     repository.deleteById(id);
-    LOGGER.infof("Deleted: %s", movie);
+    var et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    LOGGER.infof("Deleted %s in %d ms", person, et);
+  }
+  
+  private Person savePerson(SavePerson command) {
+    var person = mapper.toPerson(command);
+    repository.findByTmdbId(person.tmdbId()).ifPresent(p -> person.id(p.id()));
+    var savedPerson = repository.save(person);
+    return savedPerson;
+  }
+  
+  private Person findPersonById(Long id, String append) {
+    var person = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
+    person.credits(List.of());
+    if (append != null && append.contains(Person_.CREDITS)) {
+      person.credits(creditRepository.findByPersonId(id));
+    }
+    return person;    
   }
   
 }

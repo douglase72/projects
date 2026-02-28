@@ -25,7 +25,6 @@ import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.media.dto.PersonStatus;
-import com.erdouglass.emdb.media.mapper.PersonMapper;
 import com.erdouglass.emdb.media.service.PersonService;
 import com.erdouglass.webservices.ResponseStatus;
 
@@ -35,15 +34,11 @@ import com.erdouglass.webservices.ResponseStatus;
 public class PersonResource {
   
   @Inject
-  PersonMapper mapper;
-  
-  @Inject
   PersonService service;
   
   @POST
   public PersonDto save(@NotNull @Valid SavePerson command) {
-    var person = service.save(command);
-    return mapper.toPersonDto(person);
+    return service.save(command);
   }
   
   @POST
@@ -60,8 +55,7 @@ public class PersonResource {
   public PersonDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {
-    var person = service.findById(id, append);
-    return mapper.toPersonDto(person);
+    return service.findById(id, append);
   }
   
   @PUT
@@ -69,8 +63,7 @@ public class PersonResource {
   public PersonDto update(
       @PathParam("id") @NotNull @Positive Long id, 
       @NotNull @Valid UpdatePerson command) {
-    var person = service.update(id, command);
-    return mapper.toPersonDto(person);
+    return service.update(id, command);
   }
   
   @DELETE
