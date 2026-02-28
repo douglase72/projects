@@ -9,11 +9,15 @@ import {
   type IngestMedia,
   type Movie, 
   type Person,
+  type Role,
   SchedulerType,
   type Series, 
-  type UpdateMovie, 
+  type UpdateMovie,
+  type UpdateMovieCredit, 
   type UpdatePerson,
-  type UpdateSeries } from '@emdb/common';
+  type UpdateRole,
+  type UpdateSeries,
+  type UpdateSeriesCredit } from '@emdb/common';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL
@@ -30,6 +34,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${movie.title}`, life: 5000 });
     } catch (e) {
       handleError(e, 'Delete Failed');
+      throw e;
     }
   };
 
@@ -39,6 +44,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${series.title}`, life: 5000 });
     } catch (e) {
       handleError(e, 'Delete Failed');
+      throw e;
     }
   };
   
@@ -48,6 +54,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'success', summary: 'Success', detail: `Deleted ${person.name}`, life: 5000 });
     } catch (e) {
       handleError(e, 'Delete Failed');
+      throw e;
     }
   };
 
@@ -59,6 +66,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'info', summary: msg, life: 5000 }); 
     } catch (e) {
       handleError(e, 'Movie Scheduler Failed');
+      throw e;
     }     
   };
 
@@ -70,6 +78,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'info', summary: msg, life: 5000 }); 
     } catch (e) {
       handleError(e, 'Person Scheduler Failed');
+      throw e;
     }     
   };  
 
@@ -81,6 +90,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'info', summary: msg, life: 5000 }); 
     } catch (e) {
       handleError(e, 'Series Scheduler Failed');
+      throw e;
     }     
   };  
   
@@ -94,6 +104,7 @@ export function useEmdbApi() {
       return movie;
     } catch (e) {
       handleError(e, 'Load Failed');
+      throw e;
     }
   };
 
@@ -103,15 +114,17 @@ export function useEmdbApi() {
       return person;
     } catch (e) {
       handleError(e, 'Load Failed');
+      throw e;
     }
   };  
 
   const findSeries = async (id: number): Promise<Series | undefined> => {
     try {
-      const { data: series } = await client.get<Series>(`/series/${id}`);
+      const { data: series } = await client.get<Series>(`/series/${id}?append=credits`);
       return series;
     } catch (e) {
       handleError(e, 'Load Failed');
+      throw e;
     }    
   };
 
@@ -122,6 +135,7 @@ export function useEmdbApi() {
       toast.add({ severity: 'info', summary: msg, life: 5000 }); 
     } catch (e) {
       handleError(e, 'Ingest Failed');
+      throw e;
     }           
   };  
 
@@ -132,18 +146,19 @@ export function useEmdbApi() {
       return movie;
     } catch (e) {
       handleError(e, 'Update Failed');
+      throw e;
     }
   };
 
-  const updateSeries = async (id: number, command: UpdateSeries): Promise<Series | undefined> => {
+  const updateMovieCredit = async (id: string, command: UpdateMovieCredit) => {
     try {
-      const { data: series } = await client.put<Series>(`/series/${id}`, command);
-      toast.add({ severity: 'success', summary: 'Success', detail: `Saved ${series.title}`, life: 5000 });      
-      return series;
+      await client.put(`/movies/credits/${id}`, command);
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved credit`, life: 5000 });
     } catch (e) {
       handleError(e, 'Update Failed');
-    }
-  };
+      throw e;
+    }  
+  };  
 
   const updatePerson = async (id: number, command: UpdatePerson): Promise<Person | undefined> => {
     try {
@@ -152,7 +167,40 @@ export function useEmdbApi() {
       return person;
     } catch (e) {
       handleError(e, 'Update Failed');
+      throw e;
     }
+  };
+
+    const updateSeries = async (id: number, command: UpdateSeries): Promise<Series | undefined> => {
+    try {
+      const { data: series } = await client.put<Series>(`/series/${id}`, command);
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved ${series.title}`, life: 5000 });      
+      return series;
+    } catch (e) {
+      handleError(e, 'Update Failed');
+      throw e;
+    }
+  };
+
+  const updateSeriesCredit = async (id: string, command: UpdateSeriesCredit) => {
+    try {
+      await client.put(`/series/credits/${id}`, command);
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved credit`, life: 5000 });
+    } catch (e) {
+      handleError(e, 'Update Failed');
+      throw e;
+    }  
+  };  
+
+  const updateRole = async (id: string, command: UpdateRole): Promise<Role | undefined> => {
+    try {
+      const { data: role } = await client.put<Role>(`/roles/${id}`, command);
+      toast.add({ severity: 'success', summary: 'Success', detail: `Saved ${role.character}`, life: 5000 });
+      return role;
+    } catch (e) {
+      handleError(e, 'Update Failed');
+      throw e;
+    }  
   };
 
   return {
@@ -168,8 +216,11 @@ export function useEmdbApi() {
     findPerson, 
     findSeries,
     updateMovie,
+    updateMovieCredit,
     updatePerson,
+    updateRole,
     updateSeries,
+    updateSeriesCredit,
   }
 
 }

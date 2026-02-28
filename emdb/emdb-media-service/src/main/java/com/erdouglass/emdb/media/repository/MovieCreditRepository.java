@@ -18,7 +18,7 @@ public interface MovieCreditRepository extends CrudRepository<MovieCredit, UUID>
       WHERE m.id = :id
       ORDER BY c.order
       """)
-  List<MovieCredit> findAll(Long id); 
+  List<MovieCredit> findByMovieId(Long id); 
   
   @Query("DELETE FROM MovieCredit c WHERE c.person.tmdbId IN :tmdbIds")
   int deleteByTmdbIdIn(List<Integer> tmdbIds);

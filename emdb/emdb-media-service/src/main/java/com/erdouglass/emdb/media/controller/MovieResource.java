@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.controller;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +21,8 @@ import jakarta.ws.rs.core.Response;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovieCredit;
 import com.erdouglass.emdb.common.query.MovieDto;
-import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
 
 @Path("/movies")
@@ -29,15 +31,11 @@ import com.erdouglass.emdb.media.service.MovieService;
 public class MovieResource {
   
   @Inject
-  MovieMapper mapper;
-  
-  @Inject
   MovieService service;
   
   @POST
   public MovieDto save(@NotNull @Valid SaveMovie command) {
-    var movie = service.save(command);
-    return mapper.toMovieDto(movie);
+    return service.save(command);
   } 
   
   @GET
@@ -45,7 +43,7 @@ public class MovieResource {
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {
-    return mapper.toMovieDto(service.findById(id, append));
+    return service.findById(id, append);
   } 
   
   @PUT
@@ -53,8 +51,7 @@ public class MovieResource {
   public MovieDto update(
       @PathParam("id") @NotNull @Positive Long id, 
       @NotNull @Valid UpdateMovie command) {
-    var movie = service.update(id, command);
-    return mapper.toMovieDto(movie);
+    return service.update(id, command);
   }
   
   @DELETE
@@ -62,6 +59,15 @@ public class MovieResource {
   public Response deleteById(@PathParam("id") @NotNull @Positive Long id) {
     service.deleteById(id);
     return Response.noContent().build();
-  }  
-
+  }
+  
+  @PUT
+  @Path("/credits/{creditId}")
+  public Response updateCredit(
+      @PathParam("creditId") @NotNull UUID creditId, 
+      @NotNull @Valid UpdateMovieCredit command) {
+    service.updateCredit(creditId, command);
+    return Response.noContent().build();
+  }
+  
 }

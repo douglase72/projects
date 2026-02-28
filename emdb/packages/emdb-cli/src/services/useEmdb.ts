@@ -1,7 +1,8 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import type { SaveMovie } from "../models/SaveMovie.js";
-import type { SavePerson } from '../models/SavePerson.js';
+import type { SaveMovie } from '../schemas/SaveMovieSchema.js';
+import type { SavePerson } from '../schemas/PersonSchema.js';
+import type { SaveSeries } from '../schemas/SaveSeriesSchema.js';
 import type { 
   ExecuteScheduler,
   IngestMedia, 
@@ -11,7 +12,6 @@ import type {
   UpdateMovie,
   UpdatePerson,
   UpdateSeries } from '@emdb/common';
-import type { SaveSeries } from '../models/SaveSeries.js';
 
 export function useEmdb() {
   const apiUrl = process.env.API_URL;

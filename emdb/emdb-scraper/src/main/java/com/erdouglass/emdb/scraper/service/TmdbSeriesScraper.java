@@ -1,8 +1,12 @@
 package com.erdouglass.emdb.scraper.service;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -13,11 +17,20 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.MediaType;
+import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.common.comand.SaveSeries.Credits;
+import com.erdouglass.emdb.common.comand.SaveSeriesCastCredit;
+import com.erdouglass.emdb.common.comand.SaveSeriesCastCredit.Role;
+import com.erdouglass.emdb.common.comand.SaveSeriesCrewCredit;
+import com.erdouglass.emdb.common.comand.SaveSeriesCrewCredit.Job;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
+import com.erdouglass.emdb.scraper.query.TmdbSeriesDto;
+import com.erdouglass.emdb.scraper.query.TmdbSeriesDto.CastCredit;
+import com.erdouglass.emdb.scraper.query.TmdbSeriesDto.CrewCredit;
 
 import io.micrometer.core.annotation.Timed;
 
@@ -40,6 +53,15 @@ public class TmdbSeriesScraper extends TmdbScraper {
   public SaveSeries scrape(@NotNull @Valid SaveSeries command, @NotNull UUID jobId) {
     var start = System.nanoTime();    
     var tmdbSeries = client.findById(command.tmdbId(), CREDITS);
+    var ids = Stream.concat(
+        tmdbSeries.aggregate_credits().cast().stream().limit(castLimit).map(CastCredit::id), 
+        tmdbSeries.aggregate_credits().crew().stream().limit(crewLimit).map(CrewCredit::id))
+        .distinct()
+        .toList(); 
+    var existingPeople = command.people().stream()
+        .collect(Collectors.toMap(SavePerson::tmdbId, Function.identity(), (existing, _) -> existing));
+    var people = findPeople(ids, existingPeople);
+    var credits = createCredits(tmdbSeries, people); 
     
     // Create the command to save the series.
     var cmd = SaveSeries.builder()
@@ -55,7 +77,8 @@ public class TmdbSeriesScraper extends TmdbScraper {
         .poster(command.poster())
         .tmdbPoster(command.tmdbPoster())
         .tagline(tmdbSeries.tagline())
-        .overview(tmdbSeries.overview());
+        .overview(tmdbSeries.overview())
+        .credits(credits);
     if (!Objects.equals(tmdbSeries.backdrop_path(), command.tmdbBackdrop())) {
       cmd.backdrop(imageService.save(tmdbSeries.backdrop_path()))
         .tmdbBackdrop(tmdbSeries.backdrop_path());
@@ -77,6 +100,27 @@ public class TmdbSeriesScraper extends TmdbScraper {
         .message(msg)
         .build());    
     return cmd.build();    
+  }
+  
+  private Credits createCredits(TmdbSeriesDto series, Map<Integer, SavePerson> people) {
+    var cast = series.aggregate_credits().cast().stream()
+        .limit(castLimit)
+        .map(c -> SaveSeriesCastCredit.builder()
+            .person(people.get(c.id()))
+            .roles(c.roles().stream().map(r -> Role.of(r.character(), r.episode_count())).toList())
+            .order(c.order())
+            .build())
+        .toList();
+    var crew = series.aggregate_credits().crew().stream()
+        .limit(crewLimit)
+        .map(c -> SaveSeriesCrewCredit.builder()
+            .person(people.get(c.id()))
+            .jobs(c.jobs().stream().map(j -> Job.of(j.job(), j.episode_count())).toList())
+            .build())
+        .toList();
+    var credits = new Credits(cast, crew);
+    LOGGER.info(String.format("Found %d credits in TMDB series %d", cast.size() + crew.size(), series.id()));
+    return credits;
   }
   
 }

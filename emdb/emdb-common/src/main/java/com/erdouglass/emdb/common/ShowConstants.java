@@ -15,10 +15,10 @@ public final class ShowConstants {
   public static final int OVERVIEW_MAX_LENGTH = 1024;
 
   /// The maximum length for an image path string, like `backdrop` or `poster`.
-  public static final int POSTER_MAX_LENGTH = 37;
+  public static final int POSTER_MAX_LENGTH = 80;
 
   /// The minimum length for an image path string, like `backdrop` or `poster`.
-  public static final int POSTER_MIN_LENGTH = 31;
+  public static final int POSTER_MIN_LENGTH = 1;
 
   /// The maximum length for a persons role.
   public static final int ROLE_MAX_LENGTH = 100;

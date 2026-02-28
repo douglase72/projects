@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.common.comand.UpdateSeries;
@@ -9,6 +10,9 @@ import com.erdouglass.emdb.media.entity.Series;
 
 @ApplicationScoped
 public class SeriesMapper {
+  
+  @Inject
+  SeriesCreditMapper mapper;
   
   public Series toSeries(SaveSeries command) {
     var series = new Series(command.tmdbId(), command.title());
@@ -53,7 +57,7 @@ public class SeriesMapper {
         .poster(series.poster().orElse(null))
         .tmdbPoster(series.tmdbPoster().orElse(null))
         .tagline(series.tagline().orElse(null))
-        .overview(series.overview().orElse(null))       
+        .overview(series.overview().orElse(null))
         .build();
   }
   
@@ -72,6 +76,8 @@ public class SeriesMapper {
         .poster(series.poster().map(p -> String.format("%s.jpg", p)).orElse(null))
         .tagline(series.tagline().orElse(null))
         .overview(series.overview().orElse(null))
+        .cast(series.cast().stream().map(mapper::toSeriesCastCreditDto).toList())
+        .crew(series.crew().stream().map(mapper::toSeriesCrewCreditDto).toList())
         .build();
   }
 

@@ -16,7 +16,7 @@ public class MovieCredit extends Credit {
   /// foreign key in the Credits table. A {@code MovieCredit} can't exist 
   /// without a {@link Movie}.
   @ManyToOne
-  @JoinColumn(name = "movie_id", updatable = false, nullable = false)
+  @JoinColumn(name = "movie_id", updatable = false)
   private Movie movie;
   
   @Size(max = ShowConstants.ROLE_MAX_LENGTH)

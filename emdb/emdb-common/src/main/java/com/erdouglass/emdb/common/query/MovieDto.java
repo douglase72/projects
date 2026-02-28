@@ -39,7 +39,7 @@ public record MovieDto(
     @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
     @Valid Credits credits) {
   
-  public record Credits(List<@Valid MovieCreditDto> cast, List<@Valid MovieCreditDto> crew) {
+  public record Credits(List<@Valid MovieCastCreditDto> cast, List<@Valid MovieCrewCreditDto> crew) {
     
   }
   
@@ -47,11 +47,11 @@ public record MovieDto(
     return new Builder();
   }
   
-  public List<MovieCreditDto> cast() {
+  public List<MovieCastCreditDto> cast() {
     return Optional.ofNullable(credits).map(c -> c.cast().stream().toList()).orElse(List.of());
   }
   
-  public List<MovieCreditDto> crew() {
+  public List<MovieCrewCreditDto> crew() {
     return Optional.ofNullable(credits).map(c -> c.crew().stream().toList()).orElse(List.of());
   }  
   
@@ -65,8 +65,8 @@ public record MovieDto(
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
-    private List<MovieCreditDto> cast = new ArrayList<>();
-    private List<MovieCreditDto> crew = new ArrayList<>();    
+    private List<MovieCastCreditDto> cast = new ArrayList<>();
+    private List<MovieCrewCreditDto> crew = new ArrayList<>();    
     private Integer tmdbId;
     private String backdrop;
     private Long id;
@@ -103,12 +103,12 @@ public record MovieDto(
       return this;
     }
     
-    public Builder cast(List<MovieCreditDto> cast) {
+    public Builder cast(List<MovieCastCreditDto> cast) {
       this.cast = new ArrayList<>(cast);
       return this;
     }
     
-    public Builder crew(List<MovieCreditDto> crew) {
+    public Builder crew(List<MovieCrewCreditDto> crew) {
       this.crew = new ArrayList<>(crew);
       return this;
     }     

@@ -1,15 +1,19 @@
 package com.erdouglass.emdb.media.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.SeriesType;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.validation.DateRange;
@@ -22,6 +26,12 @@ import com.erdouglass.validation.DateRange;
     initialValue = 1, 
     allocationSize = 1)
 public class Series extends Show {
+  
+  /// The credits collection in a series is a bidirectional association 
+  /// specified by the mappedBy field which maps the {@link Series#id} 
+  /// primary key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _SeriesCredit.SERIES)
+  private List<SeriesCredit> credits = new ArrayList<>();
   
   @Column(name = "first_air_date")
   @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE)
@@ -41,6 +51,22 @@ public class Series extends Show {
   
   public Series(Integer tmdbId, String title) {
     super(tmdbId, title);
+  }
+  
+  public List<SeriesCredit> cast() {
+    return credits.stream().filter(c -> c.type() == CreditType.CAST).toList();
+  }
+  
+  public void credits(List<SeriesCredit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<SeriesCredit> credits() {
+    return List.copyOf(credits);
+  }
+  
+  public List<SeriesCredit> crew() {
+    return credits.stream().filter(c -> c.type() == CreditType.CREW).toList();
   }
   
   public void firstAirDate(LocalDate firstAirDate) {

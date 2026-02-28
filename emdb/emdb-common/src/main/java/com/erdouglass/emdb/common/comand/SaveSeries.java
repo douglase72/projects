@@ -1,7 +1,11 @@
 package com.erdouglass.emdb.common.comand;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -26,11 +30,26 @@ public record SaveSeries(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbBackdrop,
     UUID poster,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbPoster,
-    @Size(min = 1, max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits) {
+  
+  public record Credits(List<@Valid SaveSeriesCastCredit> cast, List<@Valid SaveSeriesCrewCredit> crew) {
+    
+  }  
   
   public static Builder builder() {
     return new Builder();
+  }
+  
+  public List<SavePerson> people() {
+    if (credits() == null) {
+      return List.of();
+    }    
+    return Stream.concat(
+        credits().cast().stream().map(SaveSeriesCastCredit::person),
+        credits().crew().stream().map(SaveSeriesCrewCredit::person)
+    ).collect(Collectors.toMap(SavePerson::tmdbId, p -> p, (existing, _) -> existing)).values().stream().toList();
   }
   
   @Override
@@ -41,6 +60,7 @@ public record SaveSeries(
   }
   
   public static final class Builder extends AbstractSeriesBuilder<Builder> {
+    private Credits credits;
     private Integer tmdbId;
     private UUID backdrop;
     private UUID poster;
@@ -63,7 +83,8 @@ public record SaveSeries(
             poster,
             tmdbPoster,
             tagline,
-            overview);
+            overview,
+            credits);
     }
     
     public Builder backdrop(UUID backdrop) {
@@ -73,6 +94,11 @@ public record SaveSeries(
     
     public Builder tmdbBackdrop(String tmdbBackdrop) {
       this.tmdbBackdrop = tmdbBackdrop;
+      return this;
+    }
+    
+    public Builder credits(Credits credits) {
+      this.credits = credits;
       return this;
     }
     

@@ -13,9 +13,12 @@ import com.erdouglass.emdb.media.entity.Credit;
 public interface CreditRepository extends CrudRepository<Credit, UUID> {
 
   @Query("""
-      FROM Credit c LEFT JOIN FETCH c.person p LEFT JOIN FETCH c.movie m
+      FROM Credit c LEFT JOIN FETCH c.person p 
+                    LEFT JOIN FETCH c.movie m 
+                    LEFT JOIN FETCH c.series s 
+                    LEFT JOIN FETCH c.roles
       WHERE p.id = :id 
-      ORDER BY m.score DESC, c.created
+      ORDER BY COALESCE(m.score, s.score) DESC, c.created
       """)
   List<Credit> findByPersonId(Long id);
   

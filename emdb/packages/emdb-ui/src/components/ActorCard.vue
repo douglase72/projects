@@ -7,6 +7,15 @@
            :alt="actor.name" 
            loading="lazy"
            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+      <div v-else class="flex flex-col items-center justify-center w-full h-full text-zinc-500">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-full h-full opacity-50 transition-transform duration-300 group-hover:scale-110" 
+             fill="none" 
+             viewBox="0 0 24 24" 
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      </div>
     </div>
 
     <div class="flex flex-col grow pt-3 px-2 pb-1">

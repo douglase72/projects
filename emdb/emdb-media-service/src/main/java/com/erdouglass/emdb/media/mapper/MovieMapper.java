@@ -68,7 +68,6 @@ public class MovieMapper {
         .tmdbPoster(movie.tmdbPoster().orElse(null))
         .tagline(movie.tagline().orElse(null))
         .overview(movie.overview().orElse(null))
-        .credits(movie.credits().stream().map(mapper::toSaveMovieCredit).toList())
         .build();
   }
   
@@ -89,8 +88,8 @@ public class MovieMapper {
         .poster(movie.poster().map(p -> String.format("%s.jpg", p)).orElse(null))
         .tagline(movie.tagline().orElse(null))
         .overview(movie.overview().orElse(null))
-        .cast(movie.cast().stream().map(mapper::toMovieCreditDto).toList())
-        .crew(movie.crew().stream().map(mapper::toMovieCreditDto).toList())
+        .cast(movie.cast().stream().map(mapper::toMovieCastCreditDto).toList())
+        .crew(movie.crew().stream().map(mapper::toMovieCrewCreditDto).toList())
         .build();
   }
   

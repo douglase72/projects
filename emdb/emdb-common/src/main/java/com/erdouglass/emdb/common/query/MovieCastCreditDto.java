@@ -12,18 +12,14 @@ import com.erdouglass.emdb.common.EmdbImage;
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.emdb.common.ShowConstants;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonInclude(Include.NON_EMPTY)
-public record MovieCreditDto(
+public record MovieCastCreditDto(
     @NotNull UUID creditId, 
     @NotNull @Positive Long id,
     @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name, 
     @NotNull Gender gender,
     @EmdbImage String profile, 
     @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
-    @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job,
     @PositiveOrZero Integer order) {
   
   public static Builder builder() {
@@ -35,22 +31,20 @@ public record MovieCreditDto(
     private UUID creditId;
     private Gender gender;
     private Long id;
-    private String job;
     private String name;
     private Integer order;
     private String profile;
 
     private Builder() { }
     
-    public MovieCreditDto build() {
-      return new MovieCreditDto(
+    public MovieCastCreditDto build() {
+      return new MovieCastCreditDto(
             creditId,
             id, 
             name, 
             gender, 
             profile, 
             character,
-            job,
             order);
     }
     
@@ -71,11 +65,6 @@ public record MovieCreditDto(
     
     public Builder id(Long id) {
       this.id = id;
-      return this;
-    }
-    
-    public Builder job(String job) {
-      this.job = job;
       return this;
     }
     

@@ -1,5 +1,9 @@
 package com.erdouglass.emdb.gateway.client;
 
+import java.util.UUID;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -17,6 +21,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.common.comand.UpdateSeries;
+import com.erdouglass.emdb.common.comand.UpdateSeriesCredit;
 import com.erdouglass.emdb.common.query.SeriesDto;
 
 @RegisterRestClient()
@@ -38,5 +43,11 @@ public interface SeriesClient {
   @DELETE
   @Path("/{id}")
   public Response deleteById(@PathParam("id") Long id);
+  
+  @PUT
+  @Path("/credits/{creditId}")
+  public Response updateCredit(
+      @PathParam("creditId") @NotNull UUID creditId, 
+      @NotNull @Valid UpdateSeriesCredit command);
   
 }

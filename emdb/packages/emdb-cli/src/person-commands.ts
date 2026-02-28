@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 
 import { useEmdb } from './services/useEmdb.js';
 import { IngestSource, MediaType } from '@emdb/common';
+import { PersonSchema } from './schemas/PersonSchema.js';
 
 export { personCommand };
 
@@ -110,9 +111,15 @@ async function ingest(tmdbId: number) {
 async function save(fileName: string) {
   try {
     const file = await fs.readFile(fileName, 'utf-8');
+    const parsed = PersonSchema.safeParse(JSON.parse(file));
+    if (!parsed.success) {
+      console.error(`Validation failed for file: ${fileName}`);
+      console.error(JSON.stringify(parsed.error.format(), null, 2));
+      process.exit(1);
+    }
     const { savePerson } = useEmdb();
     const start = performance.now();
-    const person = await savePerson(JSON.parse(file));
+    const person = await savePerson(parsed.data);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });

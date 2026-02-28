@@ -1,6 +1,10 @@
 package com.erdouglass.emdb.gateway.controller;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -18,6 +22,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovieCredit;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.gateway.client.MovieClient;
 
@@ -51,6 +56,14 @@ public class MovieResource {
   @Path("/{id}")
   public Response deleteById(@PathParam("id") Long id) {
     return client.deleteById(id);
+  }
+  
+  @PUT
+  @Path("/credits/{creditId}")
+  public Response updateCredit(
+      @PathParam("creditId") @NotNull UUID creditId, 
+      @NotNull @Valid UpdateMovieCredit command) {
+    return client.updateCredit(creditId, command);
   }
 
 }

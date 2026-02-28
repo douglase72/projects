@@ -7,6 +7,7 @@ import {
   MediaType, 
   SchedulerType, 
   type ExecuteScheduler } from '@emdb/common';
+import { SaveSeriesSchema } from './schemas/SaveSeriesSchema.js';
 
 export { seriesCommand };
 
@@ -123,9 +124,15 @@ async function ingest(tmdbId: number) {
 async function save(fileName: string) {
   try {
     const file = await fs.readFile(fileName, 'utf-8');
+    const parsed = SaveSeriesSchema.safeParse(JSON.parse(file));
+    if (!parsed.success) {
+      console.error(`Validation failed for file: ${fileName}`);
+      console.error(JSON.stringify(parsed.error.format(), null, 2));
+      process.exit(1);
+    }
     const { saveSeries } = useEmdb();
     const start = performance.now();
-    const series = await saveSeries(JSON.parse(file));
+    const series = await saveSeries(parsed.data);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });

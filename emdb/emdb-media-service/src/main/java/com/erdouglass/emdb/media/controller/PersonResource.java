@@ -73,6 +73,13 @@ public class PersonResource {
     return mapper.toPersonDto(person);
   }
   
+  @DELETE
+  @Path("/{id}")
+  public Response deleteById(@PathParam("id") @NotNull @Positive Long id) {
+    service.deleteById(id);
+    return Response.noContent().build();
+  }
+  
   private EmdbResponse toResponse(PersonStatus personStatus) {
     var person = personStatus.person();
     var code = switch (personStatus.status()) {
@@ -82,13 +89,6 @@ public class PersonResource {
       default -> throw new IllegalArgumentException("Invalid status: " + personStatus.status());
     };
     return EmdbResponse.of(person.id(), person.tmdbId(), code);
-  } 
-  
-  @DELETE
-  @Path("/{id}")
-  public Response deleteById(@PathParam("id") @NotNull @Positive Long id) {
-    service.deleteById(id);
-    return Response.noContent().build();
   }  
 
 }

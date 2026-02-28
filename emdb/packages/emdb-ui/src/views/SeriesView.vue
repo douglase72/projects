@@ -12,7 +12,7 @@
   </header>
 
   <main class="m-8">
-    <div v-if="series" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
+    <section v-if="series" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
       <div>{{ series.id }}</div>
       <div>TMDB ID</div>
@@ -45,18 +45,30 @@
       <div>{{ series.tagline }}</div>
       <div>Overview</div>
       <div>{{ series.overview }}</div>                    
-    </div>
+    </section>
+
+    <section class="mt-8">
+      <Carousel :value="cast" 
+                :numVisible="6" 
+                :numScroll="4"
+                :showIndicators="false">
+        <template #item="slotProps">
+          <ActorCard :actor="slotProps.data" />
+        </template>
+      </Carousel>
+    </section>    
   </main>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
 
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useLanguage } from '@/composables/useLanguage';
+  import type { Actor } from '@/models/Actor';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Series } from '@emdb/common';
+  import type { Series, SeriesCastCredit } from '@emdb/common';
 
   const { findImage, findSeries } = useEmdbApi();
   const { formatLanguage } = useLanguage();
@@ -64,6 +76,16 @@
   const router = useRouter();
 
   const series = ref<Series>();
+  const cast = computed<Actor[]>(() => {
+    if (!series.value?.credits?.cast) return [];
+    return series.value.credits.cast.slice(0, 18).map((credit: SeriesCastCredit) => ({
+      id: credit.id,
+      name: credit.name,
+      profile: credit.profile,
+      character: credit.roles[0]?.character ?? null,
+      numberOfEpisodes: credit.totalEpisodes,
+    }));
+  });    
 
   onMounted(async () => {
     const routeId = route.params.id;

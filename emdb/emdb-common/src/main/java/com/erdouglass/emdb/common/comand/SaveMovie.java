@@ -1,9 +1,10 @@
 package com.erdouglass.emdb.common.comand;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -34,12 +35,26 @@ public record SaveMovie(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbBackdrop,
     UUID poster,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbPoster,
-    @Size(min = 1, max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
+    @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @NotNull List<@Valid SaveMovieCredit> credits) {
+    @Valid Credits credits) {
+  
+  public record Credits(List<@Valid SaveMovieCastCredit> cast, List<@Valid SaveMovieCrewCredit> crew) {
+    
+  } 
   
   public static Builder builder() {
     return new Builder();
+  }
+  
+  public List<SavePerson> people() {
+    if (credits() == null) {
+      return List.of();
+    }    
+    return Stream.concat(
+        credits().cast().stream().map(SaveMovieCastCredit::person),
+        credits().crew().stream().map(SaveMovieCrewCredit::person)
+    ).collect(Collectors.toMap(SavePerson::tmdbId, p -> p, (existing, _) -> existing)).values().stream().toList();
   }
   
   @Override
@@ -50,7 +65,7 @@ public record SaveMovie(
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
-    private List<SaveMovieCredit> credits = new ArrayList<>();
+    private Credits credits;
     private UUID backdrop;
     private UUID poster;
     private Integer tmdbId;
@@ -80,8 +95,8 @@ public record SaveMovie(
             credits);
     }
     
-    public Builder credits(List<SaveMovieCredit> credits) {
-      this.credits = List.copyOf(credits);
+    public Builder credits(Credits credits) {
+      this.credits = credits;
       return this;
     }
     

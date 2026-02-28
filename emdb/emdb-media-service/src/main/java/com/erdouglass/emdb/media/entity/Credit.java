@@ -69,10 +69,6 @@ public class Credit {
   public Instant created() {
     return created;
   }
-  
-  public void id(UUID id) {
-    this.id = id;
-  }
 
   public UUID id() {
     return id;

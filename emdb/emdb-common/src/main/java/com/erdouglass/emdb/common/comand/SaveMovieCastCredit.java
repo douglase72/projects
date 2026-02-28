@@ -5,12 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.ShowConstants;
 
-public record SaveMovieCredit(
-    @NotNull CreditType type,
-    @Size(max = ShowConstants.ROLE_MAX_LENGTH) String role,
+public record SaveMovieCastCredit(
+    @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
     @NotNull @Valid SavePerson person,
     @PositiveOrZero Integer order) {
   
@@ -21,18 +19,12 @@ public record SaveMovieCredit(
   public static final class Builder {
     private Integer order;
     private SavePerson person;
-    private String role;
-    private CreditType type;
+    private String character;
     
     private Builder() { }
     
-    public SaveMovieCredit build() {
-      return new SaveMovieCredit(type, role, person, order);
-    }
-    
-    public Builder type(CreditType type) {
-      this.type = type;
-      return this;
+    public SaveMovieCastCredit build() {
+      return new SaveMovieCastCredit(character, person, order);
     }
     
     public Builder order(Integer order) {
@@ -45,8 +37,8 @@ public record SaveMovieCredit(
       return this;
     }
     
-    public Builder role(String role) {
-      this.role = role;
+    public Builder character(String character) {
+      this.character = character;
       return this;
     }
   }   

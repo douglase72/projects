@@ -55,7 +55,7 @@ public class TmdbSchedulerService {
   
   @Scheduled(cron = "{emdb.series.scheduler}")
   public void ingestSeries() {
-    var changedSeries = List.of(1399, 456);
+    var changedSeries = List.of(113959, 4614, 456);
     for (var tmdbId : changedSeries) {      
       ingest(tmdbId, MediaType.SERIES);
     }

@@ -64,14 +64,17 @@
   const person = ref<Person>();
   const credits = computed<Show[]>(() => {
     if (!person.value?.credits?.cast) return [];
-    return person.value.credits.cast.slice(0, 18).map((credit: PersonCredit) => ({
-      id: credit.id,
-      title: credit.title,
-      poster: credit.poster,
-      date: credit.releaseDate,
-      score: credit.score,
-      type: MediaType.MOVIE,
-    }));
+    return person.value.credits.cast.slice(0, 18).map((credit: PersonCredit) => {
+      const displayDate = credit.type === MediaType.MOVIE ? credit.releaseDate : credit.firstAirDate;
+      return {
+        id: credit.id,
+        title: credit.title,
+        poster: credit.poster,
+        date: displayDate,
+        score: credit.score,
+        type: credit.type,
+      };
+    });
   });
 
   onMounted(async () => {
@@ -82,6 +85,5 @@
       return;
     }
     person.value = await findPerson(id);
-    console.log(person.value);
   });
 </script>

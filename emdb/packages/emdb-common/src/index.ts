@@ -9,4 +9,6 @@ export * from './models/SeriesType.js';
 export * from './models/ShowStatus.js';
 export * from './models/UpdateMovie.js';
 export * from './models/UpdatePerson.js';
+export * from './models/UpdateRole.js';
 export * from './models/UpdateSeries.js';
+export * from './models/UpdateSeriesCredit.js';

@@ -1,6 +1,5 @@
 package com.erdouglass.emdb.scraper.service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,10 +16,11 @@ import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.CreditType;
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.SaveMovieCredit;
+import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
+import com.erdouglass.emdb.common.comand.SaveMovieCastCredit;
+import com.erdouglass.emdb.common.comand.SaveMovieCrewCredit;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
@@ -53,8 +53,7 @@ public class TmdbMovieScraper extends TmdbScraper {
         tmdbMovie.credits().crew().stream().limit(crewLimit).map(CrewCredit::id))
         .distinct()
         .toList();
-    var existingPeople = command.credits().stream()
-        .map(SaveMovieCredit::person)
+    var existingPeople = command.people().stream()
         .collect(Collectors.toMap(SavePerson::tmdbId, Function.identity()));
     var people = findPeople(ids, existingPeople);
     var credits = createCredits(tmdbMovie, people); 
@@ -101,24 +100,24 @@ public class TmdbMovieScraper extends TmdbScraper {
     return cmd.build();
   }
   
-  private List<SaveMovieCredit> createCredits(TmdbMovieDto movie, Map<Integer, SavePerson> people) {
+  private Credits createCredits(TmdbMovieDto movie, Map<Integer, SavePerson> people) {
     var cast = movie.credits().cast().stream()
         .limit(castLimit)
-        .map(c -> SaveMovieCredit.builder()
-            .type(CreditType.CAST)
-            .role(c.character())
+        .map(c -> SaveMovieCastCredit.builder()
+            .character(c.character())
             .person(people.get(c.id()))
             .order(c.order())
-            .build());
+            .build())
+        .toList();
     var crew = movie.credits().crew().stream()
         .limit(crewLimit)
-        .map(c -> SaveMovieCredit.builder()
-            .type(CreditType.CREW)
-            .role(c.job())
+        .map(c -> SaveMovieCrewCredit.builder()
+            .job(c.job())
             .person(people.get(c.id()))
-            .build());
-    var credits = Stream.concat(cast, crew).toList();
-    LOGGER.info(String.format("Found %d credits in TMDB movie %d", credits.size(), movie.id()));
+            .build())
+        .toList();
+    var credits = new Credits(cast, crew);
+    LOGGER.info(String.format("Found %d credits in TMDB movie %d", cast.size() + crew.size(), movie.id()));
     return credits;
   }
 
