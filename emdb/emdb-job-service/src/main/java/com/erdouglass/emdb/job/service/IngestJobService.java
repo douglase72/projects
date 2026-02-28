@@ -33,7 +33,7 @@ public class IngestJobService {
   @Incoming("job-history-in")
   public CompletionStage<Void> onMessage(Message<IngestStatusChanged> wrapper) {
     var event = wrapper.getPayload();
-    LOGGER.infof("Received: %s", event);
+    LOGGER.debugf("Received: %s", event);
     
     try {
       repository.findById(event.id()).ifPresentOrElse(j -> {

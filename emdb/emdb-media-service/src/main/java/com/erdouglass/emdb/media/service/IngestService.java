@@ -12,6 +12,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
@@ -20,8 +21,8 @@ import com.erdouglass.emdb.common.service.IngestStatusService;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
-import io.opentelemetry.api.baggage.Baggage;
 import io.smallrye.common.annotation.RunOnVirtualThread;
+import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;
 
 /// This class consumes the {@link IngestMedia} command. It takes one command at a time 
 /// from the ingest-media queue and extracts, transforms, and loads the relevant data 
@@ -49,11 +50,16 @@ public class IngestService {
   @RunOnVirtualThread
   @Incoming("ingest-media-in")
   public CompletionStage<Void> onMessage(Message<IngestMedia> wrapper) {
+    UUID jobId = null;
     var command = wrapper.getPayload();
-    var jobId = UUID.fromString(Baggage.current().getEntryValue("job-id"));
-    logQueueDuration(jobId, command);
+    LOGGER.debugf("Received: %s", command);
     
     try {
+      var metadata = wrapper.getMetadata(IncomingRabbitMQMetadata.class)
+          .orElseThrow(() -> new IllegalStateException("Missing RabbitMQ metadata")); 
+      jobId = UUID.fromString(metadata.getHeaders().get(Configuration.JOB_ID).toString());
+      logQueueDuration(metadata, jobId, command);
+      
       var et = switch (command.type()) {
         case MOVIE -> movieService.ingest(command.tmdbId(), jobId);
         case SERIES -> seriesService.ingest(command.tmdbId(), jobId);
@@ -68,20 +74,22 @@ public class IngestService {
     } catch (Exception e) {
       var msg = String.format("Failed to ingest TMDB %s %d", command.type(), command.tmdbId());
       LOGGER.error(msg, e);
-      statusService.send(IngestStatusChanged.builder()
-          .id(jobId)
-          .status(IngestStatus.FAILED)
-          .tmdbId(command.tmdbId())
-          .source(IngestSource.MEDIA)
-          .type(command.type())
-          .message(statusService.causedBy(e))
-          .build());
+      if (jobId != null) {
+        statusService.send(IngestStatusChanged.builder()
+            .id(jobId)
+            .status(IngestStatus.FAILED)
+            .tmdbId(command.tmdbId())
+            .source(IngestSource.MEDIA)
+            .type(command.type())
+            .message(statusService.causedBy(e))
+            .build());
+      }
       return wrapper.nack(e);
     }
   }
   
-  private void logQueueDuration(UUID jobId, IngestMedia command) {
-    var start = Instant.parse(Baggage.current().getEntryValue("job-start-time"));
+  private void logQueueDuration(IncomingRabbitMQMetadata metadata, UUID jobId, IngestMedia command) {
+    var start = Instant.parse(metadata.getHeaders().get(Configuration.JOB_START_TIME).toString());
     var et = Duration.between(start, Instant.now());
     var msg = String.format("Ingest Job for TMDB %s %d sat in the ingest-media queue for %d ms", 
         command.type(), command.tmdbId(), et.toMillis());

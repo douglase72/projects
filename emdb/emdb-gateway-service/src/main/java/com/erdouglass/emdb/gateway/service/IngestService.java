@@ -24,7 +24,6 @@ import com.erdouglass.emdb.common.service.IngestStatusService;
 import com.erdouglass.emdb.gateway.client.JobClient;
 import com.fasterxml.uuid.Generators;
 
-import io.opentelemetry.api.baggage.Baggage;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -53,26 +52,26 @@ public class IngestService {
   
   public UUID ingest(IngestMedia command) {
     var jobId = Generators.timeBasedEpochGenerator().generate();
-    var baggage = Baggage.current().toBuilder()
-        .put("job-id", jobId.toString())
-        .put("job-start-time", Instant.now().toString())
-        .build();
-    try (var _ = baggage.makeCurrent()) {
-      emitter.send(Message.of(command)
-          .addMetadata(OutgoingRabbitMQMetadata.builder()
-          .withRoutingKey(Configuration.MEDIA_KEY)
-          .build()));
-      var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
-      LOGGER.info(msg);
-      statusService.send(IngestStatusChanged.builder()
-          .id(jobId)
-          .status(IngestStatus.SUBMITTED)
-          .tmdbId(command.tmdbId())
-          .source(IngestSource.GATEWAY)
-          .type(command.type())
-          .message(msg)
-          .build());
-    }
+    var startTime = Instant.now().toString();
+    
+    emitter.send(Message.of(command)
+        .addMetadata(OutgoingRabbitMQMetadata.builder()
+            .withRoutingKey(Configuration.MEDIA_KEY)
+            .withHeader(Configuration.JOB_ID, jobId.toString())
+            .withHeader(Configuration.JOB_START_TIME, startTime)
+            .build()));
+    LOGGER.debugf("Sent: %s", command);
+      
+    var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
+    LOGGER.info(msg);
+    statusService.send(IngestStatusChanged.builder()
+        .id(jobId)
+        .status(IngestStatus.SUBMITTED)
+        .tmdbId(command.tmdbId())
+        .source(IngestSource.GATEWAY)
+        .type(command.type())
+        .message(msg)
+        .build());
     return jobId;
   }
   

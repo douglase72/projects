@@ -22,7 +22,6 @@ import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.service.IngestStatusService;
 import com.fasterxml.uuid.Generators;
 
-import io.opentelemetry.api.baggage.Baggage;
 import io.quarkus.scheduler.Scheduled;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
@@ -82,26 +81,26 @@ public class TmdbSchedulerService {
   
   private void ingest(int tmdbId, MediaType type) {
     var jobId = Generators.timeBasedEpochGenerator().generate();
-    var baggage = Baggage.current().toBuilder()
-        .put("job-id", jobId.toString())
-        .put("job-start-time", Instant.now().toString())
-        .build();
+    var startTime = Instant.now().toString();
+    
     var command = IngestMedia.of(tmdbId, type, IngestSource.SCHEDULER);
-    try (var _ = baggage.makeCurrent()) {
-      emitter.send(Message.of(command)
-          .addMetadata(OutgoingRabbitMQMetadata.builder()
-          .withRoutingKey(Configuration.MEDIA_KEY)
-          .build()));
-      var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
-      statusService.send(IngestStatusChanged.builder()
-          .id(jobId)
-          .status(IngestStatus.SUBMITTED)
-          .tmdbId(command.tmdbId())
-          .source(IngestStatusChanged.IngestSource.SCHEDULER)
-          .type(command.type())
-          .message(msg)
-          .build());
-    }
+    emitter.send(Message.of(command)
+        .addMetadata(OutgoingRabbitMQMetadata.builder()
+            .withRoutingKey(Configuration.MEDIA_KEY)
+            .withHeader(Configuration.JOB_ID, jobId.toString())
+            .withHeader(Configuration.JOB_START_TIME, startTime)
+            .build()));
+    LOGGER.debugf("Sent: %s", command);
+    
+    var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
+    statusService.send(IngestStatusChanged.builder()
+        .id(jobId)
+        .status(IngestStatus.SUBMITTED)
+        .tmdbId(command.tmdbId())
+        .source(IngestStatusChanged.IngestSource.SCHEDULER)
+        .type(command.type())
+        .message(msg)
+        .build());
   }
 
 }
