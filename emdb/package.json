@@ -1,0 +1,10 @@
+{
+  "name": "emdb-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "tsc -b --watch --verbose"
+  }, 
+  "workspaces": [
+    "packages/*"
+  ]
+}

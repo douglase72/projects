@@ -1,0 +1,50 @@
+services:
+      
+  emdb-gateway:
+    image: emdb-gateway:latest
+    container_name: emdb-gateway
+    build:
+      context: ./emdb-gateway-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60330:60310
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - projects
+        
+  emdb-media:
+    image: emdb-media:latest
+    container_name: emdb-media
+    build:
+      context: ./emdb-media-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60336:60316
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-media-service/.env
+    volumes:
+      - /home/erdouglass/projects/emdb/media-data/images:/images
+      - /home/erdouglass/projects/emdb/media-data/movies:/movies
+      - /home/erdouglass/projects/emdb/media-data/people:/people
+      - /home/erdouglass/projects/emdb/media-data/series:/series
+    networks:
+      - projects
+
+  emdb-ui:
+    image: emdb-ui:latest
+    container_name: emdb-ui
+    build:
+      context: .
+      dockerfile: packages/emdb-ui/Dockerfile
+    networks:
+      - projects
+    depends_on:
+      - emdb-gateway
+
+networks:
+  projects:
+    name: projects
+    external: true

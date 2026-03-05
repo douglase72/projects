@@ -1,0 +1,424 @@
+TMDB API
+
+API Key:
+df4e8c63aee8965f8a0908ac1cb64a10
+
+API Read Access Token
+eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlOGM2M2FlZTg5NjVmOGEwOTA4YWMxY2I2NGExMCIsInN1YiI6IjYzM2QwYTlhODdmM2YyMDA3ZjJmZDg3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UtV6VHQWnccuFkJJ2Q_f4sPjPdIsw-kjXCg-_dwsEsc
+
+Account Details
+curl --request GET --url 'https://api.themoviedb.org/3/account/15084119' --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlOGM2M2FlZTg5NjVmOGEwOTA4YWMxY2I2NGExMCIsIm5iZiI6MTcyNjQ0OTc4My43OTUzOTYsInN1YiI6IjYzM2QwYTlhODdmM2YyMDA3ZjJmZDg3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.av5ftYPC8GZUTSxzknMnunL78ElukSqST_fyQtPjmPc' --header 'accept: application/json'
+{
+  avatar: {
+    gravatar: { hash: '8b38ce47bc37566a21e8ada2987b3de0' },
+    tmdb: { avatar_path: null }
+  },
+  id: 15084119,
+  iso_639_1: 'en',
+  iso_3166_1: 'US',
+  name: '',
+  include_adult: false,
+  username: 'douglase'
+}
+
+------------------------------------------------------------------------------------------------------
+System Configuration
+
+1,153,471 movies
+  196,154 tv shows
+5,204,771 tv episodes
+4,071,390 people
+
+The media types (domain entities) are movies, people, TV series, seasons and episodes. The ids are not
+globally unique, meaning a series and movie can both have an id of 78.
+
+https://api.themoviedb.org/3/configuration?api_key=df4e8c63aee8965f8a0908ac1cb64a10
+
+{
+  "images":{
+    "base_url":"http://image.tmdb.org/t/p/",
+    "secure_base_url":"https://image.tmdb.org/t/p/",
+    "backdrop_sizes":["w300","w780","w1280","original"],
+    "logo_sizes":["w45","w92","w154","w185","w300","w500","original"],
+    "poster_sizes":["w92","w154","w185","w342","w500","w780","original"],
+    "profile_sizes":["w45","w185","h632","original"],
+    "still_sizes":["w92","w185","w300","original"]
+  },
+  
+  "change_keys":[
+    "adult","air_date","also_known_as","alternative_titles","biography","birthday","budget","cast","certifications",
+    "character_names","created_by","crew","deathday","episode","episode_number","episode_run_time","freebase_id",
+    "freebase_mid","general","genres","guest_stars","homepage","images","imdb_id","languages","name","network",
+    "origin_country","original_name","original_title","overview","parts","place_of_birth","plot_keywords",
+    "production_code","production_companies","production_countries","releases","revenue","runtime","season",
+    "season_number","season_regular","spoken_languages","status","tagline","title","translations","tvdb_id",
+    "tvrage_id","type","video","videos"
+  ]
+}
+
+------------------------------------------------------------------------------------------------------
+Images
+
+|  poster  | backdrop |  still   | profile  |   logo   |
+| :------: | :------: | :------: | :------: | :------: |
+| -------- | -------- | -------- |    w45   |    w45   |
+|    w92   | -------- |    w92   | -------- |    w92   |
+|   w154   | -------- | -------- | -------- |   w154   |
+|   w185   | -------- |   w185   |   w185   |   w185   |
+| -------- |   w300   |   w300   | -------- |   w300   |
+|   w342   | -------- | -------- | -------- | -------- |
+|   w500   | -------- | -------- | -------- |   w500   |
+| -------- | -------- | -------- |   h632   | -------- |
+|   w780   |   w780   | -------- | -------- | -------- |
+| -------- |  w1280   | -------- | -------- | -------- |
+| original | original | original | original | original | 
+
+
+http://image.tmdb.org/t/p/w342/mGlRhUbs0mQAteM37xuPtgppYgj.jpg
+
+Travis Bell
+You're free to use the images straight from tmdb.org. There are no limits and image requests do not 
+count as API requests.
+
+------------------------------------------------------------------------------------------------------
+Jobs
+http://api.themoviedb.org/3/configuration/jobs?api_key=df4e8c63aee8965f8a0908ac1cb64a10
+{
+  "department": "Writing",
+  "jobs": [
+    "Dialogue",
+    "Theatre Play",
+    "Screenplay",
+    "Idea",
+    "Executive Story Editor",
+    "Writers' Production",
+    "Adaptation",
+    "Scenario Writer",
+    "Comic Book",
+    "Author",
+    "Other",
+    "Script Editor",
+    "Story Manager",
+    "Story Supervisor",
+    "Writer",
+    "Lyricist",
+    "Original Film Writer",
+    "Storyboard",
+    "Musical",
+    "Series Composition",
+    "Staff Writer",
+    "Novel",
+    "Story Artist",
+    "Book",
+    "Opera",
+    "Creative Producer",
+    "Characters",
+    "Original Story",
+    "Screenstory",
+    "Teleplay",
+    "Co-Writer",
+    "Short Story",
+    "Script Consultant",
+    "Writers' Assistant",
+    "Story",
+    "Story Editor",
+    "Original Series Creator",
+    "Junior Story Editor",
+    "Senior Story Editor",
+    "Story Consultant",
+    "Head of Story",
+    "Original Concept",
+    "Graphic Novel",
+    "Story Coordinator",
+    "Story Developer"
+   ]
+},
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Movie
+The Movie endpoint returns details about the movie by id. 
+
+Append To Response
+The Movie detail methods support a query parameter called append_to_response. This makes it possible to make sub 
+requests within the same namespace in a single HTTP request. Each request will get appended to the response as a 
+new JSON object.
+Movie
+  - alternative_titles
+  - credits
+  - images
+  - rating
+  - release_dates
+  - videos
+  - watch/providers
+
+http://api.themoviedb.org/3/movie/818?append_to_response=credits&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Series
+The TV Series endpoint returns details about the TV series by id.
+
+Append To Response
+The Series detail methods support a query parameter called append_to_response. This makes it possible to make sub 
+requests within the same namespace in a single HTTP request. Each request will get appended to the response as a 
+new JSON object.
+Series
+  - aggregate_credits
+  - alternative_titles
+  - content_ratings
+  - episode_groups
+  - images
+  - release_dates
+  - videos
+  - watch/providers
+  
+Default series details includes seasons without episodes
+http://api.themoviedb.org/3/tv/456?append_to_response=aggregate_credits&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+
+"aggregate_credits": {
+    "cast": [
+    {
+        "adult": false,
+        "gender": 1,
+        "id": 6009,
+        "known_for_department": "Acting",
+        "name": "Pamela Hayden",
+        "original_name": "Pamela Hayden",
+        "popularity": 0.6047,
+        "profile_path": "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg",
+        "roles": [
+          {
+            "credit_id": "66d03a008378b206bc8842b1",
+            "character": "Milhouse Van Houten (voice)",
+            "episode_count": 80
+          },
+          {
+            "credit_id": "644e6c604d23dd20d792c8d1",
+            "character": "Milhouse (voice)",
+            "episode_count": 59
+          },
+          {
+            "credit_id": "66d16e86bf547fec04a7ea89",
+            "character": "Milhouse Van Houten / Jimbo Jones (voice)",
+            "episode_count": 39
+          },    
+
+Append the list of epsiodes for each of the given seasons to the response
+http://api.themoviedb.org/3/tv/456?append_to_response=season/1,season/2,season/3&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+"season/1": {
+  "_id": "5256c24719c2956ff600565b",
+  "air_date": "1989-12-17",
+  "episodes": [
+  {
+    "air_date": "1989-12-17",
+    "episode_number": 1,
+    "episode_type": "standard",
+    "id": 62228,
+    "name": "Simpsons Roasting on an Open Fire",
+    "overview": "Homer's Christmas bonus is canceled and the rainy-day funds are needed to pay for Bart's tattoo removal.",
+    "production_code": "7G08",
+    "runtime": 23,
+    "season_number": 1,
+    "show_id": 456,
+    "still_path": "/zp5gxcPnxv6FsDh3l7yRZurlBRr.jpg",
+    "vote_average": 6.296,
+    "vote_count": 223,
+    "crew": [
+    {
+      "department": "Production",
+      "job": "Executive Producer",
+      "credit_id": "5256bdcc19c2956ff6002056",
+      "adult": false,
+      "gender": 2,
+      "id": 3388,
+      "known_for_department": "Production",
+      "name": "James L. Brooks",
+      "original_name": "James L. Brooks",
+      "popularity": 0.5489,
+      "profile_path": "/mZBy39mFACFHMCqfbsN4Kc2qb2k.jpg"
+    },
+    "guest_stars": [
+    {
+      "character": "Girl (voice)",
+      "credit_id": "6130e77b357c00009118c3d6",
+      "order": 1248,
+      "adult": false,
+      "gender": 1,
+      "id": 100634,
+      "known_for_department": "Acting",
+      "name": "Jo Ann Harris",
+      "original_name": "Jo Ann Harris",
+      "popularity": 0.838,
+      "profile_path": "/p7VptoDCwgbdujzEzrFJrHH4pYA.jpg"
+    },
+    {
+      "character": "Milhouse / Rod Flanders / Santa Woman (voice)",
+      "credit_id": "6130e7ef7f6c8d0061a5d38e",
+      "order": 1254,
+      "adult": false,
+      "gender": 1,
+      "id": 6009,
+      "known_for_department": "Acting",
+      "name": "Pamela Hayden",
+      "original_name": "Pamela Hayden",
+      "popularity": 0.3217,
+      "profile_path": "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg"
+    },    
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Person
+The Person endpoint returns details about the person by id.
+
+Default person details
+http://api.themoviedb.org/3/person/3?api_key=df4e8c63aee8965f8a0908ac1cb64a10
+
+Append To Response
+The Person detail methods support a query parameter called append_to_response. This makes it possible to make sub 
+requests within the same namespace in a single HTTP request. Each request will get appended to the response as a new 
+JSON object.
+Person
+  - combined_credits
+  - images
+  - movie_credits
+  - tv_credits
+  
+http://api.themoviedb.org/3/person/3?api_key=df4e8c63aee8965f8a0908ac1cb64a10&append_to_response=combined_credits
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Credits
+The Credits endpoint returns details about the credit by id.  
+
+Series Credit
+http://api.themoviedb.org/3/tv/456?append_to_response=aggregate_credits&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+{
+  "cast": [
+  {
+    "adult": false,
+    "gender": 2,
+    "id": 198,
+    "known_for_department": "Acting",
+    "name": "Dan Castellaneta",
+    "original_name": "Dan Castellaneta",
+    "popularity": 1.2575,
+    "profile_path": "/AmeqWhP4A46AWkM4kVphg6jOTQX.jpg",
+    "roles": [
+    {
+      "credit_id": "5256bdc319c2956ff600157c",
+      "character": "Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)",
+      "episode_count": 787
+    }],
+    "total_episode_count": 787,
+    "order": 0
+  },
+  {
+    "adult": false,
+    "gender": 1,
+    "id": 6009,
+    "known_for_department": "Acting",
+    "name": "Pamela Hayden",
+    "original_name": "Pamela Hayden",
+    "popularity": 0.3217,
+    "profile_path": "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg",
+    "roles": [
+    {
+      "credit_id": "66d03a008378b206bc8842b1",
+      "character": "Milhouse Van Houten (voice)",
+      "episode_count": 80
+    },
+    {
+      "credit_id": "644e6c604d23dd20d792c8d1",
+      "character": "Milhouse (voice)",
+      "episode_count": 59
+    },
+    {
+      "credit_id": "66d16e86bf547fec04a7ea89",
+      "character": "Milhouse Van Houten / Jimbo Jones (voice)",
+      "episode_count": 39
+    }],
+  "crew": [
+  {
+    "adult": false,
+    "gender": 2,
+    "id": 1447587,
+    "known_for_department": "Art",
+    "name": "Peter J. Deluca",
+    "original_name": "Peter J. Deluca",
+    "popularity": 0.1665,
+    "profile_path": null,
+    "jobs": [
+    {
+      "credit_id": "554aa0b2925141469c0001e5",
+      "job": "Background Designer",
+      "episode_count": 22
+    }],
+    "department": "Art",
+    "total_episode_count": 22
+  }]
+}
+
+http://api.themoviedb.org/3/credit/66d03a008378b206bc8842b1?api_key=df4e8c63aee8965f8a0908ac1cb64a10
+{
+  "id": "66d03a008378b206bc8842b1",
+	"credit_type": "cast",
+	"department": "Acting",
+	"job": "Actor",
+	"character": "Milhouse Van Houten (voice)",
+	"person": {
+    "adult": false,
+    "id": 6009,
+    "name": "Pamela Hayden",
+    "original_name": "Pamela Hayden",
+    "media_type": "person",
+    "popularity": 0.1762,
+    "gender": 1,
+    "known_for_department": "Acting",
+    "profile_path": "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg"
+  },
+	"media": {
+	  "adult": false,
+	  "backdrop_path": "/pxeqQX4qFQ0cVxPt5SWZENV5BH3.jpg",
+	  "id": 456,
+	  "name": "The Simpsons",
+	  "overview": "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
+    "poster_path": "/uWpG7GqfKGQqX4YMAo3nv5OrglV.jpg",
+    "media_type": "tv",
+    "first_air_date": "1989-12-17",
+    "vote_average": 8,
+	},
+	"episodes": [
+	{
+		"id": 62728,
+		"name": "Them, Robot",
+		"overview": "When Mr. Burn replaces most of the plant's employees with robots that end up turning on the community, the people he laid off must come to the rescue.",
+		"media_type": "tv_episode",
+		"air_date": "2012-03-18",
+		show_id": 456,
+		"season_number": 23,
+		"episode_number": 17,
+	},
+	{
+		"id": 1001517,
+		"name": "Opposites A-Frack",
+		"overview": "Lisa brings in assembly woman Maxine Lombard to put a stop to Mr. Burns' fracking operation, but is taken aback when the two political opponents find themselves attracted to one another.",
+		"media_type": "tv_episode",
+		"air_date": "2014-11-02",
+		"episode_number": 5,
+		"episode_type": "standard",
+		"season_number": 26,
+		"show_id": 456,
+	},	
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Changes
+
+There are three main endpoints you can call to get a list of changed IDs. The movie, person and TV change lists. These endpoints will return a 
+list of items that have been changed in the past 24 hours (by default but can be extended to 14 days). With an ID in hand, you can then call the 
+individual item's change history.
+
+http://api.themoviedb.org/3/movie/changes?page=1&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+or
+https://api.themoviedb.org/3/movie/changes?page=1&start_date=2025-08-22&end_date=2025-08-22&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+http://api.themoviedb.org/3/movie/changes?page=1&start_date=2025-08-21&end_date=2025-08-22&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+
+
