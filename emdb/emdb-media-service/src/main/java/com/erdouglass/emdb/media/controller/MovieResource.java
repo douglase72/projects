@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -48,6 +49,7 @@ public class MovieResource {
   /// @param uriInfo context object used to build the `Location` URI for new resources
   /// @return a [Response] containing the appropriate HTTP status and [MovieDto] payload
   @POST
+  @RolesAllowed(Configuration.ADMIN)
   public Response save(@NotNull @Valid SaveMovie command, @Context UriInfo uriInfo) {
     var result = service.save(command);
     if (result.status() == Status.CREATED) {
@@ -66,6 +68,7 @@ public class MovieResource {
   /// @return the requested [MovieDto]
   @GET
   @Path("/{id}")
+  @RolesAllowed(Configuration.USER)
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {

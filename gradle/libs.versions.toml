@@ -3,6 +3,7 @@
 # It centralizes dependency versions and coordinates for the entire project.
 
 [versions]
+dotenv = "3.0.0"
 guava = "33.5.0-jre"
 jakarta-data = "1.0.1"
 jakartaee-platform = "11.0.0"
@@ -12,13 +13,16 @@ micometer = "1.4.7"
 microprofile-config="3.1"
 microprofile-fault-tolerance = "4.0.2"
 opentelemetry = "1.40.0"
-quarkus = "3.32.1"
+quarkus = "3.32.2"
 quarkus-logging-json = "3.3.1"
 slf4j = "2.0.17"
 zstd-jni = "1.5.5-11"
 
 [libraries]
 awaitility = { group = "org.awaitility", name = "awaitility" } 
+
+# Dotenv
+dotenv = { group = "io.github.cdimascio", name = "dotenv-java", version.ref = "dotenv" }
 
 # Flyway
 flyway-database-postgres = { group = "org.flywaydb", name = "flyway-database-postgresql" } 
@@ -68,11 +72,13 @@ quarkus-junit5-mockito = { group = "io.quarkus", name = "quarkus-junit5-mockito"
 quarkus-kafka = { group = "io.quarkus", name = "quarkus-messaging-kafka" }
 quarkus-logging = { group = "io.quarkiverse.loggingjson", name = "quarkus-logging-json", version.ref = "quarkus-logging-json" }
 quarkus-micrometer = { group = "io.quarkus", name = "quarkus-micrometer" }
+quarkus-oidc = { group = "io.quarkus", name = "quarkus-oidc" }
 quarkus-opentelemetry = { group = "io.quarkus", name = "quarkus-opentelemetry" }
 quarkus-prometheus = { group = "io.quarkus", name = "quarkus-micrometer-registry-prometheus" }
 quarkus-rabbitmq = { group = "io.quarkus", name = "quarkus-messaging-rabbitmq" }
 quarkus-rest = { group = "io.quarkus", name = "quarkus-rest" }
 quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-client-jackson" }
+quarkus-rest-client-oidc-token-propagation = { group = "io.quarkus", name = "quarkus-rest-client-oidc-token-propagation" }
 quarkus-rest-jackson = { group = "io.quarkus", name = "quarkus-rest-jackson" }
 quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
 

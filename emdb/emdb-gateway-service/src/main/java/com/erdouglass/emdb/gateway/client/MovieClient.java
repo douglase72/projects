@@ -16,6 +16,9 @@ import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 
+import io.quarkus.oidc.token.propagation.common.AccessToken;
+
+@AccessToken
 @RegisterRestClient()
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

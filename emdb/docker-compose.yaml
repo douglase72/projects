@@ -10,6 +10,8 @@ services:
       - 60330:60310
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-gateway-service/.env
     networks:
       - projects
         

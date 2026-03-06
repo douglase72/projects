@@ -14,6 +14,8 @@ public class Configuration {
 /// The maximum allowed length for a URL string.
   public static final int URL_MAX_LENGTH = 2048;
   
+  public static final String ADMIN = "admin";
+  
   /// Query parameter key used to append additional data to API responses.
   public static final String APPEND = "append";
   
@@ -38,4 +40,6 @@ public class Configuration {
   
   /// Key representing the original state or resolution of a media asset.
   public static final String ORIGINAL = "original";
+  
+  public static final String USER = "user";
 }

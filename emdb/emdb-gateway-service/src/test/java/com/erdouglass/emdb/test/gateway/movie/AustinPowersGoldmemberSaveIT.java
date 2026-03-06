@@ -12,15 +12,26 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 
+@TestInstance(Lifecycle.PER_CLASS)
 class AustinPowersGoldmemberSaveIT extends AbstractTest {
   private static final Logger LOGGER = Logger.getLogger(AustinPowersGoldmemberSaveIT.class);
+  
+  private String token;
+  
+  @BeforeAll
+  void setupSecurity() throws IOException, InterruptedException {
+    this.token = getAccessToken();
+  }
     
   @Test
   void testSaveCommand() throws IOException, InterruptedException {
@@ -41,6 +52,7 @@ class AustinPowersGoldmemberSaveIT extends AbstractTest {
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
         .build(); 
     var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).build())
+        .header("Authorization", "Bearer " + token)
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());

@@ -15,11 +15,14 @@ dependencies {
 	implementation libs.quarkus.fault.tolerance
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.oidc 
 	implementation libs.quarkus.prometheus
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	implementation libs.quarkus.rest.client.jackson
+	implementation libs.quarkus.rest.client.oidc.token.propagation
 	
+	testImplementation libs.dotenv
 	testImplementation libs.quarkus.junit5
 }
 

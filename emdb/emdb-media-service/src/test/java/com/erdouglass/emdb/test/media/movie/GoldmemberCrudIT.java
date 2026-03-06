@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,12 @@ class GoldmemberCrudIT extends AbstractTest {
   private static final UUID POSTER = UUID.fromString("f4435126-75ca-4e44-9ceb-b414662b7164");
   
   private Long movieId;
+  private String token;
+  
+  @BeforeAll
+  void setupSecurity() throws IOException, InterruptedException {
+    this.token = getAccessToken();
+  }  
   
   @Test
   @Order(1)
@@ -53,6 +60,7 @@ class GoldmemberCrudIT extends AbstractTest {
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
         .build();
     var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(MOVIES_URL).build())
+        .header("Authorization", "Bearer " + token)
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
@@ -82,6 +90,7 @@ class GoldmemberCrudIT extends AbstractTest {
   void testFindMovie() throws IOException, InterruptedException {
     var request = HttpRequest.newBuilder()
         .uri(UriBuilder.fromUri(MOVIES_URL).path(movieId.toString()).build())
+        .header("Authorization", "Bearer " + token)
         .build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
