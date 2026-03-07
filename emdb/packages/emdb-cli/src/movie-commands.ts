@@ -3,8 +3,6 @@ import { promises as fs } from 'fs';
 
 import { useEmdb } from './services/useEmdb.js';
 import { useErrorHandler } from './composables/useErrorHandler.js';
-import { type IngestMedia, IngestSource } from '@emdb/common';
-import { MediaType } from '@emdb/common';
 import { SaveMovieSchema } from './schemas/SaveMovieSchema.js';
 
 export { movieCommand };

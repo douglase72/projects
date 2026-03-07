@@ -1,12 +1,29 @@
 import axios from 'axios';
 
-import {
-  type Movie } from '@emdb/common';
+import keycloak from '@/auth/keycloak';
+import { type Movie } from '@emdb/common';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 300000,
 });
+
+client.interceptors.request.use(
+  async (config) => {
+    if (keycloak.authenticated) {
+      try {
+        await keycloak.updateToken(30);
+        config.headers.Authorization = `Bearer ${keycloak.token}`;
+      } catch (error) {
+        console.error('Failed to refresh Keycloak token', error);
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export function useEmdbApi() {
 

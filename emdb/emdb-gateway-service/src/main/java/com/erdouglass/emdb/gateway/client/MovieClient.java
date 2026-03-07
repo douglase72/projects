@@ -18,13 +18,13 @@ import com.erdouglass.emdb.common.query.MovieDto;
 
 import io.quarkus.oidc.token.propagation.common.AccessToken;
 
-@AccessToken
 @RegisterRestClient()
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface MovieClient {
   
   @POST
+  @AccessToken
   public Response save(SaveMovie command); 
   
   @GET

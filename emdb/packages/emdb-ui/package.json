@@ -15,12 +15,13 @@
     "lint": "eslint . --fix --cache"
   },
   "dependencies": {
+    "@emdb/common": "*",
     "@fontsource-variable/montserrat": "^5.2.8",
     "@primevue/themes": "^4.5.4",
     "@tailwindcss/postcss": "^4.1.18",
     "@vee-validate/zod": "^4.15.1",
-    "@emdb/common": "*",
-    "axios": "^1.13.2",
+    "axios": "^1.13.6",
+    "keycloak-js": "^26.2.3",
     "postcss": "^8.5.6",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.4",

@@ -1,12 +1,12 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
+  <EmdbMenubar />
+
   <RouterView />
+
   <Toast />
 </template>
 
-<style scoped>
+<script setup lang="ts">
+  import EmdbMenubar from './components/EmdbMenubar.vue';
 
-</style>
+</script>

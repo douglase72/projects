@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -34,11 +33,6 @@ class GoldmemberCrudIT extends AbstractTest {
   
   private Long movieId;
   private String token;
-  
-  @BeforeAll
-  void setupSecurity() throws IOException, InterruptedException {
-    this.token = getAccessToken();
-  }  
   
   @Test
   @Order(1)

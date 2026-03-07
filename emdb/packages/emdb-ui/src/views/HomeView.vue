@@ -1,6 +1,5 @@
 <template>
-  <header class="m-4">
-    <div class="text-4xl font-bold mb-4">EMDB</div>
+  <header class="m-8">
     <div class="flex flex-col">
       <RouterLink to="/movie/1" class="hover:text-zinc-300">Movie</RouterLink>
     </div>
@@ -8,9 +7,5 @@
 </template>
 
 <script setup lang="ts">
-
+ 
 </script>
-
-<style scoped>
-
-</style>

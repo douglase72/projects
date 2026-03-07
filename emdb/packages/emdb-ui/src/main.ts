@@ -12,33 +12,36 @@ import PrimeVue from 'primevue/config';
 import Toast from 'primevue/toast';
 import ToastService from "primevue/toastservice";
 
+import keycloak from './auth/keycloak';
+
 const app = createApp(App);
 
-/*
- * Register global plugins so that they can be used any where in the application.
- */
-app.use(router);
-app.use(PrimeVue, {
-  theme: {
-    preset: Noir,
-    options: {
-      cssLayer: {
-        name: 'primevue',
-        order: 'theme, base, primevue'
-      }
-    }
-  },
-});
-app.use(ConfirmationService);
-app.use(ToastService);
+// check-sso silently checks for an existing session without forcing a login
+keycloak.init({ onLoad: 'check-sso', pkceMethod: 'S256' })
+  .then((authenticated) => {
+    const app = createApp(App);
 
-/*
- * Register global components with Vue so that they are available to the entire 
- * application.
- */
-app.component("Toast", Toast);
+    // Register global plugins so that they can be used any where in the application.
+    app.use(router);
+    app.use(PrimeVue, {
+    theme: {
+      preset: Noir,
+        options: {
+          cssLayer: {
+            name: 'primevue',
+            order: 'theme, base, primevue'
+          }
+        }
+      },
+    });
+    app.use(ConfirmationService);
+    app.use(ToastService);    
 
-/**
- * Mount the application.
- */
-app.mount('#app');
+    // Register global components with Vue so that they are available to the entire application.
+    app.component("Toast", Toast);
+
+    app.mount('#app');
+  })
+  .catch((error) => {
+    console.error('Failed to initialize Keycloak', error);
+  });

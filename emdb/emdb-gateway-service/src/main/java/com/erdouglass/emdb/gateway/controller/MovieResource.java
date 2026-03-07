@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.gateway.controller;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -28,12 +30,14 @@ public class MovieResource {
   MovieClient client;
   
   @POST
+  @RolesAllowed(Configuration.ADMIN) 
   public Response save(SaveMovie command) {
     return client.save(command);
   }
   
   @GET
   @Path("/{id}")
+  @PermitAll
   public MovieDto findById(@PathParam("id") Long id, @QueryParam(Configuration.APPEND) String append) {
     return client.findById(id, append);
   }
