@@ -70,6 +70,12 @@ const Noir = definePreset(Aura, {
         }
       }
     },
+    button: {
+      root: {
+        paddingY: '0.375rem',
+        paddingX: '0.625rem'
+      }
+    },
   },
 });
 

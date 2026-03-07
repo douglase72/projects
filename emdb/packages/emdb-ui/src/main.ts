@@ -16,32 +16,34 @@ import keycloak from './auth/keycloak';
 
 const app = createApp(App);
 
-// check-sso silently checks for an existing session without forcing a login
-keycloak.init({ onLoad: 'check-sso', pkceMethod: 'S256' })
+// Register global plugins so that they can be used any where in the application.
+app.use(router);
+app.use(PrimeVue, {
+  theme: {
+    preset: Noir,
+    options: {
+      cssLayer: {
+        name: 'primevue',
+        order: 'theme, base, primevue'
+      }
+    }
+  },
+});
+app.use(ConfirmationService);
+app.use(ToastService);  
+app.component("Toast", Toast);
+
+keycloak.init({ 
+  onLoad: 'check-sso', 
+  pkceMethod: 'S256',
+})
   .then((authenticated) => {
-    const app = createApp(App);
-
-    // Register global plugins so that they can be used any where in the application.
-    app.use(router);
-    app.use(PrimeVue, {
-    theme: {
-      preset: Noir,
-        options: {
-          cssLayer: {
-            name: 'primevue',
-            order: 'theme, base, primevue'
-          }
-        }
-      },
-    });
-    app.use(ConfirmationService);
-    app.use(ToastService);    
-
-    // Register global components with Vue so that they are available to the entire application.
-    app.component("Toast", Toast);
-
-    app.mount('#app');
+    console.log(authenticated ? 'Authenticated' : 'Not Authenticated');
   })
   .catch((error) => {
-    console.error('Failed to initialize Keycloak', error);
+    console.warn('Keycloak initialization returned an error, proceeding as unauthenticated:', error);
+    keycloak.clearToken();
+  })
+  .finally(() => {
+    app.mount('#app');
   });

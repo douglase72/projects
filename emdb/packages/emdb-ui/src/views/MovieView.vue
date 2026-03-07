@@ -1,12 +1,4 @@
 <template>
-  <header class="m-8">
-    <div class="flex flex-col">
-      <RouterLink v-if="movie" :to="`/movie/${movie.id}/edit`" class="hover:text-zinc-300">
-        Movie Edit
-      </RouterLink>
-    </div>
-  </header>
-
   <main class="m-8">
     <section v-if="movie" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
@@ -44,13 +36,18 @@
       <div>Overview</div>
       <div>{{ movie.overview }}</div>
     </section>
+
+    <Button label="Edit" 
+            v-if="movie && isAdmin" 
+            @click="router.push({ name: 'MovieEdit', params: { id: movie.id } })" />
   </main>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
 
+  import keycloak from '@/auth/keycloak';
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
@@ -63,6 +60,10 @@
   const router = useRouter();
 
   const movie = ref<Movie>();
+
+  const isAdmin = computed(() => {
+    return keycloak.authenticated && keycloak.hasRealmRole('admin');
+  });
 
   onMounted(async () => {
     const id = Number(route.params.id);

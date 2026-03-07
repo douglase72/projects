@@ -17,8 +17,9 @@ client.interceptors.request.use(
         await keycloak.updateToken(30);
         config.headers.Authorization = `Bearer ${keycloak.token}`;
       } catch (error) {
-        console.error('Failed to refresh Keycloak token', error);
         keycloak.clearToken();
+        keycloak.login();
+        return Promise.reject(error);
       }
     }
     return config;
