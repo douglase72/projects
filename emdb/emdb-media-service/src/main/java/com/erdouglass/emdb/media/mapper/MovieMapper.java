@@ -10,6 +10,7 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.entity.Movie;
 
@@ -26,6 +27,11 @@ import com.erdouglass.emdb.media.entity.Movie;
 public interface MovieMapper {
   
   void merge(SaveMovie command, @MappingTarget Movie movie);
+  
+  @Mapping(target = "tmdbBackdrop", ignore = true)
+  @Mapping(target = "tmdbPoster", ignore = true)
+  @Mapping(target = "tmdbId", ignore = true)
+  void merge(UpdateMovie command, @MappingTarget Movie movie);
   
   Movie toMovie(SaveMovie command);
   

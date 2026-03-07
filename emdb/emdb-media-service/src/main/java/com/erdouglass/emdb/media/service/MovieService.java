@@ -1,15 +1,13 @@
 package com.erdouglass.emdb.media.service;
 
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import org.eclipse.microprofile.faulttolerance.Timeout;
-
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.Status;
@@ -55,16 +53,9 @@ public class MovieService {
     return SaveResult.of(status, savedMovie);
   }
   
-  /// Finds a movie by its internal ID, optionally appending extra data.
-  ///
-  /// @param id     the internal ID of the movie to fetch
-  /// @param append a string indicating what extra data to fetch (e.g., `credits`)
-  /// @return a mapped [MovieDto] of the found entity
-  /// @throws ResourceNotFoundException if no movie matches the provided `id`
   @Transactional
   @LogDuration("Found:")
-  @Timeout(value = 1, unit = ChronoUnit.SECONDS)
-  public Optional<Movie> findById(Long id, String append) {
+  public Optional<Movie> findById(Long id) {
     return repository.findById(id);
   }
   
@@ -73,5 +64,30 @@ public class MovieService {
   public Optional<Movie> findByTmdbId(Integer id) {
     return repository.findByTmdbId(id);
   }
+  
+  /// Updates an existing movie with new information while retaining its core IDs.
+  ///
+  /// @param id      the internal ID of the movie being updated
+  /// @param command the payload containing the new movie data
+  /// @return a mapped [MovieDto] representing the updated entity  
+  @Transactional
+  @LogDuration("Updated:")
+  public Movie update(Long id, UpdateMovie command) {
+    var existingMovie = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    mapper.merge(command, existingMovie);
+    return repository.update(existingMovie);
+  }
+  
+  /// Deletes an existing movie by its ID.
+  ///
+  /// @param id the internal ID of the movie to remove
+  @Transactional
+  @LogDuration("Deleted")
+  public void deleteById(Long id) {
+    var movie = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    repository.delete(movie);
+  }  
   
 }

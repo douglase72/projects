@@ -1,8 +1,9 @@
 <template>
-  <header class="m-4">
-    <div class="text-4xl font-bold mb-4">Movie</div>
+  <header class="m-8">
     <div class="flex flex-col">
-      <RouterLink to="/" class="hover:text-zinc-300">Home</RouterLink>
+      <RouterLink v-if="movie" :to="`/movie/${movie.id}/edit`" class="hover:text-zinc-300">
+        Movie Edit
+      </RouterLink>
     </div>
   </header>
 

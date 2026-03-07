@@ -1,12 +1,16 @@
 package com.erdouglass.emdb.media.controller;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -18,6 +22,7 @@ import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.dto.SaveResult.Status;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
@@ -28,6 +33,7 @@ import com.erdouglass.webservices.ResourceNotFoundException;
 ///
 /// Exposes endpoints to create, retrieve, update, and delete movies.
 @Path("/movies")
+@RolesAllowed(Configuration.ADMIN)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
@@ -66,12 +72,28 @@ public class MovieResource {
   /// @return the requested [MovieDto]
   @GET
   @Path("/{id}")
+  @PermitAll
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id,
       @QueryParam(Configuration.APPEND) String append) {
-    var movie = service.findById(id, append)
+    var movie = service.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
     return mapper.toMovieDto(movie);
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public MovieDto update(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @NotNull @Valid UpdateMovie command) {
+    return mapper.toMovieDto(service.update(id, command));
+  }
+  
+  @DELETE
+  @Path("/{id}")
+  public Response deleteById(@PathParam("id") @NotNull @Positive Long id) {
+    service.deleteById(id);
+    return Response.noContent().build();
   }
   
 }

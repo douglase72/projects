@@ -25,6 +25,7 @@ dependencies {
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.oidc 
 	implementation libs.quarkus.prometheus
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
