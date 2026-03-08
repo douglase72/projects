@@ -20,7 +20,7 @@ dependencies {
 	implementation libs.quarkus.rest.jackson
 	implementation libs.quarkus.scheduler
 	
-	testImplementation libs.quarkus.junit5
+	testImplementation libs.quarkus.junit
 }
 
 group = 'com.erdouglass.emdb'

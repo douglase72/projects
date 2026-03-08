@@ -63,12 +63,13 @@ quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref
 quarkus-context-propagation = { group = "io.quarkus", name = "quarkus-smallrye-context-propagation" }
 quarkus-fault-tolerance = { group = "io.quarkus", name = "quarkus-smallrye-fault-tolerance" }
 quarkus-flyway = { group = "io.quarkus", name = "quarkus-flyway" }
+quarkus-grpc = { group = "io.quarkus", name = "quarkus-grpc" }
 quarkus-hibernate-orm = { group = "io.quarkus", name = "quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { group = "io.quarkus", name = "quarkus-hibernate-validator" }
 quarkus-jackson = { group = "io.quarkus", name = "quarkus-jackson" }
 quarkus-jdbc-postgres = { group = "io.quarkus", name = "quarkus-jdbc-postgresql" }
-quarkus-junit5 = { group = "io.quarkus", name = "quarkus-junit5" }
-quarkus-junit5-mockito = { group = "io.quarkus", name = "quarkus-junit5-mockito" }
+quarkus-junit = { group = "io.quarkus", name = "quarkus-junit" }
+quarkus-junit-component = { group = "io.quarkus", name = "quarkus-junit-component" }
 quarkus-kafka = { group = "io.quarkus", name = "quarkus-messaging-kafka" }
 quarkus-logging = { group = "io.quarkiverse.loggingjson", name = "quarkus-logging-json", version.ref = "quarkus-logging-json" }
 quarkus-micrometer = { group = "io.quarkus", name = "quarkus-micrometer" }

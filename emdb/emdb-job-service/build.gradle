@@ -23,7 +23,7 @@ dependencies {
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	
-	testImplementation libs.quarkus.junit5
+	testImplementation libs.quarkus.junit
 }
 
 group = 'com.erdouglass.emdb'

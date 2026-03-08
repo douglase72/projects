@@ -3,17 +3,11 @@ plugins {
 }
 
 dependencies {
+  implementation enforcedPlatform(libs.quarkus.bom)
 	implementation platform(libs.jakarta.bom)
-	implementation platform(libs.opentelemetry.bom)
-	implementation platform(libs.quarkus.bom) 
 	
-	compileOnly libs.jakarta.validation
+	compileOnly libs.jakarta.cdi
 	compileOnly libs.jakarta.ws.rs
-  compileOnly libs.microprofile.config
-  compileOnly libs.quarkus.fault.tolerance 
+	compileOnly libs.quarkus.grpc
 	compileOnly libs.slf4j.api
-	
-	implementation libs.jakarta.data
-	implementation libs.microprofile.fault.tolerance  
-	implementation libs.opentelemetry.api
 }

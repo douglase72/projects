@@ -4,46 +4,37 @@ plugins {
   alias(libs.plugins.quarkus)
 }
 
-dependencies {
-	implementation enforcedPlatform(libs.quarkus.bom)
-	
-	annotationProcessor enforcedPlatform(libs.quarkus.bom)
-	annotationProcessor libs.hibernate.jpamodelgen
-	annotationProcessor libs.mapstruct.processor
-	
-	implementation project(':emdb-common')
-	implementation project(':emdb-scraper')
-	implementation project(':web-services')
-	
-	implementation libs.jakarta.data
-	implementation libs.jug
-	implementation libs.mapstruct
-	implementation libs.quarkus.arc
-	implementation libs.quarkus.fault.tolerance
-	implementation libs.quarkus.flyway
-	implementation libs.quarkus.hibernate.orm
-	implementation libs.quarkus.hibernate.validator
-	implementation libs.quarkus.jdbc.postgres
-	implementation libs.quarkus.logging
-	implementation libs.quarkus.oidc 
-	implementation libs.quarkus.prometheus
-	implementation libs.quarkus.rabbitmq
-	implementation libs.quarkus.rest.jackson
-	implementation libs.quarkus.rest.client.jackson
-	
-	testImplementation libs.dotenv
-	testImplementation libs.flyway.database.postgres
-	testImplementation libs.quarkus.junit5
-}
-
 group = 'com.erdouglass.emdb'
 version = '1.0.0-SNAPSHOT'
 
-eclipse {
-  classpath {
-    file.whenMerged { classpath ->
-      def generatedSrcDir = 'build/generated/sources/annotationProcessor/java/main'
-      classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(generatedSrcDir, null))
+dependencies {
+	implementation enforcedPlatform(libs.quarkus.bom)
+	
+	annotationProcessor libs.mapstruct.processor
+	
+	implementation project(':emdb-common')
+	
+	implementation libs.mapstruct
+	implementation libs.quarkus.arc
+	implementation libs.quarkus.grpc
+	
+	testImplementation libs.quarkus.junit
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs += 'build/classes/java/quarkus-generated-sources/grpc'
     }
   }
+}
+
+test {
+  useJUnitPlatform()
+    
+  jvmArgs(
+    '-XX:+EnableDynamicAgentLoading',
+    '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+    '--enable-native-access=ALL-UNNAMED'
+  )
 }

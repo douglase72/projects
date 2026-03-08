@@ -5,7 +5,6 @@ public abstract class AbstractShowBuilder<T> {
   protected String originalLanguage;
   protected String overview;  
   protected Float score;
-  protected ShowStatus status;
   protected String tagline;
   protected String title;
 
@@ -26,11 +25,6 @@ public abstract class AbstractShowBuilder<T> {
 
   public T score(Float score) {
     this.score = score;
-    return self();
-  }
-
-  public T status(ShowStatus status) {
-    this.status = status;
     return self();
   }
 

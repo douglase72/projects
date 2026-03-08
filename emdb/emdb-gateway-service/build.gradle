@@ -3,28 +3,22 @@ plugins {
   alias(libs.plugins.quarkus)
 }
 
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
 dependencies {
 	implementation enforcedPlatform(libs.quarkus.bom)
+	
+	annotationProcessor libs.mapstruct.processor
 	
 	implementation project(':emdb-common')
 	implementation project(':web-services')
 	
-	implementation libs.jug
-	
+	implementation libs.mapstruct
 	implementation libs.quarkus.arc
-	implementation libs.quarkus.fault.tolerance
+	implementation libs.quarkus.grpc
 	implementation libs.quarkus.hibernate.validator
-	implementation libs.quarkus.logging
-	implementation libs.quarkus.oidc 
-	implementation libs.quarkus.prometheus
-	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
-	implementation libs.quarkus.rest.client.jackson
-	implementation libs.quarkus.rest.client.oidc.token.propagation
 	
-	testImplementation libs.dotenv
-	testImplementation libs.quarkus.junit5
+	testImplementation libs.quarkus.junit
 }
-
-group = 'com.erdouglass.emdb'
-version = '1.0.0-SNAPSHOT'
