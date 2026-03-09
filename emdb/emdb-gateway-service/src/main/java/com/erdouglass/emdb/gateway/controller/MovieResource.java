@@ -27,9 +27,9 @@ public class MovieResource {
   
   @POST
   public Response save(SaveMovie command) {
-    var request = mapper.toSaveMovieRequest(command);    
-    var response = mapper.toMovieDto(service.save(request).await().indefinitely());    
-    return Response.ok(response).build();
+    var request = mapper.toSaveMovieRequest(command);
+    var response = service.save(request).await().indefinitely();
+    return Response.ok(mapper.toMovieDto(response)).build();
   }
   
 }

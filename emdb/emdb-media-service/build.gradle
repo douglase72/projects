@@ -13,10 +13,14 @@ dependencies {
 	annotationProcessor libs.mapstruct.processor
 	
 	implementation project(':emdb-common')
+	implementation project(':web-services')
 	
 	implementation libs.mapstruct
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.grpc
+	implementation libs.quarkus.hibernate.validator
+	implementation libs.quarkus.jackson
+	implementation libs.quarkus.logging
 	
 	testImplementation libs.quarkus.junit
 }

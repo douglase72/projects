@@ -9,8 +9,12 @@ version = '1.0.0-SNAPSHOT'
 dependencies {
   implementation enforcedPlatform(libs.quarkus.bom)
   
-  implementation libs.quarkus.grpc 
-  implementation libs.quarkus.hibernate.validator
+  api project(':validation')
+  
+  compileOnly libs.jackson.annotations
+  compileOnly libs.jakarta.validation
+  
+  implementation libs.quarkus.grpc
 }
 
 sourceSets {

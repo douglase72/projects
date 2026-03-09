@@ -33,6 +33,9 @@ guava = { module = "com.google.guava:guava", version.ref = "guava" }
 # Hibernate
 hibernate-jpamodelgen = { group = "org.hibernate.orm", name = "hibernate-jpamodelgen" }
 
+# Jackson
+jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations" }
+
 # Jakarta EE
 jakarta-bom = { group = "jakarta.platform", name = "jakarta.jakartaee-bom", version.ref = "jakartaee-platform" }
 jakarta-cdi = { group = "jakarta.enterprise", name = "jakarta.enterprise.cdi-api" }

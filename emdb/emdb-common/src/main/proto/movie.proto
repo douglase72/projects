@@ -10,16 +10,51 @@ service MovieService {
   rpc Save (SaveMovieRequest) returns (MovieResponse) {}
 }
 
+enum ShowStatus {
+  SHOW_STATUS_UNSPECIFIED = 0;
+  CANCELED = 1;
+  ENDED = 2;
+  IN_PRODUCTION = 3;
+  PILOT = 4;
+  PLANNED = 5;
+  POST_PRODUCTION = 6;
+  RELEASED = 7;
+  RETURNING_SERIES = 8;
+  RUMORED = 9;
+}
+
 message SaveMovieRequest {
   int32 tmdb_id = 1;
   string title = 2;
-  string release_date = 3;
+  optional string release_date = 3;
+  optional float score = 4;
+  optional ShowStatus status = 5;
+  optional int32 runtime = 6;
+  optional int32 budget = 7;
+  optional int32 revenue = 8;
+  optional string backdrop = 9;
+  optional string poster = 10;
+  optional string homepage = 11;
+  optional string original_language = 12;
+  optional string tagline = 13;
+  optional string overview = 14;
 }
 
 message MovieResponse {
   int64 id = 1;
   int32 tmdb_id = 2;
   string title = 3;
-  string release_date = 4;
+  optional string release_date = 4;
+  optional float score = 5;
+  optional ShowStatus status = 6; 
+  optional int32 runtime = 7;
+  optional int32 budget = 8;
+  optional int32 revenue = 9;
+  optional string backdrop = 10;
+  optional string poster = 11;
+  optional string homepage = 12;
+  optional string original_language = 13;
+  optional string tagline = 14;
+  optional string overview = 15;
 }
 

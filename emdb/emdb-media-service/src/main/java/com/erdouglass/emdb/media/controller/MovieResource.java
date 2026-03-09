@@ -2,7 +2,6 @@ package com.erdouglass.emdb.media.controller;
 
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
@@ -25,8 +24,9 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   @Override
   @RunOnVirtualThread
   public void save(SaveMovieRequest request, StreamObserver<MovieResponse> responseObserver) {
-    Movie movie = service.save(request);
-    MovieResponse response = mapper.toMovieDto(movie);
+    var command = mapper.toSaveMovie(request);
+    var movie = service.save(command);
+    var response = mapper.toMovieResponse(movie);
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }

@@ -7,6 +7,7 @@ dependencies {
 	implementation platform(libs.jakarta.bom)
 	
 	compileOnly libs.jakarta.cdi
+	compileOnly libs.jakarta.validation
 	compileOnly libs.jakarta.ws.rs
 	compileOnly libs.quarkus.grpc
 	compileOnly libs.slf4j.api

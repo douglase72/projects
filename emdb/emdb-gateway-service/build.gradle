@@ -18,6 +18,7 @@ dependencies {
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.grpc
 	implementation libs.quarkus.hibernate.validator
+	implementation libs.quarkus.logging
 	implementation libs.quarkus.rest.jackson
 	
 	testImplementation libs.quarkus.junit
