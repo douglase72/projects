@@ -8,6 +8,7 @@ package emdb.media.v1;
 
 service MovieService {
   rpc Save (SaveMovieRequest) returns (MovieResponse) {}
+  rpc FindById (FindMovieRequest) returns (MovieResponse) {}
 }
 
 enum ShowStatus {
@@ -21,6 +22,11 @@ enum ShowStatus {
   RELEASED = 7;
   RETURNING_SERIES = 8;
   RUMORED = 9;
+}
+
+message FindMovieRequest {
+  int64 id = 1;
+  optional string append = 2;
 }
 
 message SaveMovieRequest {

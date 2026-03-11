@@ -5,6 +5,7 @@ import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.ValueMapping;
@@ -12,17 +13,21 @@ import org.mapstruct.ValueMapping;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
+import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 
 @Mapper(
     componentModel = "cdi", 
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS 
 )
 public interface MovieMapper {
 
   SaveMovieRequest toSaveMovieRequest(SaveMovie command);
+  
+  FindMovieRequest toFindMovieRequest(Long id, String append);
 
   @Mapping(target = "backdrop", expression = "java(response.hasBackdrop() ? response.getBackdrop() + \".jpg\" : null)")
   @Mapping(target = "poster", expression = "java(response.hasPoster() ? response.getPoster() + \".jpg\" : null)")

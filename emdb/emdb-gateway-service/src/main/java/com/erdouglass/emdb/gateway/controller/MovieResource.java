@@ -2,13 +2,18 @@ package com.erdouglass.emdb.gateway.controller;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.gateway.mapper.MovieMapper;
 import com.erdouglass.emdb.media.proto.v1.MovieService;
 
@@ -31,5 +36,12 @@ public class MovieResource {
     var response = service.save(request).await().indefinitely();
     return Response.ok(mapper.toMovieDto(response)).build();
   }
+  
+  @GET
+  @Path("/{id}")
+  public MovieDto findById(@PathParam("id") Long id, @QueryParam(Configuration.APPEND) String append) {
+    var response = service.findById(mapper.toFindMovieRequest(id, append)).await().indefinitely();
+    return mapper.toMovieDto(response);
+  } 
   
 }
