@@ -4,6 +4,7 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -22,6 +23,8 @@ import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 public interface MovieMapper {
+  
+  void merge(SaveMovie command, @MappingTarget Movie movie);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);

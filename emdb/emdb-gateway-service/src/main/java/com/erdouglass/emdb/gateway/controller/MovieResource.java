@@ -9,7 +9,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
@@ -31,10 +30,10 @@ public class MovieResource {
   MovieService service;
   
   @POST
-  public Response save(SaveMovie command) {
+  public MovieDto save(SaveMovie command) {
     var request = mapper.toSaveMovieRequest(command);
     var response = service.save(request).await().indefinitely();
-    return Response.ok(mapper.toMovieDto(response)).build();
+    return mapper.toMovieDto(response);
   }
   
   @GET

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.media.proto.v1";
+option java_outer_classname = "PersonProto";
+
+package emdb.media.v1;
+
+service PersonService {
+  rpc Save (SavePersonRequest) returns (PersonResponse) {}
+}
+
+enum Gender {
+  GENDER_UNSPECIFIED = 0;
+  UNKNOWN = 1;
+  FEMALE = 2;
+  MALE = 3;
+  NON_BINARY = 4;
+}
+
+message SavePersonRequest {
+  int32 tmdb_id = 1;
+  string name = 2;
+  optional string birth_date = 3;
+  optional string death_date = 4;
+  optional Gender gender = 5;
+  optional string profile = 6;
+  optional string Birth_place = 7;
+  optional string biography = 8;
+}
+
+message PersonResponse {
+  int64 id = 1;
+  int32 tmdb_id = 2;
+  string name = 3;
+  optional string birth_date = 4;
+  optional string death_date = 5;
+  optional Gender gender = 6;
+  optional string profile = 7;
+  optional string Birth_place = 8;
+  optional string biography = 9;
+}
+

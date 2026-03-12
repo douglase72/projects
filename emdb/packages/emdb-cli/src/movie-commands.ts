@@ -58,11 +58,11 @@ async function save(fileName: string) {
     }
     const { saveMovie } = useEmdb();
     const start = performance.now();
-    const { movie, status } = await saveMovie(parsed.data);
+    const movie = await saveMovie(parsed.data);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
-    console.log(`${status} ${movie.title} in: ${et} ms.`);    
+    console.log(`Saved ${movie.title} in: ${et} ms.`);    
     console.log(movie);
   } catch (error: any) {
     handleError(error);

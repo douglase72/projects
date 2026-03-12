@@ -9,34 +9,39 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-import org.jboss.logging.Logger;
-
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.media.entity.Movie;
+import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.repository.MovieRepository;
 
 @ApplicationScoped
 public class MovieService {
-  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
   
   @Inject
   MovieMapper mapper;
   
   @Inject
-  MovieRepository respository;
+  MovieRepository repository;
   
   @Transactional
+  @LogDuration("Saved:")
   public Movie save(@NotNull @Valid SaveMovie command) {
-    var savedMovie = respository.save(mapper.toMovie(command));
-    LOGGER.infof("Saved: %s", savedMovie);
+    Movie savedMovie;
+    var existingMovie = repository.findByTmdbId(command.tmdbId()).orElse(null);
+    if (existingMovie == null) {
+      savedMovie = repository.insert(mapper.toMovie(command));
+    } else {
+      mapper.merge(command, existingMovie);
+      savedMovie = repository.update(existingMovie);
+    }
     return savedMovie;
   }
   
   @Transactional
+  @LogDuration("Found:")
   public Optional<Movie> findById(@NotNull @Positive Long id, String append) {
-    var movie = respository.findById(id);
-    movie.ifPresent(m -> LOGGER.infof("Found: %s", m));
+    var movie = repository.findById(id);
     return movie;
   }
 

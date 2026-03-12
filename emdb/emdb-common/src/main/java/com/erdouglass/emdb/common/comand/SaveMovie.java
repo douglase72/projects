@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -36,7 +37,7 @@ import com.erdouglass.validation.DateRange;
 /// @param overview         a detailed plot summary
 public record SaveMovie(
     @NotNull @Positive Integer tmdbId,
-    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
+    @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
     @Min(0) @Max(10) Float score,
     ShowStatus status,

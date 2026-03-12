@@ -23,7 +23,7 @@ import com.fasterxml.uuid.Generators;
 /// ensures entities can be safely placed in `HashSet`s prior to persistence
 /// without degrading database insert performance via index fragmentatition.
 @MappedSuperclass
-public abstract class SequenceEntity<T> {
+public abstract class SequenceEntity {
   public static final String SEQUENCE_GENERATOR = "sequence_generator";
 
   /// The timestamp when this entity was first persisted. This is automatically
@@ -37,7 +37,7 @@ public abstract class SequenceEntity<T> {
   /// makes it easy for users to discover and link to content.
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_GENERATOR)
-  private T id;
+  private Long id;
 
   /// The timestamp when this entity was last updated. This is automatically
   /// managed by Hibernate.
@@ -57,7 +57,7 @@ public abstract class SequenceEntity<T> {
     return created;
   }
 
-  public T getId() {
+  public Long getId() {
     return id;
   }
 
@@ -69,7 +69,7 @@ public abstract class SequenceEntity<T> {
   public boolean equals(Object o) {
     if (this == o)
       return true;
-    if (!(o instanceof SequenceEntity<?> other))
+    if (!(o instanceof SequenceEntity other))
       return false;
     return uid != null && uid.equals(other.uid);
   }

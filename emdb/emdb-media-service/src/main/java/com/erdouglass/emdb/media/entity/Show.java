@@ -25,7 +25,7 @@ import com.erdouglass.emdb.common.ShowStatus;
 /// It extends [SequenceEntity] to inherit surrogate identity management and
 /// auditing timestamps. 
 @MappedSuperclass
-public class Show extends SequenceEntity<Long> {
+public class Show extends SequenceEntity {
   
   @Column(unique = true)
   private UUID backdrop;
@@ -38,7 +38,6 @@ public class Show extends SequenceEntity<Long> {
   private String originalLanguage;
   
   @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH)
-  @Column(length = ShowConstants.OVERVIEW_MAX_LENGTH)
   private String overview;
   
   @Column(unique = true)

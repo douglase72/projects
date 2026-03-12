@@ -81,11 +81,6 @@ public class Movie extends Show {
         + ", relaseDate=" + getReleaseDate()
         + ", score=" + getScore()
         + ", status=" + getStatus()
-        + ", runtime=" + getRuntime()
-        + ", budget=" + getBudget()
-        + ", revenue=" + getRevenue()
-        + ", backdrop=" + getBackdrop()
-        + ", poster=" + getPoster()
         + "]";
   }
 

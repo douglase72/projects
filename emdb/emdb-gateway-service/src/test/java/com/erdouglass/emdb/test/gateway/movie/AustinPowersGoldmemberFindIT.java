@@ -23,8 +23,8 @@ import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
-@
-TestInstance(Lifecycle.PER_CLASS)
+
+@TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AustinPowersGoldmemberFindIT extends AbstractTest {
   private static final Logger LOGGER = Logger.getLogger(AustinPowersGoldmemberFindIT.class);

@@ -54,12 +54,9 @@ export function useEmdb() {
     return movie;
   };
 
-  const saveMovie = async (command: SaveMovie): Promise<{ movie: Movie; status: MovieStatus }> => {
-    const response = await client.post<Movie>('/movies', command);
-    return { 
-      movie: response.data, 
-      status: response.status === 201 ? MovieStatus.CREATED : MovieStatus.UPDATED, 
-    };
+  const saveMovie = async (command: SaveMovie): Promise<Movie> => {
+    const { data: movie } = await client.post<Movie>('/movies', command);
+    return movie;
   };
 
   const updateMovie = async (id:number, command: UpdateMovie): Promise<Movie> => {
