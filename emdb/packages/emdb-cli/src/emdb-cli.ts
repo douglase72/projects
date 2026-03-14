@@ -11,6 +11,7 @@ const envPath = path.resolve(__dirname, '../.env');
 dotenv.config({ path: envPath });
 
 import { movieCommand } from './movie-commands.js';
+import { personCommand } from './person-commands.js';
 
 const program = new Command();
 
@@ -19,4 +20,5 @@ program
   .description('An EMDB command line interface')
   .version('1.0.0');
 program.addCommand(movieCommand);
+program.addCommand(personCommand);
 program.parse(process.argv);

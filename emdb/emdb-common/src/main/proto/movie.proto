@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "common.proto";
+
 option java_multiple_files = true;
 option java_package = "com.erdouglass.emdb.media.proto.v1";
 option java_outer_classname = "MovieProto";
@@ -7,7 +9,7 @@ option java_outer_classname = "MovieProto";
 package emdb.media.v1;
 
 service MovieService {
-  rpc Save (SaveMovieRequest) returns (MovieResponse) {}
+  rpc Save (SaveMovieRequest) returns (SaveMovieResponse) {}
   rpc FindById (FindMovieRequest) returns (MovieResponse) {}
 }
 
@@ -62,5 +64,10 @@ message MovieResponse {
   optional string original_language = 13;
   optional string tagline = 14;
   optional string overview = 15;
+}
+
+message SaveMovieResponse {
+  SaveStatus status = 1;
+  MovieResponse movie = 2;
 }
 

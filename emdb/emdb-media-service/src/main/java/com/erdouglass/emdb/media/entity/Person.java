@@ -132,12 +132,15 @@ public class Person extends SequenceEntity {
   
   @Override
   public String toString() {
-    return "Person[id=" + getId() 
-    + ", tmdbId=" + getTmdbId() 
+    return "Person[" 
+    + "tmdbId=" + getTmdbId() 
     + ", name=" + getName() 
     + ", birthDate=" + getBirthDate()
     + ", deathDate=" + getDeathDate() 
+    + ", gender=" + getGender()
+    + ", profile=" + getProfile()
+    + ", birthPlace=" + getBirthPlace()
     + "]";
-  }  
+  } 
   
 }

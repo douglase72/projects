@@ -29,12 +29,16 @@ public record SavePerson(
   
   @Override
   public String toString() {
-    return "SavePerson[tmdbId=" + tmdbId
-            + ", name=" + name
-            + ", birthDate=" + birthDate
-            + ", deathDate=" + deathDate
-            + "]";
-  }
+    return "Person[" 
+    + "tmdbId=" + tmdbId() 
+    + ", name=" + name() 
+    + ", birthDate=" + birthDate()
+    + ", deathDate=" + deathDate() 
+    + ", gender=" + gender()
+    + ", profile=" + profile()
+    + ", birthPlace=" + birthPlace()
+    + "]";
+  } 
   
   public static final class Builder extends AbstractPersonBuilder<Builder> {
     private UUID profile;

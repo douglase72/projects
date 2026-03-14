@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PersonSchema } from './PersonSchema.js';
+import { SavePersonSchema } from './SavePersonSchema.js';
 import { SeriesType, ShowStatus } from '@emdb/common';
 
 export const SaveSeriesSchema = z.object({
@@ -19,7 +19,7 @@ export const SaveSeriesSchema = z.object({
   overview: z.string().nullable(),
   credits: z.object({
     cast: z.array(z.object({
-      person: PersonSchema,
+      person: SavePersonSchema,
       roles: z.array(z.object({
         character: z.string(),
         episodeCount: z.number().int().nonnegative(),
@@ -27,7 +27,7 @@ export const SaveSeriesSchema = z.object({
       order: z.number().int(),
     })),
     crew: z.array(z.object({
-      person: PersonSchema,
+      person: SavePersonSchema,
       jobs: z.array(z.object({
         title: z.string(),
         episodeCount: z.number().int().nonnegative(),

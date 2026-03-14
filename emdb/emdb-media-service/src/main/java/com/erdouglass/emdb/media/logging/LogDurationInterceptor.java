@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.logging;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Optional;
 
 import jakarta.annotation.Priority;
@@ -32,6 +33,8 @@ public class LogDurationInterceptor {
       Object logSubject;
       if (result instanceof Optional<?> opt) {
         logSubject = opt.isPresent() ? opt.get() : "Nothing";
+      } else if (result instanceof Collection<?> col) {
+        logSubject = col.size() + (col.size() == 1 ? " entity" : " entities");
       } else if (result == null) {
         logSubject = "";
       } else {

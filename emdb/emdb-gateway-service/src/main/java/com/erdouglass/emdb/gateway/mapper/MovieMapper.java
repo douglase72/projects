@@ -23,7 +23,7 @@ import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS 
 )
-public interface MovieMapper {
+public interface MovieMapper extends CommonMapper {
 
   SaveMovieRequest toSaveMovieRequest(SaveMovie command);
   

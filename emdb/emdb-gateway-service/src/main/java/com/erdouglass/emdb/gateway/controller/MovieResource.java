@@ -9,12 +9,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.gateway.mapper.MovieMapper;
-import com.erdouglass.emdb.media.proto.v1.MovieService;
+import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 
 import io.quarkus.grpc.GrpcClient;
 
@@ -27,19 +28,21 @@ public class MovieResource {
   MovieMapper mapper;
   
   @GrpcClient("media-service")
-  MovieService service;
+  MovieServiceGrpc.MovieServiceBlockingStub service;
   
   @POST
-  public MovieDto save(SaveMovie command) {
+  public Response save(SaveMovie command) {
     var request = mapper.toSaveMovieRequest(command);
-    var response = service.save(request).await().indefinitely();
-    return mapper.toMovieDto(response);
+    var response = service.save(request);
+    return Response.status(mapper.mapProtoStatusToHttpCode(response.getStatus()))
+        .entity(mapper.toMovieDto(response.getMovie()))
+        .build();
   }
   
   @GET
   @Path("/{id}")
   public MovieDto findById(@PathParam("id") Long id, @QueryParam(Configuration.APPEND) String append) {
-    var response = service.findById(mapper.toFindMovieRequest(id, append)).await().indefinitely();
+    var response = service.findById(mapper.toFindMovieRequest(id, append));
     return mapper.toMovieDto(response);
   } 
   

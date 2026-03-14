@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "common.proto";
+
 option java_multiple_files = true;
 option java_package = "com.erdouglass.emdb.media.proto.v1";
 option java_outer_classname = "PersonProto";
@@ -7,7 +9,8 @@ option java_outer_classname = "PersonProto";
 package emdb.media.v1;
 
 service PersonService {
-  rpc Save (SavePersonRequest) returns (PersonResponse) {}
+  rpc Save (SavePersonRequest) returns (SavePersonResponse) {}
+  rpc SaveAll (SavePeopleRequest) returns (PeopleResponse) {} 
 }
 
 enum Gender {
@@ -29,6 +32,10 @@ message SavePersonRequest {
   optional string biography = 8;
 }
 
+message SavePeopleRequest {
+  repeated SavePersonRequest people = 1;
+}
+
 message PersonResponse {
   int64 id = 1;
   int32 tmdb_id = 2;
@@ -39,5 +46,20 @@ message PersonResponse {
   optional string profile = 7;
   optional string Birth_place = 8;
   optional string biography = 9;
+}
+
+message SavePersonResponse {
+  SaveStatus status = 1;
+  PersonResponse person = 2;
+}
+
+message SavePersonResult {
+  SaveStatus status = 1;
+  int64 id = 2;
+  int32 tmdb_id = 3;
+}
+
+message PeopleResponse {
+  repeated SavePersonResult results = 1;
 }
 

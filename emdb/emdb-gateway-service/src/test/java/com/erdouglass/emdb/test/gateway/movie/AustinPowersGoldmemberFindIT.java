@@ -57,7 +57,7 @@ class AustinPowersGoldmemberFindIT extends AbstractTest {
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    assertEquals(201, response.statusCode(), "Server failed with response: " + response.body());
     
     var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
     movieId = movie.id();

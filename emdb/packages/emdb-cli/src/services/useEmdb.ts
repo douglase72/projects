@@ -1,11 +1,11 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import { MovieStatus } from '../models/MovieStatus.js';
-import type { SaveMovie } from '../schemas/SaveMovieSchema.js';
 import type { 
-  IngestMedia,
   Movie, 
-  UpdateMovie } from '@emdb/common';
+  Person } from '@emdb/common';
+import type { SaveMovie } from '../schemas/SaveMovieSchema.js';
+import type { SavePerson } from '../schemas/SavePersonSchema.js';
+import type { MultiResponse } from '@emdb/common';
 
 let cachedToken: string | null = null;
 
@@ -45,36 +45,31 @@ export function useEmdb() {
     return Promise.reject(error);
   });
 
-  const deleteMovie = async (id: number) => {
-    client.delete<number>(`/movies/${id}`);
-  };
-
   const findMovie = async (id: number): Promise<Movie> => {
     const { data: movie } = await client.get<Movie>(`/movies/${id}`);
     return movie;
   };
 
-  const saveMovie = async (command: SaveMovie): Promise<Movie> => {
-    const { data: movie } = await client.post<Movie>('/movies', command);
-    return movie;
+  const saveMovie = async (command: SaveMovie): Promise<{ status: number, movie?: Movie }> => {
+    const response = await client.post<Movie>('/movies', command);
+    return { status: response.status, movie: response.data };
   };
 
-  const updateMovie = async (id:number, command: UpdateMovie): Promise<Movie> => {
-    const { data: movie } = await client.put<Movie>(`/movies/${id}`, command);
-    return movie;
-  };
-  
-  const ingest = async (command: IngestMedia): Promise<string> => {
-    const { data } = await client.post<string>('/ingest', command);
-    return data;    
-  }; 
+  const savePerson = async (command: SavePerson): Promise<{ status: number, person?: Person }> => {
+    const response = await client.post<Person>('/people', command);
+    return { status: response.status, person: response.data };
+  };  
+
+  const savePeople = async (command: SavePerson[]): Promise<MultiResponse[]> => {
+    const { data: results } = await client.post<MultiResponse[]>('/people/batch', command);
+    return results;
+  };    
 
   return {
-    deleteMovie,
-    ingest,
     findMovie,
     saveMovie,
-    updateMovie,
+    savePerson,
+    savePeople,
   };
 
 }

@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.mapper;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
@@ -12,9 +13,11 @@ import org.mapstruct.ValueMapping;
 
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
 
 @Mapper(
     componentModel = "cdi", 
@@ -30,6 +33,9 @@ public interface MovieMapper {
   SaveMovie toSaveMovie(SaveMovieRequest request);
   
   MovieResponse toMovieResponse(Movie movie);
+  
+  @Mapping(source = "entity", target = "movie")
+  SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);
   
   Movie toMovie(SaveMovie command);
   

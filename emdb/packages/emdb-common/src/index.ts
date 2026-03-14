@@ -3,6 +3,7 @@ export * from './models/Gender.js';
 export * from './models/IngestMedia.js';
 export * from './models/MediaType.js';
 export * from './models/Movie.js';
+export * from './models/MultiResponse.js';
 export * from './models/Person.js';
 export * from './models/Series.js';
 export * from './models/SeriesType.js';

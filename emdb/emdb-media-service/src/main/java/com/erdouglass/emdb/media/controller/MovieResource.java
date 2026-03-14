@@ -7,6 +7,7 @@ import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
 import com.erdouglass.emdb.media.service.MovieService;
 
 import io.grpc.Status;
@@ -25,10 +26,10 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   
   @Override
   @RunOnVirtualThread
-  public void save(SaveMovieRequest request, StreamObserver<MovieResponse> responseObserver) {
+  public void save(SaveMovieRequest request, StreamObserver<SaveMovieResponse> responseObserver) {
     var command = mapper.toSaveMovie(request);
     var movie = service.save(command);
-    var response = mapper.toMovieResponse(movie);
+    SaveMovieResponse response = mapper.toSaveMovieResponse(movie);
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }

@@ -58,12 +58,22 @@ async function save(fileName: string) {
     }
     const { saveMovie } = useEmdb();
     const start = performance.now();
-    const movie = await saveMovie(parsed.data);
+    const { status, movie } = await saveMovie(parsed.data);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
-    console.log(`Saved ${movie.title} in: ${et} ms.`);    
-    console.log(movie);
+
+    if (status === 201) {
+      console.log(`Created movie: ${movie?.title} in ${et} ms.`);
+      console.log(movie);
+    } else if (status === 200) {
+      console.log(`Updated movie: ${movie?.title} in ${et} ms.`);
+      console.log(movie);
+    } else if (status === 204) {
+      console.log(`No changes needed for ${parsed.data.title}. Skipped in ${et} ms.`);
+    } else {
+      console.log(`Saved with status ${status} in ${et} ms.`);
+    }
   } catch (error: any) {
     handleError(error);
   }

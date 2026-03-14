@@ -1,1 +1,1 @@
-{"root":["./src/emdb-cli.ts","./src/movie-commands.ts","./src/composables/useErrorHandler.ts","./src/models/MovieStatus.ts","./src/schemas/PersonSchema.ts","./src/schemas/SaveMovieSchema.ts","./src/schemas/SaveSeriesSchema.ts","./src/services/useEmdb.ts"],"version":"5.9.3"}
+{"root":["./src/emdb-cli.ts","./src/movie-commands.ts","./src/person-commands.ts","./src/composables/useErrorHandler.ts","./src/models/MovieStatus.ts","./src/schemas/SaveMovieSchema.ts","./src/schemas/SavePersonSchema.ts","./src/schemas/SaveSeriesSchema.ts","./src/services/useEmdb.ts"],"version":"5.9.3"}
