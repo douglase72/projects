@@ -13,11 +13,13 @@ import org.mapstruct.ValueMapping;
 
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
+import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
 
 @Mapper(
     componentModel = "cdi", 
@@ -29,10 +31,15 @@ public interface MovieMapper {
   
   void merge(SaveMovie command, @MappingTarget Movie movie);
   
+  void merge(UpdateMovie command, @MappingTarget Movie movie);
+  
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);
   
   MovieResponse toMovieResponse(Movie movie);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  UpdateMovie toUpdateMovie(UpdateMovieCommand command);
   
   @Mapping(source = "entity", target = "movie")
   SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);

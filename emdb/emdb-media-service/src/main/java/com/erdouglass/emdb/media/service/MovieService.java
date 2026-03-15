@@ -11,12 +11,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.Status;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.repository.MovieRepository;
+import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class MovieService {
@@ -47,6 +49,23 @@ public class MovieService {
   public Optional<Movie> findById(@NotNull @Positive Long id, String append) {
     var movie = repository.findById(id);
     return movie;
+  }
+  
+  @Transactional
+  @LogDuration("Updated:")
+  public Movie update(Long id, UpdateMovie command) {
+    var existingMovie = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    mapper.merge(command, existingMovie);
+    return repository.update(existingMovie);
+  }
+  
+  @Transactional
+  @LogDuration(value = "Deleted:", subject = "movie")
+  public void delete(Long id) {
+    repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
+    repository.deleteById(id);
   }
   
   private boolean isEqual(SaveMovie command, Movie movie) {

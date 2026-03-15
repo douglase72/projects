@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 import "common.proto";
 
 option java_multiple_files = true;
@@ -11,6 +12,8 @@ package emdb.media.v1;
 service MovieService {
   rpc Save (SaveMovieRequest) returns (SaveMovieResponse) {}
   rpc FindById (FindMovieRequest) returns (MovieResponse) {}
+  rpc Update (UpdateMovieRequest) returns (MovieResponse) {}
+  rpc Delete (DeleteMovieRequest) returns (google.protobuf.Empty) {}
 }
 
 enum ShowStatus {
@@ -24,11 +27,6 @@ enum ShowStatus {
   RELEASED = 7;
   RETURNING_SERIES = 8;
   RUMORED = 9;
-}
-
-message FindMovieRequest {
-  int64 id = 1;
-  optional string append = 2;
 }
 
 message SaveMovieRequest {
@@ -46,6 +44,36 @@ message SaveMovieRequest {
   optional string original_language = 12;
   optional string tagline = 13;
   optional string overview = 14;
+}
+
+message FindMovieRequest {
+  int64 id = 1;
+  optional string append = 2;
+}
+
+message UpdateMovieRequest {
+  int64 id = 1;
+  UpdateMovieCommand command = 2;
+}
+
+message DeleteMovieRequest {
+  int64 id = 1;
+}
+
+message UpdateMovieCommand {
+  string title = 1;
+  optional string release_date = 2;
+  optional float score = 3;
+  optional ShowStatus status = 4;
+  optional int32 runtime = 5;
+  optional int32 budget = 6;
+  optional int32 revenue = 7;
+  optional string backdrop = 8;
+  optional string poster = 9;
+  optional string homepage = 10;
+  optional string original_language = 11;
+  optional string tagline = 12;
+  optional string overview = 13;
 }
 
 message MovieResponse {

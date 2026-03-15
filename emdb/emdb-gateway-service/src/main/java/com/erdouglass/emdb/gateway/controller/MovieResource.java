@@ -2,8 +2,10 @@ package com.erdouglass.emdb.gateway.controller;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -13,8 +15,10 @@ import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.gateway.mapper.MovieMapper;
+import com.erdouglass.emdb.media.proto.v1.DeleteMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 
 import io.quarkus.grpc.GrpcClient;
@@ -44,6 +48,22 @@ public class MovieResource {
   public MovieDto findById(@PathParam("id") Long id, @QueryParam(Configuration.APPEND) String append) {
     var response = service.findById(mapper.toFindMovieRequest(id, append));
     return mapper.toMovieDto(response);
-  } 
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public MovieDto update(@PathParam("id") Long id, UpdateMovie command) {
+    var request = mapper.toUpdateMovieRequest(id, command);
+    var response = service.update(request);
+    return mapper.toMovieDto(response);
+  }
+  
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@PathParam("id") Long id) {
+    var request = DeleteMovieRequest.newBuilder().setId(id).build();
+    service.delete(request);
+    return Response.noContent().build();
+  }
   
 }

@@ -47,7 +47,13 @@ public class GrpcExceptionHandler implements ExceptionHandlerProvider {
       return Status.INVALID_ARGUMENT
           .withDescription("Validation failed: " + errorMsg)
           .asRuntimeException();
-    }   
+    }
+    
+    if (t instanceof ResourceNotFoundException rnfe) {
+      return Status.NOT_FOUND
+          .withDescription(rnfe.getMessage())
+          .asRuntimeException();      
+    }
     return ExceptionHandlerProvider.toStatusException(t, true);
   }
 

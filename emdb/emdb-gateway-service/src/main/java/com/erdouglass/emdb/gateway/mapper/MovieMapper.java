@@ -12,10 +12,12 @@ import org.mapstruct.ValueMapping;
 
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 
 @Mapper(
     componentModel = "cdi", 
@@ -28,6 +30,10 @@ public interface MovieMapper extends CommonMapper {
   SaveMovieRequest toSaveMovieRequest(SaveMovie command);
   
   FindMovieRequest toFindMovieRequest(Long id, String append);
+  
+  @Mapping(target = "id", source = "id")
+  @Mapping(target = "command", source = "command")
+  UpdateMovieRequest toUpdateMovieRequest(Long id, UpdateMovie command);
 
   @Mapping(target = "backdrop", expression = "java(response.hasBackdrop() ? response.getBackdrop() + \".jpg\" : null)")
   @Mapping(target = "poster", expression = "java(response.hasPoster() ? response.getPoster() + \".jpg\" : null)")

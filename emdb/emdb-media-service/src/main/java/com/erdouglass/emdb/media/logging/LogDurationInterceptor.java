@@ -28,19 +28,24 @@ public class LogDurationInterceptor {
       return result;
     } finally {
       var et = Duration.between(start, Instant.now()).toMillis();
-      LogDuration annotation = context.getMethod().getAnnotation(LogDuration.class);
-      String action = annotation != null ? annotation.value() : "Executed:";
-      Object logSubject;
+      var annotation = context.getMethod().getAnnotation(LogDuration.class);
+      var action = annotation != null ? annotation.value() : "Executed:";
+      Object subject;
       if (result instanceof Optional<?> opt) {
-        logSubject = opt.isPresent() ? opt.get() : "Nothing";
+        subject = opt.isPresent() ? opt.get() : "Nothing";
       } else if (result instanceof Collection<?> col) {
-        logSubject = col.size() + (col.size() == 1 ? " entity" : " entities");
+        subject = col.size() + " ";
+        if (annotation != null && !annotation.subject().isBlank()) {
+          subject += annotation.subject();
+        } else {
+          subject += "entities";
+        }
       } else if (result == null) {
-        logSubject = "";
+        subject = "";
       } else {
-        logSubject = result;
+        subject = result;
       }
-      LOGGER.infof("%s %s in %d ms", action, logSubject, et);
+      LOGGER.infof("%s %s in %d ms", action, subject, et);
     }
   }
 }

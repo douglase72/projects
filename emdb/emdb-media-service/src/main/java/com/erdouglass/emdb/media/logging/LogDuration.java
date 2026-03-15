@@ -16,4 +16,7 @@ public @interface LogDuration {
   @Nonbinding
   String value() default "Executed:";
   
+  @Nonbinding 
+  String subject() default ""; 
+  
 }

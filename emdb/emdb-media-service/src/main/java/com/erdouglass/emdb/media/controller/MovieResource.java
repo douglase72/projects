@@ -3,12 +3,15 @@ package com.erdouglass.emdb.media.controller;
 import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.media.mapper.MovieMapper;
+import com.erdouglass.emdb.media.proto.v1.DeleteMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
+import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 import com.erdouglass.emdb.media.service.MovieService;
+import com.google.protobuf.Empty;
 
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
@@ -28,8 +31,8 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   @RunOnVirtualThread
   public void save(SaveMovieRequest request, StreamObserver<SaveMovieResponse> responseObserver) {
     var command = mapper.toSaveMovie(request);
-    var movie = service.save(command);
-    SaveMovieResponse response = mapper.toSaveMovieResponse(movie);
+    var result = service.save(command);
+    SaveMovieResponse response = mapper.toSaveMovieResponse(result);
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }
@@ -49,6 +52,24 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
                   .asRuntimeException()
           );          
         });
+  }
+  
+  @Override
+  @RunOnVirtualThread
+  public void update(UpdateMovieRequest request, StreamObserver<MovieResponse> responseObserver) {
+    var command = mapper.toUpdateMovie(request.getCommand());
+    var movie = service.update(request.getId(), command);
+    MovieResponse response = mapper.toMovieResponse(movie);
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();    
+  }
+  
+  @Override
+  @RunOnVirtualThread
+  public void delete(DeleteMovieRequest request, StreamObserver<Empty> responseObserver) {
+    service.delete(request.getId()); 
+    responseObserver.onNext(Empty.getDefaultInstance());
+    responseObserver.onCompleted();
   }
 
 }
