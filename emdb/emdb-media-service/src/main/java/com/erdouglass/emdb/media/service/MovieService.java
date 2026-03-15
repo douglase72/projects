@@ -52,6 +52,12 @@ public class MovieService {
   }
   
   @Transactional
+  @LogDuration("Found:")
+  public Optional<Movie> findByTmdbId(@NotNull @Positive Integer id) {
+    return repository.findByTmdbId(id);
+  }  
+  
+  @Transactional
   @LogDuration("Updated:")
   public Movie update(Long id, UpdateMovie command) {
     var existingMovie = repository.findById(id)

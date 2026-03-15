@@ -9,11 +9,8 @@ dependencies {
   
   implementation project(':emdb-common')
   
-  implementation libs.guava
-  implementation libs.mapstruct    
+  implementation libs.mapstruct
   implementation libs.quarkus.arc
-  implementation libs.quarkus.fault.tolerance
   implementation libs.quarkus.hibernate.validator
-  implementation libs.quarkus.micrometer 
   implementation libs.quarkus.rest.client.jackson
 }

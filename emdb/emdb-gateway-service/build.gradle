@@ -14,11 +14,13 @@ dependencies {
 	implementation project(':emdb-common')
 	implementation project(':web-services')
 	
+	implementation libs.jug
 	implementation libs.mapstruct
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.grpc
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	
 	testImplementation libs.quarkus.junit

@@ -5,7 +5,7 @@ import type {
   Person } from '@emdb/common';
 import type { SaveMovie } from '../schemas/SaveMovieSchema.js';
 import type { SavePerson } from '../schemas/SavePersonSchema.js';
-import type { MultiResponse } from '@emdb/common';
+import type { IngestMedia, MultiResponse } from '@emdb/common';
 
 let cachedToken: string | null = null;
 
@@ -45,14 +45,19 @@ export function useEmdb() {
     return Promise.reject(error);
   });
 
-  const findMovie = async (id: number): Promise<Movie> => {
-    const { data: movie } = await client.get<Movie>(`/movies/${id}`);
-    return movie;
+  const ingest = async (command: IngestMedia): Promise<string> => {
+    const { data } = await client.post<string>('/ingest', command);
+    return data;    
   };
-
+  
   const saveMovie = async (command: SaveMovie): Promise<{ status: number, movie?: Movie }> => {
     const response = await client.post<Movie>('/movies', command);
     return { status: response.status, movie: response.data };
+  };  
+
+  const findMovie = async (id: number): Promise<Movie> => {
+    const { data: movie } = await client.get<Movie>(`/movies/${id}`);
+    return movie;
   };
 
   const savePerson = async (command: SavePerson): Promise<{ status: number, person?: Person }> => {
@@ -66,6 +71,7 @@ export function useEmdb() {
   };    
 
   return {
+    ingest,
     findMovie,
     saveMovie,
     savePerson,

@@ -11,4 +11,6 @@ dependencies {
 	compileOnly libs.jakarta.ws.rs
 	compileOnly libs.quarkus.grpc
 	compileOnly libs.slf4j.api
+	compileOnly libs.smallrye.reactive.messaging.api
+	compileOnly libs.smallrye.reactive.messaging.rabbitmq
 }

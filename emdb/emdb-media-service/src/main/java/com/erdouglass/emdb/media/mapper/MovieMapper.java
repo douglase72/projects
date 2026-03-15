@@ -36,6 +36,8 @@ public interface MovieMapper {
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);
   
+  SaveMovie toSaveMovie(Movie movie);
+  
   MovieResponse toMovieResponse(Movie movie);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))

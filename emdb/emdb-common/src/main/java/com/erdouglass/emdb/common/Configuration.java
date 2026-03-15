@@ -18,7 +18,7 @@ public class Configuration {
   
   /// Query parameter key used to append additional data to API responses.
   public static final String APPEND = "append";
-  
+    
   public static final int GATEWAY_READ_TIMEOUT = 2;
   
   public static final int GATEWAY_WRITE_TIMEOUT = 6;
@@ -27,9 +27,6 @@ public class Configuration {
   
   /// Key used for routing or tagging media ingest events.
   public static final String INGEST_KEY = "ingest.media";
-  
-  /// Key representing the unique identifier for a background job.
-  public static final String JOB_ID = "jobId";
   
   /// Key representing the start time of a background job.
   public static final String JOB_START_TIME = "job-start-time";

@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 
 import { useEmdb } from './services/useEmdb.js';
 import { useErrorHandler } from './composables/useErrorHandler.js';
+import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 import { SaveMovieSchema } from './schemas/SaveMovieSchema.js';
 
 export { movieCommand };
@@ -13,14 +14,14 @@ const movieCommand = new Command('movie')
   .description('Perform CRUD operations on a movie');
 
 movieCommand
-  .command('find')
-  .description('Find a movie in EMDB')
-  .argument('<id>', 'The id of the movie to find')
+  .command('ingest')
+  .description('Ingest a movie from TMDB')
+  .argument('<tmdbId>', 'The TMDB id of the movie to ingest')
   .addHelpText('after', `
 Examples:
-  $ emdb-cli movie find 1
+  $ emdb-cli movie ingest 78
 `)  
-  .action(find);
+  .action(ingest);
 
 movieCommand
   .command('save')
@@ -32,16 +33,26 @@ Examples:
 `)  
   .action(save);
 
-async function find(id: number) {
+movieCommand
+  .command('find')
+  .description('Find a movie in EMDB')
+  .argument('<id>', 'The id of the movie to find')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie find 1
+`)  
+  .action(find);
+
+async function ingest(tmdbId: number) {
   try {
-    const { findMovie } = useEmdb();
-    const start = performance.now();
-    const movie = await findMovie(id);
-    const et = (performance.now() - start).toLocaleString(undefined, {
-      minimumFractionDigits: 1, maximumFractionDigits: 1
-    });
-    console.log(`Found ${movie.title} in: ${et} ms.`);    
-    console.log(movie);
+    const { ingest } = useEmdb();
+    const command: IngestMedia = {
+      tmdbId: tmdbId,
+      source: IngestSource.CLI,
+      type: MediaType.MOVIE
+    };
+    const jobId = await ingest(command);
+    console.log(`Job Id: ${jobId}`);
   } catch (error: any) {
     handleError(error);
   }
@@ -74,6 +85,21 @@ async function save(fileName: string) {
     } else {
       console.log(`Saved with status ${status} in ${et} ms.`);
     }
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+async function find(id: number) {
+  try {
+    const { findMovie } = useEmdb();
+    const start = performance.now();
+    const movie = await findMovie(id);
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Found ${movie.title} in: ${et} ms.`);    
+    console.log(movie);
   } catch (error: any) {
     handleError(error);
   }

@@ -12,9 +12,11 @@ mapstruct = "1.5.5.Final"
 micometer = "1.4.7"
 microprofile-config="3.1"
 microprofile-fault-tolerance = "4.0.2"
+microprofile-reactive-messaging = "3.0"
 opentelemetry = "1.40.0"
-quarkus = "3.32.2"
+quarkus = "3.32.3"
 quarkus-logging-json = "3.3.1"
+smallrye-reactive-messaging = "4.24.0" 
 slf4j = "2.0.17"
 zstd-jni = "1.5.5-11"
 
@@ -50,10 +52,13 @@ jug = { group = "com.fasterxml.uuid", name = "java-uuid-generator", version.ref 
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 
+# Micrometer
+micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel", version.ref = "micometer" }
+
 # MicroProfile
 microprofile-config = { group = "org.eclipse.microprofile.config", name = "microprofile-config-api", version.ref = "microprofile-config" }
 microprofile-fault-tolerance = { group = "org.eclipse.microprofile.fault-tolerance", name = "microprofile-fault-tolerance-api", version.ref = "microprofile-fault-tolerance" }
-micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel", version.ref = "micometer" }
+microprofile-reactive-messaging-api = { group = "org.eclipse.microprofile.reactive.messaging", name = "microprofile-reactive-messaging-api", version.ref = "microprofile-reactive-messaging" }
 
 # OpenTelemetry
 opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api" }
@@ -91,7 +96,9 @@ slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 
 # SmallRye
 smallrye-messaging-in-memory = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-in-memory" }
-smallrye-messaging-jackson = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-jackson", version = "4.24.0" }	
+smallrye-messaging-jackson = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-jackson", version = "4.24.0" }
+smallrye-reactive-messaging-api = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-api", version.ref = "smallrye-reactive-messaging" }
+smallrye-reactive-messaging-rabbitmq = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-rabbitmq", version.ref = "smallrye-reactive-messaging" }
 
 # Zstd (for Kafka compression)
 zstd-jni = { group = "com.github.luben", name = "zstd-jni", version.ref = "zstd-jni" }
