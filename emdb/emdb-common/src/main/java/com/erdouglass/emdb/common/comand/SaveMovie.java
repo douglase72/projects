@@ -1,8 +1,11 @@
 package com.erdouglass.emdb.common.comand;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -49,7 +52,26 @@ public record SaveMovie(
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits,
+    @NotNull List<@Valid SavePerson> people) {
+  
+  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {
+    
+  }  
+  
+  public record CastCredit(
+      @NotNull @Positive Integer tmdbId,
+      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
+      @NotNull @PositiveOrZero Integer order) {
+    
+  }
+  
+  public record CrewCredit(
+      @NotNull @Positive Integer tmdbId,
+      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job) {
+    
+  }
   
   public static Builder builder() {
     return new Builder();
@@ -57,6 +79,8 @@ public record SaveMovie(
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
     private UUID backdrop;
+    private Credits credits;
+    private List<SavePerson> people = new ArrayList<>();
     private UUID poster;
     private Integer tmdbId;
     
@@ -77,11 +101,23 @@ public record SaveMovie(
             homepage,
             originalLanguage,
             tagline,
-            overview);
+            overview,
+            credits,
+            people);
     }
     
     public Builder backdrop(UUID backdrop) {
       this.backdrop = backdrop;
+      return this;
+    }
+    
+    public Builder credits(Credits credits) {
+      this.credits = credits;
+      return this;
+    }    
+    
+    public Builder people(List<SavePerson> people) {
+      this.people = new ArrayList<>(people);
       return this;
     }
     

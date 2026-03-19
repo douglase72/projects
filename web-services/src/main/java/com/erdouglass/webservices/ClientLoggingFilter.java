@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientRequestFilter;
@@ -17,8 +18,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.opentelemetry.api.trace.Span;
+import io.quarkus.arc.Unremovable;
 
 @Provider
+@Unremovable
+@ApplicationScoped
 public class ClientLoggingFilter implements ClientRequestFilter, ClientResponseFilter {
   private static final Logger LOGGER = LoggerFactory.getLogger(ClientLoggingFilter.class);
   

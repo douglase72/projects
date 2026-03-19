@@ -8,7 +8,9 @@ dependencies {
   annotationProcessor libs.mapstruct.processor
   
   implementation project(':emdb-common')
+  implementation project(':web-services')
   
+  implementation libs.guava
   implementation libs.mapstruct
   implementation libs.quarkus.arc
   implementation libs.quarkus.hibernate.validator

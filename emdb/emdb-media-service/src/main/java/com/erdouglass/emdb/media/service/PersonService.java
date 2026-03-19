@@ -46,7 +46,7 @@ public class PersonService {
   }
   
   @Transactional
-  @LogDuration("Saved:")
+  @LogDuration(value = "Saved:", subject = "people")
   public List<SaveResult<Person>> saveAll(@NotEmpty List<@Valid SavePerson> commands) {
     List<SaveResult<Person>> results = new ArrayList<>();
     List<Person> peopleToInsert = new ArrayList<>();

@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.AbstractPersonBuilder;
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.validation.DateRange;
@@ -20,6 +21,7 @@ public record SavePerson(
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate deathDate,
     Gender gender,
     UUID profile,
+    @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH) String birthPlace,
     @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH) String biography) {
   
@@ -53,6 +55,7 @@ public record SavePerson(
             deathDate,
             gender,
             profile,
+            homepage,
             birthPlace,
             biography);
     }

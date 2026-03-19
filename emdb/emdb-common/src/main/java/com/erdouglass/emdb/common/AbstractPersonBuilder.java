@@ -2,14 +2,13 @@ package com.erdouglass.emdb.common;
 
 import java.time.LocalDate;
 
-import com.erdouglass.emdb.common.comand.SavePerson.Builder;
-
 public abstract class AbstractPersonBuilder<T> {
   protected String biography;
   protected LocalDate birthDate;
   protected String birthPlace;
   protected LocalDate deathDate;
   protected Gender gender;
+  protected String homepage;
   protected String name;
   protected Integer tmdbId;
   
@@ -37,6 +36,11 @@ public abstract class AbstractPersonBuilder<T> {
     this.gender = gender;
     return self();
   }
+  
+  public T homepage(String homepage) {
+    this.homepage = homepage;
+    return self();
+  } 
   
   public T name(String name) {
     this.name = name;

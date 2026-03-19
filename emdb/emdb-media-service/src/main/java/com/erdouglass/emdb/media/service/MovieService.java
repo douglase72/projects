@@ -1,7 +1,10 @@
 package com.erdouglass.emdb.media.service;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -11,10 +14,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.Status;
 import com.erdouglass.emdb.media.entity.Movie;
+import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.repository.MovieRepository;
@@ -27,21 +32,29 @@ public class MovieService {
   MovieMapper mapper;
   
   @Inject
+  PersonService personService;
+  
+  @Inject
   MovieRepository repository;
   
   @Transactional
   @LogDuration("Saved:")
   public SaveResult<Movie> save(@NotNull @Valid SaveMovie command) {
+    var status = Status.UNCHANGED;
     var existingMovie = repository.findByTmdbId(command.tmdbId()).orElse(null);
     if (existingMovie == null) {
-      var insertedMovie = repository.insert(mapper.toMovie(command));
-      return SaveResult.of(Status.CREATED, insertedMovie);
+      existingMovie = repository.insert(mapper.toMovie(command));
+      status = Status.CREATED;
     } else if (!isEqual(command, existingMovie)) {
       mapper.merge(command, existingMovie);
-      var updatedMovie = repository.update(existingMovie);
-      return SaveResult.of(Status.UPDATED, updatedMovie);
+      repository.update(existingMovie);
+      status = Status.UPDATED;
     }
-    return SaveResult.of(Status.UNCHANGED, existingMovie);
+    var savedPeople = personService.saveAll(command.people()).stream()
+        .map(SaveResult::entity)
+        .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
+    saveCredits(existingMovie, savedPeople, command.credits());
+    return SaveResult.of(status, existingMovie);
   }
   
   @Transactional
@@ -88,6 +101,10 @@ public class MovieService {
         && Objects.equals(command.homepage(), movie.getHomepage())
         && Objects.equals(command.originalLanguage(), movie.getOriginalLanguage())
         && Objects.equals(command.overview(), movie.getOverview());
+  }
+  
+  private void saveCredits(Movie movie, Map<Integer, Person> people, Credits credits) {
+    
   }
 
 }
