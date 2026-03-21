@@ -46,7 +46,8 @@ public class SeriesService {
       repository.update(existingSeries);
       status = SaveStatus.UPDATED;
     }
-    var savedPeople = personService.saveAll(command.people()).stream()
+    var savedPeople = command.people().isEmpty() ? Map.<Integer, Person>of() 
+        : personService.saveAll(command.people()).stream()
         .map(SaveResult::entity)
         .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
     saveCredits(existingSeries, savedPeople, command.credits());

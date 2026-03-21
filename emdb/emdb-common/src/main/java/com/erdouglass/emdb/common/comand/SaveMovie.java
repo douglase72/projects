@@ -35,7 +35,7 @@ public record SaveMovie(
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @Valid Credits credits,
+    @NotNull @Valid Credits credits,
     @NotNull List<@Valid SavePerson> people) {
   
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) { }  
@@ -59,7 +59,7 @@ public record SaveMovie(
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
     private UUID backdrop;
-    private Credits credits;
+    private Credits credits = new Credits(List.of(), List.of());
     private List<SavePerson> people = new ArrayList<>();
     private UUID poster;
     private Integer tmdbId;

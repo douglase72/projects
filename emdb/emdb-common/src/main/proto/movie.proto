@@ -48,7 +48,7 @@ message SaveMovieRequest {
   optional string original_language = 12;
   optional string tagline = 13;
   optional string overview = 14;
-  optional MovieCredits credits = 15;
+  MovieCredits credits = 15;
   repeated SavePersonRequest people = 16;
 }
 

@@ -31,7 +31,7 @@ public record SaveSeries(
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @Valid Credits credits,
+    @NotNull @Valid Credits credits,
     @NotNull List<@Valid SavePerson> people) {
 
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) { }  
