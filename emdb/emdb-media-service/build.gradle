@@ -13,6 +13,7 @@ dependencies {
 	annotationProcessor enforcedPlatform(libs.quarkus.bom)
 	annotationProcessor libs.hibernate.jpamodelgen
 	annotationProcessor libs.mapstruct.processor
+	annotationProcessor libs.mapstruct.spi.protobuf
 	
 	implementation project(':emdb-common')
 	implementation project(':emdb-scraper')

@@ -8,7 +8,8 @@ guava = "33.5.0-jre"
 jakarta-data = "1.0.1"
 jakartaee-platform = "11.0.0"
 jug = "5.2.0"
-mapstruct = "1.5.5.Final"
+mapstruct = "1.6.3"
+mapstruct-spi-protobuf = "1.43"
 micometer = "1.4.7"
 microprofile-config="3.1"
 microprofile-fault-tolerance = "4.0.2"
@@ -51,6 +52,7 @@ jug = { group = "com.fasterxml.uuid", name = "java-uuid-generator", version.ref 
 # MapStruct
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+mapstruct-spi-protobuf = { group = "no.entur.mapstruct.spi", name = "protobuf-spi-impl", version.ref = "mapstruct-spi-protobuf" }
 
 # Micrometer
 micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel", version.ref = "micometer" }

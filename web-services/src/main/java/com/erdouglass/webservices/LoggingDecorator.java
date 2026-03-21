@@ -22,27 +22,17 @@ public class LoggingDecorator implements PublisherDecorator {
                                               boolean isConnector) {
     return publisher.invoke(message -> {      
       message.getMetadata(IncomingRabbitMQMetadata.class).ifPresent(inMeta -> {
-        try {
-          var correlationId = inMeta.getCorrelationId().orElse("none");
-          MDC.put(CORRELATION_ID, correlationId);
-          var headerType = inMeta.getHeaders().get("X-Event-Type");
-          String type = headerType != null ? headerType.toString() 
+        var correlationId = inMeta.getCorrelationId().orElse("none");
+        MDC.put(CORRELATION_ID, correlationId);
+        var headerType = inMeta.getHeaders().get("X-Event-Type");
+        String type = headerType != null ? headerType.toString() 
               : message.getPayload().getClass().getSimpleName();
-          LOGGER.infof("Received %s message on channel '%s'", type, channelName);
-        } finally {
-          MDC.remove(CORRELATION_ID);
-        }
+        LOGGER.infof("Received %s message on channel '%s'", type, channelName);
       });
       
-      message.getMetadata(OutgoingRabbitMQMetadata.class).ifPresent(outMeta -> {
-        try {
-          var correlationId = outMeta.getCorrelationId();
-          MDC.put(CORRELATION_ID, correlationId);
-          var type = message.getPayload() != null ? message.getPayload().getClass().getSimpleName() : "Unknown";
-          LOGGER.infof("Sent %s message to channel '%s'", type, channelName);
-        } finally {
-          MDC.remove(CORRELATION_ID);
-        }
+      message.getMetadata(OutgoingRabbitMQMetadata.class).ifPresent(_ -> {
+        var type = message.getPayload() != null ? message.getPayload().getClass().getSimpleName() : "Unknown";
+        LOGGER.infof("Sent %s message to channel '%s'", type, channelName);
       });      
     });    
   }

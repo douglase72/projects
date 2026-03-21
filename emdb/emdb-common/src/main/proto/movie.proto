@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 import "common.proto";
+import "person.proto";
 
 option java_multiple_files = true;
 option java_package = "com.erdouglass.emdb.media.proto.v1";
@@ -29,6 +30,22 @@ enum ShowStatus {
   RUMORED = 9;
 }
 
+message CastCreditRequest {
+  int32 tmdb_id = 1;
+  optional string character = 2;
+  int32 order = 3;
+}
+
+message CrewCreditRequest {
+  int32 tmdb_id = 1;
+  optional string job = 2;
+}
+
+message CreditRequest {
+  repeated CastCreditRequest cast = 1;
+  repeated CrewCreditRequest crew = 2;
+}
+
 message SaveMovieRequest {
   int32 tmdb_id = 1;
   string title = 2;
@@ -44,6 +61,8 @@ message SaveMovieRequest {
   optional string original_language = 12;
   optional string tagline = 13;
   optional string overview = 14;
+  optional CreditRequest credits = 15;
+  repeated SavePersonRequest people = 16;
 }
 
 message FindMovieRequest {

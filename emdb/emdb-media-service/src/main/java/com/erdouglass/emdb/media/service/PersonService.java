@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.media.dto.SaveResult;
-import com.erdouglass.emdb.media.dto.SaveResult.Status;
+import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
@@ -36,13 +36,13 @@ public class PersonService {
     var existingPerson = repository.findByTmdbId(command.tmdbId()).orElse(null);
     if (existingPerson == null) {
       var insertedPerson = repository.insert(mapper.toPerson(command));
-      return SaveResult.of(Status.CREATED, insertedPerson);
+      return SaveResult.of(SaveStatus.CREATED, insertedPerson);
     } else if (!isEqual(command, existingPerson)) {
       mapper.merge(command, existingPerson);
       var updatedPerson = repository.update(existingPerson);
-      return SaveResult.of(Status.UPDATED, updatedPerson);
+      return SaveResult.of(SaveStatus.UPDATED, updatedPerson);
     }
-    return SaveResult.of(Status.UNCHANGED, existingPerson);
+    return SaveResult.of(SaveStatus.UNCHANGED, existingPerson);
   }
   
   @Transactional
@@ -60,13 +60,13 @@ public class PersonService {
       if (existingPerson == null) {
         var person = mapper.toPerson(command);
         peopleToInsert.add(person);
-        results.add(SaveResult.of(Status.CREATED, person));
+        results.add(SaveResult.of(SaveStatus.CREATED, person));
       } else if (!isEqual(command, existingPerson)) {        
         mapper.merge(command, existingPerson);
         peopleToUpdate.add(existingPerson);
-        results.add(SaveResult.of(Status.UPDATED, existingPerson));
+        results.add(SaveResult.of(SaveStatus.UPDATED, existingPerson));
       } else {
-        results.add(SaveResult.of(Status.UNCHANGED, existingPerson));
+        results.add(SaveResult.of(SaveStatus.UNCHANGED, existingPerson));
       }
     }
     

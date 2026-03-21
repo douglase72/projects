@@ -17,7 +17,7 @@ import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.media.dto.SaveResult;
-import com.erdouglass.emdb.media.dto.SaveResult.Status;
+import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.logging.LogDuration;
@@ -40,15 +40,15 @@ public class MovieService {
   @Transactional
   @LogDuration("Saved:")
   public SaveResult<Movie> save(@NotNull @Valid SaveMovie command) {
-    var status = Status.UNCHANGED;
+    var status = SaveStatus.UNCHANGED;
     var existingMovie = repository.findByTmdbId(command.tmdbId()).orElse(null);
     if (existingMovie == null) {
       existingMovie = repository.insert(mapper.toMovie(command));
-      status = Status.CREATED;
+      status = SaveStatus.CREATED;
     } else if (!isEqual(command, existingMovie)) {
       mapper.merge(command, existingMovie);
       repository.update(existingMovie);
-      status = Status.UPDATED;
+      status = SaveStatus.UPDATED;
     }
     var savedPeople = personService.saveAll(command.people()).stream()
         .map(SaveResult::entity)

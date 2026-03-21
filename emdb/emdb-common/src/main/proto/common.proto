@@ -7,7 +7,7 @@ option java_outer_classname = "CommonProto";
 package emdb.media.v1;
 
 enum SaveStatus {
-  STATUS_UNSPECIFIED = 0;
+  SAVE_STATUS_UNSPECIFIED = 0;
   CREATED = 1;
   UPDATED = 2;
   UNCHANGED = 3;

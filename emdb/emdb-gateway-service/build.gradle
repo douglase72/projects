@@ -10,6 +10,7 @@ dependencies {
 	implementation enforcedPlatform(libs.quarkus.bom)
 	
 	annotationProcessor libs.mapstruct.processor
+	annotationProcessor libs.mapstruct.spi.protobuf
 	
 	implementation project(':emdb-common')
 	implementation project(':web-services')

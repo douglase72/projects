@@ -2,7 +2,6 @@ package com.erdouglass.emdb.media.messaging;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,7 +15,6 @@ import org.jboss.logging.MDC;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.IngestMedia;
-import com.erdouglass.emdb.media.service.MovieIngestService;
 import com.erdouglass.webservices.LoggingDecorator;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
@@ -27,7 +25,7 @@ public class MediaConsumer {
   private static final Logger LOGGER = Logger.getLogger(MediaConsumer.class);
   
   @Inject
-  MovieIngestService movieService;
+  MovieConsumer movieService;
   
   @RunOnVirtualThread
   @Incoming("ingest-media-in")
@@ -36,9 +34,7 @@ public class MediaConsumer {
     
     try {
       var metadata = message.getMetadata(IncomingRabbitMQMetadata.class)
-          .orElseThrow(() -> new IllegalStateException("Missing RabbitMQ metadata")); 
-      var correlationId = metadata.getCorrelationId().map(UUID::fromString).orElse(null);
-      MDC.put(LoggingDecorator.CORRELATION_ID, correlationId.toString());
+          .orElseThrow(() -> new IllegalStateException("Missing RabbitMQ metadata"));
       logQueueDuration(metadata, command);
       var start = Instant.now();      
       switch (command.type()) {

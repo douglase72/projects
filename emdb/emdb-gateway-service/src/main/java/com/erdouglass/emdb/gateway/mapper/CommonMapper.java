@@ -12,7 +12,8 @@ public interface CommonMapper {
       case CREATED -> 201;
       case UPDATED -> 200;
       case UNCHANGED -> 204;
-      case UNRECOGNIZED, STATUS_UNSPECIFIED -> 500;
+      case UNRECOGNIZED, SAVE_STATUS_UNSPECIFIED -> 500;
+      default -> throw new IllegalArgumentException("Invalid value: " + status);
     };
   }
 

@@ -8,6 +8,7 @@ export const SavePersonSchema = z.object({
   gender: z.string().optional().nullable(),
   birthPlace: z.string().optional().nullable(),
   profile: z.string().uuid().optional().nullable(),
+  homepage: z.string().url().optional().nullable(),
   biography: z.string().optional().nullable(),
 });
 

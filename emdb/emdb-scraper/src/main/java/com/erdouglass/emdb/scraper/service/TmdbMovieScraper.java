@@ -68,7 +68,8 @@ public class TmdbMovieScraper extends TmdbScraper {
         UUID.randomUUID(), 
         UUID.randomUUID(),
         credits,
-        people);
+        people,
+        -1f);
     return command;
   }
   
