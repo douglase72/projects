@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+import "person.proto";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.media.proto.v1";
+option java_outer_classname = "SeriesProto";
+
+package emdb.media.v1;
+
+service SeriesService {
+  rpc Save (SaveSeriesRequest) returns (SaveSeriesResponse) {}
+}
+
+enum SeriesType {
+  SERIES_TYPE_UNSPECIFIED = 0;
+  SCRIPTED = 1;
+  REALITY = 2;
+  DOCUMENTARY = 3;
+  NEWS = 4;
+  TALK_SHOW = 5;
+  MINISERIES = 6;
+  VIDEO = 7;
+}
+
+message Role {
+  optional string character = 1;
+  int32 episode_count = 2;
+}
+
+message Job {
+  optional string title = 1;
+  int32 episode_count = 2;
+}
+
+message SeriesCastCredit {
+  int32 tmdb_id = 1;
+  repeated Role roles = 2;
+  int32 order = 3;
+}
+
+message SeriesCrewCredit {
+  int32 tmdb_id = 1;
+  repeated Job jobs = 2;
+}
+
+message SeriesCredits {
+  repeated SeriesCastCredit cast = 1;
+  repeated SeriesCrewCredit crew = 2;
+}
+
+message SaveSeriesRequest {
+  int32 tmdb_id = 1;
+  string title = 2;
+  optional float score = 3;
+  optional ShowStatus status = 4;
+  optional SeriesType type = 5;
+  optional string backdrop = 6;
+  optional string poster = 7;
+  optional string homepage = 8;
+  optional string original_language = 9;
+  optional string tagline = 10;
+  optional string overview = 11;
+  SeriesCredits credits = 12;
+  repeated SavePersonRequest people = 13;
+}
+
+message SeriesResponse {
+  int64 id = 1;
+  int32 tmdb_id = 2;
+  string title = 3;
+  optional string first_air_date = 4;
+  optional string last_air_date = 5;
+  optional float score = 6;
+  optional ShowStatus status = 7;
+  optional SeriesType type = 8;
+  optional string backdrop = 9;
+  optional string poster = 10;
+  optional string homepage = 11;
+  optional string original_language = 12;
+  optional string tagline = 13;
+  optional string overview = 14;
+}
+
+message SaveSeriesResponse {
+  SaveStatus status = 1;
+  SeriesResponse series = 2;
+}
+

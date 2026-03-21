@@ -1,6 +1,5 @@
 package com.erdouglass.emdb.common.comand;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,76 +7,78 @@ import java.util.UUID;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.AbstractMovieBuilder;
+import com.erdouglass.emdb.common.AbstractSeriesBuilder;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.SeriesType;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.validation.DateRange;
 
-public record SaveMovie(
+public record SaveSeries(
     @NotNull @Positive Integer tmdbId,
-    @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
-    @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
+    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
     @Min(0) @Max(10) Float score,
     ShowStatus status,
-    @PositiveOrZero Integer runtime,
-    @PositiveOrZero Integer budget,
-    @PositiveOrZero Integer revenue,
+    SeriesType type,
     UUID backdrop,
     UUID poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
-    @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
+    @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
     @Valid Credits credits,
     @NotNull List<@Valid SavePerson> people) {
-  
+
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) { }  
   
   public record CastCredit(
       @NotNull @Positive Integer tmdbId,
-      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
+      @NotEmpty List<@Valid Role> roles,
       @NotNull @PositiveOrZero Integer order) {
     
+    public record Role(
+        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
+        @NotNull @PositiveOrZero Integer episodeCount) {
+    }
   }
   
   public record CrewCredit(
       @NotNull @Positive Integer tmdbId,
-      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job) {
+      @NotEmpty List<@Valid Job> jobs) {
     
+    public record Job(
+        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String title,
+        @NotNull @PositiveOrZero Integer episodeCount) {
+    }    
   }
   
   public static Builder builder() {
     return new Builder();
   }
   
-  public static final class Builder extends AbstractMovieBuilder<Builder> {
+  public static final class Builder extends AbstractSeriesBuilder<Builder> {
     private UUID backdrop;
     private Credits credits;
     private List<SavePerson> people = new ArrayList<>();
     private UUID poster;
     private Integer tmdbId;
-    
+        
     private Builder() { }
 
-    public SaveMovie build() {
-      return new SaveMovie(
+    public SaveSeries build() {
+      return new SaveSeries(
             tmdbId,
             title, 
-            releaseDate,
             score,
             status,
-            runtime,
-            budget,
-            revenue,
+            type,
             backdrop,
-            poster,
+            poster,            
             homepage,
             originalLanguage,
             tagline,
@@ -94,7 +95,7 @@ public record SaveMovie(
     public Builder credits(Credits credits) {
       this.credits = credits;
       return this;
-    }    
+    }
     
     public Builder people(List<SavePerson> people) {
       this.people = new ArrayList<>(people);
@@ -104,7 +105,7 @@ public record SaveMovie(
     public Builder poster(UUID poster) {
       this.poster = poster;
       return this;
-    }    
+    }
     
     public Builder tmdbId(Integer tmdbId) {
       this.tmdbId = tmdbId;
@@ -116,5 +117,5 @@ public record SaveMovie(
       return this;
     }
   }  
-
+  
 }

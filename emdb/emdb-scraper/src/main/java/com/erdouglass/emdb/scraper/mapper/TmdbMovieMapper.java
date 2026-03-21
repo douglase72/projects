@@ -19,22 +19,20 @@ import com.erdouglass.emdb.scraper.query.TmdbMovie;
     builder = @Builder(disableBuilder = true)
 )
 public interface TmdbMovieMapper {
-
-  @Mapping(source = "movie.id", target = "tmdbId")
-  @Mapping(source = "movie.release_date", target = "releaseDate")
-  //@Mapping(source = "movie.vote_average", target = "score")
-  @Mapping(source = "score", target = "score")
-  @Mapping(source = "movie.original_language", target = "originalLanguage")
-  @Mapping(source = "backdrop", target = "backdrop")
-  @Mapping(source = "poster", target = "poster")
-  @Mapping(source = "credits", target = "credits")
-  SaveMovie toSaveMovie(
-      TmdbMovie movie, UUID backdrop, UUID poster, Credits credits, List<SavePerson> people, Float score);
   
   @Mapping(source = "id", target = "tmdbId")
   SaveMovie.CastCredit toCastCredit(TmdbMovie.CastCredit credit);
 
   @Mapping(source = "id", target = "tmdbId")
   SaveMovie.CrewCredit toCrewCredit(TmdbMovie.CrewCredit credit);
+
+  @Mapping(source = "movie.id", target = "tmdbId")
+  @Mapping(source = "movie.release_date", target = "releaseDate")
+  @Mapping(source = "movie.vote_average", target = "score")
+  @Mapping(source = "movie.original_language", target = "originalLanguage")
+  @Mapping(source = "backdrop", target = "backdrop")
+  @Mapping(source = "poster", target = "poster")
+  @Mapping(source = "credits", target = "credits")
+  SaveMovie toSaveMovie(TmdbMovie movie, UUID backdrop, UUID poster, Credits credits, List<SavePerson> people);
   
 }

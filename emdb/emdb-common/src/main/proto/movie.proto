@@ -17,33 +17,20 @@ service MovieService {
   rpc Delete (DeleteMovieRequest) returns (google.protobuf.Empty) {}
 }
 
-enum ShowStatus {
-  SHOW_STATUS_UNSPECIFIED = 0;
-  CANCELED = 1;
-  ENDED = 2;
-  IN_PRODUCTION = 3;
-  PILOT = 4;
-  PLANNED = 5;
-  POST_PRODUCTION = 6;
-  RELEASED = 7;
-  RETURNING_SERIES = 8;
-  RUMORED = 9;
-}
-
-message CastCreditRequest {
+message MovieCastCredit {
   int32 tmdb_id = 1;
   optional string character = 2;
   int32 order = 3;
 }
 
-message CrewCreditRequest {
+message MovieCrewCredit {
   int32 tmdb_id = 1;
   optional string job = 2;
 }
 
-message CreditRequest {
-  repeated CastCreditRequest cast = 1;
-  repeated CrewCreditRequest crew = 2;
+message MovieCredits {
+  repeated MovieCastCredit cast = 1;
+  repeated MovieCrewCredit crew = 2;
 }
 
 message SaveMovieRequest {
@@ -61,7 +48,7 @@ message SaveMovieRequest {
   optional string original_language = 12;
   optional string tagline = 13;
   optional string overview = 14;
-  optional CreditRequest credits = 15;
+  optional MovieCredits credits = 15;
   repeated SavePersonRequest people = 16;
 }
 

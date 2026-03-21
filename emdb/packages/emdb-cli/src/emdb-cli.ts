@@ -12,6 +12,7 @@ dotenv.config({ path: envPath });
 
 import { movieCommand } from './movie-commands.js';
 import { personCommand } from './person-commands.js';
+import { seriesCommand } from './series-commands.js';
 
 const program = new Command();
 
@@ -21,4 +22,5 @@ program
   .version('1.0.0');
 program.addCommand(movieCommand);
 program.addCommand(personCommand);
+program.addCommand(seriesCommand);
 program.parse(process.argv);

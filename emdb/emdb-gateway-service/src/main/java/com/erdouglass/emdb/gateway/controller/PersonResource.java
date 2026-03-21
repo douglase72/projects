@@ -3,6 +3,8 @@ package com.erdouglass.emdb.gateway.controller;
 import java.util.List;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -29,7 +31,7 @@ public class PersonResource {
   PersonServiceGrpc.PersonServiceBlockingStub service;
   
   @POST
-  public Response save(SavePerson command) {
+  public Response save(@NotNull @Valid SavePerson command) {
     var request = mapper.toSavePersonRequest(command);
     var response = service.save(request);    
     return Response.status(mapper.mapProtoStatusToHttpCode(response.getStatus()))
@@ -39,7 +41,7 @@ public class PersonResource {
   
   @POST
   @Path("/batch")
-  public Response saveAll(List<SavePerson> commands) {
+  public Response saveAll(List<@Valid SavePerson> commands) {
     var request = mapper.toSavePeopleRequest(commands);
     var response = service.saveAll(request);
     return Response.status(ResponseStatus.MULTI_STATUS)

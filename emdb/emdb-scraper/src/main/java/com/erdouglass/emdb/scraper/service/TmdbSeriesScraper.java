@@ -15,42 +15,43 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.SaveMovie.CastCredit;
-import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
-import com.erdouglass.emdb.common.comand.SaveMovie.CrewCredit;
-import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
-import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
-import com.erdouglass.emdb.scraper.mapper.TmdbMovieMapper;
-import com.erdouglass.emdb.scraper.query.TmdbMovie;
+import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.common.comand.SaveSeries.CastCredit;
+import com.erdouglass.emdb.common.comand.SaveSeries.Credits;
+import com.erdouglass.emdb.common.comand.SaveSeries.CrewCredit;
+import com.erdouglass.emdb.scraper.client.TmdbSeriesClient;
+import com.erdouglass.emdb.scraper.mapper.TmdbSeriesCreditMapper;
+import com.erdouglass.emdb.scraper.mapper.TmdbSeriesMapper;
+import com.erdouglass.emdb.scraper.query.TmdbSeries;
 
 @ApplicationScoped
-public class TmdbMovieScraper extends TmdbScraper {
-  private static final Logger LOGGER = Logger.getLogger(TmdbMovieScraper.class);
-  private static final String CREDITS = "credits";
+public class TmdbSeriesScraper extends TmdbScraper {
+  private static final Logger LOGGER = Logger.getLogger(TmdbSeriesScraper.class);
+  private static final String CREDITS = "aggregate_credits";
   
   @Inject
   @RestClient
-  TmdbMovieClient client;
+  TmdbSeriesClient client;
   
   @Inject
-  TmdbMovieCreditMapper creditMapper;
+  TmdbSeriesCreditMapper creditMapper;
   
   @Inject
-  TmdbMovieMapper mapper;
+  TmdbSeriesMapper mapper;
   
-  public SaveMovie extract(@NotNull @Positive Integer tmdbId) {
+  public SaveSeries extract(@NotNull @Positive Integer tmdbId) {
     return performExtraction(tmdbId);
   }
   
-  public SaveMovie extract(@NotNull @Valid SaveMovie command) {
+  public SaveSeries extract(@NotNull @Valid SaveMovie command) {
     return performExtraction(command.tmdbId());
   }
   
-  private SaveMovie performExtraction(int tmdbId) {
+  private SaveSeries performExtraction(int tmdbId) {
     var start = Instant.now();
     rateLimiter.acquire();
-    var tmdbMovie = client.findById(tmdbId, CREDITS);
-    var credits = findCredits(tmdbMovie);
+    var tmdbSeries = client.findById(tmdbId, CREDITS);
+    var credits = findCredits(tmdbSeries);
     var ids = Stream.concat(
         credits.cast().stream().map(CastCredit::tmdbId),
         credits.crew().stream().map(CrewCredit::tmdbId))
@@ -58,10 +59,10 @@ public class TmdbMovieScraper extends TmdbScraper {
         .toList();
     var people = findPeople(ids);
     var et = Duration.between(start, Instant.now()).toMillis();
-    var msg = String.format("Ingest Job for TMDB movie %d extracted in %d ms", tmdbId, et);
+    var msg = String.format("Ingest Job for TMDB series %d extracted in %d ms", tmdbId, et);
     LOGGER.info(msg);    
-    var command = mapper.toSaveMovie(
-        tmdbMovie, 
+    var command = mapper.toSaveSeries(
+        tmdbSeries, 
         UUID.randomUUID(), 
         UUID.randomUUID(),
         credits,
@@ -69,16 +70,16 @@ public class TmdbMovieScraper extends TmdbScraper {
     return command;
   }
   
-  private Credits findCredits(TmdbMovie movie) {
-    var cast = movie.credits().cast().stream()
+  private Credits findCredits(TmdbSeries series) {
+    var cast = series.aggregate_credits().cast().stream()
         .limit(castLimit)
         .map(creditMapper::toCastCredit)
         .toList();
-    var crew = movie.credits().crew().stream()
+    var crew = series.aggregate_credits().crew().stream()
         .limit(crewLimit)
         .map(creditMapper::toCrewCredit)
         .toList();
     return new Credits(cast, crew);
   }
-
+  
 }

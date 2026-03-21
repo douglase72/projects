@@ -1,0 +1,99 @@
+{
+  "tmdbId": 456,
+  "title": "The Simpsons",
+  "score": 8.015,
+  "status": "Returning Series",
+  "type": "Scripted",
+  "backdrop": "fca95726-f1f9-492b-b0c4-bc126792fd48",
+  "poster": "72a875ef-2764-4128-a3a9-54dbdf210035",
+  "homepage": "http://www.thesimpsons.com/",
+  "originalLanguage": "en",
+  "tagline": null,
+  "overview": "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
+  "credits": {
+    "cast": [
+      {
+        "tmdbId": 198,
+        "roles": [
+          {
+            "character": "Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)",
+            "episodeCount": 786
+          }
+        ],
+        "order": 0
+      },
+      {
+        "tmdbId": 6009,
+        "roles": [
+          {
+            "character": "Milhouse Van Houten (voice)",
+            "episodeCount": 80
+          },
+          {
+            "character": "Milhouse Van Houten / Jimbo Jones (voice)",
+            "episodeCount": 39
+          },
+          {
+            "character": "Milhouse (voice)",
+            "episodeCount": 59
+          }
+        ],
+        "order": 1771
+      }
+    ],
+    "crew": [
+      {
+        "tmdbId": 5741,
+        "jobs": [
+          {
+            "title": "Creator",
+            "episodeCount": 0
+          },
+          {
+            "title": "Writer",
+            "episodeCount": 15
+          },
+          {
+            "title": "Executive Producer",
+            "episodeCount": 411
+          }
+        ]
+      }
+    ]
+  },
+  "people": [
+    {
+      "tmdbId": 198,
+      "name": "Dan Castellaneta",
+      "birthDate": "1957-10-29",
+      "deathDate": null,
+      "gender": "Male",
+      "profile": "44e52ae5-79b7-406d-96a8-9ec8545c4dad",
+      "homepage": null,
+      "birthPlace": "Chicago, Illinois, USA",
+      "biography": "Dan Castellaneta (born October 29, 1957) is an American film, theatre and television actor, comedian, voice artist, singer and television writer. Noted for his long-running role as Homer Simpson on The Simpsons, he voices many other regular characters on it."
+    },
+    {
+      "tmdbId": 6009,
+      "name": "Pamela Hayden",
+      "birthDate": "1953-11-28",
+      "deathDate": null,
+      "gender": "Female",
+      "profile": "abe52ae5-79b7-406d-96a8-9ec8545c4dad",
+      "homepage": null,
+      "birthPlace": "Windham, Maine, USA",
+      "biography": "From Wikipedia, the free encyclopedia.\\n\\nPamela Hayden (born November 27, 1953) is an American actress, best known for providing various voices for the animated television show The Simpsons. She is also a stand up comedian.\\n\\nDescription above from the Wikipedia article Pamela Hayden, licensed under CC-BY-SA, full list of contributors on Wikipedia"
+    },
+    {
+      "tmdbId": 5741,
+      "name": "Matt Groening",
+      "birthDate": "1954-02-15",
+      "deathDate": null,
+      "gender": "Male",
+      "profile": "69e52ae5-79b7-406d-96a8-9ec8545c4dad",
+      "homepage": null,
+      "birthPlace": "Portland, Oregon, USA",
+      "biography": "Matthew Abram Groening (/ˈɡreɪnɪŋ/ GRAY-ning; born February 15, 1954) is an American cartoonist, writer, producer, and animator. He is best known as the creator of the television series The Simpsons (1989–present), Futurama (1999–2003, 2008–2013, 2023–present), and Disenchantment (2018–2023), as well as the comic strip Life in Hell (1977–2012). The Simpsons is the longest-running American primetime television series in history, as well as the longest-running American animated series and sitcom.\\n\\nBorn in Portland, Oregon, Groening made his first professional cartoon sale, of Life in Hell, to the avant-garde magazine Wet in 1978. At its peak, it was carried in 250 weekly newspapers and caught the attention of American producer James L. Brooks, who contacted Groening in 1985 about adapting it for animated sequences for the Fox 21st Century variety show The Tracey Ullman Show. Fearing the loss of ownership rights, Groening created a new set of characters, the Simpson family. The shorts were spun off into their own series, The Simpsons, which has since aired 791 episodes.\\n\\nIn 1997, Groening and former Simpsons writer David X. Cohen developed Futurama, an animated series about life in the year 3000, which premiered in 1999. It ran for four years on Fox, was picked up in 2008 by Comedy Central for another five years, and was finally picked up by Hulu for another revival in 2023. In 2016, Groening developed a new series for Netflix, Disenchantment, which premiered in August 2018.\\n\\nGroening has won 14 Primetime Emmy Awards, 12 for The Simpsons and 2 for Futurama, and a British Comedy Award for \\\"outstanding contribution to comedy\\\" in 2004. In 2002, he won the National Cartoonist Society Reuben Award for his work on Life in Hell. He received a star on the Hollywood Walk of Fame on February 14, 2012.\\n\\nDescription above from the Wikipedia article Matt Groening, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+    }
+  ]
+}

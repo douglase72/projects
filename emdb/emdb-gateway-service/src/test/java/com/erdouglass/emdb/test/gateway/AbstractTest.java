@@ -11,6 +11,7 @@ public abstract class AbstractTest {
   protected static final String INGEST_URL;
   protected static final String MOVIES_URL;
   protected static final String PEOPLE_URL;
+  protected static final String SERIES_URL;
   
   static {
     HTTP_CLIENT = HttpClient.newBuilder().build();
@@ -19,6 +20,7 @@ public abstract class AbstractTest {
     INGEST_URL = "http://localhost:60310/emdb/api/ingest";
     MOVIES_URL = "http://localhost:60310/emdb/api/movies";
     PEOPLE_URL = "http://localhost:60310/emdb/api/people";
+    SERIES_URL = "http://localhost:60310/emdb/api/series";
   }
 
 }

@@ -12,3 +12,16 @@ enum SaveStatus {
   UPDATED = 2;
   UNCHANGED = 3;
 }
+
+enum ShowStatus {
+  SHOW_STATUS_UNSPECIFIED = 0;
+  CANCELED = 1;
+  ENDED = 2;
+  IN_PRODUCTION = 3;
+  PILOT = 4;
+  PLANNED = 5;
+  POST_PRODUCTION = 6;
+  RELEASED = 7;
+  RETURNING_SERIES = 8;
+  RUMORED = 9;
+}

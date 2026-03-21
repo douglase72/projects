@@ -25,7 +25,10 @@ public class MediaConsumer {
   private static final Logger LOGGER = Logger.getLogger(MediaConsumer.class);
   
   @Inject
-  MovieConsumer movieService;
+  MovieConsumer movieConsumer;
+  
+  @Inject
+  SeriesConsumer seriesConsumer;
   
   @RunOnVirtualThread
   @Incoming("ingest-media-in")
@@ -38,7 +41,8 @@ public class MediaConsumer {
       logQueueDuration(metadata, command);
       var start = Instant.now();      
       switch (command.type()) {
-        case MOVIE -> movieService.ingest(command.tmdbId());
+        case MOVIE -> movieConsumer.ingest(command.tmdbId());
+        case SERIES -> seriesConsumer.ingest(command.tmdbId());
         default -> throw new IllegalArgumentException("Invalid command type: " + command.type());
       }
       logJobDuration(command.tmdbId(), command.type(), Duration.between(start, Instant.now()));
@@ -53,8 +57,7 @@ public class MediaConsumer {
   }
   
   private void logJobDuration(int tmdbId, MediaType type, Duration duration) {
-    var msg = String.format("Ingest job for TMDB %s %d completed in %d ms", 
-        MediaType.MOVIE, tmdbId, duration.toMillis());
+    var msg = String.format("Ingest job for TMDB %s %d completed in %d ms", type, tmdbId, duration.toMillis());
     LOGGER.info(msg);
   }  
   

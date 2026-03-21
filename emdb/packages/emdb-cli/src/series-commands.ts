@@ -4,44 +4,34 @@ import { promises as fs } from 'fs';
 import { useEmdb } from './services/useEmdb.js';
 import { useErrorHandler } from './composables/useErrorHandler.js';
 import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
-import { SaveMovieSchema } from './schemas/SaveMovieSchema.js';
+import { SaveSeriesSchema } from './schemas/SaveSeriesSchema.js';
 
-export { movieCommand };
+export { seriesCommand };
 
 const { handleError } = useErrorHandler();
 
-const movieCommand = new Command('movie')
-  .description('Perform CRUD operations on a movie');
+const seriesCommand = new Command('series')
+  .description('Perform CRUD operations on a series');
 
-movieCommand
+seriesCommand
   .command('ingest')
-  .description('Ingest a movie from TMDB')
-  .argument('<tmdbId>', 'The TMDB id of the movie to ingest')
+  .description('Ingest a series from TMDB')
+  .argument('<tmdbId>', 'The TMDB id of the series to ingest')
   .addHelpText('after', `
 Examples:
-  $ emdb-cli movie ingest 335984
+  $ emdb-cli series ingest 4614
 `)  
   .action(ingest);
 
-movieCommand
+seriesCommand
   .command('save')
-  .description('Save a movie from TMDB')
-  .argument('<file>', 'The file containing the movie to save')
+  .description('Save a series from TMDB')
+  .argument('<file>', 'The file containing the series to save')
   .addHelpText('after', `
 Examples:
-  $ emdb-cli movie save Austin-Powers-in-Goldmember-20260205-202941.json
+  $ emdb-cli series save The-Simpsons.json
 `)  
   .action(save);
-
-movieCommand
-  .command('find')
-  .description('Find a movie in EMDB')
-  .argument('<id>', 'The id of the movie to find')
-  .addHelpText('after', `
-Examples:
-  $ emdb-cli movie find 1
-`)  
-  .action(find);
 
 async function ingest(tmdbId: number) {
   try {
@@ -49,7 +39,7 @@ async function ingest(tmdbId: number) {
     const command: IngestMedia = {
       tmdbId: tmdbId,
       source: IngestSource.CLI,
-      type: MediaType.MOVIE
+      type: MediaType.SERIES
     };
     const jobId = await ingest(command);
     console.log(`Job Id: ${jobId}`);
@@ -61,25 +51,25 @@ async function ingest(tmdbId: number) {
 async function save(fileName: string) {
   try {
     const file = await fs.readFile(fileName, 'utf-8');
-    const parsed = SaveMovieSchema.safeParse(JSON.parse(file));
+    const parsed = SaveSeriesSchema.safeParse(JSON.parse(file));
     if (!parsed.success) {
       console.error(`Validation failed for file: ${fileName}`);
       console.error(JSON.stringify(parsed.error.format(), null, 2));
       process.exit(1);
     }
-    const { saveMovie } = useEmdb();
+    const { saveSeries } = useEmdb();
     const start = performance.now();
-    const { status, movie } = await saveMovie(parsed.data);
+    const { status, series } = await saveSeries(parsed.data);
     const et = (performance.now() - start).toLocaleString(undefined, {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
 
     if (status === 201) {
-      console.log(`Created movie: ${movie?.title} in ${et} ms.`);
-      console.log(movie);
+      console.log(`Created series: ${series?.title} in ${et} ms.`);
+      console.log(series);
     } else if (status === 200) {
-      console.log(`Updated movie: ${movie?.title} in ${et} ms.`);
-      console.log(movie);
+      console.log(`Updated series: ${series?.title} in ${et} ms.`);
+      console.log(series);
     } else if (status === 204) {
       console.log(`No changes needed for ${parsed.data.title}. Skipped in ${et} ms.`);
     } else {
@@ -89,19 +79,3 @@ async function save(fileName: string) {
     handleError(error);
   }
 };
-
-async function find(id: number) {
-  try {
-    const { findMovie } = useEmdb();
-    const start = performance.now();
-    const movie = await findMovie(id);
-    const et = (performance.now() - start).toLocaleString(undefined, {
-      minimumFractionDigits: 1, maximumFractionDigits: 1
-    });
-    console.log(`Found ${movie.title} in: ${et} ms.`);    
-    console.log(movie);
-  } catch (error: any) {
-    handleError(error);
-  }
-};
-

@@ -2,9 +2,11 @@ import axios, { type AxiosInstance } from 'axios';
 
 import type { 
   Movie, 
-  Person } from '@emdb/common';
+  Person, 
+  Series} from '@emdb/common';
 import type { SaveMovie } from '../schemas/SaveMovieSchema.js';
 import type { SavePerson } from '../schemas/SavePersonSchema.js';
+import type { SaveSeries } from '../schemas/SaveSeriesSchema.js';
 import type { IngestMedia, MultiResponse } from '@emdb/common';
 
 let cachedToken: string | null = null;
@@ -68,7 +70,12 @@ export function useEmdb() {
   const savePeople = async (command: SavePerson[]): Promise<MultiResponse[]> => {
     const { data: results } = await client.post<MultiResponse[]>('/people/batch', command);
     return results;
-  };    
+  }; 
+  
+  const saveSeries = async (command: SaveSeries): Promise<{ status: number, series?: Series }> => {
+    const response = await client.post<Series>('/series', command);
+    return { status: response.status, series: response.data };
+  };  
 
   return {
     ingest,
@@ -76,6 +83,7 @@ export function useEmdb() {
     saveMovie,
     savePerson,
     savePeople,
+    saveSeries,
   };
 
 }

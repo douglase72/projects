@@ -12,7 +12,7 @@ import com.erdouglass.emdb.scraper.query.TmdbMovie;
     componentModel = "cdi", 
     unmappedTargetPolicy = ReportingPolicy.ERROR
 )
-public interface TmdbCreditMapper {
+public interface TmdbMovieCreditMapper {
   
   @Mapping(source = "credit.id", target = "tmdbId")
   CastCredit toCastCredit(TmdbMovie.CastCredit credit);

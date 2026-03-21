@@ -32,7 +32,7 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   public void save(SaveMovieRequest request, StreamObserver<SaveMovieResponse> responseObserver) {
     var command = mapper.toSaveMovie(request);
     var result = service.save(command);
-    SaveMovieResponse response = mapper.toSaveMovieResponse(result);
+    var response = mapper.toSaveMovieResponse(result);
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }

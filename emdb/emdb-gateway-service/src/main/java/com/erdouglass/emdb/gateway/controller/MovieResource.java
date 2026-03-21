@@ -1,6 +1,9 @@
 package com.erdouglass.emdb.gateway.controller;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -35,7 +38,7 @@ public class MovieResource {
   MovieServiceGrpc.MovieServiceBlockingStub service;
   
   @POST
-  public Response save(SaveMovie command) {
+  public Response save(@NotNull @Valid SaveMovie command) {
     var request = mapper.toSaveMovieRequest(command);
     var response = service.save(request);
     return Response.status(mapper.mapProtoStatusToHttpCode(response.getStatus()))
@@ -45,14 +48,18 @@ public class MovieResource {
   
   @GET
   @Path("/{id}")
-  public MovieDto findById(@PathParam("id") Long id, @QueryParam(Configuration.APPEND) String append) {
+  public MovieDto findById(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @QueryParam(Configuration.APPEND) String append) {
     var response = service.findById(mapper.toFindMovieRequest(id, append));
     return mapper.toMovieDto(response);
   }
   
   @PUT
   @Path("/{id}")
-  public MovieDto update(@PathParam("id") Long id, UpdateMovie command) {
+  public MovieDto update(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @NotNull @Valid UpdateMovie command) {
     var request = mapper.toUpdateMovieRequest(id, command);
     var response = service.update(request);
     return mapper.toMovieDto(response);
@@ -60,7 +67,7 @@ public class MovieResource {
   
   @DELETE
   @Path("/{id}")
-  public Response delete(@PathParam("id") Long id) {
+  public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     var request = DeleteMovieRequest.newBuilder().setId(id).build();
     service.delete(request);
     return Response.noContent().build();

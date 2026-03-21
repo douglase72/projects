@@ -3,6 +3,32 @@ import { z } from 'zod';
 import { SavePersonSchema } from './SavePersonSchema.js';
 import { SeriesType, ShowStatus } from '@emdb/common';
 
+const RoleSchema = z.object({
+  character: z.string().nullable().optional(),
+  episodeCount: z.number().int().nonnegative(),
+});
+
+const JobSchema = z.object({
+  title: z.string().nullable().optional(),
+  episodeCount: z.number().int().nonnegative(),
+});
+
+const CastCreditSchema = z.object({
+  tmdbId: z.number().int().positive(),
+  roles: z.array(RoleSchema).nonempty(),
+  order: z.number().int().nonnegative(),
+});
+
+const CrewCreditSchema = z.object({
+  tmdbId: z.number().int().positive(),
+  jobs: z.array(JobSchema).nonempty(),
+});
+
+const CreditsSchema = z.object({
+  cast: z.array(CastCreditSchema),
+  crew: z.array(CrewCreditSchema),
+});
+
 export const SaveSeriesSchema = z.object({
   tmdbId: z.number().int().positive(),
   title: z.string(),
@@ -12,28 +38,11 @@ export const SaveSeriesSchema = z.object({
   homepage: z.string().url().nullable(),
   originalLanguage: z.string().length(2).nullable(),
   backdrop: z.string().uuid().nullable(),
-  tmdbBackdrop: z.string().nullable(),
   poster: z.string().uuid().nullable(),
-  tmdbPoster: z.string().nullable(),
   tagline: z.string().nullable(),
   overview: z.string().nullable(),
-  credits: z.object({
-    cast: z.array(z.object({
-      person: SavePersonSchema,
-      roles: z.array(z.object({
-        character: z.string(),
-        episodeCount: z.number().int().nonnegative(),
-      })),
-      order: z.number().int(),
-    })),
-    crew: z.array(z.object({
-      person: SavePersonSchema,
-      jobs: z.array(z.object({
-        title: z.string(),
-        episodeCount: z.number().int().nonnegative(),
-      })),
-    })),
-  }).optional()
+  credits: CreditsSchema,
+  people: z.array(SavePersonSchema),
 }).strict();
 
 export type SaveSeries = z.infer<typeof SaveSeriesSchema>;
