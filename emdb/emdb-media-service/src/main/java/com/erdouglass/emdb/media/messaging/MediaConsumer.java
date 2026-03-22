@@ -28,6 +28,9 @@ public class MediaConsumer {
   MovieConsumer movieConsumer;
   
   @Inject
+  PersonConsumer personConsumer;
+  
+  @Inject
   SeriesConsumer seriesConsumer;
   
   @RunOnVirtualThread
@@ -42,6 +45,7 @@ public class MediaConsumer {
       var start = Instant.now();      
       switch (command.type()) {
         case MOVIE -> movieConsumer.ingest(command.tmdbId());
+        case PERSON -> personConsumer.ingest(command.tmdbId());
         case SERIES -> seriesConsumer.ingest(command.tmdbId());
         default -> throw new IllegalArgumentException("Invalid command type: " + command.type());
       }

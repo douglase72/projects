@@ -34,6 +34,7 @@ public interface PersonMapper {
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SavePerson toSavePerson(SavePersonRequest request);
+  SavePerson toSavePerson(Person person);
   
   Person toPerson(SavePerson command);
   

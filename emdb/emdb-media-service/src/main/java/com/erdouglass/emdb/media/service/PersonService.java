@@ -92,6 +92,12 @@ public class PersonService {
   }
   
   @Transactional
+  @LogDuration("Found:")
+  public Optional<Person> findByTmdbId(@NotNull @Positive Integer id) {
+    return repository.findByTmdbId(id);
+  }
+  
+  @Transactional
   @LogDuration("Updated:")
   public Person update(Long id, UpdatePerson command) {
     var existingPerson = repository.findById(id)

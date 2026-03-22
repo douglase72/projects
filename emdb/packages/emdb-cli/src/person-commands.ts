@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { useEmdb } from './services/useEmdb.js';
 import { useErrorHandler } from './composables/useErrorHandler.js';
+import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 import { SavePersonSchema } from './schemas/SavePersonSchema.js';
 import { UpdatePersonSchema } from './schemas/UpdatePersonSchema.js';
 
@@ -13,6 +14,16 @@ const { handleError } = useErrorHandler();
 
 const personCommand = new Command('person')
   .description('Perform CRUD operations on a person');
+
+personCommand
+  .command('ingest')
+  .description('Ingest a person from TMDB')
+  .argument('<tmdbId>', 'The TMDB id of the person to ingest')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli person ingest 13918
+`)  
+  .action(ingest);
 
 personCommand
   .command('save')
@@ -64,6 +75,21 @@ Examples:
   $ emdb-cli person delete 1
 `)  
   .action(deleteById);
+
+async function ingest(tmdbId: number) {
+  try {
+    const { ingest } = useEmdb();
+    const command: IngestMedia = {
+      tmdbId: tmdbId,
+      source: IngestSource.CLI,
+      type: MediaType.PERSON
+    };
+    const jobId = await ingest(command);
+    console.log(`Job Id: ${jobId}`);
+  } catch (error: any) {
+    handleError(error);
+  }
+};
 
 async function save(fileName: string) {
   try {
