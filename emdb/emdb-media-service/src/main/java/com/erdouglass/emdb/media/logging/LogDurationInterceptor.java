@@ -30,7 +30,7 @@ public class LogDurationInterceptor {
       var et = Duration.between(start, Instant.now()).toMillis();
       var annotation = context.getMethod().getAnnotation(LogDuration.class);
       var action = annotation != null ? annotation.value() : "Executed:";
-      Object subject;
+      Object subject = null;;
       if (result instanceof Optional<?> opt) {
         subject = opt.isPresent() ? opt.get() : "Nothing";
       } else if (result instanceof Collection<?> col) {
@@ -41,7 +41,11 @@ public class LogDurationInterceptor {
           subject += "entities";
         }
       } else if (result == null) {
-        subject = "";
+        if (annotation != null && !annotation.subject().isBlank()) {
+          subject = annotation.subject();
+        } else {
+          subject = "";
+        }
       } else {
         subject = result;
       }

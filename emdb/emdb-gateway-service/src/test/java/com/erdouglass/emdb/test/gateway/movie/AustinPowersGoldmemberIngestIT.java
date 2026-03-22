@@ -10,20 +10,32 @@ import java.util.concurrent.TimeUnit;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.common.comand.IngestMedia.IngestSource;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 
+@TestInstance(Lifecycle.PER_CLASS)
 class AustinPowersGoldmemberIngestIT extends AbstractTest {
   private static final Logger LOGGER = Logger.getLogger(AustinPowersGoldmemberIngestIT.class);
+  
+  private String token;
+  
+  @BeforeAll
+  void setupSecurity() throws IOException, InterruptedException {
+    this.token = getAccessToken();
+  }
 
   @Test
   void testIngest() throws IOException, InterruptedException {
     var command = IngestMedia.of(818, MediaType.MOVIE, IngestSource.CLI);
     var request = HttpRequest.newBuilder().uri(UriBuilder.fromUri(INGEST_URL).build())
+        .header("Authorization", "Bearer " + token)
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());

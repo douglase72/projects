@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 import "common.proto";
 
 option java_multiple_files = true;
@@ -11,6 +12,9 @@ package emdb.media.v1;
 service PersonService {
   rpc Save (SavePersonRequest) returns (SavePersonResponse) {}
   rpc SaveAll (SavePeopleRequest) returns (PeopleResponse) {} 
+  rpc FindById (FindPersonRequest) returns (PersonResponse) {}
+  rpc Update (UpdatePersonRequest) returns (PersonResponse) {}
+  rpc Delete (DeletePersonRequest) returns (google.protobuf.Empty) {}
 }
 
 enum Gender {
@@ -36,6 +40,30 @@ message SavePeopleRequest {
   repeated SavePersonRequest people = 1;
 }
 
+message FindPersonRequest {
+  int64 id = 1;
+  optional string append = 2;
+}
+
+message UpdatePersonRequest {
+  int64 id = 1;
+  UpdatePersonCommand command = 2;
+}
+
+message UpdatePersonCommand {
+  string name = 1;
+  optional string birth_date = 2;
+  optional string death_date = 3;
+  optional Gender gender = 4;
+  optional string profile = 5;
+  optional string Birth_place = 6;
+  optional string biography = 7;
+}
+
+message DeletePersonRequest {
+  int64 id = 1;
+}
+
 message PersonResponse {
   int64 id = 1;
   int32 tmdb_id = 2;
@@ -53,13 +81,7 @@ message SavePersonResponse {
   PersonResponse person = 2;
 }
 
-message SavePersonResult {
-  SaveStatus status = 1;
-  int64 id = 2;
-  int32 tmdb_id = 3;
-}
-
 message PeopleResponse {
-  repeated SavePersonResult results = 1;
+  repeated SaveResult results = 1;
 }
 

@@ -62,10 +62,6 @@ message UpdateMovieRequest {
   UpdateMovieCommand command = 2;
 }
 
-message DeleteMovieRequest {
-  int64 id = 1;
-}
-
 message UpdateMovieCommand {
   string title = 1;
   optional string release_date = 2;
@@ -80,6 +76,10 @@ message UpdateMovieCommand {
   optional string original_language = 11;
   optional string tagline = 12;
   optional string overview = 13;
+}
+
+message DeleteMovieRequest {
+  int64 id = 1;
 }
 
 message MovieResponse {

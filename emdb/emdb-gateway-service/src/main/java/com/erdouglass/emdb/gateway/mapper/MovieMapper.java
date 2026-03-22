@@ -10,13 +10,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
-import com.erdouglass.emdb.media.proto.v1.SavePersonRequest;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 
 @Mapper(
@@ -28,8 +26,6 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 )
 public interface MovieMapper extends CommonMapper {
   
-  SavePersonRequest toSavePersonRequest(SavePerson person);
-
   SaveMovieRequest toSaveMovieRequest(SaveMovie command);
   
   FindMovieRequest toFindMovieRequest(Long id, String append);

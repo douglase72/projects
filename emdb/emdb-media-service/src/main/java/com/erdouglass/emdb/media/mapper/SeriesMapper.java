@@ -11,10 +11,13 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.entity.Series;
 import com.erdouglass.emdb.media.proto.v1.SaveSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveSeriesResponse;
+import com.erdouglass.emdb.media.proto.v1.SeriesResponse;
+import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCommand;
 
 @Mapper(
     componentModel = "cdi", 
@@ -27,12 +30,19 @@ public interface SeriesMapper {
   
   void merge(SaveSeries command, @MappingTarget Series series);
   
+  void merge(UpdateSeries command, @MappingTarget Series series);
+  
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveSeries toSaveSeries(SaveSeriesRequest request);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  UpdateSeries toUpdateSeries(UpdateSeriesCommand command);
   
   Series toSeries(SaveSeries command);
     
   @Mapping(source = "entity", target = "series")
   SaveSeriesResponse toSaveSeriesResponse(SaveResult<Series> result);
+  
+  SeriesResponse toSeriesResponse(Series series);
 
 }

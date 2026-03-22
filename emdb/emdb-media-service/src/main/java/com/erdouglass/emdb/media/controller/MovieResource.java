@@ -40,18 +40,16 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   @Override
   @RunOnVirtualThread
   public void findById(FindMovieRequest request, StreamObserver<MovieResponse> responseObserver) {
-    service.findById(request.getId(), request.getAppend())
-        .ifPresentOrElse(m -> {
-          var response = mapper.toMovieResponse(m);
-          responseObserver.onNext(response);
-          responseObserver.onCompleted();
-        }, () -> {
-          responseObserver.onError(
-              Status.NOT_FOUND
-                  .withDescription("Movie not found with id: " + request.getId())
-                  .asRuntimeException()
-          );          
-        });
+    var movie = service.findById(request.getId(), request.getAppend()).orElse(null);
+    if (movie == null) {
+      responseObserver.onError(Status.NOT_FOUND
+          .withDescription("Movie not found with id: " + request.getId())
+          .asRuntimeException());
+      return;
+    }
+    var response = mapper.toMovieResponse(movie);
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();
   }
   
   @Override
@@ -59,7 +57,7 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   public void update(UpdateMovieRequest request, StreamObserver<MovieResponse> responseObserver) {
     var command = mapper.toUpdateMovie(request.getCommand());
     var movie = service.update(request.getId(), command);
-    MovieResponse response = mapper.toMovieResponse(movie);
+    var response = mapper.toMovieResponse(movie);
     responseObserver.onNext(response);
     responseObserver.onCompleted();    
   }

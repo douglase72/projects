@@ -25,3 +25,9 @@ enum ShowStatus {
   RETURNING_SERIES = 8;
   RUMORED = 9;
 }
+
+message SaveResult {
+  SaveStatus status = 1;
+  int64 id = 2;
+  int32 tmdb_id = 3;
+}

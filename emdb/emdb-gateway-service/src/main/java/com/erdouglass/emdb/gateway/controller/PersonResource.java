@@ -2,24 +2,37 @@ package com.erdouglass.emdb.gateway.controller;
 
 import java.util.List;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.comand.UpdatePerson;
+import com.erdouglass.emdb.common.query.PersonDto;
 import com.erdouglass.emdb.gateway.mapper.PersonMapper;
+import com.erdouglass.emdb.media.proto.v1.DeletePersonRequest;
 import com.erdouglass.emdb.media.proto.v1.PersonServiceGrpc;
 import com.erdouglass.webservices.ResponseStatus;
 
 import io.quarkus.grpc.GrpcClient;
 
 @Path("/people")
+@RolesAllowed(Configuration.ADMIN)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonResource {
@@ -43,10 +56,39 @@ public class PersonResource {
   @Path("/batch")
   public Response saveAll(List<@Valid SavePerson> commands) {
     var request = mapper.toSavePeopleRequest(commands);
-    var response = service.saveAll(request);
+    var results = service.saveAll(request);
+    var response = mapper.toMultiResponseDto(results.getResultsList());
     return Response.status(ResponseStatus.MULTI_STATUS)
-        .entity(mapper.toMultiResponseDto(response.getResultsList()))
+        .entity(response)
         .build();
   }
+  
+  @PermitAll
+  @GET
+  @Path("/{id}")
+  public PersonDto findById(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @QueryParam(Configuration.APPEND) String append) {
+    var response = service.findById(mapper.toFindPersonRequest(id, append));
+    return mapper.toPersonDto(response);
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public PersonDto update(
+      @PathParam("id") @NotNull @Positive Long id, 
+      @NotNull @Valid UpdatePerson command) {
+    var request = mapper.toUpdatePersonRequest(id, command);
+    var response = service.update(request);
+    return mapper.toPersonDto(response);
+  }
+  
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@PathParam("id") @NotNull @Positive Long id) {
+    var request = DeletePersonRequest.newBuilder().setId(id).build();
+    service.delete(request);
+    return Response.noContent().build();
+  }  
 
 }

@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -12,14 +13,17 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.common.comand.SavePerson;
+import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
 import com.erdouglass.emdb.media.repository.PersonRepository;
+import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class PersonService {
@@ -78,6 +82,30 @@ public class PersonService {
       repository.updateAll(peopleToUpdate);
     }    
     return results;
+  }
+  
+  @Transactional
+  @LogDuration("Found:")
+  public Optional<Person> findById(@NotNull @Positive Long id, String append) {
+    var person = repository.findById(id);
+    return person;
+  }
+  
+  @Transactional
+  @LogDuration("Updated:")
+  public Person update(Long id, UpdatePerson command) {
+    var existingPerson = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
+    mapper.merge(command, existingPerson);
+    return repository.update(existingPerson);
+  } 
+  
+  @Transactional
+  @LogDuration(value = "Deleted:", subject = "person")
+  public void delete(Long id) {
+    repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No person found with id: " + id));
+    repository.deleteById(id);
   }
   
   private boolean isEqual(SavePerson command, Person person) {

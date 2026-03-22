@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.service;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -10,9 +11,11 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.common.comand.SaveSeries.Credits;
+import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.entity.Person;
@@ -20,6 +23,7 @@ import com.erdouglass.emdb.media.entity.Series;
 import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.SeriesMapper;
 import com.erdouglass.emdb.media.repository.SeriesRepository;
+import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class SeriesService {
@@ -52,6 +56,30 @@ public class SeriesService {
         .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
     saveCredits(existingSeries, savedPeople, command.credits());
     return SaveResult.of(status, existingSeries);
+  }
+  
+  @Transactional
+  @LogDuration("Found:")
+  public Optional<Series> findById(@NotNull @Positive Long id, String append) {
+    var series = repository.findById(id);
+    return series;
+  }
+  
+  @Transactional
+  @LogDuration("Updated:")
+  public Series update(Long id, UpdateSeries command) {
+    var existingSeries = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No series found with id: " + id));
+    mapper.merge(command, existingSeries);
+    return repository.update(existingSeries);
+  }
+  
+  @Transactional
+  @LogDuration(value = "Deleted:", subject = "series")
+  public void delete(Long id) {
+    repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("No series found with id: " + id));
+    repository.deleteById(id);
   }
   
   private boolean isEqual(SaveSeries command, Series series) {

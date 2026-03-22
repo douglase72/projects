@@ -23,7 +23,7 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
     request.getHeaders().forEach((k, v) -> LOGGER.debug("{}: {}", k, v));
     var sctx = request.getSecurityContext();
     if (sctx != null && sctx.getUserPrincipal() != null) {
-    	LOGGER.info("User: {}", sctx.getUserPrincipal().getName());
+      LOGGER.info("User: {}", sctx.getUserPrincipal().getName());
     }
   }
 			

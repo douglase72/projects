@@ -11,6 +11,7 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.media.service.SeriesService;
 import com.erdouglass.emdb.scraper.service.TmdbSeriesScraper;
 import com.erdouglass.webservices.LoggingDecorator;
 
@@ -26,6 +27,9 @@ public class SeriesConsumer extends Consumer {
   
   @Inject
   TmdbSeriesScraper scraper;
+  
+  @Inject
+  SeriesService service;
 
   @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
@@ -33,6 +37,7 @@ public class SeriesConsumer extends Consumer {
     
     try {
       validate(command);
+      service.save(command);
     } catch (Exception e) {
       dlqEmitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

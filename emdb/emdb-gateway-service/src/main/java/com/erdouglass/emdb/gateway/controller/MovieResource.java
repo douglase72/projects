@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.gateway.controller;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +29,7 @@ import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 import io.quarkus.grpc.GrpcClient;
 
 @Path("/movies")
+@RolesAllowed(Configuration.ADMIN)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
@@ -46,6 +49,7 @@ public class MovieResource {
         .build();
   }
   
+  @PermitAll
   @GET
   @Path("/{id}")
   public MovieDto findById(

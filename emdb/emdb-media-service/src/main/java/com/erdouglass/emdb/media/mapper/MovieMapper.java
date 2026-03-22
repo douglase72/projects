@@ -28,23 +28,21 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
 )
 public interface MovieMapper {
   
-  void merge(SaveMovie command, @MappingTarget Movie movie);
-  
+  void merge(SaveMovie command, @MappingTarget Movie movie);  
   void merge(UpdateMovie command, @MappingTarget Movie movie);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);
-  
   SaveMovie toSaveMovie(Movie movie);
-  
-  MovieResponse toMovieResponse(Movie movie);
-  
-  @BeanMapping(builder = @Builder(disableBuilder = true))
-  UpdateMovie toUpdateMovie(UpdateMovieCommand command);
-  
-  @Mapping(source = "entity", target = "movie")
-  SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);
   
   Movie toMovie(SaveMovie command);
   
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  UpdateMovie toUpdateMovie(UpdateMovieCommand command);
+    
+  MovieResponse toMovieResponse(Movie movie);
+  
+  @Mapping(source = "entity", target = "movie")
+  SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);
+    
 }

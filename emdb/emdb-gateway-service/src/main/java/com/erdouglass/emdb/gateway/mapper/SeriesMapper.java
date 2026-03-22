@@ -10,9 +10,12 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.common.query.SeriesDto;
+import com.erdouglass.emdb.media.proto.v1.FindSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.SeriesResponse;
+import com.erdouglass.emdb.media.proto.v1.UpdateSeriesRequest;
 
 @Mapper(
     componentModel = "cdi", 
@@ -24,6 +27,12 @@ import com.erdouglass.emdb.media.proto.v1.SeriesResponse;
 public interface SeriesMapper extends CommonMapper {
   
   SaveSeriesRequest toSaveSeriesRequest(SaveSeries command);
+  
+  FindSeriesRequest toFindSeriesRequest(Long id, String append);
+  
+  @Mapping(target = "id", source = "id")
+  @Mapping(target = "command", source = "command")
+  UpdateSeriesRequest toUpdateSeriesRequest(Long id, UpdateSeries command);
   
   @Mapping(target = "backdrop", expression = "java(response.hasBackdrop() ? response.getBackdrop() + \".jpg\" : null)")
   @Mapping(target = "poster", expression = "java(response.hasPoster() ? response.getPoster() + \".jpg\" : null)")
