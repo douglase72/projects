@@ -19,11 +19,9 @@ public class Configuration {
   /// Query parameter key used to append additional data to API responses.
   public static final String APPEND = "append";
     
-  public static final int GATEWAY_READ_TIMEOUT = 2;
-  
-  public static final int GATEWAY_WRITE_TIMEOUT = 6;
-  
-  public static final int TMDB_READ_TIMEOUT = 5;
+  public static final int GATEWAY_TIMEOUT = 5;
+    
+  public static final int TMDB_TIMEOUT = 5;
   
   /// Key used for routing or tagging media ingest events.
   public static final String INGEST_KEY = "ingest.media";

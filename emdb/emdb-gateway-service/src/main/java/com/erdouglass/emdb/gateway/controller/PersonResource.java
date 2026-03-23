@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.gateway.controller;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import jakarta.annotation.security.PermitAll;
@@ -20,6 +21,10 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdatePerson;
@@ -35,6 +40,8 @@ import io.quarkus.grpc.GrpcClient;
 @RolesAllowed(Configuration.ADMIN)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
+@CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
 public class PersonResource {
   
   @Inject
@@ -66,6 +73,7 @@ public class PersonResource {
   @PermitAll
   @GET
   @Path("/{id}")
+  @Retry(maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS)
   public PersonDto findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {
@@ -85,6 +93,7 @@ public class PersonResource {
   
   @DELETE
   @Path("/{id}")
+  @Retry(maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS)
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     var request = DeletePersonRequest.newBuilder().setId(id).build();
     service.delete(request);
