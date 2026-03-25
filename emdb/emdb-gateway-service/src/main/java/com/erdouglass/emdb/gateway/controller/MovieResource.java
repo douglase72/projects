@@ -32,6 +32,7 @@ import com.erdouglass.emdb.gateway.mapper.MovieMapper;
 import com.erdouglass.emdb.media.proto.v1.DeleteMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 
+import io.grpc.StatusRuntimeException;
 import io.quarkus.grpc.GrpcClient;
 
 @Path("/movies")
@@ -60,7 +61,9 @@ public class MovieResource {
   @PermitAll
   @GET
   @Path("/{id}")
-  @Retry(maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public MovieDto findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {

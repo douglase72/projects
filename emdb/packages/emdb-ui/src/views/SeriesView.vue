@@ -1,45 +1,43 @@
 <template>
   <main class="m-8">
-    <section v-if="movie" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
+    <section v-if="series" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
-      <div>{{ movie.id }}</div>
+      <div>{{ series.id }}</div>
       <div>TMDB ID</div>
-      <div>{{ movie.tmdbId }}</div>
+      <div>{{ series.tmdbId }}</div>
       <div>Title</div>
-      <div>{{ movie.title }}</div>
-      <div>Release Date</div>
-      <div>{{ movie.releaseDate }}</div>
+      <div>{{ series.title }}</div>
+      <div>First Air Date</div>
+      <div>{{ series.firstAirDate }}</div>
+      <div>Last Air Date</div>
+      <div>{{ series.lastAirDate }}</div>
       <div>Score</div>
-      <div>{{ movie.score }}</div>
+      <div>{{ series.score }}</div>
       <div>Status</div>
-      <div>{{ movie.status }}</div>
-      <div>Runtime</div>
-      <div>{{ movie.runtime }}</div>
-      <div>Budget</div>
-      <div>{{ movie.budget }}</div> 
-      <div>Revenue</div>
-      <div>{{ movie.revenue }}</div> 
+      <div>{{ series.status }}</div>
+      <div>Type</div>
+      <div>{{ series.type }}</div>
       <div>Homepage</div>
-      <div>{{ movie.homepage }}</div>
+      <div>{{ series.homepage }}</div>
       <div>Original Language</div>
-      <div>{{ formatLanguage(movie.originalLanguage) }}</div>
+      <div>{{ formatLanguage(series.originalLanguage) }}</div>
       <div>Backdrop</div>
-      <div v-if="movie.backdrop">
-        {{ movie.backdrop }}
+      <div v-if="series.backdrop">
+        {{ series.backdrop }}
       </div>  
       <div>Poster</div>
-      <div v-if="movie.poster">
-        {{ movie.poster }}
+      <div v-if="series.poster">
+        {{ series.poster }}
       </div>        
       <div>Tagline</div>
-      <div>{{ movie.tagline }}</div>
+      <div>{{ series.tagline }}</div>
       <div>Overview</div>
-      <div>{{ movie.overview }}</div>
+      <div>{{ series.overview }}</div>
     </section>
 
     <Button label="Edit" 
-            v-if="movie && isAdmin" 
-            @click="router.push({ name: 'MovieEdit', params: { id: movie.id } })" />
+            v-if="series && isAdmin" 
+            @click="router.push({ name: 'SeriesEdit', params: { id: series.id } })" />
   </main>
 </template>
 
@@ -51,15 +49,16 @@
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
-  import type { Movie } from "@emdb/common";
+  import type { Series } from "@emdb/common";
 
-  const { findMovie } = useEmdbApi();
+  const { findSeries } = useEmdbApi();
   const { formatLanguage } = useLanguage();
   const { handleError } = useErrorHandler();
   const route = useRoute();
   const router = useRouter();
 
-  const movie = ref<Movie>();
+  const series = ref<Series>();
+
   const isAdmin = computed(() => {
     return keycloak.authenticated && keycloak.hasRealmRole('admin');
   });
@@ -72,9 +71,9 @@
     }
 
     try {
-      movie.value = await findMovie(id);
+      series.value = await findSeries(id);
     } catch (e) {
-      handleError(e, 'Failed to load movie');
+      handleError(e, 'Failed to load series');
       router.push('/'); 
     }
   });

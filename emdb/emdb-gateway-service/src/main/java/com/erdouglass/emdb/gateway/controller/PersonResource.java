@@ -34,6 +34,7 @@ import com.erdouglass.emdb.media.proto.v1.DeletePersonRequest;
 import com.erdouglass.emdb.media.proto.v1.PersonServiceGrpc;
 import com.erdouglass.webservices.ResponseStatus;
 
+import io.grpc.StatusRuntimeException;
 import io.quarkus.grpc.GrpcClient;
 
 @Path("/people")
@@ -73,7 +74,9 @@ public class PersonResource {
   @PermitAll
   @GET
   @Path("/{id}")
-  @Retry(maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public PersonDto findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {

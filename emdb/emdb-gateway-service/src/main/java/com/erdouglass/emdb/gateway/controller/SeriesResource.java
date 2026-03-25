@@ -32,6 +32,7 @@ import com.erdouglass.emdb.gateway.mapper.SeriesMapper;
 import com.erdouglass.emdb.media.proto.v1.DeleteSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.SeriesServiceGrpc;
 
+import io.grpc.StatusRuntimeException;
 import io.quarkus.grpc.GrpcClient;
 
 @Path("/series")
@@ -60,7 +61,9 @@ public class SeriesResource {
   @PermitAll
   @GET
   @Path("/{id}")
-  @Retry(maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public SeriesDto findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {
