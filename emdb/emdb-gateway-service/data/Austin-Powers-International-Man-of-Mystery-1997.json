@@ -1,0 +1,2442 @@
+{
+  "tmdbId" : 816,
+  "title" : "Austin Powers: International Man of Mystery",
+  "releaseDate" : "1997-05-02",
+  "score" : 5.0,
+  "status" : "Released",
+  "runtime" : 89,
+  "budget" : 16500000,
+  "revenue" : 67711748,
+  "backdrop" : "349a7727-34b1-4b2f-a072-bcbf9254f5bb",
+  "poster" : "8d20f82e-17de-4085-82ad-8810eb116d0f",
+  "homepage" : "https://www.warnerbros.com/movies/austin-powers-international-man-mystery",
+  "originalLanguage" : "en",
+  "tagline" : "Debonair. Defiant. Defrosted.",
+  "overview" : "As a swinging fashion photographer by day and a groovy British superagent by night, Austin Powers is the '60s' most shagadelic spy. But can he stop megalomaniac Dr. Evil after the bald villain freezes himself and unthaws in the '90s? With the help of sexy sidekick Vanessa Kensington, he just might.",
+  "credits" : {
+    "cast" : [ {
+      "tmdbId" : 12073,
+      "character" : "Austin Powers / Dr. Evil",
+      "order" : 0
+    }, {
+      "tmdbId" : 13918,
+      "character" : "Vanessa Kensington",
+      "order" : 1
+    }, {
+      "tmdbId" : 13919,
+      "character" : "Basil Exposition",
+      "order" : 2
+    }, {
+      "tmdbId" : 13920,
+      "character" : "Mrs. Kensington",
+      "order" : 3
+    }, {
+      "tmdbId" : 9208,
+      "character" : "Number Two",
+      "order" : 4
+    }, {
+      "tmdbId" : 13922,
+      "character" : "Scott Evil",
+      "order" : 5
+    }, {
+      "tmdbId" : 13923,
+      "character" : "Alotta Fagina",
+      "order" : 6
+    }, {
+      "tmdbId" : 13924,
+      "character" : "Frau Farbissina",
+      "order" : 7
+    }, {
+      "tmdbId" : 23659,
+      "character" : "Mustafa",
+      "order" : 8
+    }, {
+      "tmdbId" : 13925,
+      "character" : "Patty O'Brien",
+      "order" : 9
+    }, {
+      "tmdbId" : 16119,
+      "character" : "Commander Gilmour",
+      "order" : 10
+    }, {
+      "tmdbId" : 1008676,
+      "character" : "'60s Model",
+      "order" : 11
+    }, {
+      "tmdbId" : 170491,
+      "character" : "'60s Model",
+      "order" : 12
+    }, {
+      "tmdbId" : 32288,
+      "character" : "'60s Model",
+      "order" : 13
+    }, {
+      "tmdbId" : 34844,
+      "character" : "Mod Girl",
+      "order" : 14
+    }, {
+      "tmdbId" : 15443,
+      "character" : "Andy Warhol",
+      "order" : 15
+    }, {
+      "tmdbId" : 15661,
+      "character" : "Radar Operator",
+      "order" : 16
+    }, {
+      "tmdbId" : 2368,
+      "character" : "General Borschevsky",
+      "order" : 17
+    }, {
+      "tmdbId" : 1852710,
+      "character" : "Gary Coleman",
+      "order" : 18
+    }, {
+      "tmdbId" : 2737347,
+      "character" : "Vanilla Ice",
+      "order" : 19
+    }, {
+      "tmdbId" : 215099,
+      "character" : "Quartermaster Clerk",
+      "order" : 20
+    }, {
+      "tmdbId" : 2187418,
+      "character" : "Go Go Dancer",
+      "order" : 21
+    }, {
+      "tmdbId" : 1503023,
+      "character" : "Go Go Dancer",
+      "order" : 22
+    }, {
+      "tmdbId" : 141225,
+      "character" : "Go Go Dancer",
+      "order" : 23
+    }, {
+      "tmdbId" : 203263,
+      "character" : "Go Go Dancer",
+      "order" : 24
+    }, {
+      "tmdbId" : 2187419,
+      "character" : "Go Go Dancer",
+      "order" : 25
+    }, {
+      "tmdbId" : 82022,
+      "character" : "Random Task",
+      "order" : 26
+    }, {
+      "tmdbId" : 1500222,
+      "character" : "Las Vegas Tourist",
+      "order" : 27
+    }, {
+      "tmdbId" : 27592,
+      "character" : "Casino Dealer",
+      "order" : 28
+    }, {
+      "tmdbId" : 1798286,
+      "character" : "Fembot",
+      "order" : 29
+    }, {
+      "tmdbId" : 158009,
+      "character" : "Fembot",
+      "order" : 30
+    }, {
+      "tmdbId" : 52925,
+      "character" : "Fembot",
+      "order" : 31
+    }, {
+      "tmdbId" : 106362,
+      "character" : "Fembot",
+      "order" : 32
+    }, {
+      "tmdbId" : 149682,
+      "character" : "Fembot",
+      "order" : 33
+    }, {
+      "tmdbId" : 58511,
+      "character" : "UN Secretary",
+      "order" : 34
+    }, {
+      "tmdbId" : 1573712,
+      "character" : "Mrs. Exposition",
+      "order" : 35
+    }, {
+      "tmdbId" : 131125,
+      "character" : "Son",
+      "order" : 36
+    }, {
+      "tmdbId" : 112153,
+      "character" : "Dad",
+      "order" : 37
+    }, {
+      "tmdbId" : 111080,
+      "character" : "Bolton, Virtucon Tour Guide",
+      "order" : 38
+    }, {
+      "tmdbId" : 42978,
+      "character" : "American UN Representative",
+      "order" : 39
+    }, {
+      "tmdbId" : 70440,
+      "character" : "British UN Representative",
+      "order" : 40
+    }, {
+      "tmdbId" : 2563469,
+      "character" : "Eastern European Technician",
+      "order" : 41
+    }, {
+      "tmdbId" : 9580,
+      "character" : "Himself",
+      "order" : 42
+    }, {
+      "tmdbId" : 71901,
+      "character" : "Voice on Dr. Evil's Telephone (voice) (uncredited)",
+      "order" : 43
+    }, {
+      "tmdbId" : 87228,
+      "character" : "Go-Go Dancer (uncredited)",
+      "order" : 44
+    }, {
+      "tmdbId" : 74036,
+      "character" : "Cowboy (uncredited)",
+      "order" : 45
+    }, {
+      "tmdbId" : 999832,
+      "character" : "Sixties Groupie (uncredited)",
+      "order" : 46
+    }, {
+      "tmdbId" : 10475,
+      "character" : "Steamrolled Henchman's Wife (uncredited)",
+      "order" : 47
+    }, {
+      "tmdbId" : 1777122,
+      "character" : "Skater (uncredited)",
+      "order" : 48
+    }, {
+      "tmdbId" : 4,
+      "character" : "Therapist (uncredited)",
+      "order" : 49
+    }, {
+      "tmdbId" : 1146942,
+      "character" : "Gunman (uncredited)",
+      "order" : 50
+    }, {
+      "tmdbId" : 118589,
+      "character" : "Ming Tea (uncredited)",
+      "order" : 51
+    }, {
+      "tmdbId" : 2023630,
+      "character" : "Forrest Gump (uncredited)",
+      "order" : 52
+    }, {
+      "tmdbId" : 2188541,
+      "character" : "Ming Tea (uncredited)",
+      "order" : 53
+    }, {
+      "tmdbId" : 17403,
+      "character" : "Beavis / Butthead (voice) (uncredited)",
+      "order" : 54
+    }, {
+      "tmdbId" : 1337623,
+      "character" : "Security Guard (uncredited)",
+      "order" : 55
+    }, {
+      "tmdbId" : 1852746,
+      "character" : "Rita (uncredited)",
+      "order" : 56
+    }, {
+      "tmdbId" : 1940671,
+      "character" : "Electric Psychedelic Pussycat Swingers Club Dancer (uncredited)",
+      "order" : 57
+    }, {
+      "tmdbId" : 2879,
+      "character" : "Decapitated Henchman's Friend (uncredited)",
+      "order" : 58
+    }, {
+      "tmdbId" : 178926,
+      "character" : "Henchman Flattened by Steamroller (uncredited)",
+      "order" : 59
+    }, {
+      "tmdbId" : 571241,
+      "character" : "Dancer (uncredited)",
+      "order" : 60
+    }, {
+      "tmdbId" : 60252,
+      "character" : "Flight Attendant (uncredited)",
+      "order" : 61
+    }, {
+      "tmdbId" : 1708778,
+      "character" : "Gambler (uncredited)",
+      "order" : 62
+    }, {
+      "tmdbId" : 1614896,
+      "character" : "Jurgen (uncredited)",
+      "order" : 63
+    }, {
+      "tmdbId" : 91901,
+      "character" : "Don Luigi (uncredited)",
+      "order" : 64
+    }, {
+      "tmdbId" : 2224,
+      "character" : "Easily Fooled Security Guard (uncredited)",
+      "order" : 65
+    }, {
+      "tmdbId" : 1231786,
+      "character" : "Ming Tea (uncredited)",
+      "order" : 66
+    }, {
+      "tmdbId" : 11768,
+      "character" : "Electric Psychedelic Pussycat Swingers Club Waitress",
+      "order" : 67
+    }, {
+      "tmdbId" : 1775911,
+      "character" : "Go-Go Dancer (uncredited)",
+      "order" : 68
+    }, {
+      "tmdbId" : 1548096,
+      "character" : "Mod Girl (uncredited)",
+      "order" : 69
+    }, {
+      "tmdbId" : 1805188,
+      "character" : "Frozen Celebrity (uncredited)",
+      "order" : 70
+    }, {
+      "tmdbId" : 4094647,
+      "character" : "Mr Bigglesworth",
+      "order" : 71
+    }, {
+      "tmdbId" : 15105,
+      "character" : "Hotel Manager (uncredited)",
+      "order" : 72
+    } ],
+    "crew" : [ {
+      "tmdbId" : 14042,
+      "job" : "Costume Design"
+    }, {
+      "tmdbId" : 14046,
+      "job" : "Special Effects Coordinator"
+    }, {
+      "tmdbId" : 12073,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 3416,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 551,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 9573,
+      "job" : "Director of Photography"
+    }, {
+      "tmdbId" : 14050,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 14039,
+      "job" : "Production Design"
+    }, {
+      "tmdbId" : 9204,
+      "job" : "Original Music Composer"
+    }, {
+      "tmdbId" : 14048,
+      "job" : "Special Effects"
+    }, {
+      "tmdbId" : 14043,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 14049,
+      "job" : "Stunt Coordinator"
+    }, {
+      "tmdbId" : 6737,
+      "job" : "Director"
+    }, {
+      "tmdbId" : 550,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 9417,
+      "job" : "Supervising Sound Effects Editor"
+    }, {
+      "tmdbId" : 14040,
+      "job" : "Art Direction"
+    }, {
+      "tmdbId" : 14045,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 14036,
+      "job" : "Editor"
+    }, {
+      "tmdbId" : 561,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 14047,
+      "job" : "Special Effects Coordinator"
+    }, {
+      "tmdbId" : 14189,
+      "job" : "Editor"
+    }, {
+      "tmdbId" : 14041,
+      "job" : "Set Decoration"
+    }, {
+      "tmdbId" : 2445,
+      "job" : "Executive Producer"
+    }, {
+      "tmdbId" : 75630,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 12073,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 71901,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 1771235,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 70052,
+      "job" : "Executive Producer"
+    }, {
+      "tmdbId" : 2445,
+      "job" : "Unit Production Manager"
+    }, {
+      "tmdbId" : 1471726,
+      "job" : "Music Supervisor"
+    }, {
+      "tmdbId" : 54870,
+      "job" : "Production Executive"
+    }, {
+      "tmdbId" : 22077,
+      "job" : "Executive In Charge Of Production"
+    }, {
+      "tmdbId" : 1744684,
+      "job" : "Video Assist Operator"
+    }, {
+      "tmdbId" : 1440288,
+      "job" : "Location Manager"
+    }, {
+      "tmdbId" : 52782,
+      "job" : "Production Accountant"
+    }, {
+      "tmdbId" : 12775,
+      "job" : "Executive In Charge Of Post Production"
+    }, {
+      "tmdbId" : 9352,
+      "job" : "First Assistant Camera"
+    }, {
+      "tmdbId" : 1473981,
+      "job" : "Script Supervisor"
+    }, {
+      "tmdbId" : 1378221,
+      "job" : "Art Department Coordinator"
+    }, {
+      "tmdbId" : 1552011,
+      "job" : "Post Production Supervisor"
+    }, {
+      "tmdbId" : 1544060,
+      "job" : "Assistant Property Master"
+    }, {
+      "tmdbId" : 2154237,
+      "job" : "Assistant Property Master"
+    }, {
+      "tmdbId" : 1323289,
+      "job" : "Costume Supervisor"
+    }, {
+      "tmdbId" : 1526465,
+      "job" : "Set Costumer"
+    }, {
+      "tmdbId" : 1673535,
+      "job" : "Production Coordinator"
+    }, {
+      "tmdbId" : 1848096,
+      "job" : "Set Designer"
+    }, {
+      "tmdbId" : 1552997,
+      "job" : "Choreographer"
+    }, {
+      "tmdbId" : 1634449,
+      "job" : "Second Assistant Camera"
+    }, {
+      "tmdbId" : 1321665,
+      "job" : "First Assistant Makeup Artist"
+    }, {
+      "tmdbId" : 1773067,
+      "job" : "Costume Supervisor"
+    }, {
+      "tmdbId" : 1534821,
+      "job" : "Storyboard Artist"
+    }, {
+      "tmdbId" : 9347,
+      "job" : "Camera Operator"
+    }, {
+      "tmdbId" : 1749892,
+      "job" : "Location Scout"
+    }, {
+      "tmdbId" : 2443358,
+      "job" : "Set Designer"
+    }, {
+      "tmdbId" : 1553616,
+      "job" : "Assistant Costume Designer"
+    }, {
+      "tmdbId" : 22548,
+      "job" : "Property Master"
+    }, {
+      "tmdbId" : 66692,
+      "job" : "Key Hair Stylist"
+    }, {
+      "tmdbId" : 3163124,
+      "job" : "Boom Operator"
+    }, {
+      "tmdbId" : 5336,
+      "job" : "Key Makeup Artist"
+    }, {
+      "tmdbId" : 1401353,
+      "job" : "Key Hair Stylist"
+    }, {
+      "tmdbId" : 1323076,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 9361,
+      "job" : "Chief Lighting Technician"
+    }, {
+      "tmdbId" : 9427,
+      "job" : "Sound Designer"
+    }, {
+      "tmdbId" : 1537497,
+      "job" : "ADR Supervisor"
+    }, {
+      "tmdbId" : 1532755,
+      "job" : "Set Costumer"
+    }, {
+      "tmdbId" : 1469159,
+      "job" : "Key Grip"
+    }, {
+      "tmdbId" : 9419,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 1393443,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 2315583,
+      "job" : "Second Second Assistant Director"
+    }, {
+      "tmdbId" : 9423,
+      "job" : "Sound Designer"
+    }, {
+      "tmdbId" : 9422,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 1388849,
+      "job" : "Construction Coordinator"
+    }, {
+      "tmdbId" : 2932920,
+      "job" : "Best Boy Grip"
+    }, {
+      "tmdbId" : 1647465,
+      "job" : "Production Controller"
+    }, {
+      "tmdbId" : 9427,
+      "job" : "Supervising Sound Editor"
+    }, {
+      "tmdbId" : 2262080,
+      "job" : "Key Rigging Grip"
+    }, {
+      "tmdbId" : 1424185,
+      "job" : "Unit Publicist"
+    }, {
+      "tmdbId" : 1851721,
+      "job" : "Boom Operator"
+    }, {
+      "tmdbId" : 1291650,
+      "job" : "Transportation Coordinator"
+    }, {
+      "tmdbId" : 1643490,
+      "job" : "Still Photographer"
+    }, {
+      "tmdbId" : 1373435,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 9408,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 2278037,
+      "job" : "Dolly Grip"
+    }, {
+      "tmdbId" : 1404361,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 1555189,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 1404366,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 1342655,
+      "job" : "Foley Artist"
+    }, {
+      "tmdbId" : 9409,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 120695,
+      "job" : "Music Consultant"
+    }, {
+      "tmdbId" : 1190769,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 9445,
+      "job" : "Foley Editor"
+    }, {
+      "tmdbId" : 3163157,
+      "job" : "Foley Editor"
+    }, {
+      "tmdbId" : 9438,
+      "job" : "Foley Artist"
+    }, {
+      "tmdbId" : 1548684,
+      "job" : "Color Timer"
+    }, {
+      "tmdbId" : 9442,
+      "job" : "Foley Mixer"
+    }, {
+      "tmdbId" : 3003503,
+      "job" : "Music Coordinator"
+    }, {
+      "tmdbId" : 3163158,
+      "job" : "Foley Editor"
+    }, {
+      "tmdbId" : 1453892,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 9410,
+      "job" : "ADR Mixer"
+    }, {
+      "tmdbId" : 1376276,
+      "job" : "Music Editor"
+    }, {
+      "tmdbId" : 1190768,
+      "job" : "ADR Mixer"
+    }, {
+      "tmdbId" : 1473108,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 9435,
+      "job" : "Foley Mixer"
+    }, {
+      "tmdbId" : 9439,
+      "job" : "Foley Artist"
+    }, {
+      "tmdbId" : 9410,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 92303,
+      "job" : "Prosthetics"
+    }, {
+      "tmdbId" : 1856473,
+      "job" : "Stunt Double"
+    }, {
+      "tmdbId" : 11768,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2092336,
+      "job" : "Set Production Assistant"
+    }, {
+      "tmdbId" : 559,
+      "job" : "Additional Photography"
+    }, {
+      "tmdbId" : 1533714,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1415503,
+      "job" : "Wardrobe Assistant"
+    }, {
+      "tmdbId" : 91147,
+      "job" : "Music Supervisor"
+    } ]
+  },
+  "people" : [ {
+    "tmdbId" : 12073,
+    "name" : "Mike Myers",
+    "birthDate" : "1963-05-25",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "5a9e5457-2b09-4443-94c6-8866f4e939bd",
+    "homepage" : null,
+    "birthPlace" : "Scarborough, Ontario, Canada",
+    "biography" : "Michael John Myers, OC (born May 25, 1963) is a Canadian actor, comedian, and filmmaker. His accolades include seven MTV Movie & TV Awards, a Primetime Emmy Award, and a Screen Actors Guild Award. In 2002, he was awarded the Hollywood Walk of Fame star. In 2017, he was named an Officer of the Order of Canada for \"his extensive and acclaimed body of comedic work as an actor, writer, and producer.\"\n\nFollowing a series of appearances on several Canadian television programs, Mike Myers attained recognition during his six seasons as a cast member on the NBC sketch comedy series Saturday Night Live from 1989 to 1995, which won him the Primetime Emmy Award for Outstanding Writing for a Variety Series. He subsequently earned praise and numerous accolades for playing the title roles in the Wayne's World (1992–1993), Austin Powers (1997–2002), and Shrek (2001–present) franchises, the latter of which is the second highest-grossing animated film franchise. Myers also played the titular character in the 2003 live-action adaptation of the Dr. Seussbook The Cat in the Hat.\n\nMyers acted sporadically in the 2010s, having supporting roles in Terminal and Bohemian Rhapsody (both 2018). He made his directorial debut with the documentary Supermensch: The Legend of Shep Gordon (2013), which premiered at the Toronto International Film Festival. He created and starred in the 2022 Netflix original series, The Pentaverate, and appeared in David O. Russell's comedy thriller Amsterdam."
+  }, {
+    "tmdbId" : 13918,
+    "name" : "Elizabeth Hurley",
+    "birthDate" : "1965-06-10",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "592678eb-9fbd-40e4-bb1d-10b89939e517",
+    "homepage" : null,
+    "birthPlace" : "Basingstoke, Hampshire, England, UK",
+    "biography" : "Elizabeth Jane Hurley (born June 10, 1965) is an English model and actress. She became known as a girlfriend of Hugh Grant in the 1990s after accompanying him to the Los Angeles premiere of Four Weddings and a Funeral in a plunging black Versace dress held together with gold safety pins, which gained her instant media notice.\n\nThe highlight of Hurley's professional life has been her association with the cosmetics company Estée Lauder. The company gave Hurley her first modeling job at the age of 29 and has used her as a model for its products, especially perfumes such as Sensuous, Intuition, and Pleasures, since 1995. Her best known cinematic work was as Vanessa Kensington in Mike Myers' hit spy comedies, Austin Powers: International Man of Mystery (1997) and Austin Powers: The Spy Who Shagged Me (1999). Hurley currently models and designs an eponymous beachwear line.\n\nHurley was born as a middle child in Basingstoke, Hampshire, England, the daughter of Angela and Roy Hurley. Her Irish father was a Major in the British Army, while her Anglican mother was a teacher at Kempshott Infant School. She has an older sister, Kate, and a younger brother Michael James Hurley.\n\nHurley was a struggling actress in 1987, when she met Hugh Grant while working on a Spanish production called Remando Al Viento. While Hurley was his girlfriend, Grant was embroiled in an international scandal for soliciting the services of a female prostitute in 1995. Hurley stood by him and accompanied Grant to the premiere of his movie Nine Months. After 13 years together, Hurley and Grant announced an \"amicable\" split in May 2000. Hurley lived in a London home owned by Grant after the break-up. She invited Grant to her wedding in 2007, but he chose not to attend.\n\nOn 4 April 2002, Hurley gave birth to a son, Damian Charles Hurley. The baby's father, Steve Bing, denied paternity by alleging that he and Hurley had a brief, non-exclusive relationship in 2001. A DNA test, however, established Bing as the child's father. In late 2002, Hurley started dating Indian textile heir Arun Nayar, who runs a small software company since 1998. On 2 March 2007, Hurley and Nayar married at Sudeley Castle and then had a second wedding at Umaid Bhawan Palace in Jodhpur, India."
+  }, {
+    "tmdbId" : 13919,
+    "name" : "Michael York",
+    "birthDate" : "1942-03-27",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "3f0bc8a3-bed2-4a4f-96c5-ad6d03861b23",
+    "homepage" : "http://www.michaelyork.net",
+    "birthPlace" : "Fulmer, England, UK",
+    "biography" : "Michael York OBE (born Michael Hugh Johnson; March 27, 1942) is an English actor. After performing on-stage with the Royal National Theatre, he had a breakthrough in films by playing Tybalt in Franco Zeffirelli's Romeo and Juliet (1968). His blond, blue-eyed boyish looks and English upper social class demeanor saw him play leading roles in several major British and Hollywood films of the 1970s. His best known roles include Konrad Ludwig in Something for Everyone (1970), Geoffrey Richter-Douglas in Zeppelin (1971), Brian Roberts in Cabaret (1972), George Conway in Lost Horizon (1973), D'Artagnan in The Three Musketeers (also 1973) and its two sequels, Count Andrenyi in Murder on the Orient Express (1974), Logan 5 in Logan's Run (1976).\n\nIn his later career he found success as Basil Exposition in the Austin Powers film series (1997–2002). He is a two-time Emmy Award nominee, for the ABC Afterschool Special: Are You My Mother? (1986) and the AMC series The Lot (2001).\n\nIn 2002, he received a Star on the Hollywood Walk of Fame for his contributions to motion pictures."
+  }, {
+    "tmdbId" : 13920,
+    "name" : "Mimi Rogers",
+    "birthDate" : "1956-01-27",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "d410da53-3a57-42e3-a881-f4b388e73eeb",
+    "homepage" : null,
+    "birthPlace" : "Coral Gables, Florida, USA",
+    "biography" : "Miriam 'Mimi' Rogers (née Spickler; born January 27, 1956) is an American actress and competitive poker player. Her notable film roles are Gung Ho (1986), Someone to Watch Over Me (1987), Desperate Hours (1990), and Full Body Massage (1995). She garnered the greatest acclaim of her career for her role in the religious drama The Rapture (1991), with critic Robin Wood declaring that she \"gave one of the greatest performances in the history of the Hollywood cinema.\"\n\nRogers has since appeared in Reflections on a Crime (1994), The Mirror Has Two Faces (1996), Austin Powers: International Man of Mystery (1997), Lost in Space (1998), Ginger Snaps (2000), The Door in the Floor (2004), and For a Good Time, Call... (2012).\n\nHer extensive work in television includes Paper Dolls (1984), Weapons of Mass Distraction (1997), The Loop (2006–2007), and recurring roles on The X-Files (1998–1999), Two and a Half Men (2011–2015), Wilfred (2014), Mad Men (2015), Bosch (2014–2021), and Bosch: Legacy (2022)."
+  }, {
+    "tmdbId" : 9208,
+    "name" : "Robert Wagner",
+    "birthDate" : "1930-02-10",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a2165ed8-cc39-4259-a5d4-826cd506ee44",
+    "homepage" : null,
+    "birthPlace" : "Detroit, Michigan, USA",
+    "biography" : "Robert John Wagner (born February 10, 1930) is an American actor of stage, screen, and television.\n\nA veteran of many films in the 1950s and 1960s, Wagner gained prominence in three American television series that spanned three decades: It Takes a Thief (1968–70), Switch (1975–78), and Hart to Hart (1979–84). In movies, Wagner is known for his role as Number Two in the Austin Powers films (1997, 1999, 2002). He also had a recurring role as Teddy Leopold on the TV sitcom Two and a Half Men.\n\nWagner's autobiography, Pieces of My Heart: A Life, written with author Scott Eyman, was published on September 23, 2008."
+  }, {
+    "tmdbId" : 13922,
+    "name" : "Seth Green",
+    "birthDate" : "1974-02-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "29d2ac78-8574-4306-88e8-058796690cf5",
+    "homepage" : "http://www.sethgreenonline.com/",
+    "birthPlace" : "Philadelphia, Pennsylvania, USA",
+    "biography" : "Seth Benjamin Green (né Gesshel-Green; born February 8, 1974) is an American actor. His film debut came with a role in the comedy-drama film The Hotel New Hampshire (1984), and he went on to have supporting roles in comedy films throughout the 1980s, including Radio Days (1987) and Big Business (1988).\n\nDuring the 1990s and 2000s, Green began starring in comedy films such as Idle Hands (1999), Rat Race (2001), Without a Paddle (2004), and Be Cool (2005). He also became known for his portrayal of Scott Evil, Dr. Evil's son, in the Austin Powers film series (1997–2002). Green has also taken serious roles in films, including The Attic Expeditions (2001) and Party Monster (2003). He has provided the voice for Howard the Duck in a number of Marvel Cinematic Universe films and series, including Guardians of the Galaxy (2014), Guardians of the Galaxy Vol. 2 (2017), and Guardians of the Galaxy Vol. 3 (2023) and in the animated series What If...? (2021–present). In 2019, he wrote, directed, and starred in the comedy-drama film Changeland.\n\nGreen's first lead role on television was on the ABC sitcom Good & Evil in 1991, for which he won a Young Artist Award. Green later gained attention for his supporting roles as Oz, a teenage guitarist and the boyfriend of Willow Rosenberg, on the fantasy television series Buffy the Vampire Slayer (1997–2000), and as the voice of Chris Griffin on the Fox adult animated comedy series Family Guy (1999–present). He also voiced Leonardo in the Nickelodeon animated series Teenage Mutant Ninja Turtles (2014–2017) and the Joker in the Mass Effect video game series (2007–2012). Green created, directed, wrote, and produced the adult animated comedy series Robot Chicken and its spinoffs (2005–present), which have earned him three Primetime Emmy Awards and five Annie Awards.\n\nDescription above from the Wikipedia article Seth Green, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 13923,
+    "name" : "Fabiana Udenio",
+    "birthDate" : "1964-12-21",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5b1b7f35-373e-4698-b346-c11e1384e419",
+    "homepage" : null,
+    "birthPlace" : "Buenos Aires, Argentina",
+    "biography" : "Fabiana Udenio (born December 21, 1964) is an Argentine character actress and sex symbol who has appeared in film and on television. She is best known for her role as \"Alotta Fagina\", a Bond girl parody in Austin Powers: International Man of Mystery.\n\nUdenio was born in Buenos Aires, Argentina and moved to Italy where at the age of 13 was crowned \"Miss Teen Italy\". Fabiana's film roles include Italian foreign-exchange student Anna-Maria Mazarelli in Summer School (1987), the sunbather in the \"Sunblock 5000\" commercial within RoboCop 2 (1990), Dan Cain's only living girlfriend Francesca in Bride of Re-Animator (1990), as \"Alotta Fagina\" in Austin Powers: International Man of Mystery (1997), as \"Don Na\" in The Godson (1998), and Gabriella in Paulie Shore's film In The Army Now. (1996).\n\nHer television roles include Giulietta on the ABC soap opera One Life to Live (1985–1986) and \"Adira Tyree\", a Centauri dancer and the lover of Londo Mollari on the 1990s science fiction series Babylon 5 and \"Pia Claire\" a first class passenger and survivor of an crashed airliner on Amazon.\n\nShe has made guest appearances on many television shows, including Full House, Freddy's Nightmares, Quantum Leap, Mortal Kombat: Conquest, Cheers, Babylon 5, Mad About You, Wings and The Magnificent Seven. She is currently recurring on the new 90210 as Atooza Shirazi.\n\nShe was married to Robert McLeod for four years. She filed for divorce on February 5, 2009, citing irreconcilable differences."
+  }, {
+    "tmdbId" : 13924,
+    "name" : "Mindy Sterling",
+    "birthDate" : "1953-07-11",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "dd4ab93b-370a-4e64-b565-d65343edab61",
+    "homepage" : null,
+    "birthPlace" : "Paterson, New Jersey, USA",
+    "biography" : "Mindy Lee Sterling (born July 11, 1953) is an American actress. She portrayed Frau Farbissina in the Austin Powers film series (1997–2002), and starred in the web series Con Man (2015–2017), the latter of which earned her a Primetime Emmy Award nomination. She also provided the voices of Ms. Endive in the Cartoon Network series Chowder (2007–10), and the voice of Lin Beifong in the Nickelodeon series The Legend of Korra (2012–2014), and had recurring roles as Miss Francine Briggs on the Nickelodeon series iCarly (2007–12), Principal Susan Skidmore on the Disney Channel series A.N.T. Farm (2011–13) and Linda Schwartz on the ABC series The Goldbergs (2017-present)."
+  }, {
+    "tmdbId" : 23659,
+    "name" : "Will Ferrell",
+    "birthDate" : "1967-07-16",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "c8f3aeaa-fc95-4d46-93ca-bbd28f895f49",
+    "homepage" : null,
+    "birthPlace" : "Irvine, California, USA",
+    "biography" : "John William Ferrell (born July 16, 1967)is an American actor, comedian, writer, and producer. He is known for his leading man roles in comedy films and for his work as a television producer. Ferrell received various accolades, including six Primetime Emmy Awards and a British Academy Television Award, in addition to nomination for two Golden Globe Awards and a Tony Award. In 2011, Farrell was honoured with the Mark Twain Prize for American Humor. In 2015, he received a star on the Hollywood Walk of Fame and was named the best comedian in British GQ.\n\nFerrell established himself in the mid-1990s as a cast member on the sketch comedy series Saturday Night Live, where he performed from 1995 to 2002, and has subsequently starred in a string of comedy films. After starring in the 2003 comedy film Old School, Ferrell became considered a member of the \"Frat Pack\", a generation of leading Hollywood comic actors who emerged in the late 1990s and the 2000s, including Jack Black, Ben Stiller, Steve Carell, Vince Vaughn, Paul Rudd, and brothers Owen and Luke Wilson. He founded the comedy website Funny or Die in 2007 with his former writing partner, Adam McKay.\n\nFerrell starred in comedy films such as A Night at the Roxbury (1998), Elf (2003), Anchorman (2004), Kicking & Screaming (2005), Talladega Nights (2006), Blades of Glory (2007), Step Brothers (2008), The Other Guys (2010), Get Hard (2015), and Barbie (2023). He has also taken dramatic roles in Stranger than Fiction (2006), Everything Must Go (2010), and Downhill (2020). He has voiced roles in Curious George (2006), Megamind (2010), The Lego Movie film franchise (2014–2019), and Despicable Me 4 (2024). He also starred in and produced the documentary Will & Harper (2024) with writer Harper Steele.\n\nFerrell has received four Primetime Emmy Awards for his work as a producer on the drama series Succession (2018–2023) and the specials Live in Front of a Studio Audience (2019–2022). He also produced the series I'm Sorry (2017–2019), the series Dead to Me (2019–2022), and the series Drunk History (2013–2019). For his work on Broadway, he received a Tony Award nomination for Best Special Theatrical Event for his satirical portrayal of George W. Bush in You're Welcome America (2009)."
+  }, {
+    "tmdbId" : 13925,
+    "name" : "Paul Dillon",
+    "birthDate" : "1960-09-25",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "77ae6293-89ad-445e-aa4f-d17268ff8e41",
+    "homepage" : null,
+    "birthPlace" : "Joliet, Illinois, USA",
+    "biography" : "Paul Dillon is an American character actor who began his career in show business in Chicago. His film career began in 1994 with the film Blink in which he played the role of Neal Booker. He played Paddy O'Brien in Austin Powers: International Man of Mystery, the most successful film in which he has a credited role.\n\nDillon also has appeared on many hit TV series including NYPD Blue, CSI: Miami, The Guardian, and his recurring role as Angelo in The Pretender. Most recently, he had a guest appearance as Ezekiel in the new ABC drama Night Stalker. Currently, he plays Gary in the play Rantoul and Die."
+  }, {
+    "tmdbId" : 16119,
+    "name" : "Charles Napier",
+    "birthDate" : "1936-04-12",
+    "deathDate" : "2011-10-05",
+    "gender" : "Male",
+    "profile" : "0c9a454f-c8eb-49f3-b952-4f718930f26c",
+    "homepage" : null,
+    "birthPlace" : "Scottsville, Kentucky, USA",
+    "biography" : "Charles Lewis Napier (April 12, 1936 – October 5, 2011) was a prolific American actor known for his many supporting and occasional leading roles in television and film. Born near Scottsville, Kentucky, Napier served in the U.S. Army before pursuing higher education, earning a degree in art from Western Kentucky University. He initially worked as a sports coach and art teacher before dedicating himself to acting.\n\nNapier gained early attention after starring in several low-budget films by director Russ Meyer, including his debut in Cherry, Harry & Raquel! (1969). He became well-known for his portrayal of tough, authoritative characters such as police officers, soldiers, and villains often with a rugged or corrupt edge. Among his memorable roles are the short-tempered country singer Tucker McElroy in The Blues Brothers (1980), CIA officer Marshall Murdock in Rambo: First Blood Part II (1985), and multiple collaborations with director Jonathan Demme in films like The Silence of the Lambs (1991) and Philadelphia (1993).\n\nHe also had notable appearances in television, including roles in The A-Team, The Oregon Trail, Star Trek: The Original Series, and Star Trek: Deep Space Nine. Napier was appreciated for his strong voice, steely gaze, and distinct broad chin, which made him a standout character actor.\n\nNapier passed away in 2011 in Bakersfield, California, due to thrombosis at the age of 75. He also published a book about his life titled Square Jaw and Big Heart"
+  }, {
+    "tmdbId" : 1008676,
+    "name" : "Joann Richter",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c9144ca9-95ac-471e-b7e9-acbcf6073e12",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 170491,
+    "name" : "Anastasia Sakelaris",
+    "birthDate" : "1971-11-18",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "2901a91e-839a-4ac1-8bb5-de6b21f380cb",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 32288,
+    "name" : "Afifi Alaouie",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5fef7c3b-fb6f-4b09-b1a7-f38a84345555",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 34844,
+    "name" : "Monet Mazur",
+    "birthDate" : "1976-04-17",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "81d0ac33-182c-4519-ac8c-4e8b7eb25979",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Monet Happy Mazur (born April 17, 1976) is an American actress, model and musician. She is best known as Laura Fine-Baker on The CW show All American.\n\nDescription above from the Wikipedia article Monet Mazur, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 15443,
+    "name" : "Mark Bringelson",
+    "birthDate" : "1957-10-24",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "39e9ec69-0958-4087-a78b-9c8c142710b9",
+    "homepage" : null,
+    "birthPlace" : "Armour, South Dakota, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 15661,
+    "name" : "Clint Howard",
+    "birthDate" : "1959-04-20",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4427b5b2-66db-42df-b7a2-0e77ce7180c1",
+    "homepage" : null,
+    "birthPlace" : "Burbank, California, USA",
+    "biography" : "Clint Howard (born April 20, 1959) is an American actor. A character actor with numerous brief appearances on television and films, he is usually noted for his unusual appearance and has had many bit parts in movies directed by his brother, Ron Howard. He is also the uncle of actress Bryce Dallas Howard."
+  }, {
+    "tmdbId" : 2368,
+    "name" : "Elya Baskin",
+    "birthDate" : "1950-08-11",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d408586b-b23b-4111-a15d-5375e0a81785",
+    "homepage" : null,
+    "birthPlace" : "Riga, Latvian SSR, USSR [now Latvia]",
+    "biography" : "Baskin was born in Riga, the son of Frieda and Zalman Baskin.  He attended Moscow's prestigious Theatre and Variety Arts College and won a Festival of Young Actors Award at the Moscow Comedy Theatre. Baskin immigrated to the United States in 1976.  He has built a considerable career in TV and movies, and is often cast as a Russian, due to his ancestry and accent. He has ultimately become one of the most popular choices whenever a Russian is needed in a TV-episode or a major movie production.  He is also a regular on the long-running Internet program \"Outlaw Radio\" hosted by Matt Alan, where he makes amusing commentary on contemporary topics, and does comedic interaction with fellow actor Richard Tyson and author Burl Barer, among many others.\n\nDescription above from the Wikipedia article Elya Baskin, licensed under CC-BY-SA,full list of contributors on Wikipedia.    "
+  }, {
+    "tmdbId" : 1852710,
+    "name" : "Carlton Lee Russell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "df151761-7042-4363-837a-f134ca7874bc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Carlton Lee Russell is an American actor and stuntman known for his distinctive roles in film and television. He portrayed the enigmatic \"Jumping Man\" in David Lynch's Twin Peaks: Fire Walk with Me (1992) and its 2017 revival.  Additionally, he appeared as Gary Coleman in Austin Powers: International Man of Mystery (1997).  Russell's performances often involve unique and memorable characters, contributing to his recognition in the industry."
+  }, {
+    "tmdbId" : 2737347,
+    "name" : "Daniel Weaver",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "81544575-194d-4f91-bfba-3b1f5d99db85",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Daniel Weaver is an actor, known for Austin Powers: International Man of Mystery (1997), Buffy the Vampire Slayer (1997) and Step by Step (1991)."
+  }, {
+    "tmdbId" : 215099,
+    "name" : "Neil Mullarkey",
+    "birthDate" : "1961-10-30",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a3cb55bc-9591-4cca-903e-3d94a32d857d",
+    "homepage" : "http://neilmullarkey.com",
+    "birthPlace" : "Watford, Hertfordshire, England, UK",
+    "biography" : "Neil Mullarkey is an English actor, writer and comedian."
+  }, {
+    "tmdbId" : 2187418,
+    "name" : "Lea Sullivan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "11139672-d814-4b95-9c01-280dd96f158e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1503023,
+    "name" : "Chekesha Van Putten",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "d18ee973-578c-447b-883d-c8a6500c475b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 141225,
+    "name" : "Heather Marie Marsden",
+    "birthDate" : "1985-03-15",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "94bb3374-7c47-4933-be83-5647b3e6718b",
+    "homepage" : "http://www.heathermariemarsden.com/",
+    "birthPlace" : " Detroit, Michigan, USA",
+    "biography" : "Heather Marie Marsden is an actress, singer, and songwriter."
+  }, {
+    "tmdbId" : 203263,
+    "name" : "Sarah Christine Smith",
+    "birthDate" : "1980-09-23",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "46c425f3-b78c-4ea5-8d70-aef55206b215",
+    "homepage" : null,
+    "birthPlace" : "Clarkston, Michigan, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2187419,
+    "name" : "Laura Payne-Gabriel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "e0aacbcd-0b98-46bd-9885-007a7670e339",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 82022,
+    "name" : "Joe Son",
+    "birthDate" : "1970-11-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f04eef9d-2ae1-4ed5-92bb-0f49e173f442",
+    "homepage" : null,
+    "birthPlace" : "Gwangju, South Jeolla Province, South Korea",
+    "biography" : "Joseph Hyung-min Son (born November 22, 1970) is a South Korean-born American convicted murderer, as well as a former actor, mixed martial artist, kickboxer, and professional wrestler. He partook in Ultimate Fighting Championship, and K-1 Kickboxing during his combat sports career. As an actor, he is best known for his appearance in the 1997 film Austin Powers: International Man of Mystery.\n\nIn 2008, he was arrested for forcible rape, kidnapping, and torture in connection to a 1990 cold case after DNA evidence linked him to the crime; there was an accomplice who was also convicted. Due to the statute of limitations, some charges were dropped. In 2011, he was found guilty of torture and sentenced to seven years to life in prison in California. While incarcerated, he was convicted of beating his cell mate to death and was sentenced to an additional 27 years for voluntary manslaughter."
+  }, {
+    "tmdbId" : 1500222,
+    "name" : "Tyde Kierney",
+    "birthDate" : "1949-02-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "eafc7523-412e-4d81-ab05-3a79201737c3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 27592,
+    "name" : "Larry Thomas",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "551c359f-d96b-4c59-99f0-f1d1508c47a2",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1798286,
+    "name" : "Cheryl Bartel",
+    "birthDate" : "1971-01-30",
+    "deathDate" : "2010-07-11",
+    "gender" : "Female",
+    "profile" : "14841827-1451-4d86-9824-272170e82351",
+    "homepage" : null,
+    "birthPlace" : "Forsyth County, North Carolina, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 158009,
+    "name" : "Cindy Margolis",
+    "birthDate" : "1965-10-01",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "06470a9e-061a-4f65-becb-943032c0ff05",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 52925,
+    "name" : "Donna W. Scott",
+    "birthDate" : "1973-06-08",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "9b873a72-9f2f-4976-ac74-823a718608c8",
+    "homepage" : null,
+    "birthPlace" : "North Carolina, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 106362,
+    "name" : "Barbara Moore",
+    "birthDate" : "1968-08-21",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "2b22f04b-2547-4dec-b217-55d0550ed903",
+    "homepage" : null,
+    "birthPlace" : "Spokane, Washington, USA",
+    "biography" : "Playboy's Miss December 1992"
+  }, {
+    "tmdbId" : 149682,
+    "name" : "Cynthia Lamontagne",
+    "birthDate" : "1966-02-15",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "a15ed873-534a-46aa-8026-1bd4f5b5214d",
+    "homepage" : null,
+    "birthPlace" : "USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 58511,
+    "name" : "Brian George",
+    "birthDate" : "1952-07-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6dbebf1d-aa15-4fe4-b271-948bcba0676b",
+    "homepage" : null,
+    "birthPlace" : "Jerusalem, Israel",
+    "biography" : "Brian George is a British-Israeli film, television and voice actor for Indian accents, who typically plays guest roles for characters of South Asian descent. Perhaps his most famous television roles are Pakistani restaurateur Babu Bhatt on \"Seinfeld\" and the New Delhi gynecologist father of Rajesh Koothrappali on \"The Big Bang Theory\"."
+  }, {
+    "tmdbId" : 1573712,
+    "name" : "Kaye Wade",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "07f51924-ad8b-4e92-bb20-2f947ff8d08e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 131125,
+    "name" : "Steve Monroe",
+    "birthDate" : "1972-10-30",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "89f175e2-3e42-44c3-9daa-6a13c61a8484",
+    "homepage" : "http://www.stevenmonroe.net/",
+    "birthPlace" : "Tulsa, Oklahoma, USA",
+    "biography" : "Steven Monroe (born October 30, 1972) is an American actor, stand-up comedian, and practicing psychotherapist. "
+  }, {
+    "tmdbId" : 112153,
+    "name" : "Vince Melocchi",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "5ed67f3b-19a5-4e79-9e2f-54ef608b8553",
+    "homepage" : "https://vincemelocchi.com/",
+    "birthPlace" : "Pennsylvania, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 111080,
+    "name" : "Patrick Bristow",
+    "birthDate" : "1962-09-26",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "36b5a2d7-47f1-4e83-8b46-7e5e631511d8",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Patrick Bristow was born on September 26, 1962 in Los Angeles County, California, USA. He is an actor and director, known for Showgirls (1995), So I Married an Axe Murderer (1993) and The Longest Yard (2005)."
+  }, {
+    "tmdbId" : 42978,
+    "name" : "Jim McMullan",
+    "birthDate" : "1936-10-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d4e7a42f-17c4-4ae2-8b79-e2125340bcf8",
+    "homepage" : null,
+    "birthPlace" : "Long Beach, Long Island, New York, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 70440,
+    "name" : "Robin Gammell",
+    "birthDate" : "1936-09-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "61792f0e-abee-4973-b8c5-f605fc097d18",
+    "homepage" : null,
+    "birthPlace" : "Montreal, Quebec, Canada",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2563469,
+    "name" : "Ted Kairys",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "59d9e5cc-ad15-41e4-a94e-cd03ed6138cf",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Ted Kairys is an actor, known for Legally Blonde (2001), Blast from the Past (1998) and Austin Powers: International Man of Mystery (1997)."
+  }, {
+    "tmdbId" : 9580,
+    "name" : "Burt Bacharach",
+    "birthDate" : "1928-05-12",
+    "deathDate" : "2023-02-08",
+    "gender" : "Male",
+    "profile" : "c4f1c847-e4b3-4347-a046-7211f99fc811",
+    "homepage" : "http://bacharachonline.com/",
+    "birthPlace" : "Kansas City, Missouri, USA",
+    "biography" : "Burt Freeman Bacharach (May 12, 1928 – February 8, 2023) was an American composer, songwriter, record producer, and pianist who is widely regarded as one of the most important and influential figures of 20th-century popular music. Starting in the 1950s, he composed hundreds of pop songs, many in collaboration with lyricist Hal David. Bacharach's music is characterized by unusual chord progressions and time signature changes, influenced by his background in jazz, and uncommon selections of instruments for small orchestras. He arranged, conducted, and produced much of his recorded output.\n\nDescription above from the Wikipedia article Burt Bacharach, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 71901,
+    "name" : "Douglas Aarniokoski",
+    "birthDate" : "1965-08-25",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "e2aef1dc-5693-4672-89c0-a1f4385d6db7",
+    "homepage" : null,
+    "birthPlace" : "Berkeley, California, USA",
+    "biography" : "Douglas Aarniokoski (born August 25, 1965) is an American television director and producer.\n\nHe is well known for his work on the CBS series Star Trek: Discovery, Star Trek: Short Treks, Star Trek: Picard, Criminal Minds, S.W.A.T., and the CW superhero drama Arrow. He has also worked on FOX's supernatural series Sleepy Hollow.\n\nAarniokoski got his start as a production assistant on Turner & Hooch and as a personal assistant to Tom Cruise on his 1990 film Days of Thunder. He then worked on the 1992 horror feature Doctor Mordrid as the first assistant director. He went on to serve as assistant director on several other films such as From Dusk till Dawn, Living Out Loud, The Faculty, and Spy Kids.\n\nLater he began serving as a second unit director for features such as The Medallion, Once Upon a Time in Mexico, and Resident Evil: Extinction.\n\nHis directorial debut was with the 2000 action film Highlander: Endgame. His other credits include Animals and The Day.\n\nHe co-wrote and directed the 2013 horror Nurse 3D.\n\nAarniokoski has directed 8 installments of the CBS series Criminal Minds since 2011, while directing two episodes of The CW's Green Arrow origin series Arrow and one of its sister series, The Flash.\n\nDuring the first season of the FOX series Sleepy Hollow, Aarniokoski directed the 7th episode, \"The Midnight Ride.\" In winter 2014, he joined as supervising producer and main director on the show. He has since directed the second-season episodes \"Go Where I Send Thee...\", \"And the Abyss Gazes Back,\" \"Kali Yuga,\" and \"Awakening.\".\n\nIn 2015, he joined the new CBS series Limitless as supervising producer and director. The show will be run by former Sleepy Hollow co-worker Mark Goffman.\n\nDescription above from the Wikipedia article Douglas Aarniokoski, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 87228,
+    "name" : "Lana Antonova",
+    "birthDate" : "1979-11-18",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "f3515906-3f37-43a5-b1c5-f80b491dee55",
+    "homepage" : null,
+    "birthPlace" : "Saratov",
+    "biography" : "With the looks of Cameron Diaz and the sex appeal of a James Bond girl, Lana Antonova sauntered into the movie business. Also known as Lana Novac, she was born and raised in Kuybyshev, Russia, Soviet Union, which is a town along the mighty Volga River near present-day Saratov. She completed school and soon left home with a traveling urge. She found herself in such far-flung places as China, Austrailia, Italy, France, England, the United States and many others. For the good part of the 1990's and onward, she has enjoyed the traveling life.  She gained an incredibly strong work ethic from the influence of her father and others during her youth. She sets a high standard for herself and is always striving to realize the best of her abilities. She acquired diverse training for her acting craft from: The Lee Strasberg Theatre Institute in London, body movement, Alex Varden in Los Angeles, cold reading, Jered Barclay in Los Angeles. Her training in dance includes: Tatyana Tarasova, private coach, ballet in Russia and University of Brighton, London. Lana has also danced Latin style professionally. In music, her training is from the musical conservatory, Saratov, Russia for Classical Piano. As a singer, Lana is versatile with a vocal range from low 'G' to high 'E'. She received additional speech training in Los Angeles. She is able to do many accents from Russian to British to German to Italian.  Her athletic interests include: figure skating and horseback riding, she enjoys many sports activities. The roles Lana has obtained to date, cover a wide range: from Go-Go dancer in Austin Powers (1997) to a naive immigrant mistaken for a drug courier in The Face of the Serpent (2003).  Life hasn't always been a bed of roses. When Lana was only 20, her mother passed away and the loss affected her deeply. Lana was also divorced once in 2000. At the writing, she has been quietly involved with actor/author, Christopher Lawford. The two worked on Burt Munro(2005), as well as Slipstream (2007) with Anthony Hopkins.  Lana is a person who thrives on excitement, but still likes to keep things under control. Her personality and integrity is outstanding in a vast and challenging field, she's a kind, gentle, soft-spoken, classy and compassionate individual. She is a woman who truly believes in living life to the fullest."
+  }, {
+    "tmdbId" : 74036,
+    "name" : "Tom Arnold",
+    "birthDate" : "1959-03-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "68831930-c923-4e35-8074-13ccf2f1146e",
+    "homepage" : null,
+    "birthPlace" : "Ottumwa, Iowa, USA",
+    "biography" : "Thomas Duane \"Tom\" Arnold (born March 6, 1959) is an American actor and comedian. He has appeared in many films, perhaps most notably True Lies (1994). He was the host of The Best Damn Sports Show Period for four years.\n\nDescription above from the Wikipedia article Tom Arnold (actor), licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 999832,
+    "name" : "Johnathan Brownlee",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fd1cbcd5-b01b-4435-9e19-eb41ec55ae87",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 10475,
+    "name" : "Lois Chiles",
+    "birthDate" : "1947-04-15",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "7a81e81b-d513-4eda-a96e-6ef9d17a24e5",
+    "homepage" : null,
+    "birthPlace" : "Houston, Texas, USA",
+    "biography" : "From Wikipedia, the free encyclopedia\n\nLois Cleveland Chiles (born April 15, 1947) is an American actress and former fashion model known for her role as Dr. Holly Goodhead in the 1979 James Bond film Moonraker.\n\nDescription above from the Wikipedia article Lois Chiles, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1777122,
+    "name" : "Lisa Danielle",
+    "birthDate" : "1971-03-30",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "433d526e-7ffb-4b86-8f59-0ce34bf7fa04",
+    "homepage" : null,
+    "birthPlace" : "Baltimore, Maryland, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 4,
+    "name" : "Carrie Fisher",
+    "birthDate" : "1956-10-21",
+    "deathDate" : "2016-12-27",
+    "gender" : "Female",
+    "profile" : "f2e4db78-4b82-4f74-b77c-876c2cad6c6a",
+    "homepage" : "https://carriefisher.com/",
+    "birthPlace" : "Beverly Hills, Los Angeles, California, USA",
+    "biography" : "Carrie Frances Fisher (October 21, 1956 – December 27, 2016) was an American actress, novelist, screenwriter, and lecturer. Daughter of the famous actors Debbie Reynolds and Eddie Fisher, she gained fame for her portrayal of Princess Leia Organa in the original Star Wars trilogy. Her novel Postcards from the Edge was also a bestseller, for which she wrote a screenplay to the film of the same name."
+  }, {
+    "tmdbId" : 1146942,
+    "name" : "Joe Grisaffi",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9c1acc52-6b30-42cb-99ed-7e64cd859e01",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 118589,
+    "name" : "Susanna Hoffs",
+    "birthDate" : "1959-01-17",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "2af016c9-bcca-4376-9c35-6f7a6cbae68e",
+    "homepage" : "https://www.susannahoffs.com/",
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Susanna Hoffs (born January 17, 1959) is an American singer, guitarist, songwriter and actress. She is best known as a co-founder of the pop-rock band The Bangles."
+  }, {
+    "tmdbId" : 2023630,
+    "name" : "Richard Joel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6e7d0404-ef05-4453-88b6-d7e305f7ae5c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2188541,
+    "name" : "Stuart D. Johnson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "77c607f2-c22a-46a8-9b60-d588f44625f7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 17403,
+    "name" : "Mike Judge",
+    "birthDate" : "1962-10-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4bbc0090-3912-44da-82ae-0e2eda23c03c",
+    "homepage" : null,
+    "birthPlace" : "Guayaquil, Ecuador",
+    "biography" : "Michael Craig Judge (born October 17, 1962) is an American actor, animator, writer, producer, and director. He is best known for creating the animated television series Beavis and Butt-Head (1993–1997, 2011, 2022–present). He also co-created the television series King of the Hill (1997–2010, 2025-present), The Goode Family (2009), Silicon Valley (2014–2019), Common Side Effects (2025- ), and Mike Judge Presents: Tales from the Tour Bus (2017–2018). He wrote and directed the films Beavis and Butt-Head Do America (1996), Office Space (1999), Idiocracy (2006), and Extract (2009), and co-wrote the screenplay to Beavis and Butt-Head Do the Universe (2022).\n\nJudge was born in Guayaquil, Ecuador, and raised in Albuquerque, New Mexico. He graduated from the University of California, San Diego, where he studied physics. After losing interest in a career in science, Judge focused on animation and short films. His animated short Frog Baseball was developed into the successful MTV series Beavis and Butt-Head and the spin-off series Daria (with which Judge had no involvement).\n\nIn 1995, Judge and former Simpsons writer Greg Daniels developed King of the Hill, which debuted on Fox in 1997 and quickly became popular with critics and audiences. It ran for 13 seasons and became one of the longest-running American animated series. During the show run, Judge took time off to write and direct Office Space, Idiocracy and Extract. As King of the Hill ended, Judge created his third show, ABC's The Goode Family, which received mixed reviews and was cancelled after 13 episodes. After a four-year hiatus, he created his fourth show, the live-action Silicon Valley for HBO, which has received critical acclaim. In 2017, Judge's fourth animated series, the music-themed Tales from the Tour Bus, premiered on Cinemax to acclaim.\n\nJudge has won a Primetime Emmy Award, two Annie Awards for King of the Hill, two Critics' Choice Television Awards, and two Satellite Awards for Silicon Valley.\n\nDescription above from the Wikipedia article Mike Judge, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1337623,
+    "name" : "Sergio Kato",
+    "birthDate" : "1960-07-15",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4d81ba20-7933-4c42-b259-176e567af04d",
+    "homepage" : "https://www.sergiokato.com",
+    "birthPlace" : "Alem Paraiba, Minas Gerais, Brazil",
+    "biography" : "Sergio Luiz Pereira (born July 15, 1960), known professionally as Sergio Kato, (Years active‎: 1975–present). Is a Brazilian-American actor, model, ballet dancer, former martial artist, former military. Kato has appeared in many TV-commercial and films (cameo appearance). He found greater fame in his hometown of Rio de Janeiro, after a stage play at the Scala Rio music venue. Since then, Kato has been working for many advertising campaigns, TV shows, and films. Former model and active actor  2020. Aside from the acting career, Kato still modeling not as much. Print-adds, campaigns and TV Commercials for grief clothing.\n\nStill young, in 1982 he served the Brazilian Air Force, then in 1985, he moved to the United States. After studying English at California High School and, studied at the University of California in Los Angeles, where he received a Diploma from the UCLA School of Theater, Film, and Television. Similarly, the movie industry changes rapidly, many projects in Europe and the USA.\n\nModeling\n\nSergio Kato signed with a modeling agency in New York City appeared in ads for Calvin Klein with Dylan Bruno and modeled in Paris, Japan and Milan. His modeling career also includes modeling for Polo Ralph Lauren, Georgio Armani, Dolce & Gabbana, Timex.  From Wikipedia."
+  }, {
+    "tmdbId" : 1852746,
+    "name" : "Hannah Kozak",
+    "birthDate" : "1960-07-26",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "2bbbd038-aca3-48dd-90cb-33e639fa9d28",
+    "homepage" : null,
+    "birthPlace" : "Chatsworth, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1940671,
+    "name" : "Erik Liberman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f1bcfee8-e27b-4d57-9cc6-037297d88f52",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2879,
+    "name" : "Rob Lowe",
+    "birthDate" : "1964-03-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "87fadd1e-bf38-4664-bd4b-755e611fda36",
+    "homepage" : null,
+    "birthPlace" : "Charlottesville, Virginia, USA",
+    "biography" : "Robert Hepler \"Rob\" Lowe (born March 17, 1964) is an American actor. Lowe came to prominence after appearing in films such as The Outsiders, Oxford Blues, About Last Night..., and St. Elmo's Fire. On television, Lowe is known for his roles as Sam Seaborn on The West Wing, Senator Robert McCallister on Brothers & Sisters, and Chris Traeger on Parks and Recreation."
+  }, {
+    "tmdbId" : 178926,
+    "name" : "Michael McDonald",
+    "birthDate" : "1964-12-31",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1ed391e2-c986-44b2-99c4-cddb54edb4d2",
+    "homepage" : null,
+    "birthPlace" : "Fullerton, California, USA",
+    "biography" : "Michael James McDonald (born December 31, 1964) is an American stand-up comedian, actor, screenwriter, and director. He is best known for starring in the sketch comedy show MADtv. He was also a writer, director, and producer of the ABC TV series Cougar Town.\n\nHis best known movie roles are as Little John in Halloween Kills, Ronovan Scargle in The Happy time Murders, Jonathan in Ghostbusters (2016), Bryce Crean in The Boss, Patrick in Spy, Julian in The Heat, and small roles in each Austin Powers movie.\n\nHe graduated from USC with a degree in Business and became a loan officer at a bank in Los Angeles. A friend took him to see a sketch comedy/improv show at L.A.'s famous Groundling Theater, and everything changed for him. He quit his job as a banker, enrolled in the Groundling's Improv Program, and became a member of the troupe from 1992 to 1997.\n\nHis first professional writing and acting jobs came from Concorde Pictures, Roger Corman's infamous low-budget movie studio. Starting as an extra, he landed small roles in many B-movies of the early 1990s, and he gradually earned bigger roles as well as eventually writing and directing some films.\n\nHe joined MADtv during the fourth season (1998) and remained in the cast until the end of the thirteenth and penultimate season, having become the longest-tenured cast member. After 10 years on MADtv, he left the cast, but was a contributing writer and director for the show's final season. He was the last member of the cast to be hired in the 1990s, and the last cast member to have been born in the 1960s, and is the only cast member to have a \"best of\" clip show special dedicated to him."
+  }, {
+    "tmdbId" : 571241,
+    "name" : "Ayesha Orange",
+    "birthDate" : "1977-01-14",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "94c72a06-f2d0-49e9-948a-dd890b7e8def",
+    "homepage" : null,
+    "birthPlace" : "San Pedro, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 60252,
+    "name" : "Cheri Oteri",
+    "birthDate" : "1962-09-19",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "66657393-fad7-428b-97c0-f83d005109db",
+    "homepage" : null,
+    "birthPlace" : "Philadelphia, Pennsylvania, USA",
+    "biography" : "Cheri Oteri (born September 19, 1962) is an American actress and comedian. A Primetime Emmy Award nominee, she is best known for her tenure as a cast member on the NBC sketch comedy series Saturday Night Live from 1995 to 2000."
+  }, {
+    "tmdbId" : 1708778,
+    "name" : "Gwenda Perez",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "88815c37-a355-4bcb-b8ea-77c5ae9ae87d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1614896,
+    "name" : "Ben Scott",
+    "birthDate" : "1959-06-30",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "32f639cc-d1c9-4564-bc2f-017bea781e5e",
+    "homepage" : null,
+    "birthPlace" : "Blythe, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 91901,
+    "name" : "John-Clay Scott",
+    "birthDate" : "1957-07-26",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1639fd12-5adb-477a-b73d-8ddd0970d749",
+    "homepage" : null,
+    "birthPlace" : "Blythe, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2224,
+    "name" : "Christian Slater",
+    "birthDate" : "1969-08-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cdf239d2-82ff-44b9-ae34-5745e61aa0bc",
+    "homepage" : null,
+    "birthPlace" : "New York City, New York, USA",
+    "biography" : "Christian Michael Leonard Slater (born August 18, 1969) is an American actor. He made his film debut with a leading role in The Legend of Billie Jean (1985). He gained wider recognition for his breakout role as Jason \"J.D.\" Dean, a sociopathic high school student, in the satire Heathers (1989). He received critical acclaim for playing the title role in the USA Network television series Mr. Robot (2015–2019): it earned him the 2016 Golden Globe Award for Best Supporting Actor – Series, Miniseries or Television Film, and additional nominations for that award in 2017 and 2018. For his role as Mulgarath in the fantasy series The Spiderwick Chronicles (2024), Slater received the Children's and Family Emmy Award for Outstanding Lead Performer.\n\nIn the 1990s, Slater starred in a number of big-budget films, including Young Guns II (1990), Robin Hood: Prince of Thieves (1991), Interview with the Vampire (1994), Broken Arrow (1996), and Hard Rain (1998) as well as cult films like Gleaming the Cube (1989), Pump Up the Volume (1990) and True Romance (1993). He has had roles in other notable films, including The Name of the Rose (1986), Tucker: The Man and His Dream (1988), Windtalkers (2002), Alone in the Dark (2005), Bobby (2006), He Was a Quiet Man(2007), Nymphomaniac (2013), The Wife (2017), We Can Be Heroes (2020), and Blink Twice (2024).\n\nIn addition to his live-action roles, Slater has had an extensive voice-acting career, with roles including Pips in FernGully: The Last Rainforest (1992), Slater in Archer (2014–2023), Ushari in The Lion Guard (2016–2019), Rand Ridley in Inside Job (2021–2022), and Floyd Lawton / Deadshot in the DC Animated Movie Universe.\n\nDescription above from the Wikipedia article Christian Slater, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1231786,
+    "name" : "Matthew Sweet",
+    "birthDate" : "1964-10-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "3efe1ae9-46c4-40c8-bb16-4ae82b93f3f8",
+    "homepage" : null,
+    "birthPlace" : "Lincoln, Nebraska, USA",
+    "biography" : "Matthew Sweet is a power-pop musician best known for his 1990s albums, as well as for his work in the Austin Powers movies, where he appeared as himself as a member of the band Ming Tea, a band featuring Mike Meyers, Suzannah Hoffs of The Bangles, and Sweet."
+  }, {
+    "tmdbId" : 11768,
+    "name" : "Patricia Tallman",
+    "birthDate" : "1957-09-04",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "92b188d6-c27b-4ff0-ab29-7b81ed407958",
+    "homepage" : null,
+    "birthPlace" : "Pontiac, Illinois, USA",
+    "biography" : "From Wikipedia, the free encyclopedia.  Patricia J. Tallman (born September 4, 1957) is an American actress and stunt performer, sometimes credited as Pat Tallman.\n\nDescription above from the Wikipedia article  Patricia Tallman, licensed under CC-BY-SA, full list of contributors on Wikipedia.   "
+  }, {
+    "tmdbId" : 1775911,
+    "name" : "Andreanna Veith",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "6cbb1963-1170-4ed0-8ae4-0fe857c6dc48",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1548096,
+    "name" : "Isabella Vosmikova",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "38cf3b04-32f1-4031-9a59-8db06f983729",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1805188,
+    "name" : "Sterling Wolfe",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "956d061b-3706-451c-af65-b875a417ce36",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 4094647,
+    "name" : "SGC Belfry Ted Nude-Gent",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a8359ed6-aad1-4799-8702-6a91456fcb50",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "bred by Michelle Berge of Belfry Cattery. Ted Nude-Gent is also something of a cinematic pioneer, having been cast in a role more suitable for a dog due to the necessary training deemed impossible to do with a cat."
+  }, {
+    "tmdbId" : 15105,
+    "name" : "Mike Hagerty",
+    "birthDate" : "1954-05-10",
+    "deathDate" : "2022-05-05",
+    "gender" : "Male",
+    "profile" : "3d69cf50-78fc-4f08-b1a2-39cf7f56f95e",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Michael Gerard Hagerty (May 10, 1954 – May 5, 2022) was an American actor. He was known for playing comedic blue-collar workers, including his recurring roles as Mr. Treeger, the building superintendent, on Friends and the manager of a muffler shop on HBO's Lucky Louie.\n\nHagerty started acting after being invited by Jim Belushi to join the improv group The Second City. He went on to co-write and co-star in three revues on the troupe's mainstage during the 1980s (Also Available in Paperback — A Retrospective, Orwell That Ends Well, and True Midwest, or No, But I Saw the Movie). He also introduced the lyrics of \"Bear Down, Chicago Bears\" to its cast and had them memorize and sing the song. He subsequently began acting in films and television shows, beginning with Doctor Detroit in 1983. Hagerty became known for his mustache and thick Chicago accent.\n\nAlthough the majority of his career was spent in television, Hagerty had small roles in many films, and ultimately garnered over 100 acting credits throughout his career. He was recognized for his small character roles in a wide range of popular comedies, including Martin, Cheers, The Wayans Bros., Curb Your Enthusiasm, Friends, Seinfeld, and The Wonder Years. He was one of twenty actors to appear in both Friends and Seinfeld. Hagerty was also a regular on The George Carlin Show, which was his first recurring television role. One of his final acting roles was Somebody Somewhere, which he was still filming at the time of his death."
+  }, {
+    "tmdbId" : 14042,
+    "name" : "Deena Appel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "33d61b83-39d5-4975-9983-0c159bf96521",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14046,
+    "name" : "Danny Cangemi",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f4a1609c-3900-407f-899d-41ec010e6603",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3416,
+    "name" : "Demi Moore",
+    "birthDate" : "1962-11-11",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "55c7dd04-169d-4df4-a026-b76051026248",
+    "homepage" : null,
+    "birthPlace" : "Roswell, New Mexico, USA",
+    "biography" : "Demi Gene Moore (née Guynes; November 11, 1962) is an American actress and producer. After rising to prominence in the early 1980s, Moore became the world's highest-paid actress by 1995. Her accolades include a Golden Globe Award and a Screen Actors Guild Award, and nominations for an Academy Award, a British Academy Film Award, and an Emmy Award.\n\nMoore began her career as a model and joined the cast of the soap opera General Hospital in 1981. After departing the show in 1983, she rose to prominence as a member of the Brat Pack, with roles in the films Blame It on Rio (1984), St. Elmo's Fire (1985), and About Last Night... (1986). She emerged a star with her portrayal of a grieving girlfriend in the romance film Ghost (1990), had further box office success in A Few Good Men (1992), Indecent Proposal (1993), and Disclosure (1994), and received a then-unprecedented $12.5 million to star in Striptease (1996). Her output decreased significantly after The Scarlet Letter (1995), The Juror (1996), and G.I. Jane (1997) fell below commercial expectations.\n\nMoore has since held sporadic leading roles in arthouse films; supporting roles in Charlie's Angels: Full Throttle (2003), Bobby (2006), Mr. Brooks (2007), and Margin Call (2011); as well as television credits in If These Walls Could Talk (1996), Empire (2017–2018), and Feud: Capote vs. The Swans (2024). She received renewed recognition for her performance as an aging celebrity in the body horror film The Substance (2024), which earned her a Golden Globe and a nomination for the Academy Award for Best Actress."
+  }, {
+    "tmdbId" : 551,
+    "name" : "Suzanne Todd",
+    "birthDate" : "1965-04-15",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "f181d80a-c9b6-4d01-a00c-fb950257d86f",
+    "homepage" : null,
+    "birthPlace" : "Sherman Oaks, California, USA",
+    "biography" : "Suzanne Todd was born in 1965 in California, USA. She is known for Memento (2000), Across the Universe (2007) and Boiler Room (2000)."
+  }, {
+    "tmdbId" : 9573,
+    "name" : "Peter Deming",
+    "birthDate" : "1957-12-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "92135f6c-2f36-4eae-8f0c-8a4295c5dcbd",
+    "homepage" : null,
+    "birthPlace" : "Beirut, Lebanon",
+    "biography" : "Peter Deming, ASC (born December 13, 1957) is a Lebanese-born American cinematographer known for collaborating with directors like Sam Raimi, David Lynch, Wes Craven, and Jay Roach. He won the 2002 Independent Spirit Award for Best Cinematography for Mulholland Drive and was nominated for a Primetime Emmy Award for his work on the third season of Twin Peaks.\n\nDescription above from the Wikipedia article Peter Deming, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 14050,
+    "name" : "Jay Caputo",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b13894e0-c777-47a1-89aa-4f5d74ea3cbe",
+    "homepage" : null,
+    "birthPlace" : "New York, New York, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 14039,
+    "name" : "Cynthia Kay Charette",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5944aef3-3f09-435b-b3e9-87400cc920e1",
+    "homepage" : null,
+    "birthPlace" : "Nashville, Tennessee, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 9204,
+    "name" : "George S. Clinton",
+    "birthDate" : "1947-06-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "3c909628-3d41-4a39-ac9a-5d146fb7fdf3",
+    "homepage" : "http://www.georgesclinton.com/",
+    "birthPlace" : "Chattanooga, Tennessee, USA",
+    "biography" : "George Stanley Clinton, Jr. (born June 17, 1947) is an American composer, songwriter, arranger, and session musician.\n\nClinton's most recognizable scores include Austin Powers: International Man of Mystery (and its sequels); the martial arts fantasy Mortal Kombat and its sequel Mortal Kombat: Annihilation; and Showtime's series Red Shoe Diaries. His awards include a 2002 Grammy nomination, a 2007 Emmy nomination, and eight BMI Film Music Awards. He was honored with the Richard Kirk Award at the 2007 BMI Film and TV Awards. The award is given annually to a composer who has made significant contributions to film and television music."
+  }, {
+    "tmdbId" : 14048,
+    "name" : "Thomas Love",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "dbdd5b56-e3b9-42f5-9ece-d5c06efb567f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14043,
+    "name" : "Kylie Bell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ecd3f4de-cd22-4aab-8125-b9bd54264af8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14049,
+    "name" : "Bud Davis",
+    "birthDate" : "1936-12-23",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cc9a5c55-ec74-477b-b790-f3f2205dda8b",
+    "homepage" : null,
+    "birthPlace" : "USA",
+    "biography" : "George 'Bud' Davis is an American stuntman, stunt coordinator, and occasional actor. In the 20th century, he evolved the horror genre as a sadistic madman in the 70's. When the 80's hit Bud found himself going further into stunts, in which he worked on Forrest Gump. When the 90's begin he was primarily a stuntman, which he continued into the 2000's. His later works included Inglorious Bastards & Unstoppable."
+  }, {
+    "tmdbId" : 6737,
+    "name" : "Jay Roach",
+    "birthDate" : "1957-06-14",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "50e9f559-89f0-4157-84c1-76238e09e0aa",
+    "homepage" : null,
+    "birthPlace" : "Albuquerque, New Mexico, USA",
+    "biography" : "Mathew Jay Roach (born June 14, 1957) is an American filmmaker. He is best known for directing the Austin Powers film series, Meet the Parents, Dinner for Schmucks, The Campaign, Trumbo, and Bombshell.\n\nRoach also earned critical acclaim for directing and producing the political television drama films Recount, Game Change, and All the Way. He produced the films under his Everyman Pictures banner. He has received four Primetime Emmy Awards from six nominations for his work.\n\nDescription above from the Wikipedia article Jay Roach, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 550,
+    "name" : "Jennifer Todd",
+    "birthDate" : "1969-10-03",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c981e448-d95f-481e-92d6-b0aea67420f5",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 9417,
+    "name" : "Javier Bennassar",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "c69708f8-6c60-4dfb-885c-ab80ac78296d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14040,
+    "name" : "Dan Olexiewicz",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "63c1c583-d406-4a24-a6fa-16a53101016c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14045,
+    "name" : "Dorian Cheah",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "8e3bf3c3-ce8d-42d2-8546-9c96523ec543",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14036,
+    "name" : "Dawn Hoggatt",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "ab755903-bdef-4c80-9573-93e8a1412b30",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 561,
+    "name" : "John Papsidera",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a20a0727-0443-4c0e-aace-9459ab0c23f3",
+    "homepage" : "http://www.automaticsweat.com",
+    "birthPlace" : null,
+    "biography" : "John Papsidera is a casting director based in Los Angeles, California. He is known for his film and television work, especially with some of the industry's most successful directors, including Christopher Nolan, Ruben Fleischer, Jason Reitman, Roland Emmerich, and James Gunn. Backstage described him as Nolan's \"go-to casting director.\"\n\nHe has received sixteen Artios Awards nominations and has won four times. He has also been nominated for seven Primetime Emmy awards and has won twice. Before becoming a casting director, he was an actor.\n\nHis casting credits in film include The Dark Knight, Inception, Interstellar, Memento, Enchanted, Final Destination, Zombieland, Venom, Jurassic World and The Suicide Squad. Papsidera is also the casting director for the 2025 DC Studios film Superman. On television, his credits include Westworld, The Expanse (seasons 1 and 2), Peacemaker, Wednesday, Yellowstone, and It's Always Sunny in Philadelphia (season 1).\n\nDescription above from the Wikipedia article John Papsidera, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 14047,
+    "name" : "Richard Ratliff",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "980aa8d0-d9ce-4286-9558-2c16a4c0a509",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14189,
+    "name" : "Debra Neil-Fisher",
+    "birthDate" : "1958-05-12",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "e8aaa86c-83ff-4b24-a3a4-3e0ebd1a4f9b",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Debra C. Neil-Fisher (born May 12, 1958) is an American film editor. She has worked on several major films, including the Hangover series of movies.\n\nDescription above from the Wikipedia article Debra Neil-Fisher, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 14041,
+    "name" : "Bob Kensinger",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9307d4f8-f226-4cab-acbd-0f4dc9f3d97c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2445,
+    "name" : "Eric McLeod",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "60929a65-feed-4cd4-a378-b94445f9a3e4",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 75630,
+    "name" : "Amy Schmidt",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "519ed28c-5405-4692-b5a6-5bd71f7b2eb2",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1771235,
+    "name" : "David Ticotin",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "32996b40-1465-4de4-bd59-08248b7fd189",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 70052,
+    "name" : "Claire Rudnick Polstein",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "e196b30a-c671-4823-a109-dbf5569dc873",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1471726,
+    "name" : "John Houlihan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cf6604b3-5b04-409d-8e6f-225233e5d92d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 54870,
+    "name" : "Bob Degus",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "35a5b1a9-e630-4b6d-985a-1d07fb968959",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 22077,
+    "name" : "Carla Fry",
+    "birthDate" : "1961-06-19",
+    "deathDate" : "2002-04-23",
+    "gender" : "Female",
+    "profile" : "d434794f-d067-4b4f-a614-3d19687975f5",
+    "homepage" : null,
+    "birthPlace" : "Wichita, Kansas, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1744684,
+    "name" : "David Deever",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "1357da34-8522-47f5-8b5e-bbe4410ada91",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1440288,
+    "name" : "Jody Hummer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f7b9744b-a6a6-41c7-831e-9e3465f57ded",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 52782,
+    "name" : "Bonnie Weis",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c616f86d-58be-4396-ba5b-7e2c89122c18",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 12775,
+    "name" : "Joe Fineman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b264a76a-80b6-4e22-abe0-c6dcb26d8d48",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9352,
+    "name" : "Scott Andrew Ressler",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "e9300c18-38d6-42ef-ae2c-e6516e4add42",
+    "homepage" : "http://www.scottressler.com",
+    "birthPlace" : null,
+    "biography" : "Scott Andrew Ressler works as a camera operator and cinematographer for film and television productions."
+  }, {
+    "tmdbId" : 1473981,
+    "name" : "Ronit Ravich-Boss",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c16ef00e-b27f-4b8f-aec7-fa2056a971f1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1378221,
+    "name" : "Melody Bishop",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5508d6dc-4a61-4399-8187-f473cb054ea5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1552011,
+    "name" : "Diana Kaufman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c097d1bf-b8cd-4858-9f3e-19251359042f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1544060,
+    "name" : "Chris Vail",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "232a442c-25e9-4b7e-8c45-4a7ed7c6c3c6",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2154237,
+    "name" : "Lauren Lustig",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4fce4859-21ab-442a-8369-1f3ffce81306",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1323289,
+    "name" : "Tangi Crawford",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "b6f1679b-b82a-4875-9fb3-6ec860b4bc92",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1526465,
+    "name" : "Ann Foley",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "415ff1cd-d061-4557-a403-ca351900122a",
+    "homepage" : "https://www.annfoleydesign.com",
+    "birthPlace" : null,
+    "biography" : "Ann Foley is an accomplished costume designer whose work can be seen in cinematic feature films as well as episodic series. Her most recent credits include She Hulk for Disney+ (premiering August 2022), the Warner Bros./Legendary Entertainment summer 2021 blockbuster Godzilla vs. Kong, Universal Pictures’ Skyscraper starring Dwayne Johnson, and the Netflix sci-fi game-changer Altered Carbon.\n\nFoley’s unique visual style, especially in cutting-edge action, made her a superhero mainstay. As the costume designer for the first 4 seasons of Marvel’s Agents of S.H.I.E.L.D., created by Joss Whedon, Jed Whedon & Maurissa Tancharoen. Her innovative and character-specific designs landed her on the “Top Costumes of the Year” list from Clothes on Film as well as a place in FIDM’s prestigious 8th & 9th Annual Outstanding Art of Television Costume Design exhibitions.\n\nInformation above via their homepage."
+  }, {
+    "tmdbId" : 1673535,
+    "name" : "Joan Kelley Bierman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "e794c62d-5bcb-4a5b-9db8-621e253bf288",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1848096,
+    "name" : "Douglas Berkeley",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "174420b5-df6b-4881-b04a-4e87cf985747",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1552997,
+    "name" : "Marguerite Pomerhn Derricks",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "cf676cdb-79bb-4237-8e52-b5efc5ea7ee7",
+    "homepage" : null,
+    "birthPlace" : "Buffalo, New York, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1634449,
+    "name" : "Renee Treyball",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "66903ca0-4378-40b5-932f-20baf26abb1a",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1321665,
+    "name" : "Carla Palmer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "95d14825-35c8-48a8-9184-7088dac2793c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1773067,
+    "name" : "Denise Martinez",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "f2553fe5-4b09-4d64-ad61-1c97866d5911",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1534821,
+    "name" : "Gabriel Hardman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f40bf34a-3a50-4630-b08f-884a230f6b1d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9347,
+    "name" : "Paul Hughen",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a283bba5-8535-405c-98c0-72c54eb0aa2a",
+    "homepage" : "https://www.paulhughen.com/",
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1749892,
+    "name" : "Jack Robinson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "bd2eb559-86a2-4d03-8c38-ca437141ed13",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2443358,
+    "name" : "Martin Roy Mervel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a7fd8937-b346-4033-b114-ecfa708ad1c0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1553616,
+    "name" : "Michelle Skoby",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "91b75332-551a-44f3-ac8c-b7883832b9d8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 22548,
+    "name" : "Bruce Mink",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "efdeebb4-6e1f-44bf-9815-c907341f9207",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 66692,
+    "name" : "Kathrine Gordon",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "fb0e2914-8340-47e9-8fd1-4d53dec634ca",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3163124,
+    "name" : "Jim Osburn",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b215b903-b6da-4f46-8a53-3fff2a0fbae8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 5336,
+    "name" : "Patty York",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "2ce35323-2b47-44eb-bc47-2ee159b784f5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1401353,
+    "name" : "Candy L. Walken",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "4a7c6d88-e0f9-4a09-a284-b508b9fc5123",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1323076,
+    "name" : "John E. Jackson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9a3f047b-601a-4744-93d0-d1ace9a8c17c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9361,
+    "name" : "Michael LaViolette",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "42731bf0-a35c-46ea-9630-fd52717b2b11",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9427,
+    "name" : "Frederick Howard",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cfcd5a0b-90d2-4268-9125-e8324fff40b4",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1537497,
+    "name" : "Susan Shin",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "edda2287-c2f0-4433-8b61-a4d58706801e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1532755,
+    "name" : "Deborah Myles Davis",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5377ae59-6887-4cd8-98f4-dcdce6c4e3fc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1469159,
+    "name" : "Michael Pizzuto",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "07e662b9-ae45-44cc-8043-5c5aa92b15df",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9419,
+    "name" : "Benjamin L. Cook",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6a820ccb-385f-4a65-80f3-34930f65182d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1393443,
+    "name" : "Robert Jackson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "26c5ca9a-b105-4a5c-82f0-588d73dd2fce",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Robert C. Jackson is a supervising sound editor."
+  }, {
+    "tmdbId" : 2315583,
+    "name" : "Violet Cazanjian",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "12c9b0fa-08f7-40e5-b9a4-05ddb2ae1b3f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9423,
+    "name" : "Elmo Weber",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6ba427d6-5180-45c0-af74-32edb1cacd0d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9422,
+    "name" : "Cormac Funge",
+    "birthDate" : "1967-01-01",
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "16eec5c4-756b-4125-ae4f-6cdf8a5664dc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1388849,
+    "name" : "Hugh Conlon",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "43bec0e3-4ebf-4345-928f-c7bf6701038f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2932920,
+    "name" : "Steven Pehl",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "37f3dee7-4176-4f5e-a22e-186928bcf7a8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1647465,
+    "name" : "Paul Prokop",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ec0a112c-b8f6-4e11-be33-d9a17d663de8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2262080,
+    "name" : "Jerry Day",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5b3b429f-6f2c-4aad-8b04-124726d9fe5d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1424185,
+    "name" : "Claire Raskind",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "21dd2fc7-8994-4d1b-a8e0-49fc3f39066f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1851721,
+    "name" : "Gloria Cooper",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a360ea97-f1c8-47a6-b422-567b430ff518",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1291650,
+    "name" : "Bill M. Puluti",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "b687447c-fb8e-465a-9d3f-1c4f2ab04515",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1643490,
+    "name" : "Kimberly Wright",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fc6075e8-5283-4541-9850-a09c2204e3ed",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1373435,
+    "name" : "Lisle Engle",
+    "birthDate" : "1966-01-01",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "54ffba56-c255-4403-a61d-aa406790547a",
+    "homepage" : null,
+    "birthPlace" : "Savannah, Georgia, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 9408,
+    "name" : "Frank Gaeta",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "75d75fbd-e3a6-4840-a70d-3d7209b7250f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2278037,
+    "name" : "Dennis K. Wilson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ef316b07-00e9-4ab3-96a6-14084dd40e7e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404361,
+    "name" : "Louis Creveling",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "848dd5f7-a30e-43c3-ad11-89fcef8455bd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1555189,
+    "name" : "William Smith",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "91ac0d53-c812-4945-a150-d09b94871d87",
+    "homepage" : null,
+    "birthPlace" : "Cinnaminson, New Jersey, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404366,
+    "name" : "Thomas Jones",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "022cc62f-6354-4775-a9af-76d84821d13e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1342655,
+    "name" : "Diane Marshall",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "b8593810-113a-42ac-bfab-af63308813a1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9409,
+    "name" : "John Ross",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a152d156-3573-47e2-b530-d7533fd15e01",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 120695,
+    "name" : "Chris Douridas",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "157b9638-b94c-461d-a1aa-0b1b40ce09b3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1190769,
+    "name" : "Danielle Ghent",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "a575a454-5576-4c80-888a-1cdf5ef45ee3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9445,
+    "name" : "David Mann",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a4a2cc5a-0057-4415-9f4c-0d1cd6ea3490",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3163157,
+    "name" : "Thomas Volckmann",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a02ca974-82f1-4663-8eba-22fe7d424741",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9438,
+    "name" : "Ossama Khuluki",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6db8c884-d739-4383-86ae-b853195a2a27",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1548684,
+    "name" : "Dan Muscarella",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "771e5d8f-e177-46cc-879e-d93818911a1d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9442,
+    "name" : "Lucy Sustar",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5caf2868-a5b2-4b57-80a0-0e4e20c5fdbc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3003503,
+    "name" : "Micki Stern",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "50214dfb-7af8-4517-89f9-90789d341004",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3163158,
+    "name" : "Tony Suraci",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "7086156f-9b31-4eb9-bfc5-883cf47ae2fa",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1453892,
+    "name" : "David Grant",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "08a43e2b-c2e2-4984-a4f9-31040e78b3a8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9410,
+    "name" : "Derek Marcil",
+    "birthDate" : "1962-05-15",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1a9980cd-608c-46c8-9553-b95d87a257ff",
+    "homepage" : null,
+    "birthPlace" : "Saratoga Springs, New York, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1376276,
+    "name" : "Mike Flicker",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "b1a82071-bca2-4e6c-a4f5-1c19a80b4072",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1190768,
+    "name" : "Alan Freedman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ae06e7a4-6295-4841-a65c-9b65829dc65e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1473108,
+    "name" : "Steve Scoville",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9e48bc26-3395-4316-8194-77b26e19ca7b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9435,
+    "name" : "Mary Erstad",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "9705ee1c-9a9f-408d-b50b-c0135f2f79d0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9439,
+    "name" : "Catherine Harper",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "40321796-fbe1-42db-a515-4490cb7a98c9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 92303,
+    "name" : "Gary Archer",
+    "birthDate" : "1965-01-02",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "75535ab5-472e-4bc9-a695-fd7950a05e05",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Gary Archer was born on January 2, 1965 in London, England. He is known for Austin Powers: International Man of Mystery (1997), Ma Rainey's Black Bottom (2020) and Uncut Gems (2019)."
+  }, {
+    "tmdbId" : 1856473,
+    "name" : "Anita Hart",
+    "birthDate" : "1972-09-07",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "fb30cdf7-001e-4904-96f5-d0264add06ef",
+    "homepage" : null,
+    "birthPlace" : "Milwaukee, Wisconsin, USA",
+    "biography" : "Anita Hart is a stuntwoman and model."
+  }, {
+    "tmdbId" : 2092336,
+    "name" : "Sashy Bogdanovich",
+    "birthDate" : "1970-09-16",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5c1a3db4-0b68-4e76-94d5-3c249995cb6a",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "American actress and daughter of director Peter Bogdanovich."
+  }, {
+    "tmdbId" : 559,
+    "name" : "Wally Pfister",
+    "birthDate" : "1961-07-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "543316d1-051c-4027-a83f-88f744de4c4a",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Walter C. Pfister (born July 8, 1961) is an American director and former cinematographer, who is best known for his work with filmmaker Christopher Nolan. Some of his collaborations with Nolan include Memento (2000), The Dark Knight Trilogy (2005–2012), and Inception (2010). For his work on Inception, Pfister won an Academy Award for Best Cinematography and received a BAFTA Award nomination.\n\nDescription above from the Wikipedia article Wally Pfister, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1533714,
+    "name" : "William Scharpf",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9e5af36e-666f-45f7-b139-46faf4dafd85",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1415503,
+    "name" : "Christine L. Cantella",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "13ca3733-50d2-4833-811b-054b71575efd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Christine L. Cantella is known for The Little Mermaid (2023), Planet of the Apes (2001) and In Time (2011)."
+  }, {
+    "tmdbId" : 91147,
+    "name" : "Dana Sano",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5734b241-f519-4ac0-a0e0-2431d7841fdf",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Dana Sano is known for GOAT (2026), KPop Demon Hunters (2025) and They Cloned Tyrone (2023)."
+  } ]
+}

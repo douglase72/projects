@@ -1,0 +1,2212 @@
+{
+  "tmdbId" : 87,
+  "title" : "Indiana Jones and the Temple of Doom",
+  "releaseDate" : "1984-05-23",
+  "score" : 5.0,
+  "status" : "Released",
+  "runtime" : 118,
+  "budget" : 28000000,
+  "revenue" : 333000000,
+  "backdrop" : "058d2ef3-9499-4215-89df-caccacbfeac2",
+  "poster" : "d2e314cc-6976-4c36-aea2-68456f2182f7",
+  "homepage" : "http://www.indianajones.com",
+  "originalLanguage" : "en",
+  "tagline" : "If adventure has a name... it must be Indiana Jones.",
+  "overview" : "After arriving in India, Indiana Jones is asked by a desperate village to find a mystical stone. He agrees – and stumbles upon a secret cult plotting a terrible plan in the catacombs of an ancient palace.",
+  "credits" : {
+    "cast" : [ {
+      "tmdbId" : 3,
+      "character" : "Indiana Jones",
+      "order" : 0
+    }, {
+      "tmdbId" : 689,
+      "character" : "Willie Scott",
+      "order" : 1
+    }, {
+      "tmdbId" : 690,
+      "character" : "Short Round",
+      "order" : 2
+    }, {
+      "tmdbId" : 691,
+      "character" : "Mola Ram",
+      "order" : 3
+    }, {
+      "tmdbId" : 693,
+      "character" : "Chattar Lal",
+      "order" : 4
+    }, {
+      "tmdbId" : 694,
+      "character" : "Phillip Blumburtt",
+      "order" : 5
+    }, {
+      "tmdbId" : 695,
+      "character" : "Lao Che",
+      "order" : 6
+    }, {
+      "tmdbId" : 696,
+      "character" : "Wu Han",
+      "order" : 7
+    }, {
+      "tmdbId" : 11397,
+      "character" : "Kao Kan",
+      "order" : 8
+    }, {
+      "tmdbId" : 699,
+      "character" : "Chen",
+      "order" : 9
+    }, {
+      "tmdbId" : 701,
+      "character" : "Maitre d'",
+      "order" : 10
+    }, {
+      "tmdbId" : 702,
+      "character" : "Chief Henchman",
+      "order" : 11
+    }, {
+      "tmdbId" : 707,
+      "character" : "Art Weber",
+      "order" : 12
+    }, {
+      "tmdbId" : 1402218,
+      "character" : "Chinese Pilot",
+      "order" : 13
+    }, {
+      "tmdbId" : 80123,
+      "character" : "Chinese Co-Pilot",
+      "order" : 14
+    }, {
+      "tmdbId" : 1055317,
+      "character" : "Shaman",
+      "order" : 15
+    }, {
+      "tmdbId" : 1402258,
+      "character" : "Chieftain",
+      "order" : 16
+    }, {
+      "tmdbId" : 1402260,
+      "character" : "Sajnu",
+      "order" : 17
+    }, {
+      "tmdbId" : 1402261,
+      "character" : "Village Woman",
+      "order" : 18
+    }, {
+      "tmdbId" : 1402263,
+      "character" : "Village Woman",
+      "order" : 19
+    }, {
+      "tmdbId" : 1402266,
+      "character" : "Village Woman",
+      "order" : 20
+    }, {
+      "tmdbId" : 1402267,
+      "character" : "Village Child",
+      "order" : 21
+    }, {
+      "tmdbId" : 1402268,
+      "character" : "Little Maharaja",
+      "order" : 22
+    }, {
+      "tmdbId" : 977657,
+      "character" : "Merchant #1",
+      "order" : 23
+    }, {
+      "tmdbId" : 1402269,
+      "character" : "Merchant #2",
+      "order" : 24
+    }, {
+      "tmdbId" : 735,
+      "character" : "Eel Eater",
+      "order" : 25
+    }, {
+      "tmdbId" : 213391,
+      "character" : "Sacrifice Victim",
+      "order" : 26
+    }, {
+      "tmdbId" : 10942,
+      "character" : "Chief Guard",
+      "order" : 27
+    }, {
+      "tmdbId" : 1402504,
+      "character" : "Guard",
+      "order" : 28
+    }, {
+      "tmdbId" : 215400,
+      "character" : "Temple Guard",
+      "order" : 29
+    }, {
+      "tmdbId" : 119792,
+      "character" : "Temple Guard",
+      "order" : 30
+    }, {
+      "tmdbId" : 1402509,
+      "character" : "1st Boy in Cell",
+      "order" : 31
+    }, {
+      "tmdbId" : 1402514,
+      "character" : "2nd Boy in Cell",
+      "order" : 32
+    }, {
+      "tmdbId" : 1402517,
+      "character" : "Dancer",
+      "order" : 33
+    }, {
+      "tmdbId" : 1402521,
+      "character" : "Dancer",
+      "order" : 34
+    }, {
+      "tmdbId" : 1402523,
+      "character" : "Dancer",
+      "order" : 35
+    }, {
+      "tmdbId" : 1402527,
+      "character" : "Dancer",
+      "order" : 36
+    }, {
+      "tmdbId" : 1402528,
+      "character" : "Dancer",
+      "order" : 37
+    }, {
+      "tmdbId" : 1402609,
+      "character" : "Dancer",
+      "order" : 38
+    }, {
+      "tmdbId" : 1402610,
+      "character" : "Dancer",
+      "order" : 39
+    }, {
+      "tmdbId" : 1402613,
+      "character" : "Dancer",
+      "order" : 40
+    }, {
+      "tmdbId" : 1402614,
+      "character" : "Dancer",
+      "order" : 41
+    }, {
+      "tmdbId" : 1402615,
+      "character" : "Dancer",
+      "order" : 42
+    }, {
+      "tmdbId" : 1402616,
+      "character" : "Dancer",
+      "order" : 43
+    }, {
+      "tmdbId" : 563900,
+      "character" : "Dancer",
+      "order" : 44
+    }, {
+      "tmdbId" : 1402617,
+      "character" : "Dancer",
+      "order" : 45
+    }, {
+      "tmdbId" : 1402618,
+      "character" : "Dancer",
+      "order" : 46
+    }, {
+      "tmdbId" : 1402619,
+      "character" : "Dancer",
+      "order" : 47
+    }, {
+      "tmdbId" : 1402620,
+      "character" : "Dancer",
+      "order" : 48
+    }, {
+      "tmdbId" : 1402632,
+      "character" : "Dancer",
+      "order" : 49
+    }, {
+      "tmdbId" : 1402641,
+      "character" : "Dancer",
+      "order" : 50
+    }, {
+      "tmdbId" : 1402664,
+      "character" : "Dancer",
+      "order" : 51
+    }, {
+      "tmdbId" : 1402666,
+      "character" : "Dancer",
+      "order" : 52
+    }, {
+      "tmdbId" : 1402669,
+      "character" : "Dancer",
+      "order" : 53
+    }, {
+      "tmdbId" : 1402670,
+      "character" : "Dancer",
+      "order" : 54
+    }, {
+      "tmdbId" : 1402672,
+      "character" : "Dancer",
+      "order" : 55
+    }, {
+      "tmdbId" : 1402675,
+      "character" : "Dancer",
+      "order" : 56
+    }, {
+      "tmdbId" : 1402676,
+      "character" : "Dancer",
+      "order" : 57
+    }, {
+      "tmdbId" : 1402677,
+      "character" : "Dancer",
+      "order" : 58
+    }, {
+      "tmdbId" : 1402678,
+      "character" : "Dancer",
+      "order" : 59
+    }, {
+      "tmdbId" : 1402682,
+      "character" : "Dancer",
+      "order" : 60
+    }, {
+      "tmdbId" : 1402684,
+      "character" : "Dancer",
+      "order" : 61
+    }, {
+      "tmdbId" : 1402685,
+      "character" : "Dancer",
+      "order" : 62
+    }, {
+      "tmdbId" : 1402686,
+      "character" : "Dancer",
+      "order" : 63
+    }, {
+      "tmdbId" : 2333333,
+      "character" : "Palace Guard (uncredited)",
+      "order" : 64
+    }, {
+      "tmdbId" : 1495190,
+      "character" : "Thuggee in Railway Chase / Thuggee Knocked Off Ledge / Thuggee on Bridge (uncredited)",
+      "order" : 65
+    }, {
+      "tmdbId" : 1935711,
+      "character" : "Nightclub Guest (uncredited)",
+      "order" : 66
+    }, {
+      "tmdbId" : 20820,
+      "character" : "Missionary (uncredited)",
+      "order" : 67
+    }, {
+      "tmdbId" : 1608123,
+      "character" : "Thuggee in Railway Chase (uncredited)",
+      "order" : 68
+    }, {
+      "tmdbId" : 489,
+      "character" : "'Anything Goes' Dancer (uncredited)",
+      "order" : 69
+    }, {
+      "tmdbId" : 1217176,
+      "character" : "Slave Children (voice) (uncredited)",
+      "order" : 70
+    }, {
+      "tmdbId" : 2251717,
+      "character" : "Slave Child (uncredited)",
+      "order" : 71
+    }, {
+      "tmdbId" : 194804,
+      "character" : "Little Maharaja (voice) (uncredited)",
+      "order" : 72
+    }, {
+      "tmdbId" : 2545138,
+      "character" : "Triad Henchman (uncredited)",
+      "order" : 73
+    }, {
+      "tmdbId" : 1,
+      "character" : "Missionary (uncredited)",
+      "order" : 74
+    }, {
+      "tmdbId" : 34983,
+      "character" : "Slave Child (voice) (uncredited)",
+      "order" : 75
+    }, {
+      "tmdbId" : 664,
+      "character" : "Tourist at Airport (uncredited)",
+      "order" : 76
+    }, {
+      "tmdbId" : 8922,
+      "character" : "Missionary (uncredited)",
+      "order" : 77
+    }, {
+      "tmdbId" : 488,
+      "character" : "Tourist at Airport (uncredited)",
+      "order" : 78
+    }, {
+      "tmdbId" : 1708535,
+      "character" : "Obi Wan Club Patron (uncredited)",
+      "order" : 79
+    }, {
+      "tmdbId" : 81776,
+      "character" : "Lao Chie (voice) (uncredited)",
+      "order" : 80
+    } ],
+    "crew" : [ {
+      "tmdbId" : 687,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 597,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 599,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 598,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 664,
+      "job" : "Executive Producer"
+    }, {
+      "tmdbId" : 1,
+      "job" : "Executive Producer"
+    }, {
+      "tmdbId" : 491,
+      "job" : "Original Music Composer"
+    }, {
+      "tmdbId" : 666,
+      "job" : "Director of Photography"
+    }, {
+      "tmdbId" : 686,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 493,
+      "job" : "Editor"
+    }, {
+      "tmdbId" : 488,
+      "job" : "Director"
+    }, {
+      "tmdbId" : 668,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 711,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 670,
+      "job" : "Sound Designer"
+    }, {
+      "tmdbId" : 3165925,
+      "job" : "Rigging Gaffer"
+    }, {
+      "tmdbId" : 1862956,
+      "job" : "Assistant Sound Editor"
+    }, {
+      "tmdbId" : 1424133,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 52042,
+      "job" : "Location Manager"
+    }, {
+      "tmdbId" : 7727,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 1,
+      "job" : "Characters"
+    }, {
+      "tmdbId" : 8922,
+      "job" : "Costume Design"
+    }, {
+      "tmdbId" : 1,
+      "job" : "Story"
+    }, {
+      "tmdbId" : 489,
+      "job" : "Associate Producer"
+    }, {
+      "tmdbId" : 648,
+      "job" : "Characters"
+    }, {
+      "tmdbId" : 664,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 1902347,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 15358,
+      "job" : "Stunt Double"
+    }, {
+      "tmdbId" : 1333241,
+      "job" : "Set Decoration"
+    }, {
+      "tmdbId" : 3993,
+      "job" : "Visual Effects Supervisor"
+    }, {
+      "tmdbId" : 1700809,
+      "job" : "Hairstylist"
+    }, {
+      "tmdbId" : 1213681,
+      "job" : "Assistant Director"
+    }, {
+      "tmdbId" : 1271078,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2789781,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1600363,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 57084,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 2826216,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1402756,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 83118,
+      "job" : "Hairstylist"
+    }, {
+      "tmdbId" : 9974,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 10199,
+      "job" : "Key Makeup Artist"
+    }, {
+      "tmdbId" : 1620097,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 75802,
+      "job" : "Key Hair Stylist"
+    }, {
+      "tmdbId" : 1402919,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1469954,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2644740,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 10213,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 75796,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 73769,
+      "job" : "Assistant Director"
+    }, {
+      "tmdbId" : 1989224,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 1356970,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 10976,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 3306340,
+      "job" : "Second Unit Director"
+    }, {
+      "tmdbId" : 1271079,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 178714,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 31939,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 11349,
+      "job" : "Hairstylist"
+    }, {
+      "tmdbId" : 157969,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 10407,
+      "job" : "Makeup Supervisor"
+    }, {
+      "tmdbId" : 1606848,
+      "job" : "Key Makeup Artist"
+    }, {
+      "tmdbId" : 33853,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 23607,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 74788,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1456409,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1697623,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 83791,
+      "job" : "Second Unit Director"
+    }, {
+      "tmdbId" : 9974,
+      "job" : "Second Unit Director"
+    }, {
+      "tmdbId" : 199077,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1608123,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 40740,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1099845,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 715,
+      "job" : "Production Design"
+    }, {
+      "tmdbId" : 136514,
+      "job" : "Stunt Coordinator"
+    }, {
+      "tmdbId" : 1106167,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 8591,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2266438,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1417413,
+      "job" : "Property Master"
+    }, {
+      "tmdbId" : 91915,
+      "job" : "Pilot"
+    }, {
+      "tmdbId" : 12825,
+      "job" : "Art Direction"
+    }, {
+      "tmdbId" : 12970,
+      "job" : "Assistant Editor"
+    }, {
+      "tmdbId" : 1761,
+      "job" : "Orchestrator"
+    }, {
+      "tmdbId" : 4736462,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 1198496,
+      "job" : "Art Designer"
+    }, {
+      "tmdbId" : 1859269,
+      "job" : "Special Effects"
+    }, {
+      "tmdbId" : 1620909,
+      "job" : "Special Effects Assistant"
+    }, {
+      "tmdbId" : 1342600,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 1229756,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 2120185,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 1445972,
+      "job" : "Special Effects Assistant"
+    }, {
+      "tmdbId" : 5358278,
+      "job" : "Special Effects Assistant"
+    } ]
+  },
+  "people" : [ {
+    "tmdbId" : 3,
+    "name" : "Harrison Ford",
+    "birthDate" : "1942-07-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "fd83d75f-19dd-4764-8b55-2cee086a1a30",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Legendary Hollywood Icon Harrison Ford was born on July 13, 1942 in Chicago, Illinois. His family history includes a strong lineage of actors, radio personalities, and models. Ford attended public high school in Park Ridge, Illinois where he was a member of the school Radio Station WMTH. Ford worked as the lead voice for sports reporting at WMTH for several years. Acting wasn't a major interest to Ford until his junior year at Ripon College when he first took an acting class. Ford's career started in 1964 when he travelled to California in search of a voice-over job. He never received that position, but instead signed a contract with Columbia Pictures where he earned $150 weekly to play small fill in roles in various films.\n\nThrough the '60s Ford worked on several TV shows including Gunsmoke, Ironside, Kung Fu, and American Style. It wasn't until 1967 that he received his first credited role in the Western film, A Time for Killing. Dissatisfied with the meager roles he was being offered, Ford took a hiatus from acting to work as a self-employed carpenter. This seemingly odd diversion turned out to be a blessing in disguise for Harrison's acting career when he was soon hired by famous film producer George Lucas. This was a turning point in Ford's life that led to him be casted in milestone roles such as Han Solo and Indiana Jones.\n\nSince his most famous roles in the original Star Wars trilogy and Raiders of the Lost Ark, Ford has appeared in over 40 films. Many criticize his late-career work, saying his performances have been lackluster, leading to commercially disappointing films. Ford has always worked hard to protect his off-screen private life, keeping details about his children and marriages quiet. He has a total of five children including one recent adoption with third and current wife Calista Flockhart. In addition to acting, Ford is passionate about environmental conservation, aviation, and archeology."
+  }, {
+    "tmdbId" : 689,
+    "name" : "Kate Capshaw",
+    "birthDate" : "1953-11-03",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "8aa9646f-bf97-4cf0-b1e1-e773e2c4e545",
+    "homepage" : null,
+    "birthPlace" : "Fort Worth, Texas, USA",
+    "biography" : "Kathleen Sue Spielberg (born November 3, 1953), known professionally as Kate Capshaw, is an American actress and painter with a multifaceted career that traverses action-adventure classics, heartwarming comedies, and artistic pursuits. Born in Texas, Capshaw embarked on an unexpected path: initially, she pursued a career in education, earning a Master's degree in Learning Disabilities and teaching special education. However, her artistic heart yearned for a different stage. Driven by this passion, she moved to New York and delved into acting, landing a role in the soap opera \"The Edge of Night.\"  Fate and Hollywood intervened in 1984 when Capshaw, after beating out 120 actresses, landed the pivotal role of Willie Scott in Indiana Jones and the Temple of Doom. This action-adventure blockbuster, directed by Steven Spielberg, not only catapulted her to international fame but also sparked a personal connection that led to their marriage in 1991. Capshaw's career thrived in the 80s and 90s, showcasing her dramatic and comedic chops in films like Dreamscape, Black Rain, Love Affair, and Just Cause. She explored lighter roles in SpaceCamp and The Love Letter, proving her versatility. Beyond acting, Capshaw is a devoted mother to seven children, including actress Jessica Capshaw, and co-parent to adopted children with Spielberg. She has actively supported various charities, highlighting her dedication to humanitarian causes."
+  }, {
+    "tmdbId" : 690,
+    "name" : "Ke Huy Quan",
+    "birthDate" : "1971-08-20",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ce194911-913e-4f45-860e-a75bf919cd42",
+    "homepage" : null,
+    "birthPlace" : "Saigon, Vietnam [now Ho Chi Minh City]",
+    "biography" : "Ke Huy Quan (/ˌkiː.hwiː.ˈkwɑːn/ KEE-hwee-KWAHN; Vietnamese: Quan Kế Huy; born August 20, 1971), also known as Jonathan Ke Quan, is an American actor. His accolades include a Golden Globe Award and an Academy Award.\n\nBorn in Vietnam, Quan immigrated to the United States as a child. As a child actor, he rose to fame playing Short Round in Indiana Jones and the Temple of Doom (1984) and Data in The Goonies (1985). Following a few roles as a young adult in the 1990s, he took a 19-year acting hiatus, during which he worked as a stunt choreographer and assistant director.\n\nQuan returned to acting with the family adventure film Finding ʻOhana (2021), followed by the critically acclaimed Everything Everywhere All at Once (2022), a performance that won him various accolades, including the Academy Award for Best Supporting Actor. He is the first Vietnam-born actor to win an Academy Award. Time magazine named him one of the 100 most influential people in the world in 2023. He has since starred in the second season of the Disney+ series Loki in 2023 and in the Disney animated film Zootopia 2 in 2025.\n\nDescription above from the Wikipedia article Ke Huy Quan, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 691,
+    "name" : "Amrish Puri",
+    "birthDate" : "1932-06-22",
+    "deathDate" : "2005-01-12",
+    "gender" : "Male",
+    "profile" : "45ce96d6-be62-4e72-9c85-dcc5444eb2b3",
+    "homepage" : null,
+    "birthPlace" : "Jalandhar, Punjab, India",
+    "biography" : "From Wikipedia, the free encyclopedia.\n\nAmrish Lal Puri (June 22, 1932 - January 12, 2005) was an iconic theater and film actor from India, who was a key player in the Indian theater movement that picked up steam in the 1960s. He worked with notable playwrights of the time, such as Satyadev Dubey and Girish Karnad. However, he is primarily remembered for essaying some iconic negative roles in Hindi cinema. He is most remembered for his role as Mogambo in the Hindi film Mr India (1987). As Mola Ram in the Hollywood film Indiana Jones and the Temple of Doom (1984), he crossed over to international cinema as well.\n\nDescription above from the Wikipedia article Amrish Puri, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 693,
+    "name" : "Roshan Seth",
+    "birthDate" : "1942-04-02",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "948d7887-617d-4f97-88b4-f289fb3e74e9",
+    "homepage" : null,
+    "birthPlace" : "Patna, Bihar, India",
+    "biography" : "From Wikipedia, the free encyclopedia.\n\nRoshan Seth OBE (Hindi: रोशन सेठ; born April 2, 1942) is an Indian-born British actor, who appears mainly in British and American films. He is best known for his critically acclaimed performances in the films Gandhi, Mississippi Masala, Not Without My Daughter, My Beautiful Laundrette, Indiana Jones and the Temple of Doom, and Such a Long Journey.\n\nDescription above from the Wikipedia article Roshan Seth, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 694,
+    "name" : "Philip Stone",
+    "birthDate" : "1924-04-14",
+    "deathDate" : "2003-06-15",
+    "gender" : "Male",
+    "profile" : "22c4113f-4c24-4ed5-8a8a-b4e1301a1980",
+    "homepage" : null,
+    "birthPlace" : "Kirkstall, Leeds, West Yorkshire, England, UK",
+    "biography" : "Philip Stone (14 April 1924 – 15 June 2003) was an English actor known for portraying film characters such as \"Pa\", the father of Alex DeLarge, in A Clockwork Orange (1971); General Alfred Jodl in Hitler: The Last Ten Days (1973); Delbert Grady in The Shining (1980); and Captain Phillip Blumburtt in Indiana Jones and the Temple of Doom (1984). His final film role was as the Bishop in The Baby of Mâcon (1993)."
+  }, {
+    "tmdbId" : 695,
+    "name" : "Roy Chiao",
+    "birthDate" : "1927-03-16",
+    "deathDate" : "1999-04-15",
+    "gender" : "Male",
+    "profile" : "2369f90f-4b7a-4d9f-983d-76d31aaf8d7c",
+    "homepage" : null,
+    "birthPlace" : "Shanghai, China",
+    "biography" : "Roy Chiao was a Chinese actor most famous in the Western world for playing the minor villain Lao Che in the 1984 movie Indiana Jones and the Temple of Doom and Senzo Tanaka in Bloodsport."
+  }, {
+    "tmdbId" : 696,
+    "name" : "David Yip",
+    "birthDate" : "1951-06-04",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a3d22204-9d35-4d0f-8c72-e3ef2887d17c",
+    "homepage" : null,
+    "birthPlace" : "Liverpool, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 11397,
+    "name" : "Ric Young",
+    "birthDate" : "1944-06-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "aed40c6f-aa15-4d2b-ae2c-d09a73f90f0e",
+    "homepage" : null,
+    "birthPlace" : "Kuala Lumpur, Malaysia",
+    "biography" : "Eric Wing Wah Yung (born 1944), better known as Ric Young, is a Malaysian retired actor. He appeared in over 100 films and television programmes from his debut in 1958, mainly in the United Kingdom and later the United States. He trained as an actor at the Royal Academy of Dramatic Art and then moved to Los Angeles to study method acting under Shelley Winters and Lee Strasberg.  Young was a series regular on spy action television series Alias (2001–04), playing Dr. Zhang Lee. He appeared in such films as You Only Live Twice (1967), Indiana Jones and the Temple of Doom (1984), The Last Emperor (1987), Dragon: The Bruce Lee Story (1993), Nixon (1995), Seven Years in Tibet (1997), The Transporter (2002), and American Gangster (2007).  Description above from the Wikipedia article Ric Young, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 699,
+    "name" : "Chua Kah Joo",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9b4f1bba-7825-4ded-9f91-c0923a7d3ba1",
+    "homepage" : "https://www.ewingchun.com/sifus/chua-kah-joo#more",
+    "birthPlace" : "Singapour - Singapour",
+    "biography" : "Chua Kah Joo is a Singaporean actor who is a trained professional Ballet dancer and Kung Fu Master (Grand Sifu of Wing Chun). He worked with with Germany's Wuppertal Ballet, the Scottish Ballet and London City Ballet in the 1970s and also collaborated with famed ballet dancer Rudolf Nureyev for several years. He taught Wing Chun Kung Fu in London (starting in 1980), and it was there that he was cast as \"Chen\", an evil henchman, in Steven Spielberg's Indiana Jones and the Temple of Doom. In 1990 he returned to Singapore to teach Kung Fu at his studios there."
+  }, {
+    "tmdbId" : 701,
+    "name" : "Rex Ngui",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bb02e03d-22b0-446c-811e-fa1c64b15455",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 702,
+    "name" : "Philip Tan",
+    "birthDate" : "1960-07-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2bf41cad-21c9-47f1-a175-c5f3c4bb9aff",
+    "homepage" : null,
+    "birthPlace" : "Singapore",
+    "biography" : "Phil Tan was born in Singapore where he spent his childhood and then at the age of five moved to the UK. Phil started off his athletic career as a gymnast where he became the British Youth Tumbling champion and a member of the British squad for many years. Years later after getting into martial arts, Phil also became the Men's British Tae Kwon do Champion. \n\nPhil's first break in film, was as an actor and fight choreographer in a film called Le complot diabolique du docteur Fu Manchu\n\n (1980) with Peter Sellers. Afer that came a year on Greystoke, la légende de Tarzan (1984), also as an actor and trainer forChristopher Lambert. Phil was then contacted by Steven Spielberg and Robert Watts to train the pricipal actor 'Jonathan Ke Quanin' for Indiana Jones et le temple maudit(1984).\n\nHe was then invited to become a member of The British Stunt Register in 1986. That was the start of Phil's stunt career. Now Philip Tan lives in LA and works as a 2nd Unit Director, stunt and fight co-ordinator on some of Hollywoods bigget movies.\n\n- IMDb Mini Biography By: Philip Tan"
+  }, {
+    "tmdbId" : 707,
+    "name" : "Dan Aykroyd",
+    "birthDate" : "1952-07-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "009efece-9bc7-48b0-bbb3-695c9f5671b3",
+    "homepage" : null,
+    "birthPlace" : "Ottawa, Ontario, Canada",
+    "biography" : "Daniel Edward Aykroyd, born in Ottawa, initially pursued studies in psychology, criminal sociology, and political science at Carleton University, where his comedy journey took off. He co-wrote sketches for a private cable company, igniting his passion for acting. At 20, he joined The Second City comedy troupe in Chicago and Toronto, marking the start of his career.\n\nIn 1975, Aykroyd joined \"Saturday Night Live\" as a founding member of the \"Not Ready For Prime Time Players,\" crafting iconic sketches like \"The Blues Brothers\" with Belushi and \"Two Wild and Crazy Guys\" with Steve Martin. The success of \"The Blues Brothers\" sketch led to a full-length feature in 1980, with Aykroyd writing and producing the movie soundtrack, defying the disco and punk era.\n\nHis versatile talent shines in roles like Dr. Ray Stantz in \"Ghostbusters,\" Jessica Tandy’s son in \"Driving Miss Daisy,\" a single father in \"My Girl,\" and an assassin in \"Grosse Pointe Blank,\" showcasing both comedic and dramatic prowess."
+  }, {
+    "tmdbId" : 1402218,
+    "name" : "Akio Mitamura",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "364d3809-b4c7-4e6c-8695-398ed6c50228",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 80123,
+    "name" : "Michael Yama",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6c5facdd-adfe-4e86-9c11-5a59b5d5658c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1055317,
+    "name" : "D.R. Nanayakkara",
+    "birthDate" : "1915-01-01",
+    "deathDate" : "1989-01-04",
+    "gender" : "Male",
+    "profile" : "f320641c-b5eb-47c1-b19a-1dc67b228533",
+    "homepage" : null,
+    "birthPlace" : "Kolonnawa, Sri Lanka",
+    "biography" : "Don Ruter Nanayakkara was a leading character actor of Sri Lankan cinema. Playing lanky villains and comedic characters, Nanayakkara gained popularity in films like Rekava, Kurulu Bedda and Sikuru Tharuwa."
+  }, {
+    "tmdbId" : 1402258,
+    "name" : "Dharmadasa Kuruppu",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0a550782-598e-45a9-8060-aa6afa17ecdd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402260,
+    "name" : "Stany De Silva",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d22c74e7-fc88-412e-a25e-991a84a52ed7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402261,
+    "name" : "Ruby de Mel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a591b05b-3baa-4613-afe9-8399383c2adc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Ruby Jasmine de Mel was a popular Sri Lankan actress. She often played bullying motherly characters. de Mel was born in Moratuwa to an anglicized Sinhala family and attended Princess of Wales College, Moratuwa and Newstead Balika, Negombo. She was an announcer for Radio Ceylon at its inception. de Mel broke into acting with a role in the theatrical play Handahana directed by T. B. Ilangaratne. This performance drew the attention of leading playwright and filmmaker B. A. W. Jayamanne who asked her to play a part in his film Mathabedaya to be shot in India. Under the pretense of a vacation with friends, de Mel travelled to India and made her film debut in the film under the alias Vinodha Rasanjali. She reverted to her real name after her first few films. de Mel would go on to appear in such films as Perakadoru Baana, Daiva Vipakaya, Suraya, Siriyalatha, Surasena, Kawata Andare, Nalangana, Kala Kala De Pala Pala De, Chandali, Handapana, Magul Poruwa, Bicycle Hora, Hari Maga, Penawa Neda, Ihatha Athmaya, Aparadaya Saha Danduwama, Sinawai Inawai, Bambaru Awith, Thana Giravi, Mangala Thagga, Kawuluwa and Obatai Priye Adare."
+  }, {
+    "tmdbId" : 1402263,
+    "name" : "Denavaka Hamine",
+    "birthDate" : "1906-02-20",
+    "deathDate" : "2002-12-09",
+    "gender" : "Female",
+    "profile" : "0e074712-9211-41e2-9862-e42902f6af94",
+    "homepage" : null,
+    "birthPlace" : "Gampaha - Sri Lanka",
+    "biography" : "Kalasuri Dona Meraya Denawaka was a Sri Lankan actress. \"The grand old lady\" was known for portraying elderly characters. Hamine was born 20 February 1906 in Imbulgoda, Gampaha. She was by profession a school teacher until a chance encounter with G. D. L. Perera when she accompanied a young actress to a theatrical audition, led to her winning the role of an elderly mother in Perera's play Kandulu. Due to her masterful performance in the role, Perera brought Hamine into his drama group Kala Pela; she would play in Kala Pela productions like Manamalayo, Sakkarawattang and Sama and was honored with a merit award at the 1964 Arts Council Drama Festival for her role in Totupola. Hamine's debut film role was in the film adaption of Sama by Perera reprising the role she had popularized in the play. In Sath Samudura she played the mother of two fishermen to much critical rave. She was presented a Best Character Actress Award for the role by a special government council. It was delivered on stage by the then Sri Lankan prime minister Dudley Senanayake. In the 1970s, Hamine had major roles in Tun Man Handiya, Desa Nisa Kolomba Sanniya and Matara Achchi. "
+  }, {
+    "tmdbId" : 1402266,
+    "name" : "Iranganie Serasinghe",
+    "birthDate" : "1927-06-21",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "f94ecc59-1c51-4e1a-8455-b8ee9f284081",
+    "homepage" : null,
+    "birthPlace" : "Ruwanwella Divisional Secretariat - Sri Lanka",
+    "biography" : "Kala Keerthi Iranganie Roxanna Serasinghe is a Sri Lankan actress. Since her debut in Rekava, Serasinghe has become recognized for playing motherly figures in various films and television serials."
+  }, {
+    "tmdbId" : 1402267,
+    "name" : "Dharshana Panangala",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d78ae9bf-1a5f-4fae-96b0-55aee4f2f40e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402268,
+    "name" : "Raj Singh",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "715da73c-499f-4b29-9262-0b2da6673966",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 977657,
+    "name" : "Frank Olegario",
+    "birthDate" : "1929-03-06",
+    "deathDate" : "1988-07-02",
+    "gender" : "Male",
+    "profile" : "7a8dd5f1-bca5-438e-93f4-48bb3f106f2b",
+    "homepage" : null,
+    "birthPlace" : "Bombay, India",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402269,
+    "name" : "Ahmed El Shenawi",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ceee5988-4f10-49b3-8b37-db953a00549c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 735,
+    "name" : "Arthur F. Repola",
+    "birthDate" : "1953-08-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1cd80343-2fc6-4360-b5ce-242c35bc59ea",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Art Repola is the Senior Vice President of Visual Effects and Production for the Walt Disney Motion Pictures Group. Repola is responsible for all aspects of Visual Effects production for the studio's various banners, including Disney, Touchstone and Hollywood Pictures. In this role he has managed the visual effects on more than 80 Disney live action films, including \"Pearl Harbor,\" \"Armageddon,\" \"Inspector Gadget\" and \"Mighty Joe Young.\" He is also the Executive in Charge of Production for the company's Large Format film business. He was previously responsible for overseeing the operation of Dream Quest Images, the Academy Award®-winning visual effects facility, which was acquired in 1996 by the Walt Disney Studios. Under Repola's leadership, Disney Studios has received three Academy Award® nominations for Best Visual Effects.\n\nRepola had previously worked at the Walt Disney Studios where he served as Vice President of Post Production for Hollywood Pictures. Following that, he co-wrote and produced a Special Venue-High-Definition, Interactive film for the Sony Corporation. This educational film details Sound and Picture technologies through the use of live-action, computer graphics and traditional animation. He went on to produce a television pilot, and also served as the Associate Producer on the 1995 fantasy film, \"The Indian in the Cupboard.\" Before rejoining Disney, he served as Vice President of Film and Video Production for the Universal Theme Parks. There his credits included Executive Producer of the innovative 12-minute, 3D film featured in the theme park attraction, \"T2 -- 3D: Battle Across Time,\" which was directed by James Cameron and stars Arnold Schwarzenegger. Repola began his professional career in the International Film department at 20th Century Fox. After working on the foreign versions of George Lucas' \"Star Wars,\" he joined Lucasfilm's Marin County-based Industrial Light and Magic (ILM) as a visual effects editor, eventually being named Visual Effects Producer. During his stay at ILM, he contributed to such ground-breaking projects as \"The Empire Strikes Back,\" \"Raiders of the Lost Ark,\" \"Indiana Jones and the Temple of Doom,\" \"Dragonslayer\" and \"Return of the Jedi.\"\n\nAfter moving back to Los Angeles, Repola became a member of the team at Boss Films, which was responsible for the visual effects on \"Ghostbusters\" and \"2010\". He then joined Steven Spielberg's Amblin Entertainment as the Executive in Charge of Post Production, supervising the post activities for such projects as \"Back to the Future,\" \"The Color Purple\" and \"Empire of the Sun,\" among others. He also served as the Associate Producer for Lucasfilm's \"Indiana Jones and the Last Crusade.\"\n\nRepola is a member of the Academy of Motion Picture Arts and Sciences and serves on the Board of Directors of the Visual Effects Society.\n\n- IMDb Mini Biography"
+  }, {
+    "tmdbId" : 213391,
+    "name" : "Nizwar Karanj",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "30d65c93-084a-4fc1-9b85-8d7808936ef9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 10942,
+    "name" : "Pat Roach",
+    "birthDate" : "1937-05-19",
+    "deathDate" : "2004-07-17",
+    "gender" : "Male",
+    "profile" : "34b92dfe-5e06-4f77-b371-9402727e70d3",
+    "homepage" : null,
+    "birthPlace" : "Birmingham, England, UK",
+    "biography" : "Proud and passionate Angle, Pat Roach, was born and raised in Birmingham, England and grew to be a mountain of a man standing at six feet, five inches tall, with doorway-wide shoulders and a barrel chest.\n\nPat wrestled competitively under the name of \"Bomber\" Roach, and at one time held both the British and European Heavyweight Wrestling Championships. While still in the wrestling game, Roach broke into acting with a bit part in the Stanley Kubrick film Barry Lyndon (1975). He quickly became popular as an enforcer or warrior figure and appeared on-screen with some of Hollywood's biggest names. Many people would remember him as the muscle-bound, bald German guard who hands out a beating toHarrison Ford in Les aventuriers de l'arche perdue (1981), before being cut down by a spinning plane propeller.\n\nIn other film roles, Roach nearly eliminates 007 Sean Connery in the Bond film Never Say Never Again (1983), in dual roles as a resurrected demon and as a fierce warrior, he fought Arnold Schwarzenegger in the Conan sequel Conan the Destroyer (1984), and was back as a ferocious Indian guard pummeling poor Harrison Ford once again in Indiana Jones and the Temple of Doom (1984), before falling into a rock crusher.\n\nHe also appeared in Indiana Jones and the Last Crusade (1989), Red Sonja (1985) and Robin Hood: Prince of Thieves (1991). Apart from his film activity, Pat ran a gymnasium in Birmingham, operated a used appliance business in the local markets and was known as a warm-hearted and genial man who was happy to chat with admiring fanatics, sign autographs and pose for photographs.\n\nRoach was also very popular with English television audiences for his portrayal of gentle giant \"Brian 'Bomber' Busbridge\" in the series Auf Wiedersehen, Pet (1983) and was scheduled to appear in the fifth series of the show, when he died of cancer on July 17, 2004. He was 67 years old.  - IMDb Mini Biography"
+  }, {
+    "tmdbId" : 1402504,
+    "name" : "Moti Makan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ac9ca022-1c87-4e7c-9c8a-4336193e0dfb",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Moti Makan's name roughly translates to Big House."
+  }, {
+    "tmdbId" : 215400,
+    "name" : "Mellan Mitchell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f4ce5c28-81d4-44b4-8fe9-b8c016f10b47",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 119792,
+    "name" : "Bhasker Patel",
+    "birthDate" : "1956-02-07",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "8d59c2a3-f74c-44ab-b6bb-acf1d4cf5558",
+    "homepage" : null,
+    "birthPlace" : "Kampala, Uganda",
+    "biography" : "From Wikipedia, the free encyclopedia.\n\nBhasker Patel (born 7 February 1956) is a British actor. He appeared in more than a hundred films since 1981."
+  }, {
+    "tmdbId" : 1402509,
+    "name" : "Arjun Pandher",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4607d6d6-e195-4a02-8d55-85ab6f3e7aeb",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402514,
+    "name" : "Zia Gelani",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5fd644ef-e39c-4b3a-badb-457361424faa",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Zia Gelani is an actor.\n\n Other Works:  Has been the bass player for the British psychedelic space-rock band The Ozric Tentacles since 1992."
+  }, {
+    "tmdbId" : 1402517,
+    "name" : "Debbie Astell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "e9eab146-2864-4567-bd2c-c903d11c4ca3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402521,
+    "name" : "Maureen Bacchus",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "b9ea7261-365a-4f72-963c-532263e2ac41",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402523,
+    "name" : "Corinne Barton",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "174568ca-a903-4f8a-abfc-9f0d7584e413",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402527,
+    "name" : "Carol Beddington",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "2451c5ee-5dcb-4323-b846-1eda939c0878",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402528,
+    "name" : "Sharon Boone",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fd4211d4-98ad-4d3b-8059-e4046a0d7453",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402609,
+    "name" : "Elizabeth Burville",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "adbccd3d-ba09-404c-b9d0-374c61535f81",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402610,
+    "name" : "Marisa Campbell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fe1aa3c7-6486-4b8e-b2f0-d0cc943f4cc2",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402613,
+    "name" : "Christine Cartwright",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "539a7719-f16f-4f00-b688-a1e75b4c41ce",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402614,
+    "name" : "Andrea Chance",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5c6dfe3c-6f6b-49ee-9895-30a65cff2eed",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402615,
+    "name" : "Jan Colton",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f9378b9a-da0f-4ddb-b8d6-86dd3e50d9f8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402616,
+    "name" : "Louise Dalgleish",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5958345b-589b-43ce-a2a6-112a13695c35",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 563900,
+    "name" : "Lorraine Doyle",
+    "birthDate" : "1958-01-01",
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "bf928b28-2f33-4568-8b7a-97bbf947ba8d",
+    "homepage" : null,
+    "birthPlace" : "England, UK",
+    "biography" : "Lorraine Doyle, best known for being one of Benny Hill's \"Hill's Angels\" was born in 1958. In 1991 and 1993 she had two daughters, Rebecca and Lauren, with her husband Vincent, a Jewler. She retired from show business in 1993 in order to raise her family. In 1998 she and her husband opened their own Jewlery shop in London where they live.  - IMDb Mini Biography"
+  }, {
+    "tmdbId" : 1402617,
+    "name" : "Vanessa Fieldwright",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ef792a1b-1b51-4fb9-83ad-dd565c5aaf94",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402618,
+    "name" : "Brenda Glassman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a31c3067-c6d3-4208-8cc2-0deb30a289df",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402619,
+    "name" : "Elaine Gough",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "8d2184ec-2f70-489c-80d3-6d2df9aa1973",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402620,
+    "name" : "Sue Hadleigh",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "dbe566dc-0efb-44e2-bb7a-df1dddea5fd5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402632,
+    "name" : "Sarah-Jane Hassell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "843fcbab-3fff-4d39-98ea-ed3d2e448f16",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Sarah-Jane Hassell is an actress.\n\nShe acted in Leslie Bricusse's musical, \"Doctor Doolittle,\" at the Apollo Victoria Theatre in London, England with Phillip Schofield, Bryan Smith, Peter Cellier, Peter Gallagher, John Rawnsley and Julie Andrews (Voice of Polynesia) in the cast. Steven Pimlott was director."
+  }, {
+    "tmdbId" : 1402641,
+    "name" : "Samantha Hughes",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "67149481-1873-4652-a9e6-6f83d7d10e3d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402664,
+    "name" : "Julie Kirk",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "40abdc97-41e4-4c96-91a2-718b89ff5539",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402666,
+    "name" : "Deirdre Laird",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "69be1738-7c64-471e-aec5-95ad8c6d9d29",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402669,
+    "name" : "Vicki McDonald",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "dcd00192-2f7a-42a9-b4b8-5767e3411920",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402670,
+    "name" : "Nina McMahon",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "12451cac-b781-45ce-9de5-3e7c75b12df3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402672,
+    "name" : "Julia Marstand",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "7202d64e-94ee-4dcb-90e4-1509f98b5ebe",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402675,
+    "name" : "Gaynor Martine",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "32ba8645-ba19-4e1e-88f0-4c30cce92ae8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402676,
+    "name" : "Lisa Mulidore",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "69e67edf-a1e7-49a8-974f-20c06792a09c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402677,
+    "name" : "Dawn Reddall",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "3abd0392-2cfe-4fb5-8e73-316a481973c9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402678,
+    "name" : "Rebekkah Sekyi",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "e24bc31f-01c0-4a95-b7d9-0e7645137cd4",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402682,
+    "name" : "Clare Smalley",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "c5a991e9-88bc-4d89-a3e6-2a80cc6ed69b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402684,
+    "name" : "Lee Sprintall",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d908e442-c40c-4864-8126-9b415833fd7c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402685,
+    "name" : "Jenny Turnock",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "7cff4795-0481-4cbe-82c5-d312eb5c676c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402686,
+    "name" : "Ruth Welby",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "2f8a2945-1533-445f-98c7-dca63c22704e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2333333,
+    "name" : "Yash Agnihotri",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "9a74783d-499a-4169-8989-beed282a2677",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1495190,
+    "name" : "Dickey Beer",
+    "birthDate" : "1959-09-16",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "eac016eb-787e-4903-95e8-0bf295bb730f",
+    "homepage" : null,
+    "birthPlace" : "Netherlands",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1935711,
+    "name" : "Kenneth Coombs",
+    "birthDate" : "1941-12-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ae14b6b1-7e85-4386-a6a4-ad443d15a37b",
+    "homepage" : null,
+    "birthPlace" : "Ceylon",
+    "biography" : ""
+  }, {
+    "tmdbId" : 20820,
+    "name" : "Sidney Ganis",
+    "birthDate" : "1940-01-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0a0bf8a1-933a-4b0c-8d59-caa90df5681d",
+    "homepage" : null,
+    "birthPlace" : "New York City, New York, USA",
+    "biography" : "Sidney (Sid) Ganis (born January 8, 1940) is an American motion picture executive and producer who has produced such films as Big Daddy, Deuce Bigalow: Male Gigolo, Mr. Deeds, The Master of Disguise and Akeelah and the Bee, Bang: The Bert Berns Story and Olympia."
+  }, {
+    "tmdbId" : 1608123,
+    "name" : "Billy Horrigan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9711dd72-9439-4666-971e-9171a0d13ec6",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 489,
+    "name" : "Kathleen Kennedy",
+    "birthDate" : "1953-06-05",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "026699a4-c6b9-40ac-8809-28fa06baacc1",
+    "homepage" : "https://www.lucasfilm.com/leadership/kathleen-kennedy",
+    "birthPlace" : "Berkeley, California, USA",
+    "biography" : "Kathleen Kennedy (born June 5, 1953) is an American film producer who has been president of Lucasfilm since 2012.\n\nIn 1981, Kennedy co-founded the production company Amblin Entertainment with Steven Spielberg and her eventual husband Frank Marshall. Her first film as a producer was E.T. (1982). A decade later, again with Spielberg, she produced the Jurassic Park franchise, the first two of which became two of the top ten highest-grossing films of the 1990s. In 1992, she and Marshall founded The Kennedy/Marshall Company. In 2012, Kennedy became the president of Lucasfilm after The Walt Disney Company acquired the company.\n\nAs Lucasfilm's president, Kennedy has overseen the development, production, and release of projects such as the Star Wars sequel trilogy (2015–2019), the Star Wars standalone films Rogue One (2016) and Solo (2018), as well as the fifth Indiana Jones film, The Dial of Destiny (2023). She has also produced various Star Wars series, including six live-action series for Disney+, The Mandalorian (2019–present), The Book of Boba Fett (2021), Obi-Wan Kenobi (2022), Andor (2022–2025), Ahsoka (2023–present), and The Acolyte (2024).\n\nKennedy has produced films which have earned over $11 billion worldwide, including five of the fifty highest-grossing movies in film history. As a producer, she has received eight Best Picture Academy Award nominations.\n\nDescription above from the Wikipedia article Kathleen Kennedy, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1217176,
+    "name" : "Brad Kesten",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "6c501e5c-aebf-4040-847a-15a9fce47dfb",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2251717,
+    "name" : "Alex Klaus",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "8b552107-a86e-4988-aadf-1f098ebcace8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 194804,
+    "name" : "Katie Leigh",
+    "birthDate" : "1958-12-16",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "830fe57b-ed11-4d0d-8930-136c9e4e5918",
+    "homepage" : null,
+    "birthPlace" : "Carmel, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2545138,
+    "name" : "Patrick Loh",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "e9af9c17-e249-4839-8353-cdeedf92b22a",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1,
+    "name" : "George Lucas",
+    "birthDate" : "1944-05-14",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "309bb5f9-04ea-42ed-ba53-f2781f3e87b3",
+    "homepage" : null,
+    "birthPlace" : "Modesto, California, USA",
+    "biography" : "George Walton Lucas Jr. (born May 14, 1944) is an American filmmaker and entrepreneur. Lucas is known for creating the Star Wars and Indiana Jones franchises and founding Lucasfilm, LucasArts and Industrial Light & Magic. He served as chairman of Lucasfilm before selling it to The Walt Disney Company in 2012.\n\nAfter graduating from the University of Southern California in 1967, Lucas co-founded American Zoetrope with filmmaker Francis Ford Coppola. Lucas wrote and directed THX 1138 (1971), based on his earlier student short Electronic Labyrinth: THX 1138 4EB, which was a critical success but a financial failure. His next work as a writer-director was the film American Graffiti (1973), inspired by his youth in early 1960s Modesto, California, and produced through the newly founded Lucasfilm. The film was critically and commercially successful, and received five Academy Award nominations including Best Picture.\n\nLucas's next film, the epic space opera Star Wars (1977), had a troubled production but was a surprise hit, becoming the highest-grossing film at the time, winning six Academy Awards and sparking a cultural phenomenon. Lucas produced and co-wrote the sequels The Empire Strikes Back (1980) and Return of the Jedi (1983). With director Steven Spielberg, he created, produced and co-wrote the Indiana Jones films Raiders of the Lost Ark (1981), Temple of Doom (1984), The Last Crusade (1989) and Kingdom of the Crystal Skull (2008). He also produced and wrote a variety of films and television series through Lucasfilm between the 1970s and the 2010s.\n\nIn 1997, Lucas rereleased the Star Wars trilogy as part of a special edition featuring several alterations; home media versions with further changes were released in 2004 and 2011. He returned to directing with a Star Wars prequel trilogy comprising The Phantom Menace (1999), Attack of the Clones (2002), and Revenge of the Sith (2005). He last collaborated on the CGI-animated television series Star Wars: The Clone Wars (2008–2014, 2020), the war film Red Tails (2012), and the CGI film Strange Magic (2015).\n\nLucas is one of history's most financially successful filmmakers and has been nominated for four Academy Awards. His films are among the 100 highest-grossing movies at the North American box office, adjusted for ticket-price inflation. Lucas is considered a significant figure of the 20th-century New Hollywood movement.\n\nDescription above from the Wikipedia article George Lucas, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 34983,
+    "name" : "Tress MacNeille",
+    "birthDate" : "1951-06-20",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "454bed13-4733-4d1d-a3c1-27cac5dbf2a4",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Teressa Claire MacNeille (née Payne; born June 20, 1951) is an American voice actress, whose credits include voicing Dot Warner on the animated television series Animaniacs, Babs Bunny on Tiny Toon Adventures, Chip and Gadget Hackwrench on Chip 'n Dale: Rescue Rangers, and Daisy Duck in various Disney media since 1999. She has also worked on animated series such as The Simpsons, Futurama, Rugrats, and Hey Arnold!"
+  }, {
+    "tmdbId" : 664,
+    "name" : "Frank Marshall",
+    "birthDate" : "1946-09-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4490ea92-8713-40ca-8d61-bef138352188",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Frank Wilton Marshall (born September 13, 1946) is an American film producer and director. He often collaborates with his wife, film producer Kathleen Kennedy, with whom he founded the production company Amblin Entertainment, along with Steven Spielberg. In 1991, he founded, with Kennedy, The Kennedy/Marshall Company, a film production company. Since May 2012, with Kennedy taking on the role of President of Lucasfilm, Marshall has been Kennedy/Marshall's sole principal.\n\nMarshall has worked with directors such as Spielberg, Paul Greengrass, Peter Bogdanovich, David Fincher, M. Night Shyamalan, and Robert Zemeckis. He has also directed the films Arachnophobia (1990), Alive (1993), Congo (1995), Eight Below (2006), and the documentaries The Bee Gees: How Can You Mend a Broken Heart (2020), Jazz Fest: A New Orleans Story (2022) and The Beach Boys (2024).\n\nMarshall has produced various successful film franchises, including Indiana Jones, Back to the Future, Bourne, and Jurassic Park, and has received five  Academy Award nominations for Best Picture. His other accolades include the Irving G. Thalberg Memorial Award, bestowed by the Academy of Motion Picture Arts and Sciences to \"creative producers, whose bodies of work reflect a consistently high quality of motion picture production\", the David O. Selznick Achievement Award in Theatrical Motion Pictures, a Grammy Award, a Sports Emmy Award, and a Tony Award. Marshall is one of the few people to have received an Emmy, Grammy, Oscar, and Tony (EGOT), with one of the awards being non-competitive.\n\nDescription above from the Wikipedia article Frank Marshall (filmmaker), licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 8922,
+    "name" : "Anthony Powell",
+    "birthDate" : "1935-06-02",
+    "deathDate" : "2021-04-16",
+    "gender" : "Male",
+    "profile" : "9985fe5b-a727-4212-b449-a9a5b51ad415",
+    "homepage" : null,
+    "birthPlace" : "Chorlton-cum-Hardy, Manchester, Lancashire, England, UK",
+    "biography" : "Anthony Powell was a British costume designer for stage, film and television productions. He won 3 Academy Awards for the costumes of the feature films \"Travels with My Aunt\", \"Death on the Nile\", and \"Tess\"."
+  }, {
+    "tmdbId" : 488,
+    "name" : "Steven Spielberg",
+    "birthDate" : "1946-12-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cf16a095-866d-435a-9e83-8748affe21b9",
+    "homepage" : "https://amblin.com/steven-spielberg",
+    "birthPlace" : "Cincinnati, Ohio, USA",
+    "biography" : "Steven Allan Spielberg KBE (born December 18, 1946) is an American filmmaker. A major figure of the New Hollywood era and pioneer of the modern blockbuster, Spielberg is widely regarded as one of the greatest and most influential filmmakers in the history of cinema and is the highest-grossing film director of all time. Among other accolades, he has received three Academy Awards, four Golden Globe Awards and three BAFTA Awards, as well as the AFI Life Achievement Award in 1995, an honorary knighthood in 2001, the Kennedy Center Honors in 2006, the Cecil B. DeMille Award in 2009, the Presidential Medal of Freedom in 2015, and the National Medal of Arts in 2023. According to Forbes, he is the wealthiest celebrity.\n\nSpielberg was born in Cincinnati, Ohio, and grew up in Phoenix, Arizona. He moved to California and studied film in college. After directing several episodes for television, including Night Gallery and Columbo, he directed the television film Duel (1971), which Barry Diller approved. He made his theatrical debut with The Sugarland Express (1974), also beginning his decades-long collaboration with composer John Williams, with whom he has worked for all but five of his theatrical releases. He became a household name with the summer blockbuster Jaws (1975). He continued directing acclaimed escapist box-office hits with Close Encounters of the Third Kind (1977), E.T. the Extra-Terrestrial (1982), and the original Indiana Jones trilogy (1981–1989). He also explored drama in The Color Purple (1985) and Empire of the Sun (1987).\n\nIn 1993, Spielberg directed back-to-back hits with the science fiction thriller Jurassic Park, the highest-grossing film at the time, and the epic historical drama Schindler's List, which has often been ranked among the greatest films ever made. He won the Academy Award for Best Director for the latter as well as for the World War II epic Saving Private Ryan (1998). Spielberg has since directed the science fiction films A.I. Artificial Intelligence (2001), Minority Report (2002), War of the Worlds (2005) and Ready Player One (2018); the historical dramas Amistad (1997), Munich (2005), War Horse (2011), Lincoln (2012), Bridge of Spies (2015) and The Post (2017); the comedies Catch Me If You Can (2002) and The Terminal (2004); the animated film The Adventures of Tintin (2011); the musical West Side Story (2021); and the family drama The Fabelmans (2022).\n\nSpielberg co-founded Amblin Entertainment and DreamWorks Pictures, and he has served as a producer for many successful films and television series, among them Poltergeist (1982), Gremlins (1984), Back to the Future (1985), An American Tail (1986), Who Framed Roger Rabbit (1988), Animaniacs (1993), Freakazoid! (1995), Twister (1996), Band of Brothers (2001) and Transformers (2007). Several of Spielberg's works are considered among the greatest films in history, and some are among the highest-grossing films of all time. Seven of his films have been inducted into the National Film Registry by the Library of Congress as being \"culturally, historically or aesthetically significant\". In 2013, Time listed him among the 100 most influential people. In 2023, Spielberg was the recipient of the first-ever Time 100 Impact Award in the US.\n\nDescription above from the Wikipedia article Steven Spielberg, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1708535,
+    "name" : "Guy Standeven",
+    "birthDate" : "1928-08-28",
+    "deathDate" : "1998-10-01",
+    "gender" : "Male",
+    "profile" : "43c4b5ac-6036-4f43-933d-27c32c067e51",
+    "homepage" : null,
+    "birthPlace" : "Scarborough, Yorkshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 81776,
+    "name" : "Ron Taylor",
+    "birthDate" : "1952-10-16",
+    "deathDate" : "2002-01-16",
+    "gender" : "Male",
+    "profile" : "1f62a7c9-0d3b-46a4-bbdb-1b2bafad4119",
+    "homepage" : null,
+    "birthPlace" : "Galveston, Texas, USA",
+    "biography" : "From Wikipedia, the free encyclopedia.  Ronald James Taylor (October 16, 1952 – January 16, 2002) was an American actor.\n\nChiefly famous for his role as Stanley in Vinnie and Bobby in 1992 he also had a host of other guest appearances in popular television to his name including providing the voice for \"Bleeding Gums\" Murphy in The Simpsons. He also starred in Star Trek: Deep Space Nine as a Klingon chef. He also originated the role of Audrey II in the original Off- Broadway production of Little Shop of Horrors. Taylor's acting debut was in the 1983 comedy Trading Places where he was credited as Big Black Guy. Ron married Deborah Sharpe and they stayed married till his death, and they had a child named Adamah together.[1] The date they married is unknown.\n\nHe was also a writer for Forever Knight (1992) and The Sentinel (1996). On January 16, 2002 Taylor died of a heart attack at the age of 49. The Simpsons episode \"Sweets and Sour Marge\" was dedicated to him.\n\nDescription above from the Wikipedia article Ron Taylor, licensed under CC-BY-SA,full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 687,
+    "name" : "Gloria Katz",
+    "birthDate" : "1942-10-25",
+    "deathDate" : "2018-11-25",
+    "gender" : "Female",
+    "profile" : "e77e97a5-a9bc-4040-b2eb-a7f684a47756",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, U.S.A",
+    "biography" : "Gloria Katz (October 25, 1942 - November 25, 2018) was an American screenwriter and film producer, best known for her association with George Lucas. Along with her husband Willard Huyck, Katz created the screenplays of films including American Graffiti, Indiana Jones and the Temple of Doom and Howard the Duck."
+  }, {
+    "tmdbId" : 597,
+    "name" : "Jane Feinberg",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "4c874e96-ea30-45f8-9991-2b9d72ce330d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 599,
+    "name" : "Marci Liroff",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "1e758cf6-b4de-460d-83a3-d03f67779c58",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 598,
+    "name" : "Mike Fenton",
+    "birthDate" : "1935-01-29",
+    "deathDate" : "2020-12-30",
+    "gender" : "Male",
+    "profile" : "f27a962d-d42b-45f0-a0f3-b0da21ddcc28",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Mike Fenton was born in 1935 in Los Angeles, California, USA as Ronald Michael Fenton. He was a casting director and producer."
+  }, {
+    "tmdbId" : 491,
+    "name" : "John Williams",
+    "birthDate" : "1932-02-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2eaca044-f45a-41b7-bb17-92c0c6b1264d",
+    "homepage" : "https://www.johnwilliams.org/",
+    "birthPlace" : "Queens, New York City, New York, USA",
+    "biography" : "John Towner Williams (born February 8, 1932) is an American composer and conductor. In a career that has spanned seven decades, he has composed some of the most popular, recognizable, and critically acclaimed film scoresin cinema history. He has a distinct sound that mixes romanticism, impressionism and atonal music with complex orchestration. He is best known for his collaborations with Steven Spielberg and George Lucas and has received numerous accolades including 26 Grammy Awards, five Academy Awards, seven BAFTA Awards, three Emmy Awards and four Golden Globe Awards. With 54 Academy Award nominations, he is the second-most nominated person, after Walt Disney, and is the oldest Oscar nominee in any category, at 91 years old.\n\nWilliams's early work as a film composer includes Valley of the Dolls (1967), Goodbye, Mr. Chips (1969), Images and The Cowboys (both 1972), The Long Goodbye (1973) and The Towering Inferno (1974). He has collaborated with Spielberg since The Sugarland Express (1974), composing music for all but five of his feature films. He received five Academy Awards for Best Score for Fiddler on the Roof (1971), Jaws (1975), Star Wars (1977), E.T. the Extra-Terrestrial (1982) and Schindler's List (1993). Other memorable collaborations with Spielberg include Close Encounters of the Third Kind (1977), the Indiana Jones franchise (1981–2023), Hook (1991), Jurassic Park (1993), Saving Private Ryan (1998), Catch Me If You Can (2002), War Horse (2011), Lincoln (2012), and The Fabelmans (2022). He also scored Superman (1978), the first two Home Alone films (1990–1992), and the first three Harry Potter films (2001–2004).\n\nWilliams has also composed numerous classical concertos and other works for orchestral ensembles and solo instruments. He served as the Boston Pops' principal conductor from 1980 to 1993 and is its laureate conductor. Other works by Williams include theme music for the 1984 Summer Olympic Games; NBC Sunday Night Football; \"The Mission\" theme (used by NBC News and Seven News in Australia); and the television series Lost in Space, Land of the Giants and Amazing Stories.\n\nAmong other accolades, he has received the Kennedy Center Honor in 2004, the National Medal of the Arts in 2009 and the AFI Life Achievement Award in 2016. He was inducted into the Songwriters Hall of Fame in 1998, the Hollywood Bowl's Hall of Fame in 2000 and the American Classical Music Hall of Fame in 2004. He has composed the score for nine of the top 25 highest-grossing films at the U.S. box office. In 2022, Williams was appointed an Honorary Knight Commander of the Order of the British Empire (KBE) by Queen Elizabeth II, \"for services to film music\". In 2005, the American Film Institute placed Williams's score to Star Wars first on its list AFI's 100 Years of Film Scores; his scores for Jaws and E.T. also made the list. The Library of Congress entered the Star Wars soundtrack into the National Recording Registry for being \"culturally, historically, or aesthetically significant\".\n\nDescription above from the Wikipedia article John Williams, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 666,
+    "name" : "Douglas Slocombe",
+    "birthDate" : "1913-02-10",
+    "deathDate" : "2016-02-22",
+    "gender" : "Male",
+    "profile" : "4f532083-6c4f-4e3a-8e8d-95bb6fa6769b",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Ralph Douglas Vladimir Slocombe OBE, BSC, ASC, GBCT (February 10, 1913 – February 22, 2016) was a British cinematographer, particularly known for his work at Ealing Studios in the 1940s and 1950s, as well as the first three Indiana Jones films. He won BAFTA Awards in 1964, 1975, and 1979, and was nominated for an Academy Award on three occasions.\n\nDescription above from the Wikipedia article Douglas Slocombe, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 686,
+    "name" : "Willard Huyck",
+    "birthDate" : "1945-09-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "8fbfd976-034b-4aa1-8fca-cc01c9fe3789",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, U.S",
+    "biography" : "From Wikipedia, the free encyclopedia\n\nWillard Huyck (born September 8, 1945) is an American screenwriter, director and producer, best known for his association with George Lucas. They met as students at the USC School of Cinematic Arts, and along with others, they became members of a renowned group of amateur filmmakers called The Dirty Dozen. Along with his wife Gloria Katz, Huyck has created the screenplays of films including American Graffiti and Indiana Jones and the Temple of Doom, as well as collaborating with George Lucas on the original Star Wars. He has directed four films, the last being the notorious Howard the Duck (1986).\n\nHe still writes screenplays and scripts following Howard The Duck including Mothers, Daughters and Lovers, Radioland Murders and the upcoming Secrets of a Hollywood Nurse.\n\nHis last name is pronounced \"Hike.\"\n\nDescription above from the Wikipedia article Willard Huyck, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 493,
+    "name" : "Michael Kahn",
+    "birthDate" : "1935-12-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "440c2344-1d90-4782-b73e-96d9971fdd09",
+    "homepage" : null,
+    "birthPlace" : "New York City, New York, USA",
+    "biography" : "Michael Kahn (born December 8, c. 1930) is an American film editor known for his frequent collaboration with Steven Spielberg. His first collaboration with Spielberg was for his 1977 film, Close Encounters of the Third Kind. He has edited all of Spielberg's subsequent films except for E.T. the Extra-Terrestrial (1982), which was edited by Carol Littleton. Kahn has received eight Academy Award nominations for Best Film Editing and has won three times—for Raiders of the Lost Ark (1981), Schindler's List (1993), and Saving Private Ryan (1998), which were all Spielberg-directed films.\n\nKahn was born to a Jewish family in New York City. While his birth year has been reported as 1935, Kahn said in 2015, when asked if he was 80, that his age at that point was \"closer to 85.\"\n\nKahn has edited digitally since at least Twister (1996), though he continued to edit on film with Spielberg long after most editors had stopped doing so. In 2008, Kahn acknowledged that \"people find it hard to believe that Steven and I still edit film on a Moviola and a KEM. [But] Steven feels film got us where we are today, and he loves the smell of it and feel of it. We started that way and both really enjoy it.\" George Lucas remarked, \"Michael Kahn can cut faster on a Moviola than anybody can cut on an Avid.\" However, since The Adventures of Tintin: The Secret of the Unicorn (2011), Kahn has edited Spielberg's films on an Avid machine.\n\nDescription above from the Wikipedia article Michael Kahn (film editor), licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 668,
+    "name" : "Mary Selway",
+    "birthDate" : "1936-03-14",
+    "deathDate" : "2004-04-21",
+    "gender" : "Female",
+    "profile" : "4aae8663-11c2-417d-b8a4-dbcb865abc6c",
+    "homepage" : null,
+    "birthPlace" : "Norwich, England, UK",
+    "biography" : "Mary Selway (14 March 1936 – 21 April 2004) was an English casting director."
+  }, {
+    "tmdbId" : 711,
+    "name" : "Robert Watts",
+    "birthDate" : "1938-05-23",
+    "deathDate" : "2024-10-01",
+    "gender" : "Male",
+    "profile" : "a0e5da28-8c7a-46e1-9792-7e5592369f01",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Robert Watts was a British producer and production manager for film projects, amongst others for the \"Indiana Jones\" and the \"Star Wars\" universes."
+  }, {
+    "tmdbId" : 670,
+    "name" : "Ben Burtt",
+    "birthDate" : "1948-07-12",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "575af2f7-ee67-4419-82e1-2bb181cfc441",
+    "homepage" : null,
+    "birthPlace" : "Jamesville, New York, USA",
+    "biography" : "Benjamin \"Ben\" Burtt, Jr. is a sound designer, film editor, director, screenwriter, and voice actor. He has worked as sound designer on various films, including the Star Wars and Indiana Jones film series, E.T. the Extra-Terrestrial, WALL-E, and Star Trek. He is responsible for creating many of the iconic sound effects heard in the Star Wars film franchise, including the binary speech of R2-D2, the lightsaber hum, the sound of the blaster guns, and the heavy-breathing sound of Darth Vader, which he made by breathing into a scuba regulator. Burtt has a reputation for popularizing a sound effect dubbed the \"Wilhelm scream\", which was taken from a character named Wilhelm in the 1953 film The Charge at Feather River."
+  }, {
+    "tmdbId" : 3165925,
+    "name" : "Tom Brown",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "c7ccbff4-5f5c-4170-9e84-115da4f019e3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1862956,
+    "name" : "John Watson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2b11a188-668f-4718-9ff3-874206a380d9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1424133,
+    "name" : "Paul Huston",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "919f40a6-2777-4d1d-89b5-145f98c6cac9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 52042,
+    "name" : "Richard Vane",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0b2e5447-6c80-4fee-a3c4-5d145fd1455e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 7727,
+    "name" : "Phil Tippett",
+    "birthDate" : "1951-09-27",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b05d2776-557e-4c8a-ba58-0114f97e0968",
+    "homepage" : null,
+    "birthPlace" : "Berkeley, California",
+    "biography" : "Phil Tippett is an American filmmaker and multi-award-winning visual effects supervisor and producer, specializing in creature design, stop-motion, and computerized character animation. Over his career, he has assisted ILM, DreamWorks, and his own company Tippet Studios, with his work appearing in movies such as the original Star Wars trilogy, Jurassic Park, and RoboCop."
+  }, {
+    "tmdbId" : 648,
+    "name" : "Philip Kaufman",
+    "birthDate" : "1936-10-23",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "09ae8dd1-d61b-4a32-9f87-d76460a3fac1",
+    "homepage" : "http://philipkaufman.com/",
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Philip Kaufman (born October 23, 1936) is an American filmmaker. Although not noted for directing a large number of films, the films he has worked on have been recognized for their intelligence and independence. He is noted for directing films of eclectic subjects, ranging from realism to fantasy, and often incorporating satire or subtle humor as part of his “artistic signature.” He was born in Chicago, Illinois.  Kaufman has been considered a “risk taker.” He has successfully adapted novels of widely different types – from Milan Kundera’s The Unbearable Lightness of Being to Michael Crichton’s Rising Sun; from Tom Wolfe’s heroic epic The Right Stuff to the erotic writings of Anais Nin’s Henry & June. According to film historian James Welsh, his candid treatment of adult relationships in Henry & June was considered an “artistic breakthrough by an unconventional filmmaker who was willing to take a chance and put his career on the line.”  His greatest success was the blockbuster film The Right Stuff, where he directed and wrote the screenplay. It earned eight Academy Award nominations, including Best Picture. And his best films have always had his personal imprint, “stressing values of individualism and integrity,” and always being \"clearly American.\""
+  }, {
+    "tmdbId" : 1902347,
+    "name" : "Chris Webb",
+    "birthDate" : "1937-03-16",
+    "deathDate" : "2023-11-27",
+    "gender" : "Male",
+    "profile" : "7166a65e-1418-4489-b441-9a351bcd4c8a",
+    "homepage" : null,
+    "birthPlace" : "Lambeth, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 15358,
+    "name" : "Vic Armstrong",
+    "birthDate" : "1946-10-05",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b2507051-6e00-4154-a773-9f52b2dc517b",
+    "homepage" : null,
+    "birthPlace" : "Farnham Common, Buckinghamshire, England, UK",
+    "biography" : "Vic Armstrong was born on October 5, 1946 in Farnham Common, Buckinghamshire, England, UK. He is an assistant director and actor, known for Left Behind (2014), I Am Legend (2007) and The Amazing Spider-Man (2012). He is married to Wendy Leech. They have three children."
+  }, {
+    "tmdbId" : 1333241,
+    "name" : "Peter Howitt",
+    "birthDate" : "1928-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f3c560ae-e6be-4369-b183-b0b4dfd5f421",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Peter Howitt is an English set decorator."
+  }, {
+    "tmdbId" : 3993,
+    "name" : "Dennis Muren",
+    "birthDate" : "1946-11-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bc972011-55e9-4fb7-a14d-48aee3f05801",
+    "homepage" : null,
+    "birthPlace" : "Glendale, California, USA",
+    "biography" : "Dennis Muren, A.S.C. (born November 1, 1946) is an American film visual effects artist and supervisor. He has worked on the films of George Lucas, Steven Spielberg, and James Cameron, among others, and has won nine Oscars in total: eight for Best Visual Effects and a Technical Achievement Academy Award. The Visual Effects Society has called him \"a perpetual student, teacher, innovator, and mentor.\"\n\nHe has been identified as \"a pioneer in bringing a new wave of visual effects films to the public, opening the doors for screenwriters and directors to tell stories never before possible with a new realism through the use of his skills in cinematic arts and advanced technologies.\"\n\nAccording to Spielberg, Muren \"set the example at Industrial Light & Magic for visual effects excellence with effects that add strong, appropriate emotion to a shot and fit seamlessly into a movie.\"\n\nDescription above from the Wikipedia article Dennis Muren, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1700809,
+    "name" : "Jan Jamison",
+    "birthDate" : "1944-01-01",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "acdce6fe-9d81-4da5-9184-05856546063a",
+    "homepage" : null,
+    "birthPlace" : "Brentford, Middlesex, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1213681,
+    "name" : "David Tomblin",
+    "birthDate" : "1930-10-18",
+    "deathDate" : "2005-07-20",
+    "gender" : "Male",
+    "profile" : "e6524af6-f245-4992-880d-df1973090cc0",
+    "homepage" : null,
+    "birthPlace" : "Borehamwood, Hertfordshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1271078,
+    "name" : "Reg Harding",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ebda00e3-e545-4308-a75b-efbd5551bcb6",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2789781,
+    "name" : "Wendy Leech",
+    "birthDate" : "1949-11-30",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "4dba830b-dd2c-4cd7-a9c0-24a2b521de33",
+    "homepage" : null,
+    "birthPlace" : "Buckinghamshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1600363,
+    "name" : "Colin Skeaping",
+    "birthDate" : "1944-06-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "fa564f14-4652-45dd-9e6a-28bb0cb64e04",
+    "homepage" : null,
+    "birthPlace" : "Colchester, Essex, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 57084,
+    "name" : "Louis G. Friedman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0be5bea2-994d-44f0-bbd5-a0bc6af18043",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2826216,
+    "name" : "Denise Ryan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "0a9e97a9-cf0b-4b43-8e71-186ef718b212",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402756,
+    "name" : "Malcolm Weaver",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "8020f22c-a935-41e7-84bf-ed5d19217507",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Malcolm Weaver is a stunt performer and an actor."
+  }, {
+    "tmdbId" : 83118,
+    "name" : "Lynda Gurasich",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "a9fb2196-603c-403b-815a-1b14f39116d7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 9974,
+    "name" : "Glenn Randall Jr.",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0ada41af-af90-4313-9456-d158a0a3967d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 10199,
+    "name" : "Peter Robb-King",
+    "birthDate" : "1950-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "c363dd18-7ee7-48f0-b768-c1ecec45e3e5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Peter Robb-King is an English make-up artist. He was nominated for an Academy Award in the category Best Makeup and Hairstyling for the 1985 film Legend. He was also nominated for the annual Makeup Artists and Hairstylists Guild Awards 2019 for the film, Mary Poppins Returns.\n\nDescription above from the Wikipedia article Peter Robb-King, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1620097,
+    "name" : "Richard Mills",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f33cd03b-77dc-4f35-bd8a-3df2e8e92718",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 75802,
+    "name" : "Colin Jamison",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "15fdb032-f9f6-4f33-bd0b-88af7613ba84",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1402919,
+    "name" : "Graeme Crowther",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "3bab2d53-984e-46a8-8ef4-4a3942f2d8a9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1469954,
+    "name" : "Wayne Michaels",
+    "birthDate" : "1959-01-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4979edc3-c0e7-43eb-8023-38c09ac191f3",
+    "homepage" : null,
+    "birthPlace" : "Blackpool, Lancashire, England, UK",
+    "biography" : "Wayne David Michaels (born 22 January 1959 in Blackpool) is an English stuntman and stunt arranger.\n\nMichaels attended Millfield School from 1972 to 1977. He is married to Tracey Eddon since 1990 and have one child.He performed the bungee jump in the opening scenes in the James Bond film GoldenEye. The opening 220 m bungee jump, shot at the Verzasca Dam in Switzerland, was voted the best movie stunt of all time as of 2002 and set a record for the highest bungee jump off a fixed structure.\n\nApart from his work on a number of James Bond films, he has performed stunts on more than 60 British and international film and television projects during the 1980s, the 1990s, and the 2000s."
+  }, {
+    "tmdbId" : 2644740,
+    "name" : "Doug Robinson",
+    "birthDate" : "1930-02-08",
+    "deathDate" : "2021-12-16",
+    "gender" : "Male",
+    "profile" : "c154ac0a-09f3-4ddc-aac8-1a88efd440e0",
+    "homepage" : null,
+    "birthPlace" : "Newcastle upon Tyne, England, UK",
+    "biography" : "Actor and stuntman."
+  }, {
+    "tmdbId" : 10213,
+    "name" : "Tip Tipping",
+    "birthDate" : "1958-02-13",
+    "deathDate" : "1993-02-05",
+    "gender" : "Male",
+    "profile" : "05cc42a0-4e80-4786-9e86-fe1c64489b9c",
+    "homepage" : null,
+    "birthPlace" : "Brunton, Northumberland, England",
+    "biography" : "Tip Tipping (13 February 1958 – 5 February 1993) was an English film and television stuntman and actor."
+  }, {
+    "tmdbId" : 75796,
+    "name" : "Roy Button",
+    "birthDate" : "1951-09-11",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "edf8972a-3af3-4ebe-8722-051016690998",
+    "homepage" : null,
+    "birthPlace" : "Hackney, London, England, UK",
+    "biography" : "Roy Button is a former executive vice-president and managing director of Warner Bros. Productions in the UK, who has worked behind the camera on over 300 films, including Harry Potter, Star Wars, Indiana Jones and James Bond franchises, and was awarded an OBE in 2009 for his services to the film industry. He is the father of director and screenwriter Chanya Button."
+  }, {
+    "tmdbId" : 73769,
+    "name" : "Carlos Gil",
+    "birthDate" : "1948-05-12",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7341b1fa-bd1e-4407-8a4f-dcad082e9dcb",
+    "homepage" : null,
+    "birthPlace" : " Madrid, Spain",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1989224,
+    "name" : "Yvonne Curry",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "24097001-9483-4afb-bee9-f9a353b0efe1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1356970,
+    "name" : "Louis Race",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "b3b71f9a-c29c-4317-800d-2b4e440b0961",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 10976,
+    "name" : "Greg Powell",
+    "birthDate" : "1954-05-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "99b43655-172f-4c57-ad12-0652f3b01b66",
+    "homepage" : "http://www.stuntsworldwide.org",
+    "birthPlace" : "Lambeth, South London, England, UK",
+    "biography" : "Gregory Owen Powell (born May 13, 1954) is a British stuntman, stunt coordinator, actor and 2nd unit director nominated for an Emmy Award for his work on Band of Brothers. He is also known for his work in Indian films. He was also the stunt coordinator for all eight Harry Potter movies and Avengers: Age of Ultron.\n\nPowell has worked on a variety of films in the last five decades, including - The Bond Films, Pirates Of The Caribbean, Lord of the Rings, Hitman’s Bodyguard, Fast and the Furious, Avengers, Superman, Indiana Jones, and Harry Potter."
+  }, {
+    "tmdbId" : 3306340,
+    "name" : "Kevin Donnelly",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "98588d9e-e550-4247-83dc-9c2b3ed8ba4f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1271079,
+    "name" : "Frank Henson",
+    "birthDate" : "1935-05-02",
+    "deathDate" : "2019-04-25",
+    "gender" : "Male",
+    "profile" : "8b9c8260-713c-48df-a6bc-24a7ddebb7be",
+    "homepage" : null,
+    "birthPlace" : "Whitehawk, Brighton, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 178714,
+    "name" : "John Webber",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1b603771-bbbd-49b9-bcdb-aa3670b748f7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 31939,
+    "name" : "David Bracknell",
+    "birthDate" : "1932-07-10",
+    "deathDate" : "1987-09-01",
+    "gender" : "Male",
+    "profile" : "62add495-6a48-4555-91b7-ba19ed60bed1",
+    "homepage" : null,
+    "birthPlace" : "Chelmsford, Essex, England, UK",
+    "biography" : "David Bracknell was born on 10 July 1932 in Chelmsford, Essex, England, UK. He was an assistant director and director, known for Indiana Jones and the Temple of Doom (1984), Cup Fever (1965) and Battle of Britain (1969). He was married to Lier Hwang. He died in September 1987 in Lewisham, London, England, UK."
+  }, {
+    "tmdbId" : 11349,
+    "name" : "Hilary Haines",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4d698e08-a635-482f-b9b3-2bffddd6b409",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 157969,
+    "name" : "Donna Keegan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "478590da-a45b-4bf5-804d-134c3be36a04",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Donna Keegan is an Emmy Award-winning producer and director, and former stunt actress/coordinator.\n\nNo stranger to the world of action, Keegan is a thirty-year veteran of the stunt world where she was a stunt performer and stunt coordinator. Having a few hundred credits, including True Lies, Indiana Jones and the Temple of Doom, Angels and Demons, and The Aviator. She has doubled for over 100 actresses and is the proud recipient of the Diamond in the Raw Action Icon Award of 2009. She has been a board member of the Screen Actors Guild appointed for two consecutive terms a National Chairperson for Stunts and Safety, served over a decade on the AMPTP/SAG Labor Management Safety Bulletin Committee, and serves as an Expert Witness when an injury or death occurs on a film set.\n\nShe is a director member of both the Directors Guild of America, Academy of Television Arts and Sciences, DGA Women's Committee, Women in Film, and past Board Member of American Film Institute Associates."
+  }, {
+    "tmdbId" : 10407,
+    "name" : "Tom Smith",
+    "birthDate" : "1920-08-15",
+    "deathDate" : "2009-04-03",
+    "gender" : "Male",
+    "profile" : "38a85f75-4582-493f-a25d-2a494af18ed0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1606848,
+    "name" : "Connie Reeve",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "9a022b34-4394-4fd7-b537-fedab822b572",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 33853,
+    "name" : "Felix Silla",
+    "birthDate" : "1937-01-11",
+    "deathDate" : "2021-04-16",
+    "gender" : "Male",
+    "profile" : "038db384-1a93-493c-b475-376fd44312a7",
+    "homepage" : null,
+    "birthPlace" : "Roccacasale, Italy",
+    "biography" : "Felix Anthony Silla (January 11, 1937 – April 16, 2021), also credited as Felix Cilla, was an Italian actor and stuntman. After starting his career in the circus, he became known for his television and film roles, especially as the recurring costumed character \"Cousin Itt\" on television's The Addams Family. Silla also was an Ewok in the Star Wars film Return of the Jedi. He was also a voice artist on The Sims 2 video game."
+  }, {
+    "tmdbId" : 23607,
+    "name" : "Nick Hobbs",
+    "birthDate" : null,
+    "deathDate" : "2024-12-29",
+    "gender" : "Male",
+    "profile" : "cdabc10e-186f-44c9-9c14-ed1df62dee73",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Nick Hobbs is a stunt performer and coordinator, as well as occasional actor."
+  }, {
+    "tmdbId" : 74788,
+    "name" : "Chuck Waters",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "abf55a41-bf6c-4ab0-a21c-2128f7243acb",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1456409,
+    "name" : "Jason White",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7c41f62a-0f0c-42cd-9a7d-f4f4c8789077",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1697623,
+    "name" : "Steve Harding",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "48af5dd8-8d57-4b4e-9d69-4161d750b46e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 83791,
+    "name" : "Michael D. Moore",
+    "birthDate" : "1914-10-14",
+    "deathDate" : "2013-03-04",
+    "gender" : "Male",
+    "profile" : "b2e318ec-813b-4e3d-a4b1-bcdd74e1c985",
+    "homepage" : null,
+    "birthPlace" : "Victoria, British Columbia, Canada",
+    "biography" : "Michael D. Moore (born Dennis Michael Sheffield, October 14, 1914 – March 4, 2013) was a Canadian-born American film director, second unit director, and child actor, when he was credited as Mickey Moore (or Micky Moore). He was credited as Michael Moore on all the films and TV shows he directed, and on most of the films on which he was second unit director. Born Michael Sheffield in Victoria, British Columbia, both he and his brother Patrick were Hollywood child actors. At the age of five he appeared in his first film under the stage name \"Mickey Moore\". He appeared in two dozen films until 1927 when he was 13. In the early 1950s, Moore began working as an Assistant Film Director and would fill that role or as a Second unit director on more than sixty films. He played a key part in a number of major motion pictures including The Ten Commandments, Gunfight at the O.K. Corral, Butch Cassidy and the Sundance Kid, Patton, and The Man Who Would Be King in 1975. He also worked as an assistant director on several Elvis Presley musical films and directed Presley in the 1966 film, Paradise, Hawaiian Style for Paramount Pictures. Because of that, plus his experience directing a western film, MGM hired him to direct rock singer Roy Orbison in 1967's The Fastest Guitar Alive. He was the associate producer in charge of action & animal scenes for Quest for Fire. In the 1980s, Steven Spielberg hired Moore as assistant director for both the second and third Indiana Jones films. Moore worked as second unit director on Raiders of the Lost Ark. His association with Spielberg also led him to direct one episode (\"Alamo Jobe\") in the acclaimed TV series Amazing Stories. Well into his eighties, Moore was still active, his most recent work being as the second unit director for Disney's 2000 film, 102 Dalmatians.\n\nDescription above from the Wikipedia article Michael D. Moore, licensed under CC-BY-SA, full list of contributors on Wikipedia"
+  }, {
+    "tmdbId" : 199077,
+    "name" : "Andy Bradford",
+    "birthDate" : "1944-09-07",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "269157a7-16ae-4a58-b94d-7cf9e7065a5f",
+    "homepage" : null,
+    "birthPlace" : "Cambridge, Cambridgeshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 40740,
+    "name" : "Rocky Taylor",
+    "birthDate" : "1945-02-28",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bf8f87f5-5c9a-474e-8d3b-a0cc11eee2c5",
+    "homepage" : null,
+    "birthPlace" : "Bermondsey, London, England, UK",
+    "biography" : "Rocky Taylor (born Laurie Taylor; February 28, 1945) is an English stuntman and actor.\n\nHis first appearance as a stuntman was an uncredited role in Dr. No. He has since been a stuntman for many famous and successful films including multiple James Bond and Indiana Jones films, A Bridge Too Far, Titanic, The Da Vinci Code, Harry Potter and the Deathly Hallows – Part 1 and the HBO television series Game of Thrones. He has also had minor acting roles in 40 films, including doubling for Roger Moore and Sean Connery in James Bond films. He is also known for playing the original Honey Monster in a series of commercials for Sugar Puffs.\n\nTaylor currently holds the record for being the oldest stuntman in Britain, with 35 years as a stunt performer and 20 years as a stunt coordinator. He appeared on Russell Howard's Good News in 2011 to discuss his career."
+  }, {
+    "tmdbId" : 1099845,
+    "name" : "Tom Elliott",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "02178274-a34e-4d62-9c05-43001de83b2f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 715,
+    "name" : "Elliot Scott",
+    "birthDate" : "1915-07-19",
+    "deathDate" : "1993-10-29",
+    "gender" : "Male",
+    "profile" : "1e460b4b-9aaf-43f3-9940-797316c47484",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Elliot Scott was born on July 19, 1915 in London, England as Elliot Edward C. Scott. He was an art director and production designer, known for Who Framed Roger Rabbit (1988), Indiana Jones and the Last Crusade (1989) and Indiana Jones and the Temple of Doom (1984). He died on October 29, 1993 in Hillingdon, Middlesex, England."
+  }, {
+    "tmdbId" : 136514,
+    "name" : "Dean Raphael Ferrandini",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "66e4049c-a852-498f-8e73-ca82e6ab5675",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1106167,
+    "name" : "Terry Forrestal",
+    "birthDate" : "1948-05-13",
+    "deathDate" : "2000-06-10",
+    "gender" : "Male",
+    "profile" : "18529d69-cebb-4bec-ab48-9eaffb83b068",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 8591,
+    "name" : "Ted Grossman",
+    "birthDate" : "1931-04-07",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "c3d01300-47ca-4179-9445-f919df9ad111",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Ted Grossman is a stuntman and actor who played the Peruvian Porter in Raiders of the Lost Ark and the Deputy Sheriff in Indiana Jones and the Last Crusade. He also provided stunts for The Temple of Doom and Kingdom of the Crystal Skull. He also played a Porter in footage fpr the Indiana Jones Adventure: Temple of the Forbidden Eye ride at Disney World."
+  }, {
+    "tmdbId" : 2266438,
+    "name" : "Marietta Gillman",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d7527083-f881-4fc1-a54c-88618f8de5fb",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1417413,
+    "name" : "Barry Wilkinson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2e176d76-0654-4d32-955d-15c714b28ea1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 91915,
+    "name" : "Ross Reynolds",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f411447d-e814-411b-a749-046e9decdbd3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 12825,
+    "name" : "Roger Cain",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "c86e178d-3057-4bed-997c-a559a83ee5f5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 12970,
+    "name" : "Bruce Green",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "100f9033-8c59-4d71-a3f8-8a78fe794b5d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1761,
+    "name" : "Alexander Courage",
+    "birthDate" : "1919-12-10",
+    "deathDate" : "2008-05-15",
+    "gender" : "Male",
+    "profile" : "91d5f079-90c1-4872-bd37-6d10f8a2b55b",
+    "homepage" : null,
+    "birthPlace" : "Philadelphia, Pennsylvania, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 4736462,
+    "name" : "Michael Hook",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "2ab3407f-1f82-4ada-9461-83c743892197",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1198496,
+    "name" : "Drew Struzan",
+    "birthDate" : "1947-03-18",
+    "deathDate" : "2025-10-13",
+    "gender" : "Male",
+    "profile" : "f14f857c-a327-490f-9e7e-bee805c9ab67",
+    "homepage" : "http://www.drewstruzan.com",
+    "birthPlace" : "Oregon City, Oregon, USA",
+    "biography" : "Drew Struzan (March 18, 1947 – October 13, 2025) was an American artist, illustrator and cover designer. He was known for his more than 150 movie posters, which include The Shawshank Redemption, Blade Runner, E.T. the Extra-Terrestrial, as well as films in the Indiana Jones, Back to the Future, Harry Potter, and Star Wars film series. He also painted album covers, collectibles, and book covers."
+  }, {
+    "tmdbId" : 1859269,
+    "name" : "Dave Chagouri",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f2849d42-5e0c-4806-bf29-e6c9664ec65e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1620909,
+    "name" : "Steve Hamilton",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "eb8aada6-e053-4b81-bec1-0210d35bec7d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1342600,
+    "name" : "Bob Hollow",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a3eebd61-68c1-4076-a4f3-169fb81e52d1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1229756,
+    "name" : "Brian Morrison",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d03cb1da-5c8f-402c-b9bb-0c705c721736",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2120185,
+    "name" : "Rodger Shaw",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "e71f4925-445a-4650-9fb8-b71e84ac52a4",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1445972,
+    "name" : "Joss Williams",
+    "birthDate" : null,
+    "deathDate" : "2000-01-15",
+    "gender" : "Male",
+    "profile" : "959f602d-6287-4add-8ae6-9f0659556b95",
+    "homepage" : null,
+    "birthPlace" : "Taplow, England, UK",
+    "biography" : "Joss Williams was an Academy Award-winning British special effects artist and supervisor who served as part of the creature effects crew on the 1986 film Aliens and as special effects supervisor on the 1992 film Alien3. Other notable films Williams worked on include Indiana Jones and the Temple of Doom (1985), A View to a Kill (1985), Indiana Jones and the Last Crusade (1989), Judge Dredd (1995), Troy (2004), Rambo (2008), Hellboy II: The Golden Army (2008) and Fast & Furious 6 (2013)."
+  }, {
+    "tmdbId" : 5358278,
+    "name" : "Michael Dawson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "128f6b73-ef64-4e41-b034-1c1701c67540",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  } ]
+}

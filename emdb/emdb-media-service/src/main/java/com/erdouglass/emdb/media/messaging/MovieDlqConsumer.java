@@ -36,8 +36,9 @@ public class MovieDlqConsumer {
   @Incoming("movie-dlq-in")
   public void onMessage(SaveMovie command) {
     var title = command.title().replace(":", "").replace(" ", "-");
+    var year = command.releaseDate().getYear();
     var ts = LocalDateTime.now().format(FILE_FMT);
-    var file = Path.of(moviePath, String.format("%s-%s.json", title, ts)).toFile();
+    var file = Path.of(moviePath, String.format("%s-%04d-%s.json", title, year, ts)).toFile();
     
     try {
       objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, command);
