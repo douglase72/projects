@@ -1,9 +1,12 @@
 package com.erdouglass.emdb.media.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -27,6 +30,12 @@ public class Movie extends Show {
   @PositiveOrZero
   private Integer budget;
   
+  /// The credits collection in a movie is a bidirectional association 
+  /// specified by the mappedBy field which maps the {@link Movie#id} 
+  /// primary key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _MovieCredit.MOVIE)
+  private List<MovieCredit> credits = new ArrayList<>(); 
+  
   @Column(name = "release_date")
   @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE)
   private LocalDate releaseDate;
@@ -48,6 +57,14 @@ public class Movie extends Show {
   public Integer getBudget() {
     return budget;
   }
+  
+  public void setCredits(List<MovieCredit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<MovieCredit> getCredits() {
+    return List.copyOf(credits);
+  }  
 
   public void setReleaseDate(LocalDate releaseDate) {
     this.releaseDate = releaseDate;

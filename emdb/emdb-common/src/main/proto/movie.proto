@@ -17,20 +17,20 @@ service MovieService {
   rpc Delete (DeleteMovieRequest) returns (google.protobuf.Empty) {}
 }
 
-message MovieCastCredit {
+message MovieCastCreditRequest {
   int32 tmdb_id = 1;
   optional string character = 2;
   int32 order = 3;
 }
 
-message MovieCrewCredit {
+message MovieCrewCreditRequest {
   int32 tmdb_id = 1;
   optional string job = 2;
 }
 
-message MovieCredits {
-  repeated MovieCastCredit cast = 1;
-  repeated MovieCrewCredit crew = 2;
+message MovieCreditRequest {
+  repeated MovieCastCreditRequest cast = 1;
+  repeated MovieCrewCreditRequest crew = 2;
 }
 
 message SaveMovieRequest {
@@ -48,7 +48,7 @@ message SaveMovieRequest {
   optional string original_language = 12;
   optional string tagline = 13;
   optional string overview = 14;
-  MovieCredits credits = 15;
+  MovieCreditRequest credits = 15;
   repeated SavePersonRequest people = 16;
 }
 
@@ -82,6 +82,30 @@ message DeleteMovieRequest {
   int64 id = 1;
 }
 
+message MovieCastCreditResponse {
+  string credit_id = 1;
+  int64 id = 2;
+  string name = 3;
+  Gender gender = 4;
+  optional string profile = 5;
+  optional string character = 6;
+  int32 order = 7;
+}
+
+message MovieCrewCreditResponse {
+  string credit_id = 1;
+  int64 id = 2;
+  string name = 3;
+  Gender gender = 4;
+  optional string profile = 5;
+  optional string job = 6;
+}
+
+message MovieCreditResponse {
+  repeated MovieCastCreditResponse cast = 1;
+  repeated MovieCrewCreditResponse crew = 2;
+}
+
 message MovieResponse {
   int64 id = 1;
   int32 tmdb_id = 2;
@@ -98,6 +122,7 @@ message MovieResponse {
   optional string original_language = 13;
   optional string tagline = 14;
   optional string overview = 15;
+  optional MovieCreditResponse credits = 16;
 }
 
 message SaveMovieResponse {

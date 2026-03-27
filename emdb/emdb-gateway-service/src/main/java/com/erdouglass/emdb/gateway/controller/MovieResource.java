@@ -83,7 +83,9 @@ public class MovieResource {
   
   @DELETE
   @Path("/{id}")
-  @Retry(maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public Response delete(@PathParam("id") @NotNull @Positive Long id) {
     var request = DeleteMovieRequest.newBuilder().setId(id).build();
     service.delete(request);

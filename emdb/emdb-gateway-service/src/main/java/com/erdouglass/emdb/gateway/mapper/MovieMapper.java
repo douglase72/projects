@@ -11,8 +11,13 @@ import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
+import com.erdouglass.emdb.common.query.MovieCastCredit;
+import com.erdouglass.emdb.common.query.MovieCrewCredit;
 import com.erdouglass.emdb.common.query.MovieDto;
 import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.MovieCastCreditResponse;
+import com.erdouglass.emdb.media.proto.v1.MovieCreditResponse;
+import com.erdouglass.emdb.media.proto.v1.MovieCrewCreditResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
@@ -33,9 +38,19 @@ public interface MovieMapper extends CommonMapper {
   @Mapping(target = "id", source = "id")
   @Mapping(target = "command", source = "command")
   UpdateMovieRequest toUpdateMovieRequest(Long id, UpdateMovie command);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  MovieDto.Credits toCredits(MovieCreditResponse credits);
+
+  @Mapping(target = "profile", expression = "java(credit.hasProfile() ? credit.getProfile() + \".jpg\" : null)")
+  MovieCastCredit toMovieCastCredit(MovieCastCreditResponse credit);
+
+  @Mapping(target = "profile", expression = "java(credit.hasProfile() ? credit.getProfile() + \".jpg\" : null)")
+  MovieCrewCredit toMovieCrewCredit(MovieCrewCreditResponse credit);
 
   @Mapping(target = "backdrop", expression = "java(response.hasBackdrop() ? response.getBackdrop() + \".jpg\" : null)")
   @Mapping(target = "poster", expression = "java(response.hasPoster() ? response.getPoster() + \".jpg\" : null)")
+  @Mapping(target = "credits", source = "credits")
   @BeanMapping(builder = @Builder(disableBuilder = true))  
   MovieDto toMovieDto(MovieResponse response);
   

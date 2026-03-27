@@ -1,7 +1,11 @@
 package com.erdouglass.emdb.common.query;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -32,13 +36,20 @@ public record MovieDto(
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits) {
+  
+  public record Credits(List<@Valid MovieCastCredit> cast, List<@Valid MovieCrewCredit> crew) {
+    
+  }  
   
   public static Builder builder() {
     return new Builder();
   }
   
   public static final class Builder extends AbstractMovieBuilder<Builder> {
+    private List<MovieCastCredit> cast = new ArrayList<>();
+    private List<MovieCrewCredit> crew = new ArrayList<>();      
     private String backdrop;
     private Long id;
     private String poster;
@@ -46,7 +57,15 @@ public record MovieDto(
 
     private Builder() { }
 
-    public MovieDto build() { 
+    public MovieDto build() {
+      Objects.requireNonNull(id, "Movie id is required");
+      Objects.requireNonNull(tmdbId, "Movie TMDB id is required");
+      Objects.requireNonNull(title, "Movie TMDB title is required");
+      
+      Credits credits = null;
+      if (!cast.isEmpty() || !crew.isEmpty()) {
+        credits = new Credits(List.copyOf(cast), List.copyOf(crew));
+      }          
       return new MovieDto(
             id,
             tmdbId,
@@ -62,7 +81,8 @@ public record MovieDto(
             homepage,
             originalLanguage,
             tagline,
-            overview);
+            overview,
+            credits);
     }
     
     public Builder backdrop(String backdrop) {
