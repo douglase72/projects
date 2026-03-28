@@ -96,8 +96,7 @@ public class Movie extends Show {
         + ", tmdbId=" + getTmdbId()
         + ", title=" + getTitle() 
         + ", relaseDate=" + getReleaseDate()
-        + ", score=" + getScore()
-        + ", status=" + getStatus()
+        + ", poster=" + getTmdbPoster()
         + "]";
   }
 

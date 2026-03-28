@@ -35,16 +35,27 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
 public interface MovieMapper {
   
   @Mapping(target = "credits", ignore = true)
+  @Mapping(source = "backdrop.name", target = "backdrop")
+  @Mapping(source = "backdrop.tmdbName", target = "tmdbBackdrop")
+  @Mapping(source = "poster.name", target = "poster")
+  @Mapping(source = "poster.tmdbName", target = "tmdbPoster")
   void merge(SaveMovie command, @MappingTarget Movie movie);  
   void merge(UpdateMovie command, @MappingTarget Movie movie);
-  
+    
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);
   
   @Mapping(target = "credits", ignore = true)
+  @Mapping(target = "people", ignore = true)
+  @Mapping(target = "backdrop", expression = "java(movie.getBackdrop() != null ? com.erdouglass.emdb.common.comand.Image.of(movie.getBackdrop(), movie.getTmdbBackdrop()) : null)")
+  @Mapping(target = "poster", expression = "java(movie.getPoster() != null ? com.erdouglass.emdb.common.comand.Image.of(movie.getPoster(), movie.getTmdbPoster()) : null)")
   SaveMovie toSaveMovie(Movie movie);
-  
+
   @Mapping(target = "credits", ignore = true)
+  @Mapping(source = "backdrop.name", target = "backdrop")
+  @Mapping(source = "backdrop.tmdbName", target = "tmdbBackdrop")
+  @Mapping(source = "poster.name", target = "poster")
+  @Mapping(source = "poster.tmdbName", target = "tmdbPoster")
   Movie toMovie(SaveMovie command);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))

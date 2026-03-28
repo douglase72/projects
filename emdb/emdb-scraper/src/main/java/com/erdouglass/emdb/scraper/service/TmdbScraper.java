@@ -35,6 +35,9 @@ public abstract class TmdbScraper {
   ExecutorService executor;  
   
   @Inject
+  TmdbImageService imageService;
+  
+  @Inject
   TmdbPersonMapper mapper;
   
   @Inject

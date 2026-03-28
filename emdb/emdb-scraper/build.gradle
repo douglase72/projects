@@ -11,6 +11,7 @@ dependencies {
   implementation project(':web-services')
   
   implementation libs.guava
+  implementation libs.jug
   implementation libs.mapstruct
   implementation libs.quarkus.arc
   implementation libs.quarkus.fault.tolerance

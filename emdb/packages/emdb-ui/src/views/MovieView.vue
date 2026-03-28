@@ -25,11 +25,11 @@
       <div>{{ formatLanguage(movie.originalLanguage) }}</div>
       <div>Backdrop</div>
       <div v-if="movie.backdrop">
-        {{ movie.backdrop }}
+        <img :src="findImage(movie.backdrop, ImageSize.W154)" :alt="movie.title">
       </div>  
       <div>Poster</div>
       <div v-if="movie.poster">
-        {{ movie.poster }}
+        <img :src="findImage(movie.poster, ImageSize.W92)" :alt="movie.title">
       </div>        
       <div>Tagline</div>
       <div>{{ movie.tagline }}</div>
@@ -51,9 +51,10 @@
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
+  import { ImageSize } from '@/models/ImageSize';
   import type { Movie } from "@emdb/common";
 
-  const { findMovie } = useEmdbApi();
+  const { findImage, findMovie } = useEmdbApi();
   const { formatLanguage } = useLanguage();
   const { handleError } = useErrorHandler();
   const route = useRoute();

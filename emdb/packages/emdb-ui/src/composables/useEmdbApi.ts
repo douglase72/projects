@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import keycloak from '@/auth/keycloak';
+import { ImageSize } from '@/models/ImageSize';
 import { 
   type Movie,
   type UpdateMovie,
@@ -34,6 +35,10 @@ client.interceptors.request.use(
 );
 
 export function useEmdbApi() {
+
+  const findImage = (image: string, size: ImageSize) => {
+    return `${import.meta.env.VITE_IMAGE_URL}/${size}/${image}`;
+  };  
 
   const findMovie = async (id: number): Promise<Movie | undefined> => {
     const { data: movie } = await client.get<Movie>(`/movies/${id}?append=credits`);
@@ -81,6 +86,7 @@ export function useEmdbApi() {
     deleteMovie,
     deletePerson,
     deleteSeries,
+    findImage,
     findMovie,
     findPerson,
     updatePerson,

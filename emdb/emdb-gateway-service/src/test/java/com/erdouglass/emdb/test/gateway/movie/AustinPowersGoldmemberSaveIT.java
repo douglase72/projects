@@ -23,6 +23,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.ShowStatus;
+import com.erdouglass.emdb.common.comand.Image;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.SaveMovie.CastCredit;
 import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
@@ -95,8 +96,8 @@ class AustinPowersGoldmemberSaveIT extends AbstractTest {
         .revenue(296938801)
         .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
         .originalLanguage("en")
-        .backdrop(BACKDROP)
-        .poster(POSTER)
+        .backdrop(Image.of(BACKDROP, "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg"))
+        .poster(Image.of(POSTER, "/zp5gxcPnxv6FsDh3l7yRZurlBRr.jpg"))
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
         .credits(credits)
@@ -164,8 +165,8 @@ class AustinPowersGoldmemberSaveIT extends AbstractTest {
         .revenue(296938801)
         .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
         .originalLanguage("en")
-        .backdrop(BACKDROP)
-        .poster(POSTER)
+        .backdrop(Image.of(BACKDROP, "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg"))
+        .poster(Image.of(POSTER, "/zp5gxcPnxv6FsDh3l7yRZurlBRr.jpg"))
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
         .credits(credits)

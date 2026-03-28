@@ -62,6 +62,14 @@ public class Show extends SequenceEntity {
   @Column(name = "tmdb_id", unique = true, updatable = false)
   private Integer tmdbId;  
   
+  @Column(name="tmdb_backdrop", unique = true)
+  @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH)
+  private String tmdbBackdrop;
+  
+  @Column(name="tmdb_poster", unique = true)
+  @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH)
+  private String tmdbPoster;  
+  
   protected Show() {
     super();
   }
@@ -145,5 +153,21 @@ public class Show extends SequenceEntity {
   public Integer getTmdbId() {
     return tmdbId;
   }
+  
+  public void setTmdbBackdrop(String tmdbBackdrop) {
+    this.tmdbBackdrop = tmdbBackdrop;
+  }
+  
+  public String getTmdbBackdrop() {
+    return tmdbBackdrop;
+  }
+  
+  public void setTmdbPoster(String tmdbPoster) {
+    this.tmdbPoster = tmdbPoster;
+  }
+  
+  public String getTmdbPoster() {
+    return tmdbPoster;
+  }  
 
 }

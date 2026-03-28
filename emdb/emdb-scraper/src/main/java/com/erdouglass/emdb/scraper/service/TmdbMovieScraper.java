@@ -2,18 +2,17 @@ package com.erdouglass.emdb.scraper.service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.comand.Image;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.SaveMovie.CastCredit;
 import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
@@ -38,18 +37,10 @@ public class TmdbMovieScraper extends TmdbScraper {
   @Inject
   TmdbMovieMapper mapper;
   
-  public SaveMovie extract(@NotNull @Positive Integer tmdbId) {
-    return performExtraction(tmdbId);
-  }
-  
-  public SaveMovie extract(@NotNull @Valid SaveMovie command) {
-    return performExtraction(command.tmdbId());
-  }
-  
-  private SaveMovie performExtraction(int tmdbId) {
+  public SaveMovie extract(@NotNull SaveMovie command) {
     var start = Instant.now();
     rateLimiter.acquire();
-    var tmdbMovie = client.findById(tmdbId, CREDITS);
+    var tmdbMovie = client.findById(command.tmdbId(), CREDITS);
     var credits = findCredits(tmdbMovie);
     var ids = Stream.concat(
         credits.cast().stream().map(CastCredit::tmdbId),
@@ -57,16 +48,21 @@ public class TmdbMovieScraper extends TmdbScraper {
         .distinct()
         .toList();
     var people = findPeople(ids);
+    
+    // Update the movie backdrop and poster if they changed.
+    var backdrop = command.backdrop();
+    if (backdrop == null || !Objects.equals(tmdbMovie.backdrop_path(), backdrop.tmdbName())) {
+      backdrop = Image.of(imageService.save(tmdbMovie.backdrop_path()), tmdbMovie.backdrop_path());
+    }
+    var poster = command.poster();
+    if (poster == null || !Objects.equals(tmdbMovie.poster_path(), poster.tmdbName())) {
+      poster = Image.of(imageService.save(tmdbMovie.poster_path()), tmdbMovie.poster_path());
+    }    
+    var cmd = mapper.toSaveMovie(tmdbMovie, backdrop, poster, credits, people);
     var et = Duration.between(start, Instant.now()).toMillis();
-    var msg = String.format("Ingest Job for TMDB movie %d extracted in %d ms", tmdbId, et);
-    LOGGER.info(msg);    
-    var command = mapper.toSaveMovie(
-        tmdbMovie, 
-        UUID.randomUUID(), 
-        UUID.randomUUID(),
-        credits,
-        people);
-    return command;
+    var msg = String.format("Ingest Job for TMDB movie %d extracted in %d ms", command.tmdbId(), et);
+    LOGGER.info(msg);
+    return cmd;    
   }
   
   private Credits findCredits(TmdbMovie movie) {

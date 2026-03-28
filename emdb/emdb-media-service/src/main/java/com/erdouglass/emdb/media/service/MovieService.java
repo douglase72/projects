@@ -73,6 +73,7 @@ public class MovieService {
     if (status == SaveStatus.UNCHANGED && creditsChanged) {
       status = SaveStatus.UPDATED;
     }
+    existingMovie.setCredits(List.of());
     return SaveResult.of(status, existingMovie);
   }
   

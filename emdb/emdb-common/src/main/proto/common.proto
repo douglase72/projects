@@ -6,6 +6,11 @@ option java_outer_classname = "CommonProto";
 
 package emdb.media.v1;
 
+message Image {
+  string name = 1;
+  string tmdb_name = 2;
+}
+
 enum SaveStatus {
   SAVE_STATUS_UNSPECIFIED = 0;
   CREATED = 1;

@@ -37,13 +37,15 @@ public class MovieConsumer extends Consumer {
   
   @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
-    var command = service.findByTmdbId(tmdbId)
+    var existingMovie = service.findByTmdbId(tmdbId);
+    var command = existingMovie
         .map(m -> scraper.extract(mapper.toSaveMovie(m)))
-        .orElseGet(() -> scraper.extract(tmdbId));
+        .orElseGet(() -> scraper.extract(SaveMovie.builder().tmdbId(tmdbId).build()));
     
     try {
       validate(command);
-      service.save(command);
+      var result = service.save(command);
+      existingMovie.ifPresent(m -> deleteOldImages(m, result.entity()));
     } catch (Exception e) {
       dlqEmitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

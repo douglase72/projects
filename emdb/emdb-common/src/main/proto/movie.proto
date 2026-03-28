@@ -42,8 +42,8 @@ message SaveMovieRequest {
   optional int32 runtime = 6;
   optional int32 budget = 7;
   optional int32 revenue = 8;
-  optional string backdrop = 9;
-  optional string poster = 10;
+  optional Image backdrop = 9;
+  optional Image poster = 10;
   optional string homepage = 11;
   optional string original_language = 12;
   optional string tagline = 13;
