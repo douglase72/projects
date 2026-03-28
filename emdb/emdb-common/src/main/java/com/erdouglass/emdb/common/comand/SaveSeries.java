@@ -2,7 +2,6 @@ package com.erdouglass.emdb.common.comand;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -25,8 +24,8 @@ public record SaveSeries(
     @Min(0) @Max(10) Float score,
     ShowStatus status,
     SeriesType type,
-    UUID backdrop,
-    UUID poster,
+    Image backdrop,
+    Image poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
@@ -62,10 +61,10 @@ public record SaveSeries(
   }
   
   public static final class Builder extends AbstractSeriesBuilder<Builder> {
-    private UUID backdrop;
+    private Image backdrop;
     private Credits credits;
     private List<SavePerson> people = new ArrayList<>();
-    private UUID poster;
+    private Image poster;
     private Integer tmdbId;
         
     private Builder() { }
@@ -87,7 +86,7 @@ public record SaveSeries(
             people);
     }
     
-    public Builder backdrop(UUID backdrop) {
+    public Builder backdrop(Image backdrop) {
       this.backdrop = backdrop;
       return this;
     }
@@ -102,7 +101,7 @@ public record SaveSeries(
       return this;
     }
     
-    public Builder poster(UUID poster) {
+    public Builder poster(Image poster) {
       this.poster = poster;
       return this;
     }

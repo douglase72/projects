@@ -66,6 +66,13 @@ public class SeriesService {
   }
   
   @Transactional
+  @LogDuration("Found:")
+  public Optional<Series> findByTmdbId(@NotNull @Positive Integer id, String append) {
+    var series = repository.findByTmdbId(id);
+    return series;
+  }
+  
+  @Transactional
   @LogDuration("Updated:")
   public Series update(Long id, UpdateSeries command) {
     var existingSeries = repository.findById(id)

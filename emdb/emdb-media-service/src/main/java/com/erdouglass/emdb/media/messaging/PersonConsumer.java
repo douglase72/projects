@@ -37,9 +37,10 @@ public class PersonConsumer extends Consumer {
 
   @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
-    var command = service.findByTmdbId(tmdbId)
+    var existingPerson = service.findByTmdbId(tmdbId);
+    var command = existingPerson
         .map(p -> scraper.extract(mapper.toSavePerson(p)))
-        .orElseGet(() -> scraper.extract(tmdbId));
+        .orElseGet(() -> scraper.extract(SavePerson.builder().tmdbId(tmdbId).build()));
     
     try {
       validate(command);

@@ -11,6 +11,8 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
+import com.erdouglass.emdb.media.entity.Credit;
+import com.erdouglass.emdb.media.entity.Movie_;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
 import com.erdouglass.emdb.scraper.service.TmdbMovieScraper;
@@ -37,7 +39,7 @@ public class MovieConsumer extends Consumer {
   
   @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
-    var existingMovie = service.findByTmdbId(tmdbId);
+    var existingMovie = service.findByTmdbId(tmdbId, Movie_.CREDITS);
     var command = existingMovie
         .map(m -> scraper.extract(mapper.toSaveMovie(m)))
         .orElseGet(() -> scraper.extract(SaveMovie.builder().tmdbId(tmdbId).build()));
@@ -45,7 +47,12 @@ public class MovieConsumer extends Consumer {
     try {
       validate(command);
       var result = service.save(command);
-      existingMovie.ifPresent(m -> deleteOldImages(m, result.entity()));
+      existingMovie.ifPresent(m -> {
+        deleteOldImages(m, result.entity());
+        var existingPeople = m.getCredits().stream().map(Credit::getPerson).toList();
+        var newPeople = result.entity().getCredits().stream().map(Credit::getPerson).toList();
+        deleteOldImages(existingPeople, newPeople);
+      });
     } catch (Exception e) {
       dlqEmitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()

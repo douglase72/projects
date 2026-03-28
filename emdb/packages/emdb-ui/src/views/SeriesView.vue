@@ -23,11 +23,11 @@
       <div>{{ formatLanguage(series.originalLanguage) }}</div>
       <div>Backdrop</div>
       <div v-if="series.backdrop">
-        {{ series.backdrop }}
+        <img :src="findImage(series.backdrop, ImageSize.W154)" :alt="series.title">
       </div>  
       <div>Poster</div>
       <div v-if="series.poster">
-        {{ series.poster }}
+        <img :src="findImage(series.poster, ImageSize.W92)" :alt="series.title">
       </div>        
       <div>Tagline</div>
       <div>{{ series.tagline }}</div>
@@ -49,9 +49,10 @@
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
+  import { ImageSize } from '@/models/ImageSize';
   import type { Series } from "@emdb/common";
 
-  const { findSeries } = useEmdbApi();
+  const { findImage, findSeries } = useEmdbApi();
   const { formatLanguage } = useLanguage();
   const { handleError } = useErrorHandler();
   const route = useRoute();

@@ -31,7 +31,7 @@ message SavePersonRequest {
   optional string birth_date = 3;
   optional string death_date = 4;
   optional Gender gender = 5;
-  optional string profile = 6;
+  optional Image profile = 6;
   optional string Birth_place = 7;
   optional string biography = 8;
 }

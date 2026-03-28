@@ -16,6 +16,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.PersonConstants;
+import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.validation.DateRange;
 
 /// Represents a Person (Actor, Director, Crew) in the media database.
@@ -60,7 +61,11 @@ public class Person extends SequenceEntity {
   
   @NotNull
   @Column(name = "tmdb_id", unique = true, updatable = false)
-  private Integer tmdbId;  
+  private Integer tmdbId;
+  
+  @Column(name="tmdb_profile", unique = true)
+  @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH)
+  private String tmdbProfile;  
   
   public Person() {
     
@@ -130,6 +135,14 @@ public class Person extends SequenceEntity {
     return tmdbId;
   }
   
+  public void setTmdbProfile(String tmdbProfile) {
+    this.tmdbProfile = tmdbProfile;
+  }
+  
+  public String getTmdbProfile() {
+    return tmdbProfile;
+  } 
+  
   @Override
   public String toString() {
     return "Person[" 
@@ -139,7 +152,6 @@ public class Person extends SequenceEntity {
     + ", deathDate=" + getDeathDate() 
     + ", gender=" + getGender()
     + ", profile=" + getProfile()
-    + ", birthPlace=" + getBirthPlace()
     + "]";
   } 
   

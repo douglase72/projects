@@ -17,7 +17,7 @@
       <div>{{ person.birthPlace }}</div>
       <div>Profile</div>
       <div v-if="person.profile">
-        {{ person.profile }}
+        <img :src="findImage(person.profile, ImageSize.W154)" :alt="person.name">
       </div>  
       <div>Biography</div>
       <div>{{ person.biography }}</div>
@@ -36,9 +36,10 @@
   import keycloak from '@/auth/keycloak';
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
+  import { ImageSize } from '@/models/ImageSize';
   import type { Person } from '@emdb/common';
 
-  const { findPerson } = useEmdbApi();
+  const { findImage, findPerson } = useEmdbApi();
   const { handleError } = useErrorHandler();
   const route = useRoute();
   const router = useRouter();

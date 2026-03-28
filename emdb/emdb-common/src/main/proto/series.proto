@@ -60,8 +60,8 @@ message SaveSeriesRequest {
   optional float score = 3;
   optional ShowStatus status = 4;
   optional SeriesType type = 5;
-  optional string backdrop = 6;
-  optional string poster = 7;
+  optional Image backdrop = 6;
+  optional Image poster = 7;
   optional string homepage = 8;
   optional string original_language = 9;
   optional string tagline = 10;

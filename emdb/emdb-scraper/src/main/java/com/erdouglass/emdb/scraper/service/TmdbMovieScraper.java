@@ -3,6 +3,8 @@ package com.erdouglass.emdb.scraper.service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,6 +19,7 @@ import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.SaveMovie.CastCredit;
 import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
 import com.erdouglass.emdb.common.comand.SaveMovie.CrewCredit;
+import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.scraper.client.TmdbMovieClient;
 import com.erdouglass.emdb.scraper.mapper.TmdbMovieCreditMapper;
 import com.erdouglass.emdb.scraper.mapper.TmdbMovieMapper;
@@ -47,7 +50,9 @@ public class TmdbMovieScraper extends TmdbScraper {
         credits.crew().stream().map(CrewCredit::tmdbId))
         .distinct()
         .toList();
-    var people = findPeople(ids);
+    var existingPeople = command.people().stream()
+        .collect(Collectors.toMap(SavePerson::tmdbId, Function.identity()));
+    var people = findPeople(ids, existingPeople);
     
     // Update the movie backdrop and poster if they changed.
     var backdrop = command.backdrop();

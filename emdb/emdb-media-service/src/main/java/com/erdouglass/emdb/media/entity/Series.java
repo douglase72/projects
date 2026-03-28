@@ -56,8 +56,7 @@ public class Series extends Show {
         + ", tmdbId=" + getTmdbId() 
         + ", title=" + getTitle() 
         + ", firstAirDate=" + firstAirDate 
-        + ", score=" + getScore()
-        + ", status=" + getStatus()
+        + ", poster=" + getPoster()
         + "]";
   }
 

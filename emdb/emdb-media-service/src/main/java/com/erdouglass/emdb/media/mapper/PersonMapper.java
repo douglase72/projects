@@ -29,13 +29,20 @@ import com.erdouglass.emdb.media.proto.v1.UpdatePersonCommand;
 )
 public interface PersonMapper {
   
+  @Mapping(source = "profile.name", target = "profile")
+  @Mapping(source = "profile.tmdbName", target = "tmdbProfile")
   void merge(SavePerson command, @MappingTarget Person person);
+  
   void merge(UpdatePerson command, @MappingTarget Person person);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SavePerson toSavePerson(SavePersonRequest request);
+  
+  @Mapping(target = "profile", expression = "java(person.getProfile() != null ? com.erdouglass.emdb.common.comand.Image.of(person.getProfile(), person.getTmdbProfile()) : null)")
   SavePerson toSavePerson(Person person);
   
+  @Mapping(source = "profile.name", target = "profile")
+  @Mapping(source = "profile.tmdbName", target = "tmdbProfile")
   Person toPerson(SavePerson command);
   
   PersonResponse toPersonResponse(Person person);

@@ -28,7 +28,7 @@
         original_language varchar(2),
         overview varchar(1024),
         poster uuid unique,
-        score float4 check ((score<=10) and (score>=0)),
+        score float4 check ((score>=0) and (score<=10)),
         status varchar(16) check ((status in ('CANCELED','ENDED','IN_PRODUCTION','PILOT','PLANNED','POST_PRODUCTION','RELEASED','RETURNING_SERIES','RUMORED'))),
         tagline varchar(150),
         title varchar(140) not null,
@@ -55,6 +55,7 @@
         name varchar(80) not null,
         profile uuid unique,
         tmdb_id integer not null unique,
+        tmdb_profile varchar(80) unique,
         primary key (id)
     );
 
@@ -68,7 +69,7 @@
         original_language varchar(2),
         overview varchar(1024),
         poster uuid unique,
-        score float4 check ((score<=10) and (score>=0)),
+        score float4 check ((score>=0) and (score<=10)),
         status varchar(16) check ((status in ('CANCELED','ENDED','IN_PRODUCTION','PILOT','PLANNED','POST_PRODUCTION','RELEASED','RETURNING_SERIES','RUMORED'))),
         tagline varchar(150),
         title varchar(140) not null,

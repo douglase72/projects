@@ -73,7 +73,7 @@ public class MovieService {
     if (status == SaveStatus.UNCHANGED && creditsChanged) {
       status = SaveStatus.UPDATED;
     }
-    existingMovie.setCredits(List.of());
+    existingMovie.setCredits(creditRepository.findByMovieId(existingMovie.getId()));
     return SaveResult.of(status, existingMovie);
   }
   
@@ -84,7 +84,7 @@ public class MovieService {
     movie.ifPresent(m -> {
       m.setCredits(List.of());
       if (append != null && append.contains(Movie_.CREDITS)) {
-        m.setCredits(creditRepository.findByMovieId(id));
+        m.setCredits(creditRepository.findByMovieId(m.getId()));
       }
     });
     return movie;
@@ -92,8 +92,15 @@ public class MovieService {
   
   @Transactional
   @LogDuration("Found:")
-  public Optional<Movie> findByTmdbId(@NotNull @Positive Integer id) {
-    return repository.findByTmdbId(id);
+  public Optional<Movie> findByTmdbId(@NotNull @Positive Integer id, String append) {
+    var movie = repository.findByTmdbId(id);
+    movie.ifPresent(m -> {
+      m.setCredits(List.of());
+      if (append != null && append.contains(Movie_.CREDITS)) {
+        m.setCredits(creditRepository.findByMovieId(m.getId()));
+      }
+    });
+    return movie;
   }  
   
   @Transactional
@@ -124,8 +131,8 @@ public class MovieService {
         && Objects.equals(command.status(), movie.getStatus())
         && Objects.equals(command.runtime(), movie.getRuntime())
         && Objects.equals(command.budget(), movie.getBudget())
-        && Objects.equals(command.backdrop(), movie.getBackdrop())
-        && Objects.equals(command.poster(), movie.getPoster())
+        && Objects.equals(command.backdrop().name(), movie.getBackdrop())
+        && Objects.equals(command.poster().name(), movie.getPoster())
         && Objects.equals(command.homepage(), movie.getHomepage())
         && Objects.equals(command.originalLanguage(), movie.getOriginalLanguage())
         && Objects.equals(command.overview(), movie.getOverview());

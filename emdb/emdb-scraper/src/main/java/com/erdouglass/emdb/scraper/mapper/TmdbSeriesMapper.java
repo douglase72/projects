@@ -1,13 +1,13 @@
 package com.erdouglass.emdb.scraper.mapper;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import com.erdouglass.emdb.common.comand.Image;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.common.comand.SaveSeries.CastCredit;
@@ -39,9 +39,7 @@ public interface TmdbSeriesMapper {
   @Mapping(source = "series.name", target = "title")
   @Mapping(source = "series.vote_average", target = "score")
   @Mapping(source = "series.original_language", target = "originalLanguage")
-  @Mapping(source = "backdrop", target = "backdrop")
-  @Mapping(source = "poster", target = "poster")
   @Mapping(source = "credits", target = "credits")
-  SaveSeries toSaveSeries(TmdbSeries series, UUID backdrop, UUID poster, Credits credits, List<SavePerson> people);
+  SaveSeries toSaveSeries(TmdbSeries series, Image backdrop, Image poster, Credits credits, List<SavePerson> people);
   
 }

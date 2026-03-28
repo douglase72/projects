@@ -28,6 +28,10 @@ import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCommand;
 )
 public interface SeriesMapper {
   
+  @Mapping(source = "backdrop.name", target = "backdrop")
+  @Mapping(source = "backdrop.tmdbName", target = "tmdbBackdrop")
+  @Mapping(source = "poster.name", target = "poster")
+  @Mapping(source = "poster.tmdbName", target = "tmdbPoster")
   void merge(SaveSeries command, @MappingTarget Series series);
   
   void merge(UpdateSeries command, @MappingTarget Series series);
@@ -35,9 +39,18 @@ public interface SeriesMapper {
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveSeries toSaveSeries(SaveSeriesRequest request);
   
+  @Mapping(target = "people", ignore = true)
+  @Mapping(target = "backdrop", expression = "java(series.getBackdrop() != null ? com.erdouglass.emdb.common.comand.Image.of(series.getBackdrop(), series.getTmdbBackdrop()) : null)")
+  @Mapping(target = "poster", expression = "java(series.getPoster() != null ? com.erdouglass.emdb.common.comand.Image.of(series.getPoster(), series.getTmdbPoster()) : null)")
+  SaveSeries toSaveSeries(Series series);
+  
   @BeanMapping(builder = @Builder(disableBuilder = true))
   UpdateSeries toUpdateSeries(UpdateSeriesCommand command);
   
+  @Mapping(source = "backdrop.name", target = "backdrop")
+  @Mapping(source = "backdrop.tmdbName", target = "tmdbBackdrop")
+  @Mapping(source = "poster.name", target = "poster")
+  @Mapping(source = "poster.tmdbName", target = "tmdbPoster")
   Series toSeries(SaveSeries command);
     
   @Mapping(source = "entity", target = "series")

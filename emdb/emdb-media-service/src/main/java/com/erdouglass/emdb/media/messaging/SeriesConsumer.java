@@ -11,6 +11,7 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.media.mapper.SeriesMapper;
 import com.erdouglass.emdb.media.service.SeriesService;
 import com.erdouglass.emdb.scraper.service.TmdbSeriesScraper;
 import com.erdouglass.webservices.LoggingDecorator;
@@ -26,6 +27,9 @@ public class SeriesConsumer extends Consumer {
   Emitter<SaveSeries> dlqEmitter;
   
   @Inject
+  SeriesMapper mapper;
+  
+  @Inject
   TmdbSeriesScraper scraper;
   
   @Inject
@@ -33,11 +37,17 @@ public class SeriesConsumer extends Consumer {
 
   @Override
   public void ingest(@NotNull @Positive Integer tmdbId) {
-    var command = scraper.extract(tmdbId);
+    var existingSeries = service.findByTmdbId(tmdbId, null);
+    var command = existingSeries
+        .map(s -> scraper.extract(mapper.toSaveSeries(s)))
+        .orElseGet(() -> scraper.extract(SaveSeries.builder().tmdbId(tmdbId).build()));
     
     try {
       validate(command);
-      service.save(command);
+      var result = service.save(command);
+      existingSeries.ifPresent(s -> {
+        deleteOldImages(s, result.entity());
+      });
     } catch (Exception e) {
       dlqEmitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
