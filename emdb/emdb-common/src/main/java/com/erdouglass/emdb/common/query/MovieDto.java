@@ -1,9 +1,7 @@
 package com.erdouglass.emdb.common.query;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -14,7 +12,6 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.AbstractMovieBuilder;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.ShowStatus;
@@ -41,74 +38,6 @@ public record MovieDto(
   
   public record Credits(List<@Valid MovieCastCredit> cast, List<@Valid MovieCrewCredit> crew) {
     
-  }  
-  
-  public static Builder builder() {
-    return new Builder();
   }
-  
-  public static final class Builder extends AbstractMovieBuilder<Builder> {
-    private List<MovieCastCredit> cast = new ArrayList<>();
-    private List<MovieCrewCredit> crew = new ArrayList<>();      
-    private String backdrop;
-    private Long id;
-    private String poster;
-    private Integer tmdbId;
-
-    private Builder() { }
-
-    public MovieDto build() {
-      Objects.requireNonNull(id, "Movie id is required");
-      Objects.requireNonNull(tmdbId, "Movie TMDB id is required");
-      Objects.requireNonNull(title, "Movie TMDB title is required");
-      
-      Credits credits = null;
-      if (!cast.isEmpty() || !crew.isEmpty()) {
-        credits = new Credits(List.copyOf(cast), List.copyOf(crew));
-      }          
-      return new MovieDto(
-            id,
-            tmdbId,
-            title, 
-            releaseDate,
-            score,
-            status,
-            runtime,
-            budget,
-            revenue,
-            backdrop,
-            poster,
-            homepage,
-            originalLanguage,
-            tagline,
-            overview,
-            credits);
-    }
-    
-    public Builder backdrop(String backdrop) {
-      this.backdrop = backdrop;
-      return this;
-    }    
-
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
-    }
-    
-    public Builder poster(String poster) {
-      this.poster = poster;
-      return this;
-    }      
-    
-    public Builder tmdbId(Integer tmdbId) {
-      this.tmdbId = tmdbId;
-      return self();
-    }
-
-    @Override
-    protected Builder self() {
-      return this;
-    }
-  } 
 
 }

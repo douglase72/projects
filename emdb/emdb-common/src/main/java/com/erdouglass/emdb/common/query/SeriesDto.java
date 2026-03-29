@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.AbstractSeriesBuilder;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.SeriesType;
 import com.erdouglass.emdb.common.ShowConstants;
@@ -33,60 +32,4 @@ public record SeriesDto(
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
   
-  public static Builder builder() {
-    return new Builder();
-  }
-  
-  public static final class Builder extends AbstractSeriesBuilder<Builder> {
-    private String backdrop;
-    private Long id;
-    private String poster;
-    private Integer tmdbId;
-
-    private Builder() { }
-
-    public SeriesDto build() {
-      return new SeriesDto(
-            id,
-            tmdbId,
-            title, 
-            firstAirDate,
-            lastAirDate,
-            score,
-            status,
-            type,
-            homepage,
-            originalLanguage,
-            backdrop,
-            poster,
-            tagline,
-            overview);
-    }
-    
-    public Builder backdrop(String backdrop) {
-      this.backdrop = backdrop;
-      return this;
-    }
-
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
-    }
-    
-    public Builder poster(String poster) {
-      this.poster = poster;
-      return this;
-    }
-    
-    public Builder tmdbId(Integer tmdbId) {
-      this.tmdbId = tmdbId;
-      return self();
-    }
-
-    @Override
-    protected Builder self() {
-      return this;
-    }
-  }  
-
 }

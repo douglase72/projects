@@ -1,12 +1,7 @@
 package com.erdouglass.emdb.media.entity;
 
 import java.time.Instant;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,40 +21,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.erdouglass.emdb.common.query.CreditType;
 
 @Entity
 @Table(name = "Credits")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Credit {
   private static final int CREDIT_TYPE_MAX_LENGTH = 4;
-  
-  public enum CreditType {
-    CAST("cast"), 
-    CREW("crew");
-    
-    private static final Map<String, CreditType> CACHE = Stream.of(values())
-        .collect(Collectors.toMap(CreditType::name, Function.identity()));
-    
-    private final String type;
-    
-    CreditType(String type) {
-      this.type = type;
-    }
-    
-    @JsonCreator
-    public static CreditType from(String type) {
-      return Optional.ofNullable(CACHE.get(type.toUpperCase()))
-          .orElseThrow(() -> new IllegalArgumentException("Invalid credit type: " + type));
-    }
-     
-    @Override
-    @JsonValue
-    public String toString() {
-      return type;
-    }
-  }
   
   @CreationTimestamp
   @Column(nullable = false, updatable = false)

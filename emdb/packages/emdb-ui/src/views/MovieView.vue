@@ -37,9 +37,22 @@
       <div>{{ movie.overview }}</div>
     </section>
 
-    <Button label="Edit" 
-            v-if="movie && isAdmin" 
-            @click="router.push({ name: 'MovieEdit', params: { id: movie.id } })" />
+    <section class="mt-8">
+      <Carousel :value="cast" 
+                :numVisible="6" 
+                :numScroll="4"
+                :showIndicators="false">
+        <template #item="slotProps">
+          <ActorCard :actor="slotProps.data" />
+        </template>
+      </Carousel>      
+    </section>
+
+    <section class="mt-8">
+      <Button label="Edit" 
+              v-if="movie && isAdmin" 
+              @click="router.push({ name: 'MovieEdit', params: { id: movie.id } })" />      
+    </section>
   </main>
 </template>
 
@@ -52,7 +65,8 @@
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Movie } from "@emdb/common";
+  import type { Actor } from '@/models/Actor';
+  import type { Movie, MovieCredit } from "@emdb/common";
 
   const { findImage, findMovie } = useEmdbApi();
   const { formatLanguage } = useLanguage();
@@ -61,6 +75,8 @@
   const router = useRouter();
 
   const movie = ref<Movie>();
+  const cast = ref<Actor[]>();
+
   const isAdmin = computed(() => {
     return keycloak.authenticated && keycloak.hasRealmRole('admin');
   });
@@ -74,6 +90,14 @@
 
     try {
       movie.value = await findMovie(id);
+      cast.value = movie.value?.credits.cast.slice(0, 18)
+        .map((credit: MovieCredit) => ({
+          id: credit.id,
+          name: credit.name,
+          profile: credit.profile,
+          character: credit.character,
+          numberOfEpisodes: null,
+        }));
     } catch (e) {
       handleError(e, 'Failed to load movie');
       router.push('/'); 

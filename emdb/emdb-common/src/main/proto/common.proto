@@ -11,6 +11,12 @@ message Image {
   string tmdb_name = 2;
 }
 
+enum CreditType {
+  CREDIT_TYPE_UNSPECIFIED = 0;
+  CAST = 1;
+  CREW = 2;
+}
+
 enum SaveStatus {
   SAVE_STATUS_UNSPECIFIED = 0;
   CREATED = 1;

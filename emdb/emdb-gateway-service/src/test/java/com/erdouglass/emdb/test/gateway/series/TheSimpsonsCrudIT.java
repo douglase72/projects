@@ -185,7 +185,7 @@ class TheSimpsonsCrudIT extends AbstractTest {
     assertEquals(6.6f, series.score());
     assertEquals(ShowStatus.RUMORED, series.status());
     assertEquals(SeriesType.DOCUMENTARY, series.type());
-    assertEquals("v.jpg", series.backdrop());
+    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", series.backdrop());
     assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", series.poster());    
     assertEquals("http://www.thesimpsons.com/", series.homepage());    
     assertEquals("en", series.originalLanguage());

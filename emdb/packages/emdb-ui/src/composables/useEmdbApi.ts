@@ -4,11 +4,13 @@ import keycloak from '@/auth/keycloak';
 import { ImageSize } from '@/models/ImageSize';
 import { 
   type Movie,
+  type MovieCredit,
   type UpdateMovie,
   type Person,
   type UpdatePerson,
   type Series,
-  type UpdateSeries } from '@emdb/common';
+  type UpdateSeries, 
+  type UpdateMovieCredit} from '@emdb/common';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -82,6 +84,12 @@ export function useEmdbApi() {
     await client.delete<number>(`/series/${id}`);
   };
 
+  const updateMovieCredit = 
+  async (id: number, creditId: string, command: UpdateMovieCredit): Promise<MovieCredit | undefined> => {
+    const { data: credit } = await client.put<MovieCredit>(`/movies/${id}/credits/${creditId}`, command);
+    return credit;
+  }
+
   return {
     deleteMovie,
     deletePerson,
@@ -92,6 +100,7 @@ export function useEmdbApi() {
     updatePerson,
     findSeries,
     updateMovie,
+    updateMovieCredit,
     updateSeries,
   }
 

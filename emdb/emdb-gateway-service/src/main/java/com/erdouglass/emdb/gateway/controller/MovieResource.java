@@ -90,6 +90,6 @@ public class MovieResource {
     var request = DeleteMovieRequest.newBuilder().setId(id).build();
     service.delete(request);
     return Response.noContent().build();
-  }
+  }  
   
 }

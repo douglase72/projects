@@ -1,7 +1,10 @@
 package com.erdouglass.emdb.media.controller;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.media.mapper.MovieCreditMapper;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.proto.v1.DeleteMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
@@ -9,7 +12,10 @@ import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
+import com.erdouglass.emdb.media.proto.v1.UniMovieCreditResponse;
+import com.erdouglass.emdb.media.proto.v1.UpdateMovieCreditRequest;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
+import com.erdouglass.emdb.media.service.MovieCreditService;
 import com.erdouglass.emdb.media.service.MovieService;
 import com.google.protobuf.Empty;
 
@@ -20,6 +26,12 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 
 @GrpcService
 public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
+  
+  @Inject
+  MovieCreditService creditService;
+  
+  @Inject
+  MovieCreditMapper creditMapper;
   
   @Inject
   MovieMapper mapper;
@@ -68,6 +80,20 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
     service.delete(request.getId()); 
     responseObserver.onNext(Empty.getDefaultInstance());
     responseObserver.onCompleted();
+  }
+  
+  @Override
+  @RunOnVirtualThread
+  public void updateCredit(
+      UpdateMovieCreditRequest request, 
+      StreamObserver<UniMovieCreditResponse> responseObserver) {
+    var credit = creditService.update(
+        request.getMovieId(), 
+        UUID.fromString(request.getCreditId()), 
+        creditMapper.toUpdateMovieCredit(request));
+    var response = creditMapper.toUniMovieCreditResponse(credit);
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();    
   }
 
 }

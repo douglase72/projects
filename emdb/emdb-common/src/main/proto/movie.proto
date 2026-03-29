@@ -15,6 +15,7 @@ service MovieService {
   rpc FindById (FindMovieRequest) returns (MovieResponse) {}
   rpc Update (UpdateMovieRequest) returns (MovieResponse) {}
   rpc Delete (DeleteMovieRequest) returns (google.protobuf.Empty) {}
+  rpc UpdateCredit (UpdateMovieCreditRequest) returns (UniMovieCreditResponse) {}
 }
 
 message MovieCastCreditRequest {
@@ -82,6 +83,13 @@ message DeleteMovieRequest {
   int64 id = 1;
 }
 
+message UpdateMovieCreditRequest {
+  int64 movie_id = 1;
+  string credit_id = 2;
+  string role = 3;
+  optional int32 order = 4;
+}
+
 message MovieCastCreditResponse {
   string credit_id = 1;
   int64 id = 2;
@@ -99,6 +107,17 @@ message MovieCrewCreditResponse {
   Gender gender = 4;
   optional string profile = 5;
   optional string job = 6;
+}
+
+message UniMovieCreditResponse {
+  string credit_id = 1;
+  int64 id = 2;
+  string name = 3;
+  Gender gender = 4;
+  optional string profile = 5;
+  string role = 6;
+  optional int32 order = 7;
+  CreditType type = 8;
 }
 
 message MovieCreditResponse {

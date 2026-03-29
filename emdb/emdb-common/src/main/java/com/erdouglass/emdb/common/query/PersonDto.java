@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.AbstractPersonBuilder;
 import com.erdouglass.emdb.common.Gender;
 import com.erdouglass.emdb.common.PersonConstants;
 import com.erdouglass.emdb.common.ValidImage;
@@ -23,44 +22,5 @@ public record PersonDto(
     @ValidImage String profile,
     @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH) String birthPlace,
     @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH) String biography) {
-  
-  public static Builder builder() {
-    return new Builder();
-  }
-  
-  public static final class Builder extends AbstractPersonBuilder<Builder> {
-    private Long id;
-    private String profile;
-    
-    private Builder() { }
-
-    public PersonDto build() {
-      return new PersonDto(
-            id,
-            tmdbId,
-            name, 
-            birthDate,
-            deathDate,
-            gender,
-            profile,
-            birthPlace,
-            biography);
-    }
-    
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
-    }
-    
-    public Builder profile(String profile) {
-      this.profile = profile;
-      return this;
-    }  
-
-    @Override
-    protected Builder self() {
-      return this;
-    }
-  }   
 
 }

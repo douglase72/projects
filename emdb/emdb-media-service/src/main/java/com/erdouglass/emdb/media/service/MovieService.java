@@ -1,6 +1,5 @@
 package com.erdouglass.emdb.media.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,33 +14,23 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-import org.jboss.logging.Logger;
-
 import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.SaveMovie.Credits;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.entity.Movie;
-import com.erdouglass.emdb.media.entity.MovieCredit;
 import com.erdouglass.emdb.media.entity.Movie_;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.logging.LogDuration;
-import com.erdouglass.emdb.media.mapper.MovieCreditMapper;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
-import com.erdouglass.emdb.media.repository.MovieCreditRepository;
 import com.erdouglass.emdb.media.repository.MovieRepository;
 import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class MovieService {
-  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
   
   @Inject
-  MovieCreditMapper creditMapper;
-  
-  @Inject
-  MovieCreditRepository creditRepository;
+  MovieCreditService creditService;
   
   @Inject
   MovieMapper mapper;
@@ -69,11 +58,11 @@ public class MovieService {
         : personService.saveAll(command.people()).stream()
         .map(SaveResult::entity)
         .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
-    boolean creditsChanged = saveCredits(existingMovie, savedPeople, command.credits());
+    boolean creditsChanged = creditService.saveAll(existingMovie, savedPeople, command.credits());
     if (status == SaveStatus.UNCHANGED && creditsChanged) {
       status = SaveStatus.UPDATED;
     }
-    existingMovie.setCredits(creditRepository.findByMovieId(existingMovie.getId()));
+    existingMovie.setCredits(creditService.findByMovieId(existingMovie.getId()));
     return SaveResult.of(status, existingMovie);
   }
   
@@ -84,7 +73,7 @@ public class MovieService {
     movie.ifPresent(m -> {
       m.setCredits(List.of());
       if (append != null && append.contains(Movie_.CREDITS)) {
-        m.setCredits(creditRepository.findByMovieId(m.getId()));
+        m.setCredits(creditService.findByMovieId(m.getId()));
       }
     });
     return movie;
@@ -97,7 +86,7 @@ public class MovieService {
     movie.ifPresent(m -> {
       m.setCredits(List.of());
       if (append != null && append.contains(Movie_.CREDITS)) {
-        m.setCredits(creditRepository.findByMovieId(m.getId()));
+        m.setCredits(creditService.findByMovieId(m.getId()));
       }
     });
     return movie;
@@ -116,7 +105,7 @@ public class MovieService {
   @Transactional
   @LogDuration(value = "Deleted:", subject = "movie")
   public void delete(Long id) {
-    creditRepository.deleteAll(creditRepository.findByMovieId(id));
+    creditService.deleteAll(creditService.findByMovieId(id));
     repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));
     repository.deleteById(id);
@@ -138,50 +127,4 @@ public class MovieService {
         && Objects.equals(command.overview(), movie.getOverview());
   }
   
-  private boolean saveCredits(Movie movie, Map<Integer, Person> people, Credits credits) {
-    List<MovieCredit> creditsToInsert = new ArrayList<>();
-    List<MovieCredit> creditsToUpdate = new ArrayList<>();
-    var existingCredits = creditRepository.findByMovieId(movie.getId()).stream()
-        .collect(Collectors.toMap(c -> c.getPerson().getTmdbId() + "-" + c.getType(), Function.identity()));
-    
-    List<MovieCredit> allCredits = new ArrayList<>(); 
-    for (var credit : credits.cast()) {
-      var person = Optional.ofNullable(people.get(credit.tmdbId()))
-          .orElseThrow(() -> new ResourceNotFoundException("Person not found: " + credit.tmdbId())); 
-      allCredits.add(creditMapper.toMovieCredit(movie, person, credit));
-    }
-    
-    for (var credit : credits.crew()) {
-      var person = Optional.ofNullable(people.get(credit.tmdbId()))
-          .orElseThrow(() -> new ResourceNotFoundException("Person not found: " + credit.tmdbId())); 
-      allCredits.add(creditMapper.toMovieCredit(movie, person, credit));
-    }
-    
-    for (var credit : allCredits) {
-      var key = credit.getPerson().getTmdbId() + "-" + credit.getType();
-      var existingCredit = existingCredits.remove(key);
-      if (existingCredit == null) {
-        creditsToInsert.add(credit);
-      } else if (!existingCredit.isEqualTo(credit)) {
-        creditMapper.merge(credit, existingCredit);
-        creditsToUpdate.add(existingCredit);
-      }
-    }
-        
-    if (!existingCredits.isEmpty()) {
-      creditRepository.deleteAll(new ArrayList<>(existingCredits.values()));
-      LOGGER.infof("Deleted: %d movie credits.", existingCredits.size());
-    }
-    
-    if (!creditsToInsert.isEmpty()) {
-      var insertedCredits = creditRepository.insertAll(creditsToInsert);
-      LOGGER.infof("Inserted: %d movie credits", insertedCredits.size());
-    }
-    
-    if (!creditsToUpdate.isEmpty()) {
-      var updatedCredits = creditRepository.updateAll(creditsToUpdate);
-      LOGGER.infof("Updated: %d movie credits", updatedCredits.size());
-    } 
-    return !creditsToInsert.isEmpty() || !creditsToUpdate.isEmpty() || !existingCredits.isEmpty();
-  }
 }

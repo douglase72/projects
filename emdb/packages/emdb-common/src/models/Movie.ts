@@ -1,3 +1,4 @@
+import { CreditType } from "./CreditType.js";
 import { Gender } from "./Gender.js";
 import { ShowStatus } from "./ShowStatus.js";
 
@@ -10,6 +11,7 @@ export interface MovieCredit {
   character: string | null;
   job: string | null;
   order: number | null;
+  type: CreditType;
 }
 
 export interface Movie {
