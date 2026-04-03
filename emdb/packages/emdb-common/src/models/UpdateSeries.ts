@@ -1,6 +1,16 @@
 import { SeriesType } from "./SeriesType.js";
 import { ShowStatus } from "./ShowStatus.js";
 
+export interface UpdateRole {
+  role: string;
+  episodeCount: number;
+}
+
+export interface UpdateSeriesCredit {
+  totalEpisodes: number;
+  order: number;
+}
+
 export interface UpdateSeries {
   title: string;
   score: number | null;

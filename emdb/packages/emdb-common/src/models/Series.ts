@@ -14,6 +14,12 @@ export interface Job {
   episodeCount: number;
 }
 
+export interface SeriesCredit {
+  creditId: string;
+  totalEpisodes: number;
+  order: number | null;
+}
+
 export interface SeriesCastCredit {
   creditId: string;
   id: number;

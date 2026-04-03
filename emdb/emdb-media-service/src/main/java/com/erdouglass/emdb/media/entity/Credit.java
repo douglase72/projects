@@ -1,14 +1,9 @@
 package com.erdouglass.emdb.media.entity;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
@@ -17,30 +12,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
-
 import com.erdouglass.emdb.common.query.CreditType;
 
 @Entity
 @Table(name = "Credits")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Credit {
+public class Credit extends UuidEntity {
   private static final int CREDIT_TYPE_MAX_LENGTH = 4;
-  
-  @CreationTimestamp
-  @Column(nullable = false, updatable = false)
-  private Instant created;
-  
-  @Id
-  @GeneratedValue
-  @UuidGenerator(style = UuidGenerator.Style.TIME)
-  private UUID id;
-  
-  @UpdateTimestamp
-  @Column(nullable = false)
-  private Instant modified;
   
   @PositiveOrZero
   @Column(name = "credit_order")
@@ -60,18 +38,6 @@ public class Credit {
   
   public Credit() {
     
-  }
-  
-  public Instant getCreated() {
-    return created;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-  
-  public Instant getModified() {
-    return modified;
   }
   
   public void setOrder(Integer order) {

@@ -15,6 +15,8 @@ service SeriesService {
   rpc FindById (FindSeriesRequest) returns (SeriesResponse) {}
   rpc Update (UpdateSeriesRequest) returns (SeriesResponse) {}
   rpc Delete (DeleteSeriesRequest) returns (google.protobuf.Empty) {}
+  rpc UpdateCredit (UpdateSeriesCreditRequest) returns (UpdateSeriesCreditResponse) {}
+  rpc UpdateRole (UpdateRoleRequest) returns (UpdateRoleResponse) {}
 }
 
 enum SeriesType {
@@ -29,13 +31,15 @@ enum SeriesType {
 }
 
 message Role {
-  optional string character = 1;
-  int32 episode_count = 2;
+  string id = 1;
+  optional string character = 2;
+  int32 episode_count = 3;
 }
 
 message Job {
-  optional string title = 1;
-  int32 episode_count = 2;
+  string id = 1;
+  optional string title = 2;
+  int32 episode_count = 3;
 }
 
 message SeriesCastCredit {
@@ -97,6 +101,47 @@ message DeleteSeriesRequest {
   int64 id = 1;
 }
 
+message UpdateSeriesCreditRequest {
+  int64 series_id = 1;
+  string credit_id = 2;
+  int32 total_episodes = 3;
+  int32 order = 4;
+}
+
+message UpdateRoleRequest {
+  int64 series_id = 1;
+  string credit_id = 2;
+  string role_id = 3;
+  string role = 4;
+  int32 episode_count = 5;
+}
+
+message SeriesCastCreditResponse {
+  string credit_id = 1;
+  int64 id = 2;
+  string name = 3;
+  Gender gender = 4;
+  optional string profile = 5;
+  repeated Role roles = 6;
+  int32 total_episodes = 7;
+  int32 order = 8;
+}
+
+message SeriesCrewCreditResponse {
+  string credit_id = 1;
+  int64 id = 2;
+  string name = 3;
+  Gender gender = 4;
+  optional string profile = 5;
+  int32 total_episodes = 6;
+  repeated Job jobs = 7;
+}
+
+message SeriesCreditResponse {
+  repeated SeriesCastCreditResponse cast = 1;
+  repeated SeriesCrewCreditResponse crew = 2;
+}
+
 message SeriesResponse {
   int64 id = 1;
   int32 tmdb_id = 2;
@@ -112,9 +157,22 @@ message SeriesResponse {
   optional string original_language = 12;
   optional string tagline = 13;
   optional string overview = 14;
+  optional SeriesCreditResponse credits = 16;
 }
 
 message SaveSeriesResponse {
   SaveStatus status = 1;
   SeriesResponse series = 2;
+}
+
+message UpdateSeriesCreditResponse {
+  string credit_id = 1;
+  int32 total_episodes = 2;
+  int32 order = 3;
+}
+
+message UpdateRoleResponse {
+  string id = 1;
+  optional string role = 2;
+  int32 episode_count = 3;
 }

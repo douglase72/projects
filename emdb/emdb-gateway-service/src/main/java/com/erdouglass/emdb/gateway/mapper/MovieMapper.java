@@ -1,7 +1,5 @@
 package com.erdouglass.emdb.gateway.mapper;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Builder;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,9 +9,9 @@ import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.comand.UpdateMovie;
-import com.erdouglass.emdb.common.query.MovieCastCredit;
-import com.erdouglass.emdb.common.query.MovieCrewCredit;
 import com.erdouglass.emdb.common.query.MovieDto;
+import com.erdouglass.emdb.common.query.MovieDto.CastCredit;
+import com.erdouglass.emdb.common.query.MovieDto.CrewCredit;
 import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieCastCreditResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieCreditResponse;
@@ -39,19 +37,16 @@ public interface MovieMapper extends CommonMapper {
   @Mapping(target = "command", source = "command")
   UpdateMovieRequest toUpdateMovieRequest(Long id, UpdateMovie command);
   
-  @BeanMapping(builder = @Builder(disableBuilder = true))
   MovieDto.Credits toCredits(MovieCreditResponse credits);
 
   @Mapping(target = "profile", expression = "java(credit.hasProfile() ? credit.getProfile() + \".jpg\" : null)")
-  MovieCastCredit toMovieCastCredit(MovieCastCreditResponse credit);
+  CastCredit toMovieCastCredit(MovieCastCreditResponse credit);
 
   @Mapping(target = "profile", expression = "java(credit.hasProfile() ? credit.getProfile() + \".jpg\" : null)")
-  MovieCrewCredit toMovieCrewCredit(MovieCrewCreditResponse credit);
+  CrewCredit toMovieCrewCredit(MovieCrewCreditResponse credit);
 
   @Mapping(target = "backdrop", expression = "java(response.hasBackdrop() ? response.getBackdrop() + \".jpg\" : null)")
   @Mapping(target = "poster", expression = "java(response.hasPoster() ? response.getPoster() + \".jpg\" : null)")
-  @Mapping(target = "credits", source = "credits")
-  @BeanMapping(builder = @Builder(disableBuilder = true))  
   MovieDto toMovieDto(MovieResponse response);
   
 }

@@ -6,11 +6,15 @@ import {
   type Movie,
   type MovieCredit,
   type UpdateMovie,
+  type UpdateMovieCredit,
   type Person,
   type UpdatePerson,
   type Series,
+  type SeriesCredit,
+  type Role,
   type UpdateSeries, 
-  type UpdateMovieCredit} from '@emdb/common';
+  type UpdateSeriesCredit,
+  type UpdateRole} from '@emdb/common';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -84,11 +88,23 @@ export function useEmdbApi() {
     await client.delete<number>(`/series/${id}`);
   };
 
-  const updateMovieCredit = 
-  async (id: number, creditId: string, command: UpdateMovieCredit): Promise<MovieCredit | undefined> => {
+  const updateMovieCredit = async (id: number, creditId: string, command: UpdateMovieCredit): 
+  Promise<MovieCredit | undefined> => {
     const { data: credit } = await client.put<MovieCredit>(`/movies/${id}/credits/${creditId}`, command);
     return credit;
+  };
+
+  const updateSeriesCredit = async (id: number, creditId: string, command: UpdateSeriesCredit):
+  Promise<SeriesCredit | undefined> => {
+    const { data: credit } = await client.put<SeriesCredit>(`/series/${id}/credits/${creditId}`, command);
+    return credit;    
   }
+
+  const updateRole = async (id: number, creditId: string, roleId: string, command: UpdateRole): 
+  Promise<Role | undefined> => {
+    const { data: role } = await client.put<Role>(`/series/${id}/credits/${creditId}/roles/${roleId}`, command);
+    return role;
+  };
 
   return {
     deleteMovie,
@@ -102,6 +118,8 @@ export function useEmdbApi() {
     updateMovie,
     updateMovieCredit,
     updateSeries,
+    updateSeriesCredit,
+    updateRole,
   }
 
 }

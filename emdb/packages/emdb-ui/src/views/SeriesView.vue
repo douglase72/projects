@@ -35,9 +35,22 @@
       <div>{{ series.overview }}</div>
     </section>
 
-    <Button label="Edit" 
-            v-if="series && isAdmin" 
-            @click="router.push({ name: 'SeriesEdit', params: { id: series.id } })" />
+    <section class="mt-8">
+      <Carousel :value="cast" 
+                :numVisible="6" 
+                :numScroll="4"
+                :showIndicators="false">
+        <template #item="slotProps">
+          <ActorCard :actor="slotProps.data" />
+        </template>
+      </Carousel>      
+    </section>    
+
+    <section class="mt-8">
+      <Button label="Edit" 
+              v-if="series && isAdmin" 
+              @click="router.push({ name: 'SeriesEdit', params: { id: series.id } })" />
+    </section>
   </main>
 </template>
 
@@ -50,7 +63,8 @@
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Series } from "@emdb/common";
+  import type { Actor } from '@/models/Actor';
+  import type { Series, SeriesCastCredit } from "@emdb/common";
 
   const { findImage, findSeries } = useEmdbApi();
   const { formatLanguage } = useLanguage();
@@ -59,6 +73,7 @@
   const router = useRouter();
 
   const series = ref<Series>();
+  const cast = ref<Actor[]>();
 
   const isAdmin = computed(() => {
     return keycloak.authenticated && keycloak.hasRealmRole('admin');
@@ -73,6 +88,14 @@
 
     try {
       series.value = await findSeries(id);
+      cast.value = series.value?.credits.cast.slice(0, 18)
+        .map((credit: SeriesCastCredit) => ({
+          id: credit.id,
+          name: credit.name,
+          profile: credit.profile,
+          character: credit.roles[0]?.character ?? null,
+          numberOfEpisodes: credit.totalEpisodes,
+        }));
     } catch (e) {
       handleError(e, 'Failed to load series');
       router.push('/'); 

@@ -1,7 +1,10 @@
 package com.erdouglass.emdb.media.controller;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.media.mapper.SeriesCreditMapper;
 import com.erdouglass.emdb.media.mapper.SeriesMapper;
 import com.erdouglass.emdb.media.proto.v1.DeleteSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.FindSeriesRequest;
@@ -9,7 +12,12 @@ import com.erdouglass.emdb.media.proto.v1.SaveSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveSeriesResponse;
 import com.erdouglass.emdb.media.proto.v1.SeriesResponse;
 import com.erdouglass.emdb.media.proto.v1.SeriesServiceGrpc;
+import com.erdouglass.emdb.media.proto.v1.UpdateRoleRequest;
+import com.erdouglass.emdb.media.proto.v1.UpdateRoleResponse;
+import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCreditRequest;
+import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCreditResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdateSeriesRequest;
+import com.erdouglass.emdb.media.service.SeriesCreditService;
 import com.erdouglass.emdb.media.service.SeriesService;
 import com.google.protobuf.Empty;
 
@@ -20,6 +28,12 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 
 @GrpcService
 public class SeriesResource extends SeriesServiceGrpc.SeriesServiceImplBase {
+  
+  @Inject
+  SeriesCreditService creditService;
+  
+  @Inject
+  SeriesCreditMapper creditMapper;
   
   @Inject
   SeriesMapper mapper;
@@ -67,6 +81,35 @@ public class SeriesResource extends SeriesServiceGrpc.SeriesServiceImplBase {
   public void delete(DeleteSeriesRequest request, StreamObserver<Empty> responseObserver) {
     service.delete(request.getId()); 
     responseObserver.onNext(Empty.getDefaultInstance());
+    responseObserver.onCompleted();
+  }
+  
+  @Override
+  @RunOnVirtualThread
+  public void updateCredit(
+      UpdateSeriesCreditRequest request, 
+      StreamObserver<UpdateSeriesCreditResponse> responseObserver) {
+    var credit = creditService.update(
+        request.getSeriesId(), 
+        UUID.fromString(request.getCreditId()),
+        creditMapper.toUpdateSeriesCredit(request));
+    var response = creditMapper.toUpdateSeriesCreditResponse(credit);
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();
+  }
+  
+  @Override
+  @RunOnVirtualThread
+  public void updateRole(
+      UpdateRoleRequest request, 
+      StreamObserver<UpdateRoleResponse> responseObserver) {
+    var role = creditService.updateRole(
+        request.getSeriesId(), 
+        UUID.fromString(request.getCreditId()), 
+        UUID.fromString(request.getRoleId()),
+        creditMapper.toUpdateRole(request));
+    var response = creditMapper.toUpdateRoleResponse(role);
+    responseObserver.onNext(response);
     responseObserver.onCompleted();
   }
   

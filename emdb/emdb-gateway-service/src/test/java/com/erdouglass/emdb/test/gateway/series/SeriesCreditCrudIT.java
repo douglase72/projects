@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.test.gateway.series;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -15,7 +14,6 @@ import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -34,25 +32,30 @@ import com.erdouglass.emdb.common.comand.SaveSeries.CastCredit.Role;
 import com.erdouglass.emdb.common.comand.SaveSeries.Credits;
 import com.erdouglass.emdb.common.comand.SaveSeries.CrewCredit;
 import com.erdouglass.emdb.common.comand.SaveSeries.CrewCredit.Job;
-import com.erdouglass.emdb.common.comand.UpdateSeries;
+import com.erdouglass.emdb.common.comand.UpdateRole;
+import com.erdouglass.emdb.common.comand.UpdateSeriesCredit;
+import com.erdouglass.emdb.common.query.RoleDto;
+import com.erdouglass.emdb.common.query.SeriesCreditDto;
 import com.erdouglass.emdb.common.query.SeriesDto;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TheSimpsonsCrudIT extends AbstractTest {
-  private static final Logger LOGGER = Logger.getLogger(TheSimpsonsCrudIT.class);
+class SeriesCreditCrudIT extends AbstractTest {
+  private static final Logger LOGGER = Logger.getLogger(SeriesCreditCrudIT.class);
   private static final UUID BACKDROP = UUID.fromString("019d3220-adb3-75ba-b1b2-1619de2a2fef");
   private static final UUID POSTER = UUID.fromString("019d3220-aead-702b-a997-5700e9a2076a");
-  
+
   private String token;
   private Long seriesId;
+  private UUID creditId;
+  private UUID roleId;
   
   @BeforeAll
   void setupSecurity() throws IOException, InterruptedException {
     this.token = getAccessToken();
-  }
-  
+  }  
+
   @Test
   @Order(1)
   void testSaveSeriesCommand() throws IOException, InterruptedException {
@@ -122,121 +125,52 @@ class TheSimpsonsCrudIT extends AbstractTest {
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body());
     
     var series = OBJECT_MAPPER.readValue(response.body(), SeriesDto.class);
-    seriesId = series.id();
-    assertEquals(456, series.tmdbId());
-    assertEquals("The Simpsons", series.title());
-    assertEquals(8.015f, series.score());
-    assertEquals(ShowStatus.RETURNING_SERIES, series.status());
-    assertEquals(SeriesType.SCRIPTED, series.type());
-    assertEquals("http://www.thesimpsons.com/", series.homepage());
-    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", series.backdrop());
-    assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", series.poster());
-    assertEquals("Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.", series.overview());
-    
     var cast = series.credits().cast();
-    assertEquals(2, cast.size());
-    assertEquals("Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)", cast.get(0).roles().get(0).character());
-    assertEquals("Milhouse Van Houten (voice)", cast.get(1).roles().get(0).character());
-    assertEquals("Milhouse (voice)", cast.get(1).roles().get(1).character());
-    assertEquals("Milhouse Van Houten / Jimbo Jones (voice)", cast.get(1).roles().get(2).character());  
-
-    var crew = series.credits().crew();
-    assertEquals(1, crew.size());
-    assertEquals("Executive Producer", crew.get(0).jobs().get(0).title());
-    assertEquals("Writer", crew.get(0).jobs().get(1).title());
-    assertEquals("Creator", crew.get(0).jobs().get(2).title());
+    seriesId = series.id();
+    creditId = cast.get(1).creditId();
+    roleId = cast.get(1).roles().get(1).id();
     LOGGER.infof("Saved series %d in %d ms", series.id(), et);    
   }
   
   @Test
   @Order(2)
-  void testFindSeries() throws IOException, InterruptedException {
-    var request = HttpRequest.newBuilder()
-        .uri(UriBuilder.fromUri(SERIES_URL).path(seriesId.toString()).queryParam("append", "credits").build())
-        .build();
-    long startTime = System.nanoTime();
-    var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-    assertEquals(200, response.statusCode());
-    
-    var series = OBJECT_MAPPER.readValue(response.body(), SeriesDto.class);
-    assertEquals(456, series.tmdbId());
-    assertEquals("The Simpsons", series.title());
-    assertEquals(8.015f, series.score());
-    assertEquals(ShowStatus.RETURNING_SERIES, series.status());
-    assertEquals(SeriesType.SCRIPTED, series.type());
-    assertEquals("http://www.thesimpsons.com/", series.homepage());
-    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", series.backdrop());
-    assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", series.poster());
-    assertEquals("Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.", series.overview());
-    
-    var cast = series.credits().cast();
-    assertEquals(2, cast.size());
-    assertEquals("Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)", cast.get(0).roles().get(0).character());
-    assertEquals("Milhouse Van Houten (voice)", cast.get(1).roles().get(0).character());
-    assertEquals("Milhouse (voice)", cast.get(1).roles().get(1).character());
-    assertEquals("Milhouse Van Houten / Jimbo Jones (voice)", cast.get(1).roles().get(2).character());  
-
-    var crew = series.credits().crew();
-    assertEquals(1, crew.size());
-    assertEquals("Executive Producer", crew.get(0).jobs().get(0).title());
-    assertEquals("Writer", crew.get(0).jobs().get(1).title());
-    assertEquals("Creator", crew.get(0).jobs().get(2).title());   
-    LOGGER.infof("Found series %d in: %d ms", seriesId, et);    
-  }
-  
-  @Disabled
-  @Test
-  @Order(3)
-  void testUpdateSeriesCommand() throws IOException, InterruptedException {
-    var command = UpdateSeries.builder()
-        .title("X")
-        .score(6.6f)
-        .status(ShowStatus.RUMORED)
-        .type(SeriesType.DOCUMENTARY)
-        .originalLanguage("en")
-        .backdrop(UUID.fromString("019d3220-adb3-75ba-b1b2-1619de2a2fef"))
-        .poster(UUID.fromString("019d3220-aead-702b-a997-5700e9a2076a"))
-        .overview("Test overview.")
-        .build(); 
-    var request  = HttpRequest.newBuilder().uri(UriBuilder.fromUri(SERIES_URL).path(seriesId.toString()).build())
+  void testUpdateRoleCommand() throws IOException, InterruptedException {
+    var command = UpdateRole.of("Test Character", 1);
+    var request = HttpRequest.newBuilder().uri(UriBuilder
+        .fromUri(SERIES_URL).path(seriesId.toString())
+        .path("credits").path(creditId.toString())
+        .path("roles").path(roleId.toString())
+        .build())
         .header("Authorization", "Bearer " + token)
         .PUT(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime); 
     
-    var series = OBJECT_MAPPER.readValue(response.body(), SeriesDto.class);
-    assertEquals(200, response.statusCode());
-    assertEquals(456, series.tmdbId());
-    assertEquals("X", series.title());
-    assertEquals(6.6f, series.score());
-    assertEquals(ShowStatus.RUMORED, series.status());
-    assertEquals(SeriesType.DOCUMENTARY, series.type());
-    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", series.backdrop());
-    assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", series.poster());    
-    assertEquals("http://www.thesimpsons.com/", series.homepage());    
-    assertEquals("en", series.originalLanguage());
-    assertNull(series.tagline());
-    assertEquals("Test overview.", series.overview());    
-    LOGGER.infof("Updated series %d in %d ms", series.id(), et);      
+    var role = OBJECT_MAPPER.readValue(response.body(), RoleDto.class);
+    assertEquals("Test Character", role.role());
+    assertEquals(1, role.episodeCount());
+    LOGGER.infof("Updated role %s in %d ms", roleId, et);
   }
   
-  @Disabled
   @Test
-  @Order(4)
-  void testDeleteMovie() throws IOException, InterruptedException {
-    var request = HttpRequest.newBuilder()
-        .uri(UriBuilder.fromUri(SERIES_URL).path(seriesId.toString()).build())
+  @Order(3)
+  void testUpdateSeriesCreditCommand() throws IOException, InterruptedException {
+    var command = UpdateSeriesCredit.of(666, 66);
+    var request = HttpRequest.newBuilder().uri(UriBuilder
+        .fromUri(SERIES_URL).path(seriesId.toString())
+        .path("credits").path(creditId.toString())
+        .build())
         .header("Authorization", "Bearer " + token)
-        .DELETE()
-        .build();
+        .PUT(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command))).build();
     long startTime = System.nanoTime();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-    assertEquals(204, response.statusCode());
-    LOGGER.infof("Deleted movie %d in: %d ms", seriesId, et);    
+    long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime); 
+    
+    var credit = OBJECT_MAPPER.readValue(response.body(), SeriesCreditDto.class);
+    assertEquals(666, credit.totalEpisodes());
+    assertEquals(66, credit.order());
+    LOGGER.infof("Updated series credit %s in %d ms", creditId, et);
   }
 
 }

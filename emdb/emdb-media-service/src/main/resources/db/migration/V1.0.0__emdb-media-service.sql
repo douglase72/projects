@@ -6,15 +6,18 @@
     create sequence emdb_media.series_sequence start with 1 increment by 1;
 
     create table emdb_media.Credits (
-        DTYPE varchar(31) not null check ((DTYPE in ('Credit','MovieCredit'))),
+        DTYPE varchar(31) not null check ((DTYPE in ('Credit','MovieCredit','SeriesCredit'))),
         id uuid not null,
         created timestamp(6) with time zone not null,
         modified timestamp(6) with time zone not null,
+        uid uuid not null unique,
         credit_order integer,
         credit_type varchar(4) not null check ((credit_type in ('CAST','CREW'))),
         role varchar(100),
+        total_episodes integer,
         person_id bigint not null,
         movie_id bigint,
+        series_id bigint,
         primary key (id)
     );
 
@@ -28,7 +31,7 @@
         original_language varchar(2),
         overview varchar(1024),
         poster uuid unique,
-        score float4 check ((score>=0) and (score<=10)),
+        score float4 check ((score<=10) and (score>=0)),
         status varchar(16) check ((status in ('CANCELED','ENDED','IN_PRODUCTION','PILOT','PLANNED','POST_PRODUCTION','RELEASED','RETURNING_SERIES','RUMORED'))),
         tagline varchar(150),
         title varchar(140) not null,
@@ -59,6 +62,17 @@
         primary key (id)
     );
 
+    create table emdb_media.Roles (
+        id uuid not null,
+        created timestamp(6) with time zone not null,
+        modified timestamp(6) with time zone not null,
+        uid uuid not null unique,
+        episode_count integer not null,
+        role varchar(100),
+        seriesCredit_id uuid not null,
+        primary key (id)
+    );
+
     create table emdb_media.Series (
         id bigint not null,
         created timestamp(6) with time zone not null,
@@ -69,7 +83,7 @@
         original_language varchar(2),
         overview varchar(1024),
         poster uuid unique,
-        score float4 check ((score>=0) and (score<=10)),
+        score float4 check ((score<=10) and (score>=0)),
         status varchar(16) check ((status in ('CANCELED','ENDED','IN_PRODUCTION','PILOT','PLANNED','POST_PRODUCTION','RELEASED','RETURNING_SERIES','RUMORED'))),
         tagline varchar(150),
         title varchar(140) not null,
@@ -90,3 +104,13 @@
        add constraint FKsalqaewfk7tbamki5csq55yam 
        foreign key (movie_id) 
        references emdb_media.Movies;
+
+    alter table if exists emdb_media.Credits 
+       add constraint FKq379b62lvkufu5iwadc4lr38e 
+       foreign key (series_id) 
+       references emdb_media.Series;
+
+    alter table if exists emdb_media.Roles 
+       add constraint FK4mmioy1r9g05wf886lg3roku1 
+       foreign key (seriesCredit_id) 
+       references emdb_media.Credits;

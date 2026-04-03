@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,10 +15,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
-import com.erdouglass.emdb.common.comand.SaveSeries.Credits;
 import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
+import com.erdouglass.emdb.media.entity.Movie_;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.entity.Series;
 import com.erdouglass.emdb.media.logging.LogDuration;
@@ -27,6 +28,9 @@ import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class SeriesService {
+  
+  @Inject
+  SeriesCreditService creditService;
   
   @Inject
   SeriesMapper mapper;
@@ -54,7 +58,11 @@ public class SeriesService {
         : personService.saveAll(command.people()).stream()
         .map(SaveResult::entity)
         .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
-    saveCredits(existingSeries, savedPeople, command.credits());
+    boolean creditsChanged = creditService.saveAll(existingSeries, savedPeople, command.credits());
+    if (status == SaveStatus.UNCHANGED && creditsChanged) {
+      status = SaveStatus.UPDATED;
+    }
+    existingSeries.setCredits(creditService.findBySeriesId(existingSeries.getId()));
     return SaveResult.of(status, existingSeries);
   }
   
@@ -62,6 +70,12 @@ public class SeriesService {
   @LogDuration("Found:")
   public Optional<Series> findById(@NotNull @Positive Long id, String append) {
     var series = repository.findById(id);
+    series.ifPresent(m -> {
+      m.setCredits(List.of());
+      if (append != null && append.contains(Movie_.CREDITS)) {
+        m.setCredits(creditService.findBySeriesId(m.getId()));
+      }
+    });
     return series;
   }
   
@@ -69,6 +83,12 @@ public class SeriesService {
   @LogDuration("Found:")
   public Optional<Series> findByTmdbId(@NotNull @Positive Integer id, String append) {
     var series = repository.findByTmdbId(id);
+    series.ifPresent(m -> {
+      m.setCredits(List.of());
+      if (append != null && append.contains(Movie_.CREDITS)) {
+        m.setCredits(creditService.findBySeriesId(m.getId()));
+      }
+    });
     return series;
   }
   
@@ -96,15 +116,11 @@ public class SeriesService {
         && Objects.equals(command.score(), series.getScore())
         && Objects.equals(command.status(), series.getStatus())
         && Objects.equals(command.type(), series.getType())
-        && Objects.equals(command.backdrop(), series.getBackdrop())
-        && Objects.equals(command.poster(), series.getPoster())
+        && Objects.equals(command.backdrop().name(), series.getBackdrop())
+        && Objects.equals(command.poster().name(), series.getPoster())
         && Objects.equals(command.homepage(), series.getHomepage())
         && Objects.equals(command.originalLanguage(), series.getOriginalLanguage())
         && Objects.equals(command.overview(), series.getOverview());
-  }
-  
-  private void saveCredits(Series series, Map<Integer, Person> people, Credits credits) {
-    
   }
 
 }
