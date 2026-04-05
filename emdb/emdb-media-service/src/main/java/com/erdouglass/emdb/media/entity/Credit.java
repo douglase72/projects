@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
@@ -27,7 +28,7 @@ public class Credit extends UuidEntity {
   /// The @JoinColumn annotation maps the {@link Person#id} primary key to the
   /// foreign key in the Credits table. A {@code Credit} can't exist without a 
   /// {@link Movie} or {@link Series}.
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "person_id", updatable = false, nullable = false)
   private Person person; 
   

@@ -116,8 +116,8 @@ public class SeriesService {
         && Objects.equals(command.score(), series.getScore())
         && Objects.equals(command.status(), series.getStatus())
         && Objects.equals(command.type(), series.getType())
-        && Objects.equals(command.backdrop().name(), series.getBackdrop())
-        && Objects.equals(command.poster().name(), series.getPoster())
+        && Objects.equals(command.backdrop() != null ? command.backdrop().name() : null, series.getBackdrop())
+        && Objects.equals(command.poster() != null ? command.poster().name() : null, series.getPoster())
         && Objects.equals(command.homepage(), series.getHomepage())
         && Objects.equals(command.originalLanguage(), series.getOriginalLanguage())
         && Objects.equals(command.overview(), series.getOverview());

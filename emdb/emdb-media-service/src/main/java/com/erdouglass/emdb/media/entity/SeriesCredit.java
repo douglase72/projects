@@ -6,10 +6,10 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
@@ -20,13 +20,12 @@ public class SeriesCredit extends Credit {
   /// specified by the mappedBy field which maps the {@link SeriesCredit#id} primary 
   /// key to the foreign key in the {@code Roles} table.
   @OneToMany(mappedBy = _Role.SERIES_CREDIT)
-  @OrderBy("episodeCount DESC, role ASC")
   private List<Role> roles = new ArrayList<>();  
   
   /// The @JoinColumn annotation maps the {@link Series#id} primary key to the 
   /// foreign key in the Credits table. A {@code SeriesCredit} can't exist 
   /// without a {@link Series}.
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "series_id", updatable = false)
   private Series series;
   

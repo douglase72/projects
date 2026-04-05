@@ -120,8 +120,8 @@ public class MovieService {
         && Objects.equals(command.status(), movie.getStatus())
         && Objects.equals(command.runtime(), movie.getRuntime())
         && Objects.equals(command.budget(), movie.getBudget())
-        && Objects.equals(command.backdrop().name(), movie.getBackdrop())
-        && Objects.equals(command.poster().name(), movie.getPoster())
+        && Objects.equals(command.backdrop() != null ? command.backdrop().name() : null, movie.getBackdrop())
+        && Objects.equals(command.poster() != null ? command.poster().name() : null, movie.getPoster())
         && Objects.equals(command.homepage(), movie.getHomepage())
         && Objects.equals(command.originalLanguage(), movie.getOriginalLanguage())
         && Objects.equals(command.overview(), movie.getOverview());

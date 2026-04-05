@@ -77,7 +77,7 @@ public class Role extends UuidEntity {
   @Override
   public String toString() {
     return "Role[id=" + getId()
-      + ", role=" +getRole()
+      + ", role=" + getRole()
       + ", episodeCount=" + getEpisodeCount()
       + "]";
   }

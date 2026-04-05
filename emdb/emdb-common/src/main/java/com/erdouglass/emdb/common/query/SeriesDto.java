@@ -39,9 +39,7 @@ public record SeriesDto(
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
     @Valid Credits credits) {
   
-  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {
-    
-  }
+  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
   
   public record CastCredit(
       @NotNull UUID creditId, 
@@ -51,13 +49,7 @@ public record SeriesDto(
       @ValidImage String profile, 
       List<@Valid Role> roles,
       @NotNull @PositiveOrZero Integer totalEpisodes,
-      @PositiveOrZero Integer order) {
-    
-    public record Role(
-        @NotNull UUID id,
-        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
-        @NotNull @PositiveOrZero Integer episodeCount) { }
-  }
+      @PositiveOrZero Integer order) {}
   
   public record CrewCredit(
       @NotNull UUID creditId, 
@@ -66,13 +58,6 @@ public record SeriesDto(
       @NotNull Gender gender,
       @ValidImage String profile, 
       List<@Valid Job> jobs,
-      @NotNull @PositiveOrZero Integer totalEpisodes) {
-    
-    public record Job(
-        @NotNull UUID id,
-        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String title,
-        @NotNull @PositiveOrZero Integer episodeCount) { }
-
-  }
+      @NotNull @PositiveOrZero Integer totalEpisodes) {}
   
 }

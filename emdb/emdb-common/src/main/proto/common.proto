@@ -17,6 +17,13 @@ enum CreditType {
   CREW = 2;
 }
 
+enum MediaType {
+  MEDIA_TYPE_UNSPECIFIED = 0;
+  MOVIE = 1;
+  PERSON = 2;
+  SERIES = 3;
+}
+
 enum SaveStatus {
   SAVE_STATUS_UNSPECIFIED = 0;
   CREATED = 1;
@@ -41,4 +48,16 @@ message SaveResult {
   SaveStatus status = 1;
   int64 id = 2;
   int32 tmdb_id = 3;
+}
+
+message Role {
+  string id = 1;
+  optional string character = 2;
+  int32 episode_count = 3;
+}
+
+message Job {
+  string id = 1;
+  optional string title = 2;
+  int32 episode_count = 3;
 }

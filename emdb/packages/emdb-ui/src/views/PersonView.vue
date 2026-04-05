@@ -23,9 +23,22 @@
       <div>{{ person.biography }}</div>
     </section>
 
-    <Button label="Edit" 
-            v-if="person && isAdmin" 
-            @click="router.push({ name: 'PersonEdit', params: { id: person.id } })" />
+    <section class="mt-8">
+      <Carousel :value="shows" 
+                :numVisible="6" 
+                :numScroll="4"
+                :showIndicators="false">
+        <template #item="slotProps">
+          <ShowCard :show="slotProps.data" />
+        </template>
+      </Carousel>
+    </section>    
+
+    <section class="mt-8">
+      <Button label="Edit" 
+              v-if="person && isAdmin" 
+              @click="router.push({ name: 'PersonEdit', params: { id: person.id } })" />
+    </section>
   </main>
 </template>
 
@@ -37,7 +50,9 @@
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { ImageSize } from '@/models/ImageSize';
-  import type { Person } from '@emdb/common';
+  import { MediaType } from '@emdb/common';
+  import type { Person, PersonCredit } from '@emdb/common';
+  import type { Show } from '@/models/Show';
 
   const { findImage, findPerson } = useEmdbApi();
   const { handleError } = useErrorHandler();
@@ -45,6 +60,8 @@
   const router = useRouter();
 
   const person = ref<Person>();
+  const shows = ref<Show[]>();
+
   const isAdmin = computed(() => {
     return keycloak.authenticated && keycloak.hasRealmRole('admin');
   });
@@ -58,6 +75,15 @@
 
     try {
       person.value = await findPerson(id);
+      shows.value = person.value?.credits.cast.slice(0, 18)
+        .map((credit: PersonCredit): Show => ({
+          id: credit.id,
+          title: credit.title,
+          poster: credit.poster,
+          date: credit.type === MediaType.MOVIE ? credit.releaseDate : credit.firstAirDate,
+          score: credit.score,
+          type: credit.type,
+      }));
     } catch (e) {
       handleError(e, 'Failed to load person');
       router.push('/'); 

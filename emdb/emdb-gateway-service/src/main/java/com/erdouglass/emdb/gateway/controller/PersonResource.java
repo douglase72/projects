@@ -80,7 +80,8 @@ public class PersonResource {
   public PersonDto findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {
-    var response = service.findById(mapper.toFindPersonRequest(id, append));
+    var request = mapper.toFindPersonRequest(id, append);
+    var response = service.findById(request);
     return mapper.toPersonDto(response);
   }
   

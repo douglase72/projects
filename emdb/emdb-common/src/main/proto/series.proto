@@ -30,18 +30,6 @@ enum SeriesType {
   VIDEO = 7;
 }
 
-message Role {
-  string id = 1;
-  optional string character = 2;
-  int32 episode_count = 3;
-}
-
-message Job {
-  string id = 1;
-  optional string title = 2;
-  int32 episode_count = 3;
-}
-
 message SeriesCastCredit {
   int32 tmdb_id = 1;
   repeated Role roles = 2;

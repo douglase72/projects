@@ -1,5 +1,16 @@
 TMDB API
 
+NCIS = 4614
+The Simpsons = 456
+Shrinking = 136311
+1923 = 157744
+
+Blade Runner = 78
+Blade Runner 2049 = 335984
+Star Wars = 11
+The Empire Strikes Back = 1891
+
+
 API Key:
 df4e8c63aee8965f8a0908ac1cb64a10
 
@@ -151,7 +162,7 @@ Movie
   - videos
   - watch/providers
 
-http://api.themoviedb.org/3/movie/818?append_to_response=credits&api_key=df4e8c63aee8965f8a0908ac1cb64a10
+http://api.themoviedb.org/3/movie/11?append_to_response=credits&api_key=df4e8c63aee8965f8a0908ac1cb64a10
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------

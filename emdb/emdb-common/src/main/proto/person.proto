@@ -64,6 +64,54 @@ message DeletePersonRequest {
   int64 id = 1;
 }
 
+message CreditResponse {
+  string id = 1;
+  int32 order = 2;
+  CreditType type = 3;
+  oneof credit_details {
+    MovieCreditDetails movie_credit = 4;
+    SeriesCreditDetails series_credit = 5;
+  }
+}
+
+message MovieCreditDetails {
+  string credit_id = 1;
+  int64 id = 2;
+  string title = 3;
+  optional string release_date = 4;
+  optional float score = 5;
+  optional string backdrop = 6;
+  optional string poster = 7;
+  optional string overview = 8;
+  oneof role_details {
+    string character = 9;
+    string job = 10;
+  }
+}
+
+message SeriesCreditDetails {
+  string credit_id = 1;
+  int64 id = 2;
+  string title = 3;
+  optional string first_air_date = 4;
+  optional float score = 5;
+  optional string backdrop = 6;
+  optional string poster = 7;
+  optional string overview = 8;
+  oneof role_details {
+    CastRoles cast_roles = 9;
+    CrewJobs crew_jobs = 10;
+  }
+}
+
+message CastRoles {
+  repeated Role roles = 1;
+}
+
+message CrewJobs {
+  repeated Job jobs = 1;
+}
+
 message PersonResponse {
   int64 id = 1;
   int32 tmdb_id = 2;
@@ -74,6 +122,7 @@ message PersonResponse {
   optional string profile = 7;
   optional string Birth_place = 8;
   optional string biography = 9;
+  repeated CreditResponse credits = 10;
 }
 
 message SavePersonResponse {

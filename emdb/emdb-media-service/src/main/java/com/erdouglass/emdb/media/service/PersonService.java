@@ -19,14 +19,26 @@ import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
+import com.erdouglass.emdb.media.entity.Credit;
+import com.erdouglass.emdb.media.entity.MovieCredit;
 import com.erdouglass.emdb.media.entity.Person;
+import com.erdouglass.emdb.media.entity.SeriesCredit;
 import com.erdouglass.emdb.media.logging.LogDuration;
 import com.erdouglass.emdb.media.mapper.PersonMapper;
+import com.erdouglass.emdb.media.repository.MovieCreditRepository;
 import com.erdouglass.emdb.media.repository.PersonRepository;
+import com.erdouglass.emdb.media.repository.SeriesCreditRepository;
 import com.erdouglass.webservices.ResourceNotFoundException;
 
 @ApplicationScoped
 public class PersonService {
+  private static final String CREDITS = "credits";
+  
+  @Inject
+  MovieCreditRepository movieCreditRepository;
+  
+  @Inject
+  SeriesCreditRepository seriesCreditRepository;
   
   @Inject
   PersonMapper mapper;
@@ -88,6 +100,22 @@ public class PersonService {
   @LogDuration("Found:")
   public Optional<Person> findById(@NotNull @Positive Long id, String append) {
     var person = repository.findById(id);
+    person.ifPresent(p -> {
+      p.setCredits(List.of());
+      if (append != null && append.contains(CREDITS)) { 
+        List<Credit> allCredits = new ArrayList<>();
+        allCredits.addAll(movieCreditRepository.findByPersonId(id));
+        allCredits.addAll(seriesCreditRepository.findByPersonId(id));
+        allCredits.sort((c1, c2) -> {
+          Float s1 = (c1 instanceof MovieCredit mc) ? mc.getMovie().getScore() : ((SeriesCredit) c1).getSeries().getScore();
+          Float s2 = (c2 instanceof MovieCredit mc) ? mc.getMovie().getScore() : ((SeriesCredit) c2).getSeries().getScore();          
+          if (s1 == null) return 1;
+          if (s2 == null) return -1;
+          return s2.compareTo(s1); 
+        });    
+        p.setCredits(allCredits);
+      }
+    });
     return person;
   }
   
@@ -121,7 +149,7 @@ public class PersonService {
         && Objects.equals(command.birthDate(), person.getBirthDate())
         && Objects.equals(command.deathDate(), person.getDeathDate())
         && Objects.equals(command.gender(), person.getGender())
-        && Objects.equals(command.profile(), person.getProfile())
+        && Objects.equals(command.profile() != null ? command.profile().name() : null, person.getProfile())
         && Objects.equals(command.birthPlace(), person.getBirthPlace())
         && Objects.equals(command.biography(), person.getBiography());
   }

@@ -1,12 +1,15 @@
 package com.erdouglass.emdb.media.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -42,6 +45,12 @@ public class Person extends SequenceEntity {
   @Column(name = "birth_place")
   @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH)
   private String birthPlace;
+  
+  /// The credits collection in a person is a bidirectional association 
+  /// specified by the mappedBy field which maps the {@link Person#id} primary
+  /// key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _Credit.PERSON)
+  private List<Credit> credits = new ArrayList<>(); 
   
   @Past
   @Column(name = "death_date")
@@ -93,6 +102,14 @@ public class Person extends SequenceEntity {
   
   public String getBirthPlace() {
     return birthPlace;
+  }
+  
+  public void setCredits(List<Credit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<Credit> getCredits() {
+    return List.copyOf(credits);
   }
   
   public void setDeathDate(LocalDate deathDate) {
