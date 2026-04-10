@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+html {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+}

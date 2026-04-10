@@ -1,0 +1,50 @@
+// Common types shared across all media service definitions.
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.media.proto.v1";
+option java_outer_classname = "CommonProto";
+
+package emdb.media.v1;
+
+enum MediaType {
+  MEDIA_TYPE_UNSPECIFIED = 0;
+  MOVIE = 1;
+  PERSON = 2;
+  SERIES = 3;
+}
+
+enum SaveStatus {
+  SAVE_STATUS_UNSPECIFIED = 0;
+  CREATED = 1;
+  UPDATED = 2;
+  UNCHANGED = 3;
+}
+
+enum ShowStatus {
+  SHOW_STATUS_UNSPECIFIED = 0;
+  CANCELED = 1;
+  ENDED = 2;
+  IN_PRODUCTION = 3;
+  PILOT = 4;
+  PLANNED = 5;
+  POST_PRODUCTION = 6;
+  RELEASED = 7;
+  RETURNING_SERIES = 8;
+  RUMORED = 9;
+}
+
+// An image reference consisting of an internal identifier and an
+// external TMDB path. The internal name is a UUID assigned on save;
+// the tmdb_name is the original path from The Movie Database API
+// (e.g. "/zp5gxcPnxv6FsDh3l7yRZurlBRr.jpg").
+message Image {
+  string name = 1;
+  string tmdb_name = 2;
+}
+
+message SaveResult {
+  SaveStatus status = 1;
+  int64 id = 2;
+  int32 tmdb_id = 3;
+}

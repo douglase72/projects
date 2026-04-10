@@ -1,0 +1,116 @@
+// Movie service definitions for the EMDB media service.
+//
+// All write operations (Save) require authentication. Read operations
+// (FindById, FindAll) are public. The gateway proxies REST requests
+// to this service via gRPC.
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.media.proto.v1";
+option java_outer_classname = "MovieProto";
+
+package emdb.media.v1;
+
+service MovieService {
+  rpc Save (SaveMovieRequest) returns (SaveMovieResponse) {}
+  rpc FindAll (FindAllMovieRequest) returns (PageResponse) {}
+  rpc FindById (FindMovieRequest) returns (MovieResponse) {}
+  rpc Update (UpdateMovieRequest) returns (MovieResponse) {}
+  rpc Delete (DeleteMovieRequest) returns (google.protobuf.Empty) {}
+}
+
+message SaveMovieRequest {
+  int32 tmdb_id = 1;
+  string title = 2;
+  optional string release_date = 3;
+  optional float score = 4;
+  optional ShowStatus status = 5;
+  optional int32 runtime = 6;
+  optional int32 budget = 7;
+  optional int32 revenue = 8;
+  optional Image backdrop = 9;
+  optional Image poster = 10;
+  optional string homepage = 11;
+  optional string original_language = 12;
+  optional string tagline = 13;
+  optional string overview = 14;
+}
+
+message FindAllMovieRequest {
+  int32 page = 1;
+  int32 size = 2;
+  optional string sort = 3;
+}
+
+message FindMovieRequest {
+  int64 id = 1;
+  optional string append = 2;
+}
+
+message UpdateMovieRequest {
+  int64 id = 1;
+  UpdateMovieCommand command = 2;
+}
+
+message UpdateMovieCommand {
+  string title = 1;
+  optional string release_date = 2;
+  optional float score = 3;
+  optional ShowStatus status = 4;
+  optional int32 runtime = 5;
+  optional int32 budget = 6;
+  optional int32 revenue = 7;
+  optional string backdrop = 8;
+  optional string poster = 9;
+  optional string homepage = 10;
+  optional string original_language = 11;
+  optional string tagline = 12;
+  optional string overview = 13;
+}
+
+message DeleteMovieRequest {
+  int64 id = 1;
+}
+
+message SaveMovieResponse {
+  SaveStatus status = 1;
+  MovieResponse movie = 2;
+}
+
+message MovieResponse {
+  int64 id = 1;
+  int32 tmdb_id = 2;
+  string title = 3;
+  optional string release_date = 4;
+  optional float score = 5;
+  optional ShowStatus status = 6; 
+  optional int32 runtime = 7;
+  optional int32 budget = 8;
+  optional int32 revenue = 9;
+  optional string backdrop = 10;
+  optional string poster = 11;
+  optional string homepage = 12;
+  optional string original_language = 13;
+  optional string tagline = 14;
+  optional string overview = 15;
+}
+
+message MovieViewResponse {
+  int64 id = 1;
+  string title = 2;
+  optional string release_date = 3;
+  optional float score = 4;
+  optional string backdrop = 5;
+  optional string poster = 6;
+  optional string overview = 7;
+}
+
+message PageResponse {
+  repeated MovieViewResponse content = 1;
+  int32 page = 2;
+  int32 size = 3;
+  bool has_next = 4;
+}

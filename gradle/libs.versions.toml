@@ -1,0 +1,109 @@
+# libs.versions.toml
+# This is the Gradle version catalog file.
+# It centralizes dependency versions and coordinates for the entire project.
+
+[versions]
+dotenv = "3.0.0"
+guava = "33.5.0-jre"
+jakarta-data = "1.0.1"
+jakartaee-platform = "11.0.0"
+jug = "5.2.0"
+mapstruct = "1.6.3"
+mapstruct-spi-protobuf = "1.43"
+micometer = "1.4.7"
+microprofile-config="3.1"
+microprofile-fault-tolerance = "4.0.2"
+microprofile-reactive-messaging = "3.0"
+opentelemetry = "1.40.0"
+quarkus = "3.33.1"
+quarkus-logging-json = "3.3.1"
+smallrye-reactive-messaging = "4.24.0" 
+slf4j = "2.0.17"
+zstd-jni = "1.5.5-11"
+
+[libraries]
+awaitility = { group = "org.awaitility", name = "awaitility" } 
+
+# Dotenv
+dotenv = { group = "io.github.cdimascio", name = "dotenv-java", version.ref = "dotenv" }
+
+# Flyway
+flyway-database-postgres = { group = "org.flywaydb", name = "flyway-database-postgresql" } 
+
+# Google
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+# Hibernate
+hibernate-jpamodelgen = { group = "org.hibernate.orm", name = "hibernate-jpamodelgen" }
+
+# Jackson
+jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations" }
+
+# Jakarta EE
+jakarta-bom = { group = "jakarta.platform", name = "jakarta.jakartaee-bom", version.ref = "jakartaee-platform" }
+jakarta-cdi = { group = "jakarta.enterprise", name = "jakarta.enterprise.cdi-api" }
+jakarta-data = { group = "jakarta.data", name = "jakarta.data-api", version.ref = "jakarta-data" }
+jakarta-validation = { group = "jakarta.validation", name = "jakarta.validation-api" }
+jakarta-ws-rs = { group = "jakarta.ws.rs", name = "jakarta.ws.rs-api" }
+
+# Java UUID Generatyor (JUG)
+jug = { group = "com.fasterxml.uuid", name = "java-uuid-generator", version.ref = "jug" }
+
+# MapStruct
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+mapstruct-spi-protobuf = { group = "no.entur.mapstruct.spi", name = "protobuf-spi-impl", version.ref = "mapstruct-spi-protobuf" }
+
+# Micrometer
+micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel", version.ref = "micometer" }
+
+# MicroProfile
+microprofile-config = { group = "org.eclipse.microprofile.config", name = "microprofile-config-api", version.ref = "microprofile-config" }
+microprofile-fault-tolerance = { group = "org.eclipse.microprofile.fault-tolerance", name = "microprofile-fault-tolerance-api", version.ref = "microprofile-fault-tolerance" }
+microprofile-reactive-messaging-api = { group = "org.eclipse.microprofile.reactive.messaging", name = "microprofile-reactive-messaging-api", version.ref = "microprofile-reactive-messaging" }
+
+# OpenTelemetry
+opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api" }
+opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", version.ref = "opentelemetry" }
+opentelemetry-instrumentation = { group = "io.opentelemetry.instrumentation", name = "opentelemetry-instrumentation-annotations" }
+
+# Quarkus
+quarkus-arc = { group = "io.quarkus", name = "quarkus-arc" }
+quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref = "quarkus" }
+quarkus-context-propagation = { group = "io.quarkus", name = "quarkus-smallrye-context-propagation" }
+quarkus-fault-tolerance = { group = "io.quarkus", name = "quarkus-smallrye-fault-tolerance" }
+quarkus-flyway = { group = "io.quarkus", name = "quarkus-flyway" }
+quarkus-grpc = { group = "io.quarkus", name = "quarkus-grpc" }
+quarkus-hibernate-orm = { group = "io.quarkus", name = "quarkus-hibernate-orm" }
+quarkus-hibernate-validator = { group = "io.quarkus", name = "quarkus-hibernate-validator" }
+quarkus-jackson = { group = "io.quarkus", name = "quarkus-jackson" }
+quarkus-jdbc-postgres = { group = "io.quarkus", name = "quarkus-jdbc-postgresql" }
+quarkus-junit = { group = "io.quarkus", name = "quarkus-junit" }
+quarkus-junit-component = { group = "io.quarkus", name = "quarkus-junit-component" }
+quarkus-kafka = { group = "io.quarkus", name = "quarkus-messaging-kafka" }
+quarkus-logging = { group = "io.quarkiverse.loggingjson", name = "quarkus-logging-json", version.ref = "quarkus-logging-json" }
+quarkus-micrometer = { group = "io.quarkus", name = "quarkus-micrometer" }
+quarkus-oidc = { group = "io.quarkus", name = "quarkus-oidc" }
+quarkus-opentelemetry = { group = "io.quarkus", name = "quarkus-opentelemetry" }
+quarkus-prometheus = { group = "io.quarkus", name = "quarkus-micrometer-registry-prometheus" }
+quarkus-rabbitmq = { group = "io.quarkus", name = "quarkus-messaging-rabbitmq" }
+quarkus-rest = { group = "io.quarkus", name = "quarkus-rest" }
+quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-client-jackson" }
+quarkus-rest-client-oidc-token-propagation = { group = "io.quarkus", name = "quarkus-rest-client-oidc-token-propagation" }
+quarkus-rest-jackson = { group = "io.quarkus", name = "quarkus-rest-jackson" }
+quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
+
+# SLF4J
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+
+# SmallRye
+smallrye-messaging-in-memory = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-in-memory" }
+smallrye-messaging-jackson = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-jackson", version = "4.24.0" }
+smallrye-reactive-messaging-api = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-api", version.ref = "smallrye-reactive-messaging" }
+smallrye-reactive-messaging-rabbitmq = { group = "io.smallrye.reactive", name = "smallrye-reactive-messaging-rabbitmq", version.ref = "smallrye-reactive-messaging" }
+
+# Zstd (for Kafka compression)
+zstd-jni = { group = "com.github.luben", name = "zstd-jni", version.ref = "zstd-jni" }
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }

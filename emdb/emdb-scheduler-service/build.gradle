@@ -1,0 +1,27 @@
+plugins {
+  id 'java'
+  alias(libs.plugins.quarkus)
+}
+
+dependencies {
+	implementation enforcedPlatform(libs.quarkus.bom)
+	
+	implementation project(':emdb-common')
+	implementation project(':web-services')
+	
+	implementation libs.jug
+	
+	implementation libs.quarkus.arc
+	implementation libs.quarkus.hibernate.validator
+	implementation libs.quarkus.logging
+	implementation libs.quarkus.opentelemetry
+	implementation libs.quarkus.prometheus
+	implementation libs.quarkus.rabbitmq
+	implementation libs.quarkus.rest.jackson
+	implementation libs.quarkus.scheduler
+	
+	testImplementation libs.quarkus.junit
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'

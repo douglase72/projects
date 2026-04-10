@@ -1,0 +1,2109 @@
+{
+  "tmdbId" : 1891,
+  "title" : "The Empire Strikes Back",
+  "releaseDate" : "1980-05-20",
+  "score" : 5.0,
+  "status" : "Released",
+  "runtime" : 124,
+  "budget" : 18000000,
+  "revenue" : 538400000,
+  "backdrop" : "6b2e12a0-0301-4bf7-bb53-86d86f3e90d0",
+  "poster" : "8560deda-dc0a-4a72-b0b3-7b136348fa5f",
+  "homepage" : "http://www.starwars.com/films/star-wars-episode-v-the-empire-strikes-back",
+  "originalLanguage" : "en",
+  "tagline" : "The Star Wars saga continues.",
+  "overview" : "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
+  "credits" : {
+    "cast" : [ {
+      "tmdbId" : 2,
+      "character" : "Luke Skywalker",
+      "order" : 0
+    }, {
+      "tmdbId" : 3,
+      "character" : "Han Solo",
+      "order" : 1
+    }, {
+      "tmdbId" : 4,
+      "character" : "Princess Leia",
+      "order" : 2
+    }, {
+      "tmdbId" : 3799,
+      "character" : "Lando Calrissian",
+      "order" : 3
+    }, {
+      "tmdbId" : 6,
+      "character" : "C-3PO",
+      "order" : 4
+    }, {
+      "tmdbId" : 24342,
+      "character" : "Darth Vader",
+      "order" : 5
+    }, {
+      "tmdbId" : 24343,
+      "character" : "Chewbacca",
+      "order" : 6
+    }, {
+      "tmdbId" : 130,
+      "character" : "R2-D2",
+      "order" : 7
+    }, {
+      "tmdbId" : 7908,
+      "character" : "Yoda (Voice)",
+      "order" : 8
+    }, {
+      "tmdbId" : 12248,
+      "character" : "Obi-Wan Kenobi",
+      "order" : 9
+    }, {
+      "tmdbId" : 33185,
+      "character" : "Boba Fett",
+      "order" : 10
+    }, {
+      "tmdbId" : 151529,
+      "character" : "Boba Fett (voice - uncredited)",
+      "order" : 11
+    }, {
+      "tmdbId" : 27165,
+      "character" : "Lando's Aide",
+      "order" : 12
+    }, {
+      "tmdbId" : 132538,
+      "character" : "Chief Ugnaught",
+      "order" : 13
+    }, {
+      "tmdbId" : 132539,
+      "character" : "Snow Creature",
+      "order" : 14
+    }, {
+      "tmdbId" : 70772,
+      "character" : "Performing Assistant for Yoda",
+      "order" : 15
+    }, {
+      "tmdbId" : 117714,
+      "character" : "Emperor (uncredited)",
+      "order" : 16
+    }, {
+      "tmdbId" : 20128,
+      "character" : "Emperor (voice)",
+      "order" : 17
+    }, {
+      "tmdbId" : 10734,
+      "character" : "Admiral Piett",
+      "order" : 18
+    }, {
+      "tmdbId" : 740,
+      "character" : "General Veers",
+      "order" : 19
+    }, {
+      "tmdbId" : 70417,
+      "character" : "Admiral Ozzel",
+      "order" : 20
+    }, {
+      "tmdbId" : 47520,
+      "character" : "Captain Needa",
+      "order" : 21
+    }, {
+      "tmdbId" : 1429986,
+      "character" : "Captain Lennox",
+      "order" : 22
+    }, {
+      "tmdbId" : 24625,
+      "character" : "Bewil",
+      "order" : 23
+    }, {
+      "tmdbId" : 1229839,
+      "character" : "Commander Nemet",
+      "order" : 24
+    }, {
+      "tmdbId" : 1221792,
+      "character" : "Cabbel",
+      "order" : 25
+    }, {
+      "tmdbId" : 1429987,
+      "character" : "Lieutenant Venka",
+      "order" : 26
+    }, {
+      "tmdbId" : 8664,
+      "character" : "General Carlist Rieekan",
+      "order" : 27
+    }, {
+      "tmdbId" : 47808,
+      "character" : "Zev Senesca",
+      "order" : 28
+    }, {
+      "tmdbId" : 47698,
+      "character" : "Wedge Antilles",
+      "order" : 29
+    }, {
+      "tmdbId" : 1181937,
+      "character" : "Derek \"Hobbie\" Klivian",
+      "order" : 30
+    }, {
+      "tmdbId" : 1430007,
+      "character" : "Dak Ralter",
+      "order" : 31
+    }, {
+      "tmdbId" : 79957,
+      "character" : "Wes Janson",
+      "order" : 32
+    }, {
+      "tmdbId" : 7907,
+      "character" : "Major Derlin",
+      "order" : 33
+    }, {
+      "tmdbId" : 1211845,
+      "character" : "Cal Alder",
+      "order" : 34
+    }, {
+      "tmdbId" : 1270880,
+      "character" : "Rebel Force Head Controller",
+      "order" : 35
+    }, {
+      "tmdbId" : 116123,
+      "character" : "Tamizander Rey",
+      "order" : 36
+    }, {
+      "tmdbId" : 1430038,
+      "character" : "Jeroen Webb",
+      "order" : 37
+    }, {
+      "tmdbId" : 1250671,
+      "character" : "Tigran Jamiro",
+      "order" : 38
+    }, {
+      "tmdbId" : 1430048,
+      "character" : "Toryn Farr",
+      "order" : 39
+    }, {
+      "tmdbId" : 184980,
+      "character" : "Wyron Serper",
+      "order" : 40
+    }, {
+      "tmdbId" : 202711,
+      "character" : "Imperial Officer (uncredited)",
+      "order" : 41
+    }, {
+      "tmdbId" : 1271059,
+      "character" : "Stormtrooper (uncredited)",
+      "order" : 42
+    }, {
+      "tmdbId" : 1473717,
+      "character" : "Stormtrooper / Snowtrooper / Rebel Soldier / ... (uncredited)",
+      "order" : 43
+    }, {
+      "tmdbId" : 1230632,
+      "character" : "Holographic Imperial Officer (uncredited)",
+      "order" : 44
+    }, {
+      "tmdbId" : 1520024,
+      "character" : "Officer M'kae (Captain Needa's Communications Officer) (uncredited)",
+      "order" : 45
+    }, {
+      "tmdbId" : 1355100,
+      "character" : "Cloud City Guard (uncredited)",
+      "order" : 46
+    }, {
+      "tmdbId" : 53587,
+      "character" : "Snowtrooper Gunner (uncredited)",
+      "order" : 47
+    }, {
+      "tmdbId" : 1212168,
+      "character" : "Snowtrooper (uncredited)",
+      "order" : 48
+    }, {
+      "tmdbId" : 1572549,
+      "character" : "Snowtrooper (uncredited)",
+      "order" : 49
+    }, {
+      "tmdbId" : 2175140,
+      "character" : "Snowtrooper (uncredited)",
+      "order" : 50
+    }, {
+      "tmdbId" : 964699,
+      "character" : "Bossk / Bespin Security Guard (uncredited)",
+      "order" : 51
+    }, {
+      "tmdbId" : 15152,
+      "character" : "Darth Vader (voice) (uncredited)",
+      "order" : 52
+    }, {
+      "tmdbId" : 33403,
+      "character" : "Rebel Pilot (uncredited)",
+      "order" : 53
+    }, {
+      "tmdbId" : 1572550,
+      "character" : "General McQuarrie (uncredited)",
+      "order" : 54
+    }, {
+      "tmdbId" : 1230662,
+      "character" : "Stormtrooper / Imperial Comms Officer / Rebel Soldier (uncredited)",
+      "order" : 55
+    }, {
+      "tmdbId" : 1229106,
+      "character" : "Wampa (uncredited)",
+      "order" : 56
+    }, {
+      "tmdbId" : 4515,
+      "character" : "Echo Base Trooper (uncredited)",
+      "order" : 57
+    }, {
+      "tmdbId" : 185986,
+      "character" : "Hoth Rebel Commander (uncredited)",
+      "order" : 58
+    }, {
+      "tmdbId" : 1729657,
+      "character" : "Stormtrooper/Snowtrooper",
+      "order" : 59
+    }, {
+      "tmdbId" : 1415957,
+      "character" : "Stormtrooper/Snowtrooper",
+      "order" : 60
+    }, {
+      "tmdbId" : 107700,
+      "character" : "Hoth Trooper (uncredited)",
+      "order" : 61
+    }, {
+      "tmdbId" : 1424954,
+      "character" : "Stormtrooper (uncredited)",
+      "order" : 62
+    }, {
+      "tmdbId" : 1729660,
+      "character" : "Blount / Stormtrooper (uncredited)",
+      "order" : 63
+    }, {
+      "tmdbId" : 2088545,
+      "character" : "Female Hoth Control Room Tech (uncredited)",
+      "order" : 64
+    }, {
+      "tmdbId" : 1430217,
+      "character" : "Ugnaught (uncredited)",
+      "order" : 65
+    }, {
+      "tmdbId" : 1220323,
+      "character" : "Dengar (uncredited)",
+      "order" : 66
+    }, {
+      "tmdbId" : 151961,
+      "character" : "Stormtrooper (uncredited)",
+      "order" : 67
+    }, {
+      "tmdbId" : 219382,
+      "character" : "Ugnaught (uncredited)",
+      "order" : 68
+    }, {
+      "tmdbId" : 1406400,
+      "character" : "Rebel Technician on Hoth (uncredited)",
+      "order" : 69
+    }, {
+      "tmdbId" : 1230439,
+      "character" : "AT-AT Driver (uncredited)",
+      "order" : 70
+    }, {
+      "tmdbId" : 4945,
+      "character" : "Hoth Rebel (uncredited)",
+      "order" : 71
+    }, {
+      "tmdbId" : 2250902,
+      "character" : "Stormtrooper / Chewbacca / Treva Horme / Solomahal (uncredited)",
+      "order" : 72
+    }, {
+      "tmdbId" : 3307,
+      "character" : "Snowtrooper (uncredited)",
+      "order" : 73
+    }, {
+      "tmdbId" : 4091766,
+      "character" : "Hoth Rebel Technician (uncredited)",
+      "order" : 74
+    }, {
+      "tmdbId" : 1729623,
+      "character" : "Imperial Crewman (uncredited)",
+      "order" : 75
+    }, {
+      "tmdbId" : 4216135,
+      "character" : "Willrow Hood (uncredited)",
+      "order" : 76
+    }, {
+      "tmdbId" : 3304181,
+      "character" : "Emperor (uncredited)",
+      "order" : 77
+    }, {
+      "tmdbId" : 2487126,
+      "character" : "Snowtrooper (uncredited)",
+      "order" : 78
+    } ],
+    "crew" : [ {
+      "tmdbId" : 12401,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 4298,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 10930,
+      "job" : "Director"
+    }, {
+      "tmdbId" : 8844,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 491,
+      "job" : "Original Music Composer"
+    }, {
+      "tmdbId" : 1,
+      "job" : "Executive Producer"
+    }, {
+      "tmdbId" : 9402,
+      "job" : "Special Effects"
+    }, {
+      "tmdbId" : 1,
+      "job" : "Story"
+    }, {
+      "tmdbId" : 2950,
+      "job" : "Visual Effects Lineup"
+    }, {
+      "tmdbId" : 2551,
+      "job" : "Editor"
+    }, {
+      "tmdbId" : 2915917,
+      "job" : "Propmaker"
+    }, {
+      "tmdbId" : 1563188,
+      "job" : "Stand In"
+    }, {
+      "tmdbId" : 174672,
+      "job" : "Stand In"
+    }, {
+      "tmdbId" : 964699,
+      "job" : "Stand In"
+    }, {
+      "tmdbId" : 2165645,
+      "job" : "Stand In"
+    }, {
+      "tmdbId" : 1295,
+      "job" : "Stand In"
+    }, {
+      "tmdbId" : 1425978,
+      "job" : "Sound Recordist"
+    }, {
+      "tmdbId" : 2644740,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1229106,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1271078,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1600363,
+      "job" : "Stunt Double"
+    }, {
+      "tmdbId" : 1473717,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 18775,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2067038,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1212168,
+      "job" : "Stunt Double"
+    }, {
+      "tmdbId" : 2175140,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1415957,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1548711,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 390,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 669,
+      "job" : "Production Design"
+    }, {
+      "tmdbId" : 5059,
+      "job" : "Art Direction"
+    }, {
+      "tmdbId" : 1125548,
+      "job" : "Art Direction"
+    }, {
+      "tmdbId" : 948389,
+      "job" : "Associate Producer"
+    }, {
+      "tmdbId" : 307,
+      "job" : "Director of Photography"
+    }, {
+      "tmdbId" : 8337,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 10880,
+      "job" : "Art Direction"
+    }, {
+      "tmdbId" : 5061,
+      "job" : "Costume Design"
+    }, {
+      "tmdbId" : 8526,
+      "job" : "Set Decoration"
+    }, {
+      "tmdbId" : 711,
+      "job" : "Associate Producer"
+    }, {
+      "tmdbId" : 10766,
+      "job" : "Editor"
+    }, {
+      "tmdbId" : 202711,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1572550,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 665,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 53587,
+      "job" : "Stunt Coordinator"
+    }, {
+      "tmdbId" : 7778,
+      "job" : "Production Manager"
+    }, {
+      "tmdbId" : 66251,
+      "job" : "Production Supervisor"
+    }, {
+      "tmdbId" : 1336275,
+      "job" : "Orchestrator"
+    }, {
+      "tmdbId" : 29061,
+      "job" : "Costume Supervisor"
+    }, {
+      "tmdbId" : 136024,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 1572559,
+      "job" : "Driver"
+    }, {
+      "tmdbId" : 21548,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 1424133,
+      "job" : "Camera Operator"
+    }, {
+      "tmdbId" : 1629006,
+      "job" : "Special Effects"
+    }, {
+      "tmdbId" : 68127,
+      "job" : "Sound Editor"
+    }, {
+      "tmdbId" : 7727,
+      "job" : "Animation"
+    }, {
+      "tmdbId" : 7727,
+      "job" : "Makeup Effects"
+    }, {
+      "tmdbId" : 1588463,
+      "job" : "Gaffer"
+    }, {
+      "tmdbId" : 1784246,
+      "job" : "Wardrobe Supervisor"
+    }, {
+      "tmdbId" : 1323295,
+      "job" : "Costume Assistant"
+    }, {
+      "tmdbId" : 1335873,
+      "job" : "Visual Effects Art Director"
+    }, {
+      "tmdbId" : 3997531,
+      "job" : "Sound"
+    }, {
+      "tmdbId" : 1427545,
+      "job" : "Still Photographer"
+    }, {
+      "tmdbId" : 2011673,
+      "job" : "Visual Effects Camera"
+    }, {
+      "tmdbId" : 670,
+      "job" : "Sound Designer"
+    }, {
+      "tmdbId" : 1575391,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 1649183,
+      "job" : "Continuity"
+    }, {
+      "tmdbId" : 1213681,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 1117367,
+      "job" : "Continuity"
+    }, {
+      "tmdbId" : 2021319,
+      "job" : "Property Master"
+    }, {
+      "tmdbId" : 1984397,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 1998464,
+      "job" : "Sound Editor"
+    }, {
+      "tmdbId" : 11837,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 958468,
+      "job" : "Hairdresser"
+    }, {
+      "tmdbId" : 1973867,
+      "job" : "Makeup Department Head"
+    }, {
+      "tmdbId" : 1341781,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 2217113,
+      "job" : "Draughtsman"
+    }, {
+      "tmdbId" : 75796,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 23858,
+      "job" : "Second Unit Director"
+    }, {
+      "tmdbId" : 16589,
+      "job" : "Second Unit Director"
+    }, {
+      "tmdbId" : 91517,
+      "job" : "Production Manager"
+    }, {
+      "tmdbId" : 8651,
+      "job" : "Location Manager"
+    }, {
+      "tmdbId" : 568911,
+      "job" : "Second Unit Director"
+    }, {
+      "tmdbId" : 16178,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 2922346,
+      "job" : "Musician"
+    } ]
+  },
+  "people" : [ {
+    "tmdbId" : 2,
+    "name" : "Mark Hamill",
+    "birthDate" : "1951-09-25",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "39598621-4ca5-41fa-ab5f-9c108e438641",
+    "homepage" : null,
+    "birthPlace" : "Oakland, California, USA",
+    "biography" : "Mark Richard Hamill (born September 25, 1951) is an American actor. He is best known for starring as Luke Skywalker in the Star Wars franchise and the Joker in various animated DC Comics projects, starting with Batman: The Animated Series in 1992.\n\nThrough the 1980s, Hamill distinguished himself from his Star Wars role by pursuing a Broadway theatre career, starring in productions of The Elephant Man, Amadeus and The Nerd. His other live-action film and television roles include Kenneth W. Dantley Jr. in Corvette Summer (1978), Private Griff in The Big Red One (1980), Crow in Sushi Girl (2012), Ted Mitchum in Brigsby Bear (2017), and Arthur Pym in the Netflix miniseries The Fall of the House of Usher (2023).\n\nHamill has also had a prolific career as a voice actor. Aside from Joker, his roles include the Hobgoblin in Spider-Man: The Animated Series (1995–1998), Fire Lord Ozai in Avatar: The Last Airbender (2005–2008), Mr. Salacia and Senator Stampingston in Metalocalypse (2006–2013, 2023), and Skips in Regular Show (2010–2017)."
+  }, {
+    "tmdbId" : 3,
+    "name" : "Harrison Ford",
+    "birthDate" : "1942-07-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "81046e59-f5f1-43aa-bcbe-5695e9727468",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Legendary Hollywood Icon Harrison Ford was born on July 13, 1942 in Chicago, Illinois. His family history includes a strong lineage of actors, radio personalities, and models. Ford attended public high school in Park Ridge, Illinois where he was a member of the school Radio Station WMTH. Ford worked as the lead voice for sports reporting at WMTH for several years. Acting wasn't a major interest to Ford until his junior year at Ripon College when he first took an acting class. Ford's career started in 1964 when he travelled to California in search of a voice-over job. He never received that position, but instead signed a contract with Columbia Pictures where he earned $150 weekly to play small fill in roles in various films.\n\nThrough the '60s Ford worked on several TV shows including Gunsmoke, Ironside, Kung Fu, and American Style. It wasn't until 1967 that he received his first credited role in the Western film, A Time for Killing. Dissatisfied with the meager roles he was being offered, Ford took a hiatus from acting to work as a self-employed carpenter. This seemingly odd diversion turned out to be a blessing in disguise for Harrison's acting career when he was soon hired by famous film producer George Lucas. This was a turning point in Ford's life that led to him be casted in milestone roles such as Han Solo and Indiana Jones.\n\nSince his most famous roles in the original Star Wars trilogy and Raiders of the Lost Ark, Ford has appeared in over 40 films. Many criticize his late-career work, saying his performances have been lackluster, leading to commercially disappointing films. Ford has always worked hard to protect his off-screen private life, keeping details about his children and marriages quiet. He has a total of five children including one recent adoption with third and current wife Calista Flockhart. In addition to acting, Ford is passionate about environmental conservation, aviation, and archeology."
+  }, {
+    "tmdbId" : 4,
+    "name" : "Carrie Fisher",
+    "birthDate" : "1956-10-21",
+    "deathDate" : "2016-12-27",
+    "gender" : "Female",
+    "profile" : "d4d98951-e098-4d48-9a27-9df6260128d7",
+    "homepage" : "https://carriefisher.com/",
+    "birthPlace" : "Beverly Hills, Los Angeles, California, USA",
+    "biography" : "Carrie Frances Fisher (October 21, 1956 – December 27, 2016) was an American actress, novelist, screenwriter, and lecturer. Daughter of the famous actors Debbie Reynolds and Eddie Fisher, she gained fame for her portrayal of Princess Leia Organa in the original Star Wars trilogy. Her novel Postcards from the Edge was also a bestseller, for which she wrote a screenplay to the film of the same name."
+  }, {
+    "tmdbId" : 3799,
+    "name" : "Billy Dee Williams",
+    "birthDate" : "1937-04-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "e4a59afc-c02b-429b-8808-e4e28cc92add",
+    "homepage" : "http://www.bdwworldart.com/",
+    "birthPlace" : "New York City, New York, USA",
+    "biography" : "William December \"Billy Dee\" Williams Jr. (born April 6, 1937) is an American actor, voice actor, and artist. He is best known as Lando Calrissian in the Star Wars franchise, first in the early 1980s, and nearly forty years later in The Rise of Skywalker (2019), marking one of the longest intervals between onscreen portrayals of a character by the same actor in American film history."
+  }, {
+    "tmdbId" : 6,
+    "name" : "Anthony Daniels",
+    "birthDate" : "1946-02-21",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1df5c5e1-a7a3-4ed6-bde8-08e524edfb0d",
+    "homepage" : "http://www.anthonydaniels.com/",
+    "birthPlace" : "Salisbury, Wiltshire, England, UK",
+    "biography" : "Anthony Daniels (born February 21, 1946) is an English actor and mime artist, best known for playing C-3PO in 11 Star Wars films (every film of the Skywalker saga, Rogue One and The Clone Wars theatrical film). He is the only actor to have either appeared in or been involved with all theatrical films in the series, and has been involved in many of their spin-offs, including television series, video games, and radio serials.\n\nDescription above from the Wikipedia article Anthony Daniels, licensed under CC-BY-SA, full list of contributors on Wikipedia.​"
+  }, {
+    "tmdbId" : 24342,
+    "name" : "David Prowse",
+    "birthDate" : "1935-07-01",
+    "deathDate" : "2020-11-29",
+    "gender" : "Male",
+    "profile" : "fbaa4c51-2f98-4421-a1af-d05ffc662525",
+    "homepage" : null,
+    "birthPlace" : "Bristol, England, UK",
+    "biography" : "From Wikipedia, the free encyclopedia\n\nDavid Prowse, MBE (July 1, 1935 – November 29, 2020) was an English former bodybuilder, weightlifter and actor, most widely known for playing the role of Darth Vader in physical form. In Britain, he is also remembered as having played the Green Cross Code man. Prowse is a native of Bristol, where he attended Bristol Grammar School.\n\nDescription above from the Wikipedia article David Prowse, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 24343,
+    "name" : "Peter Mayhew",
+    "birthDate" : "1944-05-19",
+    "deathDate" : "2019-04-30",
+    "gender" : "Male",
+    "profile" : "af549cf7-af16-4990-943b-969fddbc23bf",
+    "homepage" : "http://www.petermayhew.com/",
+    "birthPlace" : "Barnes, London, England, UK",
+    "biography" : "Peter Mayhew (May 19, 1944 – April 30, 2019) was a British-American actor, best known for playing Chewbacca in the Star Wars films.\n\nMayhew was born on 19 May 1944 in Barnes, Surrey, where he was also raised. His height was a product not of gigantism — \"I don't have the big head\" — but of an overactive pituitary gland secondary to a genetic disease called Marfan Syndrome. The overactive pituitary gland was treated successfully in his mid-teens. His peak height was 7 feet 3 inches (2.21 m)"
+  }, {
+    "tmdbId" : 130,
+    "name" : "Kenny Baker",
+    "birthDate" : "1934-08-24",
+    "deathDate" : "2016-08-13",
+    "gender" : "Male",
+    "profile" : "c444253b-1a35-495a-bfd8-eea9273ed8ea",
+    "homepage" : null,
+    "birthPlace" : "Birmingham, England, UK",
+    "biography" : "Kenneth George \"Kenny\" Baker (August 24, 1934 – August 13, 2016) was a British actor and musician, best known as the man inside R2-D2 in the popular Star Wars film series."
+  }, {
+    "tmdbId" : 7908,
+    "name" : "Frank Oz",
+    "birthDate" : "1944-05-25",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bfaa8633-622d-484a-88d9-cc544bed51ad",
+    "homepage" : null,
+    "birthPlace" : "Hereford, Herefordshire, England, UK",
+    "biography" : "Frank Oz (born Richard Frank Oznowicz; May 25, 1944) is a British-born American film director, actor, voice actor, and puppeteer. He is known for creating and performing the characters Miss Piggy and Fozzie Bear in The Muppet Show and for directing films, including the Little Shop Of Horrors remake and Dirty Rotten Scoundrels. He is also the operator and voice of Yoda in the Star Wars franchise."
+  }, {
+    "tmdbId" : 12248,
+    "name" : "Alec Guinness",
+    "birthDate" : "1914-04-02",
+    "deathDate" : "2000-08-05",
+    "gender" : "Male",
+    "profile" : "2d1d97b4-592d-48d5-8b93-04c0ff387a5f",
+    "homepage" : null,
+    "birthPlace" : "Marylebone, London, England, UK",
+    "biography" : "Sir Alec Guinness, CH, CBE (born Alec Guinness de Cuffe; 2 April 1914 – 5 August 2000) was an English actor. He was featured in several of the Ealing Comedies, including Kind Hearts and Coronets in which he played eight different characters. He later won the Academy Award for Best Actor for his role as Colonel Nicholson in The Bridge on the River Kwai. He is most well known for playing Obi-Wan Kenobi in the original Star Wars trilogy. He also played Prince Feisal in Lawrence of Arabia and George Smiley in the TV adaptation of Tinker, Tailor, Soldier, Spy."
+  }, {
+    "tmdbId" : 33185,
+    "name" : "Jeremy Bulloch",
+    "birthDate" : "1945-02-16",
+    "deathDate" : "2020-12-17",
+    "gender" : "Male",
+    "profile" : "a1be8a4c-fcf5-4320-a4e7-f4ae780c29b7",
+    "homepage" : "http://www.jeremybulloch.com/",
+    "birthPlace" : "Market Harborough, England, UK",
+    "biography" : "Jeremy Bulloch (16 February 1945 - 17 December 2020) was an English actor, best known for the role of the bounty hunter Boba Fett in the original Star Wars trilogy. He has appeared in numerous British television and film productions, including James Bond movies, Doctor Who and Robin of Sherwood."
+  }, {
+    "tmdbId" : 151529,
+    "name" : "Jason Wingreen",
+    "birthDate" : "1920-10-09",
+    "deathDate" : "2015-12-25",
+    "gender" : "Male",
+    "profile" : "e3c0e95b-50a5-4413-a451-de429be90781",
+    "homepage" : null,
+    "birthPlace" : "Brooklyn, New York, USA",
+    "biography" : "Jason Wingreen (October 9, 1920 – December 25, 2015) was an American actor. He portrayed bartender Harry Snowden on the CBS sitcom All in the Family (1977–1979), a role he reprised on the continuation series Archie Bunker's Place (1979–1983). He was also the original voice of Star Wars character Boba Fett in The Empire Strikes Back (1980)."
+  }, {
+    "tmdbId" : 27165,
+    "name" : "John Hollis",
+    "birthDate" : "1931-01-24",
+    "deathDate" : "2005-10-18",
+    "gender" : "Male",
+    "profile" : "770a0122-b740-4814-a627-bbb97b0111c9",
+    "homepage" : null,
+    "birthPlace" : "Nottinghamshire, England, UK",
+    "biography" : "John Hollis was an English actor. He played the role of Lobot in Star Wars Episode V: The Empire Strikes Back and the German porter at the chateau in The Dirty Dozen. He appeared in the classic 1978 film Superman as one of the Elders of Krypton, and reprised his role in the 1980 theatrical version of Superman II. He also played the role of Ernst Stavro Blofeld in the cold open of the 1981 James Bond film For Your Eyes Only, going uncredited due to the controversy over the film rights and characters of Thunderball. In this sequence, his character was famously lifted from a wheelchair and dropped to his death down a chimney stack by Bond after he had attempted to kill Bond by using a remote control link to Bond's MI6 helicopter. Hollis also took the role of Sondergaard in the Jon Pertwee era of Doctor Who in the story The Mutants, and appeared in The Avengers episode The Cybernauts as a sensei and also in The Tomorrow People. John Hollis was a versatile character actor for BBC Radio. Notable roles include Magwitch in Great Expectations, Leonard Bast in Howards End, Conan Doyle's Inspector Lestrade and Shakespeare's Bardolph."
+  }, {
+    "tmdbId" : 132538,
+    "name" : "Jack Purvis",
+    "birthDate" : "1937-07-13",
+    "deathDate" : "1997-11-21",
+    "gender" : "Male",
+    "profile" : "24322ba4-2ba6-4b97-bc37-127d5cd49853",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Jack Purvis (July 13, 1937 - November 21, 1997) was a British film actor. Purvis was a dwarf, and thus was mainly cast in roles requiring actors of short stature. Purvis appeared as a different alien creature in each of the three films of the original Star Wars trilogy, and also appeared in three of director Terry Gilliam's early fantasy films: Time Bandits, Brazil, and The Adventures of Baron Munchausen. Several years before his death, Purvis became quadriplegic after breaking his neck in a car accident. He died in November 1997 at the age of 60."
+  }, {
+    "tmdbId" : 132539,
+    "name" : "Des Webb",
+    "birthDate" : null,
+    "deathDate" : "2002-05-21",
+    "gender" : "Unknown",
+    "profile" : "e789ccdc-4cb7-4549-9163-325695c91651",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Des Webb was an actor."
+  }, {
+    "tmdbId" : 70772,
+    "name" : "Kathryn Mullen",
+    "birthDate" : "1940-02-10",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "7a28aaa8-862e-449c-9915-bd17e35542cc",
+    "homepage" : null,
+    "birthPlace" : "New York City, New York, USA",
+    "biography" : "From Wikipedia, the free encyclopedia.\n\nKathryn \"Kathy\" Mullen is an actress, voice actress, and puppeteer most closely associated with Jim Henson projects. She began performing on The Muppet Show in its third season, primarily as Gaffer the Backstage Cat. She also voice directed Dog City for Nelvana, worked as a designer for The Muppet Movie, a performing assistant for Yoda on The Empire Strikes Back, and was one of the creators of Between the Lions. While reprising this character for several Muppet movies, she also created the character of Mokey - a gentle, New Age style Fraggle - on Henson's Fraggle Rock. She performed the Gelfling Kira in the movie The Dark Crystal, Allegra on \"Allegra's Window\", and Leona the Lion on \"Between the Lions\".\n\nKathy Mullen, with her husband, former Muppet designer Michael K. Frith, has joined forces with British charity \"No Strings\" to create a film for children in Afghanistan, warning of the dangers of land mines. In the film, \"The Story of the Little Carpet Boy,\" one puppet loses several limbs before he learns to avoid land mines completely. Kathy and Michael picked up the idea from Johnie McGlade, an emergency aid worker who used a scruffy rabbit puppet to bring smiles to the faces of people who had lived through earthquakes, hunger, or genocide.\n\nDescription above from the Wikipedia article Kathryn Mullen, licensed under CC-BY-SA, full list of contributors on Wikipedia"
+  }, {
+    "tmdbId" : 117714,
+    "name" : "Marjorie Eaton",
+    "birthDate" : "1901-02-05",
+    "deathDate" : "1986-04-21",
+    "gender" : "Female",
+    "profile" : "52a46aae-7ab7-4739-9e17-54e68bc025a3",
+    "homepage" : null,
+    "birthPlace" : "San Francisco, California, USA",
+    "biography" : "Initially trained as an architect, Marjorie Eaton went on to become a renowned artist and character actress whose career spanded from 1946-1981. Eaton was born on February 5, 1901 in San Francisco, California, USA as Marjorie Lee Eaton. As an actress, she was known for Mary Poppins (1964), That Forsyte Woman (1949) and Zombies of Mora Tau (1957).  Prior to entering the film industry, Eaton was member of the Taos artist colony where she painted the majority of her notable works. Her contributions to the Art world include \"Taos Ceremony\". circa 1928 and \"Taos Man seated\".\n\nShe died on April 21, 1986 in Hollywood, California."
+  }, {
+    "tmdbId" : 20128,
+    "name" : "Clive Revill",
+    "birthDate" : "1930-04-18",
+    "deathDate" : "2025-03-11",
+    "gender" : "Male",
+    "profile" : "2f9b504b-68af-47bf-bfeb-e26284972914",
+    "homepage" : null,
+    "birthPlace" : "Wellington, New Zealand",
+    "biography" : "Clive Selsby Revill (born 18 April 1930) was a New Zealand-born British character actor best known for his performances in musical theatre and on the London stage."
+  }, {
+    "tmdbId" : 10734,
+    "name" : "Kenneth Colley",
+    "birthDate" : "1937-12-07",
+    "deathDate" : "2025-06-30",
+    "gender" : "Male",
+    "profile" : "71a5559b-1ce6-46d8-ac15-eea8c9bb2440",
+    "homepage" : null,
+    "birthPlace" : "Manchester, England, UK",
+    "biography" : "Kenneth Colley (7 December 1937 — 30 June 2025) was an English actor. A long-time character actor, he came to wider prominence through his role as Admiral Piett in Star Wars Episode V: The Empire Strikes Back and Star Wars Episode VI: Return of the Jedi.\n\nColley was born in Manchester. He played Jesus (very briefly indeed) in Life of Brian (1979), having also appeared in the earlier Python-related production Ripping Yarns episode \"The Testing of Eric Olthwaite\" alongside Michael Palin. As a Shakespearean actor, he played the Duke of Vienna in the BBC Television Shakespeare production of Measure for Measure (also 1979).\n\nColley also held an important role in the Clint Eastwood film Firefox, as a Soviet Colonel tasked with the protection of the Firefox and its secrets. Colley portrayed SS-Standartenführer Paul Blobel in the World War II drama War and Remembrance. His character was charged with hiding the evidence of the Holocaust, and putting dead victims through \"Economic Processing\".\n\nAccording to comments Terry Gilliam (who directed him in Jabberwocky and co-starred with him in Life of Brian) made in the DVD audio commentaries for both films, Colley is a terrible stutterer in real life. When he had a role in a film, however, he could recite the lines perfectly. Stuttering is a character trait, however, in his role as the \"Accordion Man\" in the BBC television drama Pennies from Heaven (1978). He has also recently starred in BBC's HolbyBlue as a drunk and violent father, grandfather and father-in-law.\n\nDescription above from the Wikipedia article Kenneth Colley, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 740,
+    "name" : "Julian Glover",
+    "birthDate" : "1935-03-27",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7eea2463-6422-43d1-9869-2210580840e1",
+    "homepage" : null,
+    "birthPlace" : "London, England ",
+    "biography" : "Primarily a classical stage actor, Julian Glover trained at the National Youth Theatre, performed with the Royal Shakespeare Company and became a familiar face to British television viewers by appearing in many popular series during the 1960s and 1970s. His talent for accents and cold expression made him an ideal choice for playing refined villains. During the 1980s, Glover achieved some fame in Hollywood by playing roles in such popular films as Star Wars: Episode V - The Empire Strikes Back (1980), For Your Eyes Only (1981) and Indiana Jones and the Last Crusade (1989)."
+  }, {
+    "tmdbId" : 70417,
+    "name" : "Michael Sheard",
+    "birthDate" : "1938-06-18",
+    "deathDate" : "2005-08-31",
+    "gender" : "Male",
+    "profile" : "735ed21e-b365-4a30-8648-dc573896217a",
+    "homepage" : null,
+    "birthPlace" : "Aberdeenshire, Scotland, UK",
+    "biography" : "Michael Sheard (18 June 1938 – 31 August 2005) was a Scottish actor who featured in a large number of films and television programmes and was best known for playing villains. His most prominent television role was as strict deputy headmaster Maurice Bronson in the British children's series Grange Hill which he played from 1985-89. His most prominent film role was that of Admiral Ozzel in The Empire Strikes Back (1980)."
+  }, {
+    "tmdbId" : 47520,
+    "name" : "Michael Culver",
+    "birthDate" : "1938-06-16",
+    "deathDate" : "2024-02-27",
+    "gender" : "Male",
+    "profile" : "7ea132f6-438f-425c-8284-9eb94d635229",
+    "homepage" : null,
+    "birthPlace" : "Hampstead, London, England, UK",
+    "biography" : "Michael Culver (16 June 1938 – 27 February 2024) was an English actor. He was born in Hampstead, London, the son of actor Roland Culver and casting director Daphne Rye. He was educated at Gresham's School."
+  }, {
+    "tmdbId" : 1429986,
+    "name" : "John Dicks",
+    "birthDate" : "1947-07-23",
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "bf14aed9-adc1-4fbb-b02b-d1eb41f58ca6",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "John Dicks is an English film and television actor. He appeared in Andrew Lloyd Webber's flop musical Jeeves in London, 1975, and sang on the rare recording. His film appearances included Star Wars Episode V: The Empire Strikes Back, The First Kangaroos, Flirting, Return to the Blue Lagoon and The Queen of the Damned."
+  }, {
+    "tmdbId" : 24625,
+    "name" : "Milton Johns",
+    "birthDate" : "1938-05-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cb3eec32-6a16-4abf-b22f-32d3e4a34e55",
+    "homepage" : null,
+    "birthPlace" : "Bristol - Gloucestershire - England - UK",
+    "biography" : "Milton Johns (born 13 May 1938) is an English actor whose thin features and talent for obsequious or oily characters has often influenced the many television parts he has received. He trained at the Bristol Old Vic Theatre School.  Johns was born in Bristol, Gloucestershire. He was in Coronation Street as Brendan Scott (1991–93), the shopkeeper who died of a heart attack while pedalling along the eponymous cobbled street. Other roles have included parts in Poldark, Born and Bred, Ever Decreasing Circles, Home to Roost, Dempsey and Makepeace, Murder Most English, Shoestring, Yes Minister, Some Mothers Do 'Ave 'Em, Softly, Softly, Going Straight, The Good Life, Don't Wait Up, Butterflies, Campion and Z-Cars. He played the landlord in The Basil Brush Show (2002–07).  Johns also played jobsworth Mr Cassidy in Murphy's Mob, an ITV children's television drama series (1982–85). His character helped to manage the building used by the junior supporters' of the football club, Dunmore United.  Johns has appeared in Doctor Who on several occasions: as Theodore Benik in The Enemy of the World; Guy Crayford in The Android Invasion; and Castellan Kelner in The Invasion of Time.  In 1972 he starred in the children's Sunday evening series The Intruder and in 1977, appeared in another children's series, Midnight Is A Place.  Johns also appeared as an Imperial Officer (Captain Bewil) in the 1980 Star Wars sequel, The Empire Strikes Back. He played Perker in the 1985 adaptation of The Pickwick Papers. In the 1986 television series War and Remembrance, Johns took the role of the senior Nazi SS officer Adolf Eichmann."
+  }, {
+    "tmdbId" : 1229839,
+    "name" : "Mark Jones",
+    "birthDate" : "1939-04-22",
+    "deathDate" : "2010-01-14",
+    "gender" : "Male",
+    "profile" : "2f324b28-0bc4-4237-aa92-580072e6018b",
+    "homepage" : null,
+    "birthPlace" : "UK",
+    "biography" : "Mark Jones (22 April 1939 – 14 January 2010) was a British actor, who appeared frequently in various films and television series."
+  }, {
+    "tmdbId" : 1221792,
+    "name" : "Oliver Maguire",
+    "birthDate" : null,
+    "deathDate" : "2012-01-10",
+    "gender" : "Male",
+    "profile" : "3ed5fd89-96a9-44d2-8654-6d54a35d5e47",
+    "homepage" : null,
+    "birthPlace" : "Dalkey, County Dublin, Ireland",
+    "biography" : "Oliver Maguire was an actor."
+  }, {
+    "tmdbId" : 1429987,
+    "name" : "Robin Scobey",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f67ce4b9-c052-48e8-a083-5edca7eb16cb",
+    "homepage" : null,
+    "birthPlace" : "York, Yorkshire, England",
+    "biography" : "Robin Scobey is an actor.\n\nShipton Street Primary\n\nNunthorpe Grammar School"
+  }, {
+    "tmdbId" : 8664,
+    "name" : "Bruce Boa",
+    "birthDate" : "1930-07-10",
+    "deathDate" : "2004-04-17",
+    "gender" : "Male",
+    "profile" : "60cf9c0c-d32e-40dd-ae41-49b1ffacafbc",
+    "homepage" : null,
+    "birthPlace" : "Calgary, Alberta, Canada",
+    "biography" : "Bruce Boa was a Canadian actor, who found success playing the token North American in British films and television."
+  }, {
+    "tmdbId" : 47808,
+    "name" : "Christopher Malcolm",
+    "birthDate" : "1946-08-19",
+    "deathDate" : "2014-02-15",
+    "gender" : "Male",
+    "profile" : "12e1a4d6-aab9-4b3b-bd66-75453cb2a018",
+    "homepage" : null,
+    "birthPlace" : "Aberdeen, Aberdeenshire, Scotland, UK",
+    "biography" : "Christopher \"Chris\" Malcolm was a Scottish television and film actor, director and producer. He first achieved notability for his role as Brad Majors in the original stage production of The Rocky Horror Show."
+  }, {
+    "tmdbId" : 47698,
+    "name" : "Denis Lawson",
+    "birthDate" : "1947-09-27",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "09dcf2c2-672b-4600-a875-39053dec950d",
+    "homepage" : null,
+    "birthPlace" : "Perthshire, Scotland, UK",
+    "biography" : "Denis Stamper Lawson (born 27 September 1947) is a Scottish actor and director. He is perhaps best known for his roles as John Jarndyce in the BBC's adaptation of Bleak House and as Gordon Urquhart in the film Local Hero."
+  }, {
+    "tmdbId" : 1181937,
+    "name" : "Richard Oldfield",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "72fc9651-dd1c-451c-afd1-e9c7a34b2d26",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Richard Oldfield (born 1950) is an American film and television actor who has worked mostly in Britain."
+  }, {
+    "tmdbId" : 1430007,
+    "name" : "John Morton",
+    "birthDate" : "1947-03-26",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "afc686f0-7d4d-4efc-a17b-707d2e864b89",
+    "homepage" : null,
+    "birthPlace" : "Annapolis, Maryland, USA",
+    "biography" : "John Morton is an American movie actor and stuntman from Annapolis, Maryland. John appeared in the 1980 hit sequel film Superman II as an astronaut named Nate, also that year he appeared in Flash Gordon. After appearing in Star Wars Episode V: The Empire Strikes Back as Dak Ralter, and as the body double for Boba Fett, he left Hollywood and eventually settled in public relations work back in Annapolis. He is also an accomplished musician and guitar player."
+  }, {
+    "tmdbId" : 79957,
+    "name" : "Ian Liston",
+    "birthDate" : "1948-08-04",
+    "deathDate" : "2016-10-01",
+    "gender" : "Male",
+    "profile" : "d8c2b7aa-c3cf-49e5-82ac-8d689d8970bb",
+    "homepage" : null,
+    "birthPlace" : "Crosby - Merseyside - England - UK",
+    "biography" : "Ian Liston is an Actor."
+  }, {
+    "tmdbId" : 7907,
+    "name" : "John Ratzenberger",
+    "birthDate" : "1947-04-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cdb3a885-fbc5-420c-a070-9d9fa76281e1",
+    "homepage" : "https://ratzenberger.com",
+    "birthPlace" : "Bridgeport, Connecticut, USA",
+    "biography" : "John Dezso Ratzenberger is an American actor, voice actor, director, producer, writer and entrepreneur. He is one of the most successful actors of all time in terms of box-office receipts. Ratzenberger is best known for portraying Cliff Clavin on the popular comedy series Cheers, for which he earned two Primetime Emmy nominations. He is also known being a voice actor appearing in almost every Pixar Animation Studios feature film, including Hamm in the Toy Story franchise, The Underminer in The Incredibles franchise, and Mack in the Cars franchise.\n\nRatzenberger began his entertainment career while living in London in the 1970s. He had minor film and television roles throughout the late 70s and early 1980s before creating, and then landing, the role of the know-it-all mailman Cliff Clavin on Cheers, a role he portrayed throughout the show's eleven seasons. His first Pixar role was the voice of Hamm in Toy Story, and he has voiced Pixar characters in films and video games ever since. From 2004 to 2008 he hosted the TV documentary series Made in America.  Outside of acting, he has promoted American entrepreneurship and manufacturing, and campaigned for several Republican candidates."
+  }, {
+    "tmdbId" : 1211845,
+    "name" : "Jack McKenzie",
+    "birthDate" : "1942-03-09",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "265e23a8-b9ba-4fde-a3f5-e1c53ca5a4a6",
+    "homepage" : null,
+    "birthPlace" : "Edinburgh, Scotland, UK",
+    "biography" : "Jack McKenzie is a Scottish actor. He was born in Edinburgh in 1942 and was educated at George Heriot's School, after which he joined The Royal Marines, and then subsequently the Lothians and Peebles Constabulary and transferred to Edinburgh City Police. TELEVISION: The Sweeney, Sutherland's Law, Space: 1999 series, Secret Army, Blake's 7, The Professionals, The Mad Death, Taggart, The Collectors, Blood Money, Skorpion, The Treachery Game, Henry VIII, The Wallace, Piece of Cake, Heartbeat, Bugs, Bernard's Watch, The Bill, EastEnders, Scotland 2000, 10%'rs, The Return Of The Saint, The London Suite, Crime Monthly, 999, Crimewatch THEATRE: Gothenburg English Studio Theatre:- The Woman In Black The Watermill Theatre:- Hobson's Choice Royal National Theatre:- The Misanthrope, Engaged and Into The Mouths Of Crabs Wintershall, Guildford:- The Passion and The Life of Christ The Redgrave Theatre, Farnham:- MacBeth, Who Killed Cock Robin, The Trial of Lady Chatterley. Farnham Maltings:-Sorry To Spoil Your Daughter's Birthday Pantomimes at Guildford Civic Hall and Bracknell"
+  }, {
+    "tmdbId" : 1270880,
+    "name" : "Jerry Harte",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "27ff52e1-8964-4fdd-bb87-1ebda88dbf84",
+    "homepage" : null,
+    "birthPlace" : " Seattle, Washington, USA",
+    "biography" : "Jerry Harte was born in the USA. He is an actor."
+  }, {
+    "tmdbId" : 116123,
+    "name" : "Norman Chancer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2639ec45-6ebf-40d4-aecd-3d70eee60dbd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Norman Chancer is an actor."
+  }, {
+    "tmdbId" : 1430038,
+    "name" : "Norwich Duff",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2bdc6e22-c6b7-4dd9-87bf-61a544a95ebd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Norwich Duff is an actor."
+  }, {
+    "tmdbId" : 1250671,
+    "name" : "Ray Hassett",
+    "birthDate" : "1948-01-03",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ed290a98-ed5a-4a30-be9e-350cf39b55e2",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Ray Hassett is a former American actor who played Tigran Jamiro in Star Wars: Episode V The Empire Strikes Back."
+  }, {
+    "tmdbId" : 1430048,
+    "name" : "Brigitte Kahn",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "ca11d45f-7297-413f-81be-395e8c298a9c",
+    "homepage" : null,
+    "birthPlace" : "Germany",
+    "biography" : "Brigitte Kahn is a German-born British actress, best remembered for her performances on television. She remains best known for her role as Dagmar in Auf Wiedersehen, Pet. Other TV credits include: Secret Army, The Sandbaggers, The Gentle Touch, The Professionals, C.A.T.S. Eyes, The Bill and The New Statesman. She also appeared in the Star Wars film The Empire Strikes Back."
+  }, {
+    "tmdbId" : 184980,
+    "name" : "Burnell Tucker",
+    "birthDate" : "1934-02-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cfd543b7-8cdc-470b-8335-7203aa06ea13",
+    "homepage" : null,
+    "birthPlace" : "Newfoundland, Canada",
+    "biography" : "Burnell Tucker (born 1934) is a Canadian actor who appeared in the first two films of the Star Wars original trilogy."
+  }, {
+    "tmdbId" : 202711,
+    "name" : "Bob Anderson",
+    "birthDate" : "1922-09-15",
+    "deathDate" : "2012-01-01",
+    "gender" : "Male",
+    "profile" : "27b3aec2-423e-4cf6-957b-30c2c8f89fbf",
+    "homepage" : null,
+    "birthPlace" : "Gosport, Hampshire, England, UK",
+    "biography" : "Robert James Gilbert Anderson, known as Bob Anderson (September 15, 1922 – January 1, 2012), was the swordmaster who played Darth Vader in his various fight scenes in The Empire Strikes Back and Return of the Jedi. He replaced David Prowse due to the actor's tendency to break lightsabers. Because of the height differences—Anderson was 6'1\" (1.85m), while Prowse was 6'7\" (2.02m)—Anderson's scenes were filmed from a lower angle to make him seem taller, or he stood on some small stilts or wore platform shoes. Anderson also played Rebel Officer Trey Callum during the Battle of Hoth in The Empire Strikes Back. Anderson later did swordfighting choreography and training for films such films as the The Lord of the Rings trilogy (with actor Christopher Lee) and the James Bond film Die Another Day (with stunt performer Jim Dowdall).\n\nBorn in Hampshire, England, Bob Anderson joined the Royal Marines and won several combined services titles in the sport of fencing. He served in the Mediterranean Sea during World War II. As a competitive fencer, he represented Great Britain at the Olympic Games in 1952 and the World Championships in 1950 and 1953 in the sabre event. He finished tied for fifth in the team sabre event at Helsinki in 1952.\n\nBob Anderson's cinema career began in 1952, when he choreographed fights for and coached Errol Flynn for the 1953 film The Master of Ballantrae. During rehearsal for a scene he accidentally slashed Flynn on his thigh, leading to notoriety in Hollywood as \"the man who stabbed Errol Flynn\". He went on to work as a stunt performer and/or fight choreographer in films such as The Guns of Navarone and the Bond films From Russia With Love and Casino Royale. His stature in Hollywood was cemented when he was selected by Stanley Kubrick in 1974 to act as the sword master for Barry Lyndon.\n\nAnderson did not receive much recognition for his role as doubling for Darth Vader in the Star Wars films for years after their initial release, in part because David Prowse was so lauded for his portrayal that director George Lucas did not want to detract from the boost it gave the actor's career. In a 1983 interview, however, Mark Hamill paid homage to Anderson's contribution, saying: \"Bob Anderson was the man who actually did Vader's fighting. It was always supposed to be a secret, but I finally told George I didn't think it was fair any more. Bob worked so bloody hard that he deserves some recognition. It's ridiculous to preserve the myth that it's all done by one man.\"\n\nFor the next thirty years, Anderson continued to work in cinema and was responsible for the swordsmanship in many films. He had a reputation for being a perfectionist, with director Martin Campbell giving him the nickname \"Grumpy Bob\". Among his credits as a fight choreographer and fencing coach are The Three Musketeers, First Knight with Sean Connery, The Mask of Zorro with actor Antonio Banderas, The Lord of the Rings trilogy with actor Christopher Lee, the James Bond film Die Another Day with stunt performer Jim Dowdall, and Pirates of the Caribbean: The Curse of the Black Pearl with Johnny Depp. Shortly before his death, he was working on The Hobbit.\n\nAnderson died on New Year's Day in 2012. He was 89 years old."
+  }, {
+    "tmdbId" : 1271059,
+    "name" : "Lightning Bear",
+    "birthDate" : "1947-10-07",
+    "deathDate" : "2011-06-11",
+    "gender" : "Male",
+    "profile" : "28b9ce14-cb25-4be3-b0e7-7c769977daf3",
+    "homepage" : null,
+    "birthPlace" : "Houston, Texas, USA",
+    "biography" : "Lightning Bear (7 October 1947 – 11 June 2011; age 63) was a Native American stuntman, stunt coordinator, and special effects artist."
+  }, {
+    "tmdbId" : 1473717,
+    "name" : "Richard Bonehill",
+    "birthDate" : "1948-03-30",
+    "deathDate" : "2015-02-04",
+    "gender" : "Unknown",
+    "profile" : "99221f75-859b-4b35-bb57-cd247b10eedc",
+    "homepage" : null,
+    "birthPlace" : "Hampstead, London, England, UK",
+    "biography" : "Richard Bonehill (c. 1948 – 4 February 2015) was a British actor and stuntman with an expertise in swordsmanship."
+  }, {
+    "tmdbId" : 1230632,
+    "name" : "John Cannon",
+    "birthDate" : "1938-05-22",
+    "deathDate" : "2020-09-20",
+    "gender" : "Male",
+    "profile" : "dd074914-45c4-4819-a83f-50faa495f488",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "A British actor who worked predominantly in television, Cannon appeared in several Doctor Who (1974-1983) stories during the Jon Pertwee and Patrick Troughton eras, as well as numerous episodes of classic television shows such as Steptoe & Son, The Sweeney, Porridge and The Professionals.  His other credits included Beau Geste (1982), The Adventures of Sherlock Holmes (1984) and as a Stormtrooper in Star Wars: Episode IV - A New Hope, Star Wars VI - Return of the Jedi and as a Holographic Imperial Officer in Star Wars Episode V - The Empire Strikes Back."
+  }, {
+    "tmdbId" : 1520024,
+    "name" : "Mark Capri",
+    "birthDate" : "1951-07-19",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7c6eb54d-b3da-4301-a88e-f890bab57bc1",
+    "homepage" : null,
+    "birthPlace" : "Washington, District of Columbia, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1355100,
+    "name" : "Martin Dew",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "bf262589-f4f4-4aec-84ac-2e7bee97b316",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 53587,
+    "name" : "Peter Diamond",
+    "birthDate" : "1929-08-10",
+    "deathDate" : "2004-03-27",
+    "gender" : "Male",
+    "profile" : "74140eff-761e-40dc-a93a-d0707c468885",
+    "homepage" : null,
+    "birthPlace" : "Durham, England, UK",
+    "biography" : "Peter Diamond (10 August 1929 – 27 March 2004) was an English actor who had trained at the Royal Academy of Dramatic Art and is remembered as a stuntman on television or film."
+  }, {
+    "tmdbId" : 1212168,
+    "name" : "Stuart Fell",
+    "birthDate" : "1942-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "991f8fd8-6b4e-4183-8330-0eb1d7f69755",
+    "homepage" : null,
+    "birthPlace" : "Morecambe, Lancashire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1572549,
+    "name" : "Doug Robinson",
+    "birthDate" : "1930-02-08",
+    "deathDate" : "2021-12-16",
+    "gender" : "Male",
+    "profile" : "9a095d2d-9dc7-42f8-8558-cc0c99da004b",
+    "homepage" : null,
+    "birthPlace" : "Newcastle Upon Tyne, England, UK",
+    "biography" : "Doug Robinson is an English stuntman and actor."
+  }, {
+    "tmdbId" : 2175140,
+    "name" : "Tony Smart",
+    "birthDate" : "1949-04-10",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7fcc01a9-f68d-434e-b1fb-e7ecf250cd6a",
+    "homepage" : null,
+    "birthPlace" : "Ealing, London, England, UK",
+    "biography" : "Tony Smart was born on 10 April 1949 in Ealing, London, England, UK. He is an actor, known for Robin Hood (2010), Children of Men (2006) and Captain America: The First Avenger (2011)."
+  }, {
+    "tmdbId" : 964699,
+    "name" : "Alan Harris",
+    "birthDate" : "1938-05-28",
+    "deathDate" : "2020-01-25",
+    "gender" : "Male",
+    "profile" : "d28f5f37-639d-444b-a247-769d88a68cac",
+    "homepage" : null,
+    "birthPlace" : "Enfield, Middlesex, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 15152,
+    "name" : "James Earl Jones",
+    "birthDate" : "1931-01-17",
+    "deathDate" : "2024-09-09",
+    "gender" : "Male",
+    "profile" : "4616d0cd-fa55-4c17-922e-6da69bb5df93",
+    "homepage" : null,
+    "birthPlace" : "Arkabutla, Mississippi, USA",
+    "biography" : "James Earl Jones (January 17, 1931 – September 9, 2024) was an American actor. He was described as \"one of America's most distinguished and versatile\" actors for his performances on stage and screen, and \"one of the greatest actors in American history\". Over his career, he received three Tony Awards, two Emmy Awards, and a Grammy Award. He was inducted into the American Theater Hall of Fame in 1985. He was honored with the National Medal of Arts in 1992, the Kennedy Center Honor in 2002, the Screen Actors Guild Life Achievement Award in 2009 and the Honorary Academy Award in 2011. His deep voice has been praised as a \"stirring basso profondo that has lent gravel and gravitas\" to his projects."
+  }, {
+    "tmdbId" : 33403,
+    "name" : "Mac McDonald",
+    "birthDate" : "1948-06-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "99b91c44-ad29-4e07-8f67-de7af13241e5",
+    "homepage" : null,
+    "birthPlace" : "Long Island, New York, USA",
+    "biography" : "Mac McDonald (born Terence McDonald, 18 June 1949, in Long Island, New York, USA) is an American actor. He is best known for playing Captain Hollister on the BBC TV series Red Dwarf and frequently plays American characters in other British TV shows. He has also had many movie roles in films such as Aliens, Batman and The Fifth Element, all of which were filmed in England.\n\nDescription above from the Wikipedia article Mac McDonald, licensed under CC-BY-SA,full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1572550,
+    "name" : "Ralph McQuarrie",
+    "birthDate" : "1929-06-13",
+    "deathDate" : "2012-03-03",
+    "gender" : "Male",
+    "profile" : "e5289c5e-0b58-49c8-844c-ba9830f9c7f0",
+    "homepage" : "https://www.ralphmcquarrie.com/",
+    "birthPlace" : "Gary, Indiana, USA",
+    "biography" : "Ralph Angus McQuarrie (/məˈkwɒriː/; June 13, 1929 – March 3, 2012) was a conceptual designer and futurist responsible for many of the designs and aesthetics featured in the original trilogy. He also provided concept illustrations fort he original Battlestar Galactica and the illustration of the Ark of the Covenant seen in a Bible near the beginning of Raiders of the Lost Ark. He often went by the initials \"RMQ,\" which he used as his signature. McQuarrie was tuckerized via a cameo in The Empire Strikes Back as General Pharl McQuarrie."
+  }, {
+    "tmdbId" : 1230662,
+    "name" : "Ralph G. Morse",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d627f36f-277e-4278-a90f-4a60969150d5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1229106,
+    "name" : "Terry Richards",
+    "birthDate" : "1932-11-02",
+    "deathDate" : "2014-06-14",
+    "gender" : "Male",
+    "profile" : "1bff3119-0eeb-4a77-88f6-2ff81b368ee5",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Terry Richards was born on November 2, 1932 in London, England as David Terence Richards. He is known for his work on Les aventuriers de l'arche perdue (1981), Indiana Jones et la dernière croisade (1989) and Princess Bride (1987). He died on June 14, 2014 in Ruislip, London."
+  }, {
+    "tmdbId" : 4515,
+    "name" : "Treat Williams",
+    "birthDate" : "1951-12-01",
+    "deathDate" : "2023-06-12",
+    "gender" : "Male",
+    "profile" : "c5a6d37d-ac5e-4164-ba10-8f9cd86b8d48",
+    "homepage" : null,
+    "birthPlace" : "Stamford, Connecticut, USA",
+    "biography" : "Richard Treat Williams (December 1, 1951 – June 12, 2023) was an American actor, author, and aviator. Williams' accolades include nominations for two Screen Actors Guild Awards, three Golden Globes, a Primetime Emmy, two Satellite Awards, and an Independent Spirit Award. He appeared in over 75 films and several television series. Williams' career included numerous stage roles.\n\nOn June 12, 2023, Williams was involved in a motorcycle crash on Vermont Route 30, near Dorset. According to the Vermont State Police, a 2008 Honda Element in the southbound lane turned into the path of Williams' motorcycle in the northbound lane, who was unable to avoid colliding with it. He was airlifted to Albany Medical Center, where he was pronounced dead at the age of 71.\n\n[biography (excerpted) from Wikipedia]"
+  }, {
+    "tmdbId" : 185986,
+    "name" : "Shaun Curry",
+    "birthDate" : "1937-06-05",
+    "deathDate" : "2009-01-01",
+    "gender" : "Male",
+    "profile" : "59f3cb9b-3daf-4ad7-ba35-2f748892af9b",
+    "homepage" : null,
+    "birthPlace" : "Lambeth, London, England, UK",
+    "biography" : "Shaun Curry (5 June 1937 – 7 July 2009) was a British actor, best known for his appearances on television.\n\nHis credits include: Z-Cars, The Saint, Warship, The Sweeney, The New Avengers, Secret Army, Poldark, To the Manor Born, The Professionals, Blake's 7, Fox, Hot Money, Minder, Terry and June, The Gentle Touch, The Bill, Grange Hill, Just Good Friends, London's Burning and Holby City.\n\nEducated in part at Buckingham College, Harrow, Served in the Grenadier Guards.\n\nGraduating from RADA in 1961, his theatre roles included work in rep, with the RSC, in the West End, and with the National Theatre."
+  }, {
+    "tmdbId" : 1729657,
+    "name" : "Alan Austen",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "2da6616e-663a-44c9-961a-1e319127d847",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1415957,
+    "name" : "Jim Dowdall",
+    "birthDate" : "1948-10-21",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ad92ceda-1333-431a-9344-f42a6cca7b8f",
+    "homepage" : null,
+    "birthPlace" : "Hammersmith, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 107700,
+    "name" : "Tom Egeland",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d96f349c-2a42-4599-a17b-479ddb402212",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1424954,
+    "name" : "Alan Flyng",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "e02923fd-ed89-4b18-bcee-a8df0e6c23c0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1729660,
+    "name" : "Trevor Butterfield",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "eaf2b170-9a87-4af2-a10f-6300288a3f6d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Trevor Butterfield is a British special effects technician, background actor, and model from Holmfirth, England. Prior to his career in the film industry, Butterfield studied engineering at Huddersfield Technical College."
+  }, {
+    "tmdbId" : 2088545,
+    "name" : "Mercedes Burleigh",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "afabadcc-a13d-4f8c-9a5e-98797770977f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1430217,
+    "name" : "Jane Busby",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "0ee3e5e9-143b-49a2-a89a-e95e38e793a2",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1220323,
+    "name" : "Maurice Bush",
+    "birthDate" : "1930-06-03",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0379eef7-6d3b-463e-ab10-71d066b789af",
+    "homepage" : null,
+    "birthPlace" : "Pimlico, London, England, UK",
+    "biography" : "British boxer-turned-actor Maurice Bush (who was occasionally billed as Morris Bush) was a supporting player in a number of British films and television series from the 1950s to the 1990s. His filmography includes The Hellfire Club (1961), The Frightened City (1961), Scars of Dracula (1970) and The Creeping Flesh (1973). He also appeared in many popular British television series, including Dixon of Dock Green, Doctor Who (cast as an Ogron, an alien enemy of the Doctor) and Inspector Morse. Bush was selected to play mummy-like bounty hunter Dengar in Star Wars: Episode V The Empire Strikes Back (1980), uncredited and without any speaking lines."
+  }, {
+    "tmdbId" : 151961,
+    "name" : "Tony Clarkin",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "31cf131a-e570-4c45-b2c2-ceddca99c3d7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 219382,
+    "name" : "Mike Edmonds",
+    "birthDate" : "1944-01-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f35853b6-d6cf-4578-9903-b4ea49f78cc1",
+    "homepage" : null,
+    "birthPlace" : "Billericay, Essex, England, UK",
+    "biography" : "Mike Edmonds is a British film and television actor with dwarfism, best known for his role as Little Ron in the children's television series \"Maid Marian and Her Merry Men\", and for his roles in the feature films \"Flash Gordon\", \"Time Bandits\", and \"Return of the Jedi\"."
+  }, {
+    "tmdbId" : 1406400,
+    "name" : "Walter Henry",
+    "birthDate" : "1921-10-24",
+    "deathDate" : "2005-02-21",
+    "gender" : "Male",
+    "profile" : "39ae95a6-5fd7-48ee-ad88-74f5751ae898",
+    "homepage" : null,
+    "birthPlace" : "Hammersmith, London, England, UK",
+    "biography" : "British bit player Walter Henry was born Israel W. Nagelkop on October 24, 1921 in Hammersmith, London, England. Henry initially worked as a film publicist prior to embarking on a career as an extra in the late 1940's. A brawny man with a rugged face, close-cropped hair, and a strong build, Walter could be often spotted in various movies and TV shows as thugs, soldiers, or police officers. Henry died at age 83 on February 21, 2005 in Edgware, Middlesex, England."
+  }, {
+    "tmdbId" : 1230439,
+    "name" : "Paul Jerricho",
+    "birthDate" : "1948-11-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "c8914796-9685-498f-b3b0-c0a52f5151eb",
+    "homepage" : null,
+    "birthPlace" : "England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 4945,
+    "name" : "Joe Johnston",
+    "birthDate" : "1950-05-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ef7afd5a-1c2c-4050-81a0-49057f65ebc4",
+    "homepage" : "http://www.joejohnstonsketchbook.com/",
+    "birthPlace" : "Fort Worth, Texas, USA",
+    "biography" : "Joseph Eggleston Johnston II (born May 13, 1950) is an American film director, producer, writer, and visual effects artist. He is best known for directing effects-driven films, including Honey, I Shrunk the Kids (1989), The Rocketeer (1991), Jumanji (1995), Jurassic Park III (2001), The Wolfman (2010), and Captain America: The First Avenger (2011).\n\nDescription above from the Wikipedia article Joe Johnston, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 2250902,
+    "name" : "Steven Meek",
+    "birthDate" : "1950-03-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1bcbf8bd-1e88-4511-b3de-db47795022d6",
+    "homepage" : null,
+    "birthPlace" : "Toronto, Ontario, Canada",
+    "biography" : ""
+  }, {
+    "tmdbId" : 3307,
+    "name" : "Peter Roy",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6f9c08f2-f5ef-414b-8959-ff3f342c3e8e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 4091766,
+    "name" : "Stephanie English",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "42821d86-37f8-4647-a8a4-95dc997fcbdd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1729623,
+    "name" : "Michael Leader",
+    "birthDate" : "1938-09-12",
+    "deathDate" : "2016-08-22",
+    "gender" : "Male",
+    "profile" : "55efe41c-1c9e-4903-bf59-d67918ee999e",
+    "homepage" : null,
+    "birthPlace" : "Hackney, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 4216135,
+    "name" : "Egbert Sen",
+    "birthDate" : null,
+    "deathDate" : "2019-03-14",
+    "gender" : "Male",
+    "profile" : "aab161a0-09ba-46c5-a16e-5ef996c432a7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Egbert Sen (c. 1932 – March 14, 2019) was a Pakistani musician and extra. He had joined the 'Make Yourself At Home' program to perform Indian music for the BBC after arriving in the UK. He composes a piece in the film 'The Beatles: Help!' but today he is best known for his brief appearance in 'Star Wars: Episode V - The Empire Strikes Back' as Willrow Hood."
+  }, {
+    "tmdbId" : 3304181,
+    "name" : "Elaine Alexander",
+    "birthDate" : "1952-12-23",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5894a269-6652-4a4e-898b-10b34077ef9b",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2487126,
+    "name" : "Colin Hunt",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "c65e57ba-a0ff-4553-a742-c9f1301aa3d1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 12401,
+    "name" : "Gary Kurtz",
+    "birthDate" : "1940-07-27",
+    "deathDate" : "2018-09-23",
+    "gender" : "Male",
+    "profile" : "f1414be9-428e-4871-ace4-895c056c3231",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, United States",
+    "biography" : "Gary Douglas Kurtz (July 27, 1940 – September 23, 2018) was an American film producer whose list of credits includes American Graffiti (1973), Star Wars (1977), The Empire Strikes Back (1980), The Dark Crystal (1982) and Return to Oz (1985). Kurtz also co-produced the 1989 science fiction adventure film Slipstream, which reunited him with Star Wars star Mark Hamill.\n\nDescription above from the Wikipedia article Gary Kurtz, licensed under CC-BY-SA, full list of contributors on Wikipedia"
+  }, {
+    "tmdbId" : 4298,
+    "name" : "Leigh Brackett",
+    "birthDate" : "1915-12-07",
+    "deathDate" : "1978-03-18",
+    "gender" : "Female",
+    "profile" : "b36a2047-ff12-4f93-a277-f35546cef92e",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Leigh Brackett was a Hollywood writer and a noted science fiction and fantasy author who was a regular contributor to various science fiction pulps in the 1940's. She was also a mentor and collaborator of Ray Bradbury. She was married to fellow science fiction pulp writer Edmond Hamilton for 31 years (until his death in 1977).\n\nIn Hollywood, she wrote such films as The Long Goodbye, Hatari! and Rio Bravo. She also wrote the first draft of Star Wars: Episode V The Empire Strikes Back. Shortly after she completed the draft, she died after a battle with cancer.\n\nAfter her death, George Lucas decided that he did not prefer the direction Brackett's draft was going in. Lucas discarded it and wrote two new drafts with Lawrence Kasdan finishing the script. Brackett's original draft was not mentioned or referenced in the new drafts. However, Lucas felt that her name should be in the credits as a reward for her effort. To ensure Writers Guild of America (which determines screenwriting credit for the film) would award her the credit, Lucas intentionally did not submit his drafts."
+  }, {
+    "tmdbId" : 10930,
+    "name" : "Irvin Kershner",
+    "birthDate" : "1923-04-29",
+    "deathDate" : "2010-11-27",
+    "gender" : "Male",
+    "profile" : "4ff8246c-5ed3-459e-b3ba-e8fa6b158704",
+    "homepage" : null,
+    "birthPlace" : "Philadelphia, Pennsylvania, USA",
+    "biography" : "Irvin Kershner (April 29, 1923 – November 27, 2010) was an American film director and occasional actor, best known for directing quirky, independent films early in his career, and then Star Wars Episode V: The Empire Strikes Back.\n\nDescription above from the Wikipedia article Irvin Kershner , licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 8844,
+    "name" : "Lawrence Kasdan",
+    "birthDate" : "1949-01-14",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4bb3d84f-b5fc-4fe4-8bc7-8ca9d7ba7aa1",
+    "homepage" : null,
+    "birthPlace" : "Miami, Florida, USA",
+    "biography" : "Lawrence Edward Kasdan (born January 14, 1949) is an American filmmaker. He is the co-writer of the Star Wars films The Empire Strikes Back (1980), Return of the Jedi (1983), The Force Awakens (2015), and Solo: A Star Wars Story (2018). He also wrote Raiders of the Lost Ark (1981) and The Bodyguard (1992), and is the writer-director of Body Heat (1981), The Big Chill (1983), Silverado (1985), The Accidental Tourist (1988), and Dreamcatcher (2003).\n\nKasdan is known for updating old Hollywood genres—film noir, science fiction, and Westerns—in a classical dramatic style with quick-witted dialogue while dealing with contemporary social themes. As a director, he has made various personal films that examine characters and generations.\n\nKasdan has been nominated for four Academy Awards: as a producer for Best Picture nominee The Accidental Tourist, for which he was also nominated for Best Adapted Screenplay, and for Best Original Screenplay for both The Big Chill and Grand Canyon (1991). He has often collaborated with his wife, Meg Kasdan, his brother, Mark Kasdan, and his two sons, Jonathan Kasdan and Jake Kasdan. He has frequently cast Kevin Kline and William Hurt in his films.\n\nDescription above from the Wikipedia article Lawrence Kasdan, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 491,
+    "name" : "John Williams",
+    "birthDate" : "1932-02-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b0632559-32e9-479e-a199-2f66b7feb5e1",
+    "homepage" : "https://www.johnwilliams.org/",
+    "birthPlace" : "Queens, New York City, New York, USA",
+    "biography" : "John Towner Williams (born February 8, 1932) is an American composer and conductor. In a career that has spanned seven decades, he has composed some of the most popular, recognizable, and critically acclaimed film scoresin cinema history. He has a distinct sound that mixes romanticism, impressionism and atonal music with complex orchestration. He is best known for his collaborations with Steven Spielberg and George Lucas and has received numerous accolades including 26 Grammy Awards, five Academy Awards, seven BAFTA Awards, three Emmy Awards and four Golden Globe Awards. With 54 Academy Award nominations, he is the second-most nominated person, after Walt Disney, and is the oldest Oscar nominee in any category, at 91 years old.\n\nWilliams's early work as a film composer includes Valley of the Dolls (1967), Goodbye, Mr. Chips (1969), Images and The Cowboys (both 1972), The Long Goodbye (1973) and The Towering Inferno (1974). He has collaborated with Spielberg since The Sugarland Express (1974), composing music for all but five of his feature films. He received five Academy Awards for Best Score for Fiddler on the Roof (1971), Jaws (1975), Star Wars (1977), E.T. the Extra-Terrestrial (1982) and Schindler's List (1993). Other memorable collaborations with Spielberg include Close Encounters of the Third Kind (1977), the Indiana Jones franchise (1981–2023), Hook (1991), Jurassic Park (1993), Saving Private Ryan (1998), Catch Me If You Can (2002), War Horse (2011), Lincoln (2012), and The Fabelmans (2022). He also scored Superman (1978), the first two Home Alone films (1990–1992), and the first three Harry Potter films (2001–2004).\n\nWilliams has also composed numerous classical concertos and other works for orchestral ensembles and solo instruments. He served as the Boston Pops' principal conductor from 1980 to 1993 and is its laureate conductor. Other works by Williams include theme music for the 1984 Summer Olympic Games; NBC Sunday Night Football; \"The Mission\" theme (used by NBC News and Seven News in Australia); and the television series Lost in Space, Land of the Giants and Amazing Stories.\n\nAmong other accolades, he has received the Kennedy Center Honor in 2004, the National Medal of the Arts in 2009 and the AFI Life Achievement Award in 2016. He was inducted into the Songwriters Hall of Fame in 1998, the Hollywood Bowl's Hall of Fame in 2000 and the American Classical Music Hall of Fame in 2004. He has composed the score for nine of the top 25 highest-grossing films at the U.S. box office. In 2022, Williams was appointed an Honorary Knight Commander of the Order of the British Empire (KBE) by Queen Elizabeth II, \"for services to film music\". In 2005, the American Film Institute placed Williams's score to Star Wars first on its list AFI's 100 Years of Film Scores; his scores for Jaws and E.T. also made the list. The Library of Congress entered the Star Wars soundtrack into the National Recording Registry for being \"culturally, historically, or aesthetically significant\".\n\nDescription above from the Wikipedia article John Williams, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1,
+    "name" : "George Lucas",
+    "birthDate" : "1944-05-14",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d62c6583-ec8b-40f1-b4a9-0bbb39b8f206",
+    "homepage" : null,
+    "birthPlace" : "Modesto, California, USA",
+    "biography" : "George Walton Lucas Jr. (born May 14, 1944) is an American filmmaker and entrepreneur. Lucas is known for creating the Star Wars and Indiana Jones franchises and founding Lucasfilm, LucasArts and Industrial Light & Magic. He served as chairman of Lucasfilm before selling it to The Walt Disney Company in 2012.\n\nAfter graduating from the University of Southern California in 1967, Lucas co-founded American Zoetrope with filmmaker Francis Ford Coppola. Lucas wrote and directed THX 1138 (1971), based on his earlier student short Electronic Labyrinth: THX 1138 4EB, which was a critical success but a financial failure. His next work as a writer-director was the film American Graffiti (1973), inspired by his youth in early 1960s Modesto, California, and produced through the newly founded Lucasfilm. The film was critically and commercially successful, and received five Academy Award nominations including Best Picture.\n\nLucas's next film, the epic space opera Star Wars (1977), had a troubled production but was a surprise hit, becoming the highest-grossing film at the time, winning six Academy Awards and sparking a cultural phenomenon. Lucas produced and co-wrote the sequels The Empire Strikes Back (1980) and Return of the Jedi (1983). With director Steven Spielberg, he created, produced and co-wrote the Indiana Jones films Raiders of the Lost Ark (1981), Temple of Doom (1984), The Last Crusade (1989) and Kingdom of the Crystal Skull (2008). He also produced and wrote a variety of films and television series through Lucasfilm between the 1970s and the 2010s.\n\nIn 1997, Lucas rereleased the Star Wars trilogy as part of a special edition featuring several alterations; home media versions with further changes were released in 2004 and 2011. He returned to directing with a Star Wars prequel trilogy comprising The Phantom Menace (1999), Attack of the Clones (2002), and Revenge of the Sith (2005). He last collaborated on the CGI-animated television series Star Wars: The Clone Wars (2008–2014, 2020), the war film Red Tails (2012), and the CGI film Strange Magic (2015).\n\nLucas is one of history's most financially successful filmmakers and has been nominated for four Academy Awards. His films are among the 100 highest-grossing movies at the North American box office, adjusted for ticket-price inflation. Lucas is considered a significant figure of the 20th-century New Hollywood movement.\n\nDescription above from the Wikipedia article George Lucas, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 9402,
+    "name" : "Brian Johnson",
+    "birthDate" : "1939-06-29",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2bde2dfc-7cb9-4f50-9b0e-44c0fdc8b2cf",
+    "homepage" : null,
+    "birthPlace" : "Surrey, England, UK",
+    "biography" : "Brian Johncock (born 29 June 1939) is a British designer and director of film and television special effects. He changed his surname to Johnson during the 1960s.\n\nJoining the team of special effects artist Les Bowie, Johnson started his career behind the scenes for Bowie Films on productions such as On the Buses, and for Hammer Films. He is known for his special effects work on TV series including Thunderbirds (1965–66) and films including Alien (1979), for which he received the 1980 Academy Award for Best Visual Effects (shared with H. R. Giger, Carlo Rambaldi, Dennis Ayling and Nick Allder). Previously, he had built miniature spacecraft models for Stanley Kubrick's 1968 film 2001: A Space Odyssey.\n\nJohnson's work on Space: 1999 influenced the effects of the Star Wars films of the 1970s and 1980s. Impressed by his work, George Lucas visited Johnson during the production of the TV series to offer him the role of effects supervisor for the 1977 film. Having already been commissioned for the second series of Space: 1999, Johnson was unable to accept at the time. He worked on the sequel, The Empire Strikes Back (1980), whose special effects were recognised in the form of a 1981 Special Achievement Academy Award (which Johnson shared with Richard Edlund, Dennis Muren and Bruce Nicholson)."
+  }, {
+    "tmdbId" : 2950,
+    "name" : "Robert Elswit",
+    "birthDate" : "1950-04-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b308a679-e7fb-42e7-b246-f64bd8951c9c",
+    "homepage" : null,
+    "birthPlace" : "California, USA",
+    "biography" : "Robert Christopher Elswit, ASC (born April 22, 1950) is an American cinematographer.\n\nHe has collaborated with Paul Thomas Anderson from 1996 to 2014, winning the Academy Award for Best Cinematography for There Will Be Blood.\n\nElswit has also collaborated with directors and screenwriters Tony and Dan Gilroy on all six films that either brother directed.\n\nDescription above from the Wikipedia article Robert Elswit, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 2551,
+    "name" : "Marcia Lucas",
+    "birthDate" : "1945-10-04",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c32cecca-96b4-4d00-9a78-17bc700c954f",
+    "homepage" : null,
+    "birthPlace" : "Modesto, California, USA",
+    "biography" : "Marcia Lou Lucas is an American film editor. She is best known for her work editing the Star Wars trilogy as well as other films by her then-husband George Lucas: THX-1138 and American Graffiti. She also edited Martin Scorsese's Alice Doesn't Live Here Anymore, Taxi Driver, and New York, New York."
+  }, {
+    "tmdbId" : 2915917,
+    "name" : "Bill Hargreaves",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f51f17d0-3e7f-4425-9aab-9b8ccc7b43f4",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Bill Hargreaves started his prop work on The Empire Strikes Back and Return of the Jedi. He is credited as the creator of IG-88 and the imperial probe droids. His work can also been seen in An American Werewolf in London, Legend, Gladiator, About a Boy, The Golden Compass, and a couple dozen other feature films and programs."
+  }, {
+    "tmdbId" : 1563188,
+    "name" : "Jack Dearlove",
+    "birthDate" : null,
+    "deathDate" : "2009-01-01",
+    "gender" : "Male",
+    "profile" : "d3bfd09e-5bfa-43b5-8cd3-6f42c08629d0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 174672,
+    "name" : "Liz Coke",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "d3dd1d78-e860-42b2-a693-e809638b0c6f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Elizabeth 'Liz' Coke is an actress."
+  }, {
+    "tmdbId" : 2165645,
+    "name" : "Stephen Calcutt",
+    "birthDate" : "1952-05-06",
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "8cafbb42-86c5-4f25-b3ec-53a7d90ecd68",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1295,
+    "name" : "Deep Roy",
+    "birthDate" : "1949-01-26",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2ff0f0b4-5692-4104-b581-325bc32b6ac3",
+    "homepage" : null,
+    "birthPlace" : "Nairobi, Kenya",
+    "biography" : "Mohinder Purba, better known as Deep Roy, is a Kenyan actor, stuntman and puppeteer of Indian descent."
+  }, {
+    "tmdbId" : 1425978,
+    "name" : "Gary Summers",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7a43f55f-a9f5-4d98-b16d-76c781f13331",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Gary Summers is an American sound rerecording mixer.\n\nHe has done the sound re-recording on a number of blockbuster motion pictures, including Avatar, Titanic, Terminator 2: Judgement Day, Saving Private Ryan, Transformers: Revenge of the Fallen, and Jurassic Park. Summers has won four Oscars, an Emmy Award, two BAFTA awards, and three C.A.S. Awards.\n\nHe got his start working on The Empire Strikes Back and began a twenty-year stretch working for the Skywalker Sound division of George Lucas's Lucas Digital in Marin County, California. Summers formed Summers Sound Services, Inc. in 2002 and is currently self-employed.\n\nDescription above from the Wikipedia article Gary Summers, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 2644740,
+    "name" : "Doug Robinson",
+    "birthDate" : "1930-02-08",
+    "deathDate" : "2021-12-16",
+    "gender" : "Male",
+    "profile" : "babbfc55-878e-45a8-8c98-7cd436d650d6",
+    "homepage" : null,
+    "birthPlace" : "Newcastle upon Tyne, England, UK",
+    "biography" : "Actor and stuntman."
+  }, {
+    "tmdbId" : 1271078,
+    "name" : "Reg Harding",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "cb85c685-baef-40c5-ac59-f65da9e76bdf",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1600363,
+    "name" : "Colin Skeaping",
+    "birthDate" : "1944-06-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "3f2cb2b5-3a02-4ddc-aa5f-9deb856988b3",
+    "homepage" : null,
+    "birthPlace" : "Colchester, Essex, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 18775,
+    "name" : "Marc Boyle",
+    "birthDate" : "1945-09-05",
+    "deathDate" : "1999-07-21",
+    "gender" : "Male",
+    "profile" : "a51535ca-290a-402e-b821-d639e1803bb9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2067038,
+    "name" : "Richard Hammatt",
+    "birthDate" : "1947-06-30",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d989d8ac-d7d1-478a-94c0-3eb4609a4f72",
+    "homepage" : null,
+    "birthPlace" : "England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1548711,
+    "name" : "Bob Edmiston",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "169443c5-242a-4cb6-bee2-40251a3c5a4d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 390,
+    "name" : "Irene Lamb",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "a3975c53-6c9e-49a1-b87f-ad95810d4f1e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 669,
+    "name" : "Norman Reynolds",
+    "birthDate" : "1934-03-26",
+    "deathDate" : "2023-04-06",
+    "gender" : "Male",
+    "profile" : "b95cbcef-1fa2-44fb-8992-738821a22d15",
+    "homepage" : null,
+    "birthPlace" : "Willesden, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 5059,
+    "name" : "Leslie Dilley",
+    "birthDate" : "1941-01-11",
+    "deathDate" : "2025-05-20",
+    "gender" : "Male",
+    "profile" : "3a25fa1c-97af-425d-ad8d-9215f65c41dd",
+    "homepage" : "http://www.lesliedilley.com/",
+    "birthPlace" : "Rhondda, Glamorgan, Wales, UK",
+    "biography" : "Leslie Dilley (January 11, 1941 — May 20, 2025) was a Welsh art director and production designer. During his career from the 1970s to 2000s, he won the Academy Award for Best Art Direction twice for Star Wars (1977) and Raiders of the Lost Ark (1981). Dilley received additional Best Art Direction nominations for Alien (1979), The Empire Strikes Back (1980), and The Abyss (1989). Apart from art direction, Dilley was a production designer for The Exorcist III (1990), Casper (1995), and Son of the Mask (2005).\n\nIn 1941, Dilley was born in Rhondda Valley, South Wales. Growing up, Dilley and his family moved to London and lived in Wembley Park. For his post-secondary education, Dilley studied architecture at Willesden Technical College. While working as an apprentice plasterer during college, Dilley was encouraged by a classmate to apply at Pinewood Studios. After Pinewood told him there were no open positions available, Dilley completed a five year plastering apprenticeship at the Associated British Picture Corporation."
+  }, {
+    "tmdbId" : 1125548,
+    "name" : "Harry Lange",
+    "birthDate" : "1930-12-07",
+    "deathDate" : "2008-05-22",
+    "gender" : "Male",
+    "profile" : "4c5fc35b-8b7e-4140-a31c-e85fac7c9173",
+    "homepage" : null,
+    "birthPlace" : "Eisenach, Weimar Republic [now Germany]",
+    "biography" : ""
+  }, {
+    "tmdbId" : 948389,
+    "name" : "Jim Bloom",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7878dea2-f09f-4d52-bb30-2daf62456eb7",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 307,
+    "name" : "Peter Suschitzky",
+    "birthDate" : "1941-07-25",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "dad63312-876e-46da-972b-395f5bb7a22f",
+    "homepage" : "http://petersuschitzky.com",
+    "birthPlace" : "London, England",
+    "biography" : "Peter Suschitzky (born 25 July 1941) is a British cinematographer and photographer. He has worked frequently with director David Cronenberg on films including Dead Ringers, Naked Lunch, Crash, eXistenZ, A History of Violence, and Eastern Promises. Among Suschitzky's other works as director of photography are The Rocky Horror Picture Show, The Empire Strikes Back, and Mars Attacks!"
+  }, {
+    "tmdbId" : 8337,
+    "name" : "Terry Liebling",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4b08ae86-a41c-4cb0-a962-62d1bea565ba",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 10880,
+    "name" : "Alan Tomkins",
+    "birthDate" : null,
+    "deathDate" : "2020-09-20",
+    "gender" : "Male",
+    "profile" : "439b1143-bed1-44e7-aa75-c744030d34aa",
+    "homepage" : null,
+    "birthPlace" : "Fulham, London, England",
+    "biography" : "Alan Tomkins was an art director."
+  }, {
+    "tmdbId" : 5061,
+    "name" : "John Mollo",
+    "birthDate" : "1931-03-18",
+    "deathDate" : "2017-10-25",
+    "gender" : "Male",
+    "profile" : "068bb9eb-39a0-48d6-9b98-4ccfc1c4a04e",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "John Mollo (18 March 1931 – 25 October 2017) was a British costume designer and writer on the history of the military uniform. He created the costumes for the first two installments of the Star Wars original film trilogy. Mollo was nominated for the Academy Award for Best Costume Design twice, for Star Wars (1977) and Gandhi (1982), winning both times.\n\nMollo was born in London on 18 March 1931. His father was Eugene Simonovitch Mollo, a Russian immigrant who had escaped Russia in the 1920s, and his mother was Ella Clara Mollo (née Cockell). Eugene Mollo had started his own company that specialised in spraying cement. He was a collector of tin soldiers and military insignia and he wrote a book, Russian Military Swords, 1801–1917. Eugene was also a noted illustrator, and some of his drawings are now held in the Victoria and Albert Museum in London. John Mollo followed his father's interest in military history and developed a particular interest in military uniforms from a very young age. He recalled being especially inspired when he saw the 1935 film Clive of India as a child and returned home from the cinema to draw the costume of King George II. John Mollo was educated at Charterhouse School and then went on to study at the Farnham School of Art in Surrey. After World War II, he was conscripted to do his national service in the King's Shropshire Light Infantry in Hong Kong.\n\nMollo subsequently moved into costume design. For his first film, Mollo unexpectedly found himself working not on a historical military drama but in a genre he had no knowledge of: science fiction. He was commissioned in 1975 by a young filmmaker named George Lucas to devise uniforms and outfits for a fantasy space war film, Star Wars. When asked at the time by a friend about the project, Mollo said that he thought it was a \"sort of a space western and one of the heroes is a dustbin\". Lucas's project envisioned a cast of heroes battling an evil Galactic Empire, and he briefed Mollo to design costumes that would not resemble the stereotypical \"spacey\" look of earlier science fiction productions such as Flash Gordon — \" I don't want the audience to notice any of the costumes. I just want to see light versus dark.\" The aim was to make Lucas's fantasy universe appear authentic – Mollo considered that his total ignorance of science fiction was advantageous in achieving this. Lucas provided Mollo with sketches and concept art by Ralph McQuarrie to work from, working McQuarrie's designs for Imperial stormtroopers and the malevolent character of Darth Vader into functional costumes for actors to wear. McQuarrie's image of Darth Vader had developed from Samurai armour, and Mollo built up a costume using a combination of clerical robes, a motorcycle suit, a German military helmet and a gas mask from Bermans and Nathans costumiers in Camden Town. Mollo intentionally designed the uniforms of Imperial officers to resemble German Nazi officers' uniforms; by contrast, the heroes of the film were dressed in costumes resembling Wild West outfits.  Mollo was surprised by the success of Star Wars, and in 1978 he won an Academy Award for Costume Design. In his acceptance speech at the Oscars ceremony, he said that the Star Wars costumes were \"really not so much costumes as a bit of plumbing and general automobile engineering.\n\nHe died on 25 October 2017, aged 86"
+  }, {
+    "tmdbId" : 8526,
+    "name" : "Michael Ford",
+    "birthDate" : "1928-06-11",
+    "deathDate" : "2018-05-31",
+    "gender" : "Male",
+    "profile" : "b72252ff-4caa-4655-ab1f-a5b1d70d23fe",
+    "homepage" : null,
+    "birthPlace" : "Godstone, Surrey, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 711,
+    "name" : "Robert Watts",
+    "birthDate" : "1938-05-23",
+    "deathDate" : "2024-10-01",
+    "gender" : "Male",
+    "profile" : "55017974-7ebf-4faf-b31b-30ae4a18506c",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : "Robert Watts was a British producer and production manager for film projects, amongst others for the \"Indiana Jones\" and the \"Star Wars\" universes."
+  }, {
+    "tmdbId" : 10766,
+    "name" : "Paul Hirsch",
+    "birthDate" : "1945-11-14",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2a65f1ff-e921-425c-b4e4-cc5c50f66ccd",
+    "homepage" : null,
+    "birthPlace" : "New York City, New York, USA",
+    "biography" : "Paul Frederick Hirsch is an American film editor with over 40 film credits since 1970, best known as one of the premier filmmakers to come out of the New Hollywood movement, collaborating with directors like Brian De Palma, George Lucas, George A. Romero, and Herbert Ross. He won an Academy Award and Saturn Award for his work on the original Star Wars, which he shared with Richard Chew and Marcia Lucas.\n\nDescription above from the Wikipedia article Paul Hirsch, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 665,
+    "name" : "Howard G. Kazanjian",
+    "birthDate" : "1942-07-26",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f7ebb287-78e5-434d-ba9e-daf77515c959",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles County, California, USA",
+    "biography" : "Howard G. Kazanjian (born July 26, 1942) is an Armenian-American film producer best known for the Star Wars films The Empire Strikes Back and Return of the Jedi, as well as the Indiana Jones movie Raiders of the Lost Ark. Kazanjian was an originating member of Lucasfilm, Ltd., serving as its vice president for approximately eight years (1977 to 1984)."
+  }, {
+    "tmdbId" : 7778,
+    "name" : "Patricia Carr",
+    "birthDate" : "1937-12-06",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "172fc8a8-f81a-4502-8cfc-8ca607af1a0b",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 66251,
+    "name" : "Bruce Sharman",
+    "birthDate" : "1929-12-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "919716a9-ba98-49d6-8ac6-496b722f9eff",
+    "homepage" : null,
+    "birthPlace" : "Amersham, Buckinghamshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1336275,
+    "name" : "Herbert W. Spencer",
+    "birthDate" : "1905-04-07",
+    "deathDate" : "1992-09-18",
+    "gender" : "Unknown",
+    "profile" : "565c60e3-0bb2-457c-8224-34e8a2d47b21",
+    "homepage" : null,
+    "birthPlace" : "Santiago, Chile",
+    "biography" : ""
+  }, {
+    "tmdbId" : 29061,
+    "name" : "Tiny Nicholls",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "05040df5-5649-4e1c-ab9c-81452910cd6e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Tiny Nicholls was born in 1922. Tiny was a costume designer, known for Aliens (1986), Outland (1981) and Star Wars: Episode V - The Empire Strikes Back (1980). Tiny died in July 2012."
+  }, {
+    "tmdbId" : 136024,
+    "name" : "Nick Maley",
+    "birthDate" : "1949-07-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d03cf480-29fe-4f0d-901d-0d3515551fcf",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1572559,
+    "name" : "Terry Pritchard",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "b867e609-9631-4d24-94db-1cbdd196af8d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 21548,
+    "name" : "Richard Edlund",
+    "birthDate" : "1940-12-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "36789851-f671-4646-ae4c-ca8320afd272",
+    "homepage" : null,
+    "birthPlace" : "Fargo, North Dakota, USA",
+    "biography" : "Richard Edlund, ASC (born December 6, 1940) is an American visual effects artist and inventor. He was a founding member of Industrial Light & Magic, having already founded Pignose amplifiers, and later co-founded Boss Film Studios and DuMonde VFX. He has won two Academy Awards for Best Visual Effects (1978, Star Wars; 1982, Raiders of the Lost Ark), two Special Achievement Awards, two Scientific and Technical Awards, and the Medal of Commendation. He is also a recipient of the BAFTA and Emmy Awards.\n\nDescription above from the Wikipedia article Richard Edlund, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1424133,
+    "name" : "Paul Huston",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "7600b8ad-7a28-4103-9897-64990759e707",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1629006,
+    "name" : "David H. Watkins",
+    "birthDate" : "1949-09-15",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "972ebc7b-a347-49fb-893b-4221f79a0eb9",
+    "homepage" : null,
+    "birthPlace" : "Slough, Buckinghamshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 68127,
+    "name" : "Bonnie Koehler",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "54f14519-4304-4f3c-83e5-5a2a6e876fb1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 7727,
+    "name" : "Phil Tippett",
+    "birthDate" : "1951-09-27",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "6f05e4c5-b93c-4ab2-a79d-52cc7763e8de",
+    "homepage" : null,
+    "birthPlace" : "Berkeley, California",
+    "biography" : "Phil Tippett is an American filmmaker and multi-award-winning visual effects supervisor and producer, specializing in creature design, stop-motion, and computerized character animation. Over his career, he has assisted ILM, DreamWorks, and his own company Tippet Studios, with his work appearing in movies such as the original Star Wars trilogy, Jurassic Park, and RoboCop."
+  }, {
+    "tmdbId" : 1588463,
+    "name" : "Laurie Shane",
+    "birthDate" : "1934-08-10",
+    "deathDate" : "2015-10-13",
+    "gender" : "Male",
+    "profile" : "3f1359b0-1635-4d20-9f8c-44e24144768d",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1784246,
+    "name" : "Eileen Sullivan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ce6fb003-51cf-4b9b-81bf-56cf27a9aaec",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1323295,
+    "name" : "Graham Churchyard",
+    "birthDate" : "1959-07-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "29439714-ac7b-4c20-b817-8d269351b2ea",
+    "homepage" : null,
+    "birthPlace" : "Colchester, Essex, England, UK",
+    "biography" : "Graham Churchyard is a British costume designer and former costume effects supervisor. He began his career working behind the scenes in costume effects, helping with fabrication and assembly—among his early contributions was assisting Lindy Hemming and others on Christopher Nolan projects. Over time, he shifted more fully into costume design, particularly within large-scale genre films, notably with Marvel Studios.\n\nOne of his earlier major recognitions came for his work on Don Quixote (TV movie, 2000), for which he, along with Charles Knode and Robert Worley, was nominated for the 2000 Primetime Emmy Award for Outstanding Costumes for a Miniseries, Movie or Special. He served as costume designer on Doctor Strange in the Multiverse of Madness (2022), and he was a costume designer on Deadpool & Wolverine (2024) with Mayes C. Rubeo.\n\nHis awards and nominations include being a 2000 nominee for the Primetime Emmy Award for Don Quixote for Outstanding Costumes for a Miniseries, Movie or Special (shared with Charles Knode and Robert Worley). He was nominated in 2025 for a Saturn Award for Best Film Costume Design for Deadpool & Wolverine (shared with Mayes C. Rubeo) by the Academy of Science Fiction, Fantasy & Horror Films, USA. He was also nominated in 2025 for a Latino Entertainment Journalists Association Film Award (LEJA) for Best Costume Design for Deadpool & Wolverine (shared with Mayes C. Rubeo)."
+  }, {
+    "tmdbId" : 1335873,
+    "name" : "George Hull",
+    "birthDate" : "1969-08-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "481bafc6-839b-44bb-9e07-6309ecb167de",
+    "homepage" : "https://www.ghull.com/",
+    "birthPlace" : null,
+    "biography" : "Born in India and raised in the U.S., George Hull started his creative path with a BFA Degree in Industrial Design. Growing up in a small midwest town, a career in the film industry seemed impossible—a \"ridiculous\" pursuit he was told by his instructors. But George's dreams for film design became reality when Lucasfilm's prestigious visual effects company, Industrial Light & Magic, noticed his talent and offered him a position on their creative team, just out of school. At ILM, George's earliest credit was Oscar winner Forrest Gump. He then quickly climbed to be a lead Visual Effects Art Director, working on films like Mission Impossible, Jurassic Park 2, Star Wars: The Empire Strikes Back, and Return of the Jedi special editions. \n\nAfter 6 years at ILM, George left to form George Hull Design. As an independent, he is always pursuing the most creative stage of a film's visual development. As one of Hollywood's leading conceptual designers, George specialises in creating unique and imaginative worlds, including the cinematography, settings, and vehicles that live within them. Recently George worked as a Senior Conceptual Designer on the highly acclaimed Dune as well as Blade Runner 2049, Star Wars IIV, Guardians of the Galaxy Vol. 2, The Cloud Atlas, V for Vendetta, the science fiction epic The Matrix Reloaded, The Matrix Revolutions and The Matrix Resurrections, and The Batman and Thor: Love & Thunder."
+  }, {
+    "tmdbId" : 3997531,
+    "name" : "Peter Sutton",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f2923ce9-db01-4fe8-9a5f-093d2cda92b3",
+    "homepage" : null,
+    "birthPlace" : "Newcastle-upon-Tyne, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1427545,
+    "name" : "George Whitear",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a7b06e97-1146-4d2e-b837-fcc0e86846cd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2011673,
+    "name" : "Selwyn Eddy",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "c567fea1-24bd-4b75-aa9c-9e4d83766a35",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 670,
+    "name" : "Ben Burtt",
+    "birthDate" : "1948-07-12",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "67d9d7a4-2101-4d00-900b-0d0d94bb60f6",
+    "homepage" : null,
+    "birthPlace" : "Jamesville, New York, USA",
+    "biography" : "Benjamin \"Ben\" Burtt, Jr. is a sound designer, film editor, director, screenwriter, and voice actor. He has worked as sound designer on various films, including the Star Wars and Indiana Jones film series, E.T. the Extra-Terrestrial, WALL-E, and Star Trek. He is responsible for creating many of the iconic sound effects heard in the Star Wars film franchise, including the binary speech of R2-D2, the lightsaber hum, the sound of the blaster guns, and the heavy-breathing sound of Darth Vader, which he made by breathing into a scuba regulator. Burtt has a reputation for popularizing a sound effect dubbed the \"Wilhelm scream\", which was taken from a character named Wilhelm in the 1953 film The Charge at Feather River."
+  }, {
+    "tmdbId" : 1575391,
+    "name" : "Steve Lanning",
+    "birthDate" : "1948-09-09",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "735a4a3b-24f5-4cf9-bb1c-11285c296328",
+    "homepage" : null,
+    "birthPlace" : "Stoke Newington, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1649183,
+    "name" : "Kay Rawlings",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "3a905794-af6a-4112-90be-e6a158b1e031",
+    "homepage" : null,
+    "birthPlace" : "Kensington, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1213681,
+    "name" : "David Tomblin",
+    "birthDate" : "1930-10-18",
+    "deathDate" : "2005-07-20",
+    "gender" : "Male",
+    "profile" : "387a59b4-16cc-44ce-93f4-02b85b74180d",
+    "homepage" : null,
+    "birthPlace" : "Borehamwood, Hertfordshire, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1117367,
+    "name" : "Pamela Mann",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "0bbc0d3f-c3e7-4c1e-832f-6c206e5670aa",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2021319,
+    "name" : "Frank Bruton",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ef1d1386-6b54-4a25-91a3-5e1fb9a7126f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1984397,
+    "name" : "Kay Freeborn",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5478b695-814f-4ee6-875c-3c1d2f033151",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1998464,
+    "name" : "Richard Burrow",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f58d3156-ab86-4482-acd4-40f5a6fe9fea",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 11837,
+    "name" : "Stuart Freeborn",
+    "birthDate" : "1914-09-05",
+    "deathDate" : "2013-02-06",
+    "gender" : "Male",
+    "profile" : "9b81475d-790f-441e-ac12-6e18d7d7b420",
+    "homepage" : null,
+    "birthPlace" : "Leytonstone, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 958468,
+    "name" : "Barbara Ritchie",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "b025d6e2-957c-4d7f-bf8f-bb02087cc70e",
+    "homepage" : null,
+    "birthPlace" : "Islington, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1973867,
+    "name" : "Graham Freeborn",
+    "birthDate" : "1943-11-07",
+    "deathDate" : "1986-07-14",
+    "gender" : "Unknown",
+    "profile" : "a304f90a-4d24-4446-bfdb-a98726f960f8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1341781,
+    "name" : "Gregg Landaker",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "8cae5a17-c012-4a64-a817-676967dc1ed1",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2217113,
+    "name" : "Reg Bream",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cd03f16a-6cbe-476c-96ee-e600c081f9dc",
+    "homepage" : null,
+    "birthPlace" : "Lambeth, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 75796,
+    "name" : "Roy Button",
+    "birthDate" : "1951-09-11",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "753cdc8f-3976-4658-a69d-8c283489a8d4",
+    "homepage" : null,
+    "birthPlace" : "Hackney, London, England, UK",
+    "biography" : "Roy Button is a former executive vice-president and managing director of Warner Bros. Productions in the UK, who has worked behind the camera on over 300 films, including Harry Potter, Star Wars, Indiana Jones and James Bond franchises, and was awarded an OBE in 2009 for his services to the film industry. He is the father of director and screenwriter Chanya Button."
+  }, {
+    "tmdbId" : 23858,
+    "name" : "Harley Cokeliss",
+    "birthDate" : "1945-02-11",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d1ae99b2-6cb0-4879-b73a-2ca6c710ffb6",
+    "homepage" : "https://www.bfi.org.uk/profile/harley-cokeliss",
+    "birthPlace" : "San Diego, California, USA",
+    "biography" : "Harley Cokeliss (born Harley Louis Cokliss, February 11, 1945) is an American director, writer and producer of film and television. Originally brought up in Chicago, he moved to Britain in 1966 to study at the London Film School, and spent the majority of his career in the UK.\n\nCokeliss started making documentaries for British television in 1970, including the first filmed version of J. G. Ballard's story Crash!. Papers relating to the film Crash! are available at the British Library. Cokeliss's initial treatment and Ballard's draft script for Crash! are published in Crash: The Collector's Edition, ed. Chris Beckett. He returned to Chicago in 1972 to make a documentary about blues musicians in the city.\n\nCokeliss later graduated to making feature films, serving as second unit director on The Empire Strikes Back before helming films like Battletruck, Black Moon Rising, and Malone. He wrote and directed the 1988 horror film Dream Demon. He has directed episodes of various television series, including The New Adventures of Robin Hood, CI5: The New Professionals, and Xena: Warrior Princess."
+  }, {
+    "tmdbId" : 16589,
+    "name" : "Peter MacDonald",
+    "birthDate" : "1939-06-20",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bbda5c16-8acb-4590-8933-0b1c9e5e0f20",
+    "homepage" : null,
+    "birthPlace" : "Willesden, London, England, UK",
+    "biography" : "From Wikipedia, the free encyclopedia.  Peter MacDonald is a film director, cinematographer, and producer from London, England.\n\nHe is most noted as the director of the films Rambo III, The NeverEnding Story III, and the television mini-series The Monkey King (also known as The Lost Empire).\n\nHe served as a co-producer of the film version of Harry Potter and the Goblet of Fire and was the Director of Photography for Hamburger Hill.\n\nDescription above from the Wikipedia article Peter MacDonald, licensed under CC-BY-SA,full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 91517,
+    "name" : "Svend Johansen",
+    "birthDate" : "1930-05-17",
+    "deathDate" : "2021-03-02",
+    "gender" : "Male",
+    "profile" : "927f9887-a831-4f1f-b256-07a93043fad0",
+    "homepage" : null,
+    "birthPlace" : "Frederiksberg, Danmark",
+    "biography" : ""
+  }, {
+    "tmdbId" : 8651,
+    "name" : "Philip Kohler",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fc6ed26d-b48b-4923-a0ed-9da8dd71eff1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 568911,
+    "name" : "John Barry",
+    "birthDate" : null,
+    "deathDate" : "1979-06-01",
+    "gender" : "Male",
+    "profile" : "942f91e4-4168-419c-809e-17491d86ef42",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 16178,
+    "name" : "Rick Baker",
+    "birthDate" : "1950-12-08",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1644f1ff-4306-4916-8e9c-9697c58f0dc9",
+    "homepage" : null,
+    "birthPlace" : "Binghamton, New York, USA",
+    "biography" : "Richard A. Baker (born December 8, 1950) is a retired American special make-up effects creator and actor, mostly known for his creature effects and designs. Baker won the Academy Award for Best Makeup a record seven times from a record eleven nominations, beginning when he won the inaugural award for the 1981 film An American Werewolf in London.\n\nAs a teen, Baker began creating artificial body parts in his own kitchen. He also appeared briefly in the fan production The Night Turkey, a one-hour, black-and-white video parody of The Night Stalker directed by William Malone. Baker's first professional job was as an assistant to prosthetic makeup effects veteran Dick Smith on the 1973 film The Exorcist. While working on The Exorcist, Baker was hired by director Larry Cohen to design and create a mutant infant for Cohen's 1974 film It's Alive.\n\nBaker received the inaugural Academy Award for Best Makeup for his work on An American Werewolf in London. He also created the werewolf creature Michael Jackson transforms into in the music video Thriller. Subsequently, Baker has been nominated for the Best Makeup Oscar ten more times, winning on seven occasions, both records in his field.\n\nBaker claims that his work on Harry and the Hendersons is one of his proudest achievements.[8] On October 3, 2009, he received the Jack Pierce – Lifetime Achievement Award title of the Chiller-Eyegore Awards.[9]\n\nHe was awarded a Doctorate of Humane Letters from the Academy of Art University San Francisco in 2008. He also contributes commentaries to the web series Trailers from Hell for trailers about horror and science fiction films.\n\nBaker received the 2485th star of the Hollywood Walk of Fame on November 30, 2012. The star is located in front of the Guinness World Records Museum.\n\nBaker announced his retirement on May 28, 2015: \"First of all, the CG stuff definitely took away the animatronics part of what I do. It's also starting to take away the makeup part. The time is right, I am 64 years old, and the business is crazy right now. I like to do things right, and they wanted cheap and fast. That is not what I want to do, so I just decided it is basically time to get out. I would consider designing and consulting on something, but I don't think I will have a huge working studio anymore.\""
+  }, {
+    "tmdbId" : 2922346,
+    "name" : "London Symphony Orchestra",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fdb9bc30-fcba-49e6-89bf-d365e593a51a",
+    "homepage" : "https://www.lso.co.uk",
+    "birthPlace" : null,
+    "biography" : ""
+  } ]
+}

@@ -1,0 +1,2100 @@
+{
+  "tmdbId" : 78,
+  "title" : "Blade Runner",
+  "releaseDate" : "1982-06-25",
+  "score" : 5.0,
+  "status" : "Released",
+  "runtime" : 118,
+  "budget" : 28000000,
+  "revenue" : 41722424,
+  "backdrop" : "1c0ff435-acb6-4626-8afe-42e42038f952",
+  "poster" : "d1d830f1-bd8c-4576-80f8-48f751b9f90b",
+  "homepage" : "http://www.warnerbros.com/blade-runner",
+  "originalLanguage" : "en",
+  "tagline" : "Man has made his match... now it's his problem.",
+  "overview" : "In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.",
+  "credits" : {
+    "cast" : [ {
+      "tmdbId" : 3,
+      "character" : "Deckard",
+      "order" : 0
+    }, {
+      "tmdbId" : 585,
+      "character" : "Batty",
+      "order" : 1
+    }, {
+      "tmdbId" : 586,
+      "character" : "Rachael",
+      "order" : 2
+    }, {
+      "tmdbId" : 587,
+      "character" : "Gaff",
+      "order" : 3
+    }, {
+      "tmdbId" : 588,
+      "character" : "Bryant",
+      "order" : 4
+    }, {
+      "tmdbId" : 589,
+      "character" : "Pris",
+      "order" : 5
+    }, {
+      "tmdbId" : 590,
+      "character" : "Sebastian",
+      "order" : 6
+    }, {
+      "tmdbId" : 591,
+      "character" : "Leon",
+      "order" : 7
+    }, {
+      "tmdbId" : 592,
+      "character" : "Tyrell",
+      "order" : 8
+    }, {
+      "tmdbId" : 593,
+      "character" : "Zhora",
+      "order" : 9
+    }, {
+      "tmdbId" : 20904,
+      "character" : "Chew",
+      "order" : 10
+    }, {
+      "tmdbId" : 58495,
+      "character" : "Holden",
+      "order" : 11
+    }, {
+      "tmdbId" : 53760,
+      "character" : "Bear",
+      "order" : 12
+    }, {
+      "tmdbId" : 943481,
+      "character" : "Kaiser",
+      "order" : 13
+    }, {
+      "tmdbId" : 107074,
+      "character" : "Taffey Lewis",
+      "order" : 14
+    }, {
+      "tmdbId" : 951333,
+      "character" : "Cambodian Lady",
+      "order" : 15
+    }, {
+      "tmdbId" : 1221198,
+      "character" : "Sushi Master",
+      "order" : 16
+    }, {
+      "tmdbId" : 949610,
+      "character" : "Saleslady",
+      "order" : 17
+    }, {
+      "tmdbId" : 112965,
+      "character" : "Abdul Ben Hassan",
+      "order" : 18
+    }, {
+      "tmdbId" : 1198993,
+      "character" : "Showgirl (uncredited)",
+      "order" : 19
+    }, {
+      "tmdbId" : 58930,
+      "character" : "Geisha #1 (uncredited)",
+      "order" : 20
+    }, {
+      "tmdbId" : 324200,
+      "character" : "Ming-Fa (uncredited)",
+      "order" : 21
+    }, {
+      "tmdbId" : 1713945,
+      "character" : "Louie - Bartender (uncredited)",
+      "order" : 22
+    }, {
+      "tmdbId" : 1894794,
+      "character" : "Bar Patron (uncredited)",
+      "order" : 23
+    }, {
+      "tmdbId" : 1894795,
+      "character" : "Showgirl (uncredited)",
+      "order" : 24
+    }, {
+      "tmdbId" : 1510856,
+      "character" : "Bartender (uncredited)",
+      "order" : 25
+    }, {
+      "tmdbId" : 943879,
+      "character" : "Bartender (uncredited)",
+      "order" : 26
+    }, {
+      "tmdbId" : 1894796,
+      "character" : "Bar Patron (uncredited)",
+      "order" : 27
+    }, {
+      "tmdbId" : 239493,
+      "character" : "Policeman (uncredited)",
+      "order" : 28
+    }, {
+      "tmdbId" : 1701394,
+      "character" : "Policeman (uncredited)",
+      "order" : 29
+    }, {
+      "tmdbId" : 1894797,
+      "character" : "Policeman (uncredited)",
+      "order" : 30
+    }, {
+      "tmdbId" : 143073,
+      "character" : "Police Officer (uncredited)",
+      "order" : 31
+    } ],
+    "crew" : [ {
+      "tmdbId" : 578,
+      "job" : "Director"
+    }, {
+      "tmdbId" : 581,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 594,
+      "job" : "Director of Photography"
+    }, {
+      "tmdbId" : 595,
+      "job" : "Original Music Composer"
+    }, {
+      "tmdbId" : 596,
+      "job" : "Production Design"
+    }, {
+      "tmdbId" : 597,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 598,
+      "job" : "Casting"
+    }, {
+      "tmdbId" : 600,
+      "job" : "Editor"
+    }, {
+      "tmdbId" : 601,
+      "job" : "Art Direction"
+    }, {
+      "tmdbId" : 602,
+      "job" : "Set Decoration"
+    }, {
+      "tmdbId" : 603,
+      "job" : "Set Decoration"
+    }, {
+      "tmdbId" : 4712,
+      "job" : "Set Decoration"
+    }, {
+      "tmdbId" : 605,
+      "job" : "Costume Design"
+    }, {
+      "tmdbId" : 606,
+      "job" : "Costume Design"
+    }, {
+      "tmdbId" : 583,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 7191,
+      "job" : "Screenplay"
+    }, {
+      "tmdbId" : 584,
+      "job" : "Novel"
+    }, {
+      "tmdbId" : 91782,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1880383,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 191564,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 3891645,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 15358,
+      "job" : "Stunt Double"
+    }, {
+      "tmdbId" : 9311,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 19754,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 3103010,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 4165270,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 161597,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 169628,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1400371,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1652768,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1634437,
+      "job" : "Stunt Driver"
+    }, {
+      "tmdbId" : 2550179,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 179175,
+      "job" : "Stunt Double"
+    }, {
+      "tmdbId" : 18677,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 100799,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1912327,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2577574,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 14667,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 2574816,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 16563,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 50237,
+      "job" : "Production Manager"
+    }, {
+      "tmdbId" : 1404757,
+      "job" : "Assistant Art Director"
+    }, {
+      "tmdbId" : 1404758,
+      "job" : "Construction Coordinator"
+    }, {
+      "tmdbId" : 1404760,
+      "job" : "Production Illustrator"
+    }, {
+      "tmdbId" : 60283,
+      "job" : "Production Illustrator"
+    }, {
+      "tmdbId" : 1404761,
+      "job" : "Production Illustrator"
+    }, {
+      "tmdbId" : 1404764,
+      "job" : "Sound Editor"
+    }, {
+      "tmdbId" : 999716,
+      "job" : "Stunt Coordinator"
+    }, {
+      "tmdbId" : 1404765,
+      "job" : "Camera Operator"
+    }, {
+      "tmdbId" : 1404766,
+      "job" : "Camera Operator"
+    }, {
+      "tmdbId" : 1404767,
+      "job" : "Camera Operator"
+    }, {
+      "tmdbId" : 1390535,
+      "job" : "Still Photographer"
+    }, {
+      "tmdbId" : 473,
+      "job" : "Additional Photography"
+    }, {
+      "tmdbId" : 1590,
+      "job" : "Additional Photography"
+    }, {
+      "tmdbId" : 55244,
+      "job" : "Publicist"
+    }, {
+      "tmdbId" : 584,
+      "job" : "Thanks"
+    }, {
+      "tmdbId" : 21918,
+      "job" : "Producer"
+    }, {
+      "tmdbId" : 1435071,
+      "job" : "Prosthetic Makeup Artist"
+    }, {
+      "tmdbId" : 1980719,
+      "job" : "Hairstylist"
+    }, {
+      "tmdbId" : 1335808,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 1325887,
+      "job" : "Makeup Artist"
+    }, {
+      "tmdbId" : 16519,
+      "job" : "Prosthetic Makeup Artist"
+    }, {
+      "tmdbId" : 14764,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 13059,
+      "job" : "Supervising Sound Editor"
+    }, {
+      "tmdbId" : 16177,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 13166,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 14765,
+      "job" : "Supervising Sound Editor"
+    }, {
+      "tmdbId" : 1377220,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 1342657,
+      "job" : "Sound Effects Editor"
+    }, {
+      "tmdbId" : 1500862,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 1980730,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 40818,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 1411245,
+      "job" : "Sound Re-Recording Mixer"
+    }, {
+      "tmdbId" : 1100808,
+      "job" : "Sound Mixer"
+    }, {
+      "tmdbId" : 12112,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 1647681,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 1980734,
+      "job" : "Visual Effects"
+    }, {
+      "tmdbId" : 2379068,
+      "job" : "Special Effects"
+    }, {
+      "tmdbId" : 91875,
+      "job" : "Sound Mixer"
+    }, {
+      "tmdbId" : 1404759,
+      "job" : "Property Master"
+    }, {
+      "tmdbId" : 1341865,
+      "job" : "Script Supervisor"
+    }, {
+      "tmdbId" : 2030296,
+      "job" : "Dialogue Editor"
+    }, {
+      "tmdbId" : 122106,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 1805959,
+      "job" : "Stunts"
+    }, {
+      "tmdbId" : 5056,
+      "job" : "Supervising Editor"
+    }, {
+      "tmdbId" : 1045802,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 70250,
+      "job" : "First Assistant Director"
+    }, {
+      "tmdbId" : 1400550,
+      "job" : "Assistant Property Master"
+    }, {
+      "tmdbId" : 2081402,
+      "job" : "Assistant Property Master"
+    }, {
+      "tmdbId" : 1459199,
+      "job" : "Assistant Property Master"
+    }, {
+      "tmdbId" : 1892486,
+      "job" : "Painter"
+    }, {
+      "tmdbId" : 2864222,
+      "job" : "Paint Coordinator"
+    }, {
+      "tmdbId" : 2864224,
+      "job" : "Standby Painter"
+    }, {
+      "tmdbId" : 2572015,
+      "job" : "Supervising Carpenter"
+    }, {
+      "tmdbId" : 2864228,
+      "job" : "Visual Effects Camera"
+    }, {
+      "tmdbId" : 2551299,
+      "job" : "Lighting Technician"
+    }, {
+      "tmdbId" : 1405722,
+      "job" : "First Assistant Camera"
+    }, {
+      "tmdbId" : 1405723,
+      "job" : "First Assistant Camera"
+    }, {
+      "tmdbId" : 2300633,
+      "job" : "Grip"
+    }, {
+      "tmdbId" : 1593977,
+      "job" : "Grip"
+    }, {
+      "tmdbId" : 1854964,
+      "job" : "Grip"
+    }, {
+      "tmdbId" : 1967849,
+      "job" : "Key Grip"
+    }, {
+      "tmdbId" : 1686509,
+      "job" : "Gaffer"
+    }, {
+      "tmdbId" : 2864247,
+      "job" : "Second Assistant Camera"
+    }, {
+      "tmdbId" : 1435605,
+      "job" : "Costumer"
+    }, {
+      "tmdbId" : 2589781,
+      "job" : "Costumer"
+    }, {
+      "tmdbId" : 29771,
+      "job" : "Costumer"
+    }, {
+      "tmdbId" : 1319744,
+      "job" : "Costumer"
+    }, {
+      "tmdbId" : 2222930,
+      "job" : "Assistant Editor"
+    }, {
+      "tmdbId" : 21272,
+      "job" : "First Assistant Editor"
+    }, {
+      "tmdbId" : 2864257,
+      "job" : "Presenter"
+    }, {
+      "tmdbId" : 21918,
+      "job" : "Presenter"
+    }, {
+      "tmdbId" : 69946,
+      "job" : "Presenter"
+    }, {
+      "tmdbId" : 1634367,
+      "job" : "Production Assistant"
+    }, {
+      "tmdbId" : 2864265,
+      "job" : "Production Assistant"
+    }, {
+      "tmdbId" : 2864266,
+      "job" : "Production Coordinator"
+    }, {
+      "tmdbId" : 2864268,
+      "job" : "Production Controller"
+    }, {
+      "tmdbId" : 1889231,
+      "job" : "Production Executive"
+    }, {
+      "tmdbId" : 1559095,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 3457,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 1621235,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 1589185,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 1463424,
+      "job" : "Special Effects Technician"
+    }, {
+      "tmdbId" : 231258,
+      "job" : "Unit Production Manager"
+    }, {
+      "tmdbId" : 1237513,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 1822901,
+      "job" : "Second Assistant Director"
+    }, {
+      "tmdbId" : 60448,
+      "job" : "Second Assistant Director"
+    } ]
+  },
+  "people" : [ {
+    "tmdbId" : 3,
+    "name" : "Harrison Ford",
+    "birthDate" : "1942-07-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "66fb6fb3-32b7-411b-bd6d-611a6b9eaf02",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Legendary Hollywood Icon Harrison Ford was born on July 13, 1942 in Chicago, Illinois. His family history includes a strong lineage of actors, radio personalities, and models. Ford attended public high school in Park Ridge, Illinois where he was a member of the school Radio Station WMTH. Ford worked as the lead voice for sports reporting at WMTH for several years. Acting wasn't a major interest to Ford until his junior year at Ripon College when he first took an acting class. Ford's career started in 1964 when he travelled to California in search of a voice-over job. He never received that position, but instead signed a contract with Columbia Pictures where he earned $150 weekly to play small fill in roles in various films.\n\nThrough the '60s Ford worked on several TV shows including Gunsmoke, Ironside, Kung Fu, and American Style. It wasn't until 1967 that he received his first credited role in the Western film, A Time for Killing. Dissatisfied with the meager roles he was being offered, Ford took a hiatus from acting to work as a self-employed carpenter. This seemingly odd diversion turned out to be a blessing in disguise for Harrison's acting career when he was soon hired by famous film producer George Lucas. This was a turning point in Ford's life that led to him be casted in milestone roles such as Han Solo and Indiana Jones.\n\nSince his most famous roles in the original Star Wars trilogy and Raiders of the Lost Ark, Ford has appeared in over 40 films. Many criticize his late-career work, saying his performances have been lackluster, leading to commercially disappointing films. Ford has always worked hard to protect his off-screen private life, keeping details about his children and marriages quiet. He has a total of five children including one recent adoption with third and current wife Calista Flockhart. In addition to acting, Ford is passionate about environmental conservation, aviation, and archeology."
+  }, {
+    "tmdbId" : 585,
+    "name" : "Rutger Hauer",
+    "birthDate" : "1944-01-23",
+    "deathDate" : "2019-07-19",
+    "gender" : "Male",
+    "profile" : "d78ea160-1c93-45f5-85af-ee06fd907f7f",
+    "homepage" : "http://www.rutgerhauer.com/",
+    "birthPlace" : "Breukelen, Utrecht, Netherlands",
+    "biography" : "Rutger Oelsen Hauer (January 23, 1944 – July 19, 2019) was a Dutch film actor. He was well known for his roles in Flesh + Blood, Blind Fury, Blade Runner, The Hitcher, Nighthawks, Sin City, Ladyhawke, The Blood of Heroes and Batman Begins.\n\nHauer was born in Breukelen, Netherlands, to drama teachers Arend and Teunke, and grew up in Amsterdam. Since his parents were very occupied with their careers, he and his three sisters (one older, two younger) were raised mostly by nannies. At the age of 15, Hauer ran off to sea and spent a year scrubbing decks aboard a freighter. Returning home, he worked as an electrician and a carpenter for three years while attending acting classes at night school. He went on to join an experimental troupe, with which he remained for five years before he was cast in the lead role in the very successful 1969 television series Floris, a Dutch Ivanhoe-like medieval action drama. The role made him famous in his native country.\n\nHauer's career changed course when director Paul Verhoeven cast him as the lead in Turkish Delight (1973) (based on the Jan Wolkers book of the same name). The movie found box-office favour abroad as well as at home, and within two years, its star was invited to make his English-language debut in the British film The Wilby Conspiracy (1975). Set in South Africa and starring Michael Caine and Sidney Poitier, the film was an action melodrama with a focus on apartheid. Hauer's supporting role, however, was barely noticed in Hollywood, and he returned to Dutch films for several years. Hauer made his American debut in the Sylvester Stallone vehicle Nighthawks (1981), cast as a psychopathic and cold-blooded terrorist named \"Wolfgar\" (after a character in the Old English poem Beowulf). The following year, he appeared in arguably his most famous and acclaimed role as the eccentric, violent, yet sympathetic replicant Roy Batty in Ridley Scott's 1982 sci-fi thriller, Blade Runner.\n\nHauer was a dedicated environmentalist. He fought for the release of Greenpeace's co-founder, Paul Watson, who was convicted in 1994 for sinking a Norwegian whaling vessel. Hauer has also established an AIDS awareness foundation called the Rutger Hauer Starfish Foundation. He married his second wife, Ineke, in 1985 (they had been together since 1968); and he has one child, actress Aysha Hauer, who was born in 1966 and who made him a grandfather in 1988. In April 2007, he published his autobiography All Those Moments: Stories of Heroes, Villains, Replicants, and Blade Runners (co-written with Patrick Quinlan) where he discussed many of his movie roles. Proceeds of the book go to Hauer's Starfish Foundation."
+  }, {
+    "tmdbId" : 586,
+    "name" : "Sean Young",
+    "birthDate" : "1959-11-20",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "8900c0c7-a552-4301-8c72-3694bf2171d9",
+    "homepage" : "http://maryseanyoung.com/",
+    "birthPlace" : "Louisville, Kentucky, USA",
+    "biography" : "Sean Young, born Mary Sean Young on November 20, 1959, in Louisville, Kentucky, is an American actress recognized for her roles in 1980s sci-fi and thrillers. A former model and dancer trained at the School of American Ballet, she debuted in Jane Austen in Manhattan (1980) and broke through with Stripes (1981), followed by her iconic portrayal of replicant Rachael in Blade Runner (1982) opposite Harrison Ford.\n\nShe continued with high-profile films like Dune (1984) as Chani, No Way Out (1987) with Kevin Costner, and Wall Street (1987). Despite career setbacks, including losing the Batman (1989) role to Kim Basinger after an injury, Young showcased comedic flair in Fatal Instinct (1993) and Ace Ventura: Pet Detective (1994) as the villain.\n\nLater, she appeared in independent films such as Poor White Trash (2000), Sugar & Spice (2001), and TV projects including Jesse Stone: Sea Change (2007) and Lifetime movies, maintaining a steady output into the 2010s and 2020s with roles in Axcellerator (2019)."
+  }, {
+    "tmdbId" : 587,
+    "name" : "Edward James Olmos",
+    "birthDate" : "1947-02-24",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "722585a1-db93-4697-9bd6-bfb4324613d2",
+    "homepage" : "http://edwardjamesolmos.com/",
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Edward James Olmos (born February 24, 1947) is an American actor, director, producer, and activist.  He is best known for his roles as Lieutenant Martin \"Marty\" Castillo in Miami Vice (1984–1989), actor in and director of American Me (1992), William Adama in the re-imagined Battlestar Galactica (2004–2009), teacher Jaime Escalante in Stand and Deliver (1988), and Detective Gaff in Blade Runner (1982), and its sequel Blade Runner 2049 (2017). In 2018, he played the father of two members of an outlaw motorcycle club in the FX series Mayans MC.\n\nFor his work in Miami Vice, Olmos won the 1985 Primetime Emmy Award for Outstanding Supporting Actor in a Drama Series, as well as the Golden Globe Award for Best Supporting Actor – Series, Miniseries or Television Film. For his performance in Stand and Deliver, Olmos was nominated for a Golden Globe Award and the Academy Award for Best Actor in a Leading Role.\n\nHe is also known for his roles as patriarch Abraham Quintanilla in the film Selena, narrator El Pachuco in both the stage and film versions of Zoot Suit, and the voice of Chicharrón in Coco.\n\nOver the course of his career, Olmos has been a pioneer for more diversified roles and images of Hispanics in the U.S. media. His notable direction, production, and starring roles for films, made-for-TV movies, and TV shows include Wolfen, Triumph of the Spirit, Talent for the Game, American Me, The Burning Season, My Family/Mi Familia, Caught, 12 Angry Men, The Disappearance of Garcia Lorca, Walkout, The Wonderful Ice Cream Suit, American Family, and Dexter.\n\nDescription above from the Wikipedia article Edward James Olmos, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 588,
+    "name" : "M. Emmet Walsh",
+    "birthDate" : "1935-03-22",
+    "deathDate" : "2024-03-19",
+    "gender" : "Male",
+    "profile" : "5f596030-4448-49da-b68b-f7a793b0588a",
+    "homepage" : null,
+    "birthPlace" : "Ogdensburg, New York, USA",
+    "biography" : "Michael Emmet Walsh (March 22, 1935 – March 19, 2024) was an American character actor who has appeared in over 200 films and television series, including supporting roles in dozens of major studio features of the 1970s and 1980s.  He starred in Blood Simple (1984), the Coen Brothers' first film for which he won the Independent Spirit Award for Best Male Lead. He also appeared in The Jerk (1979), Ordinary People (1980), Blade Runner (1982), Wild Wild West (1999), and The Iron Giant (1999). His final films included Knives Out (2019) and Brothers (2024)."
+  }, {
+    "tmdbId" : 589,
+    "name" : "Daryl Hannah",
+    "birthDate" : "1960-12-03",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c50b97fa-4b20-47d1-b5a2-a542837eeb19",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Daryl Hannah was born and raised in Chicago, Illinois. She attend the University of Southern California (USC) and made her film debut in the Brian De Palma film The Fury (1978). She starred in such films as Ron Howard's Splash (1984) and 'Herbert Ross' Steel Magnolias (1989). She won the Jury Award from the Berlin International Film Festival for Best Short in 1994 for a film titled The Last Supper (1993), which she directed, wrote, and produced."
+  }, {
+    "tmdbId" : 590,
+    "name" : "William Sanderson",
+    "birthDate" : "1944-01-10",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "788075e7-98c1-484f-947f-3c3ebefabd2f",
+    "homepage" : "http://williamsanderson.net/",
+    "birthPlace" : "Memphis, Tennessee, USA",
+    "biography" : "William Sanderson (born January 10, 1944) is an American character actor."
+  }, {
+    "tmdbId" : 591,
+    "name" : "Brion James",
+    "birthDate" : "1945-02-20",
+    "deathDate" : "1999-08-07",
+    "gender" : "Male",
+    "profile" : "e8ecf350-e71e-4507-a2d7-d9b786e6faf1",
+    "homepage" : null,
+    "birthPlace" : "Redlands, California, USA",
+    "biography" : "Brion Howard James (February 20, 1945 – August 7, 1999) was an American character actor. Known for playing the character of Leon Kowalski in the movie Blade Runner, James portrayed a variety of colorful roles in well-known American films such as 48 Hrs., Another 48 Hours, Tango & Cash, Silverado, Red Heat, The Player and The Fifth Element. James' commanding screen presence and formidable physique at 6 feet 3 inches (1.91 m) tall usually resulted in his casting as a heavy, appearing more frequently in lower budget horror and action films throughout the 1980s and 1990s. James appeared in more than 100 films before he died of a heart attack aged 54.\n\nDescription above from the Wikipedia article Brion James, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 592,
+    "name" : "Joe Turkel",
+    "birthDate" : "1927-07-15",
+    "deathDate" : "2022-06-27",
+    "gender" : "Male",
+    "profile" : "f8020546-356f-47ef-9a18-09eadbb8199c",
+    "homepage" : null,
+    "birthPlace" : "Brooklyn, New York City, New York, USA",
+    "biography" : "Joseph Turkel (July 15, 1927 – June 27, 2022) was an American actor. A career character actor, he was noted for his craggy Bronx looks and distinctive, penetrating voice. Turkel worked steadily from 1949 to 1998 in both films and television, including in the Stanley Kubrick films The Killing (1956), Paths of Glory (1957), and The Shining (1980). He still made the occasional appearance at fan conventions into his 90s."
+  }, {
+    "tmdbId" : 593,
+    "name" : "Joanna Cassidy",
+    "birthDate" : "1945-08-02",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "5040f9e9-ec2c-42cb-96c3-31d4f75dd4c5",
+    "homepage" : "https://officialjoannacassidy.com/",
+    "birthPlace" : "Haddonfield, New Jersey, USA",
+    "biography" : "Joanna Cassidy (born August 2, 1945) is an American film and television actress. She is known for her role replicant Zhora in the Ridley Scott's film Blade Runner (1982). She also has starred in films such as Under Fire, The Fourth Protocol, Who Framed Roger Rabbit, The Package, Where the Heart Is, Don't Tell Mom the Babysitter's Dead, Vampire in Brooklyn and Ghosts of Mars."
+  }, {
+    "tmdbId" : 20904,
+    "name" : "James Hong",
+    "birthDate" : "1929-02-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "786dca2d-1602-4bea-9572-14efe3ce0102",
+    "homepage" : "https://www.jameshong.com/",
+    "birthPlace" : "Minneapolis, Minnesota, USA",
+    "biography" : "James Hong (born February 22, 1929) is a Chinese American actor and former president of the Association of chinese/Pacific American Artists (AAPAA). A prolific acting veteran, Hong's career spans over 50 years and includes more than 350 roles in film, television, and video games."
+  }, {
+    "tmdbId" : 58495,
+    "name" : "Morgan Paull",
+    "birthDate" : "1944-12-15",
+    "deathDate" : "2012-07-17",
+    "gender" : "Male",
+    "profile" : "8f1a1639-eaa4-4dd8-b5d5-c74113f7a19b",
+    "homepage" : null,
+    "birthPlace" : "West Virginia, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 53760,
+    "name" : "Kevin Thompson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ac687cd9-a4ce-43b7-b88c-341a8af6c5ba",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 943481,
+    "name" : "John Edward Allen",
+    "birthDate" : "1950-03-27",
+    "deathDate" : "1999-10-01",
+    "gender" : "Male",
+    "profile" : "3e22172f-7231-4839-b673-f7f06a3f35c3",
+    "homepage" : null,
+    "birthPlace" : "Southampton, Hampshire, England, UK ",
+    "biography" : "John Edward Allen was an English actor who portrayed J.F. Sebastian's self-made friend, Kaiser in Blade Runner. Allen was also known for performing in live shows of Ozzy Osbourne."
+  }, {
+    "tmdbId" : 107074,
+    "name" : "Hy Pyke",
+    "birthDate" : "1935-12-02",
+    "deathDate" : "2006-10-16",
+    "gender" : "Male",
+    "profile" : "aea04820-94dd-41c6-95ab-bd073d0f2b24",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Hy Pyke (December 2, 1935 – October 26, 2006) was an American character actor.\n\nPyke was born Monty Pike in Los Angeles, California, the son of vaudevillian David Pike and his wife Pauline. Pyke majored in theatre at UCLA in the 1960s, appearing in numerous student films, including one for Ray Manzarek, keyboard player of The Doors, called Induction (1965), which also featured The Doors vocalist Jim Morrison in a brief role. During that time period, Pyke was also associated with Del Close.\n\nFrom UCLA, Pyke went on to have a long career playing strange, often comic characters in usually out-of-the-ordinary, low-budget, independent features, with some brief appearances in mainstream films. Some of his mainstream appearances, like a small part in the John Milius film Dillinger (1973), ended up cut out of the final film. Although many of his better known films are in the horror genre, Pyke acted in everything from blaxploitation to musical comedies. He had a uniquely manic acting style, with a penchant for physical, exaggerated comedy, marked by a distinctive, raspy voice.\n\nIn the 1970s, Pyke's physical appearance was equally distinctive. Very short, slightly overweight, with a moustache and heavily balding head of wild black hair, he resembled the archetypal Mexican bandit of B-westerns or Sancho Panza (a role he played in The Erotic Adventures Of Don Quixote, 1976). Besides his film work, Pyke acted in theater, musical revues, etc.\n\nDuring the 1970s, Pyke delivered a number of bizarre performances in off-beat films. His most memorable role was as a creepy bus driver in the 1975 horror film Lemora: A Child's Tale Of The Supernatural. Other notable 1970s Pyke appearances were in Dolemite, (1975), The First Nudie Musical, (1976), and in Spawn Of The Slithis, (1978). Pyke played the part of Bebe Rebozo in an unreleased Richard Nixon satire called The Way He Was.\n\nFrom Wikipedia, the free encyclopedia"
+  }, {
+    "tmdbId" : 951333,
+    "name" : "Kimiko Hiroshige",
+    "birthDate" : "1912-07-03",
+    "deathDate" : "1989-09-07",
+    "gender" : "Female",
+    "profile" : "fda6ab7d-d27c-48b8-961e-92feb32a9129",
+    "homepage" : null,
+    "birthPlace" : "Hilo, Hawaii, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1221198,
+    "name" : "Bob Okazaki",
+    "birthDate" : "1902-02-03",
+    "deathDate" : "1985-05-28",
+    "gender" : "Unknown",
+    "profile" : "d62de1ee-70ca-4eab-8804-fff18b283858",
+    "homepage" : null,
+    "birthPlace" : "Tokyo, Japan",
+    "biography" : ""
+  }, {
+    "tmdbId" : 949610,
+    "name" : "Carolyn DeMirjian",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "873b5f5b-f987-45a0-920e-3ffd7ed199b1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 112965,
+    "name" : "Ben Astar",
+    "birthDate" : "1909-06-15",
+    "deathDate" : "1988-10-20",
+    "gender" : "Male",
+    "profile" : "83103880-46a6-4cc2-9e8e-6364ef2461db",
+    "homepage" : null,
+    "birthPlace" : "Palestine [now Israel]",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1198993,
+    "name" : "Dawna Lee Heising",
+    "birthDate" : "1953-08-24",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "cf22dfc2-5122-426b-8794-b8584e5fa870",
+    "homepage" : null,
+    "birthPlace" : "Vallejo, California, USA",
+    "biography" : "Dawna Lee Heising is an American actress and stuntwoman."
+  }, {
+    "tmdbId" : 58930,
+    "name" : "Alexis Rhee",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "cbce97f8-b9fd-422f-8369-2b1058d57230",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 324200,
+    "name" : "Judith Burnett",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5fc54a7c-fdb7-47a3-98c4-16f0e8ee2932",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1713945,
+    "name" : "Leo Gorcey Jr.",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "58017338-bd72-4565-84ee-ba14d3ab8ff8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1894794,
+    "name" : "Sharon Hesky",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4f5a9e6f-bbb4-4720-8c6d-32a268c9884e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1894795,
+    "name" : "Kelly Hine",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "dd32574c-848d-4ab5-b586-979ba38ee34f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1510856,
+    "name" : "Tom Hutchinson",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "e45c551a-5945-4a02-9037-75ac129514ea",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 943879,
+    "name" : "Charles Knapp",
+    "birthDate" : "1919-11-10",
+    "deathDate" : "1995-10-27",
+    "gender" : "Male",
+    "profile" : "98f1d659-fb78-4fe3-af7f-3c2669577550",
+    "homepage" : null,
+    "birthPlace" : "San Diego, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1894796,
+    "name" : "Rose Mascari",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "06ef7fe2-eada-4e85-bcf1-bdbe55c6b2ac",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 239493,
+    "name" : "Jiro Okazaki",
+    "birthDate" : "1943-12-26",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "d653376d-600e-4402-9df0-4dda311105b3",
+    "homepage" : "http://creaist-mg.jp/artist/okazakijiro/",
+    "birthPlace" : "Kagoshima Prefecture, Japan",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1701394,
+    "name" : "Steve Pope",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f94c4216-b1c8-49c1-b074-94c68d11976c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1894797,
+    "name" : "Robert Reiter",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "3c8988df-c828-4469-852a-7b752b2259af",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 143073,
+    "name" : "Doug Benson",
+    "birthDate" : "1962-07-02",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "e9031b14-4bb4-463b-a4f4-03165b4055a3",
+    "homepage" : null,
+    "birthPlace" : "San Diego, California, USA",
+    "biography" : "Douglas Steven \"Doug\" Benson (born July 2, 1964) is an American stand-up comedian who has appeared on Comedy Central Presents, Best Week Ever and was a contestant on Last Comic Standing in the show's fifth season.\n\nIn 2008, he starred in the film Super High Me, a documentary about marijuana usage. Benson also currently hosts the popular Doug Loves Movies podcast. His Comedy Central series The Benson Interruption ended its first season in December 2010.\n\nDescription above from the Wikipedia article Doug Benson, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 578,
+    "name" : "Ridley Scott",
+    "birthDate" : "1937-11-30",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bdd84292-399f-4edb-a4b7-2cd99ed278e4",
+    "homepage" : "https://rsafilms.com/",
+    "birthPlace" : "South Shields, County Durham, England, UK",
+    "biography" : "Sir Ridley Scott (born 30 November 1937) is an English film director, screenwriter and producer. He directs films in the science fiction, crime, and historical epic genres with an atmospheric and highly concentrated visual style. He ranks among the highest-grossing directors, with his films grossing a cumulative $5 billion worldwide. He has received many accolades, including the BAFTA Fellowship for Lifetime Achievement in 2018, two Primetime Emmy Awards, and a Golden Globe Award. He was knighted by Queen Elizabeth II in 2003 and appointed a Knight Grand Cross by King Charles III in 2024.\n\nAn alumnus of the Royal College of Art in London, Scott began his career in television as a designer and director before moving into advertising as a director of commercials. He made his film directorial debut with The Duellists (1977) and gained wider recognition with his next film, Alien (1979). Though his films range widely in setting and period, they showcase memorable imagery of urban environments, spanning 2nd-century Rome in Gladiator (2000) and its 2024 sequel, 12th-century Jerusalem in Kingdom of Heaven (2005), medieval England in Robin Hood (2010), ancient Memphis in Exodus: Gods and Kings (2014), contemporary Mogadishu in Black Hawk Down (2001), futuristic cityscapes of Los Angeles in Blade Runner (1982) and extraterrestrial worlds in Alien, Prometheus (2012), The Martian (2015) and Alien: Covenant (2017).\n\nScott has been nominated for three Academy Awards: Directing for Thelma & Louise, Gladiator, and Black Hawk Down. Gladiator won the Academy Award for Best Picture and received a nomination in the same category for The Martian. In 1995, Scott and his brother Tony received a British Academy Film Award for Outstanding British Contribution to Cinema. Scott's films Alien, Blade Runner and Thelma & Louise were each selected for preservation in the United States National Film Registry by the Library of Congress for being considered \"culturally, historically, or aesthetically significant\". In a 2004 BBC poll, Scott was ranked 10 on the list of most influential people in British culture. Scott also works in television and has earned 10 Primetime Emmy Award nominations. He won twice, for Outstanding Television Film for the HBO film The Gathering Storm (2002) and Outstanding Documentary or Nonfiction Special for the History Channel's Gettysburg (2011). He was Emmy-nominated for RKO 281 (1999), The Andromeda Strain (2008), and The Pillars of the Earth (2010).\n\nDescription above from the Wikipedia article Ridley Scott, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 581,
+    "name" : "Michael Deeley",
+    "birthDate" : "1932-08-06",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ea9241c8-1b87-4efb-b3f1-b6fae96b6674",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 594,
+    "name" : "Jordan Cronenweth",
+    "birthDate" : "1935-02-20",
+    "deathDate" : "1996-11-29",
+    "gender" : "Male",
+    "profile" : "733538df-e25f-4c28-bc56-8373d8b76bb3",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Jordan Cronenweth was born on February 20, 1935 in Los Angeles, California, USA as Jordan Scott Cronenweth. He is known for his work on Blade Runner (1982), Peggy Sue Got Married (1986) and Altered States (1980). He was married to Carolyn June Ervin. He died on November 29, 1996 in Los Angeles."
+  }, {
+    "tmdbId" : 595,
+    "name" : "Vangelis",
+    "birthDate" : "1943-03-29",
+    "deathDate" : "2022-05-17",
+    "gender" : "Male",
+    "profile" : "7eaf7abc-c4d0-459b-954b-1e0e8c36e6e5",
+    "homepage" : null,
+    "birthPlace" : "Volos, Thessaly, Greece",
+    "biography" : "Evangelos Odysseas Papathanassiou (Greek: Ευάγγελος Οδυσσέας Παπαθανασίου, pronounced [eˈvaɲɟelos oðiˈseas papaθanaˈsi.u]; 29 March 1943 – 17 May 2022), known professionally as Vangelis (/væŋˈɡɛlɪs/ vang-GHEL-iss; Greek: Βαγγέλης, pronounced [vaɲˈɟelis]), was a Greek musician, composer, and producer of electronic, progressive, ambient, and classical orchestral music. He composed the Academy Award-winning score to Chariots of Fire (1981), as well as scores for the films Blade Runner (1982), Missing (1982), Antarctica (1983), The Bounty (1984), 1492: Conquest of Paradise (1992), and Alexander (2004), and the 1980 PBS documentary series Cosmos: A Personal Voyage by Carl Sagan.\n\nBorn in Agria and raised in Athens, Vangelis began his career in the 1960s as a member of the rock bands the Forminx and Aphrodite's Child; the latter's album 666 (1972) is recognised as a progressive-psychedelic rock classic. Vangelis settled in Paris and gained initial recognition for his scores to the Frédéric Rossif animal documentaries L'Apocalypse des Animaux, La Fête sauvage, and Opéra sauvage. He released his first solo albums during this time and performed as a solo artist. In 1975, Vangelis relocated to London, where he built his home recording facility named Nemo Studios and released a series of successful and influential albums for RCA Records, including Heaven and Hell (1975), Albedo 0.39 (1976), Spiral (1977), and China (1979). From 1979 to 1986, Vangelis performed in a duo with Yes vocalist Jon Anderson, releasing several albums as Jon and Vangelis. He collaborated with Irene Papas on two albums of Greek traditional and religious songs.\n\nVangelis reached his commercial peak in the 1980s and 1990s. His score for Chariots of Fire (1981) won him an Academy Award for Best Original Score and the film's main theme, \"Chariots of Fire – Titles,” went to number one on the U.S. Billboard Hot 100 chart, while his score for 1492: Conquest of Paradise (1992) was nominated for a Golden Globe Award for Best Original Score, and the film's soundtrack and main theme topped the European charts, selling millions of copies. His compilation albums Themes (1989), Portraits (So Long Ago, So Clear) (1996), and studio album Voices (1995) sold well. Vangelis composed the official anthem of the 2002 FIFA World Cup held in Korea and Japan. In his last 20 years, Vangelis collaborated with NASA and ESA on music projects Mythodea (1993), Rosetta (2016), and Juno to Jupiter (2021), his 23rd and final studio album. He died on 17 May 2022, at age 79, of heart failure at a hospital in Paris.\n\nHaving had a career in music spanning over 50 years, and having composed and performed more than 50 albums, Vangelis is one of the most important figures in the history of electronic music and modern film music. He used many electronic instruments in the fashion of a \"one-man quasi-classical orchestra,\" composing and performing on the first take.\n\nDescription above from the Wikipedia article Vangelis, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 596,
+    "name" : "Lawrence G. Paull",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2458673b-7bc9-4c46-a5cd-813d56b5b7a8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 597,
+    "name" : "Jane Feinberg",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "48e0d113-1ca5-4e66-8561-796793a30a98",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 598,
+    "name" : "Mike Fenton",
+    "birthDate" : "1935-01-29",
+    "deathDate" : "2020-12-30",
+    "gender" : "Male",
+    "profile" : "6ad5e43f-b8e6-4cba-adf4-6bd197c2b7b0",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Mike Fenton was born in 1935 in Los Angeles, California, USA as Ronald Michael Fenton. He was a casting director and producer."
+  }, {
+    "tmdbId" : 600,
+    "name" : "Marsha Nakashima",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "8837fa3d-c7ab-4914-a87d-30782eb66f2f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 601,
+    "name" : "David L. Snyder",
+    "birthDate" : "1944-09-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0776d6b1-8cd4-4b78-8be2-1b24e42b1a1a",
+    "homepage" : "http://davidlsnyderfilms.com",
+    "birthPlace" : "Buffalo, New York, USA",
+    "biography" : "David L. Snyder is a film and television production designer. He has worked as an art director, producer, and assistant director on films including Blade Runner, Bill & Ted's Bogus Journey, The Whole Nine Yards, and the television programs Buck Rogers in the 25th Century and Battlestar Galactica. He was nominated for Academy Award for Best Art Direction for his work on Blade Runner at the 55th Academy Awards. The film won the BAFTA for Production Design in 1983.\n\nDescription above from the Wikipedia article David L. Snyder, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 602,
+    "name" : "Linda DeScenna",
+    "birthDate" : "1949-01-01",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "94e12c36-4af7-437c-ab84-60833578b91d",
+    "homepage" : null,
+    "birthPlace" : "Warren, Ohio, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 603,
+    "name" : "Leslie McCarthy-Frankenheimer",
+    "birthDate" : "1948-10-02",
+    "deathDate" : "2013-01-22",
+    "gender" : "Female",
+    "profile" : "63abcca1-65f0-452b-a750-6c777b36c3e0",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 4712,
+    "name" : "Thomas L. Roysden",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "556b610a-8f15-4a23-84c0-0c13d9a1478c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 605,
+    "name" : "Michael Kaplan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "306d5628-e758-4d68-8102-94383154ad34",
+    "homepage" : null,
+    "birthPlace" : "Philadelphia, Pennsylvania, USA",
+    "biography" : "Michael Kaplan is an American film costume designer. He is a co-recipient of the BAFTA Award for his work on Blade Runner. He is known for working on many famous Hollywood films including the Star Wars sequel trilogy. Kaplan has been working in the Hollywood film industry since the 1978 film Thank God It's Friday.\n\nDescription above from the Wikipedia article Michael Kaplan (costume designer), licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 606,
+    "name" : "Charles Knode",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5b53539f-a5b1-4174-8002-d1b4e237e0c0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 583,
+    "name" : "Hampton Fancher",
+    "birthDate" : "1938-07-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "0330b5ee-47ff-4aea-8032-3d325a4dbe3b",
+    "homepage" : null,
+    "birthPlace" : "East Los Angeles, California, USA",
+    "biography" : "Hampton Fancher (born July 18, 1938) is a former actor who became a producer and screenwriter in the late 1970s. Fancher was born to a Mexican mother and an American father in East Los Angeles, California, US. At 15, he ran away to Spain to become a flamenco dancer and renamed himself Mario Montejo. He was married briefly to Sue Lyon of Lolita fame.  lives in New York City."
+  }, {
+    "tmdbId" : 7191,
+    "name" : "David Webb Peoples",
+    "birthDate" : "1940-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "69d71e02-5a42-4bb7-af01-f955fd212a16",
+    "homepage" : null,
+    "birthPlace" : "Middletown, Connecticut, USA",
+    "biography" : "David Webb Peoples (born c. 1940) is an American screenwriter.\n\nDescription above from the Wikipedia article David Peoples, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 584,
+    "name" : "Philip K. Dick",
+    "birthDate" : "1928-12-16",
+    "deathDate" : "1982-03-02",
+    "gender" : "Male",
+    "profile" : "5d0a3e22-d634-4b43-a751-79ea4eb65409",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "American short story writer, novelist, and essayist.  Dick has been hailed as one of the most original and thought-provoking writers of science fiction. He is regarded as one of the most prolific writers of the form during the mid-twentieth century. Since his death, Dick's work has been the subject of numerous critical studies and cinematic adaptations. Critics praise his short stories as innovative and provocative, contending that Dick's fiction cleverly explores scientific, social, and metaphysical issues of concern to post-World War II America."
+  }, {
+    "tmdbId" : 91782,
+    "name" : "Jeannie Epper",
+    "birthDate" : "1941-01-27",
+    "deathDate" : "2024-05-05",
+    "gender" : "Female",
+    "profile" : "9c90e2f8-3cc8-41bc-98cf-d15251ceeffc",
+    "homepage" : null,
+    "birthPlace" : "Simi Valley, California, USA",
+    "biography" : "Jeannie Epper (January 27th, 1941 - May 5th, 2024) was an American stuntwoman and actress. She performed stunts in over 100 feature films and television series and was perhaps best known as Lynda Carter's double on the Wonder Woman series. She was featured in Amanda Micheli's 2004 documentary Double Dare, along with New Zealand stuntwoman and actress Zoë Bell. Entertainment Weekly noted that many consider her \"the greatest stuntwoman who's ever lived.\"\n\nDescription above from the Wikipedia article Jeannie Epper, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1880383,
+    "name" : "Janet Brady",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "82340133-49bd-429f-bd22-7c064ff0a7bc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 191564,
+    "name" : "Ray Bickel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "6726e53c-ae55-42e1-a0ac-da0416fe2f02",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3891645,
+    "name" : "Diane Carter",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "2c970962-f338-4911-8378-dfdc0c8cf7f8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 15358,
+    "name" : "Vic Armstrong",
+    "birthDate" : "1946-10-05",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ffb26bbd-326a-47dc-b61e-fd12dad1f8af",
+    "homepage" : null,
+    "birthPlace" : "Farnham Common, Buckinghamshire, England, UK",
+    "biography" : "Vic Armstrong was born on October 5, 1946 in Farnham Common, Buckinghamshire, England, UK. He is an assistant director and actor, known for Left Behind (2014), I Am Legend (2007) and The Amazing Spider-Man (2012). He is married to Wendy Leech. They have three children."
+  }, {
+    "tmdbId" : 9311,
+    "name" : "Gilbert B. Combs",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9ff01e4e-8545-4435-9a81-307bfec21ae0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 19754,
+    "name" : "Tony Cox",
+    "birthDate" : "1958-03-31",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "40554a6a-03b0-49f9-bade-b0bbffbcd2fd",
+    "homepage" : null,
+    "birthPlace" : "Uniontown, Alabama, USA",
+    "biography" : "Tony Cox (born March 31, 1958) is an American actor known for his performances in Bad Santa, Me, Myself and Irene, Date Movie, Epic Movie and Disaster Movie. He is also known for his work in George Lucas's Willow, as an Ewok in Star Wars Episode VI: Return of the Jedi and as The Preacher in Tim Burton's Beetlejuice. Cox also appeared in the music videos \"Just Lose It\" by Eminem and \"From tha Chuuuch to da Palace\" by Snoop Dogg."
+  }, {
+    "tmdbId" : 3103010,
+    "name" : "Ann Chatterton",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "e0c77cbc-ffbb-4ecc-aa8f-120a34b773ef",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 4165270,
+    "name" : "Rita Egleston",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "3e35f1c9-1f6d-41ea-b2b3-0e367230d656",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 161597,
+    "name" : "Gary Epper",
+    "birthDate" : "1944-12-31",
+    "deathDate" : "2007-12-01",
+    "gender" : "Male",
+    "profile" : "3b14c265-c102-4263-9e66-7379202e53f3",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "A member of the Epper stunt family, son of John Epper."
+  }, {
+    "tmdbId" : 169628,
+    "name" : "Jeff Imada",
+    "birthDate" : "1955-06-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "83ca02f6-b904-41bf-8747-0ea70873e7f3",
+    "homepage" : null,
+    "birthPlace" : "Inglewood, California, USA",
+    "biography" : "From Wikipedia, the free encyclopedia\n\nJeff Imada (born June 17, 1955) is an American martial artist, stuntman, and actor. He has performed stunts in over 100 films and television programs and authored one of the first books published in the US about the balisong. Jeff Imada is trained in Jeet Kune Do, Eskrima, Tae Kwon Do, Tang Soo Do, Karate, Shaolin Kung Fu, Kendo and Boxing.\n\nDescription above from the Wikipedia article Jeff Imada, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1400371,
+    "name" : "James M. Halty",
+    "birthDate" : "1949-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "135f6d9a-29a8-4146-81fb-7ce45bd723a9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1652768,
+    "name" : "Karen McLarty",
+    "birthDate" : "1953-08-15",
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "e4dc0c18-7ef5-4aa9-a5f4-90466ceb101b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1634437,
+    "name" : "Ed McDermott II",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "2e21b44c-3161-4242-9b62-83e7eda5ddd0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2550179,
+    "name" : "Beth Nufer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "b23ac383-9b5d-47db-8eab-d0098b99bed6",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 179175,
+    "name" : "Lee Pulford",
+    "birthDate" : "1939-10-23",
+    "deathDate" : "1997-05-22",
+    "gender" : "Female",
+    "profile" : "2537947d-4ca3-4570-87d8-03d2b50abc98",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 18677,
+    "name" : "Bobby Porter",
+    "birthDate" : "1952-05-17",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ffcea18d-8d6b-46cc-af79-3e6b5bed4825",
+    "homepage" : null,
+    "birthPlace" : "Long Beach, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 100799,
+    "name" : "George Sawaya",
+    "birthDate" : "1923-08-14",
+    "deathDate" : "2003-09-17",
+    "gender" : "Male",
+    "profile" : "3193ff57-5ca6-47a0-8661-ef71f4fdbe14",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "George Sawaya (August 14, 1923 – September 17, 2003) was an American stuntman and actor. He acted in almost one hundred different films and television episodes, but always as minor characters. His careerwas relatively consistent from the 1950s to the 1980s.  Sawaya acted in the original Star Trek several times, first as Chief Humboldt in \"The Menagerie, Part I\" and then as Klingons in \"Errand of Mercy\" and \"Day of the Dove\"."
+  }, {
+    "tmdbId" : 1912327,
+    "name" : "Jack Tyree",
+    "birthDate" : "1943-09-12",
+    "deathDate" : "1981-08-25",
+    "gender" : "Male",
+    "profile" : "89bad991-43de-4b73-a587-0bb148715ead",
+    "homepage" : null,
+    "birthPlace" : "Tennessee, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 2577574,
+    "name" : "Ruth A. Redfern",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "28e551a7-ecc8-45d4-8209-c26354eb8f7c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14667,
+    "name" : "Mike Washlake",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "8173c13c-d9b3-42f6-8ca4-4d3306afbbd5",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2574816,
+    "name" : "Michael Zurich",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4702b80b-d160-456e-af36-34d2923a16a6",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 16563,
+    "name" : "Charles A. Tamburro",
+    "birthDate" : "1946-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "59cbb41e-4b2d-4626-8c7c-201925d1a67b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "He is an actor, known for Terminator 2: Judgment Day (1991), Gone in 60 Seconds (2000) and Predator (1987)."
+  }, {
+    "tmdbId" : 50237,
+    "name" : "Alan Collis",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "c3b14b05-49c4-4aff-bb1b-706c7a2764c8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404757,
+    "name" : "Stephen Dane",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ae622ba8-4998-431b-a699-f6e8980a98ec",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404758,
+    "name" : "James F. Orendorff",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "31c149fc-035d-4f9b-86c9-a278eab68bf0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404760,
+    "name" : "Mentor Huebner",
+    "birthDate" : "1917-07-19",
+    "deathDate" : "2001-03-19",
+    "gender" : "Male",
+    "profile" : "cafa7e84-02fe-4e2b-bd04-79d9b1f6a934",
+    "homepage" : "http://www.mentorhuebnerart.com/",
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 60283,
+    "name" : "Tom Southwell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1c3b69b2-37cd-4872-8513-1001b3e4bb3e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404761,
+    "name" : "Sherman Labby",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "12b48ad8-63b0-492f-83c5-8ef9f2c593dc",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404764,
+    "name" : "Peter Pennell",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "95832b77-1824-42a1-b43b-40fcafe6b452",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 999716,
+    "name" : "Gary Combs",
+    "birthDate" : "1935-12-13",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ce847ffe-798b-4710-87ad-0c7b03988cec",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404765,
+    "name" : "Albert Bettcher",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "61a27baf-674e-436e-bf11-7c19c696fc7d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404766,
+    "name" : "Dick Colean",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "291d74c3-3f8f-4914-a3af-f82196d8a95c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404767,
+    "name" : "Robert C. Thomas",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "509fa60c-8766-4a30-a4d4-639ea66a2600",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1390535,
+    "name" : "Stephen Vaughan",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "44779585-19a3-4b09-bee7-1a2d648f3034",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 473,
+    "name" : "Brian Tufano",
+    "birthDate" : "1939-12-01",
+    "deathDate" : "2023-01-12",
+    "gender" : "Male",
+    "profile" : "156a282d-ef2e-4d25-aba0-3b7b0474656f",
+    "homepage" : null,
+    "birthPlace" : "Shepherd's Bush, London, England, UK",
+    "biography" : "Brian Richard Tufano (December 1, 1939 – January 12, 2023) was an English cinematographer, best known for his work on the films of Danny Boyle."
+  }, {
+    "tmdbId" : 1590,
+    "name" : "Steven Poster",
+    "birthDate" : "1944-03-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "2f44e2c2-229c-454a-a1b2-c7c636577e39",
+    "homepage" : "https://www.ddatalent.com/client/steven-poster-asc-narrative",
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : "Steven Barry Poster, A.S.C, I.C.G. (born 1 March 1944) is an American cinematographer and photographer who is the former President of the International Cinematographers Guild. He is best known for his collaborations with Richard Kelly, including the director's 2001 cult classic Donnie Darko.\n\nPoster began his career as a creative assistant at 'The Film Group,' a commercial film production company based in Chicago, Illinois. After being promoted to director of photography due to his skill at lighting, he met Herschell Gordon Lewis and worked with him in various crew positions on a total of three films. Poster founded a production company with director Michael Mann and served as the cinematographer on numerous industrial and education films. He served as the second-unit director of photography on Close Encounters of the Third Kind. Poster joined the American Society of Cinematographers in 1987, relocating to Hollywood in the process. He shot the iconic music video to Madonna's \"Like a Prayer\", as well as commercials directed by Ridley Scott and Kinka Usher. In 1988, he was nominated for the ASC Award for Outstanding Achievement in Theatrical Releases for his work on Someone to Watch Over Me. Poster served as the President of the ASC between 2002-2003. In 2006, he received an Emmy nomination for Mrs. Harris. That same year, he was elected as the National President of the International Cinematographers Guild, a position he held until 2019.\n\nSource: Article \"Steven Poster\" from Wikipedia in English, licensed under CC-BY-SA 3.0."
+  }, {
+    "tmdbId" : 55244,
+    "name" : "Saul Kahan",
+    "birthDate" : "1938-01-23",
+    "deathDate" : "2003-10-30",
+    "gender" : "Male",
+    "profile" : "87285d90-f03b-4544-b439-f1ec4b318689",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 21918,
+    "name" : "Run Run Shaw",
+    "birthDate" : "1907-11-19",
+    "deathDate" : "2014-01-07",
+    "gender" : "Male",
+    "profile" : "917684bb-7a84-4e8d-aa4a-533d6c97c28c",
+    "homepage" : null,
+    "birthPlace" : "Shanghai, China",
+    "biography" : "Sir Run Run Shaw GBM CBE, also known as Shao Yifu and Siu Yat-Fu, was a Hong Kong entertainment mogul and philanthropist. He was one of the most influential figures in the Asian entertainment industry."
+  }, {
+    "tmdbId" : 1435071,
+    "name" : "Michael Mills",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "14228cf0-bc4d-4642-bd78-c346e0c56742",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Michael Mills is a makeup artist who has worked on over 40 different films and TV shows since 1982.\n\nIn 1992, Mills, along with colleagues Edward French and Richard Snell, was nominated for the Academy Award for Best Makeup, for their work on the 1991 film Star Trek VI: The Undiscovered Country."
+  }, {
+    "tmdbId" : 1980719,
+    "name" : "Shirley Padgett",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "699f695a-58f9-47d0-be91-5e371fd0457d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1335808,
+    "name" : "Marvin G. Westmore",
+    "birthDate" : "1934-12-24",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "626a674c-da1e-4a85-876c-c5ad0428350b",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1325887,
+    "name" : "Bridget O'Neill",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "0d116d0b-0d6a-4bc9-858d-4ba11e760d18",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 16519,
+    "name" : "Michael Westmore",
+    "birthDate" : "1938-03-22",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "9da334af-8066-4371-ae55-875ff37ff030",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "Michael George Westmore I is an American make-up artist best known for his work in various Star Trek productions, winning nine Emmy Awards, and is a member of the Westmore family. He won the Academy Award for Make-up in 1985 for his work on the film Mask."
+  }, {
+    "tmdbId" : 14764,
+    "name" : "Christopher Assells",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "fbf7fa41-f7b1-4737-9405-d6a647e4c9b3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 13059,
+    "name" : "Karen Baker Landers",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "cf48b82a-806b-4006-aecf-8e98db8da709",
+    "homepage" : "https://formosagroup.com/tms-profile/229/KAREN-BAKER%20LANDERS/",
+    "birthPlace" : "Garden Grove, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 16177,
+    "name" : "Ron Bartlett",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "cd36c720-9aff-4775-8a92-4bca4d31ae5c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : "Ron Bartlett is an American sound engineer. He was nominated at the 85th Academy Awards for the film Life of Pi. He was nominated for Best Sound Mixing and shared his nomination with Doug Hemphill and Drew Kunin. He was nominated in the same category at the 90th Academy Awards for his work on Blade Runner 2049, along with Doug Hemphill and Mac Ruth.\n\nBartlett won an Academy Award for Best Sound for the films Dune and Dune: Part Two.\n\nHe has produced sound on over 150 films since 1985.\n\nDescription above from the Wikipedia article Ron Bartlett, licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 13166,
+    "name" : "Dino DiMuro",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "ff19f810-932b-4b9f-bb74-a43459f9aad8",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 14765,
+    "name" : "Per Hallberg",
+    "birthDate" : "1958-12-30",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "22eab9ae-4639-4a3c-a8e1-ec3e5739b98d",
+    "homepage" : null,
+    "birthPlace" : "Borgholm, Öland, Sweden",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1377220,
+    "name" : "Doug Hemphill",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "418d4b8d-3774-4217-8137-b8913c428e80",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1342657,
+    "name" : "Jon Title",
+    "birthDate" : "1965-04-18",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7eee046b-f8ee-49bc-8ed3-25fed8f1131e",
+    "homepage" : null,
+    "birthPlace" : "Branson, Missouri, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1500862,
+    "name" : "Matt Vowles",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4521ded1-6fd9-4603-9fd3-26f431cbebbe",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1980730,
+    "name" : "Joel Fein",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "474aa669-dd2d-47c7-9bc1-04decee7d310",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 40818,
+    "name" : "John Hayward",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "48f33fa1-3a5c-40f3-bd31-0b8980f26a51",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1411245,
+    "name" : "Nicolas Le Messurier",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "4695fbb4-0c50-4da0-95d7-65b7b6b8079c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1100808,
+    "name" : "Gordon K. McCallum",
+    "birthDate" : "1919-05-26",
+    "deathDate" : "1989-09-10",
+    "gender" : "Male",
+    "profile" : "30df99de-8571-4f7c-b037-26828ea70344",
+    "homepage" : null,
+    "birthPlace" : "Chicago, Illinois, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 12112,
+    "name" : "Douglas Trumbull",
+    "birthDate" : "1942-04-08",
+    "deathDate" : "2022-02-07",
+    "gender" : "Male",
+    "profile" : "62839a51-8dbf-4dab-864b-d395fc5f8e29",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, USA",
+    "biography" : "From Wikipedia, the free encyclopedia.  \n\nDouglas Huntley Trumbull (April 8, 1942, Los Angeles- 7th February 2022 ) is an American film director, special effects supervisor, and inventor. He contributed to, or was responsible for, the special photographic effects of 2001: A Space Odyssey, Close Encounters of the Third Kind, Star Trek: The Motion Picture and Blade Runner, and directed the movies Silent Running and Brainstorm.\n\nDescription above from the Wikipedia article Douglas Trumbull  licensed under CC-BY-SA, full list of contributors on Wikipedia."
+  }, {
+    "tmdbId" : 1647681,
+    "name" : "Richard Yuricich",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f24fede1-bbe4-4e83-a207-634362b85300",
+    "homepage" : null,
+    "birthPlace" : "Lorain, Ohio, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1980734,
+    "name" : "David Dryer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4b5d135a-ed20-4ca9-9c14-79fb3cbc79bd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2379068,
+    "name" : "Bernard Lodge",
+    "birthDate" : "1933-01-01",
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "5d256210-9f89-4e90-afc9-c1d357482c9c",
+    "homepage" : "https://www.bernardlodge.co.uk/about-1-1",
+    "birthPlace" : null,
+    "biography" : "Bernard Lodge graduated from the Royal College of Art, and went on to work for the BBC from 1959 to 1977. Known for his work on the television series Doctor Who, he designed the first four series logos, and the first five title sequences between 1963 and 1980. After leaving the BBC, Lodge set up a production company with Colin Cheeseman, in Soho. A pioneer in designing for computer graphics, which was still in its infancy, he worked on a variety of projects including effects for Ridley Scott's Alien, and Bladerunner. A innovator of graphic design in television, in 1974, he won a Royal Television Society Award for Best Graphics. These days Bernard can be found exploring the art of printmaking from his studio in Brighton."
+  }, {
+    "tmdbId" : 91875,
+    "name" : "Bud Alper",
+    "birthDate" : "1930-08-24",
+    "deathDate" : "2012-12-19",
+    "gender" : "Male",
+    "profile" : "cba7ce63-42de-460e-a7a3-b07d783c6ab1",
+    "homepage" : null,
+    "birthPlace" : "Los Angeles, California, U.S",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1404759,
+    "name" : "Terry E. Lewis",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "3d68192b-0b22-4679-b552-fc7a1c95c343",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1341865,
+    "name" : "Ana Maria Quintana",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "2cb31b13-d4d4-440e-9aee-41cdc4ab4b62",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2030296,
+    "name" : "Michael Hopkins",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1eb1120b-e333-40ec-93cd-fd1b35c9aa02",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 122106,
+    "name" : "Gary McLarty",
+    "birthDate" : "1941-01-16",
+    "deathDate" : "2014-10-11",
+    "gender" : "Male",
+    "profile" : "36eddbce-98e9-42a5-b24b-309986566677",
+    "homepage" : null,
+    "birthPlace" : "North Hollywood, California, USA",
+    "biography" : "Gary McLarty (January 16, 1941 – October 11, 2014) was an American stunt performer and stunt coordinator for film and television. His abilities earned him the nickname \"Whiz Kid\" in Hollywood. McLarty performed stunts in over 150 films between 1966 and 2004, among them The Wild Bunch, Little Big Man, The Longest Yard, Blade Runner, The Terminator, Jurassic Park, Heat, and Collateral.\n\nHe was in the helicopter, as a stunt coordinator, when actor Vic Morrow and two children died in an accident on a \"Twilight Zone\" movie set. In the subsequent trial, McLarty testified that, prior to the accident, he had warned director John Landis that the stunt was too dangerous. In 1991 McLarty shot and killed his roommate. McLarty was cleared of all charges when the Deputy District Attorney determined that it was a clear case of justifiable homicide. On the Friday before as part of a bizarre series of events another man had been fatally shot by Sheriff's deputies at McLarty's Lake View Terrace ranch.  McLarty's house also caught on fire and burned down during the same incident. McLarty semi-retired from stunt work in 2004. The following year, he testified at the murder trial of actor Robert Blake, testifying that Blake offered him $10,000 to murder Blake's wife, Bonnie Lee Bakley; McLarty declined. Bakley was fatally shot in Blake's car outside a restaurant in May 2001. Blake was thought by most to be the actual murderer, but was acquitted in a 2005 criminal trial.\n\nMcLarty died on October 11, 2014 when a pickup truck driven by fellow stuntman Bob Orrison making a U-turn was broadsided by a Jeep Cherokee in Rancho Cordova, California, USA. Both stuntmen were killed instantly. The two persons in the Jeep Cherokee were hospitalized with non-life threatening injuries."
+  }, {
+    "tmdbId" : 1805959,
+    "name" : "Roy K. Ogata",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "a1572001-d9b7-455f-9187-2e892090e860",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 5056,
+    "name" : "Terry Rawlings",
+    "birthDate" : "1933-11-04",
+    "deathDate" : "2019-04-23",
+    "gender" : "Male",
+    "profile" : "fc8c0ca3-0d50-4458-8a04-70baadb77e4d",
+    "homepage" : null,
+    "birthPlace" : "London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1045802,
+    "name" : "Peter Cornberg",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f9787191-294d-4b0b-bf11-fcb59dbe563f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 70250,
+    "name" : "Newt Arnold",
+    "birthDate" : "1922-02-22",
+    "deathDate" : "2000-02-12",
+    "gender" : "Male",
+    "profile" : "02a3873d-fb5e-4b5e-b7bd-3bfa11afe442",
+    "homepage" : null,
+    "birthPlace" : "Palo Alto, California, USA",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1400550,
+    "name" : "John A. Scott III",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "86546fe2-f550-442b-9527-a8f0cece2d30",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2081402,
+    "name" : "David Q. Quick",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "6ab80048-dd90-4895-ae92-92fc9de2f335",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1459199,
+    "name" : "Arthur Shippee",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "b5f4b73b-178c-4424-b5fd-27e7ab419593",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1892486,
+    "name" : "Dave Margolin",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "7247e776-150e-4c1b-8d5b-23f4fdf15a8c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864222,
+    "name" : "James T. Woods",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "5be65e29-b990-4dbd-be3d-ada2c3b7d3b1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864224,
+    "name" : "Basil Lombardo",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "4604dc7f-a76a-43ac-9c3e-eca9ec1de555",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2572015,
+    "name" : "Laurie Kerr",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "9dbe910f-29b7-4bd0-b64c-2563b1f35de9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864228,
+    "name" : "Peter Truckel",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "f872db83-a521-479e-84cb-3b7fba265aa1",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2551299,
+    "name" : "Chris Franco",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a66eac30-b5cc-4973-a27e-f1857d9413fa",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1405722,
+    "name" : "Michael Genne",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bd4c9291-5acd-429b-8825-e2b9e1a5cb3f",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1405723,
+    "name" : "Steven H. Smith",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "8d00b313-1157-4ccf-911b-d7138b7bb5ed",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2300633,
+    "name" : "William E. Fitch",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "a960c0c9-cd27-4080-8373-6a6e934fdfc9",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1593977,
+    "name" : "Casey Jones",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "46fb9b8f-62ae-4c7b-85fe-dfd016e16c34",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1854964,
+    "name" : "Victor A. Shelehov",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d55f0250-b004-492b-ac62-362c052a614d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1967849,
+    "name" : "Cary Griffith",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "1fb6b54b-57fd-4a8e-91c6-0b91949e21a3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1686509,
+    "name" : "Richard Hart",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "ee45da9d-47e7-4f56-8d9b-da16a8009edd",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864247,
+    "name" : "George D. Greer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "9a0f3bfd-32f8-4467-9eb5-628be6d43e1c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1435605,
+    "name" : "Winnie D. Brown",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "c2795be2-4eaf-4dfc-ba3e-8d81be70c5c3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2589781,
+    "name" : "Bob E. Horn",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "e6378d6d-7427-4350-8f48-00af0154e8d3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 29771,
+    "name" : "James Lapidus",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "bd6acd03-358a-4843-9b57-d1ac4e9673aa",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1319744,
+    "name" : "Linda Matthews",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "eb6878c9-9e88-450a-98cf-5a3a4123fb6d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2222930,
+    "name" : "Bill Zabala",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "601f81e9-7988-4fa3-abfb-740fa05fd93e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 21272,
+    "name" : "Les Healey",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "88433967-d217-42cc-9abb-cfa818fc9784",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864257,
+    "name" : "Jerry Perenchio",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "74d940b8-d741-45d4-97e9-6f71dc412a7d",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 69946,
+    "name" : "Bud Yorkin",
+    "birthDate" : "1926-02-22",
+    "deathDate" : "2015-08-18",
+    "gender" : "Male",
+    "profile" : "f8f25573-3c93-4741-81d1-bfefb19ee105",
+    "homepage" : null,
+    "birthPlace" : "Washington, Pennsylvania, USA",
+    "biography" : "Bud Yorkin (born February 22, 1926) is an American film and television producer, director, writer and actor. He directed and produced the 1958 TV special An Evening With Fred Astaire, which won nine Emmy Awards.\n\nYorkin was born Alan David Yorkin in Washington, Pennsylvania. He earned a degree in engineering from Carnegie Tech, now Carnegie Mellon University in Pittsburgh. In 1956, he became the producer and director of Tennessee Ernie Ford's NBC comedy/variety program, The Ford Show.\n\nIn 1963, Yorkin joined Norman Lear to form Tandem Productions, which, at first, produced several films in the 1960s to 1971 with such major studios like United Artists and Warner Bros., and later produced many of the decade's hit sitcoms, such as All in the Family, Maude, Good Times, and Sanford and Son.\n\nIn 1999, he and Lear were awarded the Women in Film Lucy Award in recognition of excellence and innovation in creative works that have enhanced the perception of women through the medium of television.\n\nAfter his split with Lear, Yorkin went on to form Bud Yorkin Productions. His first sitcom after the split was the unsuccessful Sanford and Son spin-off sitcom Grady. In 1976, he formed TOY Productions with Saul Turteltaub and Bernie Orenstein (who produced Sanford and Son from 1974–1977), but their two hits were What's Happening!! and Carter Country.\n\nYorkin's film directing credits include The Thief Who Came to Dinner , Divorce American Style and Inspector Clouseau (film) of the Pink Panther series.\n\nYorkin is the father of television writer and producer Nicole Yorkin. He is married to actress Cynthia Sikes."
+  }, {
+    "tmdbId" : 1634367,
+    "name" : "Linda Hess",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "bf33cf62-564b-44ba-b64c-d84f0c14aeb0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864265,
+    "name" : "Alan B. Rosin",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "1303c0a0-d72c-44a5-86ab-343e4004bc0e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864266,
+    "name" : "Vickie Alper",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "54cc59f5-51bb-45e8-b323-a608ce4a55ef",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 2864268,
+    "name" : "Steve Warner",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "d1afe663-53ea-4125-9f41-266e1406d71e",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1889231,
+    "name" : "Katherine Haber",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Female",
+    "profile" : "f0806424-38f5-4f8e-9fcd-873eaba9b26c",
+    "homepage" : null,
+    "birthPlace" : "Southwark, London, England, UK",
+    "biography" : ""
+  }, {
+    "tmdbId" : 1559095,
+    "name" : "Greg Curtis",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "82fb57a5-a697-48ec-9260-522bba42c187",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 3457,
+    "name" : "Logan Frazee",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "06058ba2-039d-47de-a285-501d8c38a720",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1621235,
+    "name" : "Steve Galich",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "dd30f7a4-a39a-45fe-a232-ef1de17f8ace",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1589185,
+    "name" : "Richard L. Hill",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "094c8acb-bfbf-412a-b043-1daf3ab9136c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1463424,
+    "name" : "Donald Myers",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "14e72316-b879-4cac-94a0-f6952a80caa3",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 231258,
+    "name" : "John W. Rogers",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "7af7c3ac-67a1-46f7-b3f8-e91de7e0e70b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1237513,
+    "name" : "Richard Peter Schroer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "70ed28e2-920a-42a9-a323-053585b2871b",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 1822901,
+    "name" : "Morris Chapnick",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Unknown",
+    "profile" : "c7d17dc4-4cfc-4d47-97e4-d5a9bfceada0",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  }, {
+    "tmdbId" : 60448,
+    "name" : "Donald Hauer",
+    "birthDate" : null,
+    "deathDate" : null,
+    "gender" : "Male",
+    "profile" : "f992324e-0378-488b-a0a0-56a4170b866c",
+    "homepage" : null,
+    "birthPlace" : null,
+    "biography" : ""
+  } ]
+}
