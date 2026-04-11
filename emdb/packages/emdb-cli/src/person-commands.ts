@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import { z } from 'zod'; 
 
 import { useEmdb } from './services/useEmdb.js';
-import { useErrorHandler } from './composables/useErrorHandler.js';
+import { useErrorHandler } from './services/useErrorHandler.js';
 import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 import { SavePersonSchema } from './schemas/SavePersonSchema.js';
 import { UpdatePersonSchema } from './schemas/UpdatePersonSchema.js';

@@ -20,9 +20,9 @@ import com.erdouglass.emdb.common.query.MovieView;
 import com.erdouglass.emdb.media.dto.SaveResult;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.proto.v1.FindAllMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.MoviePageResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieViewResponse;
-import com.erdouglass.emdb.media.proto.v1.PageResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
@@ -36,36 +36,40 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
 )
 public interface MovieMapper extends ShowMapper {
   
+  // Request
+  
   @ImageMapping
   void merge(SaveMovie command, @MappingTarget Movie movie);
   void merge(UpdateMovie command, @MappingTarget Movie movie);
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);
-  
-  @Mapping(source = "entity", target = "movie")
-  SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);
-  
+    
   @InheritConfiguration(name = "merge")
   Movie toMovie(SaveMovie command);
   
   MovieQueryParameters toMovieQueryParameters(FindAllMovieRequest request);
   
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  UpdateMovie toUpdateMovie(UpdateMovieCommand command);
+    
+  // Response
+  
+  @Mapping(source = "entity", target = "movie")
+  SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);
+  
   MovieResponse toMovieResponse(Movie movie);
   
   MovieViewResponse toMovieViewResponse(MovieView view);
   
-  default PageResponse toPageResponse(Page<MovieView> page) {
-    var builder = PageResponse.newBuilder()
+  default MoviePageResponse toMoviePageResponse(Page<MovieView> page) {
+    var builder = MoviePageResponse.newBuilder()
         .setPage((int) page.pageRequest().page())
         .setSize(page.pageRequest().size())
         .setHasNext(page.hasNext());
     page.content().stream()
         .map(this::toMovieViewResponse)
-        .forEach(builder::addContent);
+        .forEach(builder::addResults);
     return builder.build();
   }
-  
-  @BeanMapping(builder = @Builder(disableBuilder = true))
-  UpdateMovie toUpdateMovie(UpdateMovieCommand command);
 }

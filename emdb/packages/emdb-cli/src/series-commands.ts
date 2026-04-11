@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
 import { useEmdb } from './services/useEmdb.js';
-import { useErrorHandler } from './composables/useErrorHandler.js';
+import { useErrorHandler } from './services/useErrorHandler.js';
 import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 import { SaveSeriesSchema } from './schemas/SaveSeriesSchema.js';
 import { UpdateSeriesSchema } from './schemas/UpdateSeriesSchema.js';

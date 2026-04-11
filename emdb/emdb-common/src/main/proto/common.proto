@@ -34,6 +34,15 @@ enum ShowStatus {
   RUMORED = 9;
 }
 
+message FindRequest {
+  int64 id = 1;
+  optional string append = 2;
+}
+
+message DeleteRequest {
+  int64 id = 1;
+}
+
 // An image reference consisting of an internal identifier and an
 // external TMDB path. The internal name is a UUID assigned on save;
 // the tmdb_name is the original path from The Movie Database API

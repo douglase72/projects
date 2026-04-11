@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { ImageSchema } from './ImageSchema.js';
 import { SavePersonSchema } from './SavePersonSchema.js';
 import { SeriesType, ShowStatus } from '@emdb/common';
 
@@ -32,17 +33,15 @@ const CreditsSchema = z.object({
 export const SaveSeriesSchema = z.object({
   tmdbId: z.number().int().positive(),
   title: z.string(),
-  score: z.number().min(0).max(10).nullable(),
-  status: z.enum(Object.values(ShowStatus) as [string, ...string[]]), 
-  type: z.enum(Object.values(SeriesType) as [string, ...string[]]),
-  homepage: z.string().url().nullable(),
-  originalLanguage: z.string().length(2).nullable(),
-  backdrop: z.string().uuid().nullable(),
-  poster: z.string().uuid().nullable(),
-  tagline: z.string().nullable(),
-  overview: z.string().nullable(),
-  credits: CreditsSchema,
-  people: z.array(SavePersonSchema),
+  score: z.number().min(0).max(10).nullable().optional(),
+  status: z.enum(Object.values(ShowStatus) as [string, ...string[]]).optional(), 
+  type: z.enum(Object.values(SeriesType) as [string, ...string[]]).optional(),
+  homepage: z.string().url().nullable().optional(),
+  originalLanguage: z.string().length(2).nullable().optional(),
+  backdrop: ImageSchema.nullable().optional(),
+  poster: ImageSchema.nullable().optional(),
+  tagline: z.string().nullable().optional(),
+  overview: z.string().nullable().optional(),
 }).strict();
 
 export type SaveSeries = z.infer<typeof SaveSeriesSchema>;

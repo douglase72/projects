@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
 import { useEmdb } from './services/useEmdb.js';
-import { useErrorHandler } from './composables/useErrorHandler.js';
+import { useErrorHandler } from './services/useErrorHandler.js';
 import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
 import { SaveMovieSchema } from './schemas/SaveMovieSchema.js';
 import { UpdateMovieSchema } from './schemas/UpdateMovieSchema.js';
@@ -43,6 +43,15 @@ Examples:
   $ emdb-cli movie find 1
 `)  
   .action(find);
+
+movieCommand
+  .command('find-all')
+  .description('Find all the movies in EMDB')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli movie find-all
+`)  
+  .action(findAll);
 
 movieCommand
   .command('update')
@@ -122,6 +131,21 @@ async function find(id: number) {
     });
     console.log(`Found ${movie.title} in: ${et} ms.`);    
     console.log(movie);
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+async function findAll() {
+  try {
+    const { findAllMovies } = useEmdb();
+    const start = performance.now();
+    const movies = await findAllMovies();
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Found all movies in: ${et} ms.`);    
+    console.log(movies);
   } catch (error: any) {
     handleError(error);
   }

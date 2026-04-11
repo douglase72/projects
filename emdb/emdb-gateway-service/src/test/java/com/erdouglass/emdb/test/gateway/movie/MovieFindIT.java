@@ -115,7 +115,7 @@ class MovieFindIT extends AbstractTest {
     assertEquals(5, page.size());
     assertFalse(page.hasNext());
     
-    var movies = page.content();
+    var movies = page.results();
     assertEquals("Austin Powers in Goldmember", movies.get(0).title());
     assertEquals("Austin Powers: The Spy Who Shagged Me", movies.get(1).title());
     assertEquals("Austin Powers: International Man of Mystery", movies.get(2).title());

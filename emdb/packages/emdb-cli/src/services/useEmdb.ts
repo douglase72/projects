@@ -65,6 +65,11 @@ export function useEmdb() {
     return movie;
   };
 
+  const findAllMovies = async (): Promise<Movie[]> => {
+    const { data: movies } = await client.get<Movie[]>('/movies?page=1&size=5');
+    return movies;
+  }
+
   const updateMovie = async (id: number, command: UpdateMovie): Promise<{ status: number, movie?: Movie }> => {
     const response = await client.put<Movie>(`/movies/${id}`, command);
     return { status: response.status, movie: response.data };
@@ -126,6 +131,7 @@ export function useEmdb() {
     deleteSeries,
     ingest,
     findMovie,
+    findAllMovies,
     findPerson,
     findSeries,
     saveMovie,

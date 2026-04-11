@@ -1,0 +1,115 @@
+// Series service definitions for the EMDB media service.
+//
+// All write operations (Save) require authentication. Read operations
+// (FindById, FindAll) are public. The gateway proxies REST requests
+// to this service via gRPC.
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.media.proto.v1";
+option java_outer_classname = "SeriesProto";
+
+package emdb.media.v1;
+
+service SeriesService {
+  rpc Save (SaveSeriesRequest) returns (SaveSeriesResponse) {}
+  rpc FindAll (FindAllSeriesRequest) returns (SeriesPageResponse) {}
+  rpc FindById (FindRequest) returns (SeriesResponse) {}
+  rpc Update (UpdateSeriesRequest) returns (SeriesResponse) {}
+  rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+enum SeriesType {
+  SERIES_TYPE_UNSPECIFIED = 0;
+  SCRIPTED = 1;
+  REALITY = 2;
+  DOCUMENTARY = 3;
+  NEWS = 4;
+  TALK_SHOW = 5;
+  MINISERIES = 6;
+  VIDEO = 7;
+}
+
+// Request
+
+message SaveSeriesRequest {
+  int32 tmdb_id = 1;
+  string title = 2;
+  optional float score = 3;
+  optional ShowStatus status = 4;
+  optional SeriesType type = 5;
+  optional Image backdrop = 6;
+  optional Image poster = 7;
+  optional string homepage = 8;
+  optional string original_language = 9;
+  optional string tagline = 10;
+  optional string overview = 11;
+}
+
+message FindAllSeriesRequest {
+  int32 page = 1;
+  int32 size = 2;
+  optional string sort = 3;
+}
+
+message UpdateSeriesRequest {
+  int64 id = 1;
+  UpdateSeriesCommand command = 2;
+}
+
+message UpdateSeriesCommand {
+  string title = 1;
+  optional float score = 2;
+  optional ShowStatus status = 3;
+  optional SeriesType type = 4;
+  optional string backdrop = 5;
+  optional string poster = 6;
+  optional string homepage = 7;
+  optional string original_language = 8;
+  optional string tagline = 9;
+  optional string overview = 10;
+}
+
+// Response
+
+message SaveSeriesResponse {
+  SaveStatus status = 1;
+  SeriesResponse series = 2;
+}
+
+message SeriesResponse {
+  int64 id = 1;
+  int32 tmdb_id = 2;
+  string title = 3;
+  optional string first_air_date = 4;
+  optional string last_air_date = 5;
+  optional float score = 6;
+  optional ShowStatus status = 7;
+  optional SeriesType type = 8;
+  optional string backdrop = 9;
+  optional string poster = 10;
+  optional string homepage = 11;
+  optional string original_language = 12;
+  optional string tagline = 13;
+  optional string overview = 14;
+}
+
+message SeriesPageResponse {
+  repeated SeriesViewResponse results = 1;
+  int32 page = 2;
+  int32 size = 3;
+  bool has_next = 4;
+}
+
+message SeriesViewResponse {
+  int64 id = 1;
+  string title = 2;
+  optional string first_air_date = 3;
+  optional float score = 4;
+  optional string backdrop = 5;
+  optional string poster = 6;
+  optional string overview = 7;
+}

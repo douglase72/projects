@@ -14,9 +14,9 @@ import com.erdouglass.emdb.common.query.MovieView;
 import com.erdouglass.emdb.gateway.query.MovieQueryParams;
 import com.erdouglass.emdb.gateway.query.Page;
 import com.erdouglass.emdb.media.proto.v1.FindAllMovieRequest;
-import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.FindRequest;
+import com.erdouglass.emdb.media.proto.v1.MoviePageResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
-import com.erdouglass.emdb.media.proto.v1.PageResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 
@@ -29,18 +29,20 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 )
 public interface MovieMapper extends CommonMapper {
   
+  // Request
   SaveMovieRequest toSaveMovieRequest(SaveMovie command);
   
-  FindMovieRequest toFindMovieRequest(Long id, String append);
-  
-  @ImageMapping
-  MovieDetails toMovieDetails(MovieResponse response);
+  FindRequest toFindMovieRequest(Long id, String append);
   
   FindAllMovieRequest toFindAllMovieRequest(MovieQueryParams parameters);
-  
-  Page<MovieView> toPage(PageResponse response);
-  
+    
   @Mapping(target = "id", source = "id")
   @Mapping(target = "command", source = "command")
   UpdateMovieRequest toUpdateMovieRequest(Long id, UpdateMovie command);
+  
+  // Response
+  @ImageMapping
+  MovieDetails toMovieDetails(MovieResponse response);
+  
+  Page<MovieView> toPage(MoviePageResponse response);
 }

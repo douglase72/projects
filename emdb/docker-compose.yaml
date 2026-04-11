@@ -1,20 +1,4 @@
 services:
-  
-  rabbitmq:
-    image: rabbitmq:4.2.1-management
-    container_name: rabbitmq 
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq   
-    networks:
-      - projects
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5  
       
   emdb-gateway:
     image: emdb-gateway:latest
@@ -30,9 +14,6 @@ services:
       - ./emdb-gateway-service/.env
     networks:
       - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
                 
   emdb-media:
     image: emdb-media:latest
@@ -53,9 +34,6 @@ services:
       - /home/erdouglass/projects/emdb/media-data/series:/series
     networks:
       - projects
-    depends_on:
-      rabbitmq:
-        condition: service_healthy      
 
   emdb-ui:
     image: emdb-ui:latest
@@ -67,9 +45,6 @@ services:
       - projects
     depends_on:
       - emdb-gateway
-
-volumes:
-  rabbitmq_data:
       
 networks:
   projects:

@@ -1,0 +1,18 @@
+{
+  "tmdbId" : 456,
+  "title" : "The Simpsons",
+  "score" : 8.015,
+  "status" : "Returning Series",
+  "type" : "Scripted",
+  "homepage" : "http://www.thesimpsons.com/",
+  "originalLanguage" : "en",
+  "backdrop" : {
+    "name" : "019d3220-adb3-75ba-b1b2-1619de2a2fef",
+    "tmdbName" : "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg"
+  },
+  "poster" : {
+    "name" : "019d3220-aead-702b-a997-5700e9a2076a",
+    "tmdbName" : "/zp5gxcPnxv6FsDh3l7yRZurlBRr.jpg"
+  },
+  "overview" : "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general."
+}

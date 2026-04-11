@@ -2,13 +2,15 @@ package com.erdouglass.emdb.media.controller;
 
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.common.query.MovieView;
+import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
-import com.erdouglass.emdb.media.proto.v1.DeleteMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.FindAllMovieRequest;
-import com.erdouglass.emdb.media.proto.v1.FindMovieRequest;
+import com.erdouglass.emdb.media.proto.v1.FindRequest;
+import com.erdouglass.emdb.media.proto.v1.MoviePageResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
-import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
-import com.erdouglass.emdb.media.proto.v1.PageResponse;
+import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc.MovieServiceImplBase;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
@@ -27,7 +29,7 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 /// responses. All methods run on virtual threads to avoid blocking
 /// platform threads during database I/O.
 @GrpcService
-public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
+public class MovieResource extends MovieServiceImplBase {
   
   @Inject
   MovieMapper mapper;
@@ -49,12 +51,24 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
     responseObserver.onCompleted();
   }
   
+  /// Returns a paginated list of [MovieView] projections without total
+  /// counts, to avoid an expensive `COUNT(*)` on large tables.
+  @Override
+  @RunOnVirtualThread
+  public void findAll(FindAllMovieRequest request, StreamObserver<MoviePageResponse> responseObserver) {
+    var parameters = mapper.toMovieQueryParameters(request);
+    var page = service.findAll(parameters);
+    var response = mapper.toMoviePageResponse(page);
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();
+  }
+  
   /// Returns the full details of a single movie.
   ///
   /// Responds with `NOT_FOUND` if no movie exists with the given id.
   @Override
   @RunOnVirtualThread
-  public void findById(FindMovieRequest request, StreamObserver<MovieResponse> responseObserver) {
+  public void findById(FindRequest request, StreamObserver<MovieResponse> responseObserver) {
     var movie = service.findById(request.getId(), request.getAppend()).orElse(null);
     if (movie == null) {
       responseObserver.onError(Status.NOT_FOUND
@@ -63,18 +77,6 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
       return;
     }
     var response = mapper.toMovieResponse(movie);
-    responseObserver.onNext(response);
-    responseObserver.onCompleted();
-  }
-  
-  /// Returns a paginated list of [MovieView] projections without total
-  /// counts, to avoid an expensive `COUNT(*)` on large tables.
-  @Override
-  @RunOnVirtualThread
-  public void findAll(FindAllMovieRequest request, StreamObserver<PageResponse> responseObserver) {
-    var parameters = mapper.toMovieQueryParameters(request);
-    var page = service.findAll(parameters);
-    var response = mapper.toPageResponse(page);
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }
@@ -97,7 +99,7 @@ public class MovieResource extends MovieServiceGrpc.MovieServiceImplBase {
   /// Deletes a movie by primary key. Returns an empty response on success.
   @Override
   @RunOnVirtualThread
-  public void delete(DeleteMovieRequest request, StreamObserver<Empty> responseObserver) {
+  public void delete(DeleteRequest request, StreamObserver<Empty> responseObserver) {
     service.delete(request.getId()); 
     responseObserver.onNext(Empty.getDefaultInstance());
     responseObserver.onCompleted();

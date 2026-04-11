@@ -16,11 +16,13 @@ package emdb.media.v1;
 
 service MovieService {
   rpc Save (SaveMovieRequest) returns (SaveMovieResponse) {}
-  rpc FindAll (FindAllMovieRequest) returns (PageResponse) {}
-  rpc FindById (FindMovieRequest) returns (MovieResponse) {}
+  rpc FindAll (FindAllMovieRequest) returns (MoviePageResponse) {}
+  rpc FindById (FindRequest) returns (MovieResponse) {}
   rpc Update (UpdateMovieRequest) returns (MovieResponse) {}
-  rpc Delete (DeleteMovieRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {}
 }
+
+// Request
 
 message SaveMovieRequest {
   int32 tmdb_id = 1;
@@ -45,11 +47,6 @@ message FindAllMovieRequest {
   optional string sort = 3;
 }
 
-message FindMovieRequest {
-  int64 id = 1;
-  optional string append = 2;
-}
-
 message UpdateMovieRequest {
   int64 id = 1;
   UpdateMovieCommand command = 2;
@@ -71,9 +68,7 @@ message UpdateMovieCommand {
   optional string overview = 13;
 }
 
-message DeleteMovieRequest {
-  int64 id = 1;
-}
+// Response
 
 message SaveMovieResponse {
   SaveStatus status = 1;
@@ -98,6 +93,13 @@ message MovieResponse {
   optional string overview = 15;
 }
 
+message MoviePageResponse {
+  repeated MovieViewResponse results = 1;
+  int32 page = 2;
+  int32 size = 3;
+  bool has_next = 4;
+}
+
 message MovieViewResponse {
   int64 id = 1;
   string title = 2;
@@ -106,11 +108,4 @@ message MovieViewResponse {
   optional string backdrop = 5;
   optional string poster = 6;
   optional string overview = 7;
-}
-
-message PageResponse {
-  repeated MovieViewResponse content = 1;
-  int32 page = 2;
-  int32 size = 3;
-  bool has_next = 4;
 }

@@ -66,18 +66,6 @@ public class MovieService {
     return SaveResult.of(status, existingMovie);
   }
   
-  /// Retrieves a single movie by primary key.
-  ///
-  /// @param id the movie's primary key
-  /// @param append optional comma-separated list of associations to include
-  /// @return an [Optional] containing the movie if found, or empty if not  
-  @Transactional
-  @Logged("Found:")
-  public Optional<Movie> findById(@NotNull @Positive Long id, String append) {
-    var movie = repository.findById(id);
-    return movie;
-  }
-  
   /// Retrieves a paginated list of [MovieView] projections.
   ///
   /// Uses `withoutTotal()` on the page request to skip the `COUNT(*)`
@@ -92,6 +80,18 @@ public class MovieService {
     var pageRequest = PageRequest.ofPage(parameters.page(), parameters.size(), false);
     var results = repository.find(pageRequest);
     return results;
+  }
+  
+  /// Retrieves a single movie by primary key.
+  ///
+  /// @param id the movie's primary key
+  /// @param append optional comma-separated list of associations to include
+  /// @return an [Optional] containing the movie if found, or empty if not  
+  @Transactional
+  @Logged("Found:")
+  public Optional<Movie> findById(@NotNull @Positive Long id, String append) {
+    var movie = repository.findById(id);
+    return movie;
   }
 
   /// Updates an existing movie's mutable fields.

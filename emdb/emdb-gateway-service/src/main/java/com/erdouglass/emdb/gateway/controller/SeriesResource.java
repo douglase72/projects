@@ -26,115 +26,83 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.UpdateMovie;
-import com.erdouglass.emdb.common.query.MovieDetails;
-import com.erdouglass.emdb.common.query.MovieView;
-import com.erdouglass.emdb.gateway.mapper.MovieMapper;
-import com.erdouglass.emdb.gateway.query.MovieQueryParams;
+import com.erdouglass.emdb.common.comand.SaveSeries;
+import com.erdouglass.emdb.common.comand.UpdateSeries;
+import com.erdouglass.emdb.common.query.SeriesDetails;
+import com.erdouglass.emdb.common.query.SeriesView;
+import com.erdouglass.emdb.gateway.mapper.SeriesMapper;
 import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.SeriesQueryParams;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
-import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc;
+import com.erdouglass.emdb.media.proto.v1.SeriesServiceGrpc.SeriesServiceBlockingStub;
 
 import io.grpc.StatusRuntimeException;
 import io.quarkus.grpc.GrpcClient;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
-/// REST resource for movie operations.
+/// REST resource for series operations.
 ///
 /// Delegates to the media-service via gRPC. Write operations require the
 /// admin role; read operations are public.
-@Path("/movies")
+@Path("/series")
 @RunOnVirtualThread
 @RolesAllowed(Configuration.ADMIN)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
 @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
-public class MovieResource {
+public class SeriesResource {
   
   @Inject
-  MovieMapper mapper;
+  SeriesMapper mapper;
   
   @GrpcClient("media-service")
-  MovieServiceGrpc.MovieServiceBlockingStub service;
-  
-  /// Creates a movie if it does not already exist, otherwise updates the
-  /// existing movie matched by TMDB ID.
-  ///
-  /// @param command the movie data to save
-  /// @return 201 Created with [MovieDetails] if new, 200 OK if updated,
-  ///         or 204 No Content if unchanged
+  SeriesServiceBlockingStub service;
+
   @POST
-  public Response save(@NotNull @Valid SaveMovie command) {
-    var request = mapper.toSaveMovieRequest(command);
+  public Response save(@NotNull @Valid SaveSeries command) {
+    var request = mapper.toSaveSeriesRequest(command);
     var response = service.save(request);
     return Response.status(mapper.mapProtoStatusToHttpCode(response.getStatus()))
-        .entity(mapper.toMovieDetails(response.getMovie()))
-        .build();    
+        .entity(mapper.toSeriesDetails(response.getSeries()))
+        .build();
   }
   
-  /// Returns a paginated list of [MovieView] projections.
-  ///
-  /// Results are sorted by score descending by default. The response
-  /// does not include total counts to avoid an expensive count query
-  /// on large tables. Clients should use [Page#hasNext()] to determine
-  /// if more pages are available.
-  ///
-  /// @param parameters pagination and sorting options
-  /// @return a [Page] of [MovieView] projections
   @PermitAll
   @GET
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
       abortOn = StatusRuntimeException.class )
-  public Page<MovieView> findAll(@BeanParam @Valid MovieQueryParams parameters) {
-    var request = mapper.toFindAllMovieRequest(parameters);
+  public Page<SeriesView> findAll(@BeanParam @Valid SeriesQueryParams parameters) {
+    var request = mapper.toFindAllSeriesRequest(parameters);
     var response = mapper.toPage(service.findAll(request));
     return response;
   }
   
-  /// Returns the full details of a single movie.
-  ///
-  /// The optional `append` query parameter controls which associations
-  /// are included in the response (e.g. `credits`).
-  ///
-  /// @param id the movie's primary key
-  /// @param append optional comma-separated list of associations to include
-  /// @return the [MovieDetails] for the requested movie
   @PermitAll
   @GET
   @Path("/{id}")
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
       abortOn = StatusRuntimeException.class )
-  public MovieDetails findById(
+  public SeriesDetails findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {
-    var request = mapper.toFindMovieRequest(id, append);
-    var response = mapper.toMovieDetails(service.findById(request));
-    return response;
+    var request = mapper.toFindSeriesRequest(id, append);
+    var response = service.findById(request);
+    return mapper.toSeriesDetails(response);
   }
   
-  /// Updates an existing movie by primary key with new field values.
-  ///
-  /// @param id the movie's primary key
-  /// @param command the fields to update
-  /// @return the updated [MovieDetails]
   @PUT
   @Path("/{id}")
-  public MovieDetails update(
+  public SeriesDetails update(
       @PathParam("id") @NotNull @Positive Long id, 
-      @NotNull @Valid UpdateMovie command) {
-    var request = mapper.toUpdateMovieRequest(id, command);
+      @NotNull @Valid UpdateSeries command) {
+    var request = mapper.toUpdateSeriesRequest(id, command);
     var response = service.update(request);
-    return mapper.toMovieDetails(response);
+    return mapper.toSeriesDetails(response);
   }
   
-  /// Deletes a movie by primary key.
-  ///
-  /// @param id the movie's primary key
-  /// @return 204 No Content on success
   @DELETE
   @Path("/{id}")
   @Retry(
@@ -144,5 +112,5 @@ public class MovieResource {
     var request = DeleteRequest.newBuilder().setId(id).build();
     service.delete(request);
     return Response.noContent().build();
-  }    
+  }
 }

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { ImageSchema } from './ImageSchema.js';
 import { ShowStatus } from '@emdb/common';
 import { SavePersonSchema } from './SavePersonSchema.js';
 
@@ -22,20 +23,18 @@ const CreditsSchema = z.object({
 export const SaveMovieSchema = z.object({
   tmdbId: z.number().int().positive(),
   title: z.string(),
-  releaseDate: z.string().nullable().optional(),
-  score: z.number().min(0).max(10).nullable(),
-  status: z.enum(Object.values(ShowStatus) as [string, ...string[]]), 
-  runtime: z.number().int().nonnegative().nullable(),
-  budget: z.number().int().nonnegative().nullable(),
-  revenue: z.number().int().nonnegative().nullable(), 
-  backdrop: z.string().uuid().nullable(),
-  poster: z.string().uuid().nullable(),
-  homepage: z.string().url().nullable(),
-  originalLanguage: z.string().length(2).nullable(),
-  tagline: z.string().nullable(),
-  overview: z.string().nullable(),
-  credits: CreditsSchema,
-  people: z.array(SavePersonSchema),
+  releaseDate: z.string().nullable().optional().optional(),
+  score: z.number().min(0).max(10).nullable().optional(),
+  status: z.enum(Object.values(ShowStatus) as [string, ...string[]]).optional(), 
+  runtime: z.number().int().nonnegative().nullable().optional(),
+  budget: z.number().int().nonnegative().nullable().optional(),
+  revenue: z.number().int().nonnegative().nullable().optional(), 
+  backdrop: ImageSchema.nullable().optional(),
+  poster: ImageSchema.nullable().optional(),
+  homepage: z.string().url().nullable().optional(),
+  originalLanguage: z.string().length(2).nullable().optional(),
+  tagline: z.string().nullable().optional(),
+  overview: z.string().nullable().optional(),
 }).strict();
 
 export type SaveMovie = z.infer<typeof SaveMovieSchema>;
