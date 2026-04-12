@@ -10,4 +10,4 @@ import org.mapstruct.Mapping;
 @Mapping(source = "poster", target = "poster", qualifiedByName = "imageToUuid")
 @Mapping(source = "poster", target = "tmdbPoster", qualifiedByName = "imageToTmdbName")
 @Retention(RetentionPolicy.CLASS)
-public @interface ImageMapping {}
+public @interface ShowImageMapping {}

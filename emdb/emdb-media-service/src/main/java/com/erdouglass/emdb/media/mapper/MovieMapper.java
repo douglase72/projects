@@ -34,11 +34,11 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-public interface MovieMapper extends ShowMapper {
+public interface MovieMapper extends CommonMapper {
   
   // Request
   
-  @ImageMapping
+  @ShowImageMapping
   void merge(SaveMovie command, @MappingTarget Movie movie);
   void merge(UpdateMovie command, @MappingTarget Movie movie);
 

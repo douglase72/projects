@@ -30,9 +30,10 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
 public interface MovieMapper extends CommonMapper {
   
   // Request
+  
   SaveMovieRequest toSaveMovieRequest(SaveMovie command);
   
-  FindRequest toFindMovieRequest(Long id, String append);
+  FindRequest toFindRequest(Long id, String append);
   
   FindAllMovieRequest toFindAllMovieRequest(MovieQueryParams parameters);
     
@@ -41,7 +42,8 @@ public interface MovieMapper extends CommonMapper {
   UpdateMovieRequest toUpdateMovieRequest(Long id, UpdateMovie command);
   
   // Response
-  @ImageMapping
+  
+  @ShowImageMapping
   MovieDetails toMovieDetails(MovieResponse response);
   
   Page<MovieView> toPage(MoviePageResponse response);

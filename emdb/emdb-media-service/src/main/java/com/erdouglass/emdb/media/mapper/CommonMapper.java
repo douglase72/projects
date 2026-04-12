@@ -6,7 +6,7 @@ import org.mapstruct.Named;
 
 import com.erdouglass.emdb.common.Image;
 
-public interface ShowMapper {
+public interface CommonMapper {
   
   @Named("imageToUuid")
   default UUID imageToUuid(Image image) {

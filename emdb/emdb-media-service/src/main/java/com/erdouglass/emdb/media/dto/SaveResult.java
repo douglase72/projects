@@ -11,6 +11,5 @@ public record SaveResult<T>(@NotNull SaveStatus status, @NotNull T entity) {
   
   public static <T> SaveResult<T> of(SaveStatus status, T entity) {
     return new SaveResult<>(status, entity);
-  }
-  
+  }  
 }

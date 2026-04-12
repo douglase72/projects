@@ -45,6 +45,15 @@ Examples:
   .action(find);
 
 seriesCommand
+  .command('find-all')
+  .description('Find all the series in EMDB')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli series find-all
+`)  
+  .action(findAll);
+
+seriesCommand
   .command('update')
   .description('Update a series from TMDB')
   .argument('<id>', 'The id of the series to update')
@@ -121,6 +130,21 @@ async function find(id: number) {
       minimumFractionDigits: 1, maximumFractionDigits: 1
     });
     console.log(`Found ${series.title} in: ${et} ms.`);    
+    console.log(series);
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+async function findAll() {
+  try {
+    const { findAllSeries } = useEmdb();
+    const start = performance.now();
+    const series = await findAllSeries();
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Found all series in: ${et} ms.`);    
     console.log(series);
   } catch (error: any) {
     handleError(error);

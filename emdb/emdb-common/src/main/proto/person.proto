@@ -1,0 +1,109 @@
+// Person service definitions for the EMDB media service.
+//
+// All write operations (Save) require authentication. Read operations
+// (FindById, FindAll) are public. The gateway proxies REST requests
+// to this service via gRPC.
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.media.proto.v1";
+option java_outer_classname = "PersonProto";
+
+package emdb.media.v1;
+
+service PersonService {
+  rpc Save (SavePersonRequest) returns (SavePersonResponse) {}
+  rpc SaveAll (SavePeopleRequest) returns (SavePeopleResponse) {}
+  rpc FindAll (FindAllPersonRequest) returns (PersonPageResponse) {}
+  rpc FindById (FindRequest) returns (PersonResponse) {}
+  rpc Update (UpdatePersonRequest) returns (PersonResponse) {}
+  rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+enum Gender {
+  GENDER_UNSPECIFIED = 0;
+  UNKNOWN = 1;
+  FEMALE = 2;
+  MALE = 3;
+  NON_BINARY = 4;
+}
+
+// Request
+
+message SavePersonRequest {
+  int32 tmdb_id = 1;
+  string name = 2;
+  optional string birth_date = 3;
+  optional string death_date = 4;
+  optional Gender gender = 5;
+  optional Image profile = 6;
+  optional string birth_place = 7;
+  optional string biography = 8;
+}
+
+message SavePeopleRequest {
+  repeated SavePersonRequest people = 1;
+}
+
+message FindAllPersonRequest {
+  int32 page = 1;
+  int32 size = 2;
+  optional string sort = 3;
+}
+
+message UpdatePersonRequest {
+  int64 id = 1;
+  UpdatePersonCommand command = 2;
+}
+
+message UpdatePersonCommand {
+  string name = 1;
+  optional string birth_date = 2;
+  optional string death_date = 3;
+  optional Gender gender = 4;
+  optional string profile = 5;
+  optional string home_page = 6;
+  optional string birth_place = 7;
+  optional string biography = 8;
+}
+
+// Response
+
+message SavePersonResponse {
+  SaveStatus status = 1;
+  PersonResponse person = 2;
+}
+
+message SavePeopleResponse {
+  repeated SaveResult results = 1;
+}
+
+message PersonResponse {
+  int64 id = 1;
+  int32 tmdb_id = 2;
+  string name = 3;
+  optional string birth_date = 4;
+  optional string death_date = 5;
+  optional Gender gender = 6;
+  optional string profile = 7;
+  optional string Birth_place = 8;
+  optional string biography = 9;
+}
+
+message PersonPageResponse {
+  repeated PersonViewResponse results = 1;
+  int32 page = 2;
+  int32 size = 3;
+  bool has_next = 4;
+}
+
+message PersonViewResponse {
+  int64 id = 1;
+  string name = 2;
+  optional string birth_date = 3;
+  optional Gender gender = 4;
+  optional string profile = 5;
+}

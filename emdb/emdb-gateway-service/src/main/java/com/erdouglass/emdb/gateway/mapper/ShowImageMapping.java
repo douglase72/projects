@@ -8,4 +8,4 @@ import org.mapstruct.Mapping;
 @Mapping(source = "backdrop", target = "backdrop", qualifiedByName = "imageToString")
 @Mapping(source = "poster", target = "poster", qualifiedByName = "imageToString")
 @Retention(RetentionPolicy.CLASS)
-public @interface ImageMapping {}
+public @interface ShowImageMapping {}

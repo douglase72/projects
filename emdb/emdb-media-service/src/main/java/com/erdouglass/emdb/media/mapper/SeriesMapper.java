@@ -34,11 +34,11 @@ import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCommand;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-public interface SeriesMapper extends ShowMapper {
+public interface SeriesMapper extends CommonMapper {
   
   // Request
   
-  @ImageMapping
+  @ShowImageMapping
   void merge(SaveSeries command, @MappingTarget Series series);
   void merge(UpdateSeries command, @MappingTarget Series series);
 

@@ -1,6 +1,8 @@
 
     create sequence emdb_media.movie_sequence start with 1 increment by 1;
 
+    create sequence emdb_media.person_sequence start with 1 increment by 50;
+
     create sequence emdb_media.series_sequence start with 1 increment by 1;
 
     create table emdb_media.Movies (
@@ -24,6 +26,24 @@
         release_date date,
         revenue integer,
         runtime integer,
+        primary key (id)
+    );
+
+    create table emdb_media.People (
+        id bigint not null,
+        created timestamp(6) with time zone not null,
+        modified timestamp(6) with time zone not null,
+        uid uuid not null unique,
+        biography varchar(3900),
+        birth_date date,
+        birth_place varchar(120),
+        death_date date,
+        gender varchar(10) check ((gender in ('UNKNOWN','FEMALE','MALE','NON_BINARY'))),
+        homepage varchar(2048),
+        name varchar(80) not null,
+        profile uuid unique,
+        tmdb_id integer not null unique,
+        tmdb_profile varchar(80) unique,
         primary key (id)
     );
 

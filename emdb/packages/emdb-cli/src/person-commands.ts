@@ -56,6 +56,15 @@ Examples:
   .action(find);
 
 personCommand
+  .command('find-all')
+  .description('Find all the people in EMDB')
+  .addHelpText('after', `
+Examples:
+  $ emdb-cli people find-all
+`)  
+  .action(findAll);
+
+personCommand
   .command('update')
   .description('Update a person from TMDB')
   .argument('<id>', 'The id of the person to update')
@@ -158,6 +167,21 @@ async function find(id: number) {
     });
     console.log(`Found ${person.name} in: ${et} ms.`);    
     console.log(person);
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+async function findAll() {
+  try {
+    const { findAllPeople } = useEmdb();
+    const start = performance.now();
+    const people = await findAllPeople();
+    const et = (performance.now() - start).toLocaleString(undefined, {
+      minimumFractionDigits: 1, maximumFractionDigits: 1
+    });
+    console.log(`Found all people in: ${et} ms.`);    
+    console.log(people);
   } catch (error: any) {
     handleError(error);
   }

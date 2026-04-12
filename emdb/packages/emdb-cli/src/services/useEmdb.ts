@@ -93,7 +93,12 @@ export function useEmdb() {
  const findPerson = async (id: number): Promise<Person> => {
     const { data: person } = await client.get<Person>(`/people/${id}`);
     return person;
-  };  
+  };
+
+  const findAllPeople = async (): Promise<Person[]> => {
+    const { data: people } = await client.get<Person[]>('/people?page=1&size=5');
+    return people;
+  }
 
   const updatePerson = async (id: number, command: UpdatePerson): Promise<{ status: number, person?: Person }> => {
     const response = await client.put<Person>(`/people/${id}`, command);
@@ -113,7 +118,12 @@ export function useEmdb() {
   const findSeries = async (id: number): Promise<Series> => {
     const { data: series } = await client.get<Series>(`/series/${id}`);
     return series;
-  };  
+  };
+  
+  const findAllSeries = async (): Promise<Series[]> => {
+    const { data: series } = await client.get<Series[]>('/series?page=1&size=5');
+    return series;
+  }  
 
   const updateSeries = async (id: number, command: UpdateSeries): Promise<{ status: number, series?: Series }> => {
     const response = await client.put<Series>(`/series/${id}`, command);
@@ -130,9 +140,11 @@ export function useEmdb() {
     deletePerson,
     deleteSeries,
     ingest,
-    findMovie,
     findAllMovies,
+    findMovie,
+    findAllPeople,
     findPerson,
+    findAllSeries,
     findSeries,
     saveMovie,
     savePerson,

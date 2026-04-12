@@ -32,7 +32,7 @@ public interface SeriesMapper extends CommonMapper {
   // Request
   SaveSeriesRequest toSaveSeriesRequest(SaveSeries command);
   
-  FindRequest toFindSeriesRequest(Long id, String append);
+  FindRequest toFindRequest(Long id, String append);
   
   FindAllSeriesRequest toFindAllSeriesRequest(SeriesQueryParams parameters);
   
@@ -41,7 +41,7 @@ public interface SeriesMapper extends CommonMapper {
   UpdateSeriesRequest toUpdateSeriesRequest(Long id, UpdateSeries command);
   
   // Response
-  @ImageMapping
+  @ShowImageMapping
   SeriesDetails toSeriesDetails(SeriesResponse response);
   
   Page<SeriesView> toPage(SeriesPageResponse response);

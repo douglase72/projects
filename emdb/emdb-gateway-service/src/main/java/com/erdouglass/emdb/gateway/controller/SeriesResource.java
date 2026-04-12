@@ -88,7 +88,7 @@ public class SeriesResource {
   public SeriesDetails findById(
       @PathParam("id") @NotNull @Positive Long id, 
       @QueryParam(Configuration.APPEND) String append) {
-    var request = mapper.toFindSeriesRequest(id, append);
+    var request = mapper.toFindRequest(id, append);
     var response = service.findById(request);
     return mapper.toSeriesDetails(response);
   }
