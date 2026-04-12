@@ -17,7 +17,7 @@
       <div>{{ person.birthPlace }}</div>
       <div>Profile</div>
       <div v-if="person.profile">
-        <img :src="findImage(person.profile, ImageSize.W154)" :alt="person.name">
+        {{ person.profile }}
       </div>  
       <div>Biography</div>
       <div>{{ person.biography }}</div>
@@ -75,15 +75,7 @@
 
     try {
       person.value = await findPerson(id);
-      shows.value = person.value?.credits.cast.slice(0, 18)
-        .map((credit: PersonCredit): Show => ({
-          id: credit.id,
-          title: credit.title,
-          poster: credit.poster,
-          date: credit.type === MediaType.MOVIE ? credit.releaseDate : credit.firstAirDate,
-          score: credit.score,
-          type: credit.type,
-      }));
+      shows.value = [];
     } catch (e) {
       handleError(e, 'Failed to load person');
       router.push('/'); 

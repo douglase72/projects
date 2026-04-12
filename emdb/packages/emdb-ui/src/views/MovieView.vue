@@ -25,11 +25,11 @@
       <div>{{ formatLanguage(movie.originalLanguage) }}</div>
       <div>Backdrop</div>
       <div v-if="movie.backdrop">
-        <img :src="findImage(movie.backdrop, ImageSize.W154)" :alt="movie.title">
+        {{ movie.backdrop }}
       </div>  
       <div>Poster</div>
       <div v-if="movie.poster">
-        <img :src="findImage(movie.poster, ImageSize.W92)" :alt="movie.title">
+        {{ movie.poster }}
       </div>        
       <div>Tagline</div>
       <div>{{ movie.tagline }}</div>
@@ -90,14 +90,7 @@
 
     try {
       movie.value = await findMovie(id);
-      cast.value = movie.value?.credits.cast.slice(0, 18)
-        .map((credit: MovieCredit) => ({
-          id: credit.id,
-          name: credit.name,
-          profile: credit.profile,
-          character: credit.character,
-          numberOfEpisodes: null,
-        }));
+      cast.value = [];
     } catch (e) {
       handleError(e, 'Failed to load movie');
       router.push('/'); 

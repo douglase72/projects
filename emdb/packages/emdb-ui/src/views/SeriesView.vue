@@ -23,11 +23,11 @@
       <div>{{ formatLanguage(series.originalLanguage) }}</div>
       <div>Backdrop</div>
       <div v-if="series.backdrop">
-        <img :src="findImage(series.backdrop, ImageSize.W154)" :alt="series.title">
+        {{ series.backdrop }}
       </div>  
       <div>Poster</div>
       <div v-if="series.poster">
-        <img :src="findImage(series.poster, ImageSize.W92)" :alt="series.title">
+        {{ series.poster }}
       </div>        
       <div>Tagline</div>
       <div>{{ series.tagline }}</div>
@@ -88,14 +88,7 @@
 
     try {
       series.value = await findSeries(id);
-      cast.value = series.value?.credits.cast.slice(0, 18)
-        .map((credit: SeriesCastCredit) => ({
-          id: credit.id,
-          name: credit.name,
-          profile: credit.profile,
-          character: credit.roles[0]?.character ?? null,
-          numberOfEpisodes: credit.totalEpisodes,
-        }));
+      cast.value = [];
     } catch (e) {
       handleError(e, 'Failed to load series');
       router.push('/'); 

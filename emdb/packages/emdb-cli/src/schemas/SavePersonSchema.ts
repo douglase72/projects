@@ -9,7 +9,7 @@ export const SavePersonSchema = z.object({
   deathDate: z.string().optional().nullable(),
   gender: z.string().optional().nullable(),
   birthPlace: z.string().optional().nullable(),
-  poster: ImageSchema.nullable().optional(),
+  profile: ImageSchema.nullable().optional(),
   homepage: z.string().url().optional().nullable(),
   biography: z.string().optional().nullable(),
 });

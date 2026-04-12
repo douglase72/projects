@@ -63,71 +63,11 @@
         </TabPanel>
 
         <TabPanel value="cast">
-          <DataTable :value="movie?.credits.cast"
-                     dataKey="creditId"
-                     editMode="row"
-                     v-model:editingRows="editingCredits"
-                     @row-edit-save="onCreditSave($event, movie?.credits.cast)"
-                     paginator :rows="20" :rowsPerPageOptions="[10, 20, 50, 100]"
-                     v-model:filters="filters" 
-                     :globalFilterFields="['name']"
-                     size="small">
-             <template #header>
-              <div class="flex">
-                <span class="relative">
-                  <i class="pi pi-search absolute top-2/4 -mt-2 left-3 text-surface-400 dark:text-surface-600" />
-                  <InputText v-model="filters['global'].value" placeholder="Search cast..." class="pl-10 font-normal" />
-                </span>
-              </div>
-            </template>           
-
-            <Column field="name" header="Name"></Column>
-
-            <Column field="character" header="Character">
-              <template #editor="{ data, field }">
-                <InputText v-model="data[field]" autofocus class="w-full" />
-              </template>
-            </Column>
-
-            <Column field="order" header="Order">
-              <template #editor="{ data, field }">
-                <InputNumber v-model="data[field]" class="w-full" />
-              </template>           
-            </Column>
-
-            <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-          </DataTable>          
+          CAST        
         </TabPanel>
 
         <TabPanel value="crew">
-          <DataTable :value="movie?.credits.crew"
-                     dataKey="creditId"
-                     editMode="row"
-                     v-model:editingRows="editingCredits"
-                     @row-edit-save="onCreditSave($event, movie?.credits.crew)"
-                     paginator :rows="20" :rowsPerPageOptions="[10, 20, 50, 100]"
-                     v-model:filters="filters" 
-                     :globalFilterFields="['name']"                     
-                     size="small">
-             <template #header>
-              <div class="flex">
-                <span class="relative">
-                  <i class="pi pi-search absolute top-2/4 -mt-2 left-3 text-surface-400 dark:text-surface-600" />
-                  <InputText v-model="filters['global'].value" placeholder="Search crew..." class="pl-10 font-normal" />
-                </span>
-              </div>
-            </template>
-
-            <Column field="name" header="Name"></Column>
-
-            <Column field="job" header="Job">
-              <template #editor="{ data, field }">
-                <InputText v-model="data[field]" autofocus class="w-full" />
-              </template>
-            </Column>
-
-            <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-          </DataTable>           
+          CREW           
         </TabPanel>
       </TabPanels>
     </Tabs>

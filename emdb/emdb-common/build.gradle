@@ -17,14 +17,6 @@ dependencies {
   implementation libs.quarkus.grpc
 }
 
-tasks.register('cleanGrpcSources', Delete) {
-  delete 'build/classes/java/quarkus-generated-sources/grpc'
-}
-
-tasks.named('compileJava') {
-  dependsOn 'cleanGrpcSources'
-}
-
 sourceSets {
   main {
     java {
