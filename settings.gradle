@@ -19,6 +19,7 @@ dependencyResolutionManagement {
 
 rootProject.name='projects'
 
+include 'messaging'
 include 'validation'
 include 'web-services'
 

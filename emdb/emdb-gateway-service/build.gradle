@@ -13,6 +13,7 @@ dependencies {
 	annotationProcessor libs.mapstruct.spi.protobuf
 	
 	implementation project(':emdb-common')
+	implementation project(':messaging')
 	implementation project(':web-services')
 	
 	implementation libs.jug
@@ -22,7 +23,8 @@ dependencies {
 	implementation libs.quarkus.grpc
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
-	implementation libs.quarkus.oidc 
+	implementation libs.quarkus.oidc
+	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	
 	testImplementation libs.dotenv

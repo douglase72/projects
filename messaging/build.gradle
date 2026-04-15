@@ -1,0 +1,12 @@
+plugins {
+  id 'java-library' 
+}
+
+dependencies {
+  implementation enforcedPlatform(libs.quarkus.bom)
+	implementation platform(libs.jakarta.bom)
+	
+	compileOnly libs.jakarta.cdi
+	compileOnly libs.smallrye.reactive.messaging.rabbitmq
+}
+

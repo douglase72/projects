@@ -17,6 +17,7 @@ dependencies {
 	
 	implementation project(':emdb-common')
 	implementation project(':emdb-scraper')
+	implementation project(':messaging')
 	implementation project(':web-services')
 	
 	implementation libs.jakarta.data
@@ -30,6 +31,7 @@ dependencies {
 	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.jackson
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.rabbitmq
 	
 	testImplementation libs.quarkus.junit
 }
