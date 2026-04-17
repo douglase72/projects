@@ -1,6 +1,6 @@
 plugins {
   id 'java-library'
-  alias(libs.plugins.quarkus)
+  alias(libs.plugins.protobuf)
 }
 
 group = 'com.erdouglass.emdb'
@@ -8,21 +8,41 @@ version = '1.0.0-SNAPSHOT'
 
 dependencies {
   implementation enforcedPlatform(libs.quarkus.bom)
-  
+
+  api libs.protobuf.java
+  api libs.grpc.stub
+  api libs.grpc.protobuf
+  api libs.javax.annotation
+
   api project(':validation')
-  
+
   compileOnly libs.jackson.annotations
+  compileOnly libs.jakarta.cdi
   compileOnly libs.jakarta.validation
   compileOnly libs.microprofile.reactive.messaging.api
-  compileOnly libs.smallrye.reactive.messaging.api
-  
-  implementation libs.quarkus.grpc
+  compileOnly libs.smallrye.reactive.messaging.rabbitmq
 }
 
 sourceSets {
   main {
     java {
-      srcDirs += 'build/classes/java/quarkus-generated-sources/grpc'
+      srcDirs += 'build/generated/source/proto/main/java'
+      srcDirs += 'build/generated/source/proto/main/grpc'
+    }
+  }
+}
+protobuf {
+  protoc {
+    artifact = libs.protobuf.protoc.get().toString()
+  }
+  plugins {
+    grpc {
+      artifact = libs.grpc.protoc.gen.get().toString()
+    }
+  }
+  generateProtoTasks {
+    all()*.plugins {
+      grpc {}
     }
   }
 }

@@ -14,6 +14,9 @@ gradle :emdb-gateway-service:clean :emdb-gateway-service:build -x :emdb-gateway-
 echo "Building emdb-media-service..."
 gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
 
+echo "Building emdb-notification-service..."
+gradle :emdb-notification-service:clean :emdb-notification-service:build -x :emdb-notification-service:test
+
 echo "Cleaning media data..."
 docker run --rm \
   -v /home/erdouglass/projects/emdb/media-data/images:/images \

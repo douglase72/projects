@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common;
+package com.erdouglass.messaging;
 
 import java.lang.reflect.Type;
 

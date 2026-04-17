@@ -1,13 +1,10 @@
 package com.erdouglass.emdb.common;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
 /// Global configuration constants for the EMDB application.
 ///
 /// Provides standardized string literals, keys, and boundary lengths used
 /// across various components, including routing and job scheduling.
-@ApplicationScoped
-public class Configuration {
+public final class Configuration {
 /// The standard length for ISO 639-1 language codes.
   public static final int ISO_639_1_LENGTH = 2;
   
@@ -37,4 +34,6 @@ public class Configuration {
   public static final String ORIGINAL = "original";
   
   public static final String USER = "user";
+  
+  private Configuration() {}
 }

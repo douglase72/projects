@@ -26,13 +26,18 @@ include 'web-services'
 // EMDB
 include 'emdb-common'
 project(':emdb-common').projectDir = file('emdb/emdb-common')
+
 include 'emdb-gateway-service'
 project(':emdb-gateway-service').projectDir = file('emdb/emdb-gateway-service')
-include 'emdb-job-service'
-project(':emdb-job-service').projectDir = file('emdb/emdb-job-service')
+
+include 'emdb-notification-service'
+project(':emdb-notification-service').projectDir = file('emdb/emdb-notification-service')
+
 include 'emdb-media-service'
 project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
+
 include 'emdb-scheduler-service'
 project(':emdb-scheduler-service').projectDir = file('emdb/emdb-scheduler-service')
+
 include 'emdb-scraper'
 project(':emdb-scraper').projectDir = file('emdb/emdb-scraper')

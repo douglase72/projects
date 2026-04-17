@@ -56,6 +56,22 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+        
+  emdb-notification:
+    image: emdb-notification:latest
+    container_name: emdb-notification
+    build:
+      context: ./emdb-notification-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60338:60318
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   emdb-ui:
     image: emdb-ui:latest

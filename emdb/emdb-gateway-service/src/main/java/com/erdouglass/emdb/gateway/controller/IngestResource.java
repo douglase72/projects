@@ -19,7 +19,7 @@ import com.erdouglass.emdb.gateway.messaging.MediaProducer;
 /// REST resource for asynchronous media ingestion.
 ///
 /// Accepts an [IngestMedia] command, publishes it to the message broker,
-/// and immediately returns 202 Accepted with a job ID. The actual
+/// and immediately returns 202 Accepted with a correlation ID. The actual
 /// extraction from TMDB and persistence is handled by the media-service's
 /// [MediaConsumer]. Requires the admin role.
 @Path("/ingest")
@@ -32,12 +32,12 @@ public class IngestResource {
   /// Submits a media ingestion job for asynchronous processing.
   ///
   /// @param command the ingestion request containing the TMDB ID, media type, and source
-  /// @return 202 Accepted with the generated job ID as the response body
+  /// @return 202 Accepted with the generated correlation ID as the response body
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public Response ingest(@NotNull @Valid IngestMedia command) {
-    var jobId = producer.ingest(command);
-    return Response.status(Status.ACCEPTED).entity(jobId).build();
+    var correlationId = producer.ingest(command);
+    return Response.status(Status.ACCEPTED).entity(correlationId).build();
   }
 }

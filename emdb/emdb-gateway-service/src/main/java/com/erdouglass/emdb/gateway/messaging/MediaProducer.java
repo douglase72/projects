@@ -13,6 +13,9 @@ import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.IngestMedia;
+import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
+import com.erdouglass.emdb.common.event.IngestStatusProducer;
 import com.erdouglass.messaging.LoggingDecorator;
 import com.fasterxml.uuid.Generators;
 
@@ -28,7 +31,10 @@ public class MediaProducer {
   
   @Inject
   @Channel("ingest-media-out") 
-  Emitter<IngestMedia> emitter;  
+  Emitter<IngestMedia> emitter;
+  
+  @Inject
+  IngestStatusProducer producer;
 
   /// Publishes an ingestion command to the message broker.
   ///
@@ -49,6 +55,13 @@ public class MediaProducer {
               .withHeader(Configuration.JOB_START_TIME, Instant.now().toString())
               .withHeader("X-Event-Type", command.getClass().getSimpleName())
               .build()));
+      var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
+      producer.send(IngestStatusChanged.builder()
+          .id(correlationId)
+          .status(IngestStatus.SUBMITTED)
+          .tmdbId(command.tmdbId())
+          .message(msg)
+          .build());
       return correlationId;
     } finally {
       MDC.remove(LoggingDecorator.CORRELATION_ID);
