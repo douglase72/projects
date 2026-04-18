@@ -2,12 +2,10 @@ package com.erdouglass.emdb.media.messaging;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.NoSuchElementException;
-import java.util.UUID;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -18,8 +16,10 @@ import org.jboss.logging.MDC;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.event.IngestStatusProducer;
+import com.erdouglass.emdb.media.annotation.MessageMetadata;
 import com.erdouglass.messaging.LoggingDecorator;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
@@ -38,6 +38,15 @@ public class MediaConsumer {
   private static final Logger LOGGER = Logger.getLogger(MediaConsumer.class);
   
   @Inject
+  MovieConsumer movieConsumer;
+  
+  @Inject
+  PersonConsumer personConsumer;
+  
+  @Inject
+  SeriesConsumer seriesConsumer;
+  
+  @Inject
   IngestStatusProducer producer;
   
   /// Processes a single [IngestMedia] message from the ingest-media queue.
@@ -49,34 +58,27 @@ public class MediaConsumer {
   /// @param message the inbound message containing the [IngestMedia] payload
   /// @return a completion stage that acknowledges or negatively acknowledges the message
   @RunOnVirtualThread
+  @ActivateRequestContext
   @Incoming("ingest-media-in")
   public CompletionStage<Void> onMessage(Message<IngestMedia> message) {
     var command = message.getPayload();
-    var start = Instant.now();
     
     try {
       sendStartedStatus(message);
-      
-      // Simulate extracting the media data from  TMDB.
-      TimeUnit.SECONDS.sleep(2);
-      
-      sendCompletedStatus(message, start);
+      switch (command.type()) {
+        case MOVIE -> movieConsumer.ingest(message);
+        case PERSON -> personConsumer.ingest(message);
+        case SERIES -> seriesConsumer.ingest(message);
+      }
       return message.ack();
     } catch (Exception e) {
-      var msg = String.format("Failed to ingest TMDB %s %d", command.type(), command.tmdbId());
-      LOGGER.error(msg, e);      
+      var text = String.format("Failed to ingest TMDB %s %d", command.type(), command.tmdbId());
+      LOGGER.error(text, e); 
+      sendStatus(IngestStatus.FAILED, message, text);
       return message.nack(e);      
     } finally {
       MDC.remove(LoggingDecorator.CORRELATION_ID);
     }
-  }
-  
-  private void sendCompletedStatus(Message<IngestMedia> message, Instant start) {
-    var et = Duration.between(start, Instant.now());
-    var cmd = message.getPayload();
-    var msg = String.format("Ingest job for TMDB %s %d completed in %d ms", cmd.type(), cmd.tmdbId(), et.toMillis());
-    LOGGER.info(msg);
-    sendStatus(IngestStatus.COMPLETED, message, msg);
   }
   
   private void sendStartedStatus(Message<IngestMedia> message) {
@@ -85,24 +87,22 @@ public class MediaConsumer {
     var start = Instant.parse(metadata.getHeaders().get(Configuration.JOB_START_TIME).toString());
     var et = Duration.between(start, Instant.now());
     var cmd = message.getPayload();
-    var msg = String.format("Ingest job for TMDB %s %d sat in the ingest-media queue for %d ms", 
+    var text = String.format("Ingest job for TMDB %s %d sat in the ingest-media queue for %d ms", 
         cmd.type(), cmd.tmdbId(), et.toMillis());
-    LOGGER.info(msg);
-    sendStatus(IngestStatus.STARTED, message, msg);  
+    LOGGER.info(text);
+    sendStatus(IngestStatus.STARTED, message, text);  
   }
   
-  private void sendStatus(IngestStatus status, Message<IngestMedia> message, String statusMessage) {
+  private void sendStatus(IngestStatus status, Message<IngestMedia> message, String text) {
     var command = message.getPayload();
-    var metadata = message.getMetadata(IncomingRabbitMQMetadata.class)
-        .orElseThrow(() -> new IllegalStateException("Missing RabbitMQ metadata"));
-    var correlationId = metadata.getCorrelationId()
-        .map(UUID::fromString)
-        .orElseThrow(() -> new NoSuchElementException("No correlation id."));
+    var correlationId = MessageMetadata.getCorrelationId(message);
     producer.send(IngestStatusChanged.builder()
         .id(correlationId)
-        .status(status)
         .tmdbId(command.tmdbId())
-        .message(statusMessage)
+        .status(status)
+        .source(IngestSource.MEDIA)
+        .type(command.type())
+        .message(text)
         .build());
   }
 }

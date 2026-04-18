@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.logging;
+package com.erdouglass.emdb.media.annotation;
 
 import java.time.Duration;
 import java.time.Instant;

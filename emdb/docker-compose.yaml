@@ -67,6 +67,8 @@ services:
       - 60338:60318
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-notification-service/.env      
     networks:
       - projects
     depends_on:

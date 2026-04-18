@@ -14,6 +14,7 @@ import org.jboss.logging.MDC;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.event.IngestStatusProducer;
 import com.erdouglass.messaging.LoggingDecorator;
@@ -58,8 +59,10 @@ public class MediaProducer {
       var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());
       producer.send(IngestStatusChanged.builder()
           .id(correlationId)
-          .status(IngestStatus.SUBMITTED)
           .tmdbId(command.tmdbId())
+          .status(IngestStatus.SUBMITTED)
+          .source(IngestSource.GATEWAY)
+          .type(command.type())
           .message(msg)
           .build());
       return correlationId;

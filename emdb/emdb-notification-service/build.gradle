@@ -9,11 +9,21 @@ version = '1.0.0-SNAPSHOT'
 dependencies {
 	implementation enforcedPlatform(libs.quarkus.bom)
 	
+	annotationProcessor enforcedPlatform(libs.quarkus.bom)
+  annotationProcessor libs.hibernate.jpamodelgen
+  annotationProcessor libs.mapstruct.processor
+  annotationProcessor libs.mapstruct.spi.protobuf
+	
 	implementation project(':emdb-common')
 	implementation project(':messaging')
 	
+	implementation libs.jakarta.data
+	implementation libs.mapstruct
 	implementation libs.quarkus.arc
+	implementation libs.quarkus.flyway
+	implementation libs.quarkus.hibernate.orm  
 	implementation libs.quarkus.hibernate.validator
+	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.logging
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest

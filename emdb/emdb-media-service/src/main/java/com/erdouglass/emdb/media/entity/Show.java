@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.Configuration;
@@ -59,6 +60,7 @@ public class Show extends SequenceEntity {
   private String title;
   
   @NotNull
+  @Positive
   @Column(name = "tmdb_id", unique = true, updatable = false)
   private Integer tmdbId;  
   

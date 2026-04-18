@@ -13,7 +13,7 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 public class IngestStatusProducer {
-  public static final String ROUTING_KEY = "ingest.status.changed";
+  public static final String ROUTING_KEY = "status.changed";
 
   @Inject
   @Channel("status-events-out")
