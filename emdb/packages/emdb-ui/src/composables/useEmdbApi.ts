@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import keycloak from '@/auth/keycloak';
 import { ImageSize } from '@/models/ImageSize';
+import type { IngestMedia } from '@emdb/common';
 import type { Ingest, IngestHistory } from '@/models/Ingest';
 import type { OffsetPage } from '@/models/OffsetPage';
 import { 
@@ -107,6 +108,11 @@ export function useEmdbApi() {
     return role;
   };
 
+  const ingest = async (command: IngestMedia): Promise<string> => {
+    const { data } = await client.post<string>('/ingests', command);
+    return data;
+  };
+
   const findAllIngests = async (page: number, size: number): Promise<OffsetPage<Ingest>> => {
     const { data } = await client.get<OffsetPage<Ingest>>(`/ingests?page=${page}&size=${size}`);
     return data;
@@ -126,10 +132,11 @@ export function useEmdbApi() {
     findImage,
     findMovie,
     findPerson,
-    updatePerson,
     findSeries,
+    ingest,
     updateMovie,
     updateMovieCredit,
+    updatePerson,
     updateSeries,
     updateSeriesCredit,
     updateRole,

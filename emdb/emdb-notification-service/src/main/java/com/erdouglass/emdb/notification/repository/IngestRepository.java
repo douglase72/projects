@@ -7,6 +7,7 @@ import jakarta.data.repository.Repository;
 
 import com.erdouglass.emdb.notification.entity.Ingest;
 
+/// JPA repository for the [Ingest] current-state projection.
 @Repository
 public interface IngestRepository extends CrudRepository<Ingest, UUID> {
 

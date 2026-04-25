@@ -10,6 +10,26 @@ import jakarta.validation.constraints.Size;
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.ShowConstants;
 
+/// Domain event published every time an ingest job changes state.
+///
+/// Emitted by the gateway-service on submission and by the media-service
+/// at each subsequent transition. Consumers include the notification-service
+/// (which persists the event and its history) and the gateway-service's
+/// SSE [IngestService] (which broadcasts it to UI clients).
+///
+/// Equality is based on every field; idempotent processing should rely on
+/// the combination of [#id] and [#lastModified].
+///
+/// @param id           correlation ID identifying the ingest job; stable
+///                     across all events for the same job
+/// @param status       the status the job has just transitioned into
+/// @param lastModified the instant at which the transition occurred
+/// @param tmdbId       the TMDB ID being ingested
+/// @param source       the service that produced this event
+/// @param type         the type of media being ingested
+/// @param emdbId       the assigned EMDB ID, populated once known
+/// @param name         the title of the media, populated once known
+/// @param message      a human-readable description of the transition
 public record IngestStatusChanged(
     @NotNull UUID id,
     @NotNull IngestStatus status,

@@ -69,7 +69,7 @@ class MovieIngestIT extends AbstractTest {
     var changes = history.changes();
     assertEquals(IngestStatus.SUBMITTED, changes.get(0).status());
     assertEquals(IngestStatus.STARTED, changes.get(1).status());
-    assertEquals(IngestStatus.COMPLETED, changes.get(2).status());    
+    assertEquals(IngestStatus.COMPLETED, changes.get(2).status());
     LOGGER.infof("Ingest Austin Powers: International Man of Mystery request %s completed in %d ms", correlationId, et);
   }
 }

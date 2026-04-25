@@ -19,6 +19,8 @@ declare module 'vue' {
     DataTable: typeof import('primevue/datatable')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     EmdbMenubar: typeof import('./components/EmdbMenubar.vue')['default']
+    Fieldset: typeof import('primevue/fieldset')['default']
+    InputGroup: typeof import('primevue/inputgroup')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']

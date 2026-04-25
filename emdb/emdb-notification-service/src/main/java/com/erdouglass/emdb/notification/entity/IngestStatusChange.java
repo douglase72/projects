@@ -21,6 +21,12 @@ import jakarta.validation.constraints.NotNull;
 import com.erdouglass.emdb.common.event.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatus;
 
+/// Append-only record of a single status transition for an ingest.
+///
+/// Each row corresponds to one [IngestStatusChanged] event. Together they
+/// form the audit trail rendered in the UI when a row is expanded. The
+/// `(ingest_id, status, last_modified)` unique constraint protects against
+/// duplicate inserts on broker redelivery.
 @Entity
 @Table(name = "ingest_status_change",
 indexes = {

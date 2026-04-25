@@ -19,6 +19,12 @@ import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.common.event.IngestSource;
 import com.erdouglass.emdb.common.event.IngestStatus;
 
+/// Current-state projection of an ingest job.
+///
+/// One row per ingest, keyed by the correlation ID assigned at submission.
+/// Each [IngestStatusChanged] event upserts this row to reflect the latest
+/// known status. The full transition history is stored separately in
+/// [IngestStatusChange].
 @Entity
 @Table(name = "ingest", indexes = {
     @Index(name = "idx_ingest_last_modified", columnList = "last_modified DESC"),

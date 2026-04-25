@@ -21,6 +21,12 @@ import com.erdouglass.emdb.notification.mapper.IngestMapper;
 import com.erdouglass.emdb.notification.repository.IngestRepository;
 import com.erdouglass.emdb.notification.repository.IngestStatusChangeRepository;
 
+/// Domain service for ingest persistence and lookup.
+///
+/// Owns the upsert logic that keeps the [Ingest] projection in sync with
+/// the latest status event while also appending to [IngestStatusChange]
+/// for the audit trail. Both writes happen in a single transaction so the
+/// projection and history can never disagree.
 @ApplicationScoped
 public class IngestService {
   
@@ -33,6 +39,14 @@ public class IngestService {
   @Inject
   IngestStatusChangeRepository statusRepository;
   
+  /// Upserts the projection and appends a history row for the given event.
+  ///
+  /// If an [Ingest] with the same ID already exists, its mutable fields are
+  /// merged from the incoming value and the row is updated; otherwise a new
+  /// row is inserted. A new [IngestStatusChange] is always appended.
+  ///
+  /// @param ingest the ingest projection materialized from the inbound event
+  /// @return the persisted ingest (newly inserted or updated)  
   @Transactional
   public Ingest save(@NotNull @Valid Ingest ingest) {
     var existingIngest = repository.findById(ingest.getId())
@@ -43,6 +57,11 @@ public class IngestService {
     return existingIngest;
   }
   
+  /// Returns a page of ingests sorted by last-modified descending.
+  ///
+  /// @param page one-based page number
+  /// @param size page size
+  /// @return the requested page of ingests  
   @Transactional
   public Page<Ingest> findAll(@NotNull @Positive Integer page, @NotNull @Positive Integer size) {
     var pageRequest = PageRequest.ofPage(page, size, true);
@@ -51,11 +70,13 @@ public class IngestService {
     return results;
   }
   
+  /// Returns a single ingest by ID, if it exists.  
   @Transactional
   public Optional<Ingest> findById(@NotNull UUID id) {
     return repository.findById(id);
   }
   
+  /// Returns the full status-change history for an ingest, oldest first.  
   @Transactional
   public List<IngestStatusChange> findStatusChanges(@NotNull UUID id) {
     return statusRepository.findByIngestId(id);

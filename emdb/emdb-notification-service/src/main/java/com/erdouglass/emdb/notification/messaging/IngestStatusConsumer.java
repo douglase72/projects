@@ -17,6 +17,12 @@ import com.erdouglass.messaging.LoggingDecorator;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
+/// Persists [IngestStatusChanged] events as they arrive from the broker.
+///
+/// Each event upserts the [Ingest] projection and inserts a corresponding
+/// [IngestStatusChange] row. Failures are negatively acknowledged so the
+/// broker may redeliver. Runs on a virtual thread to keep blocking JPA
+/// work off the event loop.
 @ApplicationScoped
 public class IngestStatusConsumer {
   private static final Logger LOGGER = Logger.getLogger(IngestStatusConsumer.class);
@@ -27,6 +33,10 @@ public class IngestStatusConsumer {
   @Inject
   IngestService service;
   
+  /// Handles one inbound status event.
+  ///
+  /// @param message the inbound message wrapping an [IngestStatusChanged]
+  /// @return a completion stage that acks on success, nacks on failure
   @RunOnVirtualThread
   @Incoming("status-events-in")
   public CompletionStage<Void> onMessage(Message<IngestStatusChanged> message) {

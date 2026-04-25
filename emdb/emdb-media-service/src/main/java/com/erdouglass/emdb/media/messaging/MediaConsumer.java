@@ -81,6 +81,11 @@ public class MediaConsumer {
     }
   }
   
+  /// Publishes a STARTED status event for the inbound message.
+  ///
+  /// Computes the time the message spent waiting in the queue using
+  /// the [Configuration#JOB_START_TIME] header set by the gateway,
+  /// and includes it in the event's message field for diagnostics.
   private void sendStartedStatus(Message<IngestMedia> message) {
     var metadata = message.getMetadata(IncomingRabbitMQMetadata.class)
         .orElseThrow(() -> new IllegalStateException("Missing RabbitMQ metadata"));
@@ -93,6 +98,14 @@ public class MediaConsumer {
     sendStatus(IngestStatus.STARTED, message, text);  
   }
   
+  /// Publishes a status event with an arbitrary status and message.
+  ///
+  /// The correlation ID is read from message metadata so the event
+  /// is tied back to the original ingest job.
+  ///
+  /// @param status the status to publish
+  /// @param message the originating inbound message; used for correlation and payload
+  /// @param text   a human-readable description of the transition
   private void sendStatus(IngestStatus status, Message<IngestMedia> message, String text) {
     var command = message.getPayload();
     var correlationId = MessageMetadata.getCorrelationId(message);

@@ -23,5 +23,4 @@ export function useTime() {
     toDateString,
     toDateTime,
   }
-
 }

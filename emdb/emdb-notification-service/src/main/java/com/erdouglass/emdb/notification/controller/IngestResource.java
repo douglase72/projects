@@ -19,6 +19,11 @@ import io.grpc.stub.StreamObserver;
 import io.quarkus.grpc.GrpcService;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
+/// gRPC service exposing read access to persisted ingest state.
+///
+/// Backs the gateway-service's REST endpoints for current ingest status
+/// and history. Each RPC runs on a virtual thread so blocking JPA calls
+/// do not consume event-loop threads.
 @GrpcService
 public class IngestResource extends IngestServiceImplBase {
   
@@ -28,6 +33,7 @@ public class IngestResource extends IngestServiceImplBase {
   @Inject
   IngestService service;
 
+  /// Returns a page of ingests sorted by last-modified descending.
   @Override
   @RunOnVirtualThread
   public void findAll(FindAllRequest request, StreamObserver<PageResponse> responseObserver) {
@@ -37,6 +43,7 @@ public class IngestResource extends IngestServiceImplBase {
     responseObserver.onCompleted();
   }
   
+  /// Returns a single ingest by its correlation ID, or NOT_FOUND if absent.
   @Override
   @RunOnVirtualThread
   public void findById(FindByIdRequest request, StreamObserver<IngestResponse> responseObserver) {
@@ -52,6 +59,7 @@ public class IngestResource extends IngestServiceImplBase {
     responseObserver.onCompleted();
   }
   
+  /// Returns the full status-change history for an ingest, ordered ascending.
   @Override
   @RunOnVirtualThread
   public void findHistory(
