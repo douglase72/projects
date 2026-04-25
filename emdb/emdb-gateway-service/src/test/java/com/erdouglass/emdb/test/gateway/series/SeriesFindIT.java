@@ -21,7 +21,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.common.query.SeriesView;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -102,7 +102,7 @@ class SeriesFindIT extends AbstractTest {
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     assertEquals(200, response.statusCode());
     
-    var page = OBJECT_MAPPER.readValue(response.body(), new TypeReference<Page<SeriesView>>() {});
+    var page = OBJECT_MAPPER.readValue(response.body(), new TypeReference<Slice<SeriesView>>() {});
     assertEquals(1, page.page());
     assertEquals(5, page.size());
     assertFalse(page.hasNext());

@@ -15,9 +15,9 @@ import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.IngestMedia;
+import com.erdouglass.emdb.common.event.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatus;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
-import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
-import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.common.event.IngestStatusProducer;
 import com.erdouglass.emdb.media.annotation.MessageMetadata;
 import com.erdouglass.messaging.LoggingDecorator;

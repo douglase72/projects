@@ -8,16 +8,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.ShowConstants;
-import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
-import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
+import com.erdouglass.emdb.common.event.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatus;
 
 @Entity
+@Table(name = "ingest", indexes = {
+    @Index(name = "idx_ingest_last_modified", columnList = "last_modified DESC"),
+    @Index(name = "idx_ingest_tmdb_id", columnList = "tmdb_id")
+})
 public class Ingest {
 
   @Positive
@@ -28,9 +34,11 @@ public class Ingest {
   @Id
   private UUID id;
   
+  @NotNull
   @Column(name = "last_modified")
   private Instant lastModified;
   
+  @NotNull
   private String message;
   
   @Size(max = ShowConstants.TITLE_MAX_LENGTH)
@@ -131,7 +139,7 @@ public class Ingest {
   
   @Override
   public String toString() {
-    return "IngestJob[id=" + id
+    return "Ingest[id=" + id
         + ", lastModified=" + lastModified
         + ", status=" + status
         + ", emdbId=" + emdbId

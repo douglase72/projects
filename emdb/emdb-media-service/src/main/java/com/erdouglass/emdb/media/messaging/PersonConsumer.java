@@ -9,9 +9,9 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.comand.IngestMedia;
+import com.erdouglass.emdb.common.event.IngestSource;
+import com.erdouglass.emdb.common.event.IngestStatus;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
-import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestSource;
-import com.erdouglass.emdb.common.event.IngestStatusChanged.IngestStatus;
 import com.erdouglass.emdb.media.annotation.IngestStatusContext;
 import com.erdouglass.emdb.media.annotation.MessageMetadata;
 import com.erdouglass.emdb.media.annotation.SendStatus;

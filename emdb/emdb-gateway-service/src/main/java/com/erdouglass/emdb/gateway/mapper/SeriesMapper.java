@@ -11,7 +11,7 @@ import com.erdouglass.emdb.common.comand.SaveSeries;
 import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.common.query.SeriesDetails;
 import com.erdouglass.emdb.common.query.SeriesView;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.SeriesQueryParams;
 import com.erdouglass.emdb.media.proto.v1.FindAllSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.FindRequest;
@@ -44,5 +44,5 @@ public interface SeriesMapper extends CommonMapper {
   @ShowImageMapping
   SeriesDetails toSeriesDetails(SeriesResponse response);
   
-  Page<SeriesView> toPage(SeriesPageResponse response);
+  Slice<SeriesView> toPage(SeriesPageResponse response);
 }

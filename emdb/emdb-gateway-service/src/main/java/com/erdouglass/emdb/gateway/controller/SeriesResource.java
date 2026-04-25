@@ -31,7 +31,7 @@ import com.erdouglass.emdb.common.comand.UpdateSeries;
 import com.erdouglass.emdb.common.query.SeriesDetails;
 import com.erdouglass.emdb.common.query.SeriesView;
 import com.erdouglass.emdb.gateway.mapper.SeriesMapper;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.SeriesQueryParams;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.SeriesServiceGrpc.SeriesServiceBlockingStub;
@@ -68,19 +68,19 @@ public class SeriesResource {
         .build();
   }
   
-  @PermitAll
   @GET
+  @PermitAll
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
       abortOn = StatusRuntimeException.class )
-  public Page<SeriesView> findAll(@BeanParam @Valid SeriesQueryParams parameters) {
+  public Slice<SeriesView> findAll(@BeanParam @Valid SeriesQueryParams parameters) {
     var request = mapper.toFindAllSeriesRequest(parameters);
     var response = mapper.toPage(service.findAll(request));
     return response;
   }
   
-  @PermitAll
   @GET
+  @PermitAll
   @Path("/{id}")
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,

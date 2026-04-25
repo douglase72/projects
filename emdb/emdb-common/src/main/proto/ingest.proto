@@ -1,0 +1,84 @@
+// Ingest service definitions for the EMDB notification service.
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.notification.proto.v1";
+option java_outer_classname = "IngestProto";
+
+package emdb.notification.v1;
+
+service IngestService {
+  rpc FindAll (FindAllRequest) returns (PageResponse) {}
+  rpc FindById (FindByIdRequest) returns (IngestResponse) {}
+  rpc FindHistory (FindHistoryRequest) returns (FindHistoryResponse) {}
+}
+
+enum IngestStatus {
+  INGEST_STATUS_UNSPECIFIED = 0;
+  SUBMITTED = 1;
+  STARTED = 2;
+  EXTRACTED = 3;
+  COMPLETED = 4;
+  FAILED = 5;
+}
+
+enum IngestSource {
+  INGEST_SOURCE_UNSPECIFIED = 0;
+  GATEWAY = 1;
+  MEDIA = 2;
+  SCHEDULER = 3;
+  SCRAPER = 4;
+}
+
+enum MediaType {
+  MEDIA_TYPE_UNSPECIFIED = 0;
+  MOVIE = 1;
+  PERSON = 2;
+  SERIES = 3;
+}
+
+message FindAllRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message FindByIdRequest {
+  string id = 1;
+}
+
+message FindHistoryRequest {
+  string id = 1;
+}
+
+message PageResponse {
+  repeated IngestResponse results = 1;
+  int32 page = 2;
+  int32 size = 3;
+  int64 total_results = 4;
+}
+
+message IngestResponse {
+  string id = 1;
+  string last_modified = 2;
+  int32 tmdb_id = 3;
+  IngestStatus status = 4;
+  IngestSource source = 5;
+  MediaType type = 6;
+  string message = 7;
+  optional int64 emdb_id = 8;
+  optional string name = 9;
+}
+
+message FindHistoryResponse {
+  string id = 1;
+  repeated IngestChangeResponse changes = 2;
+}
+
+message IngestChangeResponse {
+  IngestStatus status = 1;
+  string last_modified = 2;
+  IngestSource source = 3;
+  string message = 4;
+}

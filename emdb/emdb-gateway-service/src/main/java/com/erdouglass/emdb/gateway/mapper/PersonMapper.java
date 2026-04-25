@@ -14,7 +14,7 @@ import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.query.PersonDetails;
 import com.erdouglass.emdb.common.query.PersonView;
 import com.erdouglass.emdb.gateway.query.MultiResponse;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.PersonQueryParams;
 import com.erdouglass.emdb.media.proto.v1.FindAllPersonRequest;
 import com.erdouglass.emdb.media.proto.v1.FindRequest;
@@ -64,5 +64,5 @@ public interface PersonMapper extends CommonMapper {
   
   List<MultiResponse> toMultiResponse(List<SaveResult> results);
   
-  Page<PersonView> toPage(PersonPageResponse response);
+  Slice<PersonView> toPage(PersonPageResponse response);
 }

@@ -32,7 +32,7 @@ import com.erdouglass.emdb.common.query.MovieDetails;
 import com.erdouglass.emdb.common.query.MovieView;
 import com.erdouglass.emdb.gateway.mapper.MovieMapper;
 import com.erdouglass.emdb.gateway.query.MovieQueryParams;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc.MovieServiceBlockingStub;
 
@@ -78,17 +78,17 @@ public class MovieResource {
   ///
   /// Results are sorted by score descending by default. The response
   /// does not include total counts to avoid an expensive count query
-  /// on large tables. Clients should use [Page#hasNext()] to determine
+  /// on large tables. Clients should use [Slice#hasNext()] to determine
   /// if more pages are available.
   ///
   /// @param parameters pagination and sorting options
-  /// @return a [Page] of [MovieView] projections
-  @PermitAll
+  /// @return a [Slice] of [MovieView] projections
   @GET
+  @PermitAll
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
       abortOn = StatusRuntimeException.class )
-  public Page<MovieView> findAll(@BeanParam @Valid MovieQueryParams parameters) {
+  public Slice<MovieView> findAll(@BeanParam @Valid MovieQueryParams parameters) {
     var request = mapper.toFindAllMovieRequest(parameters);
     var response = mapper.toPage(service.findAll(request));
     return response;
@@ -102,8 +102,8 @@ public class MovieResource {
   /// @param id the movie's primary key
   /// @param append optional comma-separated list of associations to include
   /// @return the [MovieDetails] for the requested movie
-  @PermitAll
   @GET
+  @PermitAll
   @Path("/{id}")
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,

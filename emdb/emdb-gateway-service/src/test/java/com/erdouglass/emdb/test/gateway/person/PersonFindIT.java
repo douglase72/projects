@@ -22,7 +22,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.query.PersonView;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -109,7 +109,7 @@ class PersonFindIT extends AbstractTest {
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     assertEquals(200, response.statusCode());
     
-    var page = OBJECT_MAPPER.readValue(response.body(), new TypeReference<Page<PersonView>>() {});
+    var page = OBJECT_MAPPER.readValue(response.body(), new TypeReference<Slice<PersonView>>() {});
     assertEquals(1, page.page());
     assertEquals(5, page.size());
     assertFalse(page.hasNext());

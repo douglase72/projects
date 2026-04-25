@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.ShowConstants;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public record IngestStatusChanged(
     @NotNull UUID id,
@@ -20,47 +19,7 @@ public record IngestStatusChanged(
     @NotNull MediaType type,
     @Positive Long emdbId,
     @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name,
-    String message) {
-
-  public enum IngestStatus {
-    SUBMITTED("Submitted"),
-    STARTED("Started"),
-    EXTRACTED("Extracted"),
-    COMPLETED("Completed"),
-    FAILED("Failed");
-    
-    private final String status;
-    
-    IngestStatus(String status) {
-      this.status = status;
-    }
-    
-    @Override
-    @JsonValue
-    public String toString() {
-      return status;
-    }    
-  }
-  
-  public enum IngestSource {
-    GATEWAY("emdb-gateway"),
-    MEDIA("emdb-media"),
-    SCHEDULER("emdb-scheduler"),
-    SCRAPER("emdb-scraper"),
-    USER("emdb-user");
-    
-    private final String source;
-    
-    IngestSource(String source) {
-      this.source = source;
-    }
-    
-    @Override
-    @JsonValue
-    public String toString() {
-      return source;
-    }
-  }  
+    @NotNull String message) {
   
   public static Builder builder() {
     return new Builder();

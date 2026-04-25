@@ -32,7 +32,7 @@ import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.query.PersonDetails;
 import com.erdouglass.emdb.common.query.PersonView;
 import com.erdouglass.emdb.gateway.mapper.PersonMapper;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.PersonQueryParams;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.PersonServiceGrpc.PersonServiceBlockingStub;
@@ -98,16 +98,16 @@ public class PersonResource {
   /// Returns a paginated list of [PersonView] projections.
   ///
   /// Results are sorted by name ascending by default where clients should use 
-  /// [Page#hasNext()] to determine if more pages are available.
+  /// [Slice#hasNext()] to determine if more pages are available.
   ///
   /// @param parameters pagination and sorting options
-  /// @return a [Page] of [PersonView] projections
-  @PermitAll
+  /// @return a [Slice] of [PersonView] projections
   @GET
+  @PermitAll
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
       abortOn = StatusRuntimeException.class )
-  public Page<PersonView> findAll(@BeanParam @Valid PersonQueryParams parameters) {
+  public Slice<PersonView> findAll(@BeanParam @Valid PersonQueryParams parameters) {
     var request = mapper.toFindAllPersonRequest(parameters);
     var response = mapper.toPage(service.findAll(request));
     return response;
@@ -121,8 +121,8 @@ public class PersonResource {
   /// @param id the person's primary key
   /// @param append optional comma-separated list of associations to include
   /// @return the [PersonDetails] for the requested person
-  @PermitAll
   @GET
+  @PermitAll
   @Path("/{id}")
   @Retry(
       maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,

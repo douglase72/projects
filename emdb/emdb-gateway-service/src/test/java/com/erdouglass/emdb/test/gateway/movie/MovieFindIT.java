@@ -23,7 +23,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.common.ShowStatus;
 import com.erdouglass.emdb.common.comand.SaveMovie;
 import com.erdouglass.emdb.common.query.MovieView;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -110,7 +110,7 @@ class MovieFindIT extends AbstractTest {
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     assertEquals(200, response.statusCode());
     
-    var page = OBJECT_MAPPER.readValue(response.body(), new TypeReference<Page<MovieView>>() {});
+    var page = OBJECT_MAPPER.readValue(response.body(), new TypeReference<Slice<MovieView>>() {});
     assertEquals(1, page.page());
     assertEquals(5, page.size());
     assertFalse(page.hasNext());

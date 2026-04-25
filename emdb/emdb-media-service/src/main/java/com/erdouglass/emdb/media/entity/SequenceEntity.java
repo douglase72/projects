@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
 /// Base class for all JPA entities in the application, providing common
 /// auditing and identity management.
@@ -25,6 +26,7 @@ import com.fasterxml.uuid.Generators;
 @MappedSuperclass
 public abstract class SequenceEntity {
   public static final String SEQUENCE_GENERATOR = "sequence_generator";
+  private static final TimeBasedEpochGenerator UID_GENERATOR = Generators.timeBasedEpochGenerator();
 
   /// The timestamp when this entity was first persisted. This is automatically
   /// managed by Hibernate.
@@ -46,7 +48,7 @@ public abstract class SequenceEntity {
   private Instant modified;
 
   @Column(nullable = false, updatable = false, unique = true)
-  private final UUID uid = Generators.timeBasedEpochGenerator().generate();
+  private final UUID uid = UID_GENERATOR.generate();
 
   /// Default protected constructor for JPA and proxying.
   protected SequenceEntity() {
@@ -78,5 +80,4 @@ public abstract class SequenceEntity {
   public int hashCode() {
     return uid.hashCode();
   }
-
 }

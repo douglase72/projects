@@ -171,5 +171,4 @@ public class Show extends SequenceEntity {
   public String getTmdbPoster() {
     return tmdbPoster;
   }  
-
 }

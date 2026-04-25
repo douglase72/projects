@@ -12,7 +12,7 @@ import com.erdouglass.emdb.common.comand.UpdateMovie;
 import com.erdouglass.emdb.common.query.MovieDetails;
 import com.erdouglass.emdb.common.query.MovieView;
 import com.erdouglass.emdb.gateway.query.MovieQueryParams;
-import com.erdouglass.emdb.gateway.query.Page;
+import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.media.proto.v1.FindAllMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.FindRequest;
 import com.erdouglass.emdb.media.proto.v1.MoviePageResponse;
@@ -46,5 +46,5 @@ public interface MovieMapper extends CommonMapper {
   @ShowImageMapping
   MovieDetails toMovieDetails(MovieResponse response);
   
-  Page<MovieView> toPage(MoviePageResponse response);
+  Slice<MovieView> toPage(MoviePageResponse response);
 }

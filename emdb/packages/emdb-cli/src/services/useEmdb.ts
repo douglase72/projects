@@ -51,7 +51,7 @@ export function useEmdb() {
   });
 
   const ingest = async (command: IngestMedia): Promise<string> => {
-    const { data } = await client.post<string>('/ingest', command);
+    const { data } = await client.post<string>('/ingests', command);
     return data;    
   };
   

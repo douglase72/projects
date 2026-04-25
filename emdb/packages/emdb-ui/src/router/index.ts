@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import keycloak from '@/auth/keycloak'
 import HomeView from '../views/HomeView.vue'
+import IngestView from '@/views/IngestView.vue'
 import MovieView from '@/views/MovieView.vue'
 import MovieEditView from '@/views/MovieEditView.vue'
 import PersonView from '@/views/PersonView.vue'
@@ -59,6 +60,15 @@ const router = createRouter({
         requiredRole: 'admin' 
       }
     },
+    {
+      path: '/ingest',
+      name: 'Ingest',
+      component: IngestView,
+      meta: {
+        requiresAuth: true, 
+        requiredRole: 'admin' 
+      }
+    },    
   ],
 })
 

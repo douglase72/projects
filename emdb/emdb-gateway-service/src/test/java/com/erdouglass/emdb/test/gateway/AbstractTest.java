@@ -15,7 +15,7 @@ public abstract class AbstractTest {
   protected static final HttpClient HTTP_CLIENT;
   protected static final ObjectMapper OBJECT_MAPPER;
   protected static final String KEYCLOAK_TOKEN_URL;
-  protected static final String INGEST_URL;
+  protected static final String INGESTS_URL;
   protected static final String MOVIES_URL;
   protected static final String PEOPLE_URL;
   protected static final String SERIES_URL;
@@ -25,7 +25,7 @@ public abstract class AbstractTest {
     OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new JavaTimeModule());
     KEYCLOAK_TOKEN_URL = "http://localhost:8080/realms/projects/protocol/openid-connect/token";
-    INGEST_URL = "http://localhost:60310/emdb/api/ingest";
+    INGESTS_URL = "http://localhost:60310/emdb/api/ingests";
     MOVIES_URL = "http://localhost:60310/emdb/api/movies";
     PEOPLE_URL = "http://localhost:60310/emdb/api/people";
     SERIES_URL = "http://localhost:60310/emdb/api/series";
