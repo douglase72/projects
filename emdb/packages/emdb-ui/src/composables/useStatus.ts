@@ -19,6 +19,7 @@ export function useStatus() {
       case IngestStatus.COMPLETED: return 'success';
       case IngestStatus.EXTRACTED: return 'info';
       case IngestStatus.FAILED: return 'danger';
+      case IngestStatus.LOADED: return 'info';
       case IngestStatus.STARTED: return 'info';
       case IngestStatus.SUBMITTED: return 'contrast';
     }

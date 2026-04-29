@@ -6,7 +6,7 @@
         message varchar(255) not null,
         name varchar(140),
         source varchar(255) not null check ((source in ('GATEWAY','MEDIA','SCHEDULER','SCRAPER'))),
-        status varchar(255) not null check ((status in ('SUBMITTED','STARTED','EXTRACTED','COMPLETED','FAILED'))),
+        status varchar(255) not null check ((status in ('SUBMITTED','STARTED','EXTRACTED','LOADED','COMPLETED','FAILED'))),
         tmdb_id integer not null,
         type varchar(255) not null check ((type in ('MOVIE','PERSON','SERIES'))),
         primary key (id)
@@ -17,7 +17,7 @@
         last_modified timestamp(6) with time zone not null,
         message varchar(255) not null,
         source varchar(255) not null check ((source in ('GATEWAY','MEDIA','SCHEDULER','SCRAPER'))),
-        status varchar(255) not null check ((status in ('SUBMITTED','STARTED','EXTRACTED','COMPLETED','FAILED'))),
+        status varchar(255) not null check ((status in ('SUBMITTED','STARTED','EXTRACTED','LOADED','COMPLETED','FAILED'))),
         ingest_id uuid not null,
         primary key (id),
         constraint uk_iscn_ingest_status_last_modified unique (ingest_id, status, last_modified)

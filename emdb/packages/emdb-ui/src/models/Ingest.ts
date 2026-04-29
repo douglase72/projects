@@ -4,13 +4,14 @@ export enum IngestSource {
   GATEWAY = "emdb-gateway-service",
   MEDIA = "emdb-media-service",
   SCHEDULER = "emdb-scheduler-service",
-  USER = "emdb-user-service"
+  SCRAPER = "emdb-scraper-service"
 }
 
 export enum IngestStatus {
   SUBMITTED = "Submitted",
   STARTED = "Started",
   EXTRACTED = "Extracted",
+  LOADED = "Loaded",
   COMPLETED = "Completed",
   FAILED = "Failed",
 }

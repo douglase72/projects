@@ -20,8 +20,9 @@ enum IngestStatus {
   SUBMITTED = 1;
   STARTED = 2;
   EXTRACTED = 3;
-  COMPLETED = 4;
-  FAILED = 5;
+  LOADED = 4;
+  COMPLETED = 5;
+  FAILED = 6;
 }
 
 enum IngestSource {

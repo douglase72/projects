@@ -2,19 +2,22 @@ plugins {
   id 'java-library' 
 }
 
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
 dependencies {
-  api platform(libs.quarkus.bom)
+  implementation enforcedPlatform(libs.quarkus.bom)
   
   annotationProcessor libs.mapstruct.processor
   
   implementation project(':emdb-common')
-  implementation project(':web-services')
   
-  implementation libs.guava
-  implementation libs.jug
   implementation libs.mapstruct
-  implementation libs.quarkus.arc
-  implementation libs.quarkus.fault.tolerance
-  implementation libs.quarkus.hibernate.validator
-  implementation libs.quarkus.rest.client.jackson
+
+  compileOnly libs.microprofile.fault.tolerance
+  compileOnly libs.microprofile.rest.client.api
+  compileOnly libs.jakarta.cdi
+  compileOnly libs.jakarta.validation
+  compileOnly libs.jakarta.ws.rs
+  compileOnly libs.jboss.logging
 }

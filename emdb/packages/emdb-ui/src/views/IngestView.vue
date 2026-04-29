@@ -101,7 +101,7 @@
   import { useRouter } from 'vue-router';
   import type { DataTablePageEvent, DataTableRowExpandEvent } from 'primevue/datatable';
 
-  import { type Ingest, type IngestHistory, IngestStatus } from '@/models/Ingest';
+  import { type Ingest, type IngestHistory, IngestStatus, type IngestStatusChange } from '@/models/Ingest';
   import { type IngestMedia, IngestSource, MediaType } from '@emdb/common';
   import { useEmdbApi } from '@/composables/useEmdbApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
@@ -238,7 +238,7 @@
 
         const cached = historyByIngest.value[incoming.id];
         if (cached) {
-          cached.changes.unshift({
+          cached.changes.push({
             status: incoming.status,
             lastModified: incoming.lastModified,
             source: incoming.source,

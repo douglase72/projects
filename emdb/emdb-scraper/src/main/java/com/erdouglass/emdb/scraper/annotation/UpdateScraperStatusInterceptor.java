@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.annotation;
+package com.erdouglass.emdb.scraper.annotation;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -12,13 +12,14 @@ import jakarta.interceptor.InvocationContext;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.event.IngestStatusContext;
 import com.erdouglass.emdb.common.event.IngestStatusProducer;
 
-@SendStatus
+@UpdateScraperStatus
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
-public class SendStatusInterceptor {
-  private static final Logger LOGGER = Logger.getLogger(SendStatusInterceptor.class);
+public class UpdateScraperStatusInterceptor {
+  private static final Logger LOGGER = Logger.getLogger(UpdateScraperStatusInterceptor.class);
   
   @Inject
   IngestStatusProducer producer;
@@ -27,17 +28,21 @@ public class SendStatusInterceptor {
   IngestStatusContext statusContext;
   
   @AroundInvoke
-  public Object sendStatus(InvocationContext context) throws Exception {    
+  Object update(InvocationContext context) throws Exception {
     var start = Instant.now();
     Object result = context.proceed();
+    var et = Duration.between(start, Instant.now()).toMillis();
     var event = statusContext.get();
     if (event != null) {
-      var et = Duration.between(start, Instant.now()).toMillis();
-      var msg = String.format("Ingest job for TMDB %s %d completed in %d ms", event.type(), event.tmdbId(), et);
+      var msg = String.format("%s in %d ms", event.message(), et);
       LOGGER.info(msg);
-      producer.send(IngestStatusChanged.builder(event).message(msg).build());
+      var id = event.id() != null ? event.id() : statusContext.getCorrelationId(); 
+      producer.send(IngestStatusChanged.builder(event)
+          .id(id)
+          .message(msg)
+          .build());      
     } else {
-      LOGGER.warnf("@SendStatus method %s.%s did not set a status event",
+      LOGGER.errorf("@UpdateScraperStatus method %s.%s did not set a status event",
           context.getMethod().getDeclaringClass().getSimpleName(),
           context.getMethod().getName());      
     }

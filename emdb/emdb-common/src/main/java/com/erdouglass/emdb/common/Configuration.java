@@ -23,10 +23,10 @@ public final class Configuration {
   /// Key used for routing or tagging media ingest events.
   public static final String INGEST_KEY = "ingest.media";
   
-  /// Key representing the start time of a background job.
-  public static final String JOB_START_TIME = "job-start-time";
-  
   public static final String SPACE = " ";
+  
+  /// Key representing the start time of a background job.
+  public static final String START_TIME = "start-time";
   
   public static final String UNDERSCORE = "_";
   

@@ -44,6 +44,11 @@ public interface MovieMapper extends CommonMapper {
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveMovie toSaveMovie(SaveMovieRequest request);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "movie", target = "backdrop", qualifiedByName = "backdropToImage")
+  @Mapping(source = "movie", target = "poster", qualifiedByName = "posterToImage")
+  SaveMovie toSaveMovie(Movie movie);
     
   @InheritConfiguration(name = "merge")
   Movie toMovie(SaveMovie command);

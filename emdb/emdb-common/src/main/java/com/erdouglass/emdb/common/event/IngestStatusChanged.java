@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.MediaType;
 import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.notification.proto.v1.IngestService;
 
 /// Domain event published every time an ingest job changes state.
 ///
@@ -31,7 +32,7 @@ import com.erdouglass.emdb.common.ShowConstants;
 /// @param name         the title of the media, populated once known
 /// @param message      a human-readable description of the transition
 public record IngestStatusChanged(
-    @NotNull UUID id,
+    UUID id,
     @NotNull IngestStatus status,
     @NotNull Instant lastModified,
     @NotNull @Positive Integer tmdbId,
@@ -49,7 +50,6 @@ public record IngestStatusChanged(
     return builder()        
         .id(event.id)
         .status(event.status)
-        .lastModified(event.lastModified)
         .tmdbId(event.tmdbId)
         .source(event.source)
         .type(event.type)

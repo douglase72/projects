@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.gateway.controller;
+package com.erdouglass.emdb.gateway.service;
 
 import java.time.Duration;
 

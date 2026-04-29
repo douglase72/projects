@@ -53,7 +53,7 @@ public class MediaProducer {
           .addMetadata(OutgoingRabbitMQMetadata.builder()
               .withRoutingKey(Configuration.INGEST_KEY)
               .withCorrelationId(correlationId.toString())
-              .withHeader(Configuration.JOB_START_TIME, Instant.now().toString())
+              .withHeader(Configuration.START_TIME, Instant.now().toString())
               .withHeader("X-Event-Type", command.getClass().getSimpleName())
               .build()));
       var msg = String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId());

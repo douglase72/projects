@@ -93,6 +93,17 @@ public class MovieService {
     var movie = repository.findById(id);
     return movie;
   }
+  
+  /// Retrieves a single movie by TMDB id.
+  ///
+  /// @param tmdbId the movie's TMDB id
+  /// @param append optional comma-separated list of associations to include
+  /// @return an [Optional] containing the movie if found, or empty if not  
+  @Transactional
+  @Logged("Found:")
+  public Optional<Movie> findByTmdbId(@NotNull @Positive Integer tmdbId, String append) {
+    return repository.findByTmdbId(tmdbId);
+  }
 
   /// Updates an existing movie's mutable fields.
   ///

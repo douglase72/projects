@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.gateway.controller;
 
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import jakarta.annotation.security.PermitAll;
@@ -20,6 +21,10 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.sse.OutboundSseEvent;
 
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.comand.IngestMedia;
 import com.erdouglass.emdb.common.event.IngestStatusChanged;
@@ -27,8 +32,10 @@ import com.erdouglass.emdb.gateway.mapper.IngestMapper;
 import com.erdouglass.emdb.gateway.messaging.MediaProducer;
 import com.erdouglass.emdb.gateway.query.IngestHistory;
 import com.erdouglass.emdb.gateway.query.OffsetPage;
+import com.erdouglass.emdb.gateway.service.IngestService;
 import com.erdouglass.emdb.notification.proto.v1.IngestServiceGrpc.IngestServiceBlockingStub;
 
+import io.grpc.StatusRuntimeException;
 import io.quarkus.grpc.GrpcClient;
 import io.smallrye.mutiny.Multi;
 
@@ -67,6 +74,8 @@ public class IngestResource {
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
+  @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
   public Response create(@NotNull @Valid IngestMedia command) {
     var correlationId = producer.ingest(command);
     return Response.status(Status.ACCEPTED).entity(correlationId).build();
@@ -80,6 +89,11 @@ public class IngestResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
+  @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public OffsetPage<IngestStatusChanged> findAll(
       @QueryParam("page") @Positive Integer page,
       @QueryParam("size") @Positive Integer size) {
@@ -96,6 +110,11 @@ public class IngestResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
+  @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public IngestStatusChanged findById(@PathParam("id") @NotNull UUID id) {
     var request = mapper.toFindByIdRequest(id);
     var response = mapper.toIngestStatusChanged(service.findById(request));
@@ -114,6 +133,11 @@ public class IngestResource {
   @Path("/{id}/history")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
+  @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
+  @Retry(
+      maxRetries = 3, delay = 200, delayUnit = ChronoUnit.MILLIS, jitter = 50,
+      abortOn = StatusRuntimeException.class )
   public IngestHistory findHistory(@PathParam("id") @NotNull UUID id) {
     var request = mapper.toFindHistoryRequest(id);
     var response = mapper.toIngestHistory(service.findHistory(request));
@@ -127,6 +151,12 @@ public class IngestResource {
   /// they should also call [#findAll] on page load and merge the results.
   /// Authentication is required but no role is enforced — any signed-in
   /// user may observe the stream.
+  /// 
+  /// Authentication is required at the HTTP layer (the user must be signed in),
+  /// but no role is enforced. The browser's native EventSource cannot attach
+  /// bearer tokens, so a stricter @RolesAllowed would block legitimate clients.
+  /// Switch to a fetch-based SSE client (e.g. @microsoft/fetch-event-source)
+  /// before tightening this.
   ///
   /// @return a Multi of SSE events; one per ingest status change, plus
   ///         periodic keepalive comments

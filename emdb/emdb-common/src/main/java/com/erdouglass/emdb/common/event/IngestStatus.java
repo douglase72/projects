@@ -6,6 +6,7 @@ public enum IngestStatus {
   SUBMITTED("Submitted"),
   STARTED("Started"),
   EXTRACTED("Extracted"),
+  LOADED("Loaded"),
   COMPLETED("Completed"),
   FAILED("Failed");
   

@@ -40,6 +40,24 @@ public record SaveMovie(
     return new Builder();
   }
   
+  public static Builder builder(SaveMovie command) {
+    return builder()
+        .tmdbId(command.tmdbId)
+        .title(command.title)
+        .releaseDate(command.releaseDate)
+        .score(command.score)
+        .status(command.status)
+        .runtime(command.runtime)
+        .budget(command.budget)
+        .revenue(command.revenue)
+        .backdrop(command.backdrop)
+        .poster(command.poster)
+        .homepage(command.homepage)
+        .originalLanguage(command.originalLanguage)
+        .tagline(command.tagline)
+        .overview(command.overview);
+  }  
+  
   public static final class Builder extends AbstractMovieBuilder<Builder> {
     private Image backdrop;
     private Image poster;

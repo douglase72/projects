@@ -32,6 +32,7 @@ dependencies {
 	implementation libs.quarkus.jackson
 	implementation libs.quarkus.logging
 	implementation libs.quarkus.rabbitmq
+	implementation libs.quarkus.rest.client.jackson
 	
 	testImplementation libs.quarkus.junit
 }
