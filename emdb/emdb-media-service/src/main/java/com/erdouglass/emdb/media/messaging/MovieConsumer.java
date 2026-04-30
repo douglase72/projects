@@ -54,17 +54,16 @@ public class MovieConsumer {
       var start = Instant.now();
       var movie = service.save(command).entity();
       var et = Duration.between(start, Instant.now()).toMillis();
-      var event = IngestStatusChanged.builder()
+      return IngestStatusChanged.builder()
           .id(correlationId)
           .tmdbId(movie.getTmdbId())
           .status(IngestStatus.LOADED)
           .source(IngestSource.MEDIA)
           .type(MediaType.MOVIE)
+          .message(String.format("Ingest job for TMDB movie %d persisted in %d ms", movie.getTmdbId(), et))
           .emdbId(movie.getId())
           .name(movie.getTitle())
-          .message(String.format("Ingest job for TMDB movie %d saved in %d ms", movie.getTmdbId(), et))
           .build();
-      return event;
     } catch (ConstraintViolationException e) {
       // TODO: send the command to the dead letter queue
       throw e;    

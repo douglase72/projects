@@ -30,7 +30,7 @@ import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCommand;
 @Mapper(
     componentModel = "cdi", 
     collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.ERROR,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
@@ -39,11 +39,22 @@ public interface SeriesMapper extends CommonMapper {
   // Request
   
   @ShowImageMapping
+  @Mapping(target = "firstAirDate", ignore = true)
   void merge(SaveSeries command, @MappingTarget Series series);
+  
+  @Mapping(target = "tmdbId", ignore = true)
+  @Mapping(target = "firstAirDate", ignore = true)
+  @Mapping(target = "tmdbBackdrop", ignore = true)
+  @Mapping(target = "tmdbPoster", ignore = true)
   void merge(UpdateSeries command, @MappingTarget Series series);
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SaveSeries toSaveSeries(SaveSeriesRequest request);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "series", target = "backdrop", qualifiedByName = "backdropToImage")
+  @Mapping(source = "series", target = "poster", qualifiedByName = "posterToImage")
+  SaveSeries toSaveSeries(Series series);
   
   @InheritConfiguration(name = "merge")
   Series toSeries(SaveSeries command);
@@ -58,6 +69,7 @@ public interface SeriesMapper extends CommonMapper {
   @Mapping(source = "entity", target = "series")
   SaveSeriesResponse toSaveSeriesResponse(SaveResult<Series> result);
   
+  @Mapping(target = "lastAirDate", ignore = true)
   SeriesResponse toSeriesResponse(Series series);
   
   SeriesViewResponse toSeriesViewResponse(SeriesView view);

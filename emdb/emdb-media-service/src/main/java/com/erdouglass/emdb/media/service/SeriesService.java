@@ -64,6 +64,17 @@ public class SeriesService {
     return series;
   }
   
+  /// Retrieves a single series by TMDB id.
+  ///
+  /// @param tmdbId the series TMDB id
+  /// @param append optional comma-separated list of associations to include
+  /// @return an [Optional] containing the series if found, or empty if not  
+  @Transactional
+  @Logged("Found:")
+  public Optional<Series> findByTmdbId(@NotNull @Positive Integer tmdbId, String append) {
+    return repository.findByTmdbId(tmdbId);
+  }
+  
   @Transactional
   @Logged("Updated:")
   public Series update(Long id, UpdateSeries command) {

@@ -11,10 +11,12 @@ import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import com.erdouglass.emdb.common.Image;
 import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.common.comand.UpdatePerson;
 import com.erdouglass.emdb.common.query.PersonQueryParameters;
@@ -33,21 +35,37 @@ import com.erdouglass.emdb.media.proto.v1.UpdatePersonCommand;
 @Mapper(
     componentModel = "cdi", 
     collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.ERROR,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 public interface PersonMapper extends CommonMapper {
+  
+  @Named("profileToImage")
+  default Image profileToImage(Person person) {
+    if (person.getProfile() == null && person.getTmdbProfile() == null) {
+      return null;
+    }
+    return Image.of(person.getProfile(), person.getTmdbProfile());
+  }  
   
   // Request
   
   @Mapping(source = "profile", target = "profile", qualifiedByName = "imageToUuid")
   @Mapping(source = "profile", target = "tmdbProfile", qualifiedByName = "imageToTmdbName")
   void merge(SavePerson command, @MappingTarget Person person);
+  
+  @Mapping(target = "tmdbId", ignore = true)
+  @Mapping(target = "tmdbProfile", ignore = true)
   void merge(UpdatePerson command, @MappingTarget Person person);
 
+  @Mapping(target = "homepage", ignore = true)
   @BeanMapping(builder = @Builder(disableBuilder = true))
   SavePerson toSavePerson(SavePersonRequest request);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "person", target = "profile", qualifiedByName = "profileToImage")
+  SavePerson toSavePerson(Person person);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
   List<SavePerson> toSavePeople(List<SavePersonRequest> requests);
@@ -57,6 +75,7 @@ public interface PersonMapper extends CommonMapper {
   
   PersonQueryParameters toPersonQueryParameters(FindAllPersonRequest request);
   
+  @Mapping(target = "homepage", ignore = true)
   @BeanMapping(builder = @Builder(disableBuilder = true))
   UpdatePerson toUpdatePerson(UpdatePersonCommand command);
     

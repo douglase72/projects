@@ -33,5 +33,5 @@ public interface CommonMapper {
       return null;
     }
     return Image.of(show.getPoster(), show.getTmdbPoster());
-  } 
+  }  
 }

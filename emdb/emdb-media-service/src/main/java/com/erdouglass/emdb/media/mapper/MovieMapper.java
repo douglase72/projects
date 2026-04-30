@@ -30,7 +30,7 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
 @Mapper(
     componentModel = "cdi", 
     collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.ERROR,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
@@ -40,6 +40,10 @@ public interface MovieMapper extends CommonMapper {
   
   @ShowImageMapping
   void merge(SaveMovie command, @MappingTarget Movie movie);
+  
+  @Mapping(target = "tmdbId", ignore = true)
+  @Mapping(target = "tmdbBackdrop", ignore = true)
+  @Mapping(target = "tmdbPoster", ignore = true)
   void merge(UpdateMovie command, @MappingTarget Movie movie);
 
   @BeanMapping(builder = @Builder(disableBuilder = true))

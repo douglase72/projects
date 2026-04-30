@@ -130,6 +130,17 @@ public class PersonService {
     var person = repository.findById(id);
     return person;
   }
+  
+  /// Retrieves a single person by TMDB id.
+  ///
+  /// @param tmdbId the person TMDB id
+  /// @param append optional comma-separated list of associations to include
+  /// @return an [Optional] containing the person if found, or empty if not  
+  @Transactional
+  @Logged("Found:")
+  public Optional<Person> findByTmdbId(@NotNull @Positive Integer tmdbId, String append) {
+    return repository.findByTmdbId(tmdbId);
+  }
 
   /// Updates an existing person by primary key.
   ///

@@ -27,7 +27,7 @@ public class LoggedInterceptor {
   IngestStatusProducer producer;
 
   @AroundInvoke
-  public Object logMethod(InvocationContext context) throws Exception {
+  public Object log(InvocationContext context) throws Exception {
     var start = Instant.now();
     var result = context.proceed();
     var et = Duration.between(start, Instant.now()).toMillis();
