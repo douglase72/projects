@@ -20,7 +20,7 @@ import com.erdouglass.validation.DateRange;
   sequenceName = "series_sequence", 
   initialValue = 1, 
   allocationSize = 1)
-public class Series extends Show {
+public non-sealed class Series extends Show {
 
   @Column(name = "first_air_date")
   @DateRange(min = ShowConstants.SERIES_MIN_DATE, max = ShowConstants.MAX_DATE)

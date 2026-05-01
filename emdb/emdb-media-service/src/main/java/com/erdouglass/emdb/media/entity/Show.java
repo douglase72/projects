@@ -26,7 +26,7 @@ import com.erdouglass.emdb.common.ShowStatus;
 /// It extends [SequenceEntity] to inherit surrogate identity management and
 /// auditing timestamps. 
 @MappedSuperclass
-public class Show extends SequenceEntity {
+public sealed class Show extends SequenceEntity permits Movie, Series {
   
   @Column(unique = true)
   private UUID backdrop;

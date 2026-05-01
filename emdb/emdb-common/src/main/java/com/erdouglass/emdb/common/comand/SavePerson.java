@@ -32,6 +32,19 @@ public record SavePerson(
     return new Builder();
   }
   
+  public static Builder builder(SavePerson command) {
+    return builder()
+        .tmdbId(command.tmdbId)
+        .name(command.name)
+        .birthDate(command.birthDate)
+        .deathDate(command.deathDate)
+        .gender(command.gender)
+        .profile(command.profile)
+        .homepage(command.homepage)
+        .birthPlace(command.birthPlace)
+        .biography(command.biography);
+  }  
+  
   public static final class Builder extends AbstractPersonBuilder<Builder> {
     private Image profile;
     

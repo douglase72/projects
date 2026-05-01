@@ -6,6 +6,8 @@ import java.time.Instant;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.emdb.common.MediaType;
@@ -21,8 +23,15 @@ import com.erdouglass.emdb.media.mapper.SeriesMapper;
 import com.erdouglass.emdb.media.service.SeriesService;
 import com.erdouglass.emdb.scraper.service.TmdbSeriesScraper;
 
+import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
+
 @ApplicationScoped
 public class SeriesConsumer {
+  private static final String ROUTE_KEY = "series.dlq";
+  
+  @Inject
+  @Channel("series-dlq-out")
+  Emitter<SaveSeries> emitter;
 
   @Inject
   SeriesMapper mapper;
@@ -64,7 +73,13 @@ public class SeriesConsumer {
           .name(series.getTitle())          
           .build();
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      emitter.send(Message.of(command)
+          .addMetadata(OutgoingRabbitMQMetadata.builder()
+          .withRoutingKey(ROUTE_KEY)
+          .withCorrelationId(correlationId.toString())
+          .withHeader("X-Event-Type", command.getClass().getSimpleName())
+          .build())); 
+      throw e;
     }
   }
 }

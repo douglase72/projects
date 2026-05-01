@@ -29,6 +29,21 @@ public record SaveSeries(
     return new Builder();
   }
   
+  public static Builder builder(SaveSeries command) {
+    return builder()
+        .tmdbId(command.tmdbId)
+        .title(command.title)
+        .score(command.score)
+        .status(command.status)
+        .type(command.type)
+        .backdrop(command.backdrop)
+        .poster(command.poster)
+        .homepage(command.homepage)
+        .originalLanguage(command.originalLanguage)
+        .tagline(command.tagline)
+        .overview(command.overview);
+  }  
+  
   public static final class Builder extends AbstractSeriesBuilder<Builder> {
     private Image backdrop;
     private Image poster;

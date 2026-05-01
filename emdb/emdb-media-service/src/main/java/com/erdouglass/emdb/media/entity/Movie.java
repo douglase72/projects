@@ -22,7 +22,7 @@ import com.erdouglass.validation.DateRange;
   sequenceName = "movie_sequence", 
   initialValue = 1, 
   allocationSize = 1)
-public class Movie extends Show {
+public non-sealed class Movie extends Show {
   
   @PositiveOrZero
   private Integer budget;

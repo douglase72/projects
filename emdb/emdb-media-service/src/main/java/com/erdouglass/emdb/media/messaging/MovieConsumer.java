@@ -7,6 +7,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.emdb.common.MediaType;
@@ -22,8 +24,15 @@ import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.service.MovieService;
 import com.erdouglass.emdb.scraper.service.TmdbMovieScraper;
 
+import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
+
 @ApplicationScoped
 public class MovieConsumer {
+  private static final String ROUTE_KEY = "movie.dlq";
+  
+  @Inject
+  @Channel("movie-dlq-out")
+  Emitter<SaveMovie> emitter;
   
   @Inject
   MovieMapper mapper;
@@ -65,7 +74,12 @@ public class MovieConsumer {
           .name(movie.getTitle())
           .build();
     } catch (ConstraintViolationException e) {
-      // TODO: send the command to the dead letter queue
+      emitter.send(Message.of(command)
+          .addMetadata(OutgoingRabbitMQMetadata.builder()
+          .withRoutingKey(ROUTE_KEY)
+          .withCorrelationId(correlationId.toString())
+          .withHeader("X-Event-Type", command.getClass().getSimpleName())
+          .build()));       
       throw e;    
     }
   }
