@@ -75,7 +75,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     if (!keycloak.authenticated) {
-      keycloak.login({ redirectUri: window.location.origin + to.fullPath });
+      const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/emdb'
+      keycloak.login({
+        redirectUri: window.location.origin + base + to.path
+      });
       return;
     }
 
