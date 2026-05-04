@@ -2,24 +2,27 @@
   <main class="m-8">
     <section class="flex gap-x-8 mt-12 items-start">
       <Fieldset legend="Ingest">
-        <div class="inline-grid grid-cols-1 gap-y-4 gap-x-6">
+        <div class="inline-grid grid-cols-[1fr_auto] gap-y-4 gap-x-6">
           <InputGroup>
             <InputNumber v-model="movieId" inputId="movie" placeholder="TMDB Movie ID"
                          :min="1" :useGrouping="false" /> 
-            <Button label="Ingest" icon="pi pi-check" @click="ingestMovie" :disabled="!movieId" />          
+            <Button label="Ingest" icon="pi pi-check" @click="ingestMovie" :disabled="!movieId" />
           </InputGroup>
+          <Button label="Movie Scheduler" icon="pi pi-check" @click="executeMovieScheduler" />
 
           <InputGroup>
             <InputNumber v-model="seriesId" inputId="series" placeholder="TMDB Series ID"
                          :min="1" :useGrouping="false" /> 
             <Button label="Ingest" icon="pi pi-check" @click="ingestSeries" :disabled="!seriesId" />          
           </InputGroup>
+          <Button label="Series Scheduler" icon="pi pi-check" @click="executeSeriesScheduler" />
 
           <InputGroup>
             <InputNumber v-model="personId" inputId="person" placeholder="TMDB Person ID"
                          :min="1" :useGrouping="false" /> 
             <Button label="Ingest" icon="pi pi-check" @click="ingestPerson" :disabled="!personId" />        
-          </InputGroup>          
+          </InputGroup>
+          <Button label="Person Scheduler" icon="pi pi-check" @click="executePersonScheduler" />    
         </div>
       </Fieldset>
     </section>
@@ -110,7 +113,12 @@
 
   const router = useRouter();
   const { connectionStatus, ingestStatus } = useStatus();
-  const { findAllIngests, findIngestHistory, ingest } = useEmdbApi();
+  const { executeMovieScheduler, 
+          executePersonScheduler, 
+          executeSeriesScheduler, 
+          findAllIngests, 
+          findIngestHistory, 
+          ingest } = useEmdbApi();
   const { handleError } = useErrorHandler();
   const { toDateTime } = useTime();
 

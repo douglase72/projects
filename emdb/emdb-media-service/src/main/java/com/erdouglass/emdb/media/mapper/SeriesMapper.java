@@ -13,11 +13,11 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.comand.SaveSeries;
-import com.erdouglass.emdb.common.comand.UpdateSeries;
-import com.erdouglass.emdb.common.query.SeriesQueryParameters;
-import com.erdouglass.emdb.common.query.SeriesView;
-import com.erdouglass.emdb.media.dto.SaveResult;
+import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.media.api.command.UpdateSeries;
+import com.erdouglass.emdb.media.api.query.SeriesQueryParameters;
+import com.erdouglass.emdb.media.api.query.SeriesView;
 import com.erdouglass.emdb.media.entity.Series;
 import com.erdouglass.emdb.media.proto.v1.FindAllSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveSeriesRequest;
@@ -26,6 +26,8 @@ import com.erdouglass.emdb.media.proto.v1.SeriesPageResponse;
 import com.erdouglass.emdb.media.proto.v1.SeriesResponse;
 import com.erdouglass.emdb.media.proto.v1.SeriesViewResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdateSeriesCommand;
+import com.erdouglass.emdb.media.query.SaveResult;
+import com.erdouglass.emdb.media.query.TmdbSeries;
 
 @Mapper(
     componentModel = "cdi", 
@@ -55,6 +57,13 @@ public interface SeriesMapper extends CommonMapper {
   @Mapping(source = "series", target = "backdrop", qualifiedByName = "backdropToImage")
   @Mapping(source = "series", target = "poster", qualifiedByName = "posterToImage")
   SaveSeries toSaveSeries(Series series);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "series.id", target = "tmdbId")
+  @Mapping(source = "series.name", target = "title")
+  @Mapping(source = "series.vote_average", target = "score")
+  @Mapping(source = "series.original_language", target = "originalLanguage")
+  SaveSeries toSaveSeries(TmdbSeries series, Image backdrop, Image poster);
   
   @InheritConfiguration(name = "merge")
   Series toSeries(SaveSeries command);

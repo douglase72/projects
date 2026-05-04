@@ -25,14 +25,14 @@ import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.comand.IngestMedia;
-import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.api.Configuration;
+import com.erdouglass.emdb.common.api.command.IngestMedia;
+import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 import com.erdouglass.emdb.gateway.mapper.IngestMapper;
+import com.erdouglass.emdb.gateway.messaging.IngestProcessor;
 import com.erdouglass.emdb.gateway.messaging.MediaProducer;
 import com.erdouglass.emdb.gateway.query.IngestHistory;
 import com.erdouglass.emdb.gateway.query.OffsetPage;
-import com.erdouglass.emdb.gateway.service.IngestService;
 import com.erdouglass.emdb.notification.proto.v1.IngestServiceGrpc.IngestServiceBlockingStub;
 
 import io.grpc.StatusRuntimeException;
@@ -52,17 +52,17 @@ import io.smallrye.mutiny.Multi;
 public class IngestResource {
   
   @Inject
-  IngestService ingestService;
+  IngestMapper mapper;
   
   @Inject
-  IngestMapper mapper;
+  IngestProcessor processor;
   
   @Inject
   MediaProducer producer;
   
   @GrpcClient("notification-service")
   IngestServiceBlockingStub service;
-  
+
   /// Submits a media ingestion job for asynchronous processing.
   ///
   /// Generates a correlation ID, publishes the command to the broker, and
@@ -142,7 +142,7 @@ public class IngestResource {
     var request = mapper.toFindHistoryRequest(id);
     var response = mapper.toIngestHistory(service.findHistory(request));
     return response;
-  }
+  }  
   
   /// Streams ingest status changes to subscribed clients in real time.
   ///
@@ -165,6 +165,6 @@ public class IngestResource {
   @Path("/stream")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   public Multi<OutboundSseEvent> stream() {
-    return ingestService.stream();
+    return processor.stream();
   }
 }

@@ -1,10 +1,5 @@
-
-export enum SchedulerType {
-  MOVIES = "MOVIES",
-  SERIES = "SERIES",
-  PEOPLE = "PEOPLE",
-}
+import { MediaType } from "./MediaType.js";
 
 export interface ExecuteScheduler {
-  type: SchedulerType;
+  type: MediaType;
 }

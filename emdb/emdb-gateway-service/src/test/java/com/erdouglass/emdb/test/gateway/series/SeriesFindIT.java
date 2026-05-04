@@ -19,9 +19,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.common.comand.SaveSeries;
-import com.erdouglass.emdb.common.query.SeriesView;
 import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.media.api.query.SeriesView;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 

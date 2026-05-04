@@ -16,12 +16,12 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.Image;
-import com.erdouglass.emdb.common.comand.SavePerson;
-import com.erdouglass.emdb.common.comand.UpdatePerson;
-import com.erdouglass.emdb.common.query.PersonQueryParameters;
-import com.erdouglass.emdb.common.query.PersonView;
-import com.erdouglass.emdb.media.dto.SaveResult;
+import com.erdouglass.emdb.media.api.Gender;
+import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.api.command.UpdatePerson;
+import com.erdouglass.emdb.media.api.query.PersonQueryParameters;
+import com.erdouglass.emdb.media.api.query.PersonView;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.proto.v1.FindAllPersonRequest;
 import com.erdouglass.emdb.media.proto.v1.PersonPageResponse;
@@ -31,6 +31,8 @@ import com.erdouglass.emdb.media.proto.v1.SavePeopleResponse;
 import com.erdouglass.emdb.media.proto.v1.SavePersonRequest;
 import com.erdouglass.emdb.media.proto.v1.SavePersonResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdatePersonCommand;
+import com.erdouglass.emdb.media.query.SaveResult;
+import com.erdouglass.emdb.media.query.TmdbPerson;
 
 @Mapper(
     componentModel = "cdi", 
@@ -41,6 +43,11 @@ import com.erdouglass.emdb.media.proto.v1.UpdatePersonCommand;
 )
 public interface PersonMapper extends CommonMapper {
   
+  @Named("genderFromId")
+  default Gender genderFromId(Integer id) {
+    return Gender.from(id);
+  }
+  
   @Named("profileToImage")
   default Image profileToImage(Person person) {
     if (person.getProfile() == null && person.getTmdbProfile() == null) {
@@ -48,9 +55,7 @@ public interface PersonMapper extends CommonMapper {
     }
     return Image.of(person.getProfile(), person.getTmdbProfile());
   }  
-  
-  // Request
-  
+    
   @Mapping(source = "profile", target = "profile", qualifiedByName = "imageToUuid")
   @Mapping(source = "profile", target = "tmdbProfile", qualifiedByName = "imageToTmdbName")
   void merge(SavePerson command, @MappingTarget Person person);
@@ -68,6 +73,15 @@ public interface PersonMapper extends CommonMapper {
   SavePerson toSavePerson(Person person);
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "person.id", target = "tmdbId")
+  @Mapping(source = "person.name", target = "name")
+  @Mapping(source = "person.birthday", target = "birthDate")
+  @Mapping(source = "person.deathday", target = "deathDate")
+  @Mapping(source = "person.place_of_birth", target = "birthPlace")
+  @Mapping(source = "person.gender", target = "gender", qualifiedByName = "genderFromId")
+  SavePerson toSavePerson(TmdbPerson person, Image profile);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
   List<SavePerson> toSavePeople(List<SavePersonRequest> requests);
     
   @InheritConfiguration(name = "merge")
@@ -78,9 +92,7 @@ public interface PersonMapper extends CommonMapper {
   @Mapping(target = "homepage", ignore = true)
   @BeanMapping(builder = @Builder(disableBuilder = true))
   UpdatePerson toUpdatePerson(UpdatePersonCommand command);
-    
-  // Response
-  
+      
   @Mapping(source = "entity", target = "person")
   SavePersonResponse toSavePersonResponse(SaveResult<Person> result);
   

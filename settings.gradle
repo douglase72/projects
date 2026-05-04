@@ -24,20 +24,23 @@ include 'validation'
 include 'web-services'
 
 // EMDB
-include 'emdb-common'
-project(':emdb-common').projectDir = file('emdb/emdb-common')
+include 'emdb-common-api'
+project(':emdb-common-api').projectDir = file('emdb/emdb-common-api')
 
 include 'emdb-gateway-service'
 project(':emdb-gateway-service').projectDir = file('emdb/emdb-gateway-service')
 
+include 'emdb-notification-api'
+project(':emdb-notification-api').projectDir = file('emdb/emdb-notification-api')
 include 'emdb-notification-service'
 project(':emdb-notification-service').projectDir = file('emdb/emdb-notification-service')
 
+include 'emdb-media-api'
+project(':emdb-media-api').projectDir = file('emdb/emdb-media-api')
 include 'emdb-media-service'
 project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
 
+include 'emdb-scheduler-api'
+project(':emdb-scheduler-api').projectDir = file('emdb/emdb-scheduler-api')
 include 'emdb-scheduler-service'
 project(':emdb-scheduler-service').projectDir = file('emdb/emdb-scheduler-service')
-
-include 'emdb-scraper'
-project(':emdb-scraper').projectDir = file('emdb/emdb-scraper')

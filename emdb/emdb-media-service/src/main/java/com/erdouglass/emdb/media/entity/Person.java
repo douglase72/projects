@@ -14,10 +14,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.Gender;
-import com.erdouglass.emdb.common.PersonConstants;
-import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.api.Configuration;
+import com.erdouglass.emdb.common.api.ShowConstants;
+import com.erdouglass.emdb.media.api.Gender;
+import com.erdouglass.emdb.media.api.PersonConstants;
 import com.erdouglass.validation.DateRange;
 
 /// JPA entity representing a person (actor, director, crew member, etc.).

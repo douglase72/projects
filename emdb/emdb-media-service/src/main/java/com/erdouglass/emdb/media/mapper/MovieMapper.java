@@ -13,11 +13,11 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.UpdateMovie;
-import com.erdouglass.emdb.common.query.MovieQueryParameters;
-import com.erdouglass.emdb.common.query.MovieView;
-import com.erdouglass.emdb.media.dto.SaveResult;
+import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.api.command.SaveMovie;
+import com.erdouglass.emdb.media.api.command.UpdateMovie;
+import com.erdouglass.emdb.media.api.query.MovieQueryParameters;
+import com.erdouglass.emdb.media.api.query.MovieView;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.proto.v1.FindAllMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.MoviePageResponse;
@@ -26,6 +26,8 @@ import com.erdouglass.emdb.media.proto.v1.MovieViewResponse;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
+import com.erdouglass.emdb.media.query.SaveResult;
+import com.erdouglass.emdb.media.query.TmdbMovie;
 
 @Mapper(
     componentModel = "cdi", 
@@ -35,9 +37,7 @@ import com.erdouglass.emdb.media.proto.v1.UpdateMovieCommand;
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 public interface MovieMapper extends CommonMapper {
-  
-  // Request
-  
+    
   @ShowImageMapping
   void merge(SaveMovie command, @MappingTarget Movie movie);
   
@@ -53,6 +53,13 @@ public interface MovieMapper extends CommonMapper {
   @Mapping(source = "movie", target = "backdrop", qualifiedByName = "backdropToImage")
   @Mapping(source = "movie", target = "poster", qualifiedByName = "posterToImage")
   SaveMovie toSaveMovie(Movie movie);
+  
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "movie.id", target = "tmdbId")
+  @Mapping(source = "movie.release_date", target = "releaseDate")
+  @Mapping(source = "movie.vote_average", target = "score")
+  @Mapping(source = "movie.original_language", target = "originalLanguage")
+  SaveMovie toSaveMovie(TmdbMovie movie, Image backdrop, Image poster);
     
   @InheritConfiguration(name = "merge")
   Movie toMovie(SaveMovie command);
@@ -61,9 +68,7 @@ public interface MovieMapper extends CommonMapper {
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
   UpdateMovie toUpdateMovie(UpdateMovieCommand command);
-    
-  // Response
-  
+      
   @Mapping(source = "entity", target = "movie")
   SaveMovieResponse toSaveMovieResponse(SaveResult<Movie> result);
   

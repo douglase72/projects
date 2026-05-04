@@ -12,7 +12,7 @@ import com.erdouglass.emdb.media.proto.v1.SeriesPageResponse;
 import com.erdouglass.emdb.media.proto.v1.SeriesResponse;
 import com.erdouglass.emdb.media.proto.v1.SeriesServiceGrpc.SeriesServiceImplBase;
 import com.erdouglass.emdb.media.proto.v1.UpdateSeriesRequest;
-import com.erdouglass.emdb.media.service.SeriesService;
+import com.erdouglass.emdb.media.service.SeriesCrudService;
 import com.google.protobuf.Empty;
 
 import io.grpc.Status;
@@ -27,7 +27,7 @@ public class SeriesResource extends SeriesServiceImplBase {
   SeriesMapper mapper;
   
   @Inject
-  SeriesService service;
+  SeriesCrudService service;
 
   @Override
   @RunOnVirtualThread

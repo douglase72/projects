@@ -5,7 +5,9 @@ import { ImageSize } from '@/models/ImageSize';
 import type { IngestMedia } from '@emdb/common';
 import type { Ingest, IngestHistory } from '@/models/Ingest';
 import type { OffsetPage } from '@/models/OffsetPage';
-import { 
+import {
+  type ExecuteScheduler,
+  MediaType,
   type Movie,
   type MovieCredit,
   type UpdateMovie,
@@ -49,6 +51,11 @@ export function useEmdbApi() {
     return `${import.meta.env.VITE_IMAGE_URL}/${size}/${image}`;
   };  
 
+  const executeMovieScheduler = async (): Promise<void> => {
+    const command: ExecuteScheduler = { type: MediaType.MOVIE };
+    await client.post('/scheduler', command);
+  };
+
   const findMovie = async (id: number): Promise<Movie> => {
     const { data: movie } = await client.get<Movie>(`/movies/${id}?append=credits`);
     return movie;
@@ -63,6 +70,17 @@ export function useEmdbApi() {
     await client.delete<number>(`/movies/${id}`);
   };
 
+  const updateMovieCredit = async (id: number, creditId: string, command: UpdateMovieCredit): 
+  Promise<MovieCredit> => {
+    const { data: credit } = await client.put<MovieCredit>(`/movies/${id}/credits/${creditId}`, command);
+    return credit;
+  };
+
+  const executePersonScheduler = async (): Promise<void> => {
+    const command: ExecuteScheduler = { type: MediaType.PERSON };
+    await client.post('/scheduler', command);
+  };
+
   const findPerson = async (id: number): Promise<Person> => {
     const { data: person } = await client.get<Person>(`/people/${id}?append=credits`);
     return person;
@@ -75,7 +93,12 @@ export function useEmdbApi() {
 
   const deletePerson = async (id: number) => {
     await client.delete<number>(`/people/${id}`);
-  };  
+  }; 
+  
+    const executeSeriesScheduler = async (): Promise<void> => {
+    const command: ExecuteScheduler = { type: MediaType.SERIES };
+    await client.post('/scheduler', command);
+  };
 
   const findSeries = async (id: number): Promise<Series> => {
     const { data: series } = await client.get<Series>(`/series/${id}?append=credits`);
@@ -89,12 +112,6 @@ export function useEmdbApi() {
   
   const deleteSeries = async (id: number) => {
     await client.delete<number>(`/series/${id}`);
-  };
-
-  const updateMovieCredit = async (id: number, creditId: string, command: UpdateMovieCredit): 
-  Promise<MovieCredit> => {
-    const { data: credit } = await client.put<MovieCredit>(`/movies/${id}/credits/${creditId}`, command);
-    return credit;
   };
 
   const updateSeriesCredit = async (id: number, creditId: string, command: UpdateSeriesCredit):
@@ -127,6 +144,9 @@ export function useEmdbApi() {
     deleteMovie,
     deletePerson,
     deleteSeries,
+    executeMovieScheduler,
+    executePersonScheduler,
+    executeSeriesScheduler,
     findAllIngests,
     findIngestHistory,
     findImage,

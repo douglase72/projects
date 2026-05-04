@@ -25,14 +25,14 @@ import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.comand.SaveSeries;
-import com.erdouglass.emdb.common.comand.UpdateSeries;
-import com.erdouglass.emdb.common.query.SeriesDetails;
-import com.erdouglass.emdb.common.query.SeriesView;
+import com.erdouglass.emdb.common.api.Configuration;
 import com.erdouglass.emdb.gateway.mapper.SeriesMapper;
-import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.SeriesQueryParams;
+import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.media.api.command.UpdateSeries;
+import com.erdouglass.emdb.media.api.query.SeriesDetails;
+import com.erdouglass.emdb.media.api.query.SeriesView;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.SeriesServiceGrpc.SeriesServiceBlockingStub;
 

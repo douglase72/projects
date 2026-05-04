@@ -9,13 +9,13 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.comand.SavePerson;
-import com.erdouglass.emdb.common.comand.UpdatePerson;
-import com.erdouglass.emdb.common.query.PersonDetails;
-import com.erdouglass.emdb.common.query.PersonView;
 import com.erdouglass.emdb.gateway.query.MultiResponse;
-import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.PersonQueryParams;
+import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.api.command.UpdatePerson;
+import com.erdouglass.emdb.media.api.query.PersonDetails;
+import com.erdouglass.emdb.media.api.query.PersonView;
 import com.erdouglass.emdb.media.proto.v1.FindAllPersonRequest;
 import com.erdouglass.emdb.media.proto.v1.FindRequest;
 import com.erdouglass.emdb.media.proto.v1.PersonPageResponse;

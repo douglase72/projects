@@ -74,6 +74,22 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+        
+  emdb-scheduler:
+    image: emdb-scheduler:latest
+    container_name: emdb-scheduler
+    build:
+      context: ./emdb-scheduler-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60332:60312
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - projects
+    depends_on:
+      rabbitmq:
+        condition: service_healthy                
 
   emdb-ui:
     image: emdb-ui:latest

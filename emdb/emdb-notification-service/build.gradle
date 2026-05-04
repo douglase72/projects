@@ -15,7 +15,8 @@ dependencies {
   annotationProcessor libs.mapstruct.processor
   annotationProcessor libs.mapstruct.spi.protobuf
 	
-	implementation project(':emdb-common')
+	implementation project(':emdb-common-api')
+	implementation project(':emdb-notification-api')
 	implementation project(':messaging')
 	implementation project(':web-services')
 	

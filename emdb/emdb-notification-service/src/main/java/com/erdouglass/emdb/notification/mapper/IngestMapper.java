@@ -12,7 +12,7 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 import com.erdouglass.emdb.notification.entity.Ingest;
 import com.erdouglass.emdb.notification.entity.IngestStatusChange;
 import com.erdouglass.emdb.notification.proto.v1.FindHistoryResponse;

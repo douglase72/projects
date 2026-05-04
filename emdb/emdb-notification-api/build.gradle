@@ -1,0 +1,28 @@
+plugins {
+  id 'java-library'
+  alias(libs.plugins.quarkus)
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+  implementation enforcedPlatform(libs.quarkus.bom)
+  
+  implementation project(':emdb-common-api')
+  
+  compileOnly libs.jackson.annotations
+  compileOnly libs.jakarta.validation
+  compileOnly libs.smallrye.reactive.messaging.rabbitmq
+  
+  implementation libs.quarkus.grpc
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs += 'build/classes/java/quarkus-generated-sources/grpc'
+    }
+  }
+}
+

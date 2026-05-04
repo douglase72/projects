@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.mapstruct.Named;
 
-import com.erdouglass.emdb.common.Image;
+import com.erdouglass.emdb.media.api.Image;
 import com.erdouglass.emdb.media.entity.Show;
 
 public interface CommonMapper {

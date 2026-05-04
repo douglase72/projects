@@ -15,15 +15,17 @@ dependencies {
 	annotationProcessor libs.mapstruct.processor
 	annotationProcessor libs.mapstruct.spi.protobuf
 	
-	implementation project(':emdb-common')
-	implementation project(':emdb-scraper')
+	implementation project(':emdb-common-api')
+	implementation project(':emdb-media-api')
 	implementation project(':messaging')
 	implementation project(':web-services')
+	implementation project(':validation')
 	
 	implementation libs.jakarta.data
 	implementation libs.jug
 	implementation libs.mapstruct
 	implementation libs.quarkus.arc
+	implementation libs.microprofile.fault.tolerance
 	implementation libs.quarkus.flyway
 	implementation libs.quarkus.grpc
 	implementation libs.quarkus.hibernate.orm
@@ -35,16 +37,6 @@ dependencies {
 	implementation libs.quarkus.rest.client.jackson
 	
 	testImplementation libs.quarkus.junit
-}
-
-test {
-  useJUnitPlatform()
-    
-  jvmArgs(
-    '-XX:+EnableDynamicAgentLoading',
-    '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
-    '--enable-native-access=ALL-UNNAMED'
-  )
 }
 
 eclipse {

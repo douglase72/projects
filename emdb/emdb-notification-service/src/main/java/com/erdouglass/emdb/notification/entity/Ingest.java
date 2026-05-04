@@ -14,10 +14,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.MediaType;
-import com.erdouglass.emdb.common.ShowConstants;
-import com.erdouglass.emdb.common.event.IngestSource;
-import com.erdouglass.emdb.common.event.IngestStatus;
+import com.erdouglass.emdb.common.api.MediaType;
+import com.erdouglass.emdb.common.api.ShowConstants;
+import com.erdouglass.emdb.common.api.messaging.IngestSource;
+import com.erdouglass.emdb.common.api.messaging.IngestStatus;
+import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 
 /// Current-state projection of an ingest job.
 ///

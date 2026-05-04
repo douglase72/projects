@@ -7,24 +7,19 @@ import java.util.Optional;
 
 import jakarta.annotation.Priority;
 import jakarta.data.page.Page;
-import jakarta.inject.Inject;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.common.event.IngestStatusProducer;
+import com.erdouglass.emdb.common.api.Configuration;
 
 @Logged
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
 public class LoggedInterceptor {
   private static final Logger LOGGER = Logger.getLogger(LoggedInterceptor.class);
-  private static final String SPACE = " ";
-  
-  @Inject 
-  IngestStatusProducer producer;
 
   @AroundInvoke
   public Object log(InvocationContext context) throws Exception {
@@ -40,14 +35,14 @@ public class LoggedInterceptor {
     if (result instanceof Optional<?> opt) {
       subject = opt.isPresent() ? opt.get() : "Nothing";
     } else if (result instanceof Collection<?> col) {
-      subject = col.size() + SPACE;
+      subject = col.size() + Configuration.SPACE;
       if (!annotation.subject().isBlank()) {
         subject += annotation.subject();
       } else {
         subject += "entities";
       }
     } else if (result instanceof Page<?> page) {
-      subject = page.content().size() + SPACE;
+      subject = page.content().size() + Configuration.SPACE;
       if (!annotation.subject().isBlank()) {
         subject += annotation.subject();
       } else {

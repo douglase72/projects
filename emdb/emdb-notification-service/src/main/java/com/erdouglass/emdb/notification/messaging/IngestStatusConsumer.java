@@ -10,7 +10,9 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 import org.jboss.logging.MDC;
 
-import com.erdouglass.emdb.common.event.IngestStatusChanged;
+import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
+import com.erdouglass.emdb.notification.entity.Ingest;
+import com.erdouglass.emdb.notification.entity.IngestStatusChange;
 import com.erdouglass.emdb.notification.mapper.IngestMapper;
 import com.erdouglass.emdb.notification.service.IngestService;
 import com.erdouglass.messaging.LoggingDecorator;

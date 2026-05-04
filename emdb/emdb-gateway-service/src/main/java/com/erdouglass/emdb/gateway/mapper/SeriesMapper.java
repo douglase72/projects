@@ -7,12 +7,12 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.comand.SaveSeries;
-import com.erdouglass.emdb.common.comand.UpdateSeries;
-import com.erdouglass.emdb.common.query.SeriesDetails;
-import com.erdouglass.emdb.common.query.SeriesView;
-import com.erdouglass.emdb.gateway.query.Slice;
 import com.erdouglass.emdb.gateway.query.SeriesQueryParams;
+import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.media.api.command.UpdateSeries;
+import com.erdouglass.emdb.media.api.query.SeriesDetails;
+import com.erdouglass.emdb.media.api.query.SeriesView;
 import com.erdouglass.emdb.media.proto.v1.FindAllSeriesRequest;
 import com.erdouglass.emdb.media.proto.v1.FindRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveSeriesRequest;

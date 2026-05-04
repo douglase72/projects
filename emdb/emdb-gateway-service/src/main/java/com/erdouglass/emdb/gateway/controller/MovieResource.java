@@ -25,14 +25,14 @@ import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
-import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.comand.UpdateMovie;
-import com.erdouglass.emdb.common.query.MovieDetails;
-import com.erdouglass.emdb.common.query.MovieView;
+import com.erdouglass.emdb.common.api.Configuration;
 import com.erdouglass.emdb.gateway.mapper.MovieMapper;
 import com.erdouglass.emdb.gateway.query.MovieQueryParams;
 import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.command.SaveMovie;
+import com.erdouglass.emdb.media.api.command.UpdateMovie;
+import com.erdouglass.emdb.media.api.query.MovieDetails;
+import com.erdouglass.emdb.media.api.query.MovieView;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc.MovieServiceBlockingStub;
 

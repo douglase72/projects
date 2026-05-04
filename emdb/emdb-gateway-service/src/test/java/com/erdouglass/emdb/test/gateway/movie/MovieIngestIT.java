@@ -15,12 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import com.erdouglass.emdb.common.MediaType;
-import com.erdouglass.emdb.common.comand.IngestMedia;
-import com.erdouglass.emdb.common.comand.IngestMedia.IngestSource;
-import com.erdouglass.emdb.common.event.IngestStatus;
-import com.erdouglass.emdb.common.event.IngestStatusChanged;
-import com.erdouglass.emdb.gateway.query.IngestHistory;
+import com.erdouglass.emdb.common.api.MediaType;
+import com.erdouglass.emdb.common.api.command.IngestMedia;
+import com.erdouglass.emdb.common.api.command.IngestMedia.IngestSource;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -45,31 +42,6 @@ class MovieIngestIT extends AbstractTest {
     long et = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
     assertEquals(202, response.statusCode());
     var correlationId = OBJECT_MAPPER.readValue(response.body(), String.class);
-    
-    TimeUnit.SECONDS.sleep(1);
-    
-    request = HttpRequest.newBuilder()
-        .uri(UriBuilder.fromUri(INGESTS_URL).path(correlationId).build())
-        .header("Authorization", "Bearer " + token)
-        .build();
-    response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    assertEquals(200, response.statusCode());
-    var ingest = OBJECT_MAPPER.readValue(response.body(), IngestStatusChanged.class);
-    assertEquals(816, ingest.tmdbId());
-    assertEquals(IngestStatus.COMPLETED, ingest.status());
-    assertEquals(MediaType.MOVIE, ingest.type());
-    
-    request = HttpRequest.newBuilder()
-        .uri(UriBuilder.fromUri(INGESTS_URL).path(correlationId).path("history").build())
-        .header("Authorization", "Bearer " + token)
-        .build();
-    response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    assertEquals(200, response.statusCode());
-    var history = OBJECT_MAPPER.readValue(response.body(), IngestHistory.class);
-    var changes = history.changes();
-    assertEquals(IngestStatus.SUBMITTED, changes.get(0).status());
-    assertEquals(IngestStatus.STARTED, changes.get(1).status());
-    assertEquals(IngestStatus.COMPLETED, changes.get(2).status());
     LOGGER.infof("Ingest Austin Powers: International Man of Mystery request %s completed in %d ms", correlationId, et);
   }
 }

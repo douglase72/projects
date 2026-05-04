@@ -8,7 +8,7 @@ import jakarta.data.repository.CrudRepository;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
-import com.erdouglass.emdb.common.query.MovieView;
+import com.erdouglass.emdb.media.api.query.MovieView;
 import com.erdouglass.emdb.media.entity.Movie;
 
 /// Data access layer for `Movie` entities.
@@ -37,7 +37,7 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
   /// @param pageRequest the page request controlling offset and page size
   /// @return a [Page] of [MovieView] projections
   @Query("""
-      SELECT NEW com.erdouglass.emdb.common.query.MovieView(
+      SELECT NEW com.erdouglass.emdb.media.api.query.MovieView(
           m.id, m.title, m.releaseDate, m.score, 
           CAST(m.backdrop AS STRING), CAST(m.poster AS STRING), 
           m.overview)

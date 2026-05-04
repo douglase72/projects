@@ -8,14 +8,14 @@ import jakarta.data.repository.CrudRepository;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
-import com.erdouglass.emdb.common.query.SeriesView;
+import com.erdouglass.emdb.media.api.query.SeriesView;
 import com.erdouglass.emdb.media.entity.Series;
 
 @Repository
 public interface SeriesRepository extends CrudRepository<Series, Long> {
   
   @Query("""
-      SELECT NEW com.erdouglass.emdb.common.query.SeriesView(
+      SELECT NEW com.erdouglass.emdb.media.api.query.SeriesView(
           s.id, s.title, s.firstAirDate, s.score, 
           CAST(s.backdrop AS STRING), CAST(s.poster AS STRING), 
           s.overview)

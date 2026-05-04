@@ -2,8 +2,7 @@ package com.erdouglass.emdb.media.controller;
 
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.common.query.MovieView;
-import com.erdouglass.emdb.media.dto.SaveResult.SaveStatus;
+import com.erdouglass.emdb.media.api.query.MovieView;
 import com.erdouglass.emdb.media.mapper.MovieMapper;
 import com.erdouglass.emdb.media.proto.v1.DeleteRequest;
 import com.erdouglass.emdb.media.proto.v1.FindAllMovieRequest;
@@ -11,10 +10,11 @@ import com.erdouglass.emdb.media.proto.v1.FindRequest;
 import com.erdouglass.emdb.media.proto.v1.MoviePageResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieResponse;
 import com.erdouglass.emdb.media.proto.v1.MovieServiceGrpc.MovieServiceImplBase;
+import com.erdouglass.emdb.media.query.SaveResult.SaveStatus;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieRequest;
 import com.erdouglass.emdb.media.proto.v1.SaveMovieResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdateMovieRequest;
-import com.erdouglass.emdb.media.service.MovieService;
+import com.erdouglass.emdb.media.service.MovieCrudService;
 import com.google.protobuf.Empty;
 
 import io.grpc.Status;
@@ -25,7 +25,7 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 /// gRPC service implementation for movie operations.
 ///
 /// Translates gRPC requests from the gateway into domain commands,
-/// delegates to [MovieService], and maps the results back to protobuf
+/// delegates to [MovieCrudService], and maps the results back to protobuf
 /// responses. All methods run on virtual threads to avoid blocking
 /// platform threads during database I/O.
 @GrpcService
@@ -35,7 +35,7 @@ public class MovieResource extends MovieServiceImplBase {
   MovieMapper mapper;
   
   @Inject
-  MovieService service;
+  MovieCrudService service;
   
   /// Creates or updates a movie, matched by TMDB ID.
   ///

@@ -3,25 +3,24 @@ plugins {
   alias(libs.plugins.quarkus)
 }
 
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
 dependencies {
 	implementation enforcedPlatform(libs.quarkus.bom)
 	
-	implementation project(':emdb-common')
-	implementation project(':web-services')
+	implementation project(':emdb-common-api')
+	implementation project(':emdb-scheduler-api')
+	implementation project(':messaging')
 	
 	implementation libs.jug
 	
 	implementation libs.quarkus.arc
 	implementation libs.quarkus.hibernate.validator
 	implementation libs.quarkus.logging
-	implementation libs.quarkus.opentelemetry
-	implementation libs.quarkus.prometheus
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.jackson
 	implementation libs.quarkus.scheduler
 	
 	testImplementation libs.quarkus.junit
 }
-
-group = 'com.erdouglass.emdb'
-version = '1.0.0-SNAPSHOT'

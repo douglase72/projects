@@ -20,12 +20,12 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.common.Image;
-import com.erdouglass.emdb.common.SeriesType;
-import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.emdb.common.comand.SaveSeries;
-import com.erdouglass.emdb.common.comand.UpdateSeries;
-import com.erdouglass.emdb.common.query.SeriesDetails;
+import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.api.SeriesType;
+import com.erdouglass.emdb.media.api.ShowStatus;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.media.api.command.UpdateSeries;
+import com.erdouglass.emdb.media.api.query.SeriesDetails;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 
 @TestInstance(Lifecycle.PER_CLASS)

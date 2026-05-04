@@ -5,23 +5,25 @@ import java.time.Instant;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolationException;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.common.MediaType;
-import com.erdouglass.emdb.common.comand.IngestMedia;
-import com.erdouglass.emdb.common.comand.SavePerson;
-import com.erdouglass.emdb.common.event.IngestSource;
-import com.erdouglass.emdb.common.event.IngestStatus;
-import com.erdouglass.emdb.common.event.IngestStatusChanged;
-import com.erdouglass.emdb.common.event.IngestStatusContext;
-import com.erdouglass.emdb.media.annotation.MessageMetadata;
-import com.erdouglass.emdb.media.annotation.UpdateIngestStatus;
-import com.erdouglass.emdb.media.mapper.PersonMapper;
-import com.erdouglass.emdb.media.service.PersonService;
-import com.erdouglass.emdb.scraper.service.TmdbPersonScraper;
+import com.erdouglass.emdb.common.api.MediaType;
+import com.erdouglass.emdb.common.api.command.IngestMedia;
+import com.erdouglass.emdb.common.api.messaging.IngestSource;
+import com.erdouglass.emdb.common.api.messaging.IngestStatus;
+import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
+import com.erdouglass.emdb.media.annotation.CorrelationContext;
+import com.erdouglass.emdb.media.annotation.UpdateStatus;
+import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.entity.Person;
+import com.erdouglass.emdb.media.service.CommandValidator;
+import com.erdouglass.emdb.media.service.PersonCrudService;
+import com.erdouglass.emdb.media.service.TmdbPersonScraper;
+import com.erdouglass.emdb.media.utils.MessageMetadata;
 
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
@@ -30,40 +32,40 @@ public class PersonConsumer {
   private static final String ROUTE_KEY = "person.dlq";
   
   @Inject
-  @Channel("person-dlq-out")
-  Emitter<SavePerson> emitter;
+  CorrelationContext correlation;
   
   @Inject
-  PersonMapper mapper;
+  @Channel("person-dlq-out")
+  Emitter<SavePerson> emitter;  
   
   @Inject
   TmdbPersonScraper scraper;
   
   @Inject
-  PersonService service;
-  
-  @Inject 
-  IngestStatusContext statusContext;
+  PersonCrudService service;
   
   @Inject
   CommandValidator validator;
   
-  @UpdateIngestStatus
+  @UpdateStatus
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
-    var correlationId = MessageMetadata.getCorrelationId(message);
-    statusContext.setCorrelationId(correlationId);
+    correlation.setId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
     var command = service.findByTmdbId(tmdbId, null)
-        .map(m -> scraper.extract(mapper.toSavePerson(m)))
-        .orElseGet(() -> scraper.extract(SavePerson.builder().tmdbId(tmdbId).build()));
-    
+        .map(p -> scraper.extract(p))
+        .orElseGet(() -> {
+          var person = new Person();
+          person.setTmdbId(tmdbId);
+          return scraper.extract(person);
+        });
+        
     try {
-      validator.validate(command);
       var start = Instant.now();
+      validator.validate(command);
       var person = service.save(command).entity();
       var et = Duration.between(start, Instant.now()).toMillis();
-      return IngestStatusChanged.builder()          
-          .id(correlationId)
+      return IngestStatusChanged.builder()
+          .id(correlation.getId())
           .tmdbId(person.getTmdbId())
           .status(IngestStatus.LOADED)
           .source(IngestSource.MEDIA)
@@ -72,14 +74,14 @@ public class PersonConsumer {
           .emdbId(person.getId())
           .name(person.getName())
           .build();
-    } catch (Exception e) {
+    } catch (ConstraintViolationException e) {
       emitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(ROUTE_KEY)
-          .withCorrelationId(correlationId.toString())
+          .withCorrelationId(correlation.getId().toString())
           .withHeader("X-Event-Type", command.getClass().getSimpleName())
-          .build()));       
-      throw e;
+          .build())); 
+      throw e;     
     }
   }
 }

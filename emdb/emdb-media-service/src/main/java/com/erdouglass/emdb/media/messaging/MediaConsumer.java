@@ -10,7 +10,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.MDC;
 
-import com.erdouglass.emdb.common.comand.IngestMedia;
+import com.erdouglass.emdb.common.api.command.IngestMedia;
 import com.erdouglass.messaging.LoggingDecorator;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
@@ -46,15 +46,14 @@ public class MediaConsumer {
   @RunOnVirtualThread
   @ActivateRequestContext
   @Incoming("ingest-media-in")
-  public CompletionStage<Void> onMessage(Message<IngestMedia> message) {
-    var command = message.getPayload();
-    
-    try {      
+  public CompletionStage<Void> onMessage(Message<IngestMedia> message) {    
+    try {
+      var command = message.getPayload();
       switch (command.type()) {
         case MOVIE -> movieConsumer.ingest(message);
         case PERSON -> personConsumer.ingest(message);
         case SERIES -> seriesConsumer.ingest(message);
-      };
+      }
       return message.ack();
     } catch (Exception e) {
       return message.nack(e);      

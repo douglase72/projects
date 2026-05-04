@@ -20,9 +20,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.common.comand.SavePerson;
-import com.erdouglass.emdb.common.query.PersonView;
 import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.api.query.PersonView;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 

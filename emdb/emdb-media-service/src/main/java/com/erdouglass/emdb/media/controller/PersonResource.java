@@ -14,7 +14,7 @@ import com.erdouglass.emdb.media.proto.v1.SavePeopleResponse;
 import com.erdouglass.emdb.media.proto.v1.SavePersonRequest;
 import com.erdouglass.emdb.media.proto.v1.SavePersonResponse;
 import com.erdouglass.emdb.media.proto.v1.UpdatePersonRequest;
-import com.erdouglass.emdb.media.service.PersonService;
+import com.erdouglass.emdb.media.service.PersonCrudService;
 import com.google.protobuf.Empty;
 
 import io.grpc.Status;
@@ -25,7 +25,7 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 /// gRPC controller for person operations.
 ///
 /// Translates protobuf requests into domain commands, delegates to
-/// [PersonService], and maps the results back to protobuf responses.
+/// [PersonCrudService], and maps the results back to protobuf responses.
 /// All methods run on virtual threads to allow blocking repository
 /// calls without tying up event-loop threads.
 @GrpcService
@@ -35,7 +35,7 @@ public class PersonResource extends PersonServiceImplBase {
   PersonMapper mapper;
   
   @Inject
-  PersonService service;
+  PersonCrudService service;
   
   /// Creates or updates a single person matched by TMDB ID.
   @Override

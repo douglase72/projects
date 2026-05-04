@@ -23,10 +23,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.common.Gender;
-import com.erdouglass.emdb.common.Image;
-import com.erdouglass.emdb.common.comand.SavePerson;
 import com.erdouglass.emdb.gateway.query.MultiResponse;
+import com.erdouglass.emdb.media.api.Gender;
+import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.api.command.SavePerson;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 

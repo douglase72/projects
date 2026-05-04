@@ -9,8 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
-import com.erdouglass.emdb.common.SeriesType;
-import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.api.ShowConstants;
+import com.erdouglass.emdb.media.api.SeriesType;
 import com.erdouglass.validation.DateRange;
 
 @Entity

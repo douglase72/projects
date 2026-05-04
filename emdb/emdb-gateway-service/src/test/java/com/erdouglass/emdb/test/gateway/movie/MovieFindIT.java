@@ -20,10 +20,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.common.ShowStatus;
-import com.erdouglass.emdb.common.comand.SaveMovie;
-import com.erdouglass.emdb.common.query.MovieView;
 import com.erdouglass.emdb.gateway.query.Slice;
+import com.erdouglass.emdb.media.api.ShowStatus;
+import com.erdouglass.emdb.media.api.command.SaveMovie;
+import com.erdouglass.emdb.media.api.query.MovieView;
 import com.erdouglass.emdb.test.gateway.AbstractTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 

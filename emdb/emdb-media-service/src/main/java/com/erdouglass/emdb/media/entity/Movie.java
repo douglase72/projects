@@ -8,7 +8,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PositiveOrZero;
 
-import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.api.ShowConstants;
 import com.erdouglass.validation.DateRange;
 
 /// Represents a theatrical movie entity within the application.
