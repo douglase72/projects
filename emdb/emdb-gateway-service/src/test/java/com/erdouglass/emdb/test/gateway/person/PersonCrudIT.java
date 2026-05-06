@@ -14,7 +14,6 @@ import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -101,7 +100,6 @@ class PersonCrudIT extends AbstractTest {
     LOGGER.infof("Found person %d in: %d ms", personId, et);    
   }
   
-  @Disabled
   @Test
   @Order(3)
   void testUpdatePerson() throws IOException, InterruptedException {
@@ -132,7 +130,6 @@ class PersonCrudIT extends AbstractTest {
     LOGGER.infof("Updated person %d in %d ms", personId, et);   
   }
   
-  @Disabled
   @Test
   @Order(4)
   void testDeletePerson() throws IOException, InterruptedException {

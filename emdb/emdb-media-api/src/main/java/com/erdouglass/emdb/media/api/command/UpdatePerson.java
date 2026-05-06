@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.api.Configuration;
@@ -20,7 +21,7 @@ public record UpdatePerson(
     @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate birthDate,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate deathDate,
-    Gender gender,
+    @NotNull Gender gender,
     UUID profile,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH) String birthPlace,

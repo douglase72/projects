@@ -51,6 +51,7 @@ public class Person extends SequenceEntity {
   @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE)
   private LocalDate deathDate;
   
+  @NotNull 
   @Enumerated(EnumType.STRING)
   @Column(length = PersonConstants.GENDER_MAX_LENGTH)
   private Gender gender;

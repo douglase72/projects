@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.api.Configuration;
@@ -12,14 +14,14 @@ import com.erdouglass.emdb.media.api.SeriesType;
 import com.erdouglass.emdb.media.api.ShowStatus;
 
 public record UpdateSeries(    
-    @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
-    @Min(0) @Max(10) Float score,
-    ShowStatus status,
-    SeriesType type,
+    @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
+    @NotNull @Min(0) @Max(10) Float score,
+    @NotNull ShowStatus status,
+    @NotNull SeriesType type,
     UUID backdrop,
     UUID poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
-    @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
+    @NotBlank @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline, 
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
   

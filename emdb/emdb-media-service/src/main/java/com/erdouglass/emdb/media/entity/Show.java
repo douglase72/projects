@@ -34,6 +34,7 @@ public sealed class Show extends SequenceEntity permits Movie, Series {
   @Size(max = Configuration.URL_MAX_LENGTH)
   private String homepage;
   
+  @NotBlank
   @Column(name = "original_language")
   @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH)
   private String originalLanguage;
@@ -44,10 +45,12 @@ public sealed class Show extends SequenceEntity permits Movie, Series {
   @Column(unique = true)
   private UUID poster;
   
+  @NotNull
   @Min(0)
   @Max(10)
   private Float score;
   
+  @NotNull
   @Enumerated(EnumType.STRING)
   @Column(length = ShowConstants.STATUS_MAX_LENGTH)
   private ShowStatus status;

@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.test.gateway.series;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -122,13 +121,10 @@ class SeriesCrudIT extends AbstractTest {
   void testUpdateSeries() throws IOException, InterruptedException {
     var command = UpdateSeries.builder()
         .title("X")
-        .score(6.6f)
-        .status(ShowStatus.RUMORED)
-        .type(SeriesType.DOCUMENTARY)
+        .score(6.5f)
+        .status(ShowStatus.CANCELED)
+        .type(SeriesType.MINISERIES)
         .originalLanguage("en")
-        .backdrop(UUID.fromString("019d3220-adb3-75ba-b1b2-1619de2a2fef"))
-        .poster(UUID.fromString("019d3220-aead-702b-a997-5700e9a2076a"))
-        .overview("Test overview.")
         .build(); 
     var request  = HttpRequest.newBuilder().uri(UriBuilder.fromUri(SERIES_URL).path(seriesId.toString()).build())
         .header("Authorization", "Bearer " + token)
@@ -142,16 +138,15 @@ class SeriesCrudIT extends AbstractTest {
     assertEquals(200, response.statusCode());
     assertEquals(456, series.tmdbId());
     assertEquals("X", series.title());
-    assertEquals(6.6f, series.score());
-    assertEquals(ShowStatus.RUMORED, series.status());
-    assertEquals(SeriesType.DOCUMENTARY, series.type());
-    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", series.backdrop());
-    assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", series.poster());    
-    assertEquals("http://www.thesimpsons.com/", series.homepage());    
+    assertEquals(6.5f, series.score());
+    assertEquals(ShowStatus.CANCELED, series.status());
+    assertEquals(SeriesType.MINISERIES, series.type());
+    assertEquals("http://www.thesimpsons.com/", series.homepage());
     assertEquals("en", series.originalLanguage());
-    assertNull(series.tagline());
-    assertEquals("Test overview.", series.overview());    
-    LOGGER.infof("Updated series %d in %d ms", series.id(), et);      
+    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", series.backdrop());
+    assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", series.poster());
+    assertEquals("Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.", series.overview());
+    LOGGER.infof("Updated series %d in %d ms", series.id(), et);
   }
   
   @Test
