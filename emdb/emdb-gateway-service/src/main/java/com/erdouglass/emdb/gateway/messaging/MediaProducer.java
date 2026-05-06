@@ -61,7 +61,7 @@ public class MediaProducer {
           .status(IngestStatus.SUBMITTED)
           .source(IngestSource.GATEWAY)
           .type(command.type())
-          .message(String.format("Ingest Job for TMDB %s %d submitted", command.type(), command.tmdbId()))
+          .message(String.format("Ingest of TMDB %s %d submitted", command.type(), command.tmdbId()))
           .build());
       return correlationId;
     } finally {

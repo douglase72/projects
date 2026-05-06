@@ -16,7 +16,7 @@ import com.erdouglass.emdb.common.api.command.IngestMedia;
 import com.erdouglass.emdb.common.api.messaging.IngestSource;
 import com.erdouglass.emdb.common.api.messaging.IngestStatus;
 import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
-import com.erdouglass.emdb.media.annotation.CorrelationContext;
+import com.erdouglass.emdb.media.annotation.IngestContext;
 import com.erdouglass.emdb.media.annotation.UpdateStatus;
 import com.erdouglass.emdb.media.api.command.SavePerson;
 import com.erdouglass.emdb.media.entity.Person;
@@ -27,6 +27,7 @@ import com.erdouglass.emdb.media.service.TmdbPersonScraper;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
 import com.google.common.base.Objects;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
@@ -34,7 +35,7 @@ public class PersonConsumer {
   private static final String ROUTE_KEY = "person.dlq";
   
   @Inject
-  CorrelationContext correlation;
+  IngestContext context;
   
   @Inject
   @Channel("person-dlq-out")
@@ -42,6 +43,9 @@ public class PersonConsumer {
   
   @Inject
   TmdbImageService imageService;
+  
+  @Inject
+  MeterRegistry registry;
   
   @Inject
   TmdbPersonScraper scraper;
@@ -54,7 +58,7 @@ public class PersonConsumer {
   
   @UpdateStatus
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
-    correlation.setId(MessageMetadata.getCorrelationId(message));
+    context.setCorrelationId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
     var existingPerson = service.findByTmdbId(tmdbId, null);
     var command = service.findByTmdbId(tmdbId, null)
@@ -66,14 +70,15 @@ public class PersonConsumer {
       validator.validate(command);
       var person = service.save(command).entity();
       existingPerson.ifPresent(p -> deleteImages(p, person));
-      var et = Duration.between(start, Instant.now()).toMillis();
+      var et = Duration.between(start, Instant.now());
+      context.setPersistDuration(et);
       return IngestStatusChanged.builder()
-          .id(correlation.getId())
+          .id(context.getCorrelationId())
           .tmdbId(person.getTmdbId())
           .status(IngestStatus.LOADED)
           .source(IngestSource.MEDIA)
           .type(MediaType.PERSON)
-          .message(String.format("Ingest job for TMDB person %d persisted in %d ms", person.getTmdbId(), et))
+          .message(String.format("Ingest job for TMDB person %d persisted in %d ms", person.getTmdbId(), et.toMillis()))
           .emdbId(person.getId())
           .name(person.getName())
           .build();
@@ -81,7 +86,7 @@ public class PersonConsumer {
       emitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(ROUTE_KEY)
-          .withCorrelationId(correlation.getId().toString())
+          .withCorrelationId(context.getCorrelationId().toString())
           .withHeader("X-Event-Type", command.getClass().getSimpleName())
           .build())); 
       throw e;     

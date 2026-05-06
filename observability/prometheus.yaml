@@ -23,10 +23,10 @@ scrape_configs:
         labels:
           application: 'media'
           
-  - job_name: 'job'
+  - job_name: 'notification'
     metrics_path: '/api/q/metrics'
     static_configs:
-      - targets: ['emdb-job:60318'] 
+      - targets: ['emdb-notification:60318'] 
         labels:
-          application: 'job'
+          application: 'notification'
           

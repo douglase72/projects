@@ -16,7 +16,7 @@ import com.erdouglass.emdb.common.api.command.IngestMedia;
 import com.erdouglass.emdb.common.api.messaging.IngestSource;
 import com.erdouglass.emdb.common.api.messaging.IngestStatus;
 import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
-import com.erdouglass.emdb.media.annotation.CorrelationContext;
+import com.erdouglass.emdb.media.annotation.IngestContext;
 import com.erdouglass.emdb.media.annotation.UpdateStatus;
 import com.erdouglass.emdb.media.api.command.SaveSeries;
 import com.erdouglass.emdb.media.entity.Series;
@@ -33,7 +33,7 @@ public class SeriesConsumer {
   private static final String ROUTE_KEY = "series.dlq";
   
   @Inject
-  CorrelationContext correlation;
+  IngestContext context;
   
   @Inject
   @Channel("series-dlq-out")
@@ -53,7 +53,7 @@ public class SeriesConsumer {
   
   @UpdateStatus
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
-    correlation.setId(MessageMetadata.getCorrelationId(message));
+    context.setCorrelationId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
     var existingSeries = service.findByTmdbId(tmdbId, null);
     var command = service.findByTmdbId(tmdbId, null)
@@ -65,14 +65,15 @@ public class SeriesConsumer {
       validator.validate(command);
       var series = service.save(command).entity();
       existingSeries.ifPresent(s -> showService.deleteImages(s, series));
-      var et = Duration.between(start, Instant.now()).toMillis();
+      var et = Duration.between(start, Instant.now());
+      context.setPersistDuration(et);
       return IngestStatusChanged.builder()
-          .id(correlation.getId())
+          .id(context.getCorrelationId())
           .tmdbId(series.getTmdbId())
           .status(IngestStatus.LOADED)
           .source(IngestSource.MEDIA)
           .type(MediaType.SERIES)
-          .message(String.format("Ingest job for TMDB series %d persisted in %d ms", series.getTmdbId(), et))
+          .message(String.format("Ingest job for TMDB series %d persisted in %d ms", series.getTmdbId(), et.toMillis()))
           .emdbId(series.getId())
           .name(series.getTitle())
           .build();
@@ -80,7 +81,7 @@ public class SeriesConsumer {
       emitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(ROUTE_KEY)
-          .withCorrelationId(correlation.getId().toString())
+          .withCorrelationId(context.getCorrelationId().toString())
           .withHeader("X-Event-Type", command.getClass().getSimpleName())
           .build())); 
       throw e;     

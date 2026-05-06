@@ -1,7 +1,7 @@
 services:
   
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${EFK_VERSION}
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
@@ -20,7 +20,7 @@ services:
       retries: 12
 
   filebeat:
-    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
+    image: docker.elastic.co/beats/filebeat:${EFK_VERSION}
     container_name: filebeat
     hostname: ${HOSTNAME}
     user: root
@@ -37,7 +37,7 @@ services:
         condition: service_healthy      
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    image: docker.elastic.co/kibana/kibana:${EFK_VERSION}
     container_name: kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
@@ -50,7 +50,7 @@ services:
         condition: service_healthy
 
   jaeger:
-    image: jaegertracing/all-in-one:1.76.0
+    image: jaegertracing/all-in-one:${JAEGER_VERSION}
     container_name: jaeger
     ports:
       - "16686:16686"
@@ -59,7 +59,7 @@ services:
       - projects
       
   prometheus:
-    image: prom/prometheus:v3.8.1
+    image: docker.io/prom/prometheus:${PROMETHEUS_VERSION}
     container_name: prometheus
     ports:
       - 9091:9090
@@ -69,7 +69,7 @@ services:
       - projects
 
   grafana:
-    image: grafana/grafana:12.4.0-20447603318-ubuntu
+    image: docker.io/grafana/grafana:${GRAFANA_VERSION}
     container_name: grafana
     ports:
       - 3000:3000

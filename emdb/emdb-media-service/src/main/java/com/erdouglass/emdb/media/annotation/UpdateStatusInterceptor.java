@@ -19,6 +19,8 @@ import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 import com.erdouglass.emdb.common.api.messaging.IngestStatusEmitter;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;
 
 @UpdateStatus
@@ -26,8 +28,14 @@ import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;
 @Priority(Interceptor.Priority.APPLICATION)
 public class UpdateStatusInterceptor {
   
+  @Inject
+  IngestContext ingestContext;
+  
   @Inject 
   IngestStatusEmitter emitter;
+  
+  @Inject
+  MeterRegistry registry;  
   
   @AroundInvoke
   Object update(InvocationContext context) throws Exception {
@@ -42,6 +50,11 @@ public class UpdateStatusInterceptor {
       started(correlationId, command, start);
       var event = (IngestStatusChanged) context.proceed();
       emitter.send(event);
+      Timer.builder("emdb.persist.duration")
+        .description("Measures the time spent persisting media")
+        .tag("media", event.type().toString())
+        .register(registry)
+        .record(ingestContext.getPersistDuration());
       completed(event, start);
       return event;
     } catch (Exception e) {
@@ -51,16 +64,16 @@ public class UpdateStatusInterceptor {
           .status(IngestStatus.FAILED)
           .source(IngestSource.MEDIA)
           .type(command.type())
-          .message(String.format("Ingest for TMDB %s %d failed", command.type(), command.tmdbId()))
+          .message(String.format("Ingest of TMDB %s %d failed", command.type(), command.tmdbId()))
           .build(), e);
       throw e;
     }
   }
   
   private void started(UUID correlationId, IngestMedia command, Instant start) {
-    var et = Duration.between(start, Instant.now()).toMillis();
-    var msg = String.format("Ingest for TMDB %s %d sat in the queue for %d ms", 
-        command.type(), command.tmdbId(), et);
+    var et = Duration.between(start, Instant.now());
+    var msg = String.format("Ingest of TMDB %s %d sat in the queue for %d ms", 
+        command.type(), command.tmdbId(), et.toMillis());
     emitter.send(IngestStatusChanged.builder()
         .id(correlationId)
         .tmdbId(command.tmdbId())
@@ -69,15 +82,25 @@ public class UpdateStatusInterceptor {
         .type(command.type())
         .message(msg)
         .build());
+    Timer.builder("emdb.ingest.queue.duration")
+      .description("Measures the time spent in the queue")
+      .tag("media", command.type().toString())
+      .register(registry)
+      .record(et);
   }
   
   private void completed(IngestStatusChanged event, Instant start) {
-    var et = Duration.between(start, Instant.now()).toMillis();
-    var msg = String.format("Ingest for TMDB %s %d completed in %d ms", event.type(), event.tmdbId(), et);
+    var et = Duration.between(start, Instant.now());
+    var msg = String.format("Ingest of TMDB %s %d completed in %d ms", event.type(), event.tmdbId(), et.toMillis());
     emitter.send(IngestStatusChanged.builder(event)
         .status(IngestStatus.COMPLETED)
         .message(msg)
-        .build());    
+        .build());
+    Timer.builder("emdb.ingest.duration")
+      .description("Measures the time ingesting the media from TMDB")
+      .tag("media", event.type().toString())
+      .register(registry)
+      .record(et);
   }
   
   @SuppressWarnings("unchecked")

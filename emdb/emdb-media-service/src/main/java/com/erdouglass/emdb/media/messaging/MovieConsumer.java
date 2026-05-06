@@ -16,7 +16,7 @@ import com.erdouglass.emdb.common.api.command.IngestMedia;
 import com.erdouglass.emdb.common.api.messaging.IngestSource;
 import com.erdouglass.emdb.common.api.messaging.IngestStatus;
 import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
-import com.erdouglass.emdb.media.annotation.CorrelationContext;
+import com.erdouglass.emdb.media.annotation.IngestContext;
 import com.erdouglass.emdb.media.annotation.UpdateStatus;
 import com.erdouglass.emdb.media.api.command.SaveMovie;
 import com.erdouglass.emdb.media.entity.Movie;
@@ -26,6 +26,7 @@ import com.erdouglass.emdb.media.service.ShowService;
 import com.erdouglass.emdb.media.service.TmdbMovieScraper;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
@@ -33,11 +34,14 @@ public class MovieConsumer {
   private static final String ROUTE_KEY = "movie.dlq";
   
   @Inject
-  CorrelationContext correlation;
+  IngestContext context;
   
   @Inject
   @Channel("movie-dlq-out")
   Emitter<SaveMovie> emitter;
+  
+  @Inject
+  MeterRegistry registry;  
   
   @Inject
   TmdbMovieScraper scraper;
@@ -53,7 +57,7 @@ public class MovieConsumer {
   
   @UpdateStatus
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
-    correlation.setId(MessageMetadata.getCorrelationId(message));
+    context.setCorrelationId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
     var existingMovie = service.findByTmdbId(tmdbId, null);
     var command = existingMovie
@@ -65,14 +69,15 @@ public class MovieConsumer {
       validator.validate(command);
       var movie = service.save(command).entity();
       existingMovie.ifPresent(m -> showService.deleteImages(m, movie));
-      var et = Duration.between(start, Instant.now()).toMillis();
+      var et = Duration.between(start, Instant.now());
+      context.setPersistDuration(et);
       return IngestStatusChanged.builder()
-          .id(correlation.getId())
+          .id(context.getCorrelationId())
           .tmdbId(movie.getTmdbId())
           .status(IngestStatus.LOADED)
           .source(IngestSource.MEDIA)
           .type(MediaType.MOVIE)
-          .message(String.format("Ingest job for TMDB movie %d persisted in %d ms", movie.getTmdbId(), et))
+          .message(String.format("Ingest of TMDB movie %d persisted in %d ms", movie.getTmdbId(), et.toMillis()))
           .emdbId(movie.getId())
           .name(movie.getTitle())
           .build();
@@ -80,7 +85,7 @@ public class MovieConsumer {
       emitter.send(Message.of(command)
           .addMetadata(OutgoingRabbitMQMetadata.builder()
           .withRoutingKey(ROUTE_KEY)
-          .withCorrelationId(correlation.getId().toString())
+          .withCorrelationId(context.getCorrelationId().toString())
           .withHeader("X-Event-Type", command.getClass().getSimpleName())
           .build())); 
       throw e;     

@@ -19,22 +19,28 @@ import com.erdouglass.emdb.media.api.command.SaveMovie;
 import com.erdouglass.emdb.media.api.command.SavePerson;
 import com.erdouglass.emdb.media.api.command.SaveSeries;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+
 @ExtractionStatus
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
 public class ExtractionStatusInterceptor {
   
   @Inject 
-  CorrelationContext correlation;
+  IngestContext context;
   
   @Inject
   IngestStatusEmitter emitter;
+  
+  @Inject
+  MeterRegistry registry;  
 
   @AroundInvoke
   Object send(InvocationContext context) throws Exception {
     var start = Instant.now();
     var result = context.proceed();
-    var et = Duration.between(start, Instant.now()).toMillis();
+    var et = Duration.between(start, Instant.now());
     
     if (result instanceof SaveCommand command) {
       switch (command) {
@@ -46,15 +52,20 @@ public class ExtractionStatusInterceptor {
     return result;
   }
   
-  private void send(int tmdbId, MediaType type, String name, long et) {
+  private void send(int tmdbId, MediaType type, String name, Duration et) {
     emitter.send(IngestStatusChanged.builder()
-      .id(correlation.getId())
+      .id(context.getCorrelationId())
       .tmdbId(tmdbId)
       .status(IngestStatus.EXTRACTED)
       .source(IngestSource.SCRAPER)
       .type(type)
       .name(name)
-      .message(String.format("Ingest Job for TMDB %d %s fetched from TMDB in %d ms", tmdbId, type, et))
+      .message(String.format("Ingest of TMDB %d %s fetched from TMDB in %d ms", tmdbId, type, et.toMillis()))
       .build());
+    Timer.builder("emdb.scrape.duration")
+      .description("Measures the time spent scraping the media from TMDB")
+      .tag("media", type.toString())
+      .register(registry)
+      .record(et);
   }
 }

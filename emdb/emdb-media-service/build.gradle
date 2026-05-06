@@ -33,6 +33,7 @@ dependencies {
 	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.jackson
 	implementation libs.quarkus.logging
+	implementation libs.quarkus.prometheus
 	implementation libs.quarkus.rabbitmq
 	implementation libs.quarkus.rest.client.jackson
 	
