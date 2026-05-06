@@ -22,8 +22,10 @@ import com.erdouglass.emdb.media.api.command.SavePerson;
 import com.erdouglass.emdb.media.entity.Person;
 import com.erdouglass.emdb.media.service.CommandValidator;
 import com.erdouglass.emdb.media.service.PersonCrudService;
+import com.erdouglass.emdb.media.service.TmdbImageService;
 import com.erdouglass.emdb.media.service.TmdbPersonScraper;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
+import com.google.common.base.Objects;
 
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
@@ -39,6 +41,9 @@ public class PersonConsumer {
   Emitter<SavePerson> emitter;  
   
   @Inject
+  TmdbImageService imageService;
+  
+  @Inject
   TmdbPersonScraper scraper;
   
   @Inject
@@ -51,18 +56,16 @@ public class PersonConsumer {
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
     correlation.setId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
+    var existingPerson = service.findByTmdbId(tmdbId, null);
     var command = service.findByTmdbId(tmdbId, null)
         .map(p -> scraper.extract(p))
-        .orElseGet(() -> {
-          var person = new Person();
-          person.setTmdbId(tmdbId);
-          return scraper.extract(person);
-        });
+        .orElseGet(() -> scraper.extract(defaultPerson(tmdbId)));
         
     try {
       var start = Instant.now();
       validator.validate(command);
       var person = service.save(command).entity();
+      existingPerson.ifPresent(p -> deleteImages(p, person));
       var et = Duration.between(start, Instant.now()).toMillis();
       return IngestStatusChanged.builder()
           .id(correlation.getId())
@@ -82,6 +85,20 @@ public class PersonConsumer {
           .withHeader("X-Event-Type", command.getClass().getSimpleName())
           .build())); 
       throw e;     
+    }
+  }
+  
+  private Person defaultPerson(int tmdbId) {
+    var person = new Person();
+    person.setTmdbId(tmdbId);
+    return person;
+  }
+  
+  private void deleteImages(Person oldPerson, Person newPerson) {
+    if (!Objects.equal(oldPerson.getTmdbProfile(), newPerson.getTmdbProfile())) {
+      if (oldPerson.getProfile() != null) {
+        imageService.delete(oldPerson.getProfile());
+      }
     }
   }
 }

@@ -29,4 +29,4 @@ public record TmdbMovie(
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String original_language,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {}
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) implements TmdbShow {}

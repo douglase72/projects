@@ -22,6 +22,7 @@ import com.erdouglass.emdb.media.api.command.SaveMovie;
 import com.erdouglass.emdb.media.entity.Movie;
 import com.erdouglass.emdb.media.service.CommandValidator;
 import com.erdouglass.emdb.media.service.MovieCrudService;
+import com.erdouglass.emdb.media.service.ShowService;
 import com.erdouglass.emdb.media.service.TmdbMovieScraper;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
 
@@ -36,7 +37,7 @@ public class MovieConsumer {
   
   @Inject
   @Channel("movie-dlq-out")
-  Emitter<SaveMovie> emitter;  
+  Emitter<SaveMovie> emitter;
   
   @Inject
   TmdbMovieScraper scraper;
@@ -45,24 +46,25 @@ public class MovieConsumer {
   MovieCrudService service;
   
   @Inject
+  ShowService showService;
+  
+  @Inject
   CommandValidator validator;
   
   @UpdateStatus
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
     correlation.setId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
-    var command = service.findByTmdbId(tmdbId, null)
+    var existingMovie = service.findByTmdbId(tmdbId, null);
+    var command = existingMovie
         .map(m -> scraper.extract(m))
-        .orElseGet(() -> {
-          var movie = new Movie();
-          movie.setTmdbId(tmdbId);
-          return scraper.extract(movie);
-        });
+        .orElseGet(() -> scraper.extract(defaultMovie(tmdbId)));
         
     try {
       var start = Instant.now();
       validator.validate(command);
       var movie = service.save(command).entity();
+      existingMovie.ifPresent(m -> showService.deleteImages(m, movie));
       var et = Duration.between(start, Instant.now()).toMillis();
       return IngestStatusChanged.builder()
           .id(correlation.getId())
@@ -83,5 +85,11 @@ public class MovieConsumer {
           .build())); 
       throw e;     
     }
+  }
+  
+  private Movie defaultMovie(int tmdbId) {
+    var movie = new Movie();
+    movie.setTmdbId(tmdbId);
+    return movie;
   }
 }

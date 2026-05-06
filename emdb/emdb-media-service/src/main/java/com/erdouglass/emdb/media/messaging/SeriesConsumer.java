@@ -22,6 +22,7 @@ import com.erdouglass.emdb.media.api.command.SaveSeries;
 import com.erdouglass.emdb.media.entity.Series;
 import com.erdouglass.emdb.media.service.CommandValidator;
 import com.erdouglass.emdb.media.service.SeriesCrudService;
+import com.erdouglass.emdb.media.service.ShowService;
 import com.erdouglass.emdb.media.service.TmdbSeriesScraper;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
 
@@ -45,24 +46,25 @@ public class SeriesConsumer {
   SeriesCrudService service;
   
   @Inject
+  ShowService showService;
+  
+  @Inject
   CommandValidator validator;
   
   @UpdateStatus
   public IngestStatusChanged ingest(Message<IngestMedia> message) {
     correlation.setId(MessageMetadata.getCorrelationId(message));
     var tmdbId = message.getPayload().tmdbId();
+    var existingSeries = service.findByTmdbId(tmdbId, null);
     var command = service.findByTmdbId(tmdbId, null)
         .map(s -> scraper.extract(s))
-        .orElseGet(() -> {
-          var series = new Series();
-          series.setTmdbId(tmdbId);
-          return scraper.extract(series);
-        });
+        .orElseGet(() -> scraper.extract(defaultSeries(tmdbId)));
         
     try {
       var start = Instant.now();
       validator.validate(command);
       var series = service.save(command).entity();
+      existingSeries.ifPresent(s -> showService.deleteImages(s, series));
       var et = Duration.between(start, Instant.now()).toMillis();
       return IngestStatusChanged.builder()
           .id(correlation.getId())
@@ -83,5 +85,11 @@ public class SeriesConsumer {
           .build())); 
       throw e;     
     }
+  }
+  
+  private Series defaultSeries(int tmdbId) {
+    var series = new Series();
+    series.setTmdbId(tmdbId);
+    return series;
   }
 }

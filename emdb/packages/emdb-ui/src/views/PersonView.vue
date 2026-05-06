@@ -17,7 +17,7 @@
       <div>{{ person.birthPlace }}</div>
       <div>Profile</div>
       <div v-if="person.profile">
-        {{ person.profile }}
+        <img :src="findImage(person.profile, ImageSize.W154)" :alt="person.name">
       </div>  
       <div>Biography</div>
       <div>{{ person.biography }}</div>

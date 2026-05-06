@@ -1,7 +1,5 @@
 package com.erdouglass.emdb.media.service;
 
-import java.util.UUID;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
@@ -24,13 +22,16 @@ public class TmdbMovieScraper {
   TmdbMovieClient client;
   
   @Inject
+  ShowService service;
+  
+  @Inject
   MovieMapper mapper;
   
   @ExtractionStatus
   public SaveMovie extract(@NotNull Movie movie) {
-    var tmdbMovie = client.findById(movie.getTmdbId(), CREDITS);    
-    var backdrop = Image.of(UUID.randomUUID(), tmdbMovie.backdrop_path());
-    var poster = Image.of(UUID.randomUUID(), tmdbMovie.poster_path());    
+    var tmdbMovie = client.findById(movie.getTmdbId(), CREDITS); 
+    Image backdrop = service.extractBackdrop(movie, tmdbMovie);
+    Image poster = service.extractPoster(movie, tmdbMovie);
     return mapper.toSaveMovie(tmdbMovie, backdrop, poster);
   }
 }

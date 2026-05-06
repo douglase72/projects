@@ -23,4 +23,4 @@ public record TmdbSeries(
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop_path,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String poster_path,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {}
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) implements TmdbShow {}
