@@ -27,12 +27,12 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import com.erdouglass.emdb.common.api.Configuration;
 import com.erdouglass.emdb.common.api.command.IngestMedia;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 import com.erdouglass.emdb.gateway.mapper.IngestMapper;
 import com.erdouglass.emdb.gateway.messaging.IngestProcessor;
 import com.erdouglass.emdb.gateway.messaging.MediaProducer;
 import com.erdouglass.emdb.gateway.query.IngestHistory;
 import com.erdouglass.emdb.gateway.query.OffsetPage;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
 import com.erdouglass.emdb.notification.proto.v1.IngestServiceGrpc.IngestServiceBlockingStub;
 
 import io.grpc.StatusRuntimeException;

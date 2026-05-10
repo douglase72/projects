@@ -12,10 +12,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.MDC;
 
 import com.erdouglass.emdb.common.api.command.IngestMedia;
-import com.erdouglass.emdb.common.api.messaging.IngestSource;
-import com.erdouglass.emdb.common.api.messaging.IngestStatus;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusEmitter;
+import com.erdouglass.emdb.messaging.api.IngestSource;
+import com.erdouglass.emdb.messaging.api.IngestStatus;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
+import com.erdouglass.emdb.messaging.api.IngestStatusEmitter;
 import com.erdouglass.messaging.LoggingDecorator;
 import com.fasterxml.uuid.Generators;
 

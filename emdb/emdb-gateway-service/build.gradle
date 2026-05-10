@@ -14,8 +14,10 @@ dependencies {
 	
 	implementation project(':emdb-common-api')
 	implementation project(':emdb-media-api')
+	implementation project(':emdb-messaging-api')
 	implementation project(':emdb-notification-api')
 	implementation project(':emdb-scheduler-api')
+	implementation project(':emdb-user-api')
 	implementation project(':messaging')
 	implementation project(':web-services')
 	

@@ -12,5 +12,5 @@ dependencies {
   compileOnly libs.jackson.annotations
   compileOnly libs.jakarta.cdi
   compileOnly libs.jakarta.validation
-  compileOnly libs.smallrye.reactive.messaging.rabbitmq
+  compileOnly libs.jboss.logging
 }

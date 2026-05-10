@@ -13,9 +13,6 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.emdb.common.api.MediaType;
 import com.erdouglass.emdb.common.api.command.IngestMedia;
-import com.erdouglass.emdb.common.api.messaging.IngestSource;
-import com.erdouglass.emdb.common.api.messaging.IngestStatus;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 import com.erdouglass.emdb.media.annotation.IngestContext;
 import com.erdouglass.emdb.media.annotation.UpdateStatus;
 import com.erdouglass.emdb.media.api.command.SaveSeries;
@@ -25,6 +22,9 @@ import com.erdouglass.emdb.media.service.SeriesCrudService;
 import com.erdouglass.emdb.media.service.ShowService;
 import com.erdouglass.emdb.media.service.TmdbSeriesScraper;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
+import com.erdouglass.emdb.messaging.api.IngestSource;
+import com.erdouglass.emdb.messaging.api.IngestStatus;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
 
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 

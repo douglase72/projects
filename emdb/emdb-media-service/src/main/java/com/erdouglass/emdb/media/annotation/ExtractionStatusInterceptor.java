@@ -10,14 +10,14 @@ import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 
 import com.erdouglass.emdb.common.api.MediaType;
-import com.erdouglass.emdb.common.api.messaging.IngestSource;
-import com.erdouglass.emdb.common.api.messaging.IngestStatus;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusEmitter;
 import com.erdouglass.emdb.media.api.command.SaveCommand;
 import com.erdouglass.emdb.media.api.command.SaveMovie;
 import com.erdouglass.emdb.media.api.command.SavePerson;
 import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.messaging.api.IngestSource;
+import com.erdouglass.emdb.messaging.api.IngestStatus;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
+import com.erdouglass.emdb.messaging.api.IngestStatusEmitter;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;

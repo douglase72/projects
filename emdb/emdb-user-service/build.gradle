@@ -1,0 +1,45 @@
+plugins {
+  id 'java'
+  id 'eclipse'
+  alias(libs.plugins.quarkus)
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+	implementation enforcedPlatform(libs.quarkus.bom)
+	
+	annotationProcessor enforcedPlatform(libs.quarkus.bom)
+	annotationProcessor libs.hibernate.jpamodelgen
+  annotationProcessor libs.mapstruct.processor
+  annotationProcessor libs.mapstruct.spi.protobuf
+	
+	implementation project(':emdb-common-api')
+	implementation project(':emdb-user-api')
+	implementation project(':web-services')
+	
+	implementation libs.jakarta.data
+	implementation libs.mapstruct
+	implementation libs.quarkus.arc
+	implementation libs.quarkus.flyway
+	implementation libs.quarkus.grpc
+	implementation libs.quarkus.hibernate.orm
+	implementation libs.quarkus.hibernate.validator
+	implementation libs.quarkus.jackson
+	implementation libs.quarkus.jdbc.postgres
+	implementation libs.quarkus.logging
+	implementation libs.quarkus.prometheus
+	implementation libs.quarkus.rest
+	
+	testImplementation libs.quarkus.junit
+}
+
+eclipse {
+  classpath {
+    file.whenMerged { classpath ->
+      def generatedSrcDir = 'build/generated/sources/annotationProcessor/java/main'
+      classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(generatedSrcDir, null))
+    }
+  }
+}

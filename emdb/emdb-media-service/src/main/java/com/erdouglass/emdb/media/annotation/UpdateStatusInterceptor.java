@@ -13,11 +13,11 @@ import jakarta.interceptor.InvocationContext;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.emdb.common.api.command.IngestMedia;
-import com.erdouglass.emdb.common.api.messaging.IngestSource;
-import com.erdouglass.emdb.common.api.messaging.IngestStatus;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
-import com.erdouglass.emdb.common.api.messaging.IngestStatusEmitter;
 import com.erdouglass.emdb.media.utils.MessageMetadata;
+import com.erdouglass.emdb.messaging.api.IngestSource;
+import com.erdouglass.emdb.messaging.api.IngestStatus;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
+import com.erdouglass.emdb.messaging.api.IngestStatusEmitter;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;

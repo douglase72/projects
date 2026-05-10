@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.api.messaging;
+package com.erdouglass.emdb.messaging.api;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

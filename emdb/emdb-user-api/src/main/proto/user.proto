@@ -1,0 +1,46 @@
+// Ingest service definitions for the EMDB notification service.
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "com.erdouglass.emdb.user.proto.v1";
+option java_outer_classname = "UserProto";
+
+package emdb.user.v1;
+
+service UserService {
+  rpc FindOrCreate (FindOrCreateRequest) returns (UserResponse) {}
+  rpc Update (UpdateUserRequest) returns (UserResponse) {}
+}
+
+enum Theme {
+  THEME_UNSPECIFIED = 0;
+  DARK = 1;
+  LIGHT = 2;
+}
+
+message FindOrCreateRequest {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string first_name = 4;
+  string last_name = 5;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  optional string first_name = 2;
+  optional string last_name = 3;
+  optional string email = 4;
+  optional Theme theme = 5;
+}
+
+message UserResponse {
+  string id = 1;
+  string username = 2;
+  optional string first_name = 3;
+  optional string last_name = 4;
+  optional string email = 5;
+  Theme theme = 6;
+}

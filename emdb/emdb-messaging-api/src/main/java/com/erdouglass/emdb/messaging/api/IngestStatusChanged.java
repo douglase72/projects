@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.api.messaging;
+package com.erdouglass.emdb.messaging.api;
 
 import java.time.Instant;
 import java.util.UUID;

@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 
-import com.erdouglass.emdb.common.api.messaging.IngestSource;
-import com.erdouglass.emdb.common.api.messaging.IngestStatus;
+import com.erdouglass.emdb.messaging.api.IngestSource;
+import com.erdouglass.emdb.messaging.api.IngestStatus;
 
 public record IngestHistory(
     @NotNull UUID id,

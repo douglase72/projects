@@ -10,7 +10,7 @@ import jakarta.ws.rs.sse.Sse;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
 
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;

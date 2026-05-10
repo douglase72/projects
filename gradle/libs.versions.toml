@@ -61,6 +61,7 @@ micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-t
 # MicroProfile
 microprofile-config = { group = "org.eclipse.microprofile.config", name = "microprofile-config-api", version.ref = "microprofile-config" }
 microprofile-fault-tolerance = { group = "org.eclipse.microprofile.fault-tolerance", name = "microprofile-fault-tolerance-api", version.ref = "microprofile-fault-tolerance" }
+microprofile-jwt = { module = "org.eclipse.microprofile.jwt:microprofile-jwt-auth-api" }
 microprofile-rest-client-api = { module = "org.eclipse.microprofile.rest.client:microprofile-rest-client-api" }
 
 # OpenTelemetry
@@ -93,6 +94,7 @@ quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-clien
 quarkus-rest-client-oidc-token-propagation = { group = "io.quarkus", name = "quarkus-rest-client-oidc-token-propagation" }
 quarkus-rest-jackson = { group = "io.quarkus", name = "quarkus-rest-jackson" }
 quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
+quarkus-smallrye-jwt = { module = "io.quarkus:quarkus-smallrye-jwt" }
 
 # SLF4J
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }

@@ -19,6 +19,7 @@ public abstract class AbstractTest {
   protected static final String MOVIES_URL;
   protected static final String PEOPLE_URL;
   protected static final String SERIES_URL;
+  protected static final String USERS_URL;
   
   static {
     HTTP_CLIENT = HttpClient.newBuilder().build();
@@ -29,6 +30,7 @@ public abstract class AbstractTest {
     MOVIES_URL = "http://localhost:60310/emdb/api/movies";
     PEOPLE_URL = "http://localhost:60310/emdb/api/people";
     SERIES_URL = "http://localhost:60310/emdb/api/series";
+    USERS_URL = "http://localhost:60310/emdb/api/users";
   }
   
   protected String getAccessToken() throws IOException, InterruptedException {
@@ -51,6 +53,5 @@ public abstract class AbstractTest {
     var jsonNode = OBJECT_MAPPER.readTree(response.body());
     return jsonNode.get("access_token").asText();
   }  
-
 }
 

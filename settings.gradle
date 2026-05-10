@@ -27,6 +27,9 @@ include 'web-services'
 include 'emdb-common-api'
 project(':emdb-common-api').projectDir = file('emdb/emdb-common-api')
 
+include 'emdb-messaging-api'
+project(':emdb-messaging-api').projectDir = file('emdb/emdb-messaging-api')
+
 include 'emdb-gateway-service'
 project(':emdb-gateway-service').projectDir = file('emdb/emdb-gateway-service')
 
@@ -44,3 +47,8 @@ include 'emdb-scheduler-api'
 project(':emdb-scheduler-api').projectDir = file('emdb/emdb-scheduler-api')
 include 'emdb-scheduler-service'
 project(':emdb-scheduler-service').projectDir = file('emdb/emdb-scheduler-service')
+
+include 'emdb-user-api'
+project(':emdb-user-api').projectDir = file('emdb/emdb-user-api')
+include 'emdb-user-service'
+project(':emdb-user-service').projectDir = file('emdb/emdb-user-service')

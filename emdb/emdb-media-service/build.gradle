@@ -17,6 +17,7 @@ dependencies {
 	
 	implementation project(':emdb-common-api')
 	implementation project(':emdb-media-api')
+	implementation project(':emdb-messaging-api')
 	implementation project(':messaging')
 	implementation project(':web-services')
 	implementation project(':validation')
@@ -30,8 +31,8 @@ dependencies {
 	implementation libs.quarkus.grpc
 	implementation libs.quarkus.hibernate.orm
 	implementation libs.quarkus.hibernate.validator
-	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.jackson
+	implementation libs.quarkus.jdbc.postgres
 	implementation libs.quarkus.logging
 	implementation libs.quarkus.prometheus
 	implementation libs.quarkus.rabbitmq

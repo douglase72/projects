@@ -8,9 +8,9 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.api.messaging.IngestStatusChanged;
 import com.erdouglass.emdb.gateway.query.IngestHistory;
 import com.erdouglass.emdb.gateway.query.OffsetPage;
+import com.erdouglass.emdb.messaging.api.IngestStatusChanged;
 import com.erdouglass.emdb.notification.proto.v1.FindAllRequest;
 import com.erdouglass.emdb.notification.proto.v1.FindByIdRequest;
 import com.erdouglass.emdb.notification.proto.v1.FindHistoryRequest;
