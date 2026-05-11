@@ -13,4 +13,7 @@ dependencies {
   compileOnly libs.jakarta.cdi
   compileOnly libs.jakarta.validation
   compileOnly libs.jboss.logging
+  compileOnly libs.microprofile.reactive.messaging.api
+  compileOnly libs.smallrye.reactive.messaging.api
+  compileOnly libs.vertx.core
 }

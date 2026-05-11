@@ -20,7 +20,7 @@ import com.erdouglass.emdb.user.proto.v1.UserResponse;
 )
 public interface UserMapper {
   
-  UpdateUserRequest toUpdateUserRequest(UpdateUser command);
+  UpdateUserRequest toUpdateUserRequest(String id, UpdateUser command);
   
   UserDetails toUserDetails(UserResponse response);
 }

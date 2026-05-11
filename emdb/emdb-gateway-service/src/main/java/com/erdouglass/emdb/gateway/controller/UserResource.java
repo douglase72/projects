@@ -12,12 +12,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Retry;
-import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import com.erdouglass.emdb.common.api.Configuration;
 import com.erdouglass.emdb.gateway.mapper.UserMapper;
 import com.erdouglass.emdb.user.api.command.UpdateUser;
 import com.erdouglass.emdb.user.api.query.UserDetails;
@@ -34,8 +31,8 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 @RunOnVirtualThread
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
-@CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
+//@Timeout(value = Configuration.GATEWAY_TIMEOUT, unit = ChronoUnit.SECONDS)
+//@CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.5, delay = 10, delayUnit = ChronoUnit.SECONDS)
 public class UserResource {
   
   @Inject
@@ -66,7 +63,7 @@ public class UserResource {
   @PUT
   @Path("/me")
   public UserDetails update(@NotNull @Valid UpdateUser command) {
-    var request = mapper.toUpdateUserRequest(command);
+    var request = mapper.toUpdateUserRequest(jwt.getSubject(), command);
     var response = service.update(request);
     return mapper.toUserDetails(response);
   } 

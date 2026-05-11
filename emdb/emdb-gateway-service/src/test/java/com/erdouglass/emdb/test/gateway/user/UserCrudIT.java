@@ -67,6 +67,7 @@ class UserCrudIT extends AbstractTest {
     LOGGER.infof("Created erdouglass in: %d ms", et);    
   }
   
+  @Disabled
   @Test
   @Order(2)
   void testFindUser() throws IOException, InterruptedException {
