@@ -1,0 +1,36 @@
+pluginManagement {
+  repositories {
+    // Google Maven Mirror
+    //maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+}
+
+dependencyResolutionManagement {
+  repositories {
+    // Google Maven Mirror
+    //maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+    mavenCentral()
+    mavenLocal()
+  }
+}
+
+rootProject.name='projects'
+
+// EMDB
+include 'emdb-common-api'
+project(':emdb-common-api').projectDir = file('emdb/emdb-common-api')
+
+include 'emdb-ingest-service'
+project(':emdb-ingest-service').projectDir = file('emdb/emdb-ingest-service')
+
+include 'emdb-media-service'
+project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
+
+include 'emdb-notification-service'
+project(':emdb-notification-service').projectDir = file('emdb/emdb-notification-service')
+
+include 'emdb-user-service'
+project(':emdb-user-service').projectDir = file('emdb/emdb-user-service')

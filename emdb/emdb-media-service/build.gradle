@@ -1,0 +1,20 @@
+plugins {
+  id 'java'
+  alias(libs.plugins.quarkus)
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+  
+  implementation project(':emdb-common-api')
+
+  implementation enforcedPlatform(libs.quarkus.bom)
+  implementation libs.quarkus.arc
+  implementation libs.quarkus.hibernate.validator
+  implementation libs.quarkus.rest
+  implementation libs.quarkus.rest.jackson
+  
+  testImplementation libs.quarkus.junit
+}

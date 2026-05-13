@@ -1,0 +1,19 @@
+# libs.versions.toml
+# This is the Gradle version catalog file.
+
+[versions]
+quarkus = "3.33.1"
+quarkus-platform = "3.33.1.1"
+
+[libraries]
+
+# Quarkus
+quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus-platform" }
+quarkus-arc = { module = "io.quarkus:quarkus-arc" }
+quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
+quarkus-junit = { module = "io.quarkus:quarkus-junit" }
+quarkus-rest = { module = "io.quarkus:quarkus-rest" }
+quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson" }
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }

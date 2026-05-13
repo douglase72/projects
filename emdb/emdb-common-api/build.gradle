@@ -1,0 +1,11 @@
+plugins {
+  id 'java-library'
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+  api enforcedPlatform(libs.quarkus.bom)
+  api libs.quarkus.hibernate.validator
+}
