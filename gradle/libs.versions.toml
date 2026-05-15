@@ -2,15 +2,36 @@
 # This is the Gradle version catalog file.
 
 [versions]
+mapstruct = "1.6.3"
 quarkus = "3.33.1"
 quarkus-platform = "3.33.1.1"
 
 [libraries]
+# Hibernate
+hibernate-processor = { module = "org.hibernate.orm:hibernate-processor" }
+
+# Jackson
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations" }
+
+# Jakarta
+jakarta-data-api = { module = "jakarta.data:jakarta.data-api" }
+jakarta-ws-rs-api = { module = "jakarta.ws.rs:jakarta.ws.rs-api" }
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
+
+# JBoss
+jboss-logging = { module = "org.jboss.logging:jboss-logging" }
+
+# MapStruct
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 
 # Quarkus
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus-platform" }
 quarkus-arc = { module = "io.quarkus:quarkus-arc" }
+quarkus-flyway = { module = "io.quarkus:quarkus-flyway" }
+quarkus-hibernate-orm = { module = "io.quarkus:quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
+quarkus-jdbc-postgresql = { module = "io.quarkus:quarkus-jdbc-postgresql" }
 quarkus-junit = { module = "io.quarkus:quarkus-junit" }
 quarkus-rest = { module = "io.quarkus:quarkus-rest" }
 quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson" }

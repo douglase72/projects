@@ -19,6 +19,12 @@ dependencyResolutionManagement {
 
 rootProject.name='projects'
 
+// COMMON
+include 'common-rest'
+project(':common-rest').projectDir = file('common-api/common-rest')
+include 'common-validation'
+project(':common-validation').projectDir = file('common-api/common-validation')
+
 // EMDB
 include 'emdb-common-api'
 project(':emdb-common-api').projectDir = file('emdb/emdb-common-api')

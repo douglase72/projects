@@ -2,30 +2,55 @@ package com.erdouglass.emdb.media.movie;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.PositiveOrZero;
 
-public class Movie {
+import com.erdouglass.common.api.validation.DateRange;
+import com.erdouglass.emdb.common.api.command.ShowConstants;
+import com.erdouglass.emdb.media.Media;
+import com.erdouglass.emdb.media.Show;
+
+@Entity
+@Table(
+    name = "Movies",
+    uniqueConstraints = @UniqueConstraint(
+      name = "uk_movies_title_release_date",
+      columnNames = { "title", "release_date" }
+    )
+  )
+@SequenceGenerator(
+  name = Media.SEQUENCE_GENERATOR, 
+  sequenceName = "movie_sequence", 
+  initialValue = 1, 
+  allocationSize = 1)
+public class Movie extends Show {
   
-  private Long id;
-  
-  @NotNull
+  @PositiveOrZero
+  private Integer budget;
+    
+  @Column(name = "release_date")
+  @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE)
   private LocalDate releaseDate;
   
-  @NotBlank
-  private String title;
-    
-  public Movie() {
-    
-  }
+  @PositiveOrZero
+  private Integer revenue;
   
-  public void setId(final Long id) {
-    this.id = id;
-  }
+  @PositiveOrZero
+  private Integer runtime;
+    
+  public Movie() {}
   
-  public Long getId() {
-    return id;
+  public void setBudget(final Integer budget) {
+    this.budget = budget;
   }
+
+  public Integer getBudget() {
+    return budget;
+  }  
   
   public void setReleaseDate(final LocalDate releaseDate) {
     this.releaseDate = releaseDate;
@@ -35,19 +60,29 @@ public class Movie {
     return releaseDate;
   }
   
-  public void setTitle(final String title) {
-    this.title = title;
+  public void setRevenue(final Integer revenue) {
+    this.revenue = revenue;
   }
-  
-  public String getTitle() {
-    return title;
+
+  public Integer getRevenue() {
+    return revenue;
   }
+
+  public void setRuntime(final Integer runtime) {
+    this.runtime = runtime;
+  }
+
+  public Integer getRuntime() {
+    return runtime;
+  }  
   
   @Override
   public String toString() {
-    return "Movie[id=" + id
-        + ", title=" + title
-        + ", releaseDate=" + releaseDate
+    return "Movie[id=" + getId()
+        + ", tmdbId=" + getTmdbId()
+        + ", title=" + getTitle() 
+        + ", relaseDate=" + getReleaseDate()
+        + ", poster=" + getTmdbPoster()
         + "]";
   }
 }
