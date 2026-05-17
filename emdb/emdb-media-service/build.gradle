@@ -14,19 +14,24 @@ dependencies {
   annotationProcessor libs.hibernate.processor
   annotationProcessor libs.mapstruct.processor
 
+  implementation project(':common-messaging')
   implementation project(':common-rest')
   implementation project(':common-validation')
   implementation project(':emdb-common-api')
   
   implementation libs.jakarta.data.api
+  implementation libs.jug
   implementation libs.mapstruct
   implementation libs.quarkus.arc
   implementation libs.quarkus.flyway
   implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.jdbc.postgresql
+  implementation libs.quarkus.messaging
+  implementation libs.quarkus.messaging.rabbitmq
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
+  implementation libs.quarkus.rest.client.jackson
   
   testImplementation libs.quarkus.junit
 }

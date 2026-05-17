@@ -13,9 +13,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.api.Configuration;
-import com.erdouglass.emdb.common.api.command.ShowConstants;
-import com.erdouglass.emdb.common.api.command.ShowStatus;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.command.ShowConstants;
+import com.erdouglass.emdb.common.command.ShowStatus;
 
 @MappedSuperclass
 public abstract class Show extends Media {

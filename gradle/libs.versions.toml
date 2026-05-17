@@ -2,6 +2,7 @@
 # This is the Gradle version catalog file.
 
 [versions]
+java-uuid-generator = "5.2.0"
 mapstruct = "1.6.3"
 quarkus = "3.33.1"
 quarkus-platform = "3.33.1.1"
@@ -18,6 +19,8 @@ jakarta-data-api = { module = "jakarta.data:jakarta.data-api" }
 jakarta-ws-rs-api = { module = "jakarta.ws.rs:jakarta.ws.rs-api" }
 jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
 
+jug = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "java-uuid-generator" }
+
 # JBoss
 jboss-logging = { module = "org.jboss.logging:jboss-logging" }
 
@@ -33,8 +36,12 @@ quarkus-hibernate-orm = { module = "io.quarkus:quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
 quarkus-jdbc-postgresql = { module = "io.quarkus:quarkus-jdbc-postgresql" }
 quarkus-junit = { module = "io.quarkus:quarkus-junit" }
+quarkus-messaging = { module = "io.quarkus:quarkus-messaging" }
+quarkus-messaging-rabbitmq = { module = "io.quarkus:quarkus-messaging-rabbitmq" }
 quarkus-rest = { module = "io.quarkus:quarkus-rest" }
 quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson" }
+quarkus-rest-client-jackson = { module = "io.quarkus:quarkus-rest-client-jackson" }
+quarkus-scheduler = { module = "io.quarkus:quarkus-scheduler" }
 
 [plugins]
 quarkus = { id = "io.quarkus", version.ref = "quarkus" }

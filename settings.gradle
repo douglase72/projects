@@ -20,6 +20,8 @@ dependencyResolutionManagement {
 rootProject.name='projects'
 
 // COMMON
+include 'common-messaging'
+project(':common-messaging').projectDir = file('common-api/common-messaging')
 include 'common-rest'
 project(':common-rest').projectDir = file('common-api/common-rest')
 include 'common-validation'

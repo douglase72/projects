@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.common.api.command.SaveMovie;
+import com.erdouglass.emdb.common.command.SaveMovie;
 
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -35,7 +35,7 @@ public class MovieResource {
         .path(String.valueOf(savedMovie.getId()))
         .build();    
     return Response.created(location)
-        .entity(mapper.toMovieDto(savedMovie))
+        .entity(mapper.toSaveMovieResponse(savedMovie))
         .build();
   }
 }

@@ -9,8 +9,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.PositiveOrZero;
 
-import com.erdouglass.common.api.validation.DateRange;
-import com.erdouglass.emdb.common.api.command.ShowConstants;
+import com.erdouglass.common.validation.DateRange;
+import com.erdouglass.emdb.common.command.ShowConstants;
 import com.erdouglass.emdb.media.Media;
 import com.erdouglass.emdb.media.Show;
 
@@ -82,7 +82,7 @@ public class Movie extends Show {
         + ", tmdbId=" + getTmdbId()
         + ", title=" + getTitle() 
         + ", relaseDate=" + getReleaseDate()
-        + ", poster=" + getTmdbPoster()
+        + ", poster=" + getPoster()
         + "]";
   }
 }

@@ -1,16 +1,15 @@
 package com.erdouglass.emdb.media.movie;
 
-import java.util.UUID;
-
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.common.api.command.SaveMovie;
+import com.erdouglass.emdb.common.command.SaveMovie;
+import com.erdouglass.emdb.common.command.SaveMovieResponse;
 
 @Mapper(
     componentModel = "cdi", 
@@ -20,20 +19,17 @@ import com.erdouglass.emdb.common.api.command.SaveMovie;
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 public interface MovieMapper {
+  
+  void merge(Movie source, @MappingTarget Movie target);
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(source = "backdrop.name",     target = "backdrop")
-  @Mapping(source = "backdrop.tmdbName", target = "tmdbBackdrop")
-  @Mapping(source = "poster.name",       target = "poster")
-  @Mapping(source = "poster.tmdbName",   target = "tmdbPoster")
-  Movie toMovie(final SaveMovie command);
+  @Mapping(target = "backdrop", ignore = true)
+  @Mapping(target = "poster", ignore = true)
+  Movie toMovie(SaveMovie command);
   
-  @Mapping(source = "backdrop", target = "backdrop", qualifiedByName = "imageToString")
-  @Mapping(source = "poster",   target = "poster",   qualifiedByName = "imageToString")
-  MovieDto toMovieDto(final Movie movie);
-  
-  @Named("imageToString")
-  default String imageToString(final UUID image) {
-    return image != null ? image.toString() + ".jpg" : null;
-  } 
+  @Mapping(target = "backdrop.name",     source = "backdrop")
+  @Mapping(target = "backdrop.tmdbName", source = "tmdbBackdrop")
+  @Mapping(target = "poster.name",       source = "poster")
+  @Mapping(target = "poster.tmdbName",   source = "tmdbPoster")
+  SaveMovieResponse toSaveMovieResponse(Movie movie);
 }

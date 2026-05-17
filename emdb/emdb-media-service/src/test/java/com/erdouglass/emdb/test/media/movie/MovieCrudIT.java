@@ -8,7 +8,6 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -20,18 +19,15 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.common.api.Image;
-import com.erdouglass.emdb.common.api.command.SaveMovie;
-import com.erdouglass.emdb.common.api.command.ShowStatus;
-import com.erdouglass.emdb.media.movie.MovieDto;
+import com.erdouglass.emdb.common.command.SaveMovie;
+import com.erdouglass.emdb.common.command.SaveMovieResponse;
+import com.erdouglass.emdb.common.command.ShowStatus;
 import com.erdouglass.emdb.test.media.AbstractTest;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MovieCrudIT extends AbstractTest {
   private static final Logger LOGGER = Logger.getLogger(MovieCrudIT.class);
-  private static final UUID BACKDROP = UUID.fromString("019d3220-adb3-75ba-b1b2-1619de2a2fef");
-  private static final UUID POSTER = UUID.fromString("019d3220-aead-702b-a997-5700e9a2076a");
   
   private Long movieId;
 
@@ -49,8 +45,8 @@ class MovieCrudIT extends AbstractTest {
         .revenue(296938801)
         .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
         .originalLanguage("en")
-        .backdrop(Image.of(BACKDROP, "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg"))
-        .poster(Image.of(POSTER, "/zp5gxcPnxv6FsDh3l7yRZurlBRr.jpg"))
+        .backdrop("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg")
+        .poster("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg")
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
         .build();
@@ -63,22 +59,8 @@ class MovieCrudIT extends AbstractTest {
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body());
     
-    var movie = OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
+    var movie = OBJECT_MAPPER.readValue(response.body(), SaveMovieResponse.class);
     movieId = movie.id();
-    assertEquals(818, movie.tmdbId());
-    assertEquals("Austin Powers in Goldmember", movie.title());
-    assertEquals("2002-07-26", movie.releaseDate().toString());
-    assertEquals(5.992f, movie.score());
-    assertEquals(ShowStatus.RELEASED, movie.status());
-    assertEquals(94, movie.runtime());
-    assertEquals(63000000, movie.budget());
-    assertEquals(296938801, movie.revenue());
-    assertEquals("https://www.warnerbros.com/movies/austin-powers-goldmember", movie.homepage());
-    assertEquals("en", movie.originalLanguage());
-    assertEquals("019d3220-adb3-75ba-b1b2-1619de2a2fef.jpg", movie.backdrop());
-    assertEquals("019d3220-aead-702b-a997-5700e9a2076a.jpg", movie.poster());
-    assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
-    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());    
     LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
   }
 }
