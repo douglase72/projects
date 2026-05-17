@@ -6,9 +6,10 @@ group = 'com.erdouglass.emdb'
 version = '1.0.0-SNAPSHOT'
 
 dependencies {
+  compileOnly enforcedPlatform(libs.quarkus.bom)
+  
   implementation project(':common-validation')
   
-  compileOnly enforcedPlatform(libs.quarkus.bom)
   compileOnly libs.jackson.annotations
   compileOnly libs.jakarta.validation.api
 }

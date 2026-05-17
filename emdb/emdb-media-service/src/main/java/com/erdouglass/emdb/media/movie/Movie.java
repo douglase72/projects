@@ -14,6 +14,9 @@ import com.erdouglass.emdb.common.command.ShowConstants;
 import com.erdouglass.emdb.media.Media;
 import com.erdouglass.emdb.media.Show;
 
+/// A theatrical film entity. Extends [Show] with movie-specific fields
+/// (budget, revenue, runtime, release date) and binds the inherited sequence
+/// generator to the `movie_sequence` database sequence.
 @Entity
 @Table(
     name = "Movies",
@@ -27,7 +30,7 @@ import com.erdouglass.emdb.media.Show;
   sequenceName = "movie_sequence", 
   initialValue = 1, 
   allocationSize = 1)
-public class Movie extends Show {
+class Movie extends Show {
   
   @PositiveOrZero
   private Integer budget;
@@ -41,8 +44,9 @@ public class Movie extends Show {
   
   @PositiveOrZero
   private Integer runtime;
-    
-  public Movie() {}
+  
+  /// Default constructor required by JPA.
+  Movie() {}
   
   public void setBudget(final Integer budget) {
     this.budget = budget;
@@ -81,7 +85,7 @@ public class Movie extends Show {
     return "Movie[id=" + getId()
         + ", tmdbId=" + getTmdbId()
         + ", title=" + getTitle() 
-        + ", relaseDate=" + getReleaseDate()
+        + ", releaseDate=" + getReleaseDate()
         + ", poster=" + getPoster()
         + "]";
   }

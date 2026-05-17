@@ -11,6 +11,10 @@ import jakarta.persistence.MappedSuperclass;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/// Base class for all media entities. Provides shared identity and audit
+/// fields ([#id], [#createdAt], [#modifiedAt]) and declares the JPA sequence
+/// generator name that concrete subclasses bind to their own database sequence
+/// via [SequenceGenerator].
 @MappedSuperclass
 public class Media {
   public static final String SEQUENCE_GENERATOR = "sequence_generator";

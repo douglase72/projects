@@ -17,6 +17,15 @@ import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.common.command.ShowConstants;
 import com.erdouglass.emdb.common.command.ShowStatus;
 
+/// Base class for displayable media that shares common presentation metadata
+/// such as title, overview, score, poster, and backdrop. Concrete subclasses
+/// like [com.erdouglass.emdb.media.movie.Movie] (and future series types) add
+/// their own type-specific fields.
+///
+/// Image fields come in pairs: `tmdbBackdrop` and `tmdbPoster` hold the
+/// external TMDB image references, while `backdrop` and `poster` hold the
+/// [java.util.UUID] of the locally-stored copy managed by
+/// [com.erdouglass.emdb.media.ImageService].
 @MappedSuperclass
 public abstract class Show extends Media {
 

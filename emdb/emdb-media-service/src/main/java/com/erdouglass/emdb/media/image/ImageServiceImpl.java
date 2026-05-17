@@ -9,19 +9,31 @@ import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.emdb.media.ImageService;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.NoArgGenerator;
 
+/// Default [ImageService] implementation backed by the TMDB image CDN and
+/// the local filesystem.
+///
+/// Saved images are written under `{emdb.image.data}/original/{bucket}/`,
+/// where `bucket` is the last two hex characters of the image's [UUID].
+/// This sharding keeps any single directory from accumulating an unbounded
+/// number of files, which keeps directory listings and filesystem lookups
+/// performant as the library grows.
+///
+/// [UUID]s are generated with the time-based epoch (v7) generator so that
+/// IDs created close in time sort close together, improving locality for
+/// downstream tooling.
 @ApplicationScoped
-public class ImageService {
+class ImageServiceImpl implements ImageService {
   private static final String ORIGINAL = "original";
   
-  private final NoArgGenerator GENERATOR = Generators.timeBasedEpochGenerator();
+  private final NoArgGenerator generator = Generators.timeBasedEpochGenerator();
   
   @Inject
   @RestClient
@@ -31,8 +43,9 @@ public class ImageService {
   @ConfigProperty(name = "emdb.image.data")
   String imageData;
   
-  public UUID save(@NotNull String image) {
-    var newImage = GENERATOR.generate();
+  @Override
+  public UUID save(final String image) {
+    var newImage = generator.generate();
     var hex = newImage.toString();
     var bucket = hex.substring(hex.length() - 2);
     try (var is = client.findByName(image)) {
@@ -46,7 +59,8 @@ public class ImageService {
     return newImage;
   }
   
-  public void delete(@NotNull UUID image) {
+  @Override
+  public void delete(final UUID image) {
     var hex = image.toString();
     var bucket = hex.substring(hex.length() - 2);
     try {

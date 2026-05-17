@@ -14,10 +14,13 @@ import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.common.command.SaveMovie;
 
+/// JAX-RS resource exposing the movie collection over HTTP. Translates
+/// [SaveMovie] commands into [MovieService] calls and shapes the response
+/// envelope.
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class MovieResource {
+class MovieResource {
   
   @Inject
   MovieMapper mapper;
@@ -28,6 +31,14 @@ public class MovieResource {
   @Context
   UriInfo uriInfo;
   
+  /// Creates or updates a movie from the given [SaveMovie] command.
+  ///
+  /// The underlying service performs an upsert keyed by TMDB identifier, so
+  /// this endpoint is idempotent with respect to that identifier.
+  ///
+  /// @param command the validated save-movie payload
+  /// @return `201 Created` with a `Location` header pointing to the canonical
+  ///         resource URI and a [SaveMovieResponse] body  
   @POST
   public Response save(@NotNull @Valid final SaveMovie command) {
     var savedMovie = service.save(mapper.toMovie(command));

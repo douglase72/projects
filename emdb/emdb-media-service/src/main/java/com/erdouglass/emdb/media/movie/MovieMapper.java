@@ -18,7 +18,7 @@ import com.erdouglass.emdb.common.command.SaveMovieResponse;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-public interface MovieMapper {
+interface MovieMapper {
   
   void merge(Movie source, @MappingTarget Movie target);
 

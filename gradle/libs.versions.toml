@@ -15,10 +15,13 @@ hibernate-processor = { module = "org.hibernate.orm:hibernate-processor" }
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations" }
 
 # Jakarta
+jakarta-cdi-api = { module = "jakarta.enterprise:jakarta.enterprise.cdi-api" }
 jakarta-data-api = { module = "jakarta.data:jakarta.data-api" }
+jakarta-inject-api = { module = "jakarta.inject:jakarta.inject-api" }
 jakarta-ws-rs-api = { module = "jakarta.ws.rs:jakarta.ws.rs-api" }
 jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
 
+# Fasterxml
 jug = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "java-uuid-generator" }
 
 # JBoss
@@ -27,6 +30,9 @@ jboss-logging = { module = "org.jboss.logging:jboss-logging" }
 # MapStruct
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+
+# Microprofile
+microprofile-config-api = { module = "org.eclipse.microprofile.config:microprofile-config-api" }
 
 # Quarkus
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus-platform" }

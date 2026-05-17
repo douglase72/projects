@@ -18,7 +18,7 @@ import com.erdouglass.emdb.common.command.SaveMovie;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-public interface MovieMapper {
+interface MovieMapper {
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
   @Mapping(source = "id", target = "tmdbId")

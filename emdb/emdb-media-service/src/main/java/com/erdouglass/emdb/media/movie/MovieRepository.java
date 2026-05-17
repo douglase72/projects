@@ -6,6 +6,8 @@ import jakarta.data.repository.CrudRepository;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
+/// Jakarta Data repository for [Movie] persistence. Extends the standard CRUD
+/// operations with lookup by external TMDB identifier.
 @Repository
 interface MovieRepository extends CrudRepository<Movie, Long> {
   

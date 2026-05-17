@@ -18,10 +18,14 @@ import jakarta.validation.constraints.NotNull;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.image.ImageService;
+import com.erdouglass.emdb.media.ImageService;
 
+/// Application service for [Movie] persistence. Coordinates between the
+/// [MovieRepository] for database operations and the [ImageService] for
+/// image lifecycle management, ensuring image fetching and orphan deletion
+/// stay consistent with the transactional outcome.
 @ApplicationScoped
-public class MovieService {
+class MovieService {
   private static final Logger LOGGER = Logger.getLogger(MovieService.class);
   
   @Inject
@@ -37,12 +41,17 @@ public class MovieService {
   TransactionSynchronizationRegistry txSync;
 
   
-  /// Save the given movie to the database.
-  /// 
-  /// Update the existing movie in the database if it exists, otherwise insert
-  /// the new movie. The entire operation is wrapped in a transaction so that
-  /// if any part fails, such as fetching images from the TMDB CDN, the 
-  /// transaction is rolled back.
+  /// Persists the given movie, inserting it if no row with the same TMDB
+  /// identifier exists or updating the existing row otherwise.
+  ///
+  /// The entire operation runs in a single transaction so that if any step
+  /// fails — including fetching images from the TMDB CDN — all database
+  /// changes are rolled back. Newly orphaned images from a prior version of
+  /// the movie are deleted only *after* the transaction commits, so a
+  /// rollback never leaves the image store in a torn state.
+  ///
+  /// @param movie the movie to save; must be non-null and pass bean validation
+  /// @return the persisted movie with database-assigned fields populated
   @Transactional
   public Movie save(@NotNull @Valid final Movie movie) {
     var existingMovie = repository.findByTmdbId(movie.getTmdbId()).orElse(null);
@@ -80,6 +89,20 @@ public class MovieService {
     return savedMovie;
   }
 
+  /// Reconciles a single image field between an existing and incoming movie.
+  ///
+  /// If the TMDB reference has changed, fetches the new image via
+  /// [ImageService#save] and assigns the returned [UUID] to the incoming
+  /// movie. The previously-stored image (if any) is appended to
+  /// `pendingDeletes` so it can be removed only after the surrounding
+  /// transaction commits.
+  ///
+  /// @param existing the existing movie from the database, or `null` for a new movie
+  /// @param incoming the incoming movie being saved
+  /// @param pendingDeletes list to which orphaned stored image IDs are appended
+  /// @param tmdbRef accessor for the external TMDB image reference
+  /// @param storedRef accessor for the locally-stored image UUID
+  /// @param assignStored mutator that assigns a newly-saved stored image UUID  
   private void syncImage(
       final Movie existing,
       final Movie incoming,
