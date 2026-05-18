@@ -1,5 +1,6 @@
 package com.erdouglass.common.rest;
 
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -13,6 +14,10 @@ public class DefaultExceptionMapper implements ExceptionMapper<Throwable> {
   
   @Override
   public Response toResponse(Throwable throwable) {
+    if (throwable instanceof WebApplicationException wae) {
+      return wae.getResponse();
+    }
+    
     Throwable cause = throwable;
     while (cause.getCause() != null) {
       cause = cause.getCause();

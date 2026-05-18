@@ -5,6 +5,7 @@
 java-uuid-generator = "5.2.0"
 mapstruct = "1.6.3"
 quarkus = "3.33.1"
+quarkus-logging-json = "3.5.0"
 quarkus-platform = "3.33.1.1"
 
 [libraries]
@@ -42,8 +43,10 @@ quarkus-hibernate-orm = { module = "io.quarkus:quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
 quarkus-jdbc-postgresql = { module = "io.quarkus:quarkus-jdbc-postgresql" }
 quarkus-junit = { module = "io.quarkus:quarkus-junit" }
+quarkus-logging = { module = "io.quarkiverse.loggingjson:quarkus-logging-json", version.ref = "quarkus-logging-json" }
 quarkus-messaging = { module = "io.quarkus:quarkus-messaging" }
 quarkus-messaging-rabbitmq = { module = "io.quarkus:quarkus-messaging-rabbitmq" }
+quarkus-prometheus = { module = "io.quarkus:quarkus-micrometer-registry-prometheus" }
 quarkus-rest = { module = "io.quarkus:quarkus-rest" }
 quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson" }
 quarkus-rest-client-jackson = { module = "io.quarkus:quarkus-rest-client-jackson" }

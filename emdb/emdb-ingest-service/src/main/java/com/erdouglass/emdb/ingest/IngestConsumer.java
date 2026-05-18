@@ -28,7 +28,7 @@ public class IngestConsumer {
   /// person). Any failure during scraping nacks the message so the broker
   /// can route it to the dead-letter queue.
   ///
-  /// Runs on a virtual thread because [MovieScraper#scrape] performs
+  /// Runs on a virtual thread because [Scraper#scrape] performs
   /// blocking HTTP and broker I/O.
   ///
   /// @param message the inbound message containing the [IngestMedia] payload

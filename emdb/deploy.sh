@@ -8,6 +8,12 @@ PROJECT_ROOT="$SCRIPT_DIR/.."
 # Build the Application
 cd "$PROJECT_ROOT"
 
+echo "Building emdb-ingest-service..."
+gradle :emdb-ingest-service:clean :emdb-ingest-service:build -x :emdb-ingest-service:test
+
+echo "Building emdb-media-service..."
+gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
+
 echo "Cleaning media data..."
 docker run --rm \
   -v /home/erdouglass/projects/emdb/media-data/images:/images \

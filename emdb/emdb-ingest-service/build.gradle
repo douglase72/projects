@@ -22,8 +22,10 @@ dependencies {
   implementation libs.mapstruct
   implementation libs.quarkus.arc
   implementation libs.quarkus.hibernate.validator
+  implementation libs.quarkus.logging
   implementation libs.quarkus.messaging
   implementation libs.quarkus.messaging.rabbitmq
+  implementation libs.quarkus.prometheus
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
   implementation libs.quarkus.rest.client.jackson

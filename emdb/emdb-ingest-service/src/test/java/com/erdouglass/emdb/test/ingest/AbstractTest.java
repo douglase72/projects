@@ -14,6 +14,7 @@ public abstract class AbstractTest {
     HTTP_CLIENT = HttpClient.newBuilder().build();
     OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new JavaTimeModule());
-    INGEST_URL = "http://localhost:60314/emdb-ingest/api/ingest";
+    //INGEST_URL = "http://localhost:60314/emdb-ingest/api/ingest";
+    INGEST_URL = "http://localhost:60334/api/ingest";
   }
 }
