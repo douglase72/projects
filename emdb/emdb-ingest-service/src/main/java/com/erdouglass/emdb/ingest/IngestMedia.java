@@ -24,5 +24,5 @@ public record IngestMedia(
   
   public static IngestMedia of(Integer tmdbId, MediaType type, IngestSource source) {
     return new IngestMedia(tmdbId, type, source);
-  }    
+  }
 }

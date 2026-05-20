@@ -21,6 +21,7 @@ dependencies {
   implementation libs.jug
   implementation libs.mapstruct
   implementation libs.quarkus.arc
+  implementation libs.quarkus.fault.tolerance
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.logging
   implementation libs.quarkus.messaging

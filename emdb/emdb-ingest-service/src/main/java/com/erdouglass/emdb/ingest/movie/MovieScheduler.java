@@ -1,41 +1,34 @@
 package com.erdouglass.emdb.ingest.movie;
 
-import java.time.Instant;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.eclipse.microprofile.reactive.messaging.Message;
-
-import com.erdouglass.common.messaging.LoggingDecorator;
-import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.ingest.IngestMedia;
 import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
+import com.erdouglass.emdb.ingest.IngestProducer;
 import com.erdouglass.emdb.ingest.MediaType;
 import com.erdouglass.emdb.ingest.Scheduler;
-import com.fasterxml.uuid.Generators;
-import com.fasterxml.uuid.NoArgGenerator;
 
 import io.quarkus.scheduler.Scheduled;
 import io.smallrye.common.annotation.RunOnVirtualThread;
-import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
-/// [Scheduler] that queries TMDB for recently-changed movies and emits an
-/// [IngestMedia] command for each one to the ingest-media queue.
+/// [Scheduler] implementation for TMDB movies.
 ///
-/// Each emitted command gets a freshly-generated UUIDv7 correlation ID so
-/// downstream consumers (and dead-letter handlers) can trace a single
-/// movie's journey through the pipeline.
+/// Periodically polls TMDB for movies that have changed in the last 24
+/// hours and emits an [IngestMedia] command for each one, tagged with
+/// [IngestSource#SCHEDULER] so downstream consumers can distinguish
+/// scheduled refreshes from user-initiated ingests.
+///
+/// The cron expression is read from the `emdb.movie.scheduler` config
+/// property so that the cadence can be tuned per environment without a
+/// rebuild.
 @ApplicationScoped
 class MovieScheduler implements Scheduler {
-  private final NoArgGenerator generator = Generators.timeBasedEpochGenerator();
   
   @Inject
-  @Channel("ingest-media-out") 
-  Emitter<IngestMedia> emitter;
+  IngestProducer producer;
   
   /// {@inheritDoc}
   ///
@@ -49,14 +42,8 @@ class MovieScheduler implements Scheduler {
   public void execute() {
     var changes = getChanges();
     for (var tmdbId : changes) {
-      var correlationId = generator.generate();
       var command = IngestMedia.of(tmdbId, MediaType.MOVIE, IngestSource.SCHEDULER);
-      emitter.send(Message.of(command)
-          .addMetadata(OutgoingRabbitMQMetadata.builder()
-              .withCorrelationId(correlationId.toString())
-              .withHeader(Configuration.START_TIME, Instant.now().toString())
-              .withHeader(LoggingDecorator.EVENT_TYPE, command.getClass().getSimpleName())
-              .build())); 
+      producer.send(command);
     }
   }
   
@@ -69,6 +56,6 @@ class MovieScheduler implements Scheduler {
   ///
   /// @return the TMDB identifiers of changed movies
   private List<Integer> getChanges() {
-    return List.of(335984);
+    return List.of(816, 817);
   }
 }

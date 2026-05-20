@@ -13,25 +13,24 @@ import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
-import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.ExecuteScheduler;
 import com.erdouglass.emdb.ingest.MediaType;
-import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
 import com.erdouglass.emdb.test.ingest.AbstractTest;
 
-class MovieIngestIT extends AbstractTest {
-  private static final Logger LOGGER = Logger.getLogger(MovieIngestIT.class);
+class MovieSchedulerIT extends AbstractTest {
+  private static final Logger LOGGER = Logger.getLogger(MovieSchedulerIT.class);
 
   @Test
-  void testIngestAustinPowersInternationalManOfMystery() throws IOException, InterruptedException {
-    var command = IngestMedia.of(816, MediaType.MOVIE, IngestSource.CLI);
+  void testMovieScheduler() throws IOException, InterruptedException {
+    var command = new ExecuteScheduler(MediaType.MOVIE);
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(OBJECT_MAPPER.writeValueAsString(command)))
-        .uri(UriBuilder.fromUri(INGEST_URL).build())
+        .uri(UriBuilder.fromUri(SCHEDULER_URL).build())
         .build();
     var start = Instant.now();
     var response = HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(202, response.statusCode());
-    LOGGER.infof("Ingest Austin Powers: International Man of Mystery request sent in %d ms", et);
+    LOGGER.infof("Scheduler request completed in %d ms", et);
   }
 }

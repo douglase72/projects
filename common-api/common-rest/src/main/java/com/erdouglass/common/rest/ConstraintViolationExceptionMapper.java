@@ -9,14 +9,13 @@ import jakarta.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 
 @Provider
-public class PersistenceConstraintViolationExceptionMapper 
-    implements ExceptionMapper<ConstraintViolationException> {
-  private static final Logger LOGGER = Logger.getLogger(PersistenceConstraintViolationExceptionMapper.class);
+public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
+  private static final Logger LOGGER = Logger.getLogger(ConstraintViolationExceptionMapper.class);
   
   @Override
   public Response toResponse(ConstraintViolationException exception) {
-    LOGGER.error("Persistence Coponflict", exception);
-    return Response.status(Response.Status.CONFLICT)
+    LOGGER.error("Validation failed", exception);
+    return Response.status(Response.Status.BAD_REQUEST)
         .entity(new ErrorResponse(exception.getMessage()))
         .type(MediaType.APPLICATION_JSON)
         .build();

@@ -38,6 +38,7 @@ microprofile-config-api = { module = "org.eclipse.microprofile.config:microprofi
 # Quarkus
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus-platform" }
 quarkus-arc = { module = "io.quarkus:quarkus-arc" }
+quarkus-fault-tolerance = { module = "io.quarkus:quarkus-smallrye-fault-tolerance" }
 quarkus-flyway = { module = "io.quarkus:quarkus-flyway" }
 quarkus-hibernate-orm = { module = "io.quarkus:quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
