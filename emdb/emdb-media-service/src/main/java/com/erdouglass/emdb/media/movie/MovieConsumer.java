@@ -13,7 +13,7 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.common.validation.CommandValidator;
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.command.SaveMovie;
+import com.erdouglass.emdb.common.movie.SaveMovie;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;

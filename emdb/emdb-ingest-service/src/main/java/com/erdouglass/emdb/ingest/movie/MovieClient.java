@@ -22,9 +22,7 @@ import com.erdouglass.emdb.common.Configuration;
 
 import io.smallrye.faulttolerance.api.ExponentialBackoff;
 
-/// MicroProfile REST client for the TMDB movie API. The base URL is
-/// configured under the `tmdb-movie` config key, and every request carries
-/// a bearer token sourced from the `tmdb.token` property.
+/// MicroProfile REST client for the TMDB movie API. 
 @RegisterRestClient(configKey = "tmdb-movie")
 @RegisterProvider(GzipReaderInterceptor.class)
 @ClientHeaderParam(name = "Authorization", value = "Bearer ${tmdb.token}")

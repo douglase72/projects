@@ -1,6 +1,8 @@
-package com.erdouglass.emdb.common.command;
+package com.erdouglass.emdb.common.movie;
 
 import java.time.LocalDate;
+
+import com.erdouglass.emdb.common.ShowBuilder;
 
 public abstract class MovieBuilder<T> extends ShowBuilder<T> {
   protected Integer budget;

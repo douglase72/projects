@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.common.command.SaveMovie;
+import com.erdouglass.emdb.common.movie.SaveMovie;
 
 /// JAX-RS resource exposing the movie collection over HTTP. Translates
 /// [SaveMovie] commands into [MovieService] calls and shapes the response
@@ -38,7 +38,7 @@ class MovieResource {
   ///
   /// @param command the validated save-movie payload
   /// @return `201 Created` with a `Location` header pointing to the canonical
-  ///         resource URI and a [SaveMovieResponse] body  
+  ///         resource URI and a [MovieResponse] body  
   @POST
   public Response save(@NotNull @Valid final SaveMovie command) {
     var savedMovie = service.save(mapper.toMovie(command));
@@ -46,7 +46,7 @@ class MovieResource {
         .path(String.valueOf(savedMovie.getId()))
         .build();    
     return Response.created(location)
-        .entity(mapper.toSaveMovieResponse(savedMovie))
+        .entity(mapper.toMovieResponse(savedMovie))
         .build();
   }
 }

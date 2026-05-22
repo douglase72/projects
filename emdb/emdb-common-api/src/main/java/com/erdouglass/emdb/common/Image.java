@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.common.command.ShowConstants;
-
 public record Image(
     UUID name, 
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbName) {

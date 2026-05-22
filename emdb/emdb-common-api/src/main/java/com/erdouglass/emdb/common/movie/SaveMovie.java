@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.command;
+package com.erdouglass.emdb.common.movie;
 
 import java.time.LocalDate;
 
@@ -12,6 +12,9 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.SaveCommand;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 
 public record SaveMovie(
     @NotNull @Positive Integer tmdbId,
@@ -31,6 +34,14 @@ public record SaveMovie(
   
   public static Builder builder() {
     return new Builder();
+  }
+  
+  @Override
+  public String toString() {
+    return "SaveMovie[tmdbId=" + tmdbId
+        + ", title=" + title
+        + ", releaseDate=" + releaseDate
+        + "]";
   }
   
   public static Builder builder(final SaveMovie command) {

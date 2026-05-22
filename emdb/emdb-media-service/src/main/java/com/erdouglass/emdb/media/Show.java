@@ -14,8 +14,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.command.ShowConstants;
-import com.erdouglass.emdb.common.command.ShowStatus;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 
 /// Base class for displayable media that shares common presentation metadata
 /// such as title, overview, score, poster, and backdrop. Concrete subclasses

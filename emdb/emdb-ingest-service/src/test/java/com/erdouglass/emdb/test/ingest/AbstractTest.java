@@ -18,5 +18,6 @@ public abstract class AbstractTest {
     INGEST_URL = "http://localhost:60314/emdb-ingest/api/ingest";
     //INGEST_URL = "http://localhost:60334/api/ingest";
     SCHEDULER_URL = "http://localhost:60314/emdb-ingest/api/scheduler";
+    //SCHEDULER_URL = "http://localhost:60334/api/scheduler";
   }
 }

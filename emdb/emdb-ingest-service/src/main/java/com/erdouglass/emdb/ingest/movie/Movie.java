@@ -12,8 +12,8 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
-import com.erdouglass.emdb.common.command.ShowConstants;
-import com.erdouglass.emdb.common.command.ShowStatus;
+import com.erdouglass.emdb.common.ShowConstants;
+import com.erdouglass.emdb.common.ShowStatus;
 
 /// JSON payload returned by the TMDB `/movie/{id}` endpoint.
 ///

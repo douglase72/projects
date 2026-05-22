@@ -7,6 +7,9 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.common.movie.SaveMovie;
+import com.erdouglass.emdb.common.series.SaveSeries;
+
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;
 
@@ -15,11 +18,14 @@ import io.smallrye.mutiny.Uni;
 /// The queue is configured with max-outstanding-messages set to one to avoid 
 /// overwhelming the TMDB API with concurrent requests.
 @ApplicationScoped
-public class IngestConsumer {
+class IngestConsumer {
   private static final Logger LOGGER = Logger.getLogger(IngestConsumer.class);
   
   @Inject
-  Scraper movieScraper;
+  Scraper<SaveMovie> movieScraper;
+  
+  @Inject
+  Scraper<SaveSeries> seriesScraper;
   
   /// Dispatches a single [IngestMedia] message to the appropriate scraper.
   ///
@@ -40,7 +46,8 @@ public class IngestConsumer {
       var command = message.getPayload();
       switch (command.type()) {
         case MOVIE -> movieScraper.scrape(message);
-        default -> throw new IllegalArgumentException("Invalid command");
+        case SERIES -> seriesScraper.scrape(message);
+        case PERSON -> throw new IllegalArgumentException("Invalid command");
       }
       return Uni.createFrom().completionStage(message.ack());
     } catch (Exception e) {

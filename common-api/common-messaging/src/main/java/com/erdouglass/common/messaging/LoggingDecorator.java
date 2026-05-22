@@ -29,13 +29,11 @@ public class LoggingDecorator implements PublisherDecorator {
         MDC.put(CORRELATION_ID, correlationId);
         var header = meta.getHeaders().get(EVENT_TYPE);
         var type = header != null ? header.toString() : message.getPayload().getClass().getSimpleName();
-        LOGGER.infof("Received %s message on '%s' channel", type, channelName);
+        LOGGER.infof("Received %s%s message on '%s' channel", type, message.getPayload(), channelName);
       });
       
-      message.getMetadata(OutgoingRabbitMQMetadata.class).ifPresent(meta -> {
-        var header = meta.getHeaders().get(EVENT_TYPE);
-        var type = header != null ? header.toString() : message.getPayload().getClass().getSimpleName();        
-        LOGGER.infof("Sent %s message on '%s' channel", type, channelName);
+      message.getMetadata(OutgoingRabbitMQMetadata.class).ifPresent(_ -> {
+        LOGGER.infof("Sent %s message on '%s' channel", message.getPayload(), channelName);
       });
     });
   }

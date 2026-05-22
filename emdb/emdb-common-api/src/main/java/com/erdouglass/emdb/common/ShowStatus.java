@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common.command;
+package com.erdouglass.emdb.common;
 
 import java.util.Map;
 import java.util.Optional;
@@ -6,7 +6,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.erdouglass.emdb.common.Configuration;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

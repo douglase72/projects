@@ -10,7 +10,7 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.common.command.ShowConstants;
+import com.erdouglass.emdb.common.ShowConstants;
 import com.erdouglass.emdb.media.Media;
 import com.erdouglass.emdb.media.Show;
 
