@@ -1,0 +1,56 @@
+pluginManagement {
+  repositories {
+    // Google Maven Mirror
+    //maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+}
+
+dependencyResolutionManagement {
+  repositories {
+    // Google Maven Mirror
+    //maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+    mavenCentral()
+    mavenLocal()
+  }
+}
+
+rootProject.name='projects'
+
+// COMMON
+include 'common-messaging'
+project(':common-messaging').projectDir = file('common-api/common-messaging')
+include 'common-rest'
+project(':common-rest').projectDir = file('common-api/common-rest')
+include 'common-validation'
+project(':common-validation').projectDir = file('common-api/common-validation')
+
+// EMDB
+include 'emdb-common-api'
+project(':emdb-common-api').projectDir = file('emdb/emdb-common-api')
+
+include 'emdb-ingest-service'
+project(':emdb-ingest-service').projectDir = file('emdb/emdb-ingest-service')
+
+include 'emdb-ingest-service:emdb-ingest-api'
+project(':emdb-ingest-service:emdb-ingest-api').projectDir = file('emdb/emdb-ingest-service/emdb-ingest-api')
+
+include 'emdb-ingest-service:emdb-scheduler'
+project(':emdb-ingest-service:emdb-scheduler').projectDir = file('emdb/emdb-ingest-service/emdb-scheduler')
+
+include 'emdb-ingest-service:emdb-scraper'
+project(':emdb-ingest-service:emdb-scraper').projectDir = file('emdb/emdb-ingest-service/emdb-scraper')
+
+include 'emdb-media-service'
+project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')
+
+include 'emdb-media-service:emdb-media-api'
+project(':emdb-media-service:emdb-media-api').projectDir = file('emdb/emdb-media-service/emdb-media-api')
+
+include 'emdb-notification-service'
+project(':emdb-notification-service').projectDir = file('emdb/emdb-notification-service')
+
+include 'emdb-user-service'
+project(':emdb-user-service').projectDir = file('emdb/emdb-user-service')

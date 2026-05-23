@@ -1,0 +1,33 @@
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+      hints.default_config:
+        type: filestream
+        id: "container-${data.container.id}"
+        paths:
+          - /var/lib/docker/containers/${data.container.id}/*.log
+        parsers:
+          - container:
+              stream: all
+              format: auto
+        prospector:
+          scanner:
+            symlinks: true
+
+processors:
+  - add_host_metadata:
+      netinfo.enabled: true
+  - decode_json_fields:
+      fields: ["message"]
+      target: ""
+      overwrite_keys: true
+      add_error_key: true  
+
+setup.kibana:
+  host: "kibana:5601"
+  protocol: "http"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+

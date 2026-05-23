@@ -1,0 +1,14 @@
+plugins {
+  id 'java-library'
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+  compileOnly enforcedPlatform(libs.quarkus.bom)
+  
+  compileOnly libs.quarkus.messaging
+  compileOnly libs.quarkus.messaging.rabbitmq
+}
+
