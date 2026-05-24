@@ -52,12 +52,11 @@ public abstract class Scraper<T extends SaveCommand> {
     LOGGER.infof("Ingest of TMDB %s %d sat in the 'ingest-media' queue for %d ms", type, tmdbId, et);
     
     var command = extract(tmdbId);
-    getEmitter()
-        .send(Message.of(command).addMetadata(OutgoingRabbitMQMetadata.builder()
-            .withCorrelationId(correlationId)
-            .withHeader(LoggingDecorator.EVENT_TYPE, command.getClass().getSimpleName())
-            .withHeader(IngestMedia.START_TIME, startHeader)
-            .build()));
+    getEmitter().send(Message.of(command).addMetadata(OutgoingRabbitMQMetadata.builder()
+        .withCorrelationId(correlationId)
+        .withHeader(LoggingDecorator.EVENT_TYPE, command.getClass().getSimpleName())
+        .withHeader(IngestMedia.START_TIME, startHeader)
+        .build()));
     return command;
   }
 
