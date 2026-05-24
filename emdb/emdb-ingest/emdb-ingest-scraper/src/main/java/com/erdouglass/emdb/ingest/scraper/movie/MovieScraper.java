@@ -8,7 +8,7 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.scraper.Scraper;
-import com.erdouglass.emdb.media.api.SaveMovie;
+import com.erdouglass.emdb.media.api.command.SaveMovie;
 
 /// [Scraper] implementation that fetches movies from TMDB and emits the
 /// resulting [SaveMovie] commands on the `save-movie-out` channel.
@@ -23,17 +23,16 @@ class MovieScraper extends Scraper<SaveMovie> {
   @Inject
   @Channel("save-movie-out") 
   Emitter<SaveMovie> emitter;
+  
+  @Inject
+  MovieMapper mapper;
 
   /// Calls TMDB for the given movie id (appending `credits`) and builds the
   /// corresponding [SaveMovie] command.  
   @Override
   protected SaveMovie extract(final int tmdbId) {
     var movie = client.findById(tmdbId, CREDITS);
-    var command = SaveMovie.builder()
-        .tmdbId(movie.id())
-        .title(movie.title())
-        .releaseDate(movie.release_date())
-        .build();
+    var command = mapper.toSaveMovie(movie);
     return command;
   }
 

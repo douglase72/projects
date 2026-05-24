@@ -1,5 +1,6 @@
 plugins {
   id 'java-library'
+  id 'eclipse'
 }
 
 group = 'com.erdouglass.emdb'
@@ -9,22 +10,27 @@ dependencies {
   compileOnly enforcedPlatform(libs.quarkus.bom)
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   
+  annotationProcessor libs.hibernate.processor
   annotationProcessor libs.mapstruct.processor
   
-  implementation project(':common-messaging')
-  implementation project(':common-validation')
   implementation project(':emdb-common-api')
-  implementation project(':emdb-ingest-api')
+  implementation project(':common-validation')
   implementation project(':emdb-media-api')
   
+  compileOnly libs.hibernate.core
   compileOnly libs.jakarta.cdi.api
+  compileOnly libs.jakarta.data.api
+  compileOnly libs.jakarta.persistence.api
   compileOnly libs.jakarta.validation.api
-  compileOnly libs.jakarta.ws.rs.api
   compileOnly libs.jboss.logging
   compileOnly libs.mapstruct
-  compileOnly libs.microprofile.rest.client.api
-  compileOnly libs.smallrye.common.annotation
-  compileOnly libs.smallrye.reactive.messaging.api
-  compileOnly libs.smallrye.reactive.messaging.rabbitmq
 }
 
+eclipse {
+  classpath {
+    file.whenMerged { classpath ->
+      def generatedSrcDir = 'build/generated/sources/annotationProcessor/java/main'
+      classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(generatedSrcDir, null))
+    }
+  }
+}

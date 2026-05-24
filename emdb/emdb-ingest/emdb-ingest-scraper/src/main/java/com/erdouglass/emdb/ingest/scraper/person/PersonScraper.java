@@ -8,7 +8,7 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.scraper.Scraper;
-import com.erdouglass.emdb.media.api.SavePerson;
+import com.erdouglass.emdb.media.api.command.SavePerson;
 
 /// [Scraper] implementation that fetches people from TMDB and emits the
 /// resulting [SavePerson] commands on the `save-person-out` channel.

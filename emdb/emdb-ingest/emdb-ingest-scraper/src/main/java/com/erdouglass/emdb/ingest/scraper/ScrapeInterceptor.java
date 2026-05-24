@@ -10,10 +10,10 @@ import jakarta.interceptor.InvocationContext;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.api.SaveCommand;
-import com.erdouglass.emdb.media.api.SaveMovie;
-import com.erdouglass.emdb.media.api.SavePerson;
-import com.erdouglass.emdb.media.api.SaveSeries;
+import com.erdouglass.emdb.media.api.command.SaveCommand;
+import com.erdouglass.emdb.media.api.command.SaveMovie;
+import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
 
 @Scrape
 @Interceptor

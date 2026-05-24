@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.api;
+package com.erdouglass.emdb.media.api.command;
 
 import java.time.LocalDate;
 
@@ -12,6 +12,8 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.api.ShowConstants;
+import com.erdouglass.emdb.media.api.ShowStatus;
 
 public record SaveMovie(
     @NotNull @Positive Integer tmdbId,
@@ -51,8 +53,8 @@ public record SaveMovie(
         .runtime(command.runtime)
         .budget(command.budget)
         .revenue(command.revenue)
-        .backdrop(command.tmdbBackdrop)
-        .poster(command.tmdbPoster)
+        .tmdbBackdrop(command.tmdbBackdrop)
+        .tmdbPoster(command.tmdbPoster)
         .homepage(command.homepage)
         .originalLanguage(command.originalLanguage)
         .tagline(command.tagline)
@@ -74,8 +76,8 @@ public record SaveMovie(
             runtime,
             budget,
             revenue,
-            backdrop,
-            poster,
+            tmdbBackdrop,
+            tmdbPoster,
             homepage,
             originalLanguage,
             tagline,

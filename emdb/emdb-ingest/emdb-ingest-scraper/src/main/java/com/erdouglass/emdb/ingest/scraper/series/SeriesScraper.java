@@ -8,7 +8,7 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.scraper.Scraper;
-import com.erdouglass.emdb.media.api.SaveSeries;
+import com.erdouglass.emdb.media.api.command.SaveSeries;
 
 /// [Scraper] implementation that fetches series from TMDB and emits the
 /// resulting [SaveSeries] commands on the `save-series-out` channel.

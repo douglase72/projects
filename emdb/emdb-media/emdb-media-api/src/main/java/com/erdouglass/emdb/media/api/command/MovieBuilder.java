@@ -1,6 +1,8 @@
-package com.erdouglass.emdb.media.api;
+package com.erdouglass.emdb.media.api.command;
 
 import java.time.LocalDate;
+
+import com.erdouglass.emdb.media.api.ShowBuilder;
 
 public abstract class MovieBuilder<T> extends ShowBuilder<T> {
   protected Integer budget;

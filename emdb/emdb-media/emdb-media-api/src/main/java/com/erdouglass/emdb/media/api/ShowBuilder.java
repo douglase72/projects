@@ -1,18 +1,18 @@
 package com.erdouglass.emdb.media.api;
 
 public abstract class ShowBuilder<T> {
-  protected String backdrop;
+  protected String tmdbBackdrop;
   protected String homepage;
   protected String originalLanguage;
   protected String overview; 
-  protected String poster;
+  protected String tmdbPoster;
   protected Float score;
   protected ShowStatus status;
   protected String tagline;
   protected String title;
   
-  public T backdrop(final String backdrop) {
-    this.backdrop = backdrop;
+  public T tmdbBackdrop(final String tmdbBackdrop) {
+    this.tmdbBackdrop = tmdbBackdrop;
     return self();
   }
 
@@ -26,8 +26,8 @@ public abstract class ShowBuilder<T> {
     return self();
   }
   
-  public T poster(final String poster) {
-    this.poster = poster;
+  public T tmdbPoster(final String tmdbPoster) {
+    this.tmdbPoster = tmdbPoster;
     return self();
   }
 
