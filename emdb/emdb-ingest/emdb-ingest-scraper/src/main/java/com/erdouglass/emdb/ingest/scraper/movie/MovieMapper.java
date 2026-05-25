@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import com.erdouglass.emdb.media.api.Image;
 import com.erdouglass.emdb.media.api.command.SaveMovie;
 
 @Mapper(
@@ -19,11 +20,9 @@ import com.erdouglass.emdb.media.api.command.SaveMovie;
 interface MovieMapper {
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
-  @Mapping(source = "id", target = "tmdbId")
-  @Mapping(source = "release_date", target = "releaseDate")
-  @Mapping(source = "vote_average", target = "score")
-  @Mapping(source = "backdrop_path", target = "tmdbBackdrop")
-  @Mapping(source = "poster_path", target = "tmdbPoster")
-  @Mapping(source = "original_language", target = "originalLanguage")
-  SaveMovie toSaveMovie(Movie movie);
+  @Mapping(source = "movie.id", target = "tmdbId")
+  @Mapping(source = "movie.release_date", target = "releaseDate")
+  @Mapping(source = "movie.vote_average", target = "score")
+  @Mapping(source = "movie.original_language", target = "originalLanguage")
+  SaveMovie toSaveMovie(Movie movie, Image backdrop, Image poster);
 }

@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.api.Image;
 import com.erdouglass.emdb.media.api.ShowConstants;
 import com.erdouglass.emdb.media.api.ShowStatus;
 
@@ -24,8 +25,8 @@ public record SaveMovie(
     @PositiveOrZero Integer runtime,
     @PositiveOrZero Integer budget,
     @PositiveOrZero Integer revenue,
-    String tmdbBackdrop,
-    String tmdbPoster,
+    Image backdrop,
+    Image poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @NotBlank @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
@@ -53,8 +54,8 @@ public record SaveMovie(
         .runtime(command.runtime)
         .budget(command.budget)
         .revenue(command.revenue)
-        .tmdbBackdrop(command.tmdbBackdrop)
-        .tmdbPoster(command.tmdbPoster)
+        .backdrop(command.backdrop)
+        .poster(command.poster)
         .homepage(command.homepage)
         .originalLanguage(command.originalLanguage)
         .tagline(command.tagline)
@@ -76,8 +77,8 @@ public record SaveMovie(
             runtime,
             budget,
             revenue,
-            tmdbBackdrop,
-            tmdbPoster,
+            backdrop,
+            poster,
             homepage,
             originalLanguage,
             tagline,

@@ -8,11 +8,15 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.media.api.command.SaveMovie;
 import com.erdouglass.emdb.media.api.query.MovieResponse;
+import com.erdouglass.emdb.media.domain.ImageService;
 import com.erdouglass.emdb.media.domain.MovieService;
 
 @ApplicationScoped
 class MovieServiceImpl implements MovieService {
   private static final Logger LOGGER = Logger.getLogger(MovieServiceImpl.class);
+  
+  @Inject
+  ImageService imageService;
   
   @Inject
   MovieMapper mapper;
@@ -24,12 +28,24 @@ class MovieServiceImpl implements MovieService {
   @Transactional
   public MovieResponse save(final SaveMovie command) {
     Movie savedMovie;
-    var existingMovie = repository.findByTmdbId(command.tmdbId()).orElse(null);
-    if (existingMovie == null) {
-      savedMovie = repository.insert(mapper.toMovie(command));
+    var existing = repository.findByTmdbId(command.tmdbId()).orElse(null);
+    if (existing == null) {
+      var backdrop = imageService.save(command.backdrop());
+      var poster = imageService.save(command.poster());
+      savedMovie = repository.insert(mapper.toMovie(command, backdrop, poster));
     } else {
-      mapper.merge(command, existingMovie);
-      savedMovie = repository.update(existingMovie);
+      var backdrop = imageService
+          .update(existing.getTmdbBackdrop(), existing.getBackdrop(), command.backdrop());
+      var poster = imageService
+          .update(existing.getTmdbPoster(), existing.getPoster(), command.poster());
+      var merged = SaveMovie.builder(command)
+          .backdrop(backdrop.image())
+          .poster(poster.image())
+          .build();
+      mapper.merge(merged, existing);
+      savedMovie = repository.update(existing);
+      backdrop.toDelete().ifPresent(imageService::delete);
+      poster.toDelete().ifPresent(imageService::delete);
     }
     LOGGER.infof("Saved: %s", savedMovie);
     return mapper.toMovieResponse(savedMovie);

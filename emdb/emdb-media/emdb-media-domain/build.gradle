@@ -17,6 +17,8 @@ dependencies {
   implementation project(':common-validation')
   implementation project(':emdb-media-api')
   
+  implementation libs.jug
+  
   compileOnly libs.hibernate.core
   compileOnly libs.jakarta.cdi.api
   compileOnly libs.jakarta.data.api
@@ -24,6 +26,7 @@ dependencies {
   compileOnly libs.jakarta.validation.api
   compileOnly libs.jboss.logging
   compileOnly libs.mapstruct
+  compileOnly libs.microprofile.config.api 
 }
 
 eclipse {
