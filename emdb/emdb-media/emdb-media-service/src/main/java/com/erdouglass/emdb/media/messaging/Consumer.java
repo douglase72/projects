@@ -25,6 +25,22 @@ public abstract class Consumer<T extends SaveCommand> {
   @Inject 
   Validator validator;
   
+  public abstract Uni<Void> onMessage(Message<T> message);
+  
+  /// Validates and persists an incoming command, then acknowledges or 
+  /// negatively-acknowledges the underlying RabbitMQ message based on the 
+  /// outcome.
+  ///
+  /// On a successful save, logs the end-to-end ingest latency computed from
+  /// the `START_TIME` header set upstream. On a [ConstraintViolationException]
+  /// the message is nacked and the broker is expected to route it to the 
+  /// dead-letter queue. 
+  /// 
+  /// Runs on a virtual thread so the blocking persistence work inside
+  /// [Consumer#save] does not occupy a Vert.x event-loop thread.
+  ///
+  /// @param message the incoming RabbitMQ message carrying the command
+  /// @return a [Uni] that completes when the ack or nack has been dispatched   
   protected Uni<Void> consume(Message<T> message) {
     T command = message.getPayload();
     

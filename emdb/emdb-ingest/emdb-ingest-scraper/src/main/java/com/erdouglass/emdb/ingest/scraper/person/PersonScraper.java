@@ -8,6 +8,7 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.scraper.Scraper;
+import com.erdouglass.emdb.ingest.scraper.image.ImageScraper;
 import com.erdouglass.emdb.media.api.command.SavePerson;
 
 /// [Scraper] implementation that fetches people from TMDB and emits the
@@ -15,23 +16,30 @@ import com.erdouglass.emdb.media.api.command.SavePerson;
 @ApplicationScoped
 class PersonScraper extends Scraper<SavePerson> {
 
-@Inject
-@RestClient
-PersonClient client;
+  @Inject
+  @RestClient
+  PersonClient client;
 
-@Inject
-@Channel("save-person-out") 
-Emitter<SavePerson> emitter;
+  @Inject
+  @Channel("save-person-out")
+  Emitter<SavePerson> emitter;
 
-@Override
-protected SavePerson extract(int tmdbId) {
-  var person = client.findById(tmdbId);
-  var command = new SavePerson(person.id(), person.name());
-  return command;
-}
+  @Inject
+  ImageScraper imageScraper;
+  
+  @Inject
+  PersonMapper mapper;
+  
+  @Override
+  protected SavePerson extract(int tmdbId) {
+    var person = client.findById(tmdbId);
+    var profile = imageScraper.extract(person.profile_path());
+    var command = mapper.toSavePerson(person, profile);
+    return command;
+  }
 
-@Override
-protected Emitter<SavePerson> getEmitter() {
-  return emitter;
-}
+  @Override
+  protected Emitter<SavePerson> getEmitter() {
+    return emitter;
+  }
 }

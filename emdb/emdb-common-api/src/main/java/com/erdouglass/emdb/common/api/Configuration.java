@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.common;
+package com.erdouglass.emdb.common.api;
 
 /// Global configuration constants for the EMDB application.
 ///

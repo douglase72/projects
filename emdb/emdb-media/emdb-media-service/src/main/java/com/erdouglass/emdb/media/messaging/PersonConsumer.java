@@ -6,28 +6,28 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.media.api.command.SaveMovie;
-import com.erdouglass.emdb.media.domain.MovieService;
+import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.domain.PersonService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;
 
-/// Consumes [SaveMovie] commands from the RabbitMQ save-movie queue.
+/// Consumes [SavePerson] commands from the RabbitMQ save-person queue.
 @ApplicationScoped
-public class MovieConsumer extends Consumer<SaveMovie> {
+public class PersonConsumer extends Consumer<SavePerson> {
   
   @Inject
-  MovieService service;
-
-  @Override 
+  PersonService service;
+  
+  @Override
   @RunOnVirtualThread
-  @Incoming("save-movie-in")
-  public Uni<Void> onMessage(Message<SaveMovie> message) { 
+  @Incoming("save-person-in")
+  public Uni<Void> onMessage(Message<SavePerson> message) { 
     return consume(message);
   }
 
   @Override
-  protected void save(final SaveMovie command) {
+  protected void save(final SavePerson command) {
     service.save(command);
   }
 }

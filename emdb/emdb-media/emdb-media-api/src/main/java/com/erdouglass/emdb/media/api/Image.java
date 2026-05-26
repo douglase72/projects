@@ -2,8 +2,10 @@ package com.erdouglass.emdb.media.api;
 
 import java.util.UUID;
 
+import jakarta.validation.constraints.Size;
+
 public record Image(
-    String tmdbName,
+    @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String tmdbName,
     UUID emdbName,
     byte[] data) {
   

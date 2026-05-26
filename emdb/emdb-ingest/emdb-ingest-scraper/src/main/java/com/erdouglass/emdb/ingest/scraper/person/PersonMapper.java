@@ -1,9 +1,15 @@
 package com.erdouglass.emdb.ingest.scraper.person;
 
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Builder;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
+
+import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.api.command.SavePerson;
 
 @Mapper(
     componentModel = "cdi", 
@@ -13,4 +19,10 @@ import org.mapstruct.ReportingPolicy;
 )
 interface PersonMapper {
 
+  @BeanMapping(builder = @Builder(disableBuilder = true))
+  @Mapping(source = "person.id", target = "tmdbId")
+  @Mapping(source = "person.birthday", target = "birthDate")
+  @Mapping(source = "person.deathday", target = "deathDate")
+  @Mapping(source = "person.place_of_birth", target = "birthPlace")
+  SavePerson toSavePerson(Person person, Image profile);
 }

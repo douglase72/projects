@@ -1,0 +1,172 @@
+package com.erdouglass.emdb.media.domain.person;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
+import com.erdouglass.common.validation.DateRange;
+import com.erdouglass.emdb.common.api.Configuration;
+import com.erdouglass.emdb.media.api.Gender;
+import com.erdouglass.emdb.media.api.PersonConstants;
+import com.erdouglass.emdb.media.api.ShowConstants;
+import com.erdouglass.emdb.media.domain.Media;
+
+/// JPA entity representing a person (actor, director, crew member, etc.).
+///
+/// Mapped to the `People` table. Uses a database sequence for ID generation
+/// with an allocation size of 50 for batch insert efficiency. The TMDB ID
+/// serves as the natural key for upsert operations.
+@Entity
+@Table(name = "People")
+@SequenceGenerator(
+    name = Media.SEQUENCE_GENERATOR, 
+    sequenceName = "person_sequence", 
+    initialValue = 1, 
+    allocationSize = 1)
+class Person extends Media {
+
+  @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH)
+  private String biography;
+  
+  @Past
+  @Column(name = "birth_date")
+  @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE)
+  private LocalDate birthDate;
+  
+  @Column(name = "birth_place")
+  @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH)
+  private String birthPlace;
+  
+  @Past
+  @Column(name = "death_date")
+  @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE)
+  private LocalDate deathDate;
+  
+  @NotNull 
+  @Enumerated(EnumType.STRING)
+  @Column(length = PersonConstants.GENDER_MAX_LENGTH)
+  private Gender gender;
+  
+  @Size(max = Configuration.URL_MAX_LENGTH)
+  private String homepage;
+  
+  @NotBlank
+  @Size(max = PersonConstants.NAME_MAX_LENGTH)
+  private String name;
+  
+  @Column(unique = true)
+  private UUID profile;
+  
+  @NotNull
+  @Column(name = "tmdb_id", unique = true, updatable = false)
+  private Integer tmdbId;
+  
+  @Column(name="tmdb_profile", unique = true)
+  @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH)
+  private String tmdbProfile;
+  
+  /// Default constructor required by JPA.
+  Person() {}
+  
+  public void setBiography(String biography) {
+    this.biography = biography;
+  }
+
+  public String getBiography() {
+    return biography;
+  }
+  
+  public void setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
+  
+  public LocalDate getBirthDate() {
+    return birthDate;
+  }
+  
+  public void setBirthPlace(String birthPlace) {
+    this.birthPlace = birthPlace;
+  }
+  
+  public String getBirthPlace() {
+    return birthPlace;
+  }
+  
+  public void setDeathDate(LocalDate deathDate) {
+    this.deathDate = deathDate;
+  }
+
+  public LocalDate getDeathDate() {
+    return deathDate;
+  }
+  
+  public void setGender(Gender gender) {
+    this.gender = gender;
+  }
+
+  public Gender getGender() {
+    return gender;
+  }
+  
+  public void setHomepage(String homepage) {
+    this.homepage = homepage;
+  }
+
+  public String getHomepage() {
+    return homepage;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+  
+  public void setProfile(UUID profile) {
+    this.profile = profile;
+  }
+
+  public UUID getProfile() {
+    return profile;
+  }
+  
+  public void setTmdbId(Integer tmdbId) {
+    this.tmdbId = tmdbId;
+  }
+  
+  public Integer getTmdbId() {
+    return tmdbId;
+  }
+  
+  public void setTmdbProfile(String tmdbProfile) {
+    this.tmdbProfile = tmdbProfile;
+  }
+  
+  public String getTmdbProfile() {
+    return tmdbProfile;
+  } 
+  
+  @Override
+  public String toString() {
+    return "Person[id=" + getId()
+    + ", tmdbId=" + getTmdbId() 
+    + ", name=" + getName() 
+    + ", birthDate=" + getBirthDate()
+    + ", deathDate=" + getDeathDate() 
+    + ", gender=" + getGender()
+    + ", profile=" + getProfile()
+    + "]";
+  }
+}

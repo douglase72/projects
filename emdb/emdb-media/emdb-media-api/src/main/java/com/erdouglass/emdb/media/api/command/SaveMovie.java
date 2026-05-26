@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.api.command;
 
 import java.time.LocalDate;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +12,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.api.Configuration;
 import com.erdouglass.emdb.media.api.Image;
 import com.erdouglass.emdb.media.api.ShowConstants;
 import com.erdouglass.emdb.media.api.ShowStatus;
@@ -25,8 +26,8 @@ public record SaveMovie(
     @PositiveOrZero Integer runtime,
     @PositiveOrZero Integer budget,
     @PositiveOrZero Integer revenue,
-    Image backdrop,
-    Image poster,
+    @Valid Image backdrop,
+    @Valid Image poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @NotBlank @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,

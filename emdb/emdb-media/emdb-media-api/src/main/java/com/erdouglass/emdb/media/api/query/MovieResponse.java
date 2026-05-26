@@ -11,7 +11,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.common.api.Configuration;
 import com.erdouglass.emdb.media.api.ShowConstants;
 import com.erdouglass.emdb.media.api.ShowStatus;
 

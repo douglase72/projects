@@ -38,11 +38,11 @@ class MovieServiceImpl implements MovieService {
           .update(existing.getTmdbBackdrop(), existing.getBackdrop(), command.backdrop());
       var poster = imageService
           .update(existing.getTmdbPoster(), existing.getPoster(), command.poster());
-      var merged = SaveMovie.builder(command)
+      var cmd = SaveMovie.builder(command)
           .backdrop(backdrop.image())
           .poster(poster.image())
           .build();
-      mapper.merge(merged, existing);
+      mapper.merge(cmd, existing);
       savedMovie = repository.update(existing);
       backdrop.toDelete().ifPresent(imageService::delete);
       poster.toDelete().ifPresent(imageService::delete);
