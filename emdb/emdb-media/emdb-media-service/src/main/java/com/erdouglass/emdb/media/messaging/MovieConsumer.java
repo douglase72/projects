@@ -6,8 +6,8 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.media.api.command.SaveMovie;
 import com.erdouglass.emdb.media.domain.MovieService;
+import com.erdouglass.emdb.media.movie.SaveMovie;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;
@@ -17,7 +17,7 @@ import io.smallrye.mutiny.Uni;
 public class MovieConsumer extends Consumer<SaveMovie> {
   
   @Inject
-  MovieService service;
+  MovieService movieService;
 
   @Override 
   @RunOnVirtualThread
@@ -28,6 +28,6 @@ public class MovieConsumer extends Consumer<SaveMovie> {
 
   @Override
   protected void save(final SaveMovie command) {
-    service.save(command);
+    movieService.save(command);
   }
 }

@@ -8,7 +8,7 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.emdb.media.api.Image;
+import com.erdouglass.emdb.media.Image;
 
 @ApplicationScoped
 public class ImageScraper {

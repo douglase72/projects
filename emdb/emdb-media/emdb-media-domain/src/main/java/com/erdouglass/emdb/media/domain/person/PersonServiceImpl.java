@@ -1,18 +1,25 @@
 package com.erdouglass.emdb.media.domain.person;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.api.command.SavePerson;
-import com.erdouglass.emdb.media.api.query.PersonResponse;
-import com.erdouglass.emdb.media.domain.ImageService;
 import com.erdouglass.emdb.media.domain.PersonService;
+import com.erdouglass.emdb.media.domain.internal.ImageService;
+import com.erdouglass.emdb.media.domain.internal.PersonResolver;
+import com.erdouglass.emdb.media.person.PersonCredit;
+import com.erdouglass.emdb.media.person.PersonResponse;
+import com.erdouglass.emdb.media.person.SavePerson;
 
 @ApplicationScoped
-public class PersonServiceImpl implements PersonService {
+class PersonServiceImpl implements PersonService, PersonResolver {
   private static final Logger LOGGER = Logger.getLogger(PersonServiceImpl.class);
   
   @Inject
@@ -43,5 +50,32 @@ public class PersonServiceImpl implements PersonService {
     }
     LOGGER.infof("Saved: %s", savedPerson);
     return mapper.toPersonResponse(savedPerson);
+  }
+
+  @Override
+  public Map<Integer, Person> findOrCreate(List<PersonCredit> credits) {
+    if (credits.isEmpty()) {
+      return Map.of();
+    }    
+    var distinct = credits.stream()
+        .collect(Collectors.toMap(PersonCredit::tmdbId, Function.identity(), (a, _) -> a));
+    var resolved = repository.findByTmdbIdIn(List.copyOf(distinct.keySet())).stream()
+        .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
+    var people = distinct.values().stream()
+        .filter(c -> !resolved.containsKey(c.tmdbId()))
+        .map(PersonServiceImpl::toPerson)
+        .toList();   
+    for (var person : repository.insertAll(people)) {
+      resolved.put(person.getTmdbId(), person);
+    }
+    return resolved;
+  }
+  
+  private static Person toPerson(PersonCredit credit) {
+    var person = new Person(credit.tmdbId());
+    person.setName(credit.name());
+    person.setGender(credit.gender());
+    person.setTmdbProfile(credit.profile());
+    return person;
   }
 }

@@ -163,8 +163,50 @@ Movie
   - watch/providers
 
 http://api.themoviedb.org/3/movie/818?append_to_response=credits&api_key=df4e8c63aee8965f8a0908ac1cb64a10
-
-
+ "credits": {
+    "cast": [
+      {
+        "adult": false,
+        "gender": 2,
+        "id": 12073,
+        "known_for_department": "Acting",
+        "name": "Mike Myers",
+        "original_name": "Mike Myers",
+        "popularity": 3.4151,
+        "profile_path": "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg",
+        "cast_id": 29,
+        "character": "Austin Powers / Dr. Evil / Goldmember / Fat Bastard",
+        "credit_id": "52fe427bc3a36847f8022183",
+        "order": 0
+      },
+      {
+        "adult": false,
+        "gender": 1,
+        "id": 14386,
+        "known_for_department": "Acting",
+        "name": "Beyoncé",
+        "original_name": "Beyoncé",
+        "popularity": 0.9905,
+        "profile_path": "/2HbjNtiCtmbArEnELuDFU7knaVK.jpg",
+        "cast_id": 33,
+        "character": "Foxxy Cleopatra",
+        "credit_id": "52fe427bc3a36847f8022187",
+        "order": 1
+      },
+  "crew": [
+      {
+        "adult": false,
+        "gender": 1,
+        "id": 546,
+        "known_for_department": "Production",
+        "name": "Jeanne McCarthy",
+        "original_name": "Jeanne McCarthy",
+        "popularity": 0.3854,
+        "profile_path": null,
+        "credit_id": "52fe427bc3a36847f8022143",
+        "department": "Production",
+        "job": "Casting"
+      },      
 -------------------------------------------------------------------------------------------------------------------------------------------------
 Series
 The TV Series endpoint returns details about the TV series by id.

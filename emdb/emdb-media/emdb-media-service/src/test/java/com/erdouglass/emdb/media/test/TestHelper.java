@@ -10,6 +10,7 @@ public final class TestHelper {
   public static final ObjectMapper OBJECT_MAPPER;
   public static final String MOVIES_URL;
   public static final String PEOPLE_URL;
+  public static final String SERIES_URL;
   
   static {
     HTTP_CLIENT = HttpClient.newBuilder().build();
@@ -17,6 +18,7 @@ public final class TestHelper {
         .registerModule(new JavaTimeModule());
     MOVIES_URL = "http://localhost:60316/emdb-media/api/movies";
     PEOPLE_URL = "http://localhost:60316/emdb-media/api/people";
+    SERIES_URL = "http://localhost:60316/emdb-media/api/series";
   }  
 
   private TestHelper() {}

@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.api.Image;
-import com.erdouglass.emdb.media.api.command.SavePerson;
+import com.erdouglass.emdb.media.Image;
+import com.erdouglass.emdb.media.series.SavePerson;
 
 @Mapper(
     componentModel = "cdi", 

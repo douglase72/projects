@@ -10,9 +10,9 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.media.api.ShowConstants;
-import com.erdouglass.emdb.media.domain.Media;
-import com.erdouglass.emdb.media.domain.Show;
+import com.erdouglass.emdb.media.domain.internal.Media;
+import com.erdouglass.emdb.media.domain.internal.Show;
+import com.erdouglass.emdb.media.show.ShowConstants;
 
 /// A theatrical film entity. Extends [Show] with movie-specific fields
 /// (budget, revenue, runtime, release date) and binds the inherited sequence
@@ -26,10 +26,10 @@ import com.erdouglass.emdb.media.domain.Show;
     )
   )
 @SequenceGenerator(
-  name = Media.SEQUENCE_GENERATOR, 
-  sequenceName = "movie_sequence", 
-  initialValue = 1, 
-  allocationSize = 1)
+    name = Media.SEQUENCE_GENERATOR, 
+    sequenceName = "movie_sequence", 
+    initialValue = 1, 
+    allocationSize = 1)
 class Movie extends Show {
   
   @PositiveOrZero
@@ -47,6 +47,10 @@ class Movie extends Show {
   
   /// Default constructor required by JPA.
   Movie() {}
+  
+  public Movie(final int tmdbId) {
+    super(tmdbId);
+  }
   
   public void setBudget(final Integer budget) {
     this.budget = budget;

@@ -12,12 +12,12 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.media.api.command.SaveMovie;
-import com.erdouglass.emdb.media.api.query.MovieResponse;
 import com.erdouglass.emdb.media.domain.MovieService;
+import com.erdouglass.emdb.media.movie.MovieResponse;
+import com.erdouglass.emdb.media.movie.SaveMovie;
 
 /// JAX-RS resource exposing the movie collection over HTTP. Translates
-/// [SaveMovie] commands into [MovieServiceImpl] calls and shapes the response
+/// [SaveMovie] commands into [MovieService] calls and shapes the response
 /// envelope.
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)

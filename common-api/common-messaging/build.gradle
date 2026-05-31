@@ -11,4 +11,3 @@ dependencies {
   compileOnly libs.quarkus.messaging
   compileOnly libs.quarkus.messaging.rabbitmq
 }
-

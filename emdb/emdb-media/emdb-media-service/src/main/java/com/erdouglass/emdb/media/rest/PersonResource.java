@@ -12,13 +12,12 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.media.api.command.SavePerson;
-import com.erdouglass.emdb.media.api.query.PersonResponse;
 import com.erdouglass.emdb.media.domain.PersonService;
-import com.erdouglass.emdb.media.domain.person.PersonServiceImpl;
+import com.erdouglass.emdb.media.person.PersonResponse;
+import com.erdouglass.emdb.media.person.SavePerson;
 
 /// JAX-RS resource exposing the people collection over HTTP. Translates
-/// [SavePerson] commands into [PersonServiceImpl] calls and shapes the response
+/// [SavePerson] commands into [PersonService] calls and shapes the response
 /// envelope.
 @Path("/people")
 @Consumes(MediaType.APPLICATION_JSON)

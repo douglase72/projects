@@ -6,11 +6,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.api.Image;
-import com.erdouglass.emdb.media.api.command.SaveMovie;
-import com.erdouglass.emdb.media.api.query.MovieResponse;
+import com.erdouglass.emdb.media.Image;
+import com.erdouglass.emdb.media.movie.MovieResponse;
+import com.erdouglass.emdb.media.movie.SaveMovie;
 
 @Mapper(
     componentModel = "cdi", 
@@ -34,4 +35,9 @@ interface MovieMapper {
   Movie toMovie(SaveMovie command, Image backdrop, Image poster);
   
   MovieResponse toMovieResponse(Movie movie);
+  
+  @ObjectFactory
+  default Movie createMovie(SaveMovie command) {
+    return new Movie(command.tmdbId());
+  }
 }

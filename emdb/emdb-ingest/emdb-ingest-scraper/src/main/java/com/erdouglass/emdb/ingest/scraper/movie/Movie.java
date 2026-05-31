@@ -1,7 +1,9 @@
 package com.erdouglass.emdb.ingest.scraper.movie;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -11,9 +13,10 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.common.api.Configuration;
-import com.erdouglass.emdb.media.api.ShowConstants;
-import com.erdouglass.emdb.media.api.ShowStatus;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.person.PersonConstants;
+import com.erdouglass.emdb.media.show.ShowConstants;
+import com.erdouglass.emdb.media.show.ShowStatus;
 
 /// JSON payload returned by the TMDB `/movie/{id}` endpoint.
 ///
@@ -34,4 +37,23 @@ record Movie(
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @NotBlank @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String original_language,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {}
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @NotNull @Valid Credits credits) {
+  
+  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
+  
+  public record CastCredit (
+      @NotNull @Positive Integer id,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotNull @Min(0) @Max(3) Integer gender,
+      @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile_path,
+      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
+      @NotNull @PositiveOrZero Integer order) {}
+  
+  public record CrewCredit (
+      @NotNull @Positive Integer id,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotNull @Min(0) @Max(3) Integer gender,
+      @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile_path,
+      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job) {}  
+}

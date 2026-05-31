@@ -15,25 +15,20 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.common.api.Configuration;
-import com.erdouglass.emdb.media.api.Gender;
-import com.erdouglass.emdb.media.api.PersonConstants;
-import com.erdouglass.emdb.media.api.ShowConstants;
-import com.erdouglass.emdb.media.domain.Media;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.domain.internal.Media;
+import com.erdouglass.emdb.media.person.Gender;
+import com.erdouglass.emdb.media.person.PersonConstants;
+import com.erdouglass.emdb.media.show.ShowConstants;
 
-/// JPA entity representing a person (actor, director, crew member, etc.).
-///
-/// Mapped to the `People` table. Uses a database sequence for ID generation
-/// with an allocation size of 50 for batch insert efficiency. The TMDB ID
-/// serves as the natural key for upsert operations.
 @Entity
 @Table(name = "People")
 @SequenceGenerator(
     name = Media.SEQUENCE_GENERATOR, 
     sequenceName = "person_sequence", 
     initialValue = 1, 
-    allocationSize = 1)
-class Person extends Media {
+    allocationSize = 50)
+public class Person extends Media {
 
   @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH)
   private String biography;
@@ -67,10 +62,6 @@ class Person extends Media {
   @Column(unique = true)
   private UUID profile;
   
-  @NotNull
-  @Column(name = "tmdb_id", unique = true, updatable = false)
-  private Integer tmdbId;
-  
   @Column(name="tmdb_profile", unique = true)
   @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH)
   private String tmdbProfile;
@@ -78,6 +69,10 @@ class Person extends Media {
   /// Default constructor required by JPA.
   Person() {}
   
+  public Person(final int tmdbId) {
+    super(tmdbId);
+  }
+    
   public void setBiography(String biography) {
     this.biography = biography;
   }
@@ -140,14 +135,6 @@ class Person extends Media {
 
   public UUID getProfile() {
     return profile;
-  }
-  
-  public void setTmdbId(Integer tmdbId) {
-    this.tmdbId = tmdbId;
-  }
-  
-  public Integer getTmdbId() {
-    return tmdbId;
   }
   
   public void setTmdbProfile(String tmdbProfile) {

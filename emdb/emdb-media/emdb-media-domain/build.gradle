@@ -1,6 +1,7 @@
 plugins {
   id 'java-library'
   id 'eclipse'
+  id 'org.gradlex.extra-java-module-info' version '1.12'
 }
 
 group = 'com.erdouglass.emdb'
@@ -13,8 +14,8 @@ dependencies {
   annotationProcessor libs.hibernate.processor
   annotationProcessor libs.mapstruct.processor
   
-  implementation project(':emdb-common-api')
   implementation project(':common-validation')
+  implementation project(':emdb-common-api')
   implementation project(':emdb-media-api')
   
   implementation libs.jug
@@ -27,6 +28,11 @@ dependencies {
   compileOnly libs.jboss.logging
   compileOnly libs.mapstruct
   compileOnly libs.microprofile.config.api 
+}
+
+extraJavaModuleInfo {
+  failOnMissingModuleInfo = false
+  automaticModule('org.eclipse.microprofile.config:microprofile-config-api', 'microprofile.config.api')
 }
 
 eclipse {

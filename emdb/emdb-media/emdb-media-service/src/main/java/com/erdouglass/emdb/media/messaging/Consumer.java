@@ -11,10 +11,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.ingest.api.IngestMedia;
-import com.erdouglass.emdb.media.api.command.SaveCommand;
-import com.erdouglass.emdb.media.api.command.SaveMovie;
-import com.erdouglass.emdb.media.api.command.SavePerson;
-import com.erdouglass.emdb.media.api.command.SaveSeries;
+import com.erdouglass.emdb.media.SaveCommand;
+import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.person.SavePerson;
+import com.erdouglass.emdb.media.series.SaveSeries;
 
 import io.smallrye.mutiny.Uni;
 import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;

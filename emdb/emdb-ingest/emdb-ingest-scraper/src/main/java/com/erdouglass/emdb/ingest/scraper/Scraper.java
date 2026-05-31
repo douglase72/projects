@@ -10,7 +10,7 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.common.messaging.LoggingDecorator;
 import com.erdouglass.emdb.ingest.api.IngestMedia;
-import com.erdouglass.emdb.media.api.command.SaveCommand;
+import com.erdouglass.emdb.media.SaveCommand;
 
 import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;

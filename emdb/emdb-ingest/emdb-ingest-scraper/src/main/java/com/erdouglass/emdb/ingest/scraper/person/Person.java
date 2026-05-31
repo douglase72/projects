@@ -10,8 +10,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.common.api.Configuration;
-import com.erdouglass.emdb.media.api.PersonConstants;
+import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.person.PersonConstants;
 
 record Person(
     @NotNull @Positive Integer id,

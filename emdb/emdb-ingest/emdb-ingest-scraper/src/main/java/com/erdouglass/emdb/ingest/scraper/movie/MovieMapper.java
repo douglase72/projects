@@ -8,8 +8,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.api.Image;
-import com.erdouglass.emdb.media.api.command.SaveMovie;
+import com.erdouglass.emdb.ingest.scraper.movie.Movie.CastCredit;
+import com.erdouglass.emdb.ingest.scraper.movie.Movie.CrewCredit;
+import com.erdouglass.emdb.media.Image;
+import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.movie.SaveMovie.CastMember;
+import com.erdouglass.emdb.media.movie.SaveMovie.CrewMember;
 
 @Mapper(
     componentModel = "cdi", 
@@ -18,6 +22,14 @@ import com.erdouglass.emdb.media.api.command.SaveMovie;
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 interface MovieMapper {
+  
+  @Mapping(source = "id", target = "tmdbId")
+  @Mapping(source = "profile_path", target = "profile")
+  CastMember toCastCredit(CastCredit credit);
+
+  @Mapping(source = "id", target = "tmdbId")
+  @Mapping(source = "profile_path", target = "profile")
+  CrewMember toCrewCredit(CrewCredit credit);
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
   @Mapping(source = "movie.id", target = "tmdbId")

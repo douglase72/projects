@@ -4,6 +4,7 @@
 [versions]
 java-uuid-generator = "5.2.0"
 mapstruct = "1.6.3"
+microprofile-config-api = "3.1.1"
 quarkus = "3.33.1"
 quarkus-logging-json = "3.5.0"
 quarkus-platform = "3.33.1.1"

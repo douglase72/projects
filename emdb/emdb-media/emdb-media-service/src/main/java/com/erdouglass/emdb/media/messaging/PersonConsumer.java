@@ -6,8 +6,8 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.media.api.command.SavePerson;
 import com.erdouglass.emdb.media.domain.PersonService;
+import com.erdouglass.emdb.media.person.SavePerson;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Uni;

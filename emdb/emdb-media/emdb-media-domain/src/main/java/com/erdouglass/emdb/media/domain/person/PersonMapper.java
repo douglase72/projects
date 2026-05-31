@@ -8,9 +8,9 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.api.Image;
-import com.erdouglass.emdb.media.api.command.SavePerson;
-import com.erdouglass.emdb.media.api.query.PersonResponse;
+import com.erdouglass.emdb.media.Image;
+import com.erdouglass.emdb.media.person.PersonResponse;
+import com.erdouglass.emdb.media.person.SavePerson;
 
 @Mapper(
     componentModel = "cdi", 
@@ -29,5 +29,5 @@ interface PersonMapper {
   @Mapping(source = "profile.emdbName", target = "profile")
   Person toPerson(SavePerson command, Image profile);
   
-  PersonResponse toPersonResponse(Person person );
+  PersonResponse toPersonResponse(Person person);
 }
