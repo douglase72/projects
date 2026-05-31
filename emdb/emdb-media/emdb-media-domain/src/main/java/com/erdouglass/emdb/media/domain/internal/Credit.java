@@ -20,7 +20,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.UuidGenerator;
 
-import com.erdouglass.emdb.media.CreditType;
+import com.erdouglass.emdb.media.credit.CreditType;
 import com.erdouglass.emdb.media.domain.person.Person;
 
 @Entity

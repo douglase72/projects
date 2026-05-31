@@ -9,7 +9,7 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.Image;
-import com.erdouglass.emdb.media.series.SavePerson;
+import com.erdouglass.emdb.media.person.SavePerson;
 
 @Mapper(
     componentModel = "cdi", 

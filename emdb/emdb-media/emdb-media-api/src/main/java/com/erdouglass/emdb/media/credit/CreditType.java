@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.credit;
 
 import java.util.Map;
 import java.util.Optional;

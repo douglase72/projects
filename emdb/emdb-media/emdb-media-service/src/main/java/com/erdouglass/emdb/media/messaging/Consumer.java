@@ -10,7 +10,7 @@ import jakarta.validation.Validator;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.api.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia;
 import com.erdouglass.emdb.media.SaveCommand;
 import com.erdouglass.emdb.media.movie.SaveMovie;
 import com.erdouglass.emdb.media.person.SavePerson;

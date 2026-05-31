@@ -6,6 +6,7 @@ module com.erdouglass.emdb.media {
     requires transitive com.erdouglass.emdb.common;
 
     exports com.erdouglass.emdb.media;
+    exports com.erdouglass.emdb.media.credit;
     exports com.erdouglass.emdb.media.movie;
     exports com.erdouglass.emdb.media.person;
     exports com.erdouglass.emdb.media.series;

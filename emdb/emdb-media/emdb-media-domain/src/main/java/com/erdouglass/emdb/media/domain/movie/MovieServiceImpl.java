@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.CreditType;
+import com.erdouglass.emdb.media.credit.CreditType;
 import com.erdouglass.emdb.media.domain.MovieService;
 import com.erdouglass.emdb.media.domain.internal.ImageService;
 import com.erdouglass.emdb.media.domain.internal.PersonResolver;

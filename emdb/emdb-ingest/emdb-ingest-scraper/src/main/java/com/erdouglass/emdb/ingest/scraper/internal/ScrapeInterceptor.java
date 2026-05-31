@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.scraper;
+package com.erdouglass.emdb.ingest.scraper.internal;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -12,13 +12,13 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.media.SaveCommand;
 import com.erdouglass.emdb.media.movie.SaveMovie;
-import com.erdouglass.emdb.media.series.SavePerson;
+import com.erdouglass.emdb.media.person.SavePerson;
 import com.erdouglass.emdb.media.series.SaveSeries;
 
 @Scrape
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
-public class ScrapeInterceptor {
+class ScrapeInterceptor {
   private static final Logger LOGGER = Logger.getLogger(ScrapeInterceptor.class);
   private static final String MSG = "Ingest of TMDB %d %s extracted from TMDB in %d ms";
   

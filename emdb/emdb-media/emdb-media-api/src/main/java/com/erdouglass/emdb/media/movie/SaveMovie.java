@@ -58,7 +58,8 @@ public record SaveMovie(
         .homepage(command.homepage)
         .originalLanguage(command.originalLanguage)
         .tagline(command.tagline)
-        .overview(command.overview);
+        .overview(command.overview)
+        .credits(command.credits);
   }
   
   @Override
@@ -77,7 +78,7 @@ public record SaveMovie(
       @NotNull Gender gender,
       @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile,
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
-      @NotNull @PositiveOrZero Integer order) implements PersonCredit {}
+      @NotNull @PositiveOrZero Integer order) implements com.erdouglass.emdb.media.credit.CastCredit {}
   
   public record CrewCredit(
       @NotNull @Positive Integer tmdbId,

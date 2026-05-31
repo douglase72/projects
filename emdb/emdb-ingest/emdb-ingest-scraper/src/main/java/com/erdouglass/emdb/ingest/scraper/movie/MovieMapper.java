@@ -8,12 +8,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.ingest.scraper.movie.Movie.CastCredit;
-import com.erdouglass.emdb.ingest.scraper.movie.Movie.CrewCredit;
+import com.erdouglass.emdb.ingest.scraper.movie.Movie.TmdbCastCredit;
+import com.erdouglass.emdb.ingest.scraper.movie.Movie.TmdbCrewCredit;
 import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.movie.SaveMovie;
-import com.erdouglass.emdb.media.movie.SaveMovie.CastMember;
-import com.erdouglass.emdb.media.movie.SaveMovie.CrewMember;
+import com.erdouglass.emdb.media.movie.SaveMovie.CastCredit;
+import com.erdouglass.emdb.media.movie.SaveMovie.CrewCredit;
 
 @Mapper(
     componentModel = "cdi", 
@@ -22,14 +22,6 @@ import com.erdouglass.emdb.media.movie.SaveMovie.CrewMember;
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 interface MovieMapper {
-  
-  @Mapping(source = "id", target = "tmdbId")
-  @Mapping(source = "profile_path", target = "profile")
-  CastMember toCastCredit(CastCredit credit);
-
-  @Mapping(source = "id", target = "tmdbId")
-  @Mapping(source = "profile_path", target = "profile")
-  CrewMember toCrewCredit(CrewCredit credit);
 
   @BeanMapping(builder = @Builder(disableBuilder = true))
   @Mapping(source = "movie.id", target = "tmdbId")
@@ -37,4 +29,12 @@ interface MovieMapper {
   @Mapping(source = "movie.vote_average", target = "score")
   @Mapping(source = "movie.original_language", target = "originalLanguage")
   SaveMovie toSaveMovie(Movie movie, Image backdrop, Image poster);
+  
+  @Mapping(source = "id", target = "tmdbId")
+  @Mapping(source = "profile_path", target = "profile")
+  CastCredit toCastCredit(TmdbCastCredit credit);
+  
+  @Mapping(source = "id", target = "tmdbId")
+  @Mapping(source = "profile_path", target = "profile")
+  CrewCredit toCastCredit(TmdbCrewCredit credit);
 }

@@ -12,9 +12,9 @@ import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
-import com.erdouglass.emdb.ingest.api.IngestMedia;
-import com.erdouglass.emdb.ingest.api.IngestMedia.IngestSource;
-import com.erdouglass.emdb.ingest.api.IngestMedia.IngestType;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestType;
 import com.erdouglass.emdb.ingest.test.TestHelper;
 
 class GoldmemberIngestIT {

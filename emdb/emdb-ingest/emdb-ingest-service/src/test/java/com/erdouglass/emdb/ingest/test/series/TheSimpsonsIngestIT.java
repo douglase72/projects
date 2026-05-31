@@ -13,16 +13,16 @@ import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
-import com.erdouglass.emdb.ingest.api.IngestMedia;
-import com.erdouglass.emdb.ingest.api.IngestMedia.IngestSource;
-import com.erdouglass.emdb.ingest.api.IngestMedia.IngestType;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestType;
 import com.erdouglass.emdb.ingest.test.TestHelper;
 
 class TheSimpsonsIngestIT {
   private static final Logger LOGGER = Logger.getLogger(TheSimpsonsIngestIT.class);
   
   @Test
-  void testMovieIngest() throws IOException, InterruptedException {
+  void testSeriesIngest() throws IOException, InterruptedException {
     var command = IngestMedia.of(456, IngestType.SERIES, IngestSource.CLI);
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))

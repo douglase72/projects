@@ -40,9 +40,9 @@ record Movie(
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
     @NotNull @Valid Credits credits) {
   
-  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
+  public record Credits(List<@Valid TmdbCastCredit> cast, List<@Valid TmdbCrewCredit> crew) {}
   
-  public record CastCredit (
+  public record TmdbCastCredit (
       @NotNull @Positive Integer id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
       @NotNull @Min(0) @Max(3) Integer gender,
@@ -50,7 +50,7 @@ record Movie(
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
       @NotNull @PositiveOrZero Integer order) {}
   
-  public record CrewCredit (
+  public record TmdbCrewCredit (
       @NotNull @Positive Integer id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
       @NotNull @Min(0) @Max(3) Integer gender,

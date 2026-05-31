@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest;
+package com.erdouglass.emdb.ingest.rest;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -11,7 +11,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-import com.erdouglass.emdb.ingest.api.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.messaging.IngestProducer;
 
 /// REST resource that produces the [IngestMedia] command for movies on demand.
 ///

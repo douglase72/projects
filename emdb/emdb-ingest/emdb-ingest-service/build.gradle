@@ -11,9 +11,10 @@ dependencies {
   
   implementation project(':common-messaging')
   implementation project(':common-rest')
+  implementation project(':emdb-media-api')
   implementation project(':emdb-ingest-api')
   implementation project(':emdb-ingest-scraper')
-  
+      
   implementation libs.jakarta.data.api
   implementation libs.quarkus.arc
   implementation libs.quarkus.hibernate.validator

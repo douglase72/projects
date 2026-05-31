@@ -33,4 +33,7 @@ dependencies {
 extraJavaModuleInfo {
   failOnMissingModuleInfo = false
   automaticModule('org.eclipse.microprofile.config:microprofile-config-api', 'microprofile.config.api')
+  automaticModule('org.eclipse.microprofile.rest.client:microprofile-rest-client-api', 'microprofile.rest.client.api')
+  automaticModule('io.smallrye.reactive:smallrye-reactive-messaging-api', 'smallrye.reactive.messaging.api')
+  automaticModule('io.smallrye.reactive:smallrye-reactive-messaging-rabbitmq', 'smallrye.reactive.messaging.rabbitmq')
 }

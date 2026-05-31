@@ -5,10 +5,10 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.ingest.IngestProducer;
-import com.erdouglass.emdb.ingest.api.IngestMedia;
-import com.erdouglass.emdb.ingest.api.IngestMedia.IngestSource;
-import com.erdouglass.emdb.ingest.api.IngestMedia.IngestType;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestType;
+import com.erdouglass.emdb.ingest.messaging.IngestProducer;
 
 import io.quarkus.scheduler.Scheduled;
 import io.smallrye.common.annotation.RunOnVirtualThread;

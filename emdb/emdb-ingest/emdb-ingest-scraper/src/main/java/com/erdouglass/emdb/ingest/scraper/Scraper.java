@@ -9,7 +9,8 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.common.messaging.LoggingDecorator;
-import com.erdouglass.emdb.ingest.api.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.scraper.internal.Scrape;
 import com.erdouglass.emdb.media.SaveCommand;
 
 import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;

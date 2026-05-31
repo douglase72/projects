@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.scraper;
+package com.erdouglass.emdb.ingest.scraper.internal;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -7,9 +7,10 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.api.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.scraper.Scraper;
 import com.erdouglass.emdb.media.movie.SaveMovie;
-import com.erdouglass.emdb.media.series.SavePerson;
+import com.erdouglass.emdb.media.person.SavePerson;
 import com.erdouglass.emdb.media.series.SaveSeries;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;

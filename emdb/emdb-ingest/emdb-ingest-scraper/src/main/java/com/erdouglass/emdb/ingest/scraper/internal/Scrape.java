@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.scraper;
+package com.erdouglass.emdb.ingest.scraper.internal;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

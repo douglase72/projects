@@ -8,7 +8,10 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.scraper.Scraper;
+import com.erdouglass.emdb.ingest.scraper.image.ImageScraper;
+import com.erdouglass.emdb.ingest.scraper.internal.CreditLimiter;
 import com.erdouglass.emdb.media.series.SaveSeries;
+import com.erdouglass.emdb.media.series.SaveSeries.Credits;
 
 /// [Scraper] implementation that fetches series from TMDB and emits the
 /// resulting [SaveSeries] commands on the `save-series-out` channel.
@@ -21,15 +24,30 @@ class SeriesScraper extends Scraper<SaveSeries> {
   SeriesClient client;
   
   @Inject
+  CreditLimiter creditLimiter;
+  
+  @Inject
   @Channel("save-series-out") 
   Emitter<SaveSeries> emitter;
+  
+  @Inject
+  ImageScraper imageScraper;
+  
+  @Inject
+  SeriesMapper mapper;
 
   /// Calls TMDB for the given series id (appending `aggregate_credits`) and
   /// builds the corresponding [SaveSeries] command.  
   @Override
-  protected SaveSeries extract(int tmdbId) {
+  protected SaveSeries extract(final int tmdbId) {
     var series = client.findById(tmdbId, CREDITS);
-    return null;
+    var backdrop = imageScraper.extract(series.backdrop_path());
+    var poster = imageScraper.extract(series.poster_path());
+    var command = mapper.toSaveSeries(series, backdrop, poster);
+    var credits = command.credits();
+    return SaveSeries.builder(command)
+        .credits(creditLimiter.limit(credits.cast(), credits.crew(), Credits::new))
+        .build();
   }
 
   @Override

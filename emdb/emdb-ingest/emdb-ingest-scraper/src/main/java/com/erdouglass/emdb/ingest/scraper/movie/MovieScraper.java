@@ -7,10 +7,11 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.emdb.ingest.scraper.CreditLimiter;
 import com.erdouglass.emdb.ingest.scraper.Scraper;
 import com.erdouglass.emdb.ingest.scraper.image.ImageScraper;
+import com.erdouglass.emdb.ingest.scraper.internal.CreditLimiter;
 import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.movie.SaveMovie.Credits;
 
 /// [Scraper] implementation that fetches movies from TMDB and emits the
 /// resulting [SaveMovie] commands on the `save-movie-out` channel.
@@ -43,8 +44,9 @@ class MovieScraper extends Scraper<SaveMovie> {
     var backdrop = imageScraper.extract(movie.backdrop_path());
     var poster = imageScraper.extract(movie.poster_path());
     var command = mapper.toSaveMovie(movie, backdrop, poster);
+    var credits = command.credits();
     return SaveMovie.builder(command)
-        .credits(creditLimiter.limit(command.credits()))
+        .credits(creditLimiter.limit(credits.cast(), credits.crew(), Credits::new))
         .build();
   }
 

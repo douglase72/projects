@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.api;
+package com.erdouglass.emdb.ingest;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
