@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import com.erdouglass.emdb.ingest.IngestMedia;
-import com.erdouglass.emdb.ingest.messaging.IngestProducer;
+import com.erdouglass.emdb.ingest.IngestProducer;
 
 /// REST resource that produces the [IngestMedia] command for movies on demand.
 ///

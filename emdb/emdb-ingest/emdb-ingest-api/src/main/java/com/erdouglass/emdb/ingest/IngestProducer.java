@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.messaging;
+package com.erdouglass.emdb.ingest;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -13,7 +13,6 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.common.messaging.LoggingDecorator;
-import com.erdouglass.emdb.ingest.IngestMedia;
 
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 

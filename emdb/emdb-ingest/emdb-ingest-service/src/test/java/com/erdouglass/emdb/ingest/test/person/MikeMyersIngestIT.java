@@ -18,12 +18,12 @@ import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
 import com.erdouglass.emdb.ingest.IngestMedia.IngestType;
 import com.erdouglass.emdb.ingest.test.TestHelper;
 
-class HarrisonFordIngestIT {
-  private static final Logger LOGGER = Logger.getLogger(HarrisonFordIngestIT.class);
+class MikeMyersIngestIT {
+  private static final Logger LOGGER = Logger.getLogger(MikeMyersIngestIT.class);
   
   @Test
   void testPersonIngest() throws IOException, InterruptedException {
-    var command = IngestMedia.of(3, IngestType.PERSON, IngestSource.CLI);
+    var command = IngestMedia.of(12073, IngestType.PERSON, IngestSource.CLI);
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
         .uri(UriBuilder.fromUri(TestHelper.INGEST_URL).build())
@@ -33,6 +33,6 @@ class HarrisonFordIngestIT {
     var et = Duration.between(start, Instant.now()).toMillis();
     var jobId = response.body();
     assertEquals(202, response.statusCode());
-    LOGGER.infof("Person ingest request %s completed in %d ms", jobId, et);    
+    LOGGER.infof("Mike Myers ingest request %s completed in %d ms", jobId, et);    
   }
 }

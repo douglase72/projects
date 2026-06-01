@@ -7,8 +7,8 @@ module com.erdouglass.emdb.ingest.scraper {
   requires microprofile.rest.client.api;
   requires org.jboss.logging;
   requires org.mapstruct;
-  requires smallrye.reactive.messaging.rabbitmq;
   requires smallrye.reactive.messaging.api;
+  requires smallrye.reactive.messaging.rabbitmq;
   
   requires transitive com.erdouglass.common.messaging;
   requires transitive com.erdouglass.emdb.ingest;

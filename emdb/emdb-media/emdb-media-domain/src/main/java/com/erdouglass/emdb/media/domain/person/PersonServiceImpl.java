@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.domain.person;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,10 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestSource;
+import com.erdouglass.emdb.ingest.IngestMedia.IngestType;
+import com.erdouglass.emdb.ingest.IngestProducer;
 import com.erdouglass.emdb.media.domain.PersonService;
 import com.erdouglass.emdb.media.domain.internal.ImageService;
 import com.erdouglass.emdb.media.domain.internal.PersonResolver;
@@ -24,6 +29,9 @@ class PersonServiceImpl implements PersonService, PersonResolver {
   
   @Inject
   ImageService imageService;
+  
+  @Inject
+  IngestProducer producer;
   
   @Inject
   PersonMapper mapper;
@@ -59,23 +67,34 @@ class PersonServiceImpl implements PersonService, PersonResolver {
     }    
     var distinct = credits.stream()
         .collect(Collectors.toMap(PersonCredit::tmdbId, Function.identity(), (a, _) -> a));
-    var resolved = repository.findByTmdbIdIn(List.copyOf(distinct.keySet())).stream()
+    
+    var existing = repository.findByTmdbIdIn(List.copyOf(distinct.keySet())).stream()
         .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
-    var people = distinct.values().stream()
-        .filter(c -> !resolved.containsKey(c.tmdbId()))
+    for (var credit : credits) {
+      var person = existing.get(credit.tmdbId());
+      if (person != null && !Objects.equals(person.getTmdbProfile(), credit.profile())) {
+        var command = IngestMedia.of(person.getTmdbId(), IngestType.PERSON, IngestSource.MEDIA);
+        producer.publish(command);
+      }
+    }
+    
+    var peopleToInsert = distinct.values().stream()
+        .filter(c -> !existing.containsKey(c.tmdbId()))
         .map(PersonServiceImpl::toPerson)
         .toList();   
-    for (var person : repository.insertAll(people)) {
-      resolved.put(person.getTmdbId(), person);
+    for (var person : repository.insertAll(peopleToInsert)) {
+      var tmdbId = person.getTmdbId();
+      existing.put(tmdbId, person);
+      var command = IngestMedia.of(tmdbId, IngestType.PERSON, IngestSource.MEDIA);
+      producer.publish(command);
     }
-    return resolved;
+    return existing;
   }
   
   private static Person toPerson(PersonCredit credit) {
     var person = new Person(credit.tmdbId());
     person.setName(credit.name());
     person.setGender(credit.gender());
-    person.setTmdbProfile(credit.profile());
     return person;
   }
 }

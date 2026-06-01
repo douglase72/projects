@@ -1,5 +1,6 @@
 plugins {
   id 'java-library'
+  id 'org.gradlex.extra-java-module-info' version '1.12'
 }
 
 group = 'com.erdouglass.emdb'
@@ -8,7 +9,17 @@ version = '1.0.0-SNAPSHOT'
 dependencies {
   compileOnly enforcedPlatform(libs.quarkus.bom)
   
+  implementation project(':common-messaging')
+  
   compileOnly libs.jackson.annotations
+  compileOnly libs.jakarta.cdi.api
   compileOnly libs.jakarta.validation.api
+  compileOnly libs.smallrye.reactive.messaging.api
+  compileOnly libs.smallrye.reactive.messaging.rabbitmq
 }
 
+extraJavaModuleInfo {
+  failOnMissingModuleInfo = false
+  automaticModule('io.smallrye.reactive:smallrye-reactive-messaging-api', 'smallrye.reactive.messaging.api')
+  automaticModule('io.smallrye.reactive:smallrye-reactive-messaging-rabbitmq', 'smallrye.reactive.messaging.rabbitmq')  
+}

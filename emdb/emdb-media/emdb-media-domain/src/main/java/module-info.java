@@ -11,6 +11,7 @@ module com.erdouglass.emdb.media.domain {
   requires org.jboss.logging;
   requires org.mapstruct;
   
+  requires transitive com.erdouglass.emdb.ingest;
   requires transitive com.erdouglass.emdb.media;
 
   exports com.erdouglass.emdb.media.domain;
