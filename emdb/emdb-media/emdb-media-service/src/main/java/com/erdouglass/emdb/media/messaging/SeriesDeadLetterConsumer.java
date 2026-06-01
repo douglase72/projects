@@ -14,6 +14,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.series.SaveSeries;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,16 +51,31 @@ public class SeriesDeadLetterConsumer {
   public void onMessage(SaveSeries command) {
     var title = command.title().replace(":", "").replace(" ", "-");
     var ts = LocalDateTime.now().format(FILE_FMT);
-    var path = Path.of(seriesPath, String.format("%s-%s.json", title, ts));
+    var base = String.format("%s-%s", title, ts);
+    var jsonPath = Path.of(seriesPath, base + ".json");
     
     try {
-      var file = path.toFile();
-      objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, command);
+      var cmd = SaveSeries.builder(command)
+          .backdrop(saveImage(command.backdrop(), base + ".backdrop"))
+          .poster(saveImage(command.poster(), base + ".poster"))
+          .build();
+      var file = jsonPath.toFile();
+      objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cmd);
       var perms = PosixFilePermissions.fromString("rw-rw-rw-");
       Files.setPosixFilePermissions(file.toPath(), perms);
       LOGGER.infof("Created %s for inspection", file.getAbsolutePath());
     } catch (IOException e) {
-      LOGGER.errorf(e, "Failed to write file to: %s", path);
+      LOGGER.errorf(e, "Failed to write file to: %s", jsonPath);
     }
+  }
+  
+  private Image saveImage(final Image image, final String fileName) throws IOException {
+    if (image == null || image.data() == null) {
+      return image;
+    }
+    Files.write(Path.of(seriesPath, fileName), image.data());
+    return Image.builder()
+        .tmdbName(image.tmdbName())
+        .build();
   }
 }
