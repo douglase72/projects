@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +29,7 @@ record Movie(
     @NotNull @Positive Integer id,
     @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate release_date,
-    @NotNull @Min(0) @Max(10) Float vote_average,
+    @NotNull @DecimalMin("0") @DecimalMax("10") Float vote_average,
     @NotNull ShowStatus status,
     @PositiveOrZero Integer runtime,
     @PositiveOrZero Integer budget,
@@ -43,6 +45,7 @@ record Movie(
   public record Credits(List<@Valid TmdbCastCredit> cast, List<@Valid TmdbCrewCredit> crew) {}
   
   public record TmdbCastCredit (
+      @NotBlank String credit_id,
       @NotNull @Positive Integer id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
       @NotNull @Min(0) @Max(3) Integer gender,
@@ -51,6 +54,7 @@ record Movie(
       @NotNull @PositiveOrZero Integer order) {}
   
   public record TmdbCrewCredit (
+      @NotBlank String credit_id,
       @NotNull @Positive Integer id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
       @NotNull @Min(0) @Max(3) Integer gender,

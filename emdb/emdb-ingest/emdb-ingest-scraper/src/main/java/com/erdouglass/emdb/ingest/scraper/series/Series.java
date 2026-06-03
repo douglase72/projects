@@ -3,6 +3,8 @@ package com.erdouglass.emdb.ingest.scraper.series;
 import java.util.List;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +22,7 @@ import com.erdouglass.emdb.media.show.ShowStatus;
 record Series(
     @NotNull @Positive Integer id,
     @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String name,
-    @NotNull @Min(0) @Max(10) Float vote_average,
+    @NotNull @DecimalMin("0") @DecimalMax("10") Float vote_average,
     @NotNull ShowStatus status,
     @NotNull SeriesType type,
     @Size(min = ShowConstants.POSTER_MIN_LENGTH, max = ShowConstants.POSTER_MAX_LENGTH) String backdrop_path,
@@ -39,22 +41,22 @@ record Series(
       @NotNull @Min(0) @Max(3) Integer gender,
       @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile_path,
       List<@Valid Role> roles,
-      @NotNull @Positive Integer total_episode_count,
+      @NotNull @PositiveOrZero Integer total_episode_count,
       @NotNull @PositiveOrZero Integer order) {
 
     public record Role(
         @NotBlank String credit_id,
         @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
-        @NotNull @Positive Integer episode_count) {}
+        @NotNull @PositiveOrZero Integer episode_count) {}
   }
   
   public record TmdbCrewCredit(
       @NotNull @Positive Integer id,
-      @NotBlank @Size(min = 1, max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
       @NotNull @Min(0) @Max(3) Integer gender,
       @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile_path,
       List<@Valid Job> jobs,
-      @NotNull @Positive Integer total_episode_count) {
+      @NotNull @PositiveOrZero Integer total_episode_count) {
 
     public record Job(
         @NotBlank String credit_id,

@@ -78,7 +78,7 @@ class MovieServiceImpl implements MovieService {
     var people = resolver.findOrCreate(allCredits);
     List<MovieCredit> creditsToInsert = new ArrayList<>();
     for (var credit : allCredits) {
-      creditsToInsert.add(toMovieCredit(credit, movie, people.get(credit.tmdbId())));
+      creditsToInsert.add(toMovieCredit((com.erdouglass.emdb.media.movie.MovieCredit)credit, movie, people.get(credit.tmdbId())));
     }
     
     if (!creditsToInsert.isEmpty()) {
@@ -86,8 +86,9 @@ class MovieServiceImpl implements MovieService {
     }
   }
   
-  private MovieCredit toMovieCredit(PersonCredit credit, Movie movie, Person person) {
-    var movieCredit = new MovieCredit();
+  private MovieCredit toMovieCredit(
+      com.erdouglass.emdb.media.movie.MovieCredit credit, Movie movie, Person person) {
+    var movieCredit = new MovieCredit(credit.creditId());
     movieCredit.setPerson(person);
     movieCredit.setMovie(movie);
     switch (credit) {

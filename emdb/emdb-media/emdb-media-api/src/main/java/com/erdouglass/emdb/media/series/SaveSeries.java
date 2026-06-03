@@ -3,8 +3,8 @@ package com.erdouglass.emdb.media.series;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +24,7 @@ import com.erdouglass.emdb.media.show.ShowStatus;
 public record SaveSeries(
     @NotNull @Positive Integer tmdbId,
     @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
-    @NotNull @Min(0) @Max(10) Float score,
+    @NotNull @DecimalMin("0") @DecimalMax("10") Float score,
     @NotNull ShowStatus status,
     @NotNull SeriesType type,
     @Valid Image backdrop,
@@ -70,9 +70,10 @@ public record SaveSeries(
       @NotNull Gender gender,
       @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile,      
       @NotEmpty List<@Valid Role> roles,
-      @NotNull @PositiveOrZero Integer order) implements com.erdouglass.emdb.media.credit.CastCredit {
+      @NotNull @PositiveOrZero Integer order) implements PersonCredit {
     
     public record Role(
+        @NotBlank String creditId,
         @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
         @NotNull @PositiveOrZero Integer episodeCount) {}
   }
@@ -85,6 +86,7 @@ public record SaveSeries(
       @NotEmpty List<@Valid Job> jobs) implements PersonCredit {
     
     public record Job(
+        @NotBlank String creditId,
         @Size(max = ShowConstants.ROLE_MAX_LENGTH) String title,
         @NotNull @PositiveOrZero Integer episodeCount) {}    
   }  

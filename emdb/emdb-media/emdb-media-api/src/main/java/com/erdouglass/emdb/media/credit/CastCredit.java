@@ -1,8 +1,8 @@
 package com.erdouglass.emdb.media.credit;
 
-import com.erdouglass.emdb.media.person.PersonCredit;
+import com.erdouglass.emdb.media.movie.MovieCredit;
 
-public interface CastCredit extends PersonCredit {
+public interface CastCredit extends MovieCredit {
 
   Integer order();
 }

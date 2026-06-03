@@ -45,9 +45,7 @@ class SeriesScraper extends Scraper<SaveSeries> {
     var poster = imageScraper.extract(series.poster_path());
     var command = mapper.toSaveSeries(series, backdrop, poster);
     var credits = command.credits();
-    return SaveSeries.builder(command)
-        .credits(creditLimiter.limit(credits.cast(), credits.crew(), Credits::new))
-        .build();
+    return null;
   }
 
   @Override

@@ -39,9 +39,11 @@ interface SeriesMapper {
   @Mapping(source = "profile_path", target = "profile")
   CrewCredit toCastCredit(TmdbCrewCredit credit);
   
+  @Mapping(source = "credit_id", target = "creditId")
   @Mapping(source = "role.episode_count", target = "episodeCount")
   CastCredit.Role toRole(TmdbCastCredit.Role role);
   
+  @Mapping(source = "credit_id", target = "creditId")
   @Mapping(source = "job.job", target = "title")
   @Mapping(source = "job.episode_count", target = "episodeCount")
   CrewCredit.Job toJob(TmdbCrewCredit.Job job);

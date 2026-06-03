@@ -30,10 +30,12 @@ interface MovieMapper {
   @Mapping(source = "movie.original_language", target = "originalLanguage")
   SaveMovie toSaveMovie(Movie movie, Image backdrop, Image poster);
   
+  @Mapping(source = "credit_id", target = "creditId")
   @Mapping(source = "id", target = "tmdbId")
   @Mapping(source = "profile_path", target = "profile")
   CastCredit toCastCredit(TmdbCastCredit credit);
   
+  @Mapping(source = "credit_id", target = "creditId")
   @Mapping(source = "id", target = "tmdbId")
   @Mapping(source = "profile_path", target = "profile")
   CrewCredit toCastCredit(TmdbCrewCredit credit);

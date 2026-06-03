@@ -22,7 +22,11 @@ class MovieCredit extends Credit {
   @Size(max = ShowConstants.ROLE_MAX_LENGTH)
   private String role;
   
-  MovieCredit() {}
+  protected MovieCredit() {}
+  
+  protected MovieCredit(final String creditId) {
+    super(creditId);
+  }
   
   public void setMovie(Movie movie) {
     this.movie = movie;
