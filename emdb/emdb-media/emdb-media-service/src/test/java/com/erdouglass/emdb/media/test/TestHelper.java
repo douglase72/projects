@@ -1,7 +1,11 @@
 package com.erdouglass.emdb.media.test;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import com.erdouglass.emdb.media.Image;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -22,4 +26,10 @@ public final class TestHelper {
   }  
 
   private TestHelper() {}
+  
+  public static Image image(final String tmdbName, final String image) throws IOException {
+    var dir = "/home/erdouglass/projects/emdb/emdb-media/emdb-media-service/test-data";
+    byte[] data = Files.readAllBytes(Path.of(dir, image));
+    return Image.builder().tmdbName(tmdbName).data(data).build();
+  } 
 }

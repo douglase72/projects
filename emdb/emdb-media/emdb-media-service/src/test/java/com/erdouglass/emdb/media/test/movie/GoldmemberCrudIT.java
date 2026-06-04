@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.command.SaveMovie;
 import com.erdouglass.emdb.media.movie.MovieResponse;
 import com.erdouglass.emdb.media.show.ShowStatus;
@@ -43,8 +40,8 @@ class GoldmemberCrudIT {
         .revenue(296938801L)
         .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
         .originalLanguage("en")
-        .backdrop(image("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg", "019e5c92-5a24-7517-8b7a-3734166ad76a.jpg"))
-        .poster(image("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", "019e5c8d-efdc-7687-b6c7-a6e822fb6d6d.jpg"))
+        .backdrop(TestHelper.image("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg", "019e5c92-5a24-7517-8b7a-3734166ad76a.jpg"))
+        .poster(TestHelper.image("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", "019e5c8d-efdc-7687-b6c7-a6e822fb6d6d.jpg"))
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
         .build();
@@ -72,10 +69,4 @@ class GoldmemberCrudIT {
     assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());    
     LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
   }
-  
-  private Image image(final String tmdbName, final String image) throws IOException {
-    var dir = "/home/erdouglass/projects/emdb/emdb-media/emdb-media-service/test-data";
-    byte[] data = Files.readAllBytes(Path.of(dir, image));
-    return Image.builder().tmdbName(tmdbName).data(data).build();
-  }  
 }
