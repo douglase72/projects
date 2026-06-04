@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.movie.internal;
+package com.erdouglass.emdb.media.movie;
 
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.command.SaveMovie;
-import com.erdouglass.emdb.media.movie.MovieResponse;
+import com.erdouglass.emdb.media.query.MovieResponse;
 
 @Mapper(
     componentModel = "cdi", 

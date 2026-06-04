@@ -14,7 +14,6 @@ import jakarta.validation.constraints.Size;
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.Image;
-import com.erdouglass.emdb.media.movie.MovieBuilder;
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 

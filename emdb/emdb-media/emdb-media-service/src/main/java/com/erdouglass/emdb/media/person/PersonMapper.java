@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.person.internal;
+package com.erdouglass.emdb.media.person;
 
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.command.SavePerson;
-import com.erdouglass.emdb.media.person.PersonResponse;
+import com.erdouglass.emdb.media.query.PersonResponse;
 
 @Mapper(
     componentModel = "cdi", 

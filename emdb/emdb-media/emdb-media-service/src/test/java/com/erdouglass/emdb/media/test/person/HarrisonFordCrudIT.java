@@ -17,9 +17,9 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.command.SavePerson;
-import com.erdouglass.emdb.media.person.Gender;
-import com.erdouglass.emdb.media.person.PersonResponse;
+import com.erdouglass.emdb.media.query.PersonResponse;
 import com.erdouglass.emdb.media.test.TestHelper;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -44,7 +44,7 @@ class HarrisonFordCrudIT {
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
-    assertEquals(201, response.statusCode(), "Server failed with response: " + response.body());
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
     
     var person = TestHelper.OBJECT_MAPPER.readValue(response.body(), PersonResponse.class);
     assertEquals(3, person.tmdbId());

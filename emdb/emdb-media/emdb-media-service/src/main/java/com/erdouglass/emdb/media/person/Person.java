@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.person.internal;
+package com.erdouglass.emdb.media.person;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -16,9 +16,9 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.Gender;
+import com.erdouglass.emdb.media.PersonConstants;
 import com.erdouglass.emdb.media.internal.Media;
-import com.erdouglass.emdb.media.person.Gender;
-import com.erdouglass.emdb.media.person.PersonConstants;
 import com.erdouglass.emdb.media.show.ShowConstants;
 
 @Entity

@@ -10,8 +10,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.Image;
-import com.erdouglass.emdb.media.series.SeriesBuilder;
-import com.erdouglass.emdb.media.series.SeriesType;
+import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 

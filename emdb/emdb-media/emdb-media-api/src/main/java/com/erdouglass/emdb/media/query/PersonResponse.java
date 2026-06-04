@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.person;
+package com.erdouglass.emdb.media.query;
 
 import java.time.LocalDate;
 
@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
+import com.erdouglass.emdb.media.Gender;
+import com.erdouglass.emdb.media.PersonConstants;
 
 public record PersonResponse(    
     @NotNull @Positive Long id,

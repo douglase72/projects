@@ -10,10 +10,9 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.Image;
-import com.erdouglass.emdb.media.person.Gender;
-import com.erdouglass.emdb.media.person.PersonBuilder;
-import com.erdouglass.emdb.media.person.PersonConstants;
+import com.erdouglass.emdb.media.PersonConstants;
 
 public record SavePerson(
     @NotNull @Positive Integer tmdbId,

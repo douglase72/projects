@@ -1,7 +1,8 @@
-package com.erdouglass.emdb.media.person;
+package com.erdouglass.emdb.media.command;
 
 import java.time.LocalDate;
 
+import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.Image;
 
 public abstract class PersonBuilder<T> {

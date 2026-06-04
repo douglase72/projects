@@ -2,8 +2,8 @@ package com.erdouglass.emdb.media.internal;
 
 import java.time.LocalDate;
 
+import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.Image;
-import com.erdouglass.emdb.media.person.Gender;
 
 public record PersonData(
     Integer tmdbId,

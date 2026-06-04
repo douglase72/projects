@@ -1,52 +1,48 @@
-package com.erdouglass.emdb.media.movie.internal;
+package com.erdouglass.emdb.media.series;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import com.erdouglass.emdb.media.command.SaveMovie;
+import com.erdouglass.emdb.media.command.SaveSeries;
 import com.erdouglass.emdb.media.internal.ImageService;
 import com.erdouglass.emdb.media.internal.Log;
-import com.erdouglass.emdb.media.internal.PersonResolver;
 
 @ApplicationScoped
-class MovieService {
-  
+class SeriesService {
+
   @Inject
   ImageService imageService;
-  
-  @Inject
-  MovieMapper mapper;
-  
-  @Inject
-  MovieRepository movieRepository;
-  
-  @Inject
-  PersonResolver resolver;
 
+  @Inject
+  SeriesMapper mapper;
+  
+  @Inject
+  SeriesRepository seriesRepository;
+  
   @Log
   @Transactional
-  public Movie save(final SaveMovie command) {
-    Movie movie;
-    var existing = movieRepository.findByTmdbId(command.tmdbId()).orElse(null);
+  public Series save(final SaveSeries command) {
+    Series series;
+    var existing = seriesRepository.findByTmdbId(command.tmdbId()).orElse(null);
     if (existing == null) {
       var backdrop = imageService.save(command.backdrop());
       var poster = imageService.save(command.poster());
-      movie = movieRepository.insert(mapper.toMovie(command, backdrop, poster));
+      series = seriesRepository.insert(mapper.toMovie(command, backdrop, poster));
     } else {
       var backdrop = imageService
           .update(existing.getTmdbBackdrop(), existing.getBackdrop(), command.backdrop());
       var poster = imageService
           .update(existing.getTmdbPoster(), existing.getPoster(), command.poster());
-      var cmd = SaveMovie.builder(command)
+      var cmd = SaveSeries.builder(command)
           .backdrop(backdrop.image())
           .poster(poster.image())
           .build();
       mapper.merge(cmd, existing);
-      movie = movieRepository.update(existing);
+      series = seriesRepository.update(existing);
       backdrop.toDelete().ifPresent(imageService::delete);
       poster.toDelete().ifPresent(imageService::delete);
-    }
-    return movie;
+    }    
+    return series;
   }
 }

@@ -1,7 +1,8 @@
-package com.erdouglass.emdb.media.series;
+package com.erdouglass.emdb.media.command;
 
 import java.time.LocalDate;
 
+import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.show.ShowBuilder;
 
 public abstract class SeriesBuilder<T> extends ShowBuilder<T> {

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.person;
+package com.erdouglass.emdb.media;
 
 import java.util.Map;
 import java.util.Optional;
