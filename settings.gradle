@@ -43,9 +43,6 @@ project(':emdb-ingest-service').projectDir = file('emdb/emdb-ingest/emdb-ingest-
 include 'emdb-media-api'
 project(':emdb-media-api').projectDir = file('emdb/emdb-media/emdb-media-api')
 
-include 'emdb-media-domain'
-project(':emdb-media-domain').projectDir = file('emdb/emdb-media/emdb-media-domain')
-
 include 'emdb-media-service'
 project(':emdb-media-service').projectDir = file('emdb/emdb-media/emdb-media-service')
 

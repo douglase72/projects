@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import com.erdouglass.emdb.media.show.ShowBuilder;
 
 public abstract class MovieBuilder<T> extends ShowBuilder<T> {
-  protected Integer budget;
+  protected Long budget;
   protected LocalDate releaseDate;
-  protected Integer revenue;
+  protected Long revenue;
   protected Integer runtime;
     
-  public T budget(final Integer budget) {
+  public T budget(final Long budget) {
     this.budget = budget;
     return self();
   }
@@ -20,7 +20,7 @@ public abstract class MovieBuilder<T> extends ShowBuilder<T> {
     return self();
   }
   
-  public T revenue(final Integer revenue) {
+  public T revenue(final Long revenue) {
     this.revenue = revenue;
     return self();
   }

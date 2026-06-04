@@ -1,5 +1,6 @@
 plugins {
   id 'java'
+  id 'eclipse'
   alias(libs.plugins.quarkus)
 }
 
@@ -8,26 +9,36 @@ version = '1.0.0-SNAPSHOT'
 
 dependencies {
   implementation enforcedPlatform(libs.quarkus.bom)
+  annotationProcessor enforcedPlatform(libs.quarkus.bom)
   
-  implementation project(':common-messaging')
+  annotationProcessor libs.hibernate.processor
+  annotationProcessor libs.mapstruct.processor
+  
   implementation project(':common-rest')
   implementation project(':common-validation')
-  implementation project(':emdb-ingest-api')
+  implementation project(':emdb-common-api')
   implementation project(':emdb-media-api')
-  implementation project(':emdb-media-domain')
   
+  implementation libs.mapstruct
   implementation libs.jakarta.data.api
+  implementation libs.jug
   implementation libs.quarkus.arc
   implementation libs.quarkus.flyway
   implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.jdbc.postgresql
   implementation libs.quarkus.logging
-  implementation libs.quarkus.messaging
-  implementation libs.quarkus.messaging.rabbitmq
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
   
   testImplementation libs.quarkus.junit
 }
 
+eclipse {
+  classpath {
+    file.whenMerged { classpath ->
+      def generatedSrcDir = 'build/generated/sources/annotationProcessor/java/main'
+      classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(generatedSrcDir, null))
+    }
+  }
+}

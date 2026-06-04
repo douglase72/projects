@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.command;
 
 import java.time.LocalDate;
 
@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.movie.MovieBuilder;
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
@@ -24,8 +25,8 @@ public record SaveMovie(
     @NotNull @DecimalMin("0") @DecimalMax("10") Float score,
     @NotNull ShowStatus status,
     @PositiveOrZero Integer runtime,
-    @PositiveOrZero Integer budget,
-    @PositiveOrZero Integer revenue,
+    @PositiveOrZero Long budget,
+    @PositiveOrZero Long revenue,
     @Valid Image backdrop,
     @Valid Image poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
