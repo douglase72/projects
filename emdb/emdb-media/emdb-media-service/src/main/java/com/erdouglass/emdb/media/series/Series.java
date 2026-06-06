@@ -1,11 +1,14 @@
 package com.erdouglass.emdb.media.series;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -30,6 +33,12 @@ import com.erdouglass.emdb.media.show.ShowConstants;
     initialValue = 1, 
     allocationSize = 1)
 class Series extends Show {
+  
+  /// The credits collection in a series is a bidirectional association 
+  /// specified by the mappedBy field which maps the [Series#id] 
+  /// primary key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _SeriesCredit.SERIES)
+  private List<SeriesCredit> credits = new ArrayList<>();
 
   @Column(name = "first_air_date")
   @DateRange(min = ShowConstants.SERIES_MIN_DATE, max = ShowConstants.MAX_DATE)
@@ -44,6 +53,14 @@ class Series extends Show {
   
   protected Series(final int tmdbId) {
     super(tmdbId);
+  }
+  
+  public void setCredits(List<SeriesCredit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<SeriesCredit> getCredits() {
+    return List.copyOf(credits);
   }
   
   public void setFirstAirDate(LocalDate firstAirDate) {

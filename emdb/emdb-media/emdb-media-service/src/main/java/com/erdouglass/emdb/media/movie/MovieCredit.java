@@ -1,10 +1,16 @@
 package com.erdouglass.emdb.media.movie;
 
+import java.util.Objects;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import org.hibernate.Hibernate;
 
 import com.erdouglass.emdb.media.credit.Credit;
 import com.erdouglass.emdb.media.show.ShowConstants;
@@ -25,10 +31,15 @@ class MovieCredit extends Credit {
   @Size(max = ShowConstants.ROLE_MAX_LENGTH)
   private String role;
   
+  /// The TMDB id provides a stable immutable natural key.
+  @NotNull
+  @Column(name = "tmdb_id", unique = true, updatable = false)
+  private String tmdbId;
+  
   protected MovieCredit() {}
   
-  protected MovieCredit(final String creditId) {
-    super(creditId);
+  protected MovieCredit(final String tmdbId) {
+    this.tmdbId = tmdbId;
   }
 
   public void setMovie(Movie movie) {
@@ -47,9 +58,29 @@ class MovieCredit extends Credit {
     return role;
   }
   
+  public String getTmdbId() {
+    return tmdbId;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj))
+      return false;
+    MovieCredit other = (MovieCredit) obj;
+    return Objects.equals(getTmdbId(), other.getTmdbId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(getTmdbId());
+  }
+  
   @Override
   public String toString() {
     return getClass().getSimpleName() + "[id=" + getId()
+      + ", tmdb=" + getTmdbId()
       + ", type=" + getType()
       + ", role=" + getRole()
       + ", order=" + getOrder()

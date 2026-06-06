@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -16,8 +17,14 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.command.SaveSeries;
+import com.erdouglass.emdb.media.command.SaveSeries.CastCredit;
+import com.erdouglass.emdb.media.command.SaveSeries.CastCredit.Role;
+import com.erdouglass.emdb.media.command.SaveSeries.Credits;
+import com.erdouglass.emdb.media.command.SaveSeries.CrewCredit;
+import com.erdouglass.emdb.media.command.SaveSeries.CrewCredit.Job;
 import com.erdouglass.emdb.media.query.SeriesResponse;
 import com.erdouglass.emdb.media.show.ShowStatus;
 import com.erdouglass.emdb.media.test.TestHelper;
@@ -29,6 +36,19 @@ class TheSimpsonsCrudIT {
   @Test
   @Order(1)
   void testSaveSeries() throws IOException, InterruptedException {
+    var credits = new Credits(
+        List.of(
+            new CastCredit(198, "Dan Castellaneta", Gender.MALE, "/AmeqWhP4A46AWkM4kVphg6jOTQX.jpg", List.of(
+                new Role("5256bdc319c2956ff600157c", "Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)", 801)), 0),
+            new CastCredit(6009, "Pamela Hayden", Gender.FEMALE, "/mPMtuVB6AEulRhlfn69y5RvgmNT.jpg", List.of(
+                new Role("66d03a008378b206bc8842b1", "Milhouse Van Houten (voice)", 80),
+                new Role("644e6c604d23dd20d792c8d1", "Milhouse (voice)", 59),
+                new Role("66d16e86bf547fec04a7ea89", "Milhouse Van Houten / Jimbo Jones (voice)", 39)), 1768)), 
+        List.of(
+            new CrewCredit(5741, "Matt Groening", Gender.MALE, "/2HmAw3AN93DGESPi3ibLZgBa8cT.jpg", List.of(
+                new Job("5256bdcd19c2956ff60020be", "Executive Producer", 673),
+                new Job("60c1334dd34eb30040a2824e", "Character Designer", 1)))));
+    
     var command = SaveSeries.builder()
         .tmdbId(456)
         .title("The Simpsons")
@@ -40,6 +60,7 @@ class TheSimpsonsCrudIT {
         .backdrop(TestHelper.image("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg", "019e5c92-5a24-7517-8b7a-3734166ad76a.jpg"))
         .poster(TestHelper.image("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", "019e5c8d-efdc-7687-b6c7-a6e822fb6d6d.jpg"))
         .overview("Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.")
+        .credits(credits)
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
@@ -58,6 +79,17 @@ class TheSimpsonsCrudIT {
     assertEquals(SeriesType.SCRIPTED, series.type());
     assertEquals("http://www.thesimpsons.com/", series.homepage());
     assertEquals("Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.", series.overview());    
+    
+    var cast = series.credits().cast();
+    assertEquals(2, cast.size());
+    assertEquals("Dan Castellaneta", cast.get(0).name());
+    assertEquals("Pamela Hayden", cast.get(1).name());
+    
+    var crew = series.credits().crew();
+    assertEquals(1, crew.size());
+    assertEquals("Executive Producer", crew.get(0).jobs().get(0).title());
+    assertEquals("Character Designer", crew.get(0).jobs().get(1).title());
+    
     LOGGER.infof("Saved The Simpsons in %d ms", et);    
   }
 }

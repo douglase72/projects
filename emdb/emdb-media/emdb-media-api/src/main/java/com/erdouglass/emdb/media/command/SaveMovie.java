@@ -57,7 +57,8 @@ public record SaveMovie(
         .homepage(command.homepage)
         .originalLanguage(command.originalLanguage)
         .tagline(command.tagline)
-        .overview(command.overview);
+        .overview(command.overview)
+        .credits(command.credits);
   }
   
   @Override

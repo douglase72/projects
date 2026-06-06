@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.credit;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -17,6 +18,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.erdouglass.emdb.media.internal.Media;
@@ -33,8 +36,20 @@ import com.erdouglass.emdb.media.person.Person;
 @Entity
 @Table(name = "Credits")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Credit extends Media<String> {
+public abstract class Credit {
   private static final int CREDIT_TYPE_MAX_LENGTH = 4;
+  
+  /// The timestamp when this entity was first persisted. This is automatically
+  /// managed by Hibernate.
+  @CreationTimestamp
+  @Column(nullable = false, updatable = false)
+  private Instant createdAt;
+  
+  /// The timestamp when this entity was last updated. This is automatically
+  /// managed by Hibernate.
+  @UpdateTimestamp
+  @Column(nullable = false)
+  private Instant modifiedAt;
   
   /// Billing/display order. Mapped to `credit_order` because `order` is a
   /// reserved SQL word.
@@ -61,14 +76,18 @@ public abstract class Credit extends Media<String> {
   @Column(name = "credit_type", updatable = false, length = CREDIT_TYPE_MAX_LENGTH)
   private CreditType type; 
   
-  protected Credit() { }
+  protected Credit() {}
   
-  protected Credit(final String creditId) {
-    super(creditId);
+  public Instant getCreatedAt() {
+    return createdAt;
   }
   
   public UUID getId() {
     return id;
+  }
+  
+  public Instant getModifiedAt() {
+    return modifiedAt;
   }
   
   public void setOrder(Integer order) {
@@ -93,5 +112,5 @@ public abstract class Credit extends Media<String> {
   
   public CreditType getType() {
     return type;
-  }  
+  }
 }

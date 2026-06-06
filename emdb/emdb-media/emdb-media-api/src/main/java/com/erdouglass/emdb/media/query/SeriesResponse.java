@@ -1,16 +1,23 @@
 package com.erdouglass.emdb.media.query;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
+import com.erdouglass.emdb.media.Gender;
+import com.erdouglass.emdb.media.PersonConstants;
 import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.ValidImage;
 import com.erdouglass.emdb.media.show.ShowConstants;
@@ -30,4 +37,36 @@ public record SeriesResponse(
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {}
+    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits) {
+  
+  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
+  
+  public record CastCredit(
+      @NotNull @Positive Long id,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotNull Gender gender,
+      @ValidImage String profile,      
+      @NotEmpty List<@Valid Role> roles,
+      @NotNull @PositiveOrZero Integer order) {
+    
+    public record Role(
+        @NotNull UUID creditId, 
+        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
+        @NotNull @PositiveOrZero Integer episodeCount) {}
+  }
+  
+  public record CrewCredit(
+      @NotNull @Positive Long id,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotNull Gender gender,
+      @ValidImage String profile,      
+      @NotEmpty List<@Valid Job> jobs,
+      @NotNull @PositiveOrZero Integer order) {
+    
+    public record Job(
+        @NotNull UUID creditId, 
+        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String title,
+        @NotNull @PositiveOrZero Integer episodeCount) {}
+  } 
+}

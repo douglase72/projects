@@ -87,8 +87,8 @@ class MovieService {
     List<MovieCredit> creditsToInsert = new ArrayList<>();
     for (var credit : allCredits) {
       var movieCredit = new MovieCredit(credit.creditId());
-      movieCredit.setPerson(people.get(credit.tmdbId()));
       movieCredit.setMovie(movie);
+      movieCredit.setPerson(people.get(credit.tmdbId()));
       switch (credit) {
         case CastCredit cast -> {
           movieCredit.setType(CreditType.CAST);

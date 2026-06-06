@@ -6,18 +6,18 @@
     create sequence emdb_media.series_sequence start with 1 increment by 1;
 
     create table emdb_media.Credits (
-        DTYPE varchar(31) not null check ((DTYPE in ('MovieCredit','SeriesCredit'))),
+        DTYPE varchar(31) not null check ((DTYPE in ('SeriesCredit','MovieCredit'))),
         id uuid not null,
         createdAt timestamp(6) with time zone not null,
         modifiedAt timestamp(6) with time zone not null,
-        tmdb_id varchar(255) not null unique,
         credit_order integer,
         credit_type varchar(4) not null check ((credit_type in ('CAST','CREW'))),
-        role varchar(100),
         total_episodes integer,
+        role varchar(100),
+        tmdb_id varchar(255) unique,
         person_id bigint not null,
-        movie_id bigint,
         series_id bigint,
+        movie_id bigint,
         primary key (id)
     );
 
@@ -62,6 +62,17 @@
         primary key (id)
     );
 
+    create table emdb_media.Roles (
+        id uuid not null,
+        createdAt timestamp(6) with time zone not null,
+        modifiedAt timestamp(6) with time zone not null,
+        tmdb_id varchar(255) not null unique,
+        episode_count integer not null,
+        role varchar(100),
+        series_credit_id uuid not null,
+        primary key (id)
+    );
+
     create table emdb_media.Series (
         id bigint not null,
         createdAt timestamp(6) with time zone not null,
@@ -90,11 +101,16 @@
        references emdb_media.People;
 
     alter table if exists emdb_media.Credits 
+       add constraint FKq379b62lvkufu5iwadc4lr38e 
+       foreign key (series_id) 
+       references emdb_media.Series;
+
+    alter table if exists emdb_media.Credits 
        add constraint FKsalqaewfk7tbamki5csq55yam 
        foreign key (movie_id) 
        references emdb_media.Movies;
 
-    alter table if exists emdb_media.Credits 
-       add constraint FKq379b62lvkufu5iwadc4lr38e 
-       foreign key (series_id) 
-       references emdb_media.Series;
+    alter table if exists emdb_media.Roles 
+       add constraint FKfyg3y7girjn12fg3blxg4kydc 
+       foreign key (series_credit_id) 
+       references emdb_media.Credits;

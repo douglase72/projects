@@ -18,6 +18,7 @@ import com.erdouglass.emdb.media.credit.CreditType;
 import com.erdouglass.emdb.media.internal.CommonMapper;
 import com.erdouglass.emdb.media.query.MovieResponse;
 import com.erdouglass.emdb.media.query.MovieResponse.CastCredit;
+import com.erdouglass.emdb.media.query.MovieResponse.Credits;
 import com.erdouglass.emdb.media.query.MovieResponse.CrewCredit;
 
 @Mapper(
@@ -47,12 +48,12 @@ interface MovieMapper extends CommonMapper {
   @Mapping(source = "poster",   target = "poster",   qualifiedByName = "imageToString")
   MovieResponse toMovieResponse(Movie movie);
   
-  default MovieResponse.Credits toCredits(List<MovieCredit> credits) {
+  default Credits toCredits(List<MovieCredit> credits) {
     if (credits == null) {
       return null;
     }
-    var cast = new ArrayList<MovieResponse.CastCredit>();
-    var crew = new ArrayList<MovieResponse.CrewCredit>();
+    var cast = new ArrayList<CastCredit>();
+    var crew = new ArrayList<CrewCredit>();
     for (MovieCredit credit : credits) {
       if (credit.getType() == CreditType.CAST) {
         cast.add(toCastCredit(credit));
@@ -60,7 +61,7 @@ interface MovieMapper extends CommonMapper {
         crew.add(toCrewCredit(credit));
       }
     }
-    return new MovieResponse.Credits(cast, crew);
+    return new Credits(cast, crew);
   }
   
   @Mapping(source = "id",             target = "creditId")

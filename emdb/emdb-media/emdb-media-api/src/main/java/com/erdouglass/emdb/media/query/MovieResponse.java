@@ -46,7 +46,7 @@ public record MovieResponse(
       @NotNull @Positive Long id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name, 
       @NotNull Gender gender,
-      String profile, 
+      @ValidImage String profile, 
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
       @NotNull @PositiveOrZero Integer order) {}
   
@@ -55,6 +55,6 @@ public record MovieResponse(
       @NotNull @Positive Long id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name, 
       @NotNull Gender gender,
-      String profile, 
+      @ValidImage String profile, 
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job) {}  
 }
