@@ -13,6 +13,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
+import org.eclipse.microprofile.graphql.Ignore;
+
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.Gender;
@@ -37,7 +39,16 @@ public record MovieResponse(
     @NotBlank @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @Valid Credits credits) {
+    @Valid @Ignore Credits credits) {
+  
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "[id=" + id
+        + ", tmdbId=" + tmdbId
+        + ", title=" + title
+        + ", releaseDate=" + releaseDate
+        + "]";
+  }
   
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
   

@@ -2,12 +2,13 @@
 # This is the Gradle version catalog file.
 
 [versions]
-java-uuid-generator = "5.2.0"
-mapstruct = "1.6.3"
-microprofile-config-api = "3.1.1"
-quarkus = "3.36.1"
-quarkus-logging-json = "3.5.0"
-quarkus-platform = "3.36.1"
+java-uuid-generator       = "5.2.0"
+mapstruct                 = "1.6.3"
+microprofile-config-api   = "3.1.1"
+microprofile-graphql-api  = "2.0"
+quarkus                   = "3.36.1"
+quarkus-logging-json      = "3.5.0"
+quarkus-platform          = "3.36.1"
 
 [libraries]
 # Hibernate
@@ -36,6 +37,7 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 
 # Microprofile API
 microprofile-config-api = { module = "org.eclipse.microprofile.config:microprofile-config-api" }
+microprofile-graphql-api = { module = "org.eclipse.microprofile.graphql:microprofile-graphql-api", version.ref = "microprofile-graphql-api" }
 microprofile-rest-client-api = { module = "org.eclipse.microprofile.rest.client:microprofile-rest-client-api" }
 
 # Quarkus Extension
@@ -43,6 +45,7 @@ quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quark
 quarkus-arc = { module = "io.quarkus:quarkus-arc" }
 quarkus-fault-tolerance = { module = "io.quarkus:quarkus-smallrye-fault-tolerance" }
 quarkus-flyway = { module = "io.quarkus:quarkus-flyway" }
+quarkus-graphql = { module = "io.quarkus:quarkus-smallrye-graphql" }
 quarkus-hibernate-orm = { module = "io.quarkus:quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
 quarkus-jdbc-postgresql = { module = "io.quarkus:quarkus-jdbc-postgresql" }

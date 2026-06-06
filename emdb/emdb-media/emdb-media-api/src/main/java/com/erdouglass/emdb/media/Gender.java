@@ -35,8 +35,8 @@ public enum Gender {
   
   @JsonCreator
   public static Gender from(String gender) {
-    return Optional.ofNullable(GENDER_CACHE.get(gender))
-        .orElseThrow(() -> new IllegalArgumentException("Invalid gender: " + gender));
+    var match = GENDER_CACHE.get(gender);
+    return match != null ? match : Gender.valueOf(gender);
   }
   
   public Integer id() {

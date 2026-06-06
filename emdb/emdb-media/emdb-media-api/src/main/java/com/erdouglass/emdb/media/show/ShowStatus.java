@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.media.show;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,8 +30,8 @@ public enum ShowStatus {
   
   @JsonCreator
   public static ShowStatus from(String status) {
-    return Optional.ofNullable(CACHE.get(status))
-        .orElseThrow(() -> new IllegalArgumentException("Invalid status: " + status));
+    var match = CACHE.get(status);
+    return match != null ? match : ShowStatus.valueOf(status);
   }
   
   @Override

@@ -21,9 +21,6 @@ import com.erdouglass.emdb.media.command.SaveMovie;
 class MovieResource {
   
   @Inject
-  MovieMapper mapper;
-  
-  @Inject
   MovieService service;
   
   /// Creates or updates a movie from the request body and returns the persisted
@@ -35,7 +32,7 @@ class MovieResource {
   public Response save(@NotNull @Valid final SaveMovie command) {
     var movie = service.save(command);
     return Response.ok()
-        .entity(mapper.toMovieResponse(movie))
+        .entity(movie)
         .build();
   }
 }

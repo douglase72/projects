@@ -8,15 +8,16 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import com.erdouglass.common.rest.ResourceNotFoundException;
 import com.erdouglass.emdb.media.PersonMovieCredit;
 import com.erdouglass.emdb.media.command.SaveMovie;
 import com.erdouglass.emdb.media.command.SaveMovie.CastCredit;
-import com.erdouglass.emdb.media.command.SaveMovie.Credits;
 import com.erdouglass.emdb.media.command.SaveMovie.CrewCredit;
 import com.erdouglass.emdb.media.credit.CreditType;
 import com.erdouglass.emdb.media.image.ImageService;
 import com.erdouglass.emdb.media.internal.PersonResolver;
 import com.erdouglass.emdb.media.logging.Log;
+import com.erdouglass.emdb.media.query.MovieResponse;
 
 /// Application service that orchestrates persistence of [Movie] aggregates,
 /// including their poster/backdrop images and cast & crew credits. Reconciles
@@ -26,7 +27,7 @@ import com.erdouglass.emdb.media.logging.Log;
 class MovieService {
   
   @Inject
-  MovieCreditRepository creditRepository;
+  CreditRepository creditRepository;
   
   @Inject
   ImageService imageService;
@@ -49,7 +50,7 @@ class MovieService {
   /// @return the saved movie, with generated identifiers and credits populated
   @Log
   @Transactional
-  public Movie save(final SaveMovie command) {
+  public MovieResponse save(final SaveMovie command) {
     Movie movie;
     var existing = movieRepository.findByTmdbId(command.tmdbId()).orElse(null);
     if (existing == null) {
@@ -71,13 +72,26 @@ class MovieService {
       poster.toDelete().ifPresent(imageService::delete);
     }
     saveCredits(command.credits(), movie);
-    return movie;
+    return mapper.toMovieResponse(movie);
+  }
+  
+  @Log
+  @Transactional
+  public MovieResponse findById(final Long id) {
+    return movieRepository.findById(id)
+      .map(mapper::toMovieSummary)
+      .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));    
+  }
+  
+  @Transactional
+  public MovieResponse.Credits findCreditsByMovieId(final Long movieId) {
+    return mapper.toCredits(creditRepository.findByMovieId(movieId));
   }
   
   /// Replaces all credits for the movie: existing credits are deleted, the
   /// referenced people are resolved or created, and a fresh [MovieCredit] is
   /// inserted for each cast and crew entry.
-  private void saveCredits(Credits credits, Movie movie) {
+  private void saveCredits(SaveMovie.Credits credits, Movie movie) {
     creditRepository.deleteByMovie(movie);
     var allCredits = Stream.concat(
         credits.cast().stream().map(c -> (PersonMovieCredit) c), 

@@ -29,6 +29,7 @@ class LogInterceptor {
   private String action(final String method) {
     return switch (method) {
       case "save" -> "Saved:";
+      case "findById" -> "Found:";
       default -> throw new IllegalArgumentException("Invalid method: " + method);
     };
   }
