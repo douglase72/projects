@@ -8,6 +8,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -17,7 +18,11 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.command.SaveMovie;
+import com.erdouglass.emdb.media.command.SaveMovie.CastCredit;
+import com.erdouglass.emdb.media.command.SaveMovie.Credits;
+import com.erdouglass.emdb.media.command.SaveMovie.CrewCredit;
 import com.erdouglass.emdb.media.query.MovieResponse;
 import com.erdouglass.emdb.media.show.ShowStatus;
 import com.erdouglass.emdb.media.test.TestHelper;
@@ -29,6 +34,16 @@ class GoldmemberCrudIT {
   @Test
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {
+    var credits = new Credits(
+        List.of(
+            new CastCredit("52fe427bc3a36847f8022183", 12073, "Mike Myers", Gender.MALE,  "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Austin Powers / Dr. Evil / Goldmember / Fat Bastard", 0),
+            new CastCredit("52fe427bc3a36847f802218b", 13922, "Seth Green", Gender.MALE,  "/l4No5Eu6j0U80hCIkaSn17AOWrj.jpg", "Scott Evil", 2),
+            new CastCredit("52fe427bc3a36847f8022187", 14386, "Beyoncé", Gender.FEMALE,   "/2HbjNtiCtmbArEnELuDFU7knaVK.jpg", "Foxxy Cleopatra", 1)),
+        List.of(
+            new CrewCredit("52fe427bc3a36847f8022107", 12073, "Mike Myers", Gender.MALE, "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Producer"),
+            new CrewCredit("52fe427bc3a36847f80220ef", 12073, "Mike Myers", Gender.MALE, "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Screenplay"),
+            new CrewCredit("6758f532ef269d0b88e3939a", 12073, "Mike Myers", Gender.MALE, "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Characters")));   
+    
     var command = SaveMovie.builder()
         .tmdbId(818)
         .title("Austin Powers in Goldmember")
@@ -44,6 +59,7 @@ class GoldmemberCrudIT {
         .poster(TestHelper.image("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", "019e5c8d-efdc-7687-b6c7-a6e822fb6d6d.jpg"))
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
+        .credits(credits)
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
@@ -67,6 +83,18 @@ class GoldmemberCrudIT {
     assertEquals("en", movie.originalLanguage());
     assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
     assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());    
+    
+    var cast = movie.credits().cast();
+    assertEquals(3, cast.size());
+    assertEquals("Mike Myers", cast.get(0).name());
+    assertEquals("Seth Green", cast.get(1).name());
+    assertEquals("Beyoncé", cast.get(2).name());
+    
+    var crew = movie.credits().crew();
+    assertEquals(3, crew.size());
+    assertEquals("Producer", crew.get(0).job());
+    assertEquals("Screenplay", crew.get(1).job());
+    assertEquals("Characters", crew.get(2).job());
     LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
   }
 }

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.internal;
+package com.erdouglass.emdb.media.image;
 
 import java.util.Optional;
 

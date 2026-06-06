@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.Image;
@@ -37,4 +38,9 @@ interface SeriesMapper {
   
   @Mapping(target = "lastAirDate", ignore = true)
   SeriesResponse toSeriesResponse(Series series);
+  
+  @ObjectFactory
+  default Series createSeries(SaveSeries command) {
+    return new Series(command.tmdbId());
+  }
 }

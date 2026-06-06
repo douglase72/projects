@@ -26,6 +26,11 @@ class MovieResource {
   @Inject
   MovieService service;
   
+  /// Creates or updates a movie from the request body and returns the persisted
+  /// representation.
+  ///
+  /// @param command the validated movie payload
+  /// @return a `200 OK` response carrying the [MovieResponse]
   @POST
   public Response save(@NotNull @Valid final SaveMovie command) {
     var movie = service.save(command);

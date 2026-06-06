@@ -5,6 +5,22 @@
 
     create sequence emdb_media.series_sequence start with 1 increment by 1;
 
+    create table emdb_media.Credits (
+        DTYPE varchar(31) not null check ((DTYPE in ('MovieCredit','SeriesCredit'))),
+        id uuid not null,
+        createdAt timestamp(6) with time zone not null,
+        modifiedAt timestamp(6) with time zone not null,
+        tmdb_id varchar(255) not null unique,
+        credit_order integer,
+        credit_type varchar(4) not null check ((credit_type in ('CAST','CREW'))),
+        role varchar(100),
+        total_episodes integer,
+        person_id bigint not null,
+        movie_id bigint,
+        series_id bigint,
+        primary key (id)
+    );
+
     create table emdb_media.Movies (
         id bigint not null,
         createdAt timestamp(6) with time zone not null,
@@ -67,3 +83,18 @@
         primary key (id),
         constraint uk_series_title_first_air_date unique (title, first_air_date)
     );
+
+    alter table if exists emdb_media.Credits 
+       add constraint FK78ndg1w4qadcmsrfywco5nyi4 
+       foreign key (person_id) 
+       references emdb_media.People;
+
+    alter table if exists emdb_media.Credits 
+       add constraint FKsalqaewfk7tbamki5csq55yam 
+       foreign key (movie_id) 
+       references emdb_media.Movies;
+
+    alter table if exists emdb_media.Credits 
+       add constraint FKq379b62lvkufu5iwadc4lr38e 
+       foreign key (series_id) 
+       references emdb_media.Series;

@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.PersonConstants;
+import com.erdouglass.emdb.media.ValidImage;
 
 public record PersonResponse(    
     @NotNull @Positive Long id,
@@ -18,6 +19,6 @@ public record PersonResponse(
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate birthDate,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate deathDate,
     @NotNull Gender gender,
-    String profile,
+    @ValidImage String profile,
     @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH) String birthPlace,
     @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH) String biography) {}

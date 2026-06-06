@@ -26,6 +26,11 @@ class PersonResource {
   @Inject
   PersonService service;
 
+  /// Creates or updates a person from the request body and returns the persisted
+  /// representation.
+  ///
+  /// @param command the validated person payload
+  /// @return a `200 OK` response carrying the [PersonResponse]
   @POST
   public Response save(@NotNull @Valid final SavePerson command) {
     var person = service.save(command);   

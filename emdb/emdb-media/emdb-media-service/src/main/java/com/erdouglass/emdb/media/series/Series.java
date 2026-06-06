@@ -40,9 +40,9 @@ class Series extends Show {
   private SeriesType type;
 
   /// Default constructor required by JPA.
-  Series() {}
+  protected Series() {}
   
-  public Series(final int tmdbId) {
+  protected Series(final int tmdbId) {
     super(tmdbId);
   }
   

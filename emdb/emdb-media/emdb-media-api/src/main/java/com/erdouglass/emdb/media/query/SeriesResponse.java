@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.SeriesType;
+import com.erdouglass.emdb.media.ValidImage;
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
@@ -24,8 +25,8 @@ public record SeriesResponse(
     @NotNull @DecimalMin("0") @DecimalMax("10") Float score,
     @NotNull ShowStatus status,
     @NotNull SeriesType type,
-    String backdrop,
-    String poster,
+    @ValidImage String backdrop,
+    @ValidImage String poster,
     @Size(min = 1, max = Configuration.URL_MAX_LENGTH) String homepage,
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,

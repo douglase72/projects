@@ -5,8 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.emdb.media.command.SaveSeries;
-import com.erdouglass.emdb.media.internal.ImageService;
-import com.erdouglass.emdb.media.internal.Log;
+import com.erdouglass.emdb.media.image.ImageService;
+import com.erdouglass.emdb.media.logging.Log;
 
 @ApplicationScoped
 class SeriesService {
