@@ -14,9 +14,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.internal.Media;
 import com.erdouglass.emdb.media.internal.Show;
+import com.erdouglass.emdb.media.show.SeriesType;
 import com.erdouglass.emdb.media.show.ShowConstants;
 
 @Entity
@@ -32,7 +32,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
     sequenceName = "series_sequence", 
     initialValue = 1, 
     allocationSize = 1)
-class Series extends Show {
+public class Series extends Show {
   
   /// The credits collection in a series is a bidirectional association 
   /// specified by the mappedBy field which maps the [Series#id] 

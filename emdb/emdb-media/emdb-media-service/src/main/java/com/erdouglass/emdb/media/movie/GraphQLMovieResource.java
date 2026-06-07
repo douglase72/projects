@@ -14,9 +14,6 @@ import com.erdouglass.emdb.media.query.MovieResponse.Credits;
 public class GraphQLMovieResource {
   
   @Inject
-  MovieMapper mapper;
-  
-  @Inject
   MovieService service;
   
   @Query("findMovieById") 

@@ -2,7 +2,6 @@ package com.erdouglass.emdb.media.query;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -21,8 +20,8 @@ import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.PersonConstants;
-import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.ValidImage;
+import com.erdouglass.emdb.media.show.SeriesType;
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
@@ -53,13 +52,7 @@ public record SeriesResponse(
       @NotNull Gender gender,
       @ValidImage String profile,      
       @NotEmpty List<@Valid Role> roles,
-      @NotNull @PositiveOrZero Integer order) {
-    
-    public record Role(
-        @NotNull UUID creditId, 
-        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
-        @NotNull @PositiveOrZero Integer episodeCount) {}
-  }
+      @NotNull @PositiveOrZero Integer order) {}
   
   @Name("SeriesCrewCredit")
   public record CrewCredit(
@@ -68,11 +61,5 @@ public record SeriesResponse(
       @NotNull Gender gender,
       @ValidImage String profile,      
       @NotEmpty List<@Valid Job> jobs,
-      @NotNull @PositiveOrZero Integer order) {
-    
-    public record Job(
-        @NotNull UUID creditId, 
-        @Size(max = ShowConstants.ROLE_MAX_LENGTH) String title,
-        @NotNull @PositiveOrZero Integer episodeCount) {}
-  } 
+      @NotNull @PositiveOrZero Integer order) {} 
 }

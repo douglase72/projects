@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.media.person;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -21,7 +24,10 @@ import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.PersonConstants;
+import com.erdouglass.emdb.media.credit.Credit;
+import com.erdouglass.emdb.media.credit._Credit;
 import com.erdouglass.emdb.media.internal.Media;
+import com.erdouglass.emdb.media.internal.Show;
 import com.erdouglass.emdb.media.show.ShowConstants;
 
 /// A person entity — an actor, director, or other contributor credited on a
@@ -40,6 +46,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
     initialValue = 1, 
     allocationSize = 50)
 public class Person extends Media<Integer> {
+  
   @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH)
   private String biography;
   
@@ -51,6 +58,12 @@ public class Person extends Media<Integer> {
   @Column(name = "birth_place")
   @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH)
   private String birthPlace;
+  
+  /// The credits collection in a person is a bidirectional association 
+  /// specified by the mappedBy field which maps the {@link Person#id} primary
+  /// key to the foreign key in the Credits table.
+  @OneToMany(mappedBy = _Credit.PERSON)
+  private List<Credit> credits = new ArrayList<>();   
   
   @Past
   @Column(name = "death_date")
@@ -112,6 +125,14 @@ public class Person extends Media<Integer> {
   
   public String getBirthPlace() {
     return birthPlace;
+  }
+  
+  public void setCredits(List<Credit> credits) {
+    this.credits = new ArrayList<>(credits);
+  }
+  
+  public List<Credit> getCredits() {
+    return List.copyOf(credits);
   }
   
   public void setDeathDate(LocalDate deathDate) {

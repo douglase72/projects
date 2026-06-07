@@ -17,7 +17,7 @@ import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.Image;
 import com.erdouglass.emdb.media.PersonConstants;
 import com.erdouglass.emdb.media.PersonCredit;
-import com.erdouglass.emdb.media.SeriesType;
+import com.erdouglass.emdb.media.show.SeriesType;
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 

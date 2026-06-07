@@ -8,9 +8,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.media.command.SavePerson;
+import com.erdouglass.emdb.media.query.PersonResponse;
 
 /// JAX-RS resource exposing the people collection over HTTP. Translates
 /// [SavePerson] commands into [PersonService] calls and shapes the response
@@ -32,10 +32,7 @@ class PersonResource {
   /// @param command the validated person payload
   /// @return a `200 OK` response carrying the [PersonResponse]
   @POST
-  public Response save(@NotNull @Valid final SavePerson command) {
-    var person = service.save(command);   
-    return Response.ok()
-        .entity(mapper.toPersonResponse(person))
-        .build();
+  public PersonResponse save(@NotNull @Valid final SavePerson command) {
+    return service.save(command);   
   } 
 }

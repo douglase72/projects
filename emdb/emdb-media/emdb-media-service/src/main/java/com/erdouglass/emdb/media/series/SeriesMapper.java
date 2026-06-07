@@ -62,16 +62,6 @@ interface SeriesMapper extends CommonMapper {
   @Mapping(source = "title", target = "role")
   Role toRole(SaveSeries.CrewCredit.Job job);
   
-  @ObjectFactory
-  default Role createRole(SaveSeries.CastCredit.Role role) { 
-    return new Role(role.creditId()); 
-  }
-
-  @ObjectFactory
-  default Role createRole(SaveSeries.CrewCredit.Job job) { 
-    return new Role(job.creditId()); 
-  }
-  
   default Credits toCredits(List<SeriesCredit> credits) {
     if (credits == null) {
       return null;
@@ -102,14 +92,24 @@ interface SeriesMapper extends CommonMapper {
   
   @Mapping(source = "id", target = "creditId")
   @Mapping(source = "role", target = "character")
-  CastCredit.Role toCastRole(Role role);
+  com.erdouglass.emdb.media.query.Role toCastRole(Role role);
   
   @Mapping(source = "id", target = "creditId")
   @Mapping(source = "role", target = "title")
-  CrewCredit.Job toCrewJob(Role role);
+  com.erdouglass.emdb.media.query.Job toCrewJob(Role role);
   
   @ObjectFactory
   default Series createSeries(SaveSeries command) {
     return new Series(command.tmdbId());
+  }
+  
+  @ObjectFactory
+  default Role createRole(SaveSeries.CastCredit.Role role) {
+    return new Role(role.creditId());
+  }
+
+  @ObjectFactory
+  default Role createRole(SaveSeries.CrewCredit.Job job) {
+    return new Role(job.creditId());
   }
 }

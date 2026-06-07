@@ -64,6 +64,7 @@ quarkus-scheduler-api = { module = "io.quarkus:quarkus-scheduler-api" }
 
 # SmallRye
 smallrye-common-annotation = { module = "io.smallrye.common:smallrye-common-annotation" }
+smallrye-graphql-api = { module = "io.smallrye:smallrye-graphql-api" }
 smallrye-reactive-messaging-api = { module = "io.smallrye.reactive:smallrye-reactive-messaging-api" }
 smallrye-reactive-messaging-rabbitmq = { module = "io.smallrye.reactive:smallrye-reactive-messaging-rabbitmq" }
 

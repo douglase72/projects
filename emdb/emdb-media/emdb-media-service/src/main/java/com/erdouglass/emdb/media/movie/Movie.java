@@ -33,7 +33,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
   sequenceName = "movie_sequence", 
   initialValue = 1, 
   allocationSize = 1)
-class Movie extends Show {
+public class Movie extends Show {
   
   @PositiveOrZero
   private Long budget;

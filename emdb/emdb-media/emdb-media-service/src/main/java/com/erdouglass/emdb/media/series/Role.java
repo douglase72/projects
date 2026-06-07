@@ -46,7 +46,7 @@ public class Role extends Media<String> {
   
   protected Role() {}
   
-  protected Role(final String creditId) {
+  public Role(final String creditId) {
     super(creditId);
   }
   

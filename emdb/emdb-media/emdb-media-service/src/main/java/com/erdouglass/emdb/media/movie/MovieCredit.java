@@ -18,7 +18,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
 /// A [Credit] on a [Movie]. Adds the movie association and the person's role on
 /// the film — the character name for cast, or the job title for crew.
 @Entity
-class MovieCredit extends Credit {
+public class MovieCredit extends Credit {
   
   /// The @JoinColumn annotation maps the {@link Movie#id} primary key to the 
   /// foreign key in the Credits table. A {@code MovieCredit} can't exist 

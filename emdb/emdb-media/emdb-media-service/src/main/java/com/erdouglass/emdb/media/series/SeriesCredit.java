@@ -15,7 +15,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import com.erdouglass.emdb.media.credit.Credit;
 
 @Entity
-class SeriesCredit extends Credit {
+public class SeriesCredit extends Credit {
   
   /// The roles collection in a series credit is a bidirectional association 
   /// specified by the mappedBy field which maps the {@link SeriesCredit#id} primary 

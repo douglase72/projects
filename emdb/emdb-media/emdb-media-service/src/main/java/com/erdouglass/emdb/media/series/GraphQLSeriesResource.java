@@ -12,9 +12,6 @@ import com.erdouglass.emdb.media.query.SeriesResponse.Credits;
 
 @GraphQLApi
 public class GraphQLSeriesResource {
-
-  @Inject
-  SeriesMapper mapper;
   
   @Inject
   SeriesService service;

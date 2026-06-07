@@ -22,7 +22,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.media.Gender;
-import com.erdouglass.emdb.media.SeriesType;
 import com.erdouglass.emdb.media.command.SaveSeries;
 import com.erdouglass.emdb.media.command.SaveSeries.CastCredit;
 import com.erdouglass.emdb.media.command.SaveSeries.CastCredit.Role;
@@ -30,6 +29,7 @@ import com.erdouglass.emdb.media.command.SaveSeries.Credits;
 import com.erdouglass.emdb.media.command.SaveSeries.CrewCredit;
 import com.erdouglass.emdb.media.command.SaveSeries.CrewCredit.Job;
 import com.erdouglass.emdb.media.query.SeriesResponse;
+import com.erdouglass.emdb.media.show.SeriesType;
 import com.erdouglass.emdb.media.show.ShowStatus;
 import com.erdouglass.emdb.media.test.TestHelper;
 
