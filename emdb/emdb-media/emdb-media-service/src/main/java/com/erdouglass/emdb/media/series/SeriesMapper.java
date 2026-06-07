@@ -45,6 +45,15 @@ interface SeriesMapper extends CommonMapper {
   @Mapping(source = "poster.emdbName",   target = "poster")
   Series toSeries(SaveSeries command, Image backdrop, Image poster);
   
+  @Mapping(target = "lastAirDate", ignore = true)
+  SeriesResponse toSeriesResponse(Series series);
+  
+  @Mapping(target = "credits", ignore = true)
+  @Mapping(target = "lastAirDate", ignore = true)
+  @Mapping(source = "backdrop", target = "backdrop", qualifiedByName = "imageToString")
+  @Mapping(source = "poster",   target = "poster",   qualifiedByName = "imageToString")
+  SeriesResponse toSeriesView(Series series);
+  
   @Mapping(target = "seriesCredit", ignore = true)
   @Mapping(source = "character", target = "role")
   Role toRole(SaveSeries.CastCredit.Role role);
@@ -62,9 +71,6 @@ interface SeriesMapper extends CommonMapper {
   default Role createRole(SaveSeries.CrewCredit.Job job) { 
     return new Role(job.creditId()); 
   }
-  
-  @Mapping(target = "lastAirDate", ignore = true)
-  SeriesResponse toSeriesResponse(Series series);
   
   default Credits toCredits(List<SeriesCredit> credits) {
     if (credits == null) {

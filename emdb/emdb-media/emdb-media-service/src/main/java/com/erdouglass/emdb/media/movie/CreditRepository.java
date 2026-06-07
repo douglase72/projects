@@ -16,6 +16,7 @@ interface CreditRepository extends CrudRepository<MovieCredit, UUID> {
       SELECT c FROM MovieCredit c
       JOIN FETCH c.person
       WHERE c.movie.id = :movieId
+      ORDER BY c.order
       """)
   List<MovieCredit> findByMovieId(Long movieId);  
 

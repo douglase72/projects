@@ -14,6 +14,9 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
+import org.eclipse.microprofile.graphql.Ignore;
+import org.eclipse.microprofile.graphql.Name;
+
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
 import com.erdouglass.emdb.media.Gender;
@@ -38,10 +41,12 @@ public record SeriesResponse(
     @Size(min = Configuration.ISO_639_1_LENGTH, max = Configuration.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
-    @Valid Credits credits) {
+    @Valid @Ignore Credits credits) {
   
+  @Name("SeriesCredits")
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
   
+  @Name("SeriesCastCredit")
   public record CastCredit(
       @NotNull @Positive Long id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
@@ -56,6 +61,7 @@ public record SeriesResponse(
         @NotNull @PositiveOrZero Integer episodeCount) {}
   }
   
+  @Name("SeriesCrewCredit")
   public record CrewCredit(
       @NotNull @Positive Long id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,

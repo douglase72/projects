@@ -7,6 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import com.erdouglass.common.rest.ResourceNotFoundException;
 import com.erdouglass.emdb.media.PersonCredit;
 import com.erdouglass.emdb.media.command.SaveSeries;
 import com.erdouglass.emdb.media.command.SaveSeries.CastCredit;
@@ -16,6 +17,7 @@ import com.erdouglass.emdb.media.credit.CreditType;
 import com.erdouglass.emdb.media.image.ImageService;
 import com.erdouglass.emdb.media.internal.PersonResolver;
 import com.erdouglass.emdb.media.logging.Log;
+import com.erdouglass.emdb.media.query.SeriesResponse;
 
 @ApplicationScoped
 class SeriesService {
@@ -40,7 +42,7 @@ class SeriesService {
   
   @Log
   @Transactional
-  public Series save(final SaveSeries command) {
+  public SeriesResponse save(final SaveSeries command) {
     Series series;
     var existing = seriesRepository.findByTmdbId(command.tmdbId()).orElse(null);
     if (existing == null) {
@@ -62,7 +64,20 @@ class SeriesService {
       poster.toDelete().ifPresent(imageService::delete);
     } 
     saveCredits(command.credits(), series);
-    return series;
+    return mapper.toSeriesResponse(series);
+  }
+  
+  @Log
+  @Transactional
+  public SeriesResponse findById(final Long id) {
+    return seriesRepository.findById(id)
+      .map(mapper::toSeriesView)
+      .orElseThrow(() -> new ResourceNotFoundException("Series not found with id: " + id));    
+  }
+  
+  @Transactional
+  public SeriesResponse.Credits findCreditsBySeriesId(final Long seriesId) {
+    return mapper.toCredits(creditRepository.findBySeriesId(seriesId));
   }
   
   /// Replaces all credits for the series: existing credits are deleted, the

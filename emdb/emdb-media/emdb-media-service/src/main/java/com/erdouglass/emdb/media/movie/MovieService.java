@@ -79,7 +79,7 @@ class MovieService {
   @Transactional
   public MovieResponse findById(final Long id) {
     return movieRepository.findById(id)
-      .map(mapper::toMovieSummary)
+      .map(mapper::toMovieView)
       .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));    
   }
   

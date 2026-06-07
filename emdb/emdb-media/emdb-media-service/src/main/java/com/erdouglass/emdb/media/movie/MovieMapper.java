@@ -51,7 +51,7 @@ interface MovieMapper extends CommonMapper {
   @Mapping(target = "credits", ignore = true)
   @Mapping(source = "backdrop", target = "backdrop", qualifiedByName = "imageToString")
   @Mapping(source = "poster",   target = "poster",   qualifiedByName = "imageToString")
-  MovieResponse toMovieSummary(Movie movie);
+  MovieResponse toMovieView(Movie movie);
   
   default Credits toCredits(List<MovieCredit> credits) {
     if (credits == null) {

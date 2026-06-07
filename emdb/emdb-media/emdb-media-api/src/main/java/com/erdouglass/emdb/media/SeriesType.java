@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.media;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,8 +28,8 @@ public enum SeriesType {
   
   @JsonCreator
   public static SeriesType from(String type) {
-    return Optional.ofNullable(CACHE.get(type))
-        .orElseThrow(() -> new IllegalArgumentException("Invalid type: " + type));
+    var match = CACHE.get(type);
+    return match != null ? match : SeriesType.valueOf(type);
   }
   
   @Override

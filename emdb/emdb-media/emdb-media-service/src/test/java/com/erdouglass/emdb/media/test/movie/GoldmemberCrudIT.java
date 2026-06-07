@@ -111,15 +111,13 @@ class GoldmemberCrudIT {
   void testFindMovie() throws IOException, InterruptedException {
     var query = """
         query {
-          findById(id: %d) { ...movieDetail }
-        }
-
-        fragment movieDetail on MovieResponse {
-          id tmdbId title releaseDate score status runtime budget revenue
-          backdrop poster homepage originalLanguage tagline overview
-          credits {
-            cast { creditId id name gender profile character order }
-            crew { creditId id name gender profile job }
+          findMovieById(id: %d) { 
+            id tmdbId title releaseDate score status runtime budget revenue
+            backdrop poster homepage originalLanguage tagline overview 
+            credits {
+              cast { creditId id name gender profile character order }
+              crew { creditId id name gender profile job }
+            }                       
           }
         }
         """.formatted(movieId);
@@ -135,7 +133,7 @@ class GoldmemberCrudIT {
     var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
     assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
     
-    var movie = TestHelper.OBJECT_MAPPER.treeToValue(root.path("data").path("findById"), MovieResponse.class);
+    var movie = TestHelper.OBJECT_MAPPER.treeToValue(root.path("data").path("findMovieById"), MovieResponse.class);
     assertEquals(movieId, movie.id());
     assertEquals(818, movie.tmdbId());
     assertEquals("Austin Powers in Goldmember", movie.title());
@@ -153,8 +151,8 @@ class GoldmemberCrudIT {
     var cast = movie.credits().cast();
     assertEquals(3, cast.size());
     assertEquals("Mike Myers", cast.get(0).name());
-    assertEquals("Seth Green", cast.get(1).name());
-    assertEquals("Beyoncé", cast.get(2).name());
+    assertEquals("Beyoncé", cast.get(1).name());
+    assertEquals("Seth Green", cast.get(2).name());
     
     var crew = movie.credits().crew();
     assertEquals(3, crew.size());

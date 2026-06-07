@@ -8,9 +8,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.media.command.SaveMovie;
+import com.erdouglass.emdb.media.query.MovieResponse;
 
 /// JAX-RS resource exposing the movie collection over HTTP. Translates
 /// [SaveMovie] commands into [MovieService] calls and shapes the response
@@ -29,10 +29,7 @@ class MovieResource {
   /// @param command the validated movie payload
   /// @return a `200 OK` response carrying the [MovieResponse]
   @POST
-  public Response save(@NotNull @Valid final SaveMovie command) {
-    var movie = service.save(command);
-    return Response.ok()
-        .entity(movie)
-        .build();
+  public MovieResponse save(@NotNull @Valid final SaveMovie command) {
+    return service.save(command);
   }
 }

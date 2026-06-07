@@ -19,7 +19,7 @@ public class GraphQLMovieResource {
   @Inject
   MovieService service;
   
-  @Query
+  @Query("findMovieById") 
   public MovieResponse findById(@Name("id") Long id) {
     return service.findById(id);
   }

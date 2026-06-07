@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.series;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.data.repository.CrudRepository;
@@ -10,6 +11,15 @@ import jakarta.data.repository.Repository;
 /// every credit attached to a given series.
 @Repository
 interface CreditRepository extends CrudRepository<SeriesCredit, UUID> {
+  
+  @Query("""
+      SELECT DISTINCT c FROM SeriesCredit c
+      JOIN FETCH c.person
+      LEFT JOIN FETCH c.roles r
+      WHERE c.series.id = :seriesId
+      ORDER BY c.totalEpisodes DESC, c.order, r.episodeCount DESC
+      """)
+  List<SeriesCredit> findBySeriesId(Long seriesId);  
 
   /// Deletes all credits associated with the given series.
   ///

@@ -14,6 +14,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import org.eclipse.microprofile.graphql.Ignore;
+import org.eclipse.microprofile.graphql.Name;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.common.Configuration;
@@ -50,8 +51,10 @@ public record MovieResponse(
         + "]";
   }
   
+  @Name("MovieCredits")
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
   
+  @Name("MovieCastCredit")
   public record CastCredit(
       @NotNull UUID creditId, 
       @NotNull @Positive Long id,
@@ -61,6 +64,7 @@ public record MovieResponse(
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
       @NotNull @PositiveOrZero Integer order) {}
   
+  @Name("MovieCrewCredit")
   public record CrewCredit(
       @NotNull UUID creditId, 
       @NotNull @Positive Long id,

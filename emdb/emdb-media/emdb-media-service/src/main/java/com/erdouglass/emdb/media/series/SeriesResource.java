@@ -8,9 +8,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.media.command.SaveSeries;
+import com.erdouglass.emdb.media.query.SeriesResponse;
 
 /// JAX-RS resource exposing the series collection over HTTP. Translates
 /// [SaveSeries] commands into [SeriesService] calls and shapes the
@@ -26,11 +26,13 @@ class SeriesResource {
   @Inject
   SeriesService service;
 
+  /// Creates or updates a series from the request body and returns the persisted
+  /// representation.
+  ///
+  /// @param command the validated movie payload
+  /// @return a `200 OK` response carrying the [SeriesResponse]
   @POST
-  public Response save(@NotNull @Valid final SaveSeries command) {
-    var series = service.save(command);
-    return Response.ok()
-        .entity(mapper.toSeriesResponse(series))
-        .build();
+  public SeriesResponse save(@NotNull @Valid final SaveSeries command) {
+    return service.save(command);
   }
 }
