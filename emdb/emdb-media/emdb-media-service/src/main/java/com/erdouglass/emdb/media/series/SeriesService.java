@@ -19,6 +19,11 @@ import com.erdouglass.emdb.media.internal.PersonResolver;
 import com.erdouglass.emdb.media.logging.Log;
 import com.erdouglass.emdb.media.query.SeriesResponse;
 
+/// Application service that orchestrates persistence of [Series] aggregates,
+/// including their poster/backdrop images and cast & crew credits with their
+/// per-role episode counts. Reconciles each [SaveSeries] command against
+/// existing records, inserting a new series or merging an update, and cleaning
+/// up any images it replaces.
 @ApplicationScoped
 class SeriesService {
   
@@ -39,7 +44,15 @@ class SeriesService {
   
   @Inject
   SeriesRepository seriesRepository;
-  
+    
+  /// Persists a series from the command, creating it when no series with the
+  /// same TMDB id exists and updating the existing one otherwise. Poster and
+  /// backdrop images are saved or replaced as needed, and the full cast & crew —
+  /// including each credit's roles and episode counts — is rebuilt from the
+  /// command.
+  ///
+  /// @param command the series data to persist
+  /// @return the saved series, with generated identifiers and credits populated
   @Log
   @Transactional
   public SeriesResponse save(final SaveSeries command) {
@@ -67,6 +80,11 @@ class SeriesService {
     return mapper.toSeriesResponse(series);
   }
   
+  /// Looks up a single series by id for read/query use.
+  ///
+  /// @param id the series id
+  /// @return the series view
+  /// @throws ResourceNotFoundException if no series has the given id
   @Log
   @Transactional
   public SeriesResponse findById(final Long id) {
@@ -75,14 +93,20 @@ class SeriesService {
       .orElseThrow(() -> new ResourceNotFoundException("Series not found with id: " + id));    
   }
   
+  /// Resolves the cast & crew credits for a series, with each credit's roles.
+  ///
+  /// @param seriesId the series id
+  /// @return the series' credits
   @Transactional
   public SeriesResponse.Credits findCreditsBySeriesId(final Long seriesId) {
     return mapper.toCredits(creditRepository.findBySeriesId(seriesId));
   }
   
-  /// Replaces all credits for the series: existing credits are deleted, the
-  /// referenced people are resolved or created, and a fresh [SeriesCredit] is
-  /// inserted for each cast and crew entry.
+  /// Replaces all credits for the series: existing roles and credits are
+  /// deleted, the referenced people are resolved or created, and a fresh
+  /// [SeriesCredit] — with its [Role] entries and summed {@code totalEpisodes} —
+  /// is inserted for each cast and crew entry. Credits and roles are inserted in
+  /// separate batches.
   private void saveCredits(Credits credits, Series series) {
     roleRepository.deleteBySeries(series);
     creditRepository.deleteBySeries(series);

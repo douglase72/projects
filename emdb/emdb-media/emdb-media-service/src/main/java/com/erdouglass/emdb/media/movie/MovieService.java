@@ -75,6 +75,11 @@ class MovieService {
     return mapper.toMovieResponse(movie);
   }
   
+  /// Looks up a single movie by id for read/query use.
+  ///
+  /// @param id the movie id
+  /// @return the movie view
+  /// @throws ResourceNotFoundException if no movie has the given id  
   @Log
   @Transactional
   public MovieResponse findById(final Long id) {
@@ -83,6 +88,10 @@ class MovieService {
       .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));    
   }
   
+  /// Resolves the cast & crew credits for a movie, ordered by billing order.
+  ///
+  /// @param movieId the movie id
+  /// @return the movie's credits
   @Transactional
   public MovieResponse.Credits findCreditsByMovieId(final Long movieId) {
     return mapper.toCredits(creditRepository.findByMovieId(movieId));

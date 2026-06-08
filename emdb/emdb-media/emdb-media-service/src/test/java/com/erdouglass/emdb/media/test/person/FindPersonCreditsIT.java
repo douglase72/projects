@@ -106,7 +106,7 @@ class FindPersonCreditsIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
-    LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
+    LOGGER.infof("Saved Blade Runner in %d ms", et);
   }
   
   @Test
@@ -188,6 +188,8 @@ class FindPersonCreditsIT {
     
     var cast = person.credits().cast();
     assertEquals(2, cast.size());
+    assertEquals("Shrinking", cast.get(0).title());
+    assertEquals("Blade Runner", cast.get(1).title());
     LOGGER.infof("Found Harrison Ford in %d ms", et);    
   }
 }

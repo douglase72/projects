@@ -17,9 +17,9 @@ import com.erdouglass.emdb.media.credit.Credit;
 @Entity
 public class SeriesCredit extends Credit {
   
-  /// The roles collection in a series credit is a bidirectional association 
-  /// specified by the mappedBy field which maps the {@link SeriesCredit#id} primary 
-  /// key to the foreign key in the {@code Roles} table.
+  /// The roles a person plays in this series credit. Inverse side of the
+  /// bidirectional association owned by {@link Role#seriesCredit}; the foreign
+  /// key lives on the Roles table.
   @OneToMany(mappedBy = _Role.SERIES_CREDIT)
   private List<Role> roles = new ArrayList<>();  
 

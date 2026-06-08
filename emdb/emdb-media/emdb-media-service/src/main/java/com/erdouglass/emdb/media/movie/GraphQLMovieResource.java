@@ -10,17 +10,32 @@ import org.eclipse.microprofile.graphql.Source;
 import com.erdouglass.emdb.media.query.MovieResponse;
 import com.erdouglass.emdb.media.query.MovieResponse.Credits;
 
+/// GraphQL API for querying [Movie] data. Exposes a movie lookup by id and a
+/// field resolver that lazily attaches cast & crew credits, so credits are
+/// fetched only when a query selects them rather than on every movie read.
 @GraphQLApi
 public class GraphQLMovieResource {
   
   @Inject
   MovieService service;
   
+  /// Looks up a single movie by its primary key.
+  ///
+  /// @param id the movie id
+  /// @return the movie
+  /// @throws ResourceNotFoundException if no movie has the given id
   @Query("findMovieById") 
   public MovieResponse findById(@Name("id") Long id) {
     return service.findById(id);
   }
   
+  /// Field resolver that supplies the `credits` field of a [MovieResponse],
+  /// invoked by the GraphQL engine only when a query selects credits. The
+  /// credits are not a field of [MovieResponse] itself; they are resolved
+  /// separately here against the parent movie's id.
+  ///
+  /// @param movie the parent movie the credits belong to
+  /// @return the movie's cast & crew credits
   public Credits credits(@Source MovieResponse movie) {
     return service.findCreditsByMovieId(movie.id());
   }
