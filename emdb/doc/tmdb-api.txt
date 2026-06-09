@@ -475,3 +475,39 @@ https://api.themoviedb.org/3/movie/changes?page=1&start_date=2025-08-22&end_date
 http://api.themoviedb.org/3/movie/changes?page=1&start_date=2025-08-21&end_date=2025-08-22&api_key=df4e8c63aee8965f8a0908ac1cb64a10
 
 
+  @Test
+  @Order(1)
+  void testSaveMovie() throws IOException, InterruptedException {
+    var credits = new SaveMovie.Credits(
+        List.of(
+            new SaveMovie.CastCredit("52fe4214c3a36847f800259f", 3, "Harrison Ford", Gender.MALE, "/pjBMJVPpcZK23Vt1nzr1zEBTWrP.jpg", "Deckard", 0),
+            new SaveMovie.CastCredit("52fe4214c3a36847f80025a3", 585, "Rutger Hauer", Gender.MALE,  "/xyag0LbjocTwx2Ht7B3RofvCNMT.jpg", "Batty", 1)),
+        List.of());  
+    
+    var command = SaveMovie.builder()
+        .tmdbId(78)
+        .title("Blade Runner")
+        .releaseDate(LocalDate.parse("1982-06-25"))
+        .score(7.938f)
+        .status(ShowStatus.RELEASED)
+        .runtime(118)
+        .budget(63000000L)
+        .revenue(41722424L)
+        .originalLanguage("en")
+        .backdrop(TestHelper.image("/kuPpElzfYnzsCye0hF8EbJSrvwo.jpg", "019e5c92-5a24-7517-8b7a-3734166ad76a.jpg"))
+        .poster(TestHelper.image("/n8V61f1v7idya4WJzGEJNoIp9iL.jpg", "019e5c8d-efdc-7687-b6c7-a6e822fb6d6d.jpg"))
+        .tagline("Man has made his match... now it's his problem.")
+        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
+        .credits(credits)
+        .build();
+    var request = HttpRequest.newBuilder()
+        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
+  }
+
