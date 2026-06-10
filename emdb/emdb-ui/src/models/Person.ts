@@ -6,6 +6,6 @@ export enum Gender {
   NON_BINARY = "Non-Binary"
 }
 
-export function fromGender(status: string): string {
-  return Gender[status as keyof typeof Gender] ?? status;
+export function fromGender(gender: string): string {
+  return Gender[gender as keyof typeof Gender] ?? gender;
 }

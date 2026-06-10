@@ -11,7 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import com.erdouglass.common.rest.ResourceNotFoundException;
+import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.PersonCredit;
 import com.erdouglass.emdb.media.command.SavePerson;
 import com.erdouglass.emdb.media.credit.Credit;

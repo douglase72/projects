@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import com.erdouglass.common.rest.ResourceNotFoundException;
+import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.PersonMovieCredit;
 import com.erdouglass.emdb.media.command.SaveMovie;
 import com.erdouglass.emdb.media.command.SaveMovie.CastCredit;
@@ -85,7 +85,7 @@ class MovieService {
   public MovieResponse findById(final Long id) {
     return movieRepository.findById(id)
       .map(mapper::toMovieView)
-      .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));    
+      .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));    
   }
   
   /// Resolves the cast & crew credits for a movie, ordered by billing order.

@@ -20,6 +20,8 @@ dependencyResolutionManagement {
 rootProject.name='projects'
 
 // COMMON
+include 'common-graphql'
+project(':common-graphql').projectDir = file('common-api/common-graphql')
 include 'common-messaging'
 project(':common-messaging').projectDir = file('common-api/common-messaging')
 include 'common-rest'

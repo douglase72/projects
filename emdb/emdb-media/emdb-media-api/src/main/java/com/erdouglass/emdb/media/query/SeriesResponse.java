@@ -52,6 +52,7 @@ public record SeriesResponse(
       @NotNull Gender gender,
       @ValidImage String profile,      
       @NotEmpty List<@Valid Role> roles,
+      @NotNull @PositiveOrZero Integer totalEpisodes,
       @NotNull @PositiveOrZero Integer order) {}
   
   @Name("SeriesCrewCredit")
@@ -61,5 +62,5 @@ public record SeriesResponse(
       @NotNull Gender gender,
       @ValidImage String profile,      
       @NotEmpty List<@Valid Job> jobs,
-      @NotNull @PositiveOrZero Integer order) {} 
+      @NotNull @PositiveOrZero Integer totalEpisodes) {} 
 }

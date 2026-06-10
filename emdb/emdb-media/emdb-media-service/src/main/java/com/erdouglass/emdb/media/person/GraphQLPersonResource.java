@@ -7,6 +7,7 @@ import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Source;
 
+import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.query.PersonResponse;
 import com.erdouglass.emdb.media.query.PersonResponse.Credits;
 

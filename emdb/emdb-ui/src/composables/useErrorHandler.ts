@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useToast } from "primevue/usetoast";
 
 export function useErrorHandler() {
+  type Severity = 'warn' | 'error';
   const toast = useToast();
 
-  const handleError = (error: unknown, summary: string) => {
+  const handleError = (error: unknown, summary: string, severity: Severity = 'error') => {
     let message = 'An unexpected error occurred.';
 
     if (axios.isAxiosError(error)) {
@@ -23,7 +24,7 @@ export function useErrorHandler() {
       message = error.message;
     }
     console.error(error);
-    toast.add({ severity: 'error', summary: summary, detail: message });
+    toast.add({ severity, summary, detail: message });
   };
 
   return { handleError };

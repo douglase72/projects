@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import com.erdouglass.common.rest.ResourceNotFoundException;
+import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.PersonCredit;
 import com.erdouglass.emdb.media.command.SaveSeries;
 import com.erdouglass.emdb.media.command.SaveSeries.CastCredit;
@@ -90,7 +90,7 @@ class SeriesService {
   public SeriesResponse findById(final Long id) {
     return seriesRepository.findById(id)
       .map(mapper::toSeriesView)
-      .orElseThrow(() -> new ResourceNotFoundException("Series not found with id: " + id));    
+      .orElseThrow(() -> new ResourceNotFoundException("No series found with id: " + id));    
   }
   
   /// Resolves the cast & crew credits for a series, with each credit's roles.
