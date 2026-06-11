@@ -13,7 +13,6 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.media.ValidImage;
-import com.erdouglass.emdb.media.query.Role;
 import com.erdouglass.emdb.media.show.ShowConstants;
 
 public record PersonSeriesCastCredit(

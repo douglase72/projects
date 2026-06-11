@@ -27,7 +27,9 @@ import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.command.SaveMovie;
 import com.erdouglass.emdb.media.command.SavePerson;
 import com.erdouglass.emdb.media.command.SaveSeries;
+import com.erdouglass.emdb.media.command.SaveSeries.CrewCredit;
 import com.erdouglass.emdb.media.command.SaveSeries.CastCredit.Role;
+import com.erdouglass.emdb.media.command.SaveSeries.CrewCredit.Job;
 import com.erdouglass.emdb.media.query.PersonResponse;
 import com.erdouglass.emdb.media.show.SeriesType;
 import com.erdouglass.emdb.media.show.ShowStatus;
@@ -119,7 +121,9 @@ class FindPersonCreditsIT {
                 new Role("61672aea8fdda900623b4a97", "Jimmy", 33)), 0),
             new SaveSeries.CastCredit(3, "Harrison Ford", Gender.FEMALE, "/pjBMJVPpcZK23Vt1nzr1zEBTWrP.jpg", List.of(
                 new Role("624b1895e8a3e10062c89f87", "Dr. Paul Rhodes", 33)), 1)),
-        List.of());
+        List.of(
+            new CrewCredit(3, "Harrison Fors", Gender.MALE, "/pjBMJVPpcZK23Vt1nzr1zEBTWrP.jpg", List.of(
+                new Job("5256bdcd19c2956ff60020be", "Writer", 1)))));
     
     var command = SaveSeries.builder()
         .tmdbId(136311)

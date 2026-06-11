@@ -36,7 +36,7 @@ export interface Movie {
   originalLanguage: string | null;
   tagline: string | null;
   overview: string | null; 
-    credits: {
+  credits: {
     cast: CastCredit[];
     crew: CrewCredit[];
   };

@@ -1,4 +1,6 @@
 import { Gender } from "./Person";
+import { type Job } from "./Job";
+import { type Role } from "./Role";
 import { ShowStatus } from "./ShowStatus";
 
 export enum SeriesType {
@@ -13,18 +15,6 @@ export enum SeriesType {
 
 export function fromType(type: string): string {
   return SeriesType[type as keyof typeof SeriesType] ?? type;
-}
-
-export interface Role {
-  creditId: string;
-  character: string | null;
-  episodeCount: number;
-}
-
-export interface Job {
-  creditId: string;
-  title: string | null;
-  episodeCount: number;
 }
 
 export interface CastCredit {
@@ -62,7 +52,7 @@ export interface Series {
   originalLanguage: string | null;
   tagline: string | null;
   overview: string | null; 
-    credits: {
+  credits: {
     cast: CastCredit[];
     crew: CrewCredit[];
   };

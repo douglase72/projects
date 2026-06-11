@@ -37,14 +37,14 @@
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useLanguage } from '@/composables/useLanguage';
-  import { useEmdbApi } from '@/composables/useEmdbApi';
+  import { useEmdbQueryApi } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
   import { type Series, fromType } from '@/models/Series';
   import { fromShowStatus } from '@/models/ShowStatus';
 
-  const { findSeries } = useEmdbApi();
+  const { findSeriesById } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
   const { handleError } = useErrorHandler();
   const { isResourceNotFound } = useErrors();
@@ -61,7 +61,7 @@
     }
 
     try {
-      series.value = await findSeries(id);
+      series.value = await findSeriesById(id);
     } catch (e) {
       if (isResourceNotFound(e)) {
         handleError(e, 'Series not found', 'warn');

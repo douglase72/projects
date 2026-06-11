@@ -39,14 +39,14 @@
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useLanguage } from '@/composables/useLanguage';
-  import { useEmdbApi } from '@/composables/useEmdbApi';
+  import { useEmdbQueryApi } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
   import { type Movie } from '@/models/Movie';
   import { fromShowStatus } from '@/models/ShowStatus';
 
-  const { findMovie } = useEmdbApi();
+  const { findMovieById } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
   const { handleError } = useErrorHandler();
   const { isResourceNotFound } = useErrors();
@@ -63,7 +63,7 @@
     }
 
     try {
-      movie.value = await findMovie(id);
+      movie.value = await findMovieById(id);
     } catch (e) {
       if (isResourceNotFound(e)) {
         handleError(e, 'Movie not found', 'warn');
