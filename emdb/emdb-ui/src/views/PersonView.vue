@@ -14,7 +14,9 @@
       <div>Gender</div>
       <div>{{ fromGender(person.gender) }}</div>
       <div>Profile</div>
-      <div>{{ person.profile }}</div>       
+      <div v-if="person.profile">
+        <img :src="findImage(person.profile, ImageSize.W154)" :alt="person.name">
+      </div>       
       <div>Birth Place</div>
       <div>{{ person.birthPlace }}</div>
       <div>Biography</div>
@@ -26,13 +28,13 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import { useEmdbQueryApi } from '@/composables/useEmdbQueryApi';
+  import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
   import { type Person, fromGender } from '@/models/Person';
 
-  const { findPersonById } = useEmdbQueryApi();
+  const { findImage, findPersonById } = useEmdbQueryApi();
   const { handleError } = useErrorHandler();
   const { isResourceNotFound } = useErrors();
   const route = useRoute();

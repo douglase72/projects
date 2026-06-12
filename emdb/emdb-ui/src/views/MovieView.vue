@@ -1,5 +1,5 @@
 <template>
-  <main class="m-8">
+   <main class="m-8">
     <section v-if="movie" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
       <div>{{ movie.id }}</div>
@@ -20,17 +20,21 @@
       <div>Revenue</div>
       <div>{{ movie.revenue }}</div> 
       <div>Backdrop</div>
-      <div>{{ movie.backdrop }}</div> 
+      <div v-if="movie.backdrop">
+        <img :src="findImage(movie.backdrop, ImageSize.W154)" :alt="movie.title">
+      </div>  
       <div>Poster</div>
-      <div>{{ movie.poster }}</div>       
+      <div v-if="movie.poster">
+        <img :src="findImage(movie.poster, ImageSize.W92)" :alt="movie.title">
+      </div>
       <div>Homepage</div>
       <div>{{ movie.homepage }}</div>
       <div>Original Language</div>
-      <div>{{ fromLanguageCode(movie.originalLanguage) }}</div>
+      <div>{{ fromLanguageCode(movie.originalLanguage) }}</div>        
       <div>Tagline</div>
       <div>{{ movie.tagline }}</div>
       <div>Overview</div>
-      <div>{{ movie.overview }}</div>           
+      <div>{{ movie.overview }}</div>
     </section>
   </main>
 </template>
@@ -39,14 +43,14 @@
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useLanguage } from '@/composables/useLanguage';
-  import { useEmdbQueryApi } from '@/composables/useEmdbQueryApi';
+  import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
   import { type Movie } from '@/models/Movie';
   import { fromShowStatus } from '@/models/ShowStatus';
 
-  const { findMovieById } = useEmdbQueryApi();
+  const { findImage, findMovieById } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
   const { handleError } = useErrorHandler();
   const { isResourceNotFound } = useErrors();

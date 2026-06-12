@@ -18,9 +18,13 @@
       <div>Type</div>
       <div>{{ fromType(series.type) }}</div>
       <div>Backdrop</div>
-      <div>{{ series.backdrop }}</div> 
+      <div v-if="series.backdrop">
+        <img :src="findImage(series.backdrop, ImageSize.W154)" :alt="series.title">
+      </div>  
       <div>Poster</div>
-      <div>{{ series.poster }}</div>
+      <div v-if="series.poster">
+        <img :src="findImage(series.poster, ImageSize.W92)" :alt="series.title">
+      </div>
       <div>Homepage</div>
       <div>{{ series.homepage }}</div>
       <div>Original Language</div>
@@ -37,14 +41,14 @@
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useLanguage } from '@/composables/useLanguage';
-  import { useEmdbQueryApi } from '@/composables/useEmdbQueryApi';
+  import { useEmdbQueryApi, ImageSize  } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
   import { type Series, fromType } from '@/models/Series';
   import { fromShowStatus } from '@/models/ShowStatus';
 
-  const { findSeriesById } = useEmdbQueryApi();
+  const { findImage, findSeriesById } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
   const { handleError } = useErrorHandler();
   const { isResourceNotFound } = useErrors();
