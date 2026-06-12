@@ -17,7 +17,7 @@ const Noir = definePreset(Aura, {
       950: '{zinc.950}'
     },
     colorScheme: {
-      light: {
+      light: {   
         primary: {
           color: '{zinc.950}',
           inverseColor: '#ffffff',
@@ -49,24 +49,20 @@ const Noir = definePreset(Aura, {
   },
   components: {
     menubar: {
-      colorScheme: {
-        light: {
-          root: {
-            background: 'black',
-            borderColor: 'black',
-            borderRadius: '0',
-            padding: '0',
-          },
-          baseItem: {
-            padding: '1.1rem 0 1.1rem 5rem'
-          },
-          item: {
-            color: 'white',
-            focusBackground: 'black',
-            focusColor: 'white',
-          },
-        }
-      }
+      root: {
+        background: 'black',
+        borderColor: 'black',
+        borderRadius: '0',
+        padding: '0',
+      },
+      baseItem: {
+        padding: '1.1rem 0 1.1rem 5rem'
+      },
+      item: {
+        color: 'white',
+        focusBackground: 'black',
+        focusColor: 'white',
+      },
     },
     button: {
       root: {

@@ -10,6 +10,8 @@ import PrimeVue from 'primevue/config'
 import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
 
+document.documentElement.classList.toggle('dark', true);
+
 const app = createApp(App)
 
 app.use(router)
@@ -17,6 +19,7 @@ app.use(PrimeVue, {
   theme: {
     preset: Noir,
     options: {
+      darkModeSelector: '.dark',
       cssLayer: {
         name: 'primevue',
         order: 'theme, base, primevue',
