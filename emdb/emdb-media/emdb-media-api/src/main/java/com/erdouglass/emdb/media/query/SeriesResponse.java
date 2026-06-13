@@ -42,6 +42,16 @@ public record SeriesResponse(
     @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
     @Valid @Ignore Credits credits) {
   
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "[id=" + id
+        + ", tmdbId=" + tmdbId
+        + ", title=" + title
+        + ", firstAirDate=" + firstAirDate
+        + ", lastAirDate=" + lastAirDate
+        + "]";
+  }
+  
   @Name("SeriesCredits")
   public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
   

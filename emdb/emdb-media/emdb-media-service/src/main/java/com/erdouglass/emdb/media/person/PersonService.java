@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,10 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
+import com.erdouglass.emdb.ingest.command.IngestMedia;
+import com.erdouglass.emdb.ingest.command.IngestMedia.IngestSource;
+import com.erdouglass.emdb.ingest.command.IngestMedia.IngestType;
+import com.erdouglass.emdb.ingest.messaging.IngestProducer;
 import com.erdouglass.emdb.media.PersonCredit;
 import com.erdouglass.emdb.media.command.SavePerson;
 import com.erdouglass.emdb.media.credit.Credit;
@@ -40,6 +45,9 @@ class PersonService implements PersonResolver {
   
   @Inject
   PersonRepository personRepository;
+  
+  @Inject
+  IngestProducer producer;
   
   /// Persists a person from the command, creating them when no person with the
   /// same TMDB id exists and updating the existing one otherwise. The profile
@@ -103,8 +111,17 @@ class PersonService implements PersonResolver {
     }
     var distinct = credits.stream()
         .collect(Collectors.toMap(PersonCredit::tmdbId, Function.identity(), (a, _) -> a));
+    
+    // If the person already exists, make sure their profile is current.
     var existing = personRepository.findByTmdbIdIn(List.copyOf(distinct.keySet())).stream()
         .collect(Collectors.toMap(Person::getTmdbId, Function.identity())); 
+    for (var credit : credits) {
+      var person = existing.get(credit.tmdbId());
+      if (person != null && !Objects.equals(person.getTmdbProfile(), credit.profile())) {
+        producer.publish(IngestMedia.of(person.getTmdbId(), IngestType.PERSON, IngestSource.MEDIA));
+      }
+    }    
+    
     var peopleToInsert = distinct.values().stream()
         .filter(c -> !existing.containsKey(c.tmdbId()))
         .map(PersonService::toPerson)
@@ -112,6 +129,7 @@ class PersonService implements PersonResolver {
     for (var person : personRepository.insertAll(peopleToInsert)) {
       var tmdbId = person.getTmdbId();
       existing.put(tmdbId, person);
+      producer.publish(IngestMedia.of(tmdbId, IngestType.PERSON, IngestSource.MEDIA));
     }
     return existing;    
   }
