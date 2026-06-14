@@ -13,6 +13,12 @@
           <InputGroup>
             <InputNumber v-model="seriesId" inputId="series" placeholder="ID" :min="1" :useGrouping="false" /> 
             <Button label="Ingest" icon="pi pi-check" @click="ingestSeries" :disabled="!seriesId" />            
+          </InputGroup> 
+          
+          <div>TMDB Person</div>
+          <InputGroup>
+            <InputNumber v-model="personId" inputId="person" placeholder="ID" :min="1" :useGrouping="false" /> 
+            <Button label="Ingest" icon="pi pi-check" @click="ingestPerson" :disabled="!personId" />            
           </InputGroup>          
         </div>
       </Fieldset>
@@ -31,6 +37,7 @@
 
   const { ingest } = useEmdbCommandApi();
   const movieId = ref(null);
+  const personId = ref(null);
   const seriesId = ref(null);
   const toast = useToast();
 
@@ -42,8 +49,21 @@
         source: IngestSource.UI,
       };
       const ingestId = await ingest(command);
+      toast.add({ severity: 'info', summary: 'Info', detail: `Movie ${movieId.value} submitted: ${ingestId}.` });
       movieId.value = null;
-      toast.add({ severity: 'info', summary: 'Info', detail: `Ingest ${ingestId} submitted.` });
+    }
+  }; 
+
+ const ingestPerson = async () => {
+    if (personId.value !== null) {
+      const command: IngestMedia = {
+        tmdbId: personId.value,
+        type: MediaType.PERSON,
+        source: IngestSource.UI,
+      };
+      const ingestId = await ingest(command);
+      toast.add({ severity: 'info', summary: 'Info', detail: `Person ${personId.value} submitted: ${ingestId}.` });
+      personId.value = null;
     }
   }; 
   
@@ -55,8 +75,8 @@
         source: IngestSource.UI,
       };
       const ingestId = await ingest(command);
+      toast.add({ severity: 'info', summary: 'Info', detail: `Series ${seriesId.value} submitted: ${ingestId}.` });
       seriesId.value = null;
-      toast.add({ severity: 'info', summary: 'Info', detail: `Ingest ${ingestId} submitted.` });
     }
   };   
 </script>
