@@ -28,6 +28,7 @@ dependencies {
   implementation libs.quarkus.arc
   implementation libs.quarkus.flyway
   implementation libs.quarkus.graphql
+  implementation libs.quarkus.health
   implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.jdbc.postgresql

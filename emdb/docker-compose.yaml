@@ -30,6 +30,11 @@ services:
       - ./emdb-ingest/emdb-ingest-service/.env
     networks:
       - projects
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:60314/emdb/api/q/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -53,8 +58,27 @@ services:
       - /home/erdouglass/projects/emdb/media-data/series:/series
     networks:
       - projects
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:60316/emdb/api/q/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5      
     depends_on:
       rabbitmq:
+        condition: service_healthy
+
+  emdb-ui:
+    image: emdb-ui:latest
+    container_name: emdb-ui
+    build:
+      context: .
+      dockerfile: emdb-ui/Dockerfile
+    networks:
+      - projects
+    depends_on:
+      emdb-ingest:
+        condition: service_healthy
+      emdb-media:
         condition: service_healthy
       
 volumes:
