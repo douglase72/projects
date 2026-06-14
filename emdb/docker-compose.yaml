@@ -20,14 +20,14 @@ services:
     image: emdb-ingest:latest
     container_name: emdb-ingest
     build:
-      context: ./emdb-ingest-service
+      context: ./emdb-ingest/emdb-ingest-service
       dockerfile: src/main/docker/Dockerfile
     ports:
       - 60334:60314
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
-      - ./emdb-ingest-service/.env
+      - ./emdb-ingest/emdb-ingest-service/.env
     networks:
       - projects
     depends_on:
@@ -38,14 +38,14 @@ services:
     image: emdb-media:latest
     container_name: emdb-media
     build:
-      context: ./emdb-media-service
+      context: ./emdb-media/emdb-media-service
       dockerfile: src/main/docker/Dockerfile
     ports:
       - 60336:60316
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
-      - ./emdb-media-service/.env
+      - ./emdb-media/emdb-media-service/.env
     volumes:
       - /home/erdouglass/projects/emdb/media-data/images:/images
       - /home/erdouglass/projects/emdb/media-data/movies:/movies

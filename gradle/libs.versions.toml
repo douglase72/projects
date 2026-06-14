@@ -46,6 +46,7 @@ quarkus-arc = { module = "io.quarkus:quarkus-arc" }
 quarkus-fault-tolerance = { module = "io.quarkus:quarkus-smallrye-fault-tolerance" }
 quarkus-flyway = { module = "io.quarkus:quarkus-flyway" }
 quarkus-graphql = { module = "io.quarkus:quarkus-smallrye-graphql" }
+quarkus-health = { module = "io.quarkus:quarkus-smallrye-health" }
 quarkus-hibernate-orm = { module = "io.quarkus:quarkus-hibernate-orm" }
 quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
 quarkus-jdbc-postgresql = { module = "io.quarkus:quarkus-jdbc-postgresql" }

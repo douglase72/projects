@@ -22,7 +22,8 @@ public final class TestHelper {
     OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new JavaTimeModule());
     GRAPHQL_URL = "http://localhost:60316/emdb-media/api/graphql";
-    MOVIES_URL = "http://localhost:60316/emdb-media/api/movies";
+    //MOVIES_URL = "http://localhost:60316/emdb-media/api/movies";
+    MOVIES_URL = "http://localhost:60336/emdb-media/api/movies";
     PEOPLE_URL = "http://localhost:60316/emdb-media/api/people";
     SERIES_URL = "http://localhost:60316/emdb-media/api/series";
   }  

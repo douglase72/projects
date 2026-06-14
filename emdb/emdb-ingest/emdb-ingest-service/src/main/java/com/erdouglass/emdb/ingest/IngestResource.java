@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.controller;
+package com.erdouglass.emdb.ingest;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

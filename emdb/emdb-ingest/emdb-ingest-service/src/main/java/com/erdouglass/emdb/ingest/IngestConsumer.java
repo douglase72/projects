@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.messaging;
+package com.erdouglass.emdb.ingest;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
