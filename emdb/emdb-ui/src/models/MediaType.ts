@@ -1,8 +1,8 @@
 
 export enum MediaType {
-  MOVIE = "movie",
-  PERSON = "person",
-  SERIES = "series",
+  MOVIE = "MOVIE",
+  PERSON = "PERSON",
+  SERIES = "SERIES",
 }
 
 export function fromMediaType(type: string): string {

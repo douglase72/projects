@@ -22,6 +22,17 @@
       <div>Biography</div>
       <div>{{ person.biography }}</div>           
     </section>
+
+    <section class="mt-8">
+       <Carousel :value="credits" 
+                 :numVisible="6" 
+                 :numScroll="4"
+                 :showIndicators="false">
+        <template #item="slotProps">
+          <ShowCard :show="slotProps.data" />
+        </template>         
+      </Carousel>     
+    </section>    
   </main>
 </template>
 
@@ -32,7 +43,10 @@
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
+  import { Carousel } from 'primevue';
   import { type Person, fromGender } from '@/models/Person';
+  import ShowCard from '@/components/ShowCard.vue';
+  import { type ShowCredit } from '@/models/ShowCredit';
 
   const { findImage, findPersonById } = useEmdbQueryApi();
   const { handleError } = useErrorHandler();
@@ -41,6 +55,7 @@
   const router = useRouter();
 
   const person = ref<Person>();
+  const credits = ref<ShowCredit[]>([]);
 
   onMounted(async () => {
     const id = Number(route.params.id);
@@ -51,6 +66,14 @@
 
     try {
       person.value = await findPersonById(id);
+      credits.value = person.value?.credits.cast.slice(0, 12)
+        .map((credit): ShowCredit => ({
+          id: credit.id,
+          title: credit.title,
+          score: credit.score,
+          poster: credit.poster,
+          mediaType: credit.type,
+        }));
     } catch (e) {
       if (isResourceNotFound(e)) {
         handleError(e, 'Person not found', 'warn');

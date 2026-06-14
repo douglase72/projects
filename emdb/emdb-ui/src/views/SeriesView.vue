@@ -34,10 +34,22 @@
       <div>Overview</div>
       <div>{{ series.overview }}</div>                            
     </section>
+       <Carousel :value="cast" 
+                 :numVisible="6" 
+                 :numScroll="4"
+                 :showIndicators="false">
+        <template #item="slotProps">
+          <ActorCard :actor="slotProps.data" />
+        </template>         
+      </Carousel>
+    <section class="mt-8">
+ 
+    </section>    
   </main>
 </template>
 
 <script setup lang="ts">
+  import { fromShowStatus } from '@/models/ShowStatus';
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useLanguage } from '@/composables/useLanguage';
@@ -45,8 +57,10 @@
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
+  import { type Actor } from '@/models/Actor';
+  import ActorCard from '@/components/ActorCard.vue';
+  import { Carousel } from 'primevue';
   import { type Series, fromType } from '@/models/Series';
-  import { fromShowStatus } from '@/models/ShowStatus';
 
   const { findImage, findSeriesById } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
@@ -55,6 +69,7 @@
   const route = useRoute();
   const router = useRouter();
 
+  const cast = ref<Actor[]>([]);
   const series = ref<Series>();
 
     onMounted(async () => {
@@ -66,6 +81,14 @@
 
     try {
       series.value = await findSeriesById(id);
+      cast.value = series.value?.credits.cast.slice(0, 12)
+        .map((credit): Actor => ({
+          id: credit.id,
+          name: credit.name,
+          profile: credit.profile,
+          character: credit.roles[0]?.character ?? null,
+          totalEpisodes: credit.totalEpisodes,
+        }));      
     } catch (e) {
       if (isResourceNotFound(e)) {
         handleError(e, 'Series not found', 'warn');

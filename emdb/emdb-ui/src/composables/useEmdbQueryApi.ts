@@ -6,7 +6,7 @@ import { type Person } from '@/models/Person';
 import { type Series } from '@/models/Series';
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: `${import.meta.env.VITE_MEDIA_SERVICE_URL}/graphql`,
   timeout: 300000,
 });
 

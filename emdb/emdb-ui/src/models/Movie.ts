@@ -1,5 +1,6 @@
 import { Gender } from "./Person";
-import { ShowStatus } from "./ShowStatus";
+import { MediaType } from "./MediaType";
+import { type Show } from "./Show";
 
 export interface CastCredit {
   creditId: string;
@@ -20,22 +21,12 @@ export interface CrewCredit {
   job: string | null;
 }
 
-export interface Movie {
-  id: number;
-  tmdbId: number;
-  title: string;
+export interface Movie extends Show {
+  mediaType: MediaType.MOVIE;
   releaseDate: string | null;
-  score: number;
-  status: keyof typeof ShowStatus;
   runtime: number | null;
   budget: number | null;
   revenue: number | null;
-  backdrop: string | null;
-  poster: string | null;
-  homepage: string | null,
-  originalLanguage: string | null;
-  tagline: string | null;
-  overview: string | null; 
   credits: {
     cast: CastCredit[];
     crew: CrewCredit[];

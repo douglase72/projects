@@ -20,7 +20,7 @@ import com.erdouglass.emdb.media.command.SaveSeries;
 @Priority(Interceptor.Priority.APPLICATION)
 class LogInterceptor {
   private static final Logger LOGGER = Logger.getLogger(LogInterceptor.class);
-  private static final String MSG = "Ingest of TMDB %d %s extracted from TMDB in %d ms";
+  private static final String MSG = "Ingest of TMDB %s %d extracted from TMDB in %d ms";
   
   @AroundInvoke
   Object scrape(final InvocationContext context) throws Exception {
@@ -28,9 +28,9 @@ class LogInterceptor {
     var result = (SaveCommand) context.proceed();
     var et = Duration.between(start, Instant.now()).toMillis();
     switch (result) {
-      case SaveMovie cmd -> LOGGER.infof(MSG, cmd.tmdbId(), "movie", et); 
-      case SavePerson cmd -> LOGGER.infof(MSG, cmd.tmdbId(), "person", et);
-      case SaveSeries cmd -> LOGGER.infof(MSG, cmd.tmdbId(), "series", et);
+      case SaveMovie cmd -> LOGGER.infof(MSG, "movie", cmd.tmdbId(), et); 
+      case SavePerson cmd -> LOGGER.infof(MSG, "person", cmd.tmdbId(), et);
+      case SaveSeries cmd -> LOGGER.infof(MSG, "series", cmd.tmdbId(), et);
     }
     return result;
   }  

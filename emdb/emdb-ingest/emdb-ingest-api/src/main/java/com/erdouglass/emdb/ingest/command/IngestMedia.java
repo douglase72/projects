@@ -29,7 +29,9 @@ public record IngestMedia(
   }
 
   public enum IngestType {
-    MOVIE("movie"), PERSON("person"), SERIES("series");
+    MOVIE("movie"), 
+    PERSON("person"), 
+    SERIES("series");
 
     private final String type;
 

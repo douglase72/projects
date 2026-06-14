@@ -1,7 +1,8 @@
 import { Gender } from "./Person";
 import { type Job } from "./Job";
+import { MediaType } from "./MediaType";
+import { type Show } from "./Show";
 import { type Role } from "./Role";
-import { ShowStatus } from "./ShowStatus";
 
 export enum SeriesType {
   SCRIPTED = "Scripted",
@@ -37,21 +38,11 @@ export interface CrewCredit {
   totalEpisodes: number;
 }
 
-export interface Series {
-  id: number;
-  tmdbId: number;
-  title: string;
+export interface Series extends Show {
+  mediaType: MediaType.SERIES;
   firstAirDate: string | null;
   lastAirDate: string | null;
-  score: number;
-  status: keyof typeof ShowStatus;
   type: keyof typeof SeriesType
-  backdrop: string | null;
-  poster: string | null;
-  homepage: string | null,
-  originalLanguage: string | null;
-  tagline: string | null;
-  overview: string | null; 
   credits: {
     cast: CastCredit[];
     crew: CrewCredit[];

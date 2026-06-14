@@ -36,10 +36,22 @@
       <div>Overview</div>
       <div>{{ movie.overview }}</div>
     </section>
+
+    <section class="mt-8">
+       <Carousel :value="cast" 
+                 :numVisible="6" 
+                 :numScroll="4"
+                 :showIndicators="false">
+        <template #item="slotProps">
+          <ActorCard :actor="slotProps.data" />
+        </template>         
+      </Carousel>     
+    </section>
   </main>
 </template>
 
 <script setup lang="ts">
+  import { fromShowStatus } from '@/models/ShowStatus';
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useLanguage } from '@/composables/useLanguage';
@@ -47,8 +59,10 @@
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useErrors } from '@/composables/useErrors';
 
+  import { type Actor } from '@/models/Actor';
+  import ActorCard from '@/components/ActorCard.vue';
+  import { Carousel } from 'primevue';
   import { type Movie } from '@/models/Movie';
-  import { fromShowStatus } from '@/models/ShowStatus';
 
   const { findImage, findMovieById } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
@@ -57,6 +71,7 @@
   const route = useRoute();
   const router = useRouter();
 
+  const cast = ref<Actor[]>([]);
   const movie = ref<Movie>();
 
   onMounted(async () => {
@@ -68,6 +83,14 @@
 
     try {
       movie.value = await findMovieById(id);
+      cast.value = movie.value?.credits.cast.slice(0, 12)
+        .map((credit): Actor => ({
+          id: credit.id,
+          name: credit.name,
+          profile: credit.profile,
+          character: credit.character ?? null,
+          totalEpisodes: null,
+        }));
     } catch (e) {
       if (isResourceNotFound(e)) {
         handleError(e, 'Movie not found', 'warn');

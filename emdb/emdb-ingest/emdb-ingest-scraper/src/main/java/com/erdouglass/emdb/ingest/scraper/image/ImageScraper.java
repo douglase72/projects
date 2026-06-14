@@ -17,7 +17,11 @@ public class ImageScraper {
   @RestClient
   ImageClient client;
   
-  public Image extract(final String name) {
+  public Image extract(String name) {
+    if (name == null) {
+      return Image.builder().build();
+    }
+    
     try (var is = client.findByName(name)) {
       return Image.builder()
           .tmdbName(name)
