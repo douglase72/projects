@@ -57,17 +57,15 @@
   import { useLanguage } from '@/composables/useLanguage';
   import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
-  import { useErrors } from '@/composables/useErrors';
 
   import { type Actor } from '@/models/Actor';
   import ActorCard from '@/components/ActorCard.vue';
   import { Carousel } from 'primevue';
   import { type Movie } from '@/models/Movie';
 
-  const { findImage, findMovieById } = useEmdbQueryApi();
+  const { findImage, findMovie } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
-  const { handleError } = useErrorHandler();
-  const { isResourceNotFound } = useErrors();
+  const { handleError, isResourceNotFound } = useErrorHandler();
   const route = useRoute();
   const router = useRouter();
 
@@ -82,7 +80,7 @@
     }
 
     try {
-      movie.value = await findMovieById(id);
+      movie.value = await findMovie(id);
       cast.value = movie.value?.credits.cast.slice(0, 12)
         .map((credit): Actor => ({
           id: credit.id,

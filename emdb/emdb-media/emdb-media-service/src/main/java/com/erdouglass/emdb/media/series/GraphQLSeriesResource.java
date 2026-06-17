@@ -1,12 +1,15 @@
 package com.erdouglass.emdb.media.series;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Source;
 
+import com.erdouglass.common.graphql.ResourceNotFoundException;
+import com.erdouglass.emdb.media.query.OffsetPage;
 import com.erdouglass.emdb.media.query.SeriesResponse;
 import com.erdouglass.emdb.media.query.SeriesResponse.Credits;
 
@@ -19,12 +22,17 @@ public class GraphQLSeriesResource {
   @Inject
   SeriesService service;
   
+  @Query("allSeries") 
+  public OffsetPage<SeriesResponse> findAll(@Valid @Name("query") SeriesQuery query) {
+    return service.findAll(query);
+  }
+  
   /// Looks up a single series by its primary key.
   ///
   /// @param id the series id
   /// @return the series
   /// @throws ResourceNotFoundException if no series has the given id
-  @Query("findSeriesById") 
+  @Query("series") 
   public SeriesResponse findById(@Name("id") Long id) {
     return service.findById(id);
   }

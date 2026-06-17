@@ -1,6 +1,17 @@
 import axios from 'axios';
 import { useToast } from "primevue/usetoast";
 
+export const NOT_FOUND = 'not-found';
+
+export class GraphQLError extends Error {
+  readonly code?: string;
+  constructor(message: string, code?: string) {
+    super(message);
+    this.name = 'GraphQLError';
+    this.code = code;
+  }
+}
+
 export function useErrorHandler() {
   type Severity = 'warn' | 'error';
   const toast = useToast();
@@ -27,5 +38,12 @@ export function useErrorHandler() {
     toast.add({ severity, summary, detail: message });
   };
 
-  return { handleError };
+  const isResourceNotFound = (error: unknown): error is GraphQLError => {
+    return error instanceof GraphQLError && error.code === NOT_FOUND;
+  };
+
+  return { 
+    handleError,
+    isResourceNotFound
+  };
 }

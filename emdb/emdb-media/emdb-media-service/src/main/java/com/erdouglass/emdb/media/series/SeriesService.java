@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.series;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,6 +18,7 @@ import com.erdouglass.emdb.media.credit.CreditType;
 import com.erdouglass.emdb.media.image.ImageService;
 import com.erdouglass.emdb.media.internal.PersonResolver;
 import com.erdouglass.emdb.media.logging.Log;
+import com.erdouglass.emdb.media.query.OffsetPage;
 import com.erdouglass.emdb.media.query.SeriesResponse;
 
 /// Application service that orchestrates persistence of [Series] aggregates,
@@ -78,6 +80,17 @@ class SeriesService {
     } 
     saveCredits(command.credits(), series);
     return mapper.toSeriesResponse(series);
+  }
+  
+  @Log("Found:")
+  @Transactional
+  public OffsetPage<SeriesResponse> findAll(final SeriesQuery query) {
+    var pageRequest = PageRequest.ofPage(query.page(), query.size(), true);
+    var seriesPage = seriesRepository.findAll(pageRequest, query.sort().sortOrder());
+    var results = seriesPage.stream()
+        .map(mapper::toSeriesView)
+        .toList();
+    return new OffsetPage<>(results, query.page().intValue(), results.size(), seriesPage.totalElements());
   }
   
   /// Looks up a single series by id for read/query use.

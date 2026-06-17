@@ -3,7 +3,11 @@ package com.erdouglass.emdb.media.person;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.data.Sort;
+import jakarta.data.page.Page;
+import jakarta.data.page.PageRequest;
 import jakarta.data.repository.CrudRepository;
+import jakarta.data.repository.Find;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
@@ -11,6 +15,9 @@ import jakarta.data.repository.Repository;
 /// operations with lookup by external TMDB identifier.
 @Repository
 interface PersonRepository extends CrudRepository<Person, Long> {
+  
+  @Find
+  Page<Person> findAll(PageRequest pageRequest, Sort<Person> sort);
 
   /// Retrieves a person by their corresponding external TMDB identifier.
   ///

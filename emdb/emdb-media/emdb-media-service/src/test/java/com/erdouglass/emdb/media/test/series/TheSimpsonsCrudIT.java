@@ -105,7 +105,7 @@ class TheSimpsonsCrudIT {
   void testFindSeries() throws IOException, InterruptedException {
     var query = """
         query {
-          findSeriesById(id: %d) { 
+          series(id: %d) { 
             id tmdbId title firstAirDate lastAirDate score status type
             backdrop poster homepage originalLanguage tagline overview 
             credits {

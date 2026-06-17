@@ -111,7 +111,7 @@ class GoldmemberCrudIT {
   void testFindMovie() throws IOException, InterruptedException {
     var query = """
         query {
-          findMovieById(id: %d) { 
+          movie(id: %d) { 
             id tmdbId title releaseDate score status runtime budget revenue
             backdrop poster homepage originalLanguage tagline overview 
             credits {
@@ -133,7 +133,7 @@ class GoldmemberCrudIT {
     var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
     assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
     
-    var movie = TestHelper.OBJECT_MAPPER.treeToValue(root.path("data").path("findMovieById"), MovieResponse.class);
+    var movie = TestHelper.OBJECT_MAPPER.treeToValue(root.path("data").path("movie"), MovieResponse.class);
     assertEquals(movieId, movie.id());
     assertEquals(818, movie.tmdbId());
     assertEquals("Austin Powers in Goldmember", movie.title());

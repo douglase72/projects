@@ -10,6 +10,8 @@ import jakarta.interceptor.InvocationContext;
 
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.media.query.OffsetPage;
+
 @Log
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
@@ -18,19 +20,15 @@ class LogInterceptor {
   
   @AroundInvoke
   Object log(final InvocationContext context) throws Exception {
-    var method = context.getMethod();
+    var annotation = context.getMethod().getAnnotation(Log.class);
+    var action = annotation.value();
     var start = Instant.now();
     var result = context.proceed();
     var et = Duration.between(start, Instant.now()).toMillis();
-    LOGGER.infof("%s %s in %d ms", action(method.getName()), result, et);
+    switch (result) {
+      case OffsetPage<?> p -> LOGGER.infof("%s %d results in %d ms", action, p.size(), et);
+      default -> LOGGER.infof("%s %s in %d ms", action, result, et);
+    }
     return result;
-  }
-  
-  private String action(final String method) {
-    return switch (method) {
-      case "save" -> "Saved:";
-      case "findById" -> "Found:";
-      default -> throw new IllegalArgumentException("Invalid method: " + method);
-    };
   }
 }

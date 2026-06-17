@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ import com.erdouglass.emdb.media.image.ImageService;
 import com.erdouglass.emdb.media.internal.PersonResolver;
 import com.erdouglass.emdb.media.logging.Log;
 import com.erdouglass.emdb.media.movie.MovieCredit;
+import com.erdouglass.emdb.media.query.OffsetPage;
 import com.erdouglass.emdb.media.query.PersonResponse;
 import com.erdouglass.emdb.media.series.SeriesCredit;
 
@@ -73,6 +75,17 @@ class PersonService implements PersonResolver {
       profile.toDelete().ifPresent(imageService::delete);
     }    
     return mapper.toPersonResponse(person);
+  }
+  
+  @Log("Found:")
+  @Transactional
+  public OffsetPage<PersonResponse> findAll(final PersonQuery query) {
+    var pageRequest = PageRequest.ofPage(query.page(), query.size(), true);
+    var personPage = personRepository.findAll(pageRequest, query.sort().sortOrder());
+    var results = personPage.stream()
+        .map(mapper::toPersonResponse)
+        .toList();
+    return new OffsetPage<>(results, query.page().intValue(), results.size(), personPage.totalElements());
   }
   
   /// Looks up a single person by id for read/query use.

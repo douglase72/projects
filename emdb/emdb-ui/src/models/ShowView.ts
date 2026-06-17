@@ -1,8 +1,9 @@
 import { MediaType } from "./MediaType";
 
-export interface ShowCredit {
+export interface ShowView {
   id: number;
-  title: string;  
+  title: string; 
+  releaseDate: string | null; 
   score: number;
   poster: string | null;
   mediaType: MediaType;

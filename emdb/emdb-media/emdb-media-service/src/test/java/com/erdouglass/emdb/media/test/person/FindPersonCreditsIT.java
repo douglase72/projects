@@ -154,7 +154,7 @@ class FindPersonCreditsIT {
   void testFindHarrisonFord() throws IOException, InterruptedException {
     var query = """
         query {
-          findPersonById(id: %d) { 
+          person(id: %d) { 
             id tmdbId name birthDate deathDate gender profile birthPlace biography
             credits {
               cast {

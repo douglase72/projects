@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.person;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Name;
@@ -8,6 +9,7 @@ import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Source;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
+import com.erdouglass.emdb.media.query.OffsetPage;
 import com.erdouglass.emdb.media.query.PersonResponse;
 import com.erdouglass.emdb.media.query.PersonResponse.Credits;
 
@@ -20,12 +22,17 @@ public class GraphQLPersonResource {
   @Inject
   PersonService service;
   
+  @Query("allPeople") 
+  public OffsetPage<PersonResponse> findAll(@Valid @Name("query") PersonQuery query) {
+    return service.findAll(query);
+  }
+  
   /// Looks up a single person by their primary key.
   ///
   /// @param id the person id
   /// @return the person
   /// @throws ResourceNotFoundException if no person has the given id
-  @Query("findPersonById") 
+  @Query("person") 
   public PersonResponse findById(@Name("id") Long id) {
     return service.findById(id);
   }

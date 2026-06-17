@@ -41,21 +41,20 @@
   import { useRoute, useRouter } from 'vue-router';
   import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
-  import { useErrors } from '@/composables/useErrors';
 
   import { Carousel } from 'primevue';
+  import { MediaType } from '@/models/MediaType';
   import { type Person, fromGender } from '@/models/Person';
   import ShowCard from '@/components/ShowCard.vue';
-  import { type ShowCredit } from '@/models/ShowCredit';
+  import { type ShowView } from '@/models/ShowView';
 
-  const { findImage, findPersonById } = useEmdbQueryApi();
-  const { handleError } = useErrorHandler();
-  const { isResourceNotFound } = useErrors();
+  const { findImage, findPerson } = useEmdbQueryApi();
+  const { handleError, isResourceNotFound } = useErrorHandler();
   const route = useRoute();
   const router = useRouter();
 
   const person = ref<Person>();
-  const credits = ref<ShowCredit[]>([]);
+  const credits = ref<ShowView[]>([]);
 
   onMounted(async () => {
     const id = Number(route.params.id);
@@ -65,11 +64,12 @@
     }
 
     try {
-      person.value = await findPersonById(id);
-      credits.value = person.value?.credits.cast.slice(0, 12)
-        .map((credit): ShowCredit => ({
+      person.value = await findPerson(id);
+      credits.value = person.value.credits.cast.slice(0, 12)
+        .map((credit): ShowView => ({
           id: credit.id,
           title: credit.title,
+          releaseDate: credit.type === MediaType.MOVIE ? credit.releaseDate : credit.firstAirDate,
           score: credit.score,
           poster: credit.poster,
           mediaType: credit.type,

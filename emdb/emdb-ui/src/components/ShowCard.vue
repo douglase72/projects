@@ -20,23 +20,22 @@
       </div>
     </div>
     
-    <div class="text-center pt-3 px-2 pb-1 font-bold">
-      {{ show.title }}
-    </div>
+    <div class="pt-3 pb-1 font-bold">{{ show.title }}</div>
+    <div class=" text-sm">{{ show.releaseDate }}</div>
   </RouterLink>
 </template>
 
 <script setup lang="ts">
   import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
   import { MediaType } from '@/models/MediaType';
-  import { type ShowCredit } from '@/models/ShowCredit';
+  import { type ShowView } from '@/models/ShowView';
   const { findImage } = useEmdbQueryApi();
 
   defineProps<{
-    show: ShowCredit,
+    show: ShowView,
   }>();
 
-  const link = (show: ShowCredit) => {
+  const link = (show: ShowView) => {
     if (show.mediaType === MediaType.MOVIE) {
       return `/movie/${show.id}`;
     } else {

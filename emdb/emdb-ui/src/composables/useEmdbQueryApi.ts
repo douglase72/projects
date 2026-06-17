@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-import { GraphQLError } from './useErrors';
+import { GraphQLError } from './useErrorHandler';
 import { type Movie } from '@/models/Movie';
+import { type OffsetPage } from '@/models/OffsetPage';
 import { type Person } from '@/models/Person';
 import { type Series } from '@/models/Series';
 
@@ -34,10 +35,10 @@ export function useEmdbQueryApi() {
     return `${import.meta.env.VITE_IMAGE_URL}/${size}/${image}`;
   };  
 
-  const findMovieById = async (id: number): Promise<Movie> => {
+  const findMovie = async (id: number): Promise<Movie> => {
     const query = `
-      query FindMovie($id: BigInteger!) {
-        findMovieById(id: $id) {
+      query movie($id: BigInteger!) {
+        movie(id: $id) {
           id tmdbId title releaseDate score status runtime budget revenue
           backdrop poster homepage originalLanguage tagline overview
           credits {
@@ -46,7 +47,7 @@ export function useEmdbQueryApi() {
           }
         }
       }`;  
-    const response = await client.post<GraphQLResponse<{ findMovieById: Movie }>>('', {
+    const response = await client.post<GraphQLResponse<{ movie: Movie }>>('', {
       query,
       variables: { id },
     });
@@ -56,17 +57,41 @@ export function useEmdbQueryApi() {
       throw new GraphQLError(firstError.message, firstError.extensions?.code);
     }
 
-    const movie = response.data.data?.findMovieById;
+    const movie = response.data.data?.movie;
     if (!movie) {
       throw new Error(`Movie ${id} not found`);
     }
     return movie;
   };  
 
-  const findPersonById = async (id: number): Promise<Person> => {
+  const findAllMovies = async (): Promise<OffsetPage<Movie>> => {
+    const query = `
+      query {
+        allMovies(query: { page: 1, size: 5, sort: SCORE_DESC }) {
+          results {
+            id title releaseDate score poster
+          }
+          page size totalResults
+        }
+      }`;  
+    const response = await client.post<GraphQLResponse<{ allMovies: OffsetPage<Movie> }>>('', { query });
+
+    const firstError = response.data.errors?.[0];
+    if (firstError) {
+      throw new GraphQLError(firstError.message, firstError.extensions?.code);
+    }
+
+    const movies = response.data.data?.allMovies;
+    if (!movies) {
+      throw new Error(`No movies found`);
+    }
+    return movies;
+  };
+
+  const findPerson = async (id: number): Promise<Person> => {
    const query = `
-      query FindPerson($id: BigInteger!) {
-        findPersonById(id: $id) {
+      query person($id: BigInteger!) {
+        person(id: $id) {
           id tmdbId name birthDate deathDate gender profile birthPlace biography
           credits {
             cast {
@@ -80,7 +105,7 @@ export function useEmdbQueryApi() {
           }
         }
       }`;  
-    const response = await client.post<GraphQLResponse<{ findPersonById: Person }>>('', {
+    const response = await client.post<GraphQLResponse<{ person: Person }>>('', {
       query,
       variables: { id },
     });
@@ -90,17 +115,41 @@ export function useEmdbQueryApi() {
       throw new GraphQLError(firstError.message, firstError.extensions?.code);
     }
 
-    const person = response.data.data?.findPersonById;
+    const person = response.data.data?.person;
     if (!person) {
       throw new Error(`Person ${id} not found`);
     }
     return person; 
   };
 
-  const findSeriesById = async (id: number): Promise<Series> => {
+  const findAllPeople = async (): Promise<OffsetPage<Person>> => {
     const query = `
-      query FindSeries($id: BigInteger!) {
-        findSeriesById(id: $id) {
+      query {
+        allPeople(query: { }) {
+          results {
+            id name birthDate profile
+          }
+          page size totalResults
+        }
+      }`;  
+    const response = await client.post<GraphQLResponse<{ allPeople: OffsetPage<Person> }>>('', { query });
+
+    const firstError = response.data.errors?.[0];
+    if (firstError) {
+      throw new GraphQLError(firstError.message, firstError.extensions?.code);
+    }
+
+    const people = response.data.data?.allPeople;
+    if (!people) {
+      throw new Error(`No people found`);
+    }
+    return people;
+  };
+
+  const findSeries = async (id: number): Promise<Series> => {
+    const query = `
+      query series($id: BigInteger!) {
+        series(id: $id) {
           id tmdbId title firstAirDate lastAirDate score status type
           backdrop poster homepage originalLanguage tagline overview
           credits {
@@ -109,7 +158,7 @@ export function useEmdbQueryApi() {
           }
         }
       }`;
-    const response = await client.post<GraphQLResponse<{ findSeriesById: Series }>>('', {
+    const response = await client.post<GraphQLResponse<{ series: Series }>>('', {
       query,
       variables: { id },
     });
@@ -119,17 +168,44 @@ export function useEmdbQueryApi() {
       throw new GraphQLError(firstError.message, firstError.extensions?.code);
     }
 
-    const series = response.data.data?.findSeriesById;
+    const series = response.data.data?.series;
     if (!series) {
       throw new Error(`Series ${id} not found`);
     }
     return series;      
   };
 
+  const findAllSeries = async (): Promise<OffsetPage<Series>> => {
+    const query = `
+      query {
+        allSeries(query: { }) {
+          results {
+            id title firstAirDate score poster
+          }
+          page size totalResults
+        }
+      }`;  
+    const response = await client.post<GraphQLResponse<{ allSeries: OffsetPage<Series> }>>('', { query });
+
+    const firstError = response.data.errors?.[0];
+    if (firstError) {
+      throw new GraphQLError(firstError.message, firstError.extensions?.code);
+    }
+
+    const series = response.data.data?.allSeries;
+    if (!series) {
+      throw new Error(`No series found`);
+    }
+    return series;
+  };
+
   return {
     findImage,
-    findMovieById,
-    findPersonById,
-    findSeriesById,
+    findMovie,
+    findAllMovies,
+    findPerson,
+    findAllPeople,
+    findSeries,
+    findAllSeries,
   }
 }

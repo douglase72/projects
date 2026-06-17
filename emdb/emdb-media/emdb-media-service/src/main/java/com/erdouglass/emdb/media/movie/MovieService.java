@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -18,6 +19,7 @@ import com.erdouglass.emdb.media.image.ImageService;
 import com.erdouglass.emdb.media.internal.PersonResolver;
 import com.erdouglass.emdb.media.logging.Log;
 import com.erdouglass.emdb.media.query.MovieResponse;
+import com.erdouglass.emdb.media.query.OffsetPage;
 
 /// Application service that orchestrates persistence of [Movie] aggregates,
 /// including their poster/backdrop images and cast & crew credits. Reconciles
@@ -48,7 +50,7 @@ class MovieService {
   ///
   /// @param command the movie data to persist
   /// @return the saved movie, with generated identifiers and credits populated
-  @Log
+  @Log("Saved:")
   @Transactional
   public MovieResponse save(final SaveMovie command) {
     Movie movie;
@@ -75,12 +77,23 @@ class MovieService {
     return mapper.toMovieResponse(movie);
   }
   
+  @Log("Found:")
+  @Transactional
+  public OffsetPage<MovieResponse> findAll(final MovieQuery query) {
+    var pageRequest = PageRequest.ofPage(query.page(), query.size(), true);
+    var moviePage = movieRepository.findAll(pageRequest, query.sort().sortOrder());
+    var results = moviePage.stream()
+        .map(mapper::toMovieView)
+        .toList();
+    return new OffsetPage<>(results, query.page().intValue(), results.size(), moviePage.totalElements());
+  }
+  
   /// Looks up a single movie by id for read/query use.
   ///
   /// @param id the movie id
   /// @return the movie view
   /// @throws ResourceNotFoundException if no movie has the given id  
-  @Log
+  @Log("Found:")
   @Transactional
   public MovieResponse findById(final Long id) {
     return movieRepository.findById(id)
