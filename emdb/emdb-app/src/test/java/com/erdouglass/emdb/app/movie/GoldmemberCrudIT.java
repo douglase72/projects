@@ -38,6 +38,8 @@ class GoldmemberCrudIT {
         .runtime(94)
         .budget(63000000L)
         .revenue(296938801L)
+        .backdrop(TestHelper.image("019e5c92-5a24-7517-8b7a-3734166ad76a.jpg"))
+        .poster(TestHelper.image("019e5c8d-efdc-7687-b6c7-a6e822fb6d6d.jpg"))        
         .homepage("https://www.warnerbros.com/movies/austin-powers-goldmember")
         .originalLanguage("en")
         .tagline("The grooviest movie of the summer has a secret, baby!")

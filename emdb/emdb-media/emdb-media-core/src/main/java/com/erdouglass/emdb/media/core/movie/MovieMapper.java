@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.command.SaveMovie;
@@ -24,4 +25,9 @@ interface MovieMapper {
   Movie toMovie(SaveMovie command);
   
   MovieDto toMovieDto(Movie movie);
+  
+  @ObjectFactory
+  default Movie createMovie(SaveMovie command) {
+    return new Movie(command.tmdbId());
+  }
 }

@@ -1,7 +1,12 @@
 package com.erdouglass.emdb.app;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.UUID;
 
+import com.erdouglass.emdb.media.Image;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -26,4 +31,10 @@ public final class TestHelper {
   }  
 
   private TestHelper() {}
+  
+  public static Image image(String image) throws IOException {
+    var dir = "/home/erdouglass/projects/emdb/emdb-app/test-data";
+    byte[] data = Files.readAllBytes(Path.of(dir, image));
+    return new Image(UUID.fromString(image.replace(".jpg", "")), data);
+  } 
 }
