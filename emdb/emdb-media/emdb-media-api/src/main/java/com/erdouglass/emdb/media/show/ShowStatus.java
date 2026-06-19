@@ -5,9 +5,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum ShowStatus {
   CANCELED("Canceled"),
   ENDED("Ended"),
@@ -28,14 +25,12 @@ public enum ShowStatus {
     this.status = status;
   }
   
-  @JsonCreator
   public static ShowStatus from(String status) {
     var match = CACHE.get(status);
     return match != null ? match : ShowStatus.valueOf(status);
   }
   
   @Override
-  @JsonValue
   public String toString() {
     return status;
   }

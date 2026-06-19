@@ -30,26 +30,12 @@ include 'common-validation'
 project(':common-validation').projectDir = file('common-api/common-validation')
 
 // EMDB
-include 'emdb-common-api'
-project(':emdb-common-api').projectDir = file('emdb/emdb-common-api')
-
-include 'emdb-ingest-api'
-project(':emdb-ingest-api').projectDir = file('emdb/emdb-ingest/emdb-ingest-api')
-
-include 'emdb-ingest-scraper'
-project(':emdb-ingest-scraper').projectDir = file('emdb/emdb-ingest/emdb-ingest-scraper')
-
-include 'emdb-ingest-service'
-project(':emdb-ingest-service').projectDir = file('emdb/emdb-ingest/emdb-ingest-service')
-
 include 'emdb-media-api'
 project(':emdb-media-api').projectDir = file('emdb/emdb-media/emdb-media-api')
+include 'emdb-media-core'
+project(':emdb-media-core').projectDir = file('emdb/emdb-media/emdb-media-core')
+include 'emdb-media-ws'
+project(':emdb-media-ws').projectDir = file('emdb/emdb-media/emdb-media-ws')
 
-include 'emdb-media-service'
-project(':emdb-media-service').projectDir = file('emdb/emdb-media/emdb-media-service')
-
-include 'emdb-notification-service'
-project(':emdb-notification-service').projectDir = file('emdb/emdb-notification-service')
-
-include 'emdb-user-service'
-project(':emdb-user-service').projectDir = file('emdb/emdb-user-service')
+include 'emdb-app'
+project(':emdb-app').projectDir = file('emdb/emdb-app')

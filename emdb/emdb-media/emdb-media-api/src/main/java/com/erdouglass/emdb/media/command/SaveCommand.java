@@ -1,6 +1,6 @@
 package com.erdouglass.emdb.media.command;
 
-public sealed interface SaveCommand permits SaveMovie, SaveSeries, SavePerson {
+public sealed interface SaveCommand permits SaveMovie {
 
   Integer tmdbId();
   
