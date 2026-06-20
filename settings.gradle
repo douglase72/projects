@@ -1,0 +1,41 @@
+pluginManagement {
+  repositories {
+    // Google Maven Mirror
+    //maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+}
+
+dependencyResolutionManagement {
+  repositories {
+    // Google Maven Mirror
+    //maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+    mavenCentral()
+    mavenLocal()
+  }
+}
+
+rootProject.name='projects'
+
+// COMMON
+include 'common-graphql'
+project(':common-graphql').projectDir = file('common-api/common-graphql')
+include 'common-messaging'
+project(':common-messaging').projectDir = file('common-api/common-messaging')
+include 'common-rest'
+project(':common-rest').projectDir = file('common-api/common-rest')
+include 'common-validation'
+project(':common-validation').projectDir = file('common-api/common-validation')
+
+// EMDB
+include 'emdb-media-api'
+project(':emdb-media-api').projectDir = file('emdb/emdb-media/emdb-media-api')
+include 'emdb-media-core'
+project(':emdb-media-core').projectDir = file('emdb/emdb-media/emdb-media-core')
+include 'emdb-media-ws'
+project(':emdb-media-ws').projectDir = file('emdb/emdb-media/emdb-media-ws')
+
+include 'emdb-app'
+project(':emdb-app').projectDir = file('emdb/emdb-app')
