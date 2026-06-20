@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.command;
+package com.erdouglass.emdb.ingest;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -14,8 +14,8 @@ import jakarta.validation.constraints.Positive;
 /// @param source the origin of the ingest request
 public record IngestMedia(
     @NotNull @Positive Integer tmdbId, 
-    @NotNull IngestType type, 
-    @NotNull IngestSource source) {
+    @NotNull Type type, 
+    @NotNull Source source) {
   public static final String START_TIME = "start-time";
 
   /// Convenience factory equivalent to invoking the canonical constructor.
@@ -24,18 +24,18 @@ public record IngestMedia(
   /// @param type   the kind of entity to ingest
   /// @param source the origin of the ingest request
   /// @return a new [IngestMedia] instance with the given values
-  public static IngestMedia of(Integer tmdbId, IngestType type, IngestSource source) {
+  public static IngestMedia of(Integer tmdbId, Type type, Source source) {
     return new IngestMedia(tmdbId, type, source);
   }
 
-  public enum IngestType {
+  public enum Type {
     MOVIE("movie"), 
     PERSON("person"), 
     SERIES("series");
 
     private final String type;
 
-    IngestType(String type) {
+    Type(String type) {
       this.type = type;
     }
 
@@ -45,7 +45,7 @@ public record IngestMedia(
     }
   }
 
-  public enum IngestSource {
+  public enum Source {
     CLI, 
     MEDIA, 
     SCHEDULER, 

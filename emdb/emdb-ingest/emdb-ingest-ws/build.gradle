@@ -9,9 +9,15 @@ dependencies {
   compileOnly enforcedPlatform(libs.quarkus.bom)
   
   implementation project(':common-validation')
+  implementation project(':emdb-media-api')
+  implementation project(':emdb-ingest-api')
   
-  compileOnly libs.jackson.annotations
+  compileOnly libs.jakarta.cdi.api
   compileOnly libs.jakarta.validation.api
+  compileOnly libs.jakarta.ws.rs.api
+  compileOnly libs.jboss.logging
+  compileOnly libs.microprofile.rest.client.api
 }
+
 
 

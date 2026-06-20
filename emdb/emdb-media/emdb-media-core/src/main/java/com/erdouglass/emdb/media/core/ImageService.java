@@ -26,6 +26,9 @@ public class ImageService {
   String imageData;
   
   public void save(Image image) {
+    if (image == null) {
+      return;
+    }
     var hex = image.name().toString();
     var bucket = hex.substring(hex.length() - 2);
     try {

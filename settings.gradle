@@ -37,5 +37,12 @@ project(':emdb-media-core').projectDir = file('emdb/emdb-media/emdb-media-core')
 include 'emdb-media-ws'
 project(':emdb-media-ws').projectDir = file('emdb/emdb-media/emdb-media-ws')
 
+include 'emdb-ingest-api'
+project(':emdb-ingest-api').projectDir = file('emdb/emdb-ingest/emdb-ingest-api')
+include 'emdb-ingest-core'
+project(':emdb-ingest-core').projectDir = file('emdb/emdb-ingest/emdb-ingest-core')
+include 'emdb-ingest-ws'
+project(':emdb-ingest-ws').projectDir = file('emdb/emdb-ingest/emdb-ingest-ws')
+
 include 'emdb-app'
 project(':emdb-app').projectDir = file('emdb/emdb-app')
