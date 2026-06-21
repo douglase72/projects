@@ -10,6 +10,8 @@ dependencies {
   
   implementation project(':common-messaging')
   
+  implementation libs.jug
+  
   compileOnly libs.jakarta.cdi.api
   compileOnly libs.jakarta.validation.api
   compileOnly libs.smallrye.reactive.messaging.api

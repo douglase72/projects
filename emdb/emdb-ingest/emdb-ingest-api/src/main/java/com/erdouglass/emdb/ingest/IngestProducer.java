@@ -13,6 +13,8 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.common.messaging.LoggingDecorator;
+import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
 import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
@@ -23,6 +25,7 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 /// the ingest end-to-end.
 @ApplicationScoped
 public class IngestProducer {
+  private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
 
   @Inject
   @Channel("ingest-media-out")
@@ -37,7 +40,7 @@ public class IngestProducer {
   /// @param command the validated ingest command to publish; must be non-null
   /// @return the correlation id assigned to the outgoing message
   public UUID publish(@NotNull @Valid IngestMedia command) {
-    var correlationId = UUID.randomUUID();
+    var correlationId = GENERATOR.generate();
     emitter.send(Message.of(command)
         .addMetadata(OutgoingRabbitMQMetadata.builder().withCorrelationId(correlationId.toString())
             .withHeader(LoggingDecorator.EVENT_TYPE, command.getClass().getSimpleName())

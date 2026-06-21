@@ -14,10 +14,14 @@ dependencies {
   implementation project(':emdb-ingest-ws')
   implementation project(':emdb-media-api')
   
+  implementation libs.jug
+  
+  compileOnly libs.jackson.databind
   compileOnly libs.jakarta.cdi.api
   compileOnly libs.jakarta.validation.api
   compileOnly libs.jboss.logging
   compileOnly libs.mapstruct
+  compileOnly libs.microprofile.config.api
   compileOnly libs.microprofile.rest.client.api
   compileOnly libs.smallrye.reactive.messaging.api
   compileOnly libs.smallrye.reactive.messaging.rabbitmq
