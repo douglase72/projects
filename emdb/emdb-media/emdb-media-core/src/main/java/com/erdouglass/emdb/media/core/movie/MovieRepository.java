@@ -6,7 +6,7 @@ import jakarta.data.repository.CrudRepository;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
-@Repository
+@Repository(dataStore = "media")
 interface MovieRepository extends CrudRepository<Movie, Long> {
   
   /// Retrieves a movie by its corresponding external TMDB identifier.
