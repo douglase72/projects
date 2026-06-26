@@ -10,12 +10,10 @@ dependencies {
   implementation enforcedPlatform(libs.quarkus.bom)
   
   implementation project(':common-rest')
-  implementation project(':emdb-ingest-api')
   implementation project(':emdb-ingest-core')
-  implementation project(':emdb-ingest-ws')
   implementation project(':emdb-media-api')
   implementation project(':emdb-media-core')
-  implementation project(':emdb-media-ws')
+  implementation project(':emdb-rest-api')
   
   implementation libs.jakarta.data.api
   implementation libs.quarkus.arc

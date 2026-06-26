@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.media.command.SaveMovie;
-import com.erdouglass.emdb.media.query.MovieDto;
+import com.erdouglass.emdb.media.movie.MovieDto;
+import com.erdouglass.emdb.media.movie.SaveMovie;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

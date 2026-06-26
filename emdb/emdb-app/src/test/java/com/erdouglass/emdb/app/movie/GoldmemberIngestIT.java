@@ -14,9 +14,9 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.ingest.IngestMedia;
-import com.erdouglass.emdb.ingest.IngestMedia.Source;
-import com.erdouglass.emdb.ingest.IngestMedia.Type;
+import com.erdouglass.emdb.media.IngestMedia;
+import com.erdouglass.emdb.media.IngestMedia.Source;
+import com.erdouglass.emdb.media.IngestMedia.Type;
 
 class GoldmemberIngestIT {
   private static final Logger LOGGER = Logger.getLogger(GoldmemberIngestIT.class);
