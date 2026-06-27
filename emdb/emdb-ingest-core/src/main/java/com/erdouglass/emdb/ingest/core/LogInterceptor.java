@@ -12,7 +12,6 @@ import jakarta.interceptor.InvocationContext;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.core.movie.MovieIngestHandler;
 import com.erdouglass.emdb.media.IngestMedia;
 import com.erdouglass.emdb.media.movie.SaveMovie;
 
@@ -27,7 +26,7 @@ class LogInterceptor {
   @AroundInvoke
   Object log(InvocationContext context) throws Exception {
     var target = context.getTarget();
-    if (target instanceof MovieIngestHandler) {
+    if (target instanceof IngestHandler) {
       var parameters = context.getParameters();
       if (parameters.length > 0
           && parameters[0] instanceof Message<?> message

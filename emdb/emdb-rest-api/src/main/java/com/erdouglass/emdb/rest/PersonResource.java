@@ -9,20 +9,20 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import com.erdouglass.emdb.media.movie.MovieDto;
-import com.erdouglass.emdb.media.movie.MovieCommandService;
-import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.person.PersonCommandService;
+import com.erdouglass.emdb.media.person.PersonDto;
+import com.erdouglass.emdb.media.person.SavePerson;
 
-@Path("/movies")
+@Path("/people")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class MovieResource {
+public class PersonResource {
 
   @Inject
-  MovieCommandService service;
+  PersonCommandService service;
   
   @POST
-  public MovieDto save(@NotNull @Valid SaveMovie command) {
+  public PersonDto save(@NotNull @Valid SavePerson command) {
     return service.save(command);
   }  
 }

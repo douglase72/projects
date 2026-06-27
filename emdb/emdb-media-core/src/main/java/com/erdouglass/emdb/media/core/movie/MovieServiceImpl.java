@@ -7,12 +7,12 @@ import jakarta.transaction.Transactional;
 import com.erdouglass.emdb.media.core.ImageService;
 import com.erdouglass.emdb.media.core.Log;
 import com.erdouglass.emdb.media.movie.MovieDto;
-import com.erdouglass.emdb.media.movie.MovieService;
+import com.erdouglass.emdb.media.movie.MovieCommandService;
 import com.erdouglass.emdb.media.movie.SaveMovie;
 import com.erdouglass.emdb.media.movie.UpdateMovie;
 
 @ApplicationScoped
-class MovieServiceImpl implements MovieService {
+class MovieServiceImpl implements MovieCommandService {
   
   @Inject
   ImageService imageService;
@@ -50,12 +50,6 @@ class MovieServiceImpl implements MovieService {
       poster.toDelete().ifPresent(imageService::delete);
     }
     return mapper.toMovieDto(movie);
-  }
-  
-  @Override
-  @Transactional
-  public MovieDto findById(Long id) {
-    throw new UnsupportedOperationException();
   }
 
   @Override

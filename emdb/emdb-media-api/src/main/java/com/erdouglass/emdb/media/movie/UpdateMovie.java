@@ -7,7 +7,6 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
@@ -18,7 +17,6 @@ import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
 public record UpdateMovie(
-    @NotNull @Positive Long id,
     @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
     @NotNull @DecimalMin("0") @DecimalMax("10") Float score,
@@ -39,7 +37,6 @@ public record UpdateMovie(
   
   public static Builder builder(UpdateMovie command) {
     return builder()
-        .id(command.id)
         .title(command.title)
         .releaseDate(command.releaseDate)
         .score(command.score)
@@ -56,13 +53,11 @@ public record UpdateMovie(
   }
   
   public static final class Builder extends MovieBuilder<Builder> {
-    private Long id;
     
     private Builder() {}
 
     public UpdateMovie build() {
       return new UpdateMovie(
-            id,
             title, 
             releaseDate,
             score,
@@ -76,11 +71,6 @@ public record UpdateMovie(
             originalLanguage,
             tagline,
             overview);
-    }
-    
-    public Builder id(Long id) {
-      this.id = id;
-      return this;
     }
 
     @Override

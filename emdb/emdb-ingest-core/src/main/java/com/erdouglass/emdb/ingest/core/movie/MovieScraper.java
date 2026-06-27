@@ -1,9 +1,5 @@
 package com.erdouglass.emdb.ingest.core.movie;
 
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Function;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,12 +9,12 @@ import jakarta.validation.constraints.Positive;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.core.Log;
+import com.erdouglass.emdb.ingest.core.Scraper;
 import com.erdouglass.emdb.ingest.core.image.ImageScraper;
-import com.erdouglass.emdb.media.image.Image;
 import com.erdouglass.emdb.media.movie.SaveMovie;
 
 @ApplicationScoped
-class MovieScraper {
+class MovieScraper extends Scraper<Movie> {
   private static final String CREDITS = "credits";
   
   @Inject
@@ -50,20 +46,5 @@ class MovieScraper {
     movie.setTmdbPoster(tmdbMovie.poster_path());
     repository.save(movie); 
     return mapper.toSaveMovie(tmdbMovie, backdrop, poster);
-  }
-  
-  private Image resolveImage(
-      Movie existing, 
-      String newPath,
-      Function<Movie, String> tmdbPathOf, 
-      Function<Movie, UUID> emdbNameOf) {
-    if (existing == null || !Objects.equals(tmdbPathOf.apply(existing), newPath)) {
-      return imageScraper.scrape(newPath);
-    }
-    return new Image(emdbNameOf.apply(existing), null);
-  } 
-  
-  private static UUID nameOf(Image image) {
-    return image == null ? null : image.name();
   }
 }
