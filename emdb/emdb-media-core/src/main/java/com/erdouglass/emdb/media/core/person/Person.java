@@ -152,7 +152,6 @@ class Person extends Media<Integer> {
     + ", tmdbId=" + getTmdbId() 
     + ", name=" + getName() 
     + ", birthDate=" + getBirthDate()
-    + ", profile=" + getProfile()
     + "]";
   } 
 }

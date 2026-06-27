@@ -29,6 +29,7 @@ public class MovieIngestHandler extends IngestHandler<SaveMovie, MovieDto> {
   MovieCommandService service;
   
   @Log
+  @Override
   public MovieDto ingest(Message<IngestMedia> message) throws IOException {
     var payload = message.getPayload();
     var command = scraper.scrape(payload.tmdbId());

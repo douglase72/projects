@@ -12,7 +12,7 @@ import com.erdouglass.emdb.media.movie.SaveMovie;
 import com.erdouglass.emdb.media.movie.UpdateMovie;
 
 @ApplicationScoped
-class MovieServiceImpl implements MovieCommandService {
+class MovieService implements MovieCommandService {
   
   @Inject
   ImageService imageService;

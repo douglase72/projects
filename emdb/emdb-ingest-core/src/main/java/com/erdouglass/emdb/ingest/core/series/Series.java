@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.core.movie;
+package com.erdouglass.emdb.ingest.core.series;
 
 import java.util.UUID;
 
@@ -8,9 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "movies")
-class Movie {
-
+@Table(name = "series")
+class Series {
   /// The primary key is a natural key as the TMDB Id set by the application.
   @Id
   private Integer id;
@@ -27,7 +26,7 @@ class Movie {
   @Column(name = "tmdb_poster", unique = true)
   private String tmdbPoster;
   
-  Movie(Integer id) {
+  Series(Integer id) {
     this.id = id;
   }
   

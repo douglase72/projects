@@ -16,9 +16,9 @@ import com.erdouglass.emdb.media.show.ShowConstants;
 
 @Entity
 @Table(
-  name = "Movies",
+  name = "movies",
   uniqueConstraints = @UniqueConstraint(
-    name = "uk_movies_title_release_date",
+    name = "uq_movies_title_release_date",
     columnNames = { "title", "release_date" }
   )
 )
@@ -86,7 +86,6 @@ class Movie extends Show {
         + ", tmdbId=" + getTmdbId()
         + ", title=" + getTitle() 
         + ", releaseDate=" + getReleaseDate()
-        + ", poster=" + getPoster()
         + "]";
   }
 }

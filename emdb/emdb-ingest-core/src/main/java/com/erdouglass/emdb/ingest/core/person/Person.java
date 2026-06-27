@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Person")
+@Table(name = "people")
 class Person {
 
   /// The primary key is a natural key as the TMDB Id set by the application.
