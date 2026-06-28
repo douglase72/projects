@@ -12,6 +12,7 @@ dependencies {
   annotationProcessor libs.hibernate.processor
   annotationProcessor libs.mapstruct.processor
   
+  implementation project(':common-graphql')
   implementation project(':common-validation')
   implementation project(':emdb-media-api')
     

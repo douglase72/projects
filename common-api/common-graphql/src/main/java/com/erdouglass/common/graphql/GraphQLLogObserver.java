@@ -19,11 +19,11 @@ import io.smallrye.graphql.cdi.event.AfterExecute;
 import io.smallrye.graphql.cdi.event.BeforeExecute;
 
 @ApplicationScoped
-public class GraphQLLogInterceptor {
-  private static final Logger LOGGER = Logger.getLogger(GraphQLLogInterceptor.class);
+public class GraphQLLogObserver {
+  private static final Logger LOGGER = Logger.getLogger(GraphQLLogObserver.class);
 
   public void onRequest(@Observes @BeforeExecute Context context) {
-    LOGGER.infof("Request: %s", queryName(context.getQuery()));
+    LOGGER.infof("Request: POST /graphql/%s", queryName(context.getQuery()));
   }
   
   public void onResponse(@Observes @AfterExecute Context context) {

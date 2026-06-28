@@ -8,19 +8,21 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.core.ImageService;
 import com.erdouglass.emdb.media.core.credit.CreditType;
 import com.erdouglass.emdb.media.core.logging.Log;
 import com.erdouglass.emdb.media.core.person.PersonResolver;
 import com.erdouglass.emdb.media.movie.MovieCommandService;
 import com.erdouglass.emdb.media.movie.MovieDto;
+import com.erdouglass.emdb.media.movie.MovieDto.MovieCredits;
+import com.erdouglass.emdb.media.movie.MovieQueryService;
 import com.erdouglass.emdb.media.movie.SaveMovie;
-import com.erdouglass.emdb.media.movie.SaveMovie.Credits;
 import com.erdouglass.emdb.media.movie.UpdateMovie;
 import com.erdouglass.emdb.media.person.PersonCredit;
 
 @ApplicationScoped
-class MovieService implements MovieCommandService {
+class MovieService implements MovieCommandService, MovieQueryService {
   
   @Inject
   CreditRepository creditRepository;
@@ -66,6 +68,21 @@ class MovieService implements MovieCommandService {
     saveCredits(command.credits(), movie);
     return mapper.toMovieDto(movie);
   }
+  
+  @Override
+  @Log("Found:")
+  @Transactional
+  public MovieDto findById(Long id) {
+    return repository.findById(id)
+        .map(mapper::toMovieView)
+        .orElseThrow(() -> new ResourceNotFoundException("No movie found with id: " + id));     
+  }
+  
+  @Override
+  @Transactional
+  public MovieCredits findCreditsByMovieId(Long id) {
+    return mapper.toCredits(creditRepository.findByMovieId(id));
+  }
 
   @Override
   @Transactional
@@ -79,7 +96,7 @@ class MovieService implements MovieCommandService {
     throw new UnsupportedOperationException();
   }
   
-  private void saveCredits(Credits credits, Movie movie) {
+  private void saveCredits(SaveMovie.Credits credits, Movie movie) {
     creditRepository.deleteByMovie(movie);
     var allCredits = Stream.concat(
         credits.cast().stream().map(c -> (PersonCredit) c), 

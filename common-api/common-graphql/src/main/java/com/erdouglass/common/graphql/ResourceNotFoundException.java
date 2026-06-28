@@ -2,7 +2,7 @@ package com.erdouglass.common.graphql;
 
 import io.smallrye.graphql.api.ErrorCode;
 
-@ErrorCode("not-found")
+@ErrorCode("NOT_FOUND")
 public class ResourceNotFoundException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 

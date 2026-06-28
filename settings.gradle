@@ -33,6 +33,9 @@ project(':common-validation').projectDir = file('common-api/common-validation')
 include 'emdb-app'
 project(':emdb-app').projectDir = file('emdb/emdb-app')
 
+include 'emdb-graphql-api'
+project(':emdb-graphql-api').projectDir = file('emdb/emdb-graphql-api')
+
 include 'emdb-ingest-core'
 project(':emdb-ingest-core').projectDir = file('emdb/emdb-ingest-core')
 

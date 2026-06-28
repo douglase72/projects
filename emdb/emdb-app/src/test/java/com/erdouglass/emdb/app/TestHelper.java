@@ -27,7 +27,7 @@ public final class TestHelper {
     MOVIES_URL  = "http://localhost:60310/emdb/api/movies";
     PEOPLE_URL  = "http://localhost:60310/emdb/api/people";
     SERIES_URL  = "http://localhost:60310/emdb/api/series";
-    GRAPHQL_URL = "http://localhost:60310/emdb/api/graphql";
+    GRAPHQL_URL = "http://localhost:60310/emdb/graphql";
   }  
 
   private TestHelper() {}
