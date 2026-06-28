@@ -24,13 +24,13 @@ import com.erdouglass.emdb.media.person.Gender;
 import com.erdouglass.emdb.media.person.PersonConstants;
 
 @Entity
-@Table(name = "People")
+@Table(name = "people")
 @SequenceGenerator(
     name = Media.SEQUENCE_GENERATOR, 
     sequenceName = "person_sequence", 
     initialValue = 1, 
     allocationSize = 50)
-class Person extends Media<Integer> {
+public class Person extends Media<Integer> {
 
   @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH)
   private String biography;

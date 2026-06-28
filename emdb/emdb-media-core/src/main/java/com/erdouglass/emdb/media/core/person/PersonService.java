@@ -1,18 +1,28 @@
 package com.erdouglass.emdb.media.core.person;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import com.erdouglass.emdb.media.IngestMedia;
+import com.erdouglass.emdb.media.IngestMedia.Source;
+import com.erdouglass.emdb.media.IngestMedia.Type;
+import com.erdouglass.emdb.media.IngestService;
 import com.erdouglass.emdb.media.core.ImageService;
-import com.erdouglass.emdb.media.core.Log;
+import com.erdouglass.emdb.media.core.logging.Log;
 import com.erdouglass.emdb.media.person.PersonCommandService;
+import com.erdouglass.emdb.media.person.PersonCredit;
 import com.erdouglass.emdb.media.person.PersonDto;
 import com.erdouglass.emdb.media.person.SavePerson;
 import com.erdouglass.emdb.media.person.UpdatePerson;
 
 @ApplicationScoped
-class PersonService implements PersonCommandService {
+class PersonService implements PersonCommandService, PersonResolver {
   
   @Inject
   ImageService imageService;
@@ -22,6 +32,9 @@ class PersonService implements PersonCommandService {
   
   @Inject
   PersonRepository personRepository;
+  
+  @Inject
+  IngestService ingestService;
 
   @Override
   @Log("Saved:")
@@ -43,6 +56,25 @@ class PersonService implements PersonCommandService {
     }
     return mapper.toPersonDto(person);
   }
+  
+  @Override
+  @Transactional
+  public Map<Integer, Person> findOrCreate(List<PersonCredit> credits) {
+    var distinct = credits.stream()
+        .collect(Collectors.toMap(PersonCredit::tmdbId, Function.identity(), (a, _) -> a));
+    var existing = personRepository.findByTmdbIdIn(List.copyOf(distinct.keySet())).stream()
+        .collect(Collectors.toMap(Person::getTmdbId, Function.identity()));
+    var peopleToInsert = distinct.values().stream()
+        .filter(c -> !existing.containsKey(c.tmdbId()))
+        .map(PersonService::toPerson)
+        .toList();  
+    for (var person : personRepository.insertAll(peopleToInsert)) {
+      var tmdbId = person.getTmdbId();
+      existing.put(tmdbId, person);
+      ingestService.publish(IngestMedia.of(tmdbId, Type.PERSON, Source.MEDIA));
+    }
+    return existing;      
+  }
 
   @Override
   @Transactional
@@ -55,4 +87,11 @@ class PersonService implements PersonCommandService {
   public void delete(Long id) {
     throw new UnsupportedOperationException();
   }
+  
+  private static Person toPerson(final PersonCredit credit) {
+    var person = new Person(credit.tmdbId());
+    person.setName(credit.name());
+    person.setGender(credit.gender());
+    return person;
+  }    
 }

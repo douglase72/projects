@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.emdb.media.core.ImageService;
-import com.erdouglass.emdb.media.core.Log;
+import com.erdouglass.emdb.media.core.logging.Log;
 import com.erdouglass.emdb.media.series.SaveSeries;
 import com.erdouglass.emdb.media.series.SeriesCommandService;
 import com.erdouglass.emdb.media.series.SeriesDto;

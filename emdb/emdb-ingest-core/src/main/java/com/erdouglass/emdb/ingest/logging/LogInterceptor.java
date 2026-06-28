@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.core;
+package com.erdouglass.emdb.ingest.logging;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -12,6 +12,7 @@ import jakarta.interceptor.InvocationContext;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.ingest.core.IngestHandler;
 import com.erdouglass.emdb.media.IngestMedia;
 import com.erdouglass.emdb.media.movie.SaveMovie;
 

@@ -8,9 +8,9 @@ import jakarta.validation.constraints.Positive;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.emdb.ingest.core.Log;
 import com.erdouglass.emdb.ingest.core.Scraper;
 import com.erdouglass.emdb.ingest.core.image.ImageScraper;
+import com.erdouglass.emdb.ingest.logging.Log;
 import com.erdouglass.emdb.media.series.SaveSeries;
 
 @ApplicationScoped

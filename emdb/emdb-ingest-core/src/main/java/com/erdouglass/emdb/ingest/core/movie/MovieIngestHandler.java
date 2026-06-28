@@ -10,7 +10,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
 import com.erdouglass.emdb.ingest.core.IngestHandler;
-import com.erdouglass.emdb.ingest.core.Log;
+import com.erdouglass.emdb.ingest.logging.Log;
 import com.erdouglass.emdb.media.IngestMedia;
 import com.erdouglass.emdb.media.movie.MovieDto;
 import com.erdouglass.emdb.media.movie.MovieCommandService;

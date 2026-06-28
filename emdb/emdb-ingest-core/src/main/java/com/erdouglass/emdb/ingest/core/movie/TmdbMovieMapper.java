@@ -10,6 +10,8 @@ import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.image.Image;
 import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.movie.SaveMovie.CastCredit;
+import com.erdouglass.emdb.media.movie.SaveMovie.CrewCredit;
 
 @Mapper(
     componentModel = "cdi", 
@@ -20,9 +22,19 @@ import com.erdouglass.emdb.media.movie.SaveMovie;
 interface TmdbMovieMapper {
   
   @BeanMapping(builder = @Builder(disableBuilder = true))
-  @Mapping(source = "movie.id", target = "tmdbId")
-  @Mapping(source = "movie.release_date", target = "releaseDate")
-  @Mapping(source = "movie.vote_average", target = "score")
+  @Mapping(source = "movie.id",                target = "tmdbId")
+  @Mapping(source = "movie.release_date",      target = "releaseDate")
+  @Mapping(source = "movie.vote_average",      target = "score")
   @Mapping(source = "movie.original_language", target = "originalLanguage")
   SaveMovie toSaveMovie(TmdbMovie movie, Image backdrop, Image poster);
+  
+  @Mapping(source = "credit_id",    target = "creditId")
+  @Mapping(source = "id",           target = "tmdbId")
+  @Mapping(source = "profile_path", target = "profile")
+  CastCredit toCastCredit(TmdbMovie.CastCredit credit);
+  
+  @Mapping(source = "credit_id",    target = "creditId")
+  @Mapping(source = "id",           target = "tmdbId")
+  @Mapping(source = "profile_path", target = "profile")
+  CrewCredit toCastCredit(TmdbMovie.CrewCredit credit);
 }

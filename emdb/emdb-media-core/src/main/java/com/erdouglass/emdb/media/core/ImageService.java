@@ -6,6 +6,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,11 +44,11 @@ public class ImageService {
   }
   
   public ImageUpdate update(UUID source, Image target) {
-    if (source.equals(target.name())) {
+    if (Objects.equals(source, target.name())) {
       return new ImageUpdate(target, Optional.empty());
     }
     save(target);
-    return new ImageUpdate(target, Optional.of(source));
+    return new ImageUpdate(target, Optional.ofNullable(source));
   }
   
   public void delete(UUID image) {

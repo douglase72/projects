@@ -22,10 +22,12 @@ import com.erdouglass.emdb.media.movie.SaveMovie;
 )
 interface MovieMapper extends CommonMapper {
   
+  @Mapping(target = "credits", ignore = true)
   @Mapping(source = "backdrop.name", target = "backdrop")
   @Mapping(source = "poster.name",   target = "poster")
   void merge(SaveMovie command, @MappingTarget Movie movie);
   
+  @Mapping(target = "credits", ignore = true)
   @Mapping(source = "backdrop.name", target = "backdrop")
   @Mapping(source = "poster.name",   target = "poster")
   Movie toMovie(SaveMovie command);

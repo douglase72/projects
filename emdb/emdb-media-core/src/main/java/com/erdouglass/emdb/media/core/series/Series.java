@@ -18,7 +18,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
 
 @Entity
 @Table(
-    name = "Series",
+    name = "series",
     uniqueConstraints = @UniqueConstraint(
       name = "uq_series_title_first_air_date",
       columnNames = { "title", "first_air_date" }

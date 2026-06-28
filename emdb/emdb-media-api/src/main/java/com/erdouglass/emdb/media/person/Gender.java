@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.media.person;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,37 +9,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Gender {
-  UNKNOWN("Unknown", 0),
-  FEMALE("Female", 1),
-  MALE("Male", 2),
-  NON_BINARY("Non-Binary", 3);
+  UNKNOWN("Unknown"),
+  FEMALE("Female"),
+  MALE("Male"),
+  NON_BINARY("Non-Binary");
     
   private static final Map<String, Gender> GENDER_CACHE = Stream.of(values())
       .collect(Collectors.toMap(Gender::toString, Function.identity()));
-  private static final Map<Integer, Gender> ID_CACHE = Stream.of(values())
-      .collect(Collectors.toMap(Gender::id, Function.identity()));
   
   private final String gender;
-  private final Integer id;
      
-  Gender(String gender, int id) {
+  Gender(String gender) {
     this.gender = gender;
-    this.id = id;
   }
   
   @JsonCreator
-  public static Gender from(Integer id) {
-    return Optional.ofNullable(ID_CACHE.get(id))
-        .orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
-  }
-  
   public static Gender from(String gender) {
     var match = GENDER_CACHE.get(gender);
     return match != null ? match : Gender.valueOf(gender);
-  }
-  
-  public Integer id() {
-    return id;
   }
   
   @Override

@@ -1,24 +1,38 @@
 package com.erdouglass.emdb.media.core.movie;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.emdb.media.core.ImageService;
-import com.erdouglass.emdb.media.core.Log;
-import com.erdouglass.emdb.media.movie.MovieDto;
+import com.erdouglass.emdb.media.core.credit.CreditType;
+import com.erdouglass.emdb.media.core.logging.Log;
+import com.erdouglass.emdb.media.core.person.PersonResolver;
 import com.erdouglass.emdb.media.movie.MovieCommandService;
+import com.erdouglass.emdb.media.movie.MovieDto;
 import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.movie.SaveMovie.Credits;
 import com.erdouglass.emdb.media.movie.UpdateMovie;
+import com.erdouglass.emdb.media.person.PersonCredit;
 
 @ApplicationScoped
 class MovieService implements MovieCommandService {
+  
+  @Inject
+  CreditRepository creditRepository;
   
   @Inject
   ImageService imageService;
   
   @Inject
   MovieMapper mapper;
+  
+  @Inject
+  PersonResolver personResolver;
   
   @Inject
   MovieRepository repository;
@@ -49,6 +63,7 @@ class MovieService implements MovieCommandService {
       backdrop.toDelete().ifPresent(imageService::delete);
       poster.toDelete().ifPresent(imageService::delete);
     }
+    saveCredits(command.credits(), movie);
     return mapper.toMovieDto(movie);
   }
 
@@ -62,5 +77,37 @@ class MovieService implements MovieCommandService {
   @Transactional
   public void delete(Long id) {
     throw new UnsupportedOperationException();
+  }
+  
+  private void saveCredits(Credits credits, Movie movie) {
+    creditRepository.deleteByMovie(movie);
+    var allCredits = Stream.concat(
+        credits.cast().stream().map(c -> (PersonCredit) c), 
+        credits.crew().stream().map(c -> (PersonCredit) c))
+        .toList();
+    var people = personResolver.findOrCreate(allCredits);
+    List<MovieCredit> creditsToInsert = new ArrayList<>();
+    for (var credit : credits.cast()) {
+      var movieCredit = new MovieCredit(credit.creditId());
+      movieCredit.setType(CreditType.CAST);
+      movieCredit.setMovie(movie);
+      movieCredit.setPerson(people.get(credit.tmdbId()));
+      movieCredit.setRole(credit.character());
+      movieCredit.setOrder(credit.order());
+      creditsToInsert.add(movieCredit); 
+    }
+    
+    for (var credit : credits.crew()) {
+      var movieCredit = new MovieCredit(credit.creditId());
+      movieCredit.setType(CreditType.CREW);
+      movieCredit.setMovie(movie);
+      movieCredit.setPerson(people.get(credit.tmdbId()));
+      movieCredit.setRole(credit.job());
+      creditsToInsert.add(movieCredit); 
+    }
+    
+    if (!creditsToInsert.isEmpty()) {
+      movie.setCredits(creditRepository.insertAll(creditsToInsert));
+    }
   }
 }

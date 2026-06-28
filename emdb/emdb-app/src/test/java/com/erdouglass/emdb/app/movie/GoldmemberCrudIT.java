@@ -8,6 +8,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -20,6 +21,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.movie.MovieDto;
 import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.movie.SaveMovie.CastCredit;
+import com.erdouglass.emdb.media.movie.SaveMovie.Credits;
+import com.erdouglass.emdb.media.movie.SaveMovie.CrewCredit;
+import com.erdouglass.emdb.media.person.Gender;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -29,6 +34,16 @@ class GoldmemberCrudIT {
   @Test
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {
+    var credits = new Credits(
+        List.of(
+            new CastCredit("52fe427bc3a36847f8022183", 12073, "Mike Myers", Gender.MALE,  "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Austin Powers / Dr. Evil / Goldmember / Fat Bastard", 0),
+            new CastCredit("52fe427bc3a36847f802218b", 13922, "Seth Green", Gender.MALE,  "/l4No5Eu6j0U80hCIkaSn17AOWrj.jpg", "Scott Evil", 2),
+            new CastCredit("52fe427bc3a36847f8022187", 14386, "Beyoncé", Gender.FEMALE,   "/2HbjNtiCtmbArEnELuDFU7knaVK.jpg", "Foxxy Cleopatra", 1)),
+        List.of(
+            new CrewCredit("52fe427bc3a36847f8022107", 12073, "Mike Myers", Gender.MALE, "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Producer"),
+            new CrewCredit("52fe427bc3a36847f80220ef", 12073, "Mike Myers", Gender.MALE, "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Screenplay"),
+            new CrewCredit("6758f532ef269d0b88e3939a", 12073, "Mike Myers", Gender.MALE, "/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg", "Characters")));   
+    
     var command = SaveMovie.builder()
         .tmdbId(818)
         .title("Austin Powers in Goldmember")
@@ -44,6 +59,7 @@ class GoldmemberCrudIT {
         .originalLanguage("en")
         .tagline("The grooviest movie of the summer has a secret, baby!")
         .overview("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.")
+        .credits(credits)
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
