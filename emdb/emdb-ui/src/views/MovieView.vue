@@ -12,7 +12,7 @@
       <div>Score</div>
       <div>{{ movie.score }}</div>
       <div>Status</div>
-      <div>{{ fromShowStatus(movie.status) }}</div>
+      <div>{{ movie.status }}</div>
       <div>Runtime</div>
       <div>{{ movie.runtime }}</div>
       <div>Budget</div>
@@ -46,42 +46,42 @@
           <ActorCard :actor="slotProps.data" />
         </template>         
       </Carousel>     
-    </section>
+    </section>    
   </main>
 </template>
 
 <script setup lang="ts">
-  import { fromShowStatus } from '@/models/ShowStatus';
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import { useLanguage } from '@/composables/useLanguage';
+  import { Carousel } from 'primevue';
+
   import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
-
+  import { useLanguage } from '@/composables/useLanguage';
   import { type Actor } from '@/models/Actor';
   import ActorCard from '@/components/ActorCard.vue';
-  import { Carousel } from 'primevue';
   import { type Movie } from '@/models/Movie';
 
   const { findImage, findMovie } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
-  const { handleError, isResourceNotFound } = useErrorHandler();
+  const { handleError } = useErrorHandler();
   const route = useRoute();
   const router = useRouter();
 
   const cast = ref<Actor[]>([]);
   const movie = ref<Movie>();
+  
 
   onMounted(async () => {
     const id = Number(route.params.id);
     if (Number.isNaN(id)) {
-      router.push('/'); 
+      router.replace('/')
       return;
     }
 
     try {
       movie.value = await findMovie(id);
-      cast.value = movie.value?.credits.cast.slice(0, 12)
+      cast.value = movie.value.credits.cast.slice(0, 12)
         .map((credit): Actor => ({
           id: credit.id,
           name: credit.name,
@@ -90,12 +90,8 @@
           totalEpisodes: null,
         }));
     } catch (e) {
-      if (isResourceNotFound(e)) {
-        handleError(e, 'Movie not found', 'warn');
-      } else {
-        handleError(e, 'Failed to load movie');
-      } 
-      router.push('/'); 
+      handleError(e, 'Failed to load movie');
+      router.replace('/');
     }
-  });  
+  });
 </script>

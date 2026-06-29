@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.graphql;
 
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Name;
@@ -22,7 +23,7 @@ public class MovieResolver {
     return service.findById(id);
   }
   
-  public MovieCredits credits(@Source MovieDto movie) {
+  public @NotNull MovieCredits credits(@Source MovieDto movie) {
     return service.findCreditsByMovieId(movie.id());
   }
 }

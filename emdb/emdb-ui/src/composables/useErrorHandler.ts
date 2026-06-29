@@ -1,49 +1,46 @@
-import axios from 'axios';
-import { useToast } from "primevue/usetoast";
-
-export const NOT_FOUND = 'not-found';
-
-export class GraphQLError extends Error {
-  readonly code?: string;
-  constructor(message: string, code?: string) {
-    super(message);
-    this.name = 'GraphQLError';
-    this.code = code;
-  }
-}
+import { useToast } from 'primevue/usetoast'
+import { ApolloError } from '@apollo/client/core'
 
 export function useErrorHandler() {
-  type Severity = 'warn' | 'error';
-  const toast = useToast();
+  const toast = useToast()
 
-  const handleError = (error: unknown, summary: string, severity: Severity = 'error') => {
-    let message = 'An unexpected error occurred.';
-
-    if (axios.isAxiosError(error)) {
-      const data = error.response?.data as any; 
-
-      if (data && Array.isArray(data.errors) && data.errors.length > 0) {
-        message = data.errors.join('\n');
-      } else if (error.response) {
-        message = error.response.statusText;
-      } else if (error.request) {
-        message = 'No response from server. Please check your connection.';
-      } else {
-        message = error.message;
-      }
-    } else if (error instanceof Error) {
-      message = error.message;
+  const handleError = (e: unknown, fallbackSummary = 'Something went wrong') => {
+    if (isTimeout(e)) {
+      toast.add({ severity: 'error', summary: 'Timeout error',
+                  detail: 'The server took too long to respond. Please try again.' })
+      return
     }
-    console.error(error);
-    toast.add({ severity, summary, detail: message });
-  };
+    if (isNotFound(e)) {
+      toast.add({ severity: 'warn', summary: 'Not found',
+                  detail: serverMessage(e) })
+      return
+    }
+    console.error(e);
+    toast.add({ severity: 'error', summary: fallbackSummary,
+                detail: serverMessage(e) })
+  }
 
-  const isResourceNotFound = (error: unknown): error is GraphQLError => {
-    return error instanceof GraphQLError && error.code === NOT_FOUND;
-  };
+  return { handleError }
+}
 
-  return { 
-    handleError,
-    isResourceNotFound
-  };
+function isTimeout(e: unknown): boolean {
+  if (e instanceof ApolloError) return e.networkError?.name === 'TimeoutError'
+  return (e as { name?: string } | null)?.name === 'TimeoutError'
+}
+
+function isNotFound(e: unknown): boolean {
+  return e instanceof ApolloError &&
+    e.graphQLErrors.some(g => g.extensions?.code === 'NOT_FOUND')
+}
+
+function serverMessage(e: unknown): string | undefined {
+  if (!(e instanceof ApolloError)) return e instanceof Error ? e.message : undefined
+  const gqlErr = e.graphQLErrors[0]
+  if (gqlErr) return gqlErr.message
+  const ne = e.networkError as
+    | { result?: { errors?: { message: string }[] }; message?: string }
+    | null
+  const netGqlErr = ne?.result?.errors?.[0]
+  if (netGqlErr) return netGqlErr.message
+  return ne?.message ?? e.message
 }
