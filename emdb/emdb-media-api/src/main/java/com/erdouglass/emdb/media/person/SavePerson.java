@@ -19,7 +19,7 @@ public record SavePerson(
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate deathDate,
     @NotNull Gender gender,
     @Valid Image profile,
-    @Size(min = 1, max = MediaConstants.URL_MAX_LENGTH) String homepage,
+    @Size(max = MediaConstants.URL_MAX_LENGTH) String homepage,
     @Size(max = PersonConstants.BIRTH_PLACE_MAX_LENGTH) String birthPlace,
     @Size(max = PersonConstants.BIOGRAPHY_MAX_LENGTH) String biography) {
 

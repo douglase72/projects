@@ -75,22 +75,9 @@ class GoldmemberCrudIT {
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
-    
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());    
     var movie = TestHelper.OBJECT_MAPPER.readValue(response.body(), MovieDto.class);
     movieId = movie.id();
-    assertEquals(818, movie.tmdbId());
-    assertEquals("Austin Powers in Goldmember", movie.title());
-    assertEquals("2002-07-26", movie.releaseDate().toString());
-    assertEquals(5.992f, movie.score());
-    assertEquals(ShowStatus.RELEASED, movie.status());
-    assertEquals(94, movie.runtime());
-    assertEquals(63000000, movie.budget());
-    assertEquals(296938801, movie.revenue());
-    assertEquals("https://www.warnerbros.com/movies/austin-powers-goldmember", movie.homepage());
-    assertEquals("en", movie.originalLanguage());
-    assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
-    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());    
     LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
   }
   

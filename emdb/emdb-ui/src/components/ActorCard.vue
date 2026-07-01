@@ -27,10 +27,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
+  import { findImage, ImageSize } from '@/lib/emdbQueryApi';
   import { type Actor } from '@/models/Actor';
-
-  const { findImage } = useEmdbQueryApi();
 
   defineProps<{
     actor: Actor,

@@ -55,14 +55,12 @@
   import { useRoute, useRouter } from 'vue-router';
   import { Carousel } from 'primevue';
 
-  import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
+  import { findImage, findMovie, ImageSize, type Movie } from '@/lib/emdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
   import { type Actor } from '@/models/Actor';
   import ActorCard from '@/components/ActorCard.vue';
-  import { type Movie } from '@/models/Movie';
 
-  const { findImage, findMovie } = useEmdbQueryApi();
   const { fromLanguageCode } = useLanguage();
   const { handleError } = useErrorHandler();
   const route = useRoute();

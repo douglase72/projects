@@ -29,7 +29,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
     sequenceName = "series_sequence", 
     initialValue = 1, 
     allocationSize = 1)
-class Series extends Show {
+public class Series extends Show {
 
   @Column(name = "first_air_date")
   @DateRange(min = ShowConstants.SERIES_MIN_DATE, max = ShowConstants.MAX_DATE)

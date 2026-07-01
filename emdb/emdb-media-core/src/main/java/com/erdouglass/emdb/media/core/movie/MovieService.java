@@ -25,7 +25,7 @@ import com.erdouglass.emdb.media.person.PersonCredit;
 class MovieService implements MovieCommandService, MovieQueryService {
   
   @Inject
-  CreditRepository creditRepository;
+  MovieCreditRepository creditRepository;
   
   @Inject
   ImageService imageService;

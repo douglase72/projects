@@ -16,7 +16,7 @@ import com.erdouglass.emdb.media.core.credit.Credit;
 import com.erdouglass.emdb.media.show.ShowConstants;
 
 @Entity
-class MovieCredit extends Credit {
+public class MovieCredit extends Credit {
 
   /// The @JoinColumn annotation maps the {@link Movie#id} primary key to the 
   /// foreign key in the Credits table. A {@code MovieCredit} can't exist 
@@ -34,9 +34,9 @@ class MovieCredit extends Credit {
   @Column(name = "tmdb_id", unique = true, updatable = false)
   private String tmdbId;
   
-  protected MovieCredit() {}
+  MovieCredit() {}
   
-  protected MovieCredit(final String tmdbId) {
+  MovieCredit(final String tmdbId) {
     this.tmdbId = tmdbId;
   }
 

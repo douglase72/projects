@@ -21,10 +21,10 @@ public record SaveSeries(
     @NotNull SeriesType type,
     @Valid Image backdrop,
     @Valid Image poster,
-    @Size(min = 1, max = MediaConstants.URL_MAX_LENGTH) String homepage,
+    @Size(max = MediaConstants.URL_MAX_LENGTH) String homepage,
     @NotBlank @Size(min = MediaConstants.ISO_639_1_LENGTH, max = MediaConstants.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(min = 1, max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) {
 
   public static Builder builder() {
     return new Builder();

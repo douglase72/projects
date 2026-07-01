@@ -26,17 +26,15 @@
 </template>
 
 <script setup lang="ts">
-  import { useEmdbQueryApi, ImageSize } from '@/composables/useEmdbQueryApi';
-  import { MediaType } from '@/models/MediaType';
-  import { type ShowView } from '@/models/ShowView';
-  const { findImage } = useEmdbQueryApi();
+  import { findImage, ImageSize } from '@/lib/emdbQueryApi';
+  import { type Show, Media} from '@/models/Show';
 
   defineProps<{
-    show: ShowView,
+    show: Show,
   }>();
 
-  const link = (show: ShowView) => {
-    if (show.mediaType === MediaType.MOVIE) {
+  const link = (show: Show) => {
+    if (show.mediaType === Media.Movie) {
       return `/movie/${show.id}`;
     } else {
       return `/series/${show.id}`;
