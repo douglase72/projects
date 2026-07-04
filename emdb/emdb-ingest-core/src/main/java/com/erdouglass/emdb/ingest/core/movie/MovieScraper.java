@@ -5,12 +5,12 @@ import java.util.Comparator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.emdb.ingest.IngestMedia;
 import com.erdouglass.emdb.ingest.core.Scraper;
 import com.erdouglass.emdb.ingest.core.image.ImageScraper;
 import com.erdouglass.emdb.ingest.logging.Log;
@@ -45,7 +45,8 @@ class MovieScraper extends Scraper<Movie> {
 
   @Log
   @Transactional
-  public SaveMovie scrape(@NotNull @Positive Integer tmdbId) {
+  public SaveMovie scrape(Message<IngestMedia> message) {
+    var tmdbId = message.getPayload().tmdbId();
     var tmdbMovie = client.findById(tmdbId, CREDITS);   
     var existing = repository.findById(tmdbId).orElse(null);
     var backdrop = resolveImage(existing, tmdbMovie.backdrop_path(),

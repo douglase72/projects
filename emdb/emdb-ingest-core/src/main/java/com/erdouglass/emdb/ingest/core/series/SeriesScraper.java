@@ -3,11 +3,11 @@ package com.erdouglass.emdb.ingest.core.series;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.emdb.ingest.IngestMedia;
 import com.erdouglass.emdb.ingest.core.Scraper;
 import com.erdouglass.emdb.ingest.core.image.ImageScraper;
 import com.erdouglass.emdb.ingest.logging.Log;
@@ -32,7 +32,8 @@ class SeriesScraper extends Scraper<Series> {
   
   @Log
   @Transactional
-  public SaveSeries scrape(@NotNull @Positive Integer tmdbId) {
+  public SaveSeries scrape(Message<IngestMedia> message) {
+    var tmdbId = message.getPayload().tmdbId();
     var tmdbSeries = client.findById(tmdbId, CREDITS);   
     var existing = repository.findById(tmdbId).orElse(null);
     var backdrop = resolveImage(existing, tmdbSeries.backdrop_path(),

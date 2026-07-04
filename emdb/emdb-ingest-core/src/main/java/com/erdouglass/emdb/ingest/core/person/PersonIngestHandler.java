@@ -9,9 +9,9 @@ import jakarta.validation.ConstraintViolationException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
+import com.erdouglass.emdb.ingest.IngestMedia;
 import com.erdouglass.emdb.ingest.core.IngestHandler;
 import com.erdouglass.emdb.ingest.logging.Log;
-import com.erdouglass.emdb.media.IngestMedia;
 import com.erdouglass.emdb.media.person.PersonCommandService;
 import com.erdouglass.emdb.media.person.PersonDto;
 import com.erdouglass.emdb.media.person.SavePerson;
@@ -31,8 +31,7 @@ public class PersonIngestHandler extends IngestHandler<SavePerson, PersonDto> {
   @Log
   @Override
   public PersonDto ingest(Message<IngestMedia> message) throws IOException {
-    var payload = message.getPayload();
-    var command = scraper.scrape(payload.tmdbId());
+    var command = scraper.scrape(message);
     
     try {
       return service.save(command);

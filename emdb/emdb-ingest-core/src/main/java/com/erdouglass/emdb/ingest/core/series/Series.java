@@ -20,11 +20,13 @@ class Series {
   @Column(name = "emdb_poster", unique = true)
   private UUID emdbPoster;
   
-  @Column(name = "tmdb_backdrop", unique = true)
+  @Column(name = "tmdb_backdrop")
   private String tmdbBackdrop;
   
-  @Column(name = "tmdb_poster", unique = true)
+  @Column(name = "tmdb_poster")
   private String tmdbPoster;
+  
+  Series() {}
   
   Series(Integer id) {
     this.id = id;

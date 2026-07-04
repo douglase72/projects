@@ -1,7 +1,9 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.ingest;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+
+import com.erdouglass.emdb.media.MediaType;
 
 /// Command requesting ingest of a single TMDB entity.
 ///
@@ -14,7 +16,7 @@ import jakarta.validation.constraints.Positive;
 /// @param source the origin of the ingest request
 public record IngestMedia(
     @NotNull @Positive Integer tmdbId, 
-    @NotNull Type type, 
+    @NotNull MediaType type, 
     @NotNull Source source) {
 
   public static final String START_TIME = "start-time";
@@ -25,25 +27,8 @@ public record IngestMedia(
   /// @param type   the kind of entity to ingest
   /// @param source the origin of the ingest request
   /// @return a new [IngestMedia] instance with the given values
-  public static IngestMedia of(Integer tmdbId, Type type, Source source) {
+  public static IngestMedia of(Integer tmdbId, MediaType type, Source source) {
     return new IngestMedia(tmdbId, type, source);
-  }
-
-  public enum Type {
-    MOVIE("movie"), 
-    PERSON("person"), 
-    SERIES("series");
-
-    private final String type;
-
-    Type(String type) {
-      this.type = type;
-    }
-
-    @Override
-    public String toString() {
-      return type;
-    }
   }
 
   public enum Source {

@@ -12,9 +12,11 @@ dependencies {
   implementation project(':common-graphql')
   implementation project(':common-rest')
   implementation project(':emdb-graphql-api')
+  implementation project(':emdb-ingest-api')
   implementation project(':emdb-ingest-core')
   implementation project(':emdb-media-api')
   implementation project(':emdb-media-core')
+  implementation project(':emdb-notification')
   implementation project(':emdb-rest-api')
   
   implementation libs.jakarta.data.api

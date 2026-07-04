@@ -14,6 +14,7 @@ dependencies {
   
   implementation project(':common-messaging')
   implementation project(':common-validation')
+  implementation project(':emdb-ingest-api')
   implementation project(':emdb-media-api')
   
   implementation libs.jug

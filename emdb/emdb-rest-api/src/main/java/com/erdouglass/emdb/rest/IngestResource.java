@@ -11,8 +11,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-import com.erdouglass.emdb.media.IngestMedia;
-import com.erdouglass.emdb.media.IngestService;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestService;
 
 @Path("/ingest")
 @Consumes(MediaType.APPLICATION_JSON)

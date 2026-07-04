@@ -14,16 +14,16 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.media.IngestMedia;
-import com.erdouglass.emdb.media.IngestMedia.Source;
-import com.erdouglass.emdb.media.IngestMedia.Type;
+import com.erdouglass.emdb.ingest.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia.Source;
+import com.erdouglass.emdb.media.MediaType;
 
 class GoldmemberIngestIT {
   private static final Logger LOGGER = Logger.getLogger(GoldmemberIngestIT.class);
 
   @Test
   void testMovieIngest() throws IOException, InterruptedException {
-    var command = IngestMedia.of(818, Type.MOVIE, Source.CLI);
+    var command = IngestMedia.of(818, MediaType.MOVIE, Source.CLI);
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
         .uri(UriBuilder.fromUri(TestHelper.INGEST_URL).build())

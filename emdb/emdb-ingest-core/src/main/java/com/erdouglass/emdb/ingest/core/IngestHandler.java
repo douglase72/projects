@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.media.IngestMedia;
+import com.erdouglass.emdb.ingest.IngestMedia;
 import com.erdouglass.emdb.media.image.Image;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.uuid.Generators;

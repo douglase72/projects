@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.ingest;
 
 import java.util.UUID;
 

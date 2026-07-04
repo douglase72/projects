@@ -7,20 +7,18 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
-import com.erdouglass.emdb.media.IngestMedia;
-import com.erdouglass.emdb.media.IngestMedia.Source;
-import com.erdouglass.emdb.media.IngestMedia.Type;
-import com.erdouglass.emdb.media.IngestService;
 import com.erdouglass.emdb.media.core.ImageService;
 import com.erdouglass.emdb.media.core.credit.Credit;
 import com.erdouglass.emdb.media.core.logging.Log;
 import com.erdouglass.emdb.media.core.movie.MovieCreditRepository;
 import com.erdouglass.emdb.media.person.PersonCommandService;
 import com.erdouglass.emdb.media.person.PersonCredit;
+import com.erdouglass.emdb.media.person.PersonCreditCreated;
 import com.erdouglass.emdb.media.person.PersonDto;
 import com.erdouglass.emdb.media.person.PersonDto.PersonCredits;
 import com.erdouglass.emdb.media.person.PersonQueryService;
@@ -29,6 +27,9 @@ import com.erdouglass.emdb.media.person.UpdatePerson;
 
 @ApplicationScoped
 class PersonService implements PersonCommandService, PersonQueryService, PersonResolver {
+  
+  @Inject
+  Event<PersonCreditCreated> emitter;
   
   @Inject
   ImageService imageService;
@@ -41,9 +42,6 @@ class PersonService implements PersonCommandService, PersonQueryService, PersonR
   
   @Inject
   PersonRepository repository;
-  
-  @Inject
-  IngestService ingestService;
 
   @Override
   @Log("Saved:")
@@ -97,7 +95,7 @@ class PersonService implements PersonCommandService, PersonQueryService, PersonR
     for (var person : repository.insertAll(peopleToInsert)) {
       var tmdbId = person.getTmdbId();
       existing.put(tmdbId, person);
-      ingestService.publish(IngestMedia.of(tmdbId, Type.PERSON, Source.MEDIA));
+      emitter.fire(new PersonCreditCreated(tmdbId));
     }
     return existing;      
   }

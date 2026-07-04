@@ -18,8 +18,10 @@ class Person {
   @Column(name = "emdb_profile", unique = true)
   private UUID emdbProfile;
   
-  @Column(name = "tmdb_profile", unique = true)
+  @Column(name = "tmdb_profile")
   private String tmdbProfile;
+  
+  Person() {}
   
   Person(Integer id) {
     this.id = id;
