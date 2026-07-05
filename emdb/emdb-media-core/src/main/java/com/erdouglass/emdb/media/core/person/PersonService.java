@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.core.person;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -15,7 +16,8 @@ import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.core.ImageService;
 import com.erdouglass.emdb.media.core.credit.Credit;
 import com.erdouglass.emdb.media.core.logging.Log;
-import com.erdouglass.emdb.media.core.movie.MovieCreditRepository;
+import com.erdouglass.emdb.media.core.movie.MovieCredit;
+import com.erdouglass.emdb.media.core.series.SeriesCredit;
 import com.erdouglass.emdb.media.person.PersonCommandService;
 import com.erdouglass.emdb.media.person.PersonCredit;
 import com.erdouglass.emdb.media.person.PersonCreditCreated;
@@ -35,10 +37,10 @@ class PersonService implements PersonCommandService, PersonQueryService, PersonR
   ImageService imageService;
   
   @Inject
-  MovieCreditRepository movieCreditRepository;
+  PersonMapper mapper;
   
   @Inject
-  PersonMapper mapper;
+  CreditRepository creditRepository;
   
   @Inject
   PersonRepository repository;
@@ -77,7 +79,9 @@ class PersonService implements PersonCommandService, PersonQueryService, PersonR
   @Transactional
   public PersonCredits findCreditsByPersonId(Long id) {
     List<Credit> credits = new ArrayList<>();
-    credits.addAll(movieCreditRepository.findByPersonId(id));
+    credits.addAll(creditRepository.findMovieCredits(id));
+    credits.addAll(creditRepository.findSeriesCredits(id));
+    credits.sort(Comparator.comparing(PersonService::score, Comparator.nullsLast(Comparator.reverseOrder())));
     return mapper.toCredits(credits);
   }
   
@@ -112,7 +116,22 @@ class PersonService implements PersonCommandService, PersonQueryService, PersonR
     throw new UnsupportedOperationException();
   }
   
-  private static Person toPerson(final PersonCredit credit) {
+  /// Extracts the score of the work a credit belongs to — the movie's score for
+  /// a [MovieCredit], the series' score for a [SeriesCredit] — for use as the
+  /// cross-type sort key. Both associations are eagerly fetched by the queries
+  /// feeding this, so reading them does not trigger additional loads.
+  ///
+  /// @param credit the credit to read the work score from
+  /// @return the work's score, or {@code null} if the type is unrecognized
+  private static Float score(Credit credit) {
+    return switch (credit) {
+      case MovieCredit m  -> m.getMovie().getScore();
+      case SeriesCredit s -> s.getSeries().getScore();
+      default -> null;
+    };
+  }
+  
+  private static Person toPerson(PersonCredit credit) {
     var person = new Person(credit.tmdbId());
     person.setName(credit.name());
     person.setGender(credit.gender());

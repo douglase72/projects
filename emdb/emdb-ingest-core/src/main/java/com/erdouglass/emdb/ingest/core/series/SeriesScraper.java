@@ -1,9 +1,12 @@
 package com.erdouglass.emdb.ingest.core.series;
 
+import java.util.Comparator;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -12,10 +15,20 @@ import com.erdouglass.emdb.ingest.core.Scraper;
 import com.erdouglass.emdb.ingest.core.image.ImageScraper;
 import com.erdouglass.emdb.ingest.logging.Log;
 import com.erdouglass.emdb.media.series.SaveSeries;
+import com.erdouglass.emdb.media.series.SaveSeries.CastCredit;
+import com.erdouglass.emdb.media.series.SaveSeries.Credits;
 
 @ApplicationScoped
 class SeriesScraper extends Scraper<Series> {
   private static final String CREDITS = "aggregate_credits";
+  
+  @Inject
+  @ConfigProperty(name = "tmdb.cast.limit")
+  Integer castLimit;
+  
+  @Inject
+  @ConfigProperty(name = "tmdb.crew.limit")
+  Integer crewLimit;
   
   @Inject
   @RestClient
@@ -46,6 +59,19 @@ class SeriesScraper extends Scraper<Series> {
     series.setEmdbPoster(nameOf(poster));
     series.setTmdbPoster(tmdbSeries.poster_path());
     repository.save(series); 
-    return mapper.toSaveSeries(tmdbSeries, backdrop, poster);
+    return limitCredits(mapper.toSaveSeries(tmdbSeries, backdrop, poster));
+  }
+  
+  private SaveSeries limitCredits(SaveSeries command) {
+    var cast = command.credits().cast().stream()
+        .sorted(Comparator.comparingInt(CastCredit::order))
+        .limit(castLimit)
+        .toList();
+    var crew = command.credits().crew().stream()
+        .limit(crewLimit)
+        .toList();
+    return SaveSeries.builder(command)
+        .credits(new Credits(cast, crew))
+        .build();
   }
 }

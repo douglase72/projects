@@ -1,8 +1,6 @@
 package com.erdouglass.emdb.rest;
 
 import jakarta.inject.Inject;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -22,7 +20,7 @@ public class SeriesResource {
   SeriesCommandService service;
   
   @POST
-  public SeriesDto save(@NotNull @Valid SaveSeries command) {
+  public SeriesDto save(SaveSeries command) {
     return service.save(command);
   }  
 }

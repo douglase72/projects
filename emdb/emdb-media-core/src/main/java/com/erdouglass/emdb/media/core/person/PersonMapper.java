@@ -17,13 +17,18 @@ import org.mapstruct.SubclassMapping;
 import com.erdouglass.emdb.media.core.CommonMapper;
 import com.erdouglass.emdb.media.core.credit.Credit;
 import com.erdouglass.emdb.media.core.movie.MovieCredit;
+import com.erdouglass.emdb.media.core.series.SeriesCredit;
 import com.erdouglass.emdb.media.person.PersonDto;
 import com.erdouglass.emdb.media.person.PersonDto.PersonCastCredit;
 import com.erdouglass.emdb.media.person.PersonDto.PersonCredits;
 import com.erdouglass.emdb.media.person.PersonDto.PersonCrewCredit;
 import com.erdouglass.emdb.media.person.PersonDto.PersonMovieCastCredit;
 import com.erdouglass.emdb.media.person.PersonDto.PersonMovieCrewCredit;
+import com.erdouglass.emdb.media.person.PersonDto.PersonSeriesCastCredit;
+import com.erdouglass.emdb.media.person.PersonDto.PersonSeriesCrewCredit;
 import com.erdouglass.emdb.media.person.SavePerson;
+import com.erdouglass.emdb.media.series.Job;
+import com.erdouglass.emdb.media.series.Role;
 
 @Mapper(
     componentModel = "cdi",
@@ -48,9 +53,11 @@ interface PersonMapper extends CommonMapper {
   PersonDto toPersonDto(Person person);
   
   @SubclassMapping(source = MovieCredit.class,  target = PersonMovieCastCredit.class)
+  @SubclassMapping(source = SeriesCredit.class, target = PersonSeriesCastCredit.class)
   PersonCastCredit toCastCredit(Credit credit);
 
   @SubclassMapping(source = MovieCredit.class,  target = PersonMovieCrewCredit.class)
+  @SubclassMapping(source = SeriesCredit.class, target = PersonSeriesCrewCredit.class)
   PersonCrewCredit toCrewCredit(Credit credit);
 
   @Mapping(target = "creditId",    source = "id")             
@@ -76,6 +83,37 @@ interface PersonMapper extends CommonMapper {
   @Mapping(target = "job",         source = "role")
   @Mapping(target = "type",        constant = "MOVIE")
   PersonMovieCrewCredit toPersonMovieCrewCredit(MovieCredit credit);
+  
+  @Mapping(target = "creditId",     source = "id")
+  @Mapping(target = "id",           source = "series.id")
+  @Mapping(target = "title",        source = "series.title")
+  @Mapping(target = "firstAirDate", source = "series.firstAirDate")
+  @Mapping(target = "score",        source = "series.score")
+  @Mapping(target = "backdrop",     source = "series.backdrop", qualifiedByName = "imageToString")
+  @Mapping(target = "poster",       source = "series.poster",   qualifiedByName = "imageToString")
+  @Mapping(target = "overview",     source = "series.overview")
+  @Mapping(target = "type",         constant = "SERIES")
+  PersonSeriesCastCredit toPersonSeriesCastCredit(SeriesCredit credit);
+  
+  @Mapping(target = "creditId",     source = "id")
+  @Mapping(target = "id",           source = "series.id")
+  @Mapping(target = "title",        source = "series.title")
+  @Mapping(target = "firstAirDate", source = "series.firstAirDate")
+  @Mapping(target = "score",        source = "series.score")
+  @Mapping(target = "backdrop",     source = "series.backdrop", qualifiedByName = "imageToString")
+  @Mapping(target = "poster",       source = "series.poster",   qualifiedByName = "imageToString")
+  @Mapping(target = "overview",     source = "series.overview")
+  @Mapping(target = "jobs",         source = "roles")
+  @Mapping(target = "type",         constant = "SERIES")
+  PersonSeriesCrewCredit toPersonSeriesCrewCredit(SeriesCredit credit);
+ 
+  @Mapping(target = "creditId",  source = "id")
+  @Mapping(target = "character", source = "role")
+  Role toRole(com.erdouglass.emdb.media.core.series.Role role);
+
+  @Mapping(target = "creditId", source = "id")
+  @Mapping(target = "title",    source = "role")
+  Job toJob(com.erdouglass.emdb.media.core.series.Role role);
   
   default PersonCredits toCredits(List<Credit> credits) {
     if (credits == null) {

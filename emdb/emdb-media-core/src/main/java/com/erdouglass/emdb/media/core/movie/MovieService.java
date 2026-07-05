@@ -18,6 +18,7 @@ import com.erdouglass.emdb.media.movie.MovieDto;
 import com.erdouglass.emdb.media.movie.MovieDto.MovieCredits;
 import com.erdouglass.emdb.media.movie.MovieQueryService;
 import com.erdouglass.emdb.media.movie.SaveMovie;
+import com.erdouglass.emdb.media.movie.SaveMovie.Credits;
 import com.erdouglass.emdb.media.movie.UpdateMovie;
 import com.erdouglass.emdb.media.person.PersonCredit;
 
@@ -96,7 +97,7 @@ class MovieService implements MovieCommandService, MovieQueryService {
     throw new UnsupportedOperationException();
   }
   
-  private void saveCredits(SaveMovie.Credits credits, Movie movie) {
+  private void saveCredits(Credits credits, Movie movie) {
     creditRepository.deleteByMovie(movie);
     var allCredits = Stream.concat(
         credits.cast().stream().map(c -> (PersonCredit) c), 

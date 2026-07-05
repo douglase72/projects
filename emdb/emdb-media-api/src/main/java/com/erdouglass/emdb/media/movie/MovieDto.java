@@ -52,10 +52,10 @@ public record MovieDto(
   }
   
   public record MovieCredits(
-      @NotNull List<@NonNull CastCredit> cast, 
-      @NotNull List<@NonNull CrewCredit> crew) {}
+      @NotNull List<@NonNull MovieCastCredit> cast, 
+      @NotNull List<@NonNull MovieCrewCredit> crew) {}
   
-  public record CastCredit(
+  public record MovieCastCredit(
       @NotNull UUID creditId, 
       @NotNull @Positive Long id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name, 
@@ -64,7 +64,7 @@ public record MovieDto(
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
       @NotNull @PositiveOrZero Integer order) {}
   
-  public record CrewCredit(
+  public record MovieCrewCredit(
       @NotNull UUID creditId, 
       @NotNull @Positive Long id,
       @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name, 

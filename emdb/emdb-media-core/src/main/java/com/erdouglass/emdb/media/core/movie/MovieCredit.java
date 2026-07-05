@@ -36,7 +36,7 @@ public class MovieCredit extends Credit {
   
   MovieCredit() {}
   
-  MovieCredit(final String tmdbId) {
+  MovieCredit(String tmdbId) {
     this.tmdbId = tmdbId;
   }
 

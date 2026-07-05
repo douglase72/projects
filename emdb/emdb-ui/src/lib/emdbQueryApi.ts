@@ -32,11 +32,26 @@ export const PersonDocument = graphql(`
     person(id: $id) {
       id tmdbId name birthDate deathDate gender profile birthPlace biography
       credits { 
-        cast { ... on PersonMovieCastCredit { id title releaseDate score poster character type } } }
+        cast { 
+          ... on PersonMovieCastCredit { __typename id title releaseDate score poster character type }
+          ... on PersonSeriesCastCredit { __typename id title firstAirDate score poster roles { character episodeCount } type }
+        }
+      }
     }
   }
 `)
 export type Person = NonNullable<ResultOf<typeof PersonDocument>['person']>
+
+export const SeriesDocument = graphql(`
+  query Series($id: BigInteger!) {
+    series(id: $id) {
+      id tmdbId title firstAirDate lastAirDate score status type
+      backdrop poster homepage originalLanguage tagline overview
+      credits { cast { id name profile roles { character, episodeCount } totalEpisodes order } }
+    }
+  }
+`)
+export type Series = NonNullable<ResultOf<typeof SeriesDocument>['series']>
 
 const defaultOptions: DefaultOptions = {
   query: {
@@ -70,4 +85,12 @@ export const findPerson = async (id: number): Promise<Person> => {
     variables: { id },
   });
   return data.person!;
+};
+
+export const findSeries = async (id: number): Promise<Series> => {
+  const { data } = await client.query({
+    query: SeriesDocument,
+    variables: { id },
+  });
+  return data.series!;
 };

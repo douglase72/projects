@@ -15,11 +15,13 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 type Documents = {
     "\n  query Movie($id: BigInteger!) {\n    movie(id: $id) {\n      id tmdbId title releaseDate score status runtime budget revenue\n      backdrop poster homepage originalLanguage tagline overview\n      credits { cast { id name profile character order } }\n    }\n  }\n": typeof types.MovieDocument,
-    "\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { ... on PersonMovieCastCredit { id title releaseDate score poster character type } } }\n    }\n  }\n": typeof types.PersonDocument,
+    "\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { \n          ... on PersonMovieCastCredit { __typename id title releaseDate score poster character type }\n          ... on PersonSeriesCastCredit { __typename id title firstAirDate score poster roles { character episodeCount } type }\n        }\n      }\n    }\n  }\n": typeof types.PersonDocument,
+    "\n  query Series($id: BigInteger!) {\n    series(id: $id) {\n      id tmdbId title firstAirDate lastAirDate score status type\n      backdrop poster homepage originalLanguage tagline overview\n      credits { cast { id name profile roles { character, episodeCount } totalEpisodes order } }\n    }\n  }\n": typeof types.SeriesDocument,
 };
 const documents: Documents = {
     "\n  query Movie($id: BigInteger!) {\n    movie(id: $id) {\n      id tmdbId title releaseDate score status runtime budget revenue\n      backdrop poster homepage originalLanguage tagline overview\n      credits { cast { id name profile character order } }\n    }\n  }\n": types.MovieDocument,
-    "\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { ... on PersonMovieCastCredit { id title releaseDate score poster character type } } }\n    }\n  }\n": types.PersonDocument,
+    "\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { \n          ... on PersonMovieCastCredit { __typename id title releaseDate score poster character type }\n          ... on PersonSeriesCastCredit { __typename id title firstAirDate score poster roles { character episodeCount } type }\n        }\n      }\n    }\n  }\n": types.PersonDocument,
+    "\n  query Series($id: BigInteger!) {\n    series(id: $id) {\n      id tmdbId title firstAirDate lastAirDate score status type\n      backdrop poster homepage originalLanguage tagline overview\n      credits { cast { id name profile roles { character, episodeCount } totalEpisodes order } }\n    }\n  }\n": types.SeriesDocument,
 };
 
 /**
@@ -43,7 +45,11 @@ export function graphql(source: "\n  query Movie($id: BigInteger!) {\n    movie(
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { ... on PersonMovieCastCredit { id title releaseDate score poster character type } } }\n    }\n  }\n"): (typeof documents)["\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { ... on PersonMovieCastCredit { id title releaseDate score poster character type } } }\n    }\n  }\n"];
+export function graphql(source: "\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { \n          ... on PersonMovieCastCredit { __typename id title releaseDate score poster character type }\n          ... on PersonSeriesCastCredit { __typename id title firstAirDate score poster roles { character episodeCount } type }\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query Person($id: BigInteger!) {\n    person(id: $id) {\n      id tmdbId name birthDate deathDate gender profile birthPlace biography\n      credits { \n        cast { \n          ... on PersonMovieCastCredit { __typename id title releaseDate score poster character type }\n          ... on PersonSeriesCastCredit { __typename id title firstAirDate score poster roles { character episodeCount } type }\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Series($id: BigInteger!) {\n    series(id: $id) {\n      id tmdbId title firstAirDate lastAirDate score status type\n      backdrop poster homepage originalLanguage tagline overview\n      credits { cast { id name profile roles { character, episodeCount } totalEpisodes order } }\n    }\n  }\n"): (typeof documents)["\n  query Series($id: BigInteger!) {\n    series(id: $id) {\n      id tmdbId title firstAirDate lastAirDate score status type\n      backdrop poster homepage originalLanguage tagline overview\n      credits { cast { id name profile roles { character, episodeCount } totalEpisodes order } }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

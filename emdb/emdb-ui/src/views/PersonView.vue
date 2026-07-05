@@ -12,7 +12,7 @@
       <div>Death Date</div>
       <div>{{ person.deathDate }}</div>
       <div>Gender</div>
-      <div>{{ person.gender }}</div>
+      <div>{{ formatGender(person.gender) }}</div>
       <div>Profile</div>
       <div v-if="person.profile">
         <img :src="findImage(person.profile, ImageSize.W154)" :alt="person.name">
@@ -42,7 +42,9 @@
   import { Carousel } from 'primevue';
 
   import { findImage, findPerson, ImageSize, type Person } from '@/lib/emdbQueryApi';
+  import { formatGender } from '@/lib/formatter';
   import { useErrorHandler } from '@/composables/useErrorHandler';
+  import { CreditType } from '@/models/CreditType';
   import { type Show } from '@/models/Show';
   import ShowCard from '@/components/ShowCard.vue';
 
@@ -66,10 +68,9 @@
         .map((credit): Show => ({
           id: credit.id,
           title: credit.title,
-          releaseDate: credit.releaseDate,
+          releaseDate: credit.__typename === CreditType.Movie ? credit.releaseDate : credit.firstAirDate,
           score: credit.score,
           poster: credit.poster,
-          character: credit.character,
           mediaType: credit.type,
         }));      
     } catch (e) {

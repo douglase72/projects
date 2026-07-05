@@ -15,9 +15,9 @@ import org.mapstruct.ReportingPolicy;
 import com.erdouglass.emdb.media.core.CommonMapper;
 import com.erdouglass.emdb.media.core.credit.CreditType;
 import com.erdouglass.emdb.media.movie.MovieDto;
-import com.erdouglass.emdb.media.movie.MovieDto.CastCredit;
-import com.erdouglass.emdb.media.movie.MovieDto.CrewCredit;
+import com.erdouglass.emdb.media.movie.MovieDto.MovieCastCredit;
 import com.erdouglass.emdb.media.movie.MovieDto.MovieCredits;
+import com.erdouglass.emdb.media.movie.MovieDto.MovieCrewCredit;
 import com.erdouglass.emdb.media.movie.SaveMovie;
 
 @Mapper(
@@ -48,12 +48,28 @@ interface MovieMapper extends CommonMapper {
   @Mapping(source = "poster",   target = "poster",   qualifiedByName = "imageToString")
   MovieDto toMovieDto(Movie movie);
   
+  @Mapping(source = "id",             target = "creditId")
+  @Mapping(source = "person.id",      target = "id")
+  @Mapping(source = "person.name",    target = "name")
+  @Mapping(source = "person.gender",  target = "gender")
+  @Mapping(source = "person.profile", target = "profile", qualifiedByName = "imageToString")
+  @Mapping(source = "role",           target = "character")
+  MovieCastCredit toCastCredit(MovieCredit credit);
+  
+  @Mapping(source = "id",             target = "creditId")
+  @Mapping(source = "person.id",      target = "id")
+  @Mapping(source = "person.name",    target = "name")
+  @Mapping(source = "person.gender",  target = "gender")
+  @Mapping(source = "person.profile", target = "profile", qualifiedByName = "imageToString")
+  @Mapping(source = "role",           target = "job")
+  MovieCrewCredit toCrewCredit(MovieCredit credit);
+  
   default MovieCredits toCredits(List<MovieCredit> credits) {
     if (credits == null) {
       return null;
     }
-    var cast = new ArrayList<CastCredit>();
-    var crew = new ArrayList<CrewCredit>();
+    var cast = new ArrayList<MovieCastCredit>();
+    var crew = new ArrayList<MovieCrewCredit>();
     for (MovieCredit credit : credits) {
       if (credit.getType() == CreditType.CAST) {
         cast.add(toCastCredit(credit));
@@ -63,22 +79,6 @@ interface MovieMapper extends CommonMapper {
     }
     return new MovieCredits(cast, crew);
   }
-  
-  @Mapping(source = "id",             target = "creditId")
-  @Mapping(source = "person.id",      target = "id")
-  @Mapping(source = "person.name",    target = "name")
-  @Mapping(source = "person.gender",  target = "gender")
-  @Mapping(source = "person.profile", target = "profile", qualifiedByName = "imageToString")
-  @Mapping(source = "role",           target = "character")
-  CastCredit toCastCredit(MovieCredit credit);
-  
-  @Mapping(source = "id",             target = "creditId")
-  @Mapping(source = "person.id",      target = "id")
-  @Mapping(source = "person.name",    target = "name")
-  @Mapping(source = "person.gender",  target = "gender")
-  @Mapping(source = "person.profile", target = "profile", qualifiedByName = "imageToString")
-  @Mapping(source = "role",           target = "job")
-  CrewCredit toCrewCredit(MovieCredit credit);
   
   @ObjectFactory
   default Movie createMovie(SaveMovie command) {

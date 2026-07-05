@@ -19,6 +19,8 @@ import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.media.MediaConstants;
 import com.erdouglass.emdb.media.MediaType;
 import com.erdouglass.emdb.media.image.ValidImage;
+import com.erdouglass.emdb.media.series.Job;
+import com.erdouglass.emdb.media.series.Role;
 import com.erdouglass.emdb.media.show.ShowConstants;
 
 import io.smallrye.graphql.api.Union;
@@ -50,7 +52,7 @@ public record PersonDto(
       @NotNull List<@NonNull PersonCrewCredit> crew) {}
   
   @Union
-  public sealed interface PersonCastCredit permits PersonMovieCastCredit {
+  public sealed interface PersonCastCredit permits PersonMovieCastCredit, PersonSeriesCastCredit {
     @NotNull UUID creditId();
     @NotNull Long id();
     @NotNull String title();
@@ -62,7 +64,7 @@ public record PersonDto(
   }
   
   @Union
-  public sealed interface PersonCrewCredit permits PersonMovieCrewCredit {
+  public sealed interface PersonCrewCredit permits PersonMovieCrewCredit, PersonSeriesCrewCredit {
     @NotNull UUID creditId();
     @NotNull Long id();
     @NotNull String title();
@@ -96,4 +98,28 @@ public record PersonDto(
       @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
       @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job, 
       @NotNull MediaType type) implements PersonCrewCredit {} 
+  
+  public record PersonSeriesCastCredit(
+      @NotNull UUID creditId,
+      @NotNull @Positive Long id,
+      @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
+      @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate firstAirDate,
+      @NotNull @DecimalMin("0") @DecimalMax("10") Float score,
+      @ValidImage String backdrop,
+      @ValidImage String poster,
+      @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+      List<@Valid Role> roles,
+      @NotNull MediaType type) implements PersonCastCredit {}
+  
+  public record PersonSeriesCrewCredit(
+      @NotNull UUID creditId,
+      @NotNull @Positive Long id,
+      @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
+      @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate firstAirDate,
+      @NotNull @DecimalMin("0") @DecimalMax("10") Float score,
+      @ValidImage String backdrop,
+      @ValidImage String poster,
+      @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+      List<@Valid Job> jobs,
+      @NotNull MediaType type) implements PersonCrewCredit {}
 }
