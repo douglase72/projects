@@ -17,7 +17,7 @@ import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
 public record SaveMovie(
-    @NotNull @Positive Integer tmdbId,
+    @NotNull @Positive Long externalId,
     @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
     @DateRange(min = ShowConstants.MOVIE_MIN_DATE, max = ShowConstants.MAX_DATE) LocalDate releaseDate,
     @NotNull @DecimalMin("0") @DecimalMax("10") BigDecimal score,
@@ -38,7 +38,7 @@ public record SaveMovie(
   
   public static Builder builder(SaveMovie command) {
     return builder()
-        .tmdbId(command.tmdbId)
+        .externalId(command.externalId)
         .title(command.title)
         .releaseDate(command.releaseDate)
         .score(command.score)
@@ -56,20 +56,20 @@ public record SaveMovie(
   
   @Override
   public String toString() {
-    return "SaveMovie[tmdbId=" + tmdbId
+    return "SaveMovie[externalId=" + externalId
         + ", title=" + title
         + ", releaseDate=" + releaseDate
         + "]";
   }
   
   public static final class Builder extends MovieBuilder<Builder> {
-    private Integer tmdbId;
+    private Long externalId;
     
     private Builder() {}
 
     public SaveMovie build() {
       return new SaveMovie(
-            tmdbId,
+          externalId,
             title, 
             releaseDate,
             score,
@@ -85,8 +85,8 @@ public record SaveMovie(
             overview);
     }
     
-    public Builder tmdbId(Integer tmdbId) {
-      this.tmdbId = tmdbId;
+    public Builder externalId(long externalId) {
+      this.externalId = externalId;
       return this;
     }
 

@@ -36,7 +36,7 @@ class GoldmemberCrudIT {
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {    
     var command = SaveMovie.builder()
-        .tmdbId(818)
+        .externalId(818)
         .title("Austin Powers in Goldmember")
         .releaseDate(LocalDate.parse("2002-07-26"))
         .score(BigDecimal.valueOf(5.992))

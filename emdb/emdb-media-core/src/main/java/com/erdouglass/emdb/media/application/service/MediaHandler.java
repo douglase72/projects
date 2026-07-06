@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.media.application.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
@@ -10,24 +12,115 @@ import com.erdouglass.emdb.media.SavePerson;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.SaveSeries;
+import com.erdouglass.emdb.media.domain.movie.Movie;
+import com.erdouglass.emdb.media.domain.movie.MovieRepository;
+import com.erdouglass.emdb.media.domain.person.Person;
+import com.erdouglass.emdb.media.domain.person.PersonRepository;
+import com.erdouglass.emdb.media.domain.series.Series;
+import com.erdouglass.emdb.media.domain.series.SeriesRepository;
 
 @ApplicationScoped
 class MediaHandler implements MediaFacade {
   private static final Logger LOGGER = Logger.getLogger(MediaHandler.class);
+  
+  @Inject
+  ImageService imageService;
+  
+  @Inject
+  MovieMapper movieMapper;
+  
+  @Inject
+  PersonMapper personMapper;
+  
+  @Inject
+  SeriesMapper seriesMapper;
+  
+  @Inject
+  MovieRepository movieRepository;
+  
+  @Inject
+  PersonRepository personRepository;
+  
+  @Inject
+  SeriesRepository seriesRepository;
 
   @Override
+  @Transactional
   public SaveResult saveMovie(SaveMovie command) {
-    LOGGER.infof("Saved: %s", command.title());
-    return new SaveResult(1L, Status.CREATED);
+    SaveResult result;
+    Movie movie;
+    var existing = movieRepository.findByExternalId(command.externalId()).orElse(null);
+    if (existing == null) {
+      imageService.save(command.backdrop());
+      imageService.save(command.poster());
+      movie = movieRepository.insert(movieMapper.toMovie(command));
+      result = new SaveResult(movie.getId(), Status.CREATED);
+    } else {
+      var backdrop = imageService.update(existing.getBackdrop(), command.backdrop());
+      var poster = imageService.update(existing.getPoster(), command.poster());
+      var cmd = SaveMovie.builder(command)
+          .backdrop(backdrop.image())
+          .poster(poster.image())
+          .build();
+      movieMapper.merge(cmd, existing);
+      movie = movieRepository.update(existing);      
+      backdrop.toDelete().ifPresent(imageService::delete);
+      poster.toDelete().ifPresent(imageService::delete);
+      result = new SaveResult(movie.getId(), Status.UPDATED);
+    }
+    LOGGER.infof("Saved: %s", movie);
+    return result;
   }
 
   @Override
+  @Transactional
   public SaveResult savePerson(SavePerson command) {
-    throw new UnsupportedOperationException();
+    SaveResult result;
+    Person person;
+    var existing = personRepository.findByExternalId(command.externalId()).orElse(null); 
+    if (existing == null) {
+      imageService.save(command.profile());
+      person = personRepository.insert(personMapper.toPerson(command));
+      result = new SaveResult(person.getId(), Status.CREATED);
+    } else {
+      var profile = imageService.update(existing.getProfile(), command.profile());
+      var cmd = SavePerson.builder(command)
+          .profile(profile.image())
+          .build();
+      personMapper.merge(cmd, existing);
+      person = personRepository.update(existing);
+      profile.toDelete().ifPresent(imageService::delete);
+      result = new SaveResult(person.getId(), Status.UPDATED);
+    }
+    LOGGER.infof("Saved: %s", person);
+    return result;
   }
 
   @Override
+  @Transactional
   public SaveResult saveSeries(SaveSeries command) {
-    throw new UnsupportedOperationException();
+    SaveResult result;
+    Series series;
+    var existing = seriesRepository.findByExternalId(command.externalId()).orElse(null); 
+    if (existing == null) {
+      imageService.save(command.backdrop());
+      imageService.save(command.poster());
+      series = seriesRepository.insert(seriesMapper.toSeries(command));
+      result = new SaveResult(series.getId(), Status.CREATED);
+    } else {
+      var backdrop = imageService.update(existing.getBackdrop(), command.backdrop());
+      var poster = imageService.update(existing.getPoster(), command.poster());
+      var cmd = SaveSeries.builder(command)
+          .backdrop(backdrop.image())
+          .poster(poster.image())
+          .build();
+      seriesMapper.merge(cmd, existing);
+      series = seriesRepository.update(existing);      
+      backdrop.toDelete().ifPresent(imageService::delete);
+      poster.toDelete().ifPresent(imageService::delete); 
+      result = new SaveResult(series.getId(), Status.UPDATED);
+    }
+    LOGGER.infof("Saved: %s", series);
+    return result;
   }
 }

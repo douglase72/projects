@@ -13,8 +13,11 @@ dependencies {
   implementation project(':emdb-media-api')
   implementation project(':emdb-media-core')
   
+  implementation libs.jakarta.data.api
   implementation libs.quarkus.arc
+  implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
+  implementation libs.quarkus.jdbc.postgresql
   implementation libs.quarkus.logging
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson

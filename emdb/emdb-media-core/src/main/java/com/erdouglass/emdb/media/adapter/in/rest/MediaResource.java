@@ -9,7 +9,9 @@ import jakarta.ws.rs.core.MediaType;
 
 import com.erdouglass.emdb.media.MediaFacade;
 import com.erdouglass.emdb.media.SaveMovie;
+import com.erdouglass.emdb.media.SavePerson;
 import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.SaveSeries;
 
 @Path("/media")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,4 +26,16 @@ public class MediaResource {
   public SaveResult saveMovie(SaveMovie command) {
     return facade.saveMovie(command);
   }
+  
+  @POST
+  @Path("/people")
+  public SaveResult savePerson(SavePerson command) {
+    return facade.savePerson(command);
+  }
+  
+  @POST
+  @Path("/series")
+  public SaveResult saveSeries(SaveSeries command) {
+    return facade.saveSeries(command);
+  }  
 }

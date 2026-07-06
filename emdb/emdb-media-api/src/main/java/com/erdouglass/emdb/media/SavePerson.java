@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 import com.erdouglass.common.validation.DateRange;
 
 public record SavePerson(    
-    @NotNull @Positive Integer tmdbId,
+    @NotNull @Positive Long externalId,
     @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate birthDate,
     @DateRange(min = PersonConstants.MIN_DATE, max = PersonConstants.MAX_DATE) LocalDate deathDate,
@@ -27,7 +27,7 @@ public record SavePerson(
   
   public static Builder builder(SavePerson command) {
     return builder()
-        .tmdbId(command.tmdbId)
+        .externalId(command.externalId)
         .name(command.name)
         .birthDate(command.birthDate)
         .deathDate(command.deathDate)
@@ -40,20 +40,20 @@ public record SavePerson(
   
   @Override
   public String toString() {
-    return "SavePerson[tmdbId=" + tmdbId
+    return "SavePerson[tmdbId=" + externalId
         + ", name=" + name
         + ", birthDate=" + birthDate
         + "]";
   }
   
   public static final class Builder extends PersonBuilder<Builder> {
-    private Integer tmdbId;
+    private Long externalId;
     
     private Builder() { }
 
     public SavePerson build() {
       return new SavePerson(
-            tmdbId,
+          externalId,
             name, 
             birthDate,
             deathDate,
@@ -64,8 +64,8 @@ public record SavePerson(
             biography);
     }
     
-    public Builder tmdbId(Integer tmdbId) {
-      this.tmdbId = tmdbId;
+    public Builder externalId(long externalId) {
+      this.externalId = externalId;
       return this;
     }
 

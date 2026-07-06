@@ -1,10 +1,6 @@
 package com.erdouglass.emdb.media;
 
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -16,15 +12,13 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.emdb.media.show.ShowConstants;
 import com.erdouglass.emdb.media.show.ShowStatus;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public record SaveSeries(
-    @NotNull @Positive Integer tmdbId,
+    @NotNull @Positive Long externalId,
     @NotBlank @Size(max = ShowConstants.TITLE_MAX_LENGTH) String title,
     @NotNull @DecimalMin("0") @DecimalMax("10") BigDecimal score,
     @NotNull ShowStatus status,
-    @NotNull Type type,
+    @NotNull SeriesType type,
     @Valid Image backdrop,
     @Valid Image poster,
     @Size(max = MediaConstants.URL_MAX_LENGTH) String homepage,
@@ -38,7 +32,7 @@ public record SaveSeries(
   
   public static Builder builder(SaveSeries command) {
     return builder()
-        .tmdbId(command.tmdbId)
+        .externalId(command.externalId)
         .title(command.title)
         .score(command.score)
         .status(command.status)
@@ -53,50 +47,19 @@ public record SaveSeries(
   
   @Override
   public String toString() {
-    return "SaveSeries[tmdbId=" + tmdbId
+    return "SaveSeries[externalId=" + externalId
         + ", title=" + title
         + "]";
   }
   
-  public enum Type {
-    SCRIPTED("Scripted"),
-    REALITY("Reality"),
-    DOCUMENTARY("Documentary"),
-    NEWS("News"),
-    TALK_SHOW("Talk Show"),
-    MINISERIES("Miniseries"),
-    VIDEO("Video");
-    
-    private static final Map<String, Type> CACHE = Stream.of(values())
-        .collect(Collectors.toMap(Type::toString, Function.identity()));
-    
-    private final String type;
-    
-    Type(String type) {
-      this.type = type;
-    }
-    
-    @JsonCreator
-    public static Type from(String type) {
-      var match = CACHE.get(type);
-      return match != null ? match : Type.valueOf(type);
-    }
-    
-    @Override
-    @JsonValue
-    public String toString() {
-      return type;
-    }
-  }
-  
   public static final class Builder extends SeriesBuilder<Builder> {
-    private Integer tmdbId;
+    private Long externalId;
         
     private Builder() { }
 
     public SaveSeries build() {
       return new SaveSeries(
-            tmdbId,
+          externalId,
             title, 
             score,
             status,
@@ -109,8 +72,8 @@ public record SaveSeries(
             overview);
     }    
     
-    public Builder tmdbId(Integer tmdbId) {
-      this.tmdbId = tmdbId;
+    public Builder externalId(long externalId) {
+      this.externalId = externalId;
       return this;
     }
 
