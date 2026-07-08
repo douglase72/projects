@@ -7,7 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
 
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -66,7 +65,7 @@ public abstract class Media<T> {
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
-    if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj))
+    if (obj == null || getClass() != obj.getClass()) 
       return false;
     Media<?> other = (Media<?>) obj;
     return Objects.equals(getExternalId(), other.getExternalId());

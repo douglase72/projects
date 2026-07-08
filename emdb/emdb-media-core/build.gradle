@@ -23,7 +23,29 @@ dependencies {
   compileOnly libs.jboss.logging
   compileOnly libs.mapstruct
   compileOnly libs.quarkus.hibernate.orm
+  
+  testImplementation enforcedPlatform(libs.quarkus.bom)
+  testImplementation libs.archunit.junit5
+  testRuntimeOnly    libs.junit.platform.launcher
 }
+
+def archTest = tasks.register('archTest', Test) {
+    group = 'verification'
+    description = 'Architecture rules only'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform {
+        includeEngines 'archunit'
+    }
+}
+
+test {
+    useJUnitPlatform {
+        excludeEngines 'archunit'
+    }
+}
+
+check.dependsOn archTest
 
 eclipse {
   classpath {
