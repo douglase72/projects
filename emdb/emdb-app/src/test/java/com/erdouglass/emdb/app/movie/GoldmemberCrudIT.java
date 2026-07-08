@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.app.movie;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Map;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -23,6 +25,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.SaveMovie;
 import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.application.port.in.MovieView;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -63,4 +66,44 @@ class GoldmemberCrudIT {
     movieId = result.id();
     LOGGER.infof("Saved Austin Powers in Goldmember in %d ms", et);
   }
+  
+  @Test
+  @Order(2)
+  void testFindMovie() throws IOException, InterruptedException {
+    var query = """
+        query {
+          movie(id: %d) { 
+            id externalId title releaseDate score status runtime budget revenue
+            backdrop poster homepage originalLanguage tagline overview                  
+          }
+        }
+        """.formatted(movieId);
+    var payload = Map.of("query", query);
+    var request = HttpRequest.newBuilder()
+        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(payload)))
+        .header("Content-Type", "application/json")
+        .uri(UriBuilder.fromUri(TestHelper.GRAPHQL_URL).build())
+        .build(); 
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
+    assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
+    
+    var movie = TestHelper.OBJECT_MAPPER.treeToValue(root.path("data").path("movie"), MovieView.class);
+    assertEquals(movieId, movie.id());
+    assertEquals(818, movie.externalId());
+    assertEquals("Austin Powers in Goldmember", movie.title());
+    assertEquals("2002-07-26", movie.releaseDate().toString());
+    assertEquals(5.992, movie.score().doubleValue(), 0.001);
+    assertEquals(ShowStatus.RELEASED, movie.status());
+    assertEquals(94, movie.runtime());
+    assertEquals(63000000, movie.budget());
+    assertEquals(296938801, movie.revenue());
+    assertEquals("https://www.warnerbros.com/movies/austin-powers-goldmember", movie.homepage());
+    assertEquals("en", movie.originalLanguage());
+    assertEquals("The grooviest movie of the summer has a secret, baby!", movie.tagline());
+    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview());
+    LOGGER.infof("Found Austin Powers in Goldmember in %d ms", et);    
+  }  
 }

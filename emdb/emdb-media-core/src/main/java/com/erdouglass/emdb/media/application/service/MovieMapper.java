@@ -10,6 +10,7 @@ import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.SaveMovie;
+import com.erdouglass.emdb.media.application.port.in.MovieView;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 
 @Mapper(
@@ -19,7 +20,7 @@ import com.erdouglass.emdb.media.domain.movie.Movie;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-interface MovieMapper {
+interface MovieMapper extends CommonMapper {
 
   @Mapping(source = "backdrop.name", target = "backdrop")
   @Mapping(source = "poster.name",   target = "poster")
@@ -28,6 +29,10 @@ interface MovieMapper {
   @Mapping(source = "backdrop.name", target = "backdrop")
   @Mapping(source = "poster.name",   target = "poster")
   Movie toMovie(SaveMovie command);
+  
+  @Mapping(source = "backdrop", target = "backdrop", qualifiedByName = "imageToString")
+  @Mapping(source = "poster",   target = "poster",   qualifiedByName = "imageToString")
+  MovieView toMovieView(Movie movie);
   
   @ObjectFactory
   default Movie createMovie(SaveMovie command) {

@@ -12,6 +12,7 @@ dependencies {
   annotationProcessor libs.hibernate.processor
   annotationProcessor libs.mapstruct.processor
   
+  implementation project(':common-graphql')
   implementation project(':common-validation')
   implementation project(':emdb-media-api')
   
@@ -22,6 +23,7 @@ dependencies {
   compileOnly libs.jakarta.ws.rs.api
   compileOnly libs.jboss.logging
   compileOnly libs.mapstruct
+  compileOnly libs.microprofile.graphql.api
   compileOnly libs.quarkus.hibernate.orm
   
   testImplementation enforcedPlatform(libs.quarkus.bom)
