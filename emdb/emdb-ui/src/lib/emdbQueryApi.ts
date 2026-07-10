@@ -19,39 +19,13 @@ export enum ImageSize {
 export const MovieDocument = graphql(`
   query Movie($id: BigInteger!) {
     movie(id: $id) {
-      id tmdbId title releaseDate score status runtime budget revenue
+      id title releaseDate score status runtime budget revenue
       backdrop poster homepage originalLanguage tagline overview
       credits { cast { id name profile character order } }
     }
   }
 `)
 export type Movie = NonNullable<ResultOf<typeof MovieDocument>['movie']>
-
-export const PersonDocument = graphql(`
-  query Person($id: BigInteger!) {
-    person(id: $id) {
-      id tmdbId name birthDate deathDate gender profile birthPlace biography
-      credits { 
-        cast { 
-          ... on PersonMovieCastCredit { __typename id title releaseDate score poster character type }
-          ... on PersonSeriesCastCredit { __typename id title firstAirDate score poster roles { character episodeCount } type }
-        }
-      }
-    }
-  }
-`)
-export type Person = NonNullable<ResultOf<typeof PersonDocument>['person']>
-
-export const SeriesDocument = graphql(`
-  query Series($id: BigInteger!) {
-    series(id: $id) {
-      id tmdbId title firstAirDate lastAirDate score status type
-      backdrop poster homepage originalLanguage tagline overview
-      credits { cast { id name profile roles { character, episodeCount } totalEpisodes order } }
-    }
-  }
-`)
-export type Series = NonNullable<ResultOf<typeof SeriesDocument>['series']>
 
 const defaultOptions: DefaultOptions = {
   query: {
@@ -77,20 +51,4 @@ export const findMovie = async (id: number): Promise<Movie> => {
     variables: { id },
   });
   return data.movie!;
-};
-
-export const findPerson = async (id: number): Promise<Person> => {
-  const { data } = await client.query({
-    query: PersonDocument,
-    variables: { id },
-  });
-  return data.person!;
-};
-
-export const findSeries = async (id: number): Promise<Series> => {
-  const { data } = await client.query({
-    query: SeriesDocument,
-    variables: { id },
-  });
-  return data.series!;
 };

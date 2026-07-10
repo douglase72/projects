@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -30,7 +31,8 @@ public record SaveMovie(
     @Size(max = MediaConstants.URL_MAX_LENGTH) String homepage,
     @NotBlank @Size(min = MediaConstants.ISO_639_1_LENGTH, max = MediaConstants.ISO_639_1_LENGTH) String originalLanguage,
     @Size(max = ShowConstants.TAGLINE_MAX_LENGTH) String tagline,
-    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview) implements SaveCommand {
+    @Size(max = ShowConstants.OVERVIEW_MAX_LENGTH) String overview,
+    @Valid Credits credits) implements SaveCommand {
 
   public static Builder builder() {
     return new Builder();
@@ -51,7 +53,8 @@ public record SaveMovie(
         .homepage(command.homepage)
         .originalLanguage(command.originalLanguage)
         .tagline(command.tagline)
-        .overview(command.overview);
+        .overview(command.overview)
+        .credits(command.credits);
   }
   
   @Override
@@ -62,7 +65,27 @@ public record SaveMovie(
         + "]";
   }
   
+  public record Credits(List<@Valid CastCredit> cast, List<@Valid CrewCredit> crew) {}
+  
+  public record CastCredit(
+      @NotBlank String creditId,
+      @NotNull @Positive Long externalId,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotNull Gender gender,
+      @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile,
+      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String character,
+      @NotNull @PositiveOrZero Integer order) implements PersonCredit {}
+  
+  public record CrewCredit(
+      @NotBlank String creditId,
+      @NotNull @Positive Long externalId,
+      @NotBlank @Size(max = PersonConstants.NAME_MAX_LENGTH) String name,
+      @NotNull Gender gender,
+      @Size(min = PersonConstants.PROFILE_MIN_LENGTH, max = PersonConstants.PROFILE_MAX_LENGTH) String profile,
+      @Size(max = ShowConstants.ROLE_MAX_LENGTH) String job) implements PersonCredit {} 
+  
   public static final class Builder extends MovieBuilder<Builder> {
+    private Credits credits = new Credits(List.of(), List.of());
     private Long externalId;
     
     private Builder() {}
@@ -82,7 +105,13 @@ public record SaveMovie(
             homepage,
             originalLanguage,
             tagline,
-            overview);
+            overview,
+            credits);
+    }
+    
+    public Builder credits(final Credits credits) {
+      this.credits = credits;
+      return this;
     }
     
     public Builder externalId(long externalId) {

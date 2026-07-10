@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.adapter.in.graphql;
+package com.erdouglass.emdb.media.adapter.inbound.graphql;
 
 import jakarta.inject.Inject;
 
@@ -6,8 +6,8 @@ import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
-import com.erdouglass.emdb.media.application.port.in.SeriesQueryService;
-import com.erdouglass.emdb.media.application.port.in.SeriesView;
+import com.erdouglass.emdb.media.application.port.inbound.SeriesQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.SeriesView;
 
 @GraphQLApi
 public class SeriesResolver {

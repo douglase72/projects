@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.application.port.in;
+package com.erdouglass.emdb.media.application.port.inbound;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

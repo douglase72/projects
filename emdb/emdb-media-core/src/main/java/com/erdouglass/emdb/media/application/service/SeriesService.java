@@ -7,10 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
-import com.erdouglass.emdb.media.application.port.in.SeriesCommandService;
-import com.erdouglass.emdb.media.application.port.in.SeriesQueryService;
-import com.erdouglass.emdb.media.application.port.in.SeriesView;
-import com.erdouglass.emdb.media.application.port.in.UpdateSeries;
+import com.erdouglass.emdb.media.application.port.inbound.SeriesCommandService;
+import com.erdouglass.emdb.media.application.port.inbound.SeriesQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.SeriesView;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateSeries;
 import com.erdouglass.emdb.media.domain.series.SeriesRepository;
 
 @ApplicationScoped

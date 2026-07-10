@@ -3,8 +3,6 @@
     <section v-if="movie" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
       <div>{{ movie.id }}</div>
-      <div>TMDB ID</div>
-      <div>{{ movie.tmdbId }}</div>
       <div>Title</div>
       <div>{{ movie.title }}</div>
       <div>Release Date</div>

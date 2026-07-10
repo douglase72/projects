@@ -1,17 +1,18 @@
 package com.erdouglass.emdb.media;
 
 import static com.tngtech.archunit.base.DescribedPredicate.alwaysTrue;
+import static com.tngtech.archunit.base.DescribedPredicate.not;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAnyPackage;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
-import static com.tngtech.archunit.base.DescribedPredicate.not;
-import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAnyPackage;
-
 
 import java.util.regex.Pattern;
 
+import com.tngtech.archunit.base.DescribedPredicate;
+import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.core.importer.Location;
 import com.tngtech.archunit.junit.AnalyzeClasses;
@@ -23,6 +24,9 @@ import com.tngtech.archunit.lang.ArchRule;
     importOptions = { ImportOption.DoNotIncludeTests.class,
                       MediaArchitectureTest.ExcludeGenerated.class })
 class MediaArchitectureTest {
+  private static final DescribedPredicate<JavaClass> GRAPHQL_NONNULL =
+      DescribedPredicate.describe("GraphQL @NonNull annotation",
+          c -> c.getName().equals("org.eclipse.microprofile.graphql.NonNull"));  
   
   /** Coarse direction: adapter → application → domain. Dependencies outside the
    *  three layers (the api module, jakarta.*) are deliberately out of scope here —
@@ -77,13 +81,12 @@ class MediaArchitectureTest {
       .should().beAnnotatedWith("jakarta.enterprise.context.ApplicationScoped")
       .orShould().haveSimpleNameEndingWith("Impl");
   
-  /** Spec-yes has layers too: persistence specs may enter the domain, but
-   *  driving-adapter specs (JAX-RS, GraphQL) stay in adapters. */
   @ArchTest
   static final ArchRule web_tech_stays_in_adapters = noClasses()
       .that().resideOutsideOfPackage("..media.adapter..")
-      .should().dependOnClassesThat().resideInAnyPackage(
-          "jakarta.ws.rs..", "org.eclipse.microprofile.graphql..");
+      .should().dependOnClassesThat(
+          resideInAnyPackage("jakarta.ws.rs..", "org.eclipse.microprofile.graphql..")
+              .and(not(GRAPHQL_NONNULL)));
   
   public static class ExcludeGenerated implements ImportOption {
     private static final Pattern GENERATED = Pattern.compile(".*_\\.class");

@@ -1,5 +1,9 @@
 package com.erdouglass.emdb.media.application.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -7,17 +11,20 @@ import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.media.MediaFacade;
+import com.erdouglass.emdb.media.PersonCredit;
 import com.erdouglass.emdb.media.SaveMovie;
 import com.erdouglass.emdb.media.SavePerson;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.SaveSeries;
 import com.erdouglass.emdb.media.domain.movie.Movie;
+import com.erdouglass.emdb.media.domain.movie.MovieCredit;
 import com.erdouglass.emdb.media.domain.movie.MovieRepository;
 import com.erdouglass.emdb.media.domain.person.Person;
 import com.erdouglass.emdb.media.domain.person.PersonRepository;
 import com.erdouglass.emdb.media.domain.series.Series;
 import com.erdouglass.emdb.media.domain.series.SeriesRepository;
+import com.erdouglass.emdb.media.domain.shared.Credit.CreditType;
 
 @ApplicationScoped
 class MediaHandler implements MediaFacade {
@@ -43,6 +50,9 @@ class MediaHandler implements MediaFacade {
   
   @Inject
   SeriesRepository seriesRepository;
+  
+  @Inject
+  PersonResolver personResolver;
 
   @Override
   @Transactional
@@ -68,6 +78,7 @@ class MediaHandler implements MediaFacade {
       poster.toDelete().ifPresent(imageService::delete);
       result = new SaveResult(movie.getId(), Status.UPDATED);
     }
+    saveMovieCredits(movie, command.credits());
     LOGGER.infof("Saved: %s", movie);
     return result;
   }
@@ -122,5 +133,38 @@ class MediaHandler implements MediaFacade {
     }
     LOGGER.infof("Saved: %s", series);
     return result;
+  }
+  
+  private void saveMovieCredits(Movie movie, SaveMovie.Credits credits) {
+    movieRepository.deleteCreditsByMovieId(movie.getId());
+    var allCredits = Stream.concat(
+        credits.cast().stream().map(c -> (PersonCredit) c), 
+        credits.crew().stream().map(c -> (PersonCredit) c))
+        .toList();
+    var people = personResolver.findOrCreate(allCredits);
+    
+    List<MovieCredit> creditsToInsert = new ArrayList<>();
+    for (var credit : credits.cast()) {
+      var movieCredit = new MovieCredit(credit.creditId());
+      movieCredit.setType(CreditType.CAST);
+      movieCredit.setMovieId(movie.getId());
+      movieCredit.setPersonId(people.get(credit.externalId()));
+      movieCredit.setRole(credit.character());
+      movieCredit.setOrder(credit.order());
+      creditsToInsert.add(movieCredit); 
+    }
+    
+    for (var credit : credits.crew()) {
+      var movieCredit = new MovieCredit(credit.creditId());
+      movieCredit.setType(CreditType.CREW);
+      movieCredit.setMovieId(movie.getId());
+      movieCredit.setPersonId(people.get(credit.externalId()));
+      movieCredit.setRole(credit.job());
+      creditsToInsert.add(movieCredit);      
+    }
+    
+    if (!creditsToInsert.isEmpty()) {
+      movieRepository.insertCredits(creditsToInsert);
+    }    
   }
 }

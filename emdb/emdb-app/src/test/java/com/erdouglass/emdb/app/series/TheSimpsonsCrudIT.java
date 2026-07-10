@@ -25,7 +25,7 @@ import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveSeries;
 import com.erdouglass.emdb.media.SeriesType;
-import com.erdouglass.emdb.media.application.port.in.SeriesView;
+import com.erdouglass.emdb.media.application.port.inbound.SeriesView;
 import com.erdouglass.emdb.media.show.ShowStatus;
 
 @TestInstance(Lifecycle.PER_CLASS)

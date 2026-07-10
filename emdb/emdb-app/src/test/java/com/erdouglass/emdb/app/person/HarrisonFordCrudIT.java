@@ -26,7 +26,7 @@ import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.SavePerson;
 import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.application.port.in.PersonView;
+import com.erdouglass.emdb.media.application.port.inbound.PersonView;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

@@ -4,10 +4,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
-import com.erdouglass.emdb.media.application.port.in.MovieCommandService;
-import com.erdouglass.emdb.media.application.port.in.MovieQueryService;
-import com.erdouglass.emdb.media.application.port.in.MovieView;
-import com.erdouglass.emdb.media.application.port.in.UpdateMovie;
+import com.erdouglass.emdb.media.application.port.inbound.MovieCommandService;
+import com.erdouglass.emdb.media.application.port.inbound.MovieQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.MovieView;
+import com.erdouglass.emdb.media.application.port.inbound.MovieView.MovieCredits;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateMovie;
 import com.erdouglass.emdb.media.domain.movie.MovieRepository;
 
 @ApplicationScoped
@@ -34,5 +35,10 @@ class MovieService implements MovieCommandService, MovieQueryService {
   @Override
   public void deleteById(Long id) {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public MovieCredits findCreditsByMovieId(Long id) {
+    return mapper.toCredits(repository.findCreditsByMovieId(id));
   }
 }

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.adapter.in.rest;
+package com.erdouglass.emdb.media.adapter.inbound.rest;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

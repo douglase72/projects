@@ -32,7 +32,7 @@ public abstract class Media<T> {
   @Column(nullable = false, updatable = false)
   private Instant createdAt;
   
-  /// The TMDB id provides a stable immutable natural key.
+  /// The external id provides a stable immutable natural key.
   @NotNull
   @Column(name = "external_id", unique = true, updatable = false)
   private T externalId;
