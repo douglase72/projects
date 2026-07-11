@@ -4,15 +4,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
-import com.erdouglass.emdb.media.application.port.inbound.MovieCommandService;
-import com.erdouglass.emdb.media.application.port.inbound.MovieQueryService;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView.MovieCredits;
-import com.erdouglass.emdb.media.application.port.inbound.UpdateMovie;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieCommandService;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView;
+import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovie;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCredits;
 import com.erdouglass.emdb.media.domain.movie.MovieRepository;
 
 @ApplicationScoped
-class MovieService implements MovieCommandService, MovieQueryService {
+class MovieFacade implements MovieCommandService, MovieQueryService {
   
   @Inject
   MovieMapper mapper;

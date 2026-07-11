@@ -7,14 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
-import com.erdouglass.emdb.media.application.port.inbound.SeriesCommandService;
-import com.erdouglass.emdb.media.application.port.inbound.SeriesQueryService;
-import com.erdouglass.emdb.media.application.port.inbound.SeriesView;
-import com.erdouglass.emdb.media.application.port.inbound.UpdateSeries;
+import com.erdouglass.emdb.media.application.port.inbound.series.SeriesCommandService;
+import com.erdouglass.emdb.media.application.port.inbound.series.SeriesQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView;
+import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView.SeriesCredits;
+import com.erdouglass.emdb.media.application.port.inbound.series.UpdateSeries;
 import com.erdouglass.emdb.media.domain.series.SeriesRepository;
 
 @ApplicationScoped
-class SeriesService implements SeriesCommandService, SeriesQueryService {
+class SeriesFacade implements SeriesCommandService, SeriesQueryService {
   
   @Inject
   SeriesMapper mapper;
@@ -23,19 +24,24 @@ class SeriesService implements SeriesCommandService, SeriesQueryService {
   SeriesRepository repository;
 
   @Override
-  public SeriesView findById(@NotNull @Positive Long id) {
+  public SeriesView findById(Long id) {
     return repository.findById(id)
         .map(mapper::toSeriesView)
         .orElseThrow(() -> new ResourceNotFoundException("No series found with id: " + id));   
   }
 
   @Override
-  public SeriesView update(@NotNull @Valid UpdateSeries command) {
+  public SeriesView update(UpdateSeries command) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void deleteById(@NotNull @Positive Long id) {
+  public void deleteById(Long id) {
+    throw new UnsupportedOperationException();
+  }
+  
+  @Override
+  public SeriesCredits findCreditsBySeriesId(Long id) {
     throw new UnsupportedOperationException();
   }
 }

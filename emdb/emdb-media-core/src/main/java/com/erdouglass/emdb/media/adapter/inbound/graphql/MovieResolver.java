@@ -8,9 +8,9 @@ import org.eclipse.microprofile.graphql.NonNull;
 import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Source;
 
-import com.erdouglass.emdb.media.application.port.inbound.MovieQueryService;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView.MovieCredits;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCredits;
 
 @GraphQLApi
 public class MovieResolver {

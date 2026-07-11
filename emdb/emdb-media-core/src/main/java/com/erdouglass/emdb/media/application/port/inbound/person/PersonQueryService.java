@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.application.port.inbound;
+package com.erdouglass.emdb.media.application.port.inbound.person;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

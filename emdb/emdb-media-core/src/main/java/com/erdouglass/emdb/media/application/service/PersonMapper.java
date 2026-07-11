@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.SubclassExhaustiveStrategy;
 
 import com.erdouglass.emdb.media.SavePerson;
-import com.erdouglass.emdb.media.application.port.inbound.PersonView;
+import com.erdouglass.emdb.media.application.port.inbound.person.PersonView;
 import com.erdouglass.emdb.media.domain.person.Person;
 
 @Mapper(

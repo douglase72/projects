@@ -22,7 +22,9 @@ import com.erdouglass.emdb.media.domain.movie.MovieCredit;
 import com.erdouglass.emdb.media.domain.movie.MovieRepository;
 import com.erdouglass.emdb.media.domain.person.Person;
 import com.erdouglass.emdb.media.domain.person.PersonRepository;
+import com.erdouglass.emdb.media.domain.series.Role;
 import com.erdouglass.emdb.media.domain.series.Series;
+import com.erdouglass.emdb.media.domain.series.SeriesCredit;
 import com.erdouglass.emdb.media.domain.series.SeriesRepository;
 import com.erdouglass.emdb.media.domain.shared.Credit.CreditType;
 

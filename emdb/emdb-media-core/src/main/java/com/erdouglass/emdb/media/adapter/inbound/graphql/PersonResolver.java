@@ -6,8 +6,8 @@ import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
-import com.erdouglass.emdb.media.application.port.inbound.PersonQueryService;
-import com.erdouglass.emdb.media.application.port.inbound.PersonView;
+import com.erdouglass.emdb.media.application.port.inbound.person.PersonQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.person.PersonView;
 
 @GraphQLApi
 public class PersonResolver {

@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.app.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -26,7 +25,6 @@ import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.Gender;
 import com.erdouglass.emdb.media.SavePerson;
 import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.application.port.inbound.PersonView;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -66,7 +64,7 @@ class HarrisonFordCrudIT {
     var query = """
         query {
           person(id: %d) { 
-            id externalId name birthDate deathDate gender profile birthPlace biography
+            id name birthDate deathDate gender profile birthPlace biography
           }
         }
         """.formatted(personId);
@@ -82,15 +80,14 @@ class HarrisonFordCrudIT {
     var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
     assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
     
-    var person = TestHelper.OBJECT_MAPPER.treeToValue(root.path("data").path("person"), PersonView.class);
-    assertEquals(personId, person.id());
-    assertEquals(3, person.externalId());
-    assertEquals("Harrison Ford", person.name());
-    assertEquals("1942-07-13", person.birthDate().toString());
-    assertNull(person.deathDate());
-    assertEquals(Gender.MALE, person.gender());
-    assertEquals("Chicago, Illinois, USA", person.birthPlace());
-    assertEquals("Legendary Hollywood Icon Harrison Ford was born on July 13, 1942 in Chicago, Illinois. His family history includes a strong lineage of actors, radio personalities, and models. Ford attended public high school in Park Ridge, Illinois where he was a member of the school Radio Station WMTH. Ford worked as the lead voice for sports reporting at WMTH for several years. Acting wasn't a major interest to Ford until his junior year at Ripon College when he first took an acting class. Ford's career started in 1964 when he travelled to California in search of a voice-over job. He never received that position, but instead signed a contract with Columbia Pictures where he earned $150 weekly to play small fill in roles in various films.\n\nThrough the '60s Ford worked on several TV shows including Gunsmoke, Ironside, Kung Fu, and American Style. It wasn't until 1967 that he received his first credited role in the Western film, A Time for Killing. Dissatisfied with the meager roles he was being offered, Ford took a hiatus from acting to work as a self-employed carpenter. This seemingly odd diversion turned out to be a blessing in disguise for Harrison's acting career when he was soon hired by famous film producer George Lucas. This was a turning point in Ford's life that led to him be casted in milestone roles such as Han Solo and Indiana Jones.\n\nSince his most famous roles in the original Star Wars trilogy and Raiders of the Lost Ark, Ford has appeared in over 40 films. Many criticize his late-career work, saying his performances have been lackluster, leading to commercially disappointing films. Ford has always worked hard to protect his off-screen private life, keeping details about his children and marriages quiet. He has a total of five children including one recent adoption with third and current wife Calista Flockhart. In addition to acting, Ford is passionate about environmental conservation, aviation, and archeology.", person.biography());        
+    var person = root.path("data").path("person");
+    assertEquals(personId, person.path("id").asLong());
+    assertEquals("Harrison Ford", person.path("name").asText());
+    assertEquals("1942-07-13", person.path("birthDate").asText());
+    assertTrue(person.path("deathDate").isNull());
+    assertEquals("MALE", person.path("gender").asText());
+    assertEquals("Chicago, Illinois, USA", person.path("birthPlace").asText());
+    assertEquals("Legendary Hollywood Icon Harrison Ford was born on July 13, 1942 in Chicago, Illinois. His family history includes a strong lineage of actors, radio personalities, and models. Ford attended public high school in Park Ridge, Illinois where he was a member of the school Radio Station WMTH. Ford worked as the lead voice for sports reporting at WMTH for several years. Acting wasn't a major interest to Ford until his junior year at Ripon College when he first took an acting class. Ford's career started in 1964 when he travelled to California in search of a voice-over job. He never received that position, but instead signed a contract with Columbia Pictures where he earned $150 weekly to play small fill in roles in various films.\n\nThrough the '60s Ford worked on several TV shows including Gunsmoke, Ironside, Kung Fu, and American Style. It wasn't until 1967 that he received his first credited role in the Western film, A Time for Killing. Dissatisfied with the meager roles he was being offered, Ford took a hiatus from acting to work as a self-employed carpenter. This seemingly odd diversion turned out to be a blessing in disguise for Harrison's acting career when he was soon hired by famous film producer George Lucas. This was a turning point in Ford's life that led to him be casted in milestone roles such as Han Solo and Indiana Jones.\n\nSince his most famous roles in the original Star Wars trilogy and Raiders of the Lost Ark, Ford has appeared in over 40 films. Many criticize his late-career work, saying his performances have been lackluster, leading to commercially disappointing films. Ford has always worked hard to protect his off-screen private life, keeping details about his children and marriages quiet. He has a total of five children including one recent adoption with third and current wife Calista Flockhart. In addition to acting, Ford is passionate about environmental conservation, aviation, and archeology.", person.path("biography").asText());        
     LOGGER.infof("Found Harrison Ford in %d ms", et);    
   }
 }

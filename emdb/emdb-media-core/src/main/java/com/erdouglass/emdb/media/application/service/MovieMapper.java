@@ -13,10 +13,10 @@ import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.SaveMovie;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView.MovieCastCredit;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView.MovieCredits;
-import com.erdouglass.emdb.media.application.port.inbound.MovieView.MovieCrewCredit;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCastCredit;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCredits;
+import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCrewCredit;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieCreditProjection;
 import com.erdouglass.emdb.media.domain.shared.Credit.CreditType;

@@ -10,15 +10,15 @@ import jakarta.inject.Inject;
 
 import com.erdouglass.common.graphql.ResourceNotFoundException;
 import com.erdouglass.emdb.media.PersonCredit;
-import com.erdouglass.emdb.media.application.port.inbound.PersonCommandService;
-import com.erdouglass.emdb.media.application.port.inbound.PersonQueryService;
-import com.erdouglass.emdb.media.application.port.inbound.PersonView;
-import com.erdouglass.emdb.media.application.port.inbound.UpdatePerson;
+import com.erdouglass.emdb.media.application.port.inbound.person.PersonCommandService;
+import com.erdouglass.emdb.media.application.port.inbound.person.PersonQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.person.PersonView;
+import com.erdouglass.emdb.media.application.port.inbound.person.UpdatePerson;
 import com.erdouglass.emdb.media.domain.person.Person;
 import com.erdouglass.emdb.media.domain.person.PersonRepository;
 
 @ApplicationScoped
-class PersonService implements PersonCommandService, PersonQueryService, PersonResolver {
+class PersonFacade implements PersonCommandService, PersonQueryService, PersonResolver {
   
   @Inject
   PersonMapper mapper;
@@ -41,7 +41,7 @@ class PersonService implements PersonCommandService, PersonQueryService, PersonR
         .collect(Collectors.toMap(Person::getExternalId, Person::getId));   
     var peopleToInsert = distinct.values().stream()
         .filter(c -> !existing.containsKey(c.externalId()))
-        .map(PersonService::toPerson)
+        .map(PersonFacade::toPerson)
         .toList();
     for (var person : repository.insertAll(peopleToInsert)) {
       var externalId = person.getExternalId();

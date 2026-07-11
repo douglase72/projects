@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.application.port.inbound;
+package com.erdouglass.emdb.media.application.port.inbound.movie;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

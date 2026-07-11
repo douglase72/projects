@@ -21,9 +21,6 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
   @Insert
   List<MovieCredit> insertCredits(List<MovieCredit> credits);
   
-  /// Read model for the credits list: joins Person by id (no association exists),
-  /// projects scalars only — returning MovieView types here would invert the
-  /// domain → application arrow.
   @Query("""
       SELECT NEW com.erdouglass.emdb.media.domain.movie.MovieCreditProjection(
           c.type, c.role, c.creditOrder, p.id, p.name, p.gender, p.profile)

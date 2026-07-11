@@ -55,6 +55,7 @@ public abstract class Credit {
   @Column(name = "credit_order")
   private Integer creditOrder;
   
+  /// The foreign key in the Credits table that points back to the People table.
   @NotNull
   @Column(name = "person_id", nullable = false, updatable = false)
   private Long personId; 

@@ -10,7 +10,7 @@ import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.SaveSeries;
-import com.erdouglass.emdb.media.application.port.inbound.SeriesView;
+import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView;
 import com.erdouglass.emdb.media.domain.series.Series;
 
 @Mapper(
