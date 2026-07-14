@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCredits;
 
-public interface MovieQueryService {
+public interface QueryMovieUseCase {
 
   MovieCredits findCreditsByMovieId(@NotNull @Positive Long id);
   

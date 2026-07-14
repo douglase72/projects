@@ -64,7 +64,7 @@ class BladeRunnerIT {
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
-        .uri(UriBuilder.fromUri(TestHelper.MEDIA_URL).path("movies").build())
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).build())
         .build();    
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());

@@ -8,7 +8,7 @@ import org.eclipse.microprofile.graphql.NonNull;
 import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Source;
 
-import com.erdouglass.emdb.media.application.port.inbound.movie.MovieQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.movie.QueryMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView;
 import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieCredits;
 
@@ -16,14 +16,14 @@ import com.erdouglass.emdb.media.application.port.inbound.movie.MovieView.MovieC
 public class MovieResolver {
   
   @Inject
-  MovieQueryService service;
+  QueryMovieUseCase queryUseCase;
 
   @Query("movie") 
   public MovieView findById(@Name("id") Long id) {
-    return service.findById(id);
+    return queryUseCase.findById(id);
   }
   
   public @NonNull MovieCredits credits(@Source MovieView movie) {
-    return service.findCreditsByMovieId(movie.id());
+    return queryUseCase.findCreditsByMovieId(movie.id());
   }
 }

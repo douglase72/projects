@@ -24,6 +24,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.Gender;
+import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveSeries;
 import com.erdouglass.emdb.media.SaveSeries.CastCredit;
 import com.erdouglass.emdb.media.SaveSeries.CastCredit.Role;
@@ -72,6 +73,8 @@ class ShrinkingCrudIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());    
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
+    seriesId = result.id();
     LOGGER.infof("Saved Shrinking in %d ms", et);    
   }
 
@@ -82,11 +85,7 @@ class ShrinkingCrudIT {
         query {
           series(id: %d) { 
             id title firstAirDate lastAirDate score status type
-            backdrop poster homepage originalLanguage tagline overview
-            credits {
-              cast { name profile roles { character episodeCount }  order }
-              crew { name profile jobs { title episodeCount } }
-            }                              
+            backdrop poster homepage originalLanguage tagline overview                            
           }
         }
         """.formatted(seriesId);

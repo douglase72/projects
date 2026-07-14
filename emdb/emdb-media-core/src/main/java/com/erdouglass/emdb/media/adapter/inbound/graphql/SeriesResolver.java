@@ -8,7 +8,7 @@ import org.eclipse.microprofile.graphql.NonNull;
 import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Source;
 
-import com.erdouglass.emdb.media.application.port.inbound.series.SeriesQueryService;
+import com.erdouglass.emdb.media.application.port.inbound.series.QuerySeriesUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView;
 import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView.SeriesCredits;
 
@@ -16,14 +16,14 @@ import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView.Seri
 public class SeriesResolver {
   
   @Inject
-  SeriesQueryService service;
+  QuerySeriesUseCase queryUseCase;
 
   @Query("series") 
   public SeriesView findById(@Name("id") Long id) {
-    return service.findById(id);
+    return queryUseCase.findById(id);
   }
   
   public @NonNull SeriesCredits credits(@Source SeriesView series) {
-    return service.findCreditsBySeriesId(series.id());
+    return queryUseCase.findCreditsBySeriesId(series.id());
   }
 }

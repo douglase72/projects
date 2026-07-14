@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 import com.erdouglass.emdb.media.application.port.inbound.series.SeriesView.SeriesCredits;
 
-public interface SeriesQueryService {
+public interface QuerySeriesUseCase {
   
   SeriesCredits findCreditsBySeriesId(@NotNull @Positive Long id);
 

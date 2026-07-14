@@ -47,7 +47,7 @@ class HarrisonFordCrudIT {
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
-        .uri(UriBuilder.fromUri(TestHelper.MEDIA_URL).path("people").build())
+        .uri(UriBuilder.fromUri(TestHelper.PEOPLE_URL).build())
         .build(); 
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
