@@ -19,6 +19,19 @@ import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
+/// Application service implementing the write-side movie use cases.
+///
+/// The inside edge of the hexagon: this class *orchestrates* — mint the
+/// surrogate identity, assemble value objects from the raw command (which is
+/// where invariants fire), delegate persistence through the outbound port,
+/// shape the result — but it owns no business rules. If an `if` in here
+/// starts encoding movie behavior, it belongs in the domain model.
+///
+/// This is also the transaction boundary: `@Transactional` lives on the
+/// use-case method and nowhere else, so one command is one atomic unit
+/// regardless of how many outbound ports it touches.
+///
+/// Package-private on purpose: callers know only [SaveMovieUseCase].
 @ApplicationScoped
 class MovieService implements SaveMovieUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
@@ -30,15 +43,14 @@ class MovieService implements SaveMovieUseCase {
   @Override
   @Transactional
   public SaveResult save(SaveMovieCommand command) {
-    Movie movie = Movie.builder()
+    var movie = Movie.builder()
         .id(new MovieId(GENERATOR.generate()))
         .sourceId(new SourceId(Source.from(command.sourceId().source()), command.sourceId().id()))
         .title(new Title(command.title()))
         .releaseDate(new ReleaseDate(command.releaseDate()))
         .build();
-    Movie saved = repository.save(movie);
-    LOGGER.infof("Saved: %s", saved);
-    SaveResult result = new SaveResult(saved.publicId().toString(), saved.saveStatus());
-    return result;
+    var result = repository.save(movie);
+    LOGGER.infof("Saved: %s", result.movie());
+    return new SaveResult(result.movie().publicId().toString(), result.status());
   }
 }

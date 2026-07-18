@@ -2,7 +2,6 @@ package com.erdouglass.emdb.media.adapter.outbound.movie;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.PublicId;
@@ -24,14 +23,13 @@ class MovieMapper {
     return entity;
   }
   
-  public Movie toMovie(MovieEntity entity, Status status) {
+  public Movie toMovie(MovieEntity entity) {
     return Movie.builder()
         .id(new MovieId(entity.getId()))
         .publicId(new PublicId(entity.getPublicId()))
         .sourceId(new SourceId(Source.from(entity.getSource()), entity.getSourceId()))
         .title(new Title(entity.getTitle()))
         .releaseDate(new ReleaseDate(entity.getReleaseDate()))
-        .saveStatus(status)
         .build();
   }
 }

@@ -2,16 +2,31 @@ package com.erdouglass.emdb.media.domain.movie;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 
+/// Aggregate root for a movie in the media bounded context.
+///
+/// The consistency boundary of the write model: any rule spanning more than
+/// one of this movie's fields is enforced here (single-field rules live in
+/// the value objects, which arrive pre-validated). The class is pure Java by
+/// design — no framework import may ever appear in this package; persistence
+/// and transport shapes are the adapters' problem.
+///
+/// Identity: a Movie carries three identifiers with strictly separated jobs —
+/// [MovieId] (internal surrogate, never leaves the hexagon)
+/// [PublicId] (URL-facing, database-assigned)
+/// [SourceId] (external provenance, the upsert key). 
+/// Equality and hash are by [MovieId] alone: two snapshots of the same movie 
+/// are the same movie, whatever their state.
+///
+/// Construction flows through the [Builder], whose [Builder#build()] is the
+/// aggregate's validation chokepoint.
 public class Movie {
   private MovieId id;
   private PublicId publicId;
   private SourceId sourceId;
   private Title title;
   private ReleaseDate releaseDate;
-  private Status status;
   
   private Movie(Builder builder) {
     this.id = builder.id;
@@ -19,7 +34,6 @@ public class Movie {
     this.sourceId = builder.sourceId;
     this.title = builder.title;
     this.releaseDate = builder.releaseDate;
-    this.status = builder.status;
   }
   
   public static Builder builder() {
@@ -40,10 +54,6 @@ public class Movie {
   
   public SourceId sourceId() {
     return sourceId;
-  }
-  
-  public Status saveStatus() {
-    return status;
   }
   
   public Title title() {
@@ -83,7 +93,6 @@ public class Movie {
     private SourceId sourceId;
     private Title title;
     private ReleaseDate releaseDate;
-    private Status status;
     
     private Builder() {}
     
@@ -111,11 +120,6 @@ public class Movie {
     
     public Builder sourceId(SourceId sourceId) {
       this.sourceId = sourceId;
-      return this;
-    }
-    
-    public Builder saveStatus(Status status) {
-      this.status = status;
       return this;
     }
     

@@ -4,6 +4,11 @@ import java.time.LocalDate;
 
 import com.erdouglass.emdb.media.MediaConstants;
 
+/// A movie title: NFC-normalized, stripped, non-blank, length-bounded.
+///
+/// Normalizing in the compact constructor means equality is canonical —
+/// `"Amélie"` composed and decomposed are one value. Downstream code needs
+/// no blank/length checks: the type's existence is the guarantee.
 public record ReleaseDate(LocalDate value) {
 
   public ReleaseDate {

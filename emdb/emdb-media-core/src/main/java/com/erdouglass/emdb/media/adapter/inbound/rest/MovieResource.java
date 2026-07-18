@@ -15,6 +15,23 @@ import jakarta.ws.rs.core.UriInfo;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
 
+/// Driving adapter: translates HTTP into invocations of the write-side ports.
+///
+/// This class sits *outside* the hexagon. Its sole job is dialect translation:
+/// JSON and Bean Validation on the way in, status codes and the `Location`
+/// header on the way out. It is the only place on the write path where HTTP
+/// vocabulary may appear — and conversely, no HTTP type may escape it.
+///
+/// Boundary rules:
+///   - depends only on inbound ports ([SaveMovieUseCase]) and their
+///     command/result records — never on the application service, the domain
+///     model, or anything in `adapter.outbound`
+///   - holds no business rules; validation annotations here are transport
+///     hygiene, re-enforced authoritatively by the domain's value objects
+///   - package-private, so the adapter can never become anyone's dependency
+///
+/// Status mapping is the adapter's interpretation of the port-level fact
+/// [SaveResult.Status]: `CREATED` → 201 + `Location`, `UPDATED` → 200.
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

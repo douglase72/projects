@@ -5,6 +5,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/// External identity of a catalog item: which provider ([Source]) knows it,
+/// and by what id.
+///
+/// Lives in `domain.shared` as the context's shared kernel — the one identity
+/// vocabulary movies, people, and series all use. Doubles as the natural key
+/// for idempotent ingestion (see [MovieRepositoryPort#save]); uniqueness
+/// across aggregates is a cross-aggregate rule no single aggregate can
+/// enforce, so its ultimate guard is the database constraint.
 public record SourceId(Source source, String id) {
 
   public SourceId {
