@@ -2,15 +2,14 @@ package com.erdouglass.emdb.media;
 
 import java.time.LocalDate;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 
 public record SaveMovieCommand(
-    @NotNull @Valid SourceId sourceId,
+    @NotBlank String source,
+    @NotBlank String sourceId,
     @NotBlank @Size(max = MediaConstants.TITLE_MAX_LENGTH) String title,
     @DateRange(min = MediaConstants.MOVIE_MIN_DATE, max = MediaConstants.MAX_DATE) LocalDate releaseDate,
     @NotBlank @Size(min = MediaConstants.ISO_639_1_LENGTH, max = MediaConstants.ISO_639_1_LENGTH) String originalLanguage) {
@@ -20,7 +19,8 @@ public record SaveMovieCommand(
   }
   
   public static final class Builder {
-    private SourceId sourceId;
+    private String source;
+    private String sourceId;
     private LocalDate releaseDate;
     private String title;
     private String originalLanguage;
@@ -29,6 +29,7 @@ public record SaveMovieCommand(
 
     public SaveMovieCommand build() {
       return new SaveMovieCommand(
+          source,
           sourceId, 
           title, 
           releaseDate, 
@@ -40,8 +41,9 @@ public record SaveMovieCommand(
       return this;
     }
     
-    public Builder sourceId(SourceId sourceId) {
-      this.sourceId = sourceId;
+    public Builder sourceId(String source, String id) {
+      this.source = source;
+      this.sourceId = id;
       return this;
     }
     

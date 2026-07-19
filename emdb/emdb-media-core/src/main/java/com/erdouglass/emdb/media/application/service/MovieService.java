@@ -9,14 +9,15 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.application.port.outbound.MovieRepositoryPort;
+import com.erdouglass.emdb.media.SaveResult.Status;
+import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
 import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
-import com.erdouglass.emdb.media.domain.shared.Title;
 import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
+import com.erdouglass.emdb.media.domain.shared.Title;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
@@ -37,20 +38,28 @@ class MovieService implements SaveMovieUseCase {
   private static final Logger LOGGER = Logger.getLogger(MovieService.class);
   
   @Inject
-  MovieRepositoryPort repository;
+  MovieRepository repository;
   
   @Override
   @Transactional
   public SaveResult save(SaveMovieCommand command) {
     var movie = Movie.builder()
         .id(MovieId.of(GENERATOR.generate()))
-        .sourceId(SourceId.of(Source.from(command.sourceId().source()), command.sourceId().id()))
+        .sourceId(SourceId.of(Source.from(command.source()), command.sourceId()))
         .title(Title.of(command.title()))
         .releaseDate(ReleaseDate.of(command.releaseDate()))
         .originalLanguage(OriginalLanguage.of(command.originalLanguage()))
         .build();
-    var result = repository.save(movie);
-    LOGGER.infof("Saved: %s", result.movie());
-    return new SaveResult(result.movie().publicId().toString(), result.status());
+    var status = Status.CREATED;
+    var existing = repository.findBySourceId(command.source(), command.sourceId()).orElse(null);
+    if (existing == null) {
+      movie = repository.insert(movie);
+    } else {
+      existing.merge(command);
+      movie = repository.update(existing);
+      status = Status.UPDATED;
+    }
+    LOGGER.infof("Saved: %s", movie);
+    return new SaveResult(movie.publicId().toString(), status);
   }
 }

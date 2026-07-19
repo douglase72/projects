@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 ///
 /// Lives in `domain.shared` as the context's shared kernel — the one identity
 /// vocabulary movies, people, and series all use. Doubles as the natural key
-/// for idempotent ingestion (see [MovieRepositoryPort#save]); uniqueness
+/// for idempotent ingestion (see [MovieRepository#save]); uniqueness
 /// across aggregates is a cross-aggregate rule no single aggregate can
 /// enforce, so its ultimate guard is the database constraint.
 public record SourceId(Source source, String id) {

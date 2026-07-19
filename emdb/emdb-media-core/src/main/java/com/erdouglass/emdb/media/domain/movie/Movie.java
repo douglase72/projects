@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.domain.movie;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
@@ -24,11 +25,11 @@ import com.erdouglass.emdb.media.domain.shared.Title;
 /// are the same movie, whatever their state.
 public final class Movie {
   private final MovieId id;
-  private final PublicId publicId;
+  private PublicId publicId;
   private final SourceId sourceId;
-  private final Title title;
-  private final ReleaseDate releaseDate;
-  private final OriginalLanguage originalLanguage;
+  private Title title;
+  private ReleaseDate releaseDate;
+  private OriginalLanguage originalLanguage;
   
   private Movie(Builder builder) {
     this.id = builder.id;
@@ -45,6 +46,12 @@ public final class Movie {
   
   public MovieId id() {
     return id;
+  }
+  
+  public void merge(SaveMovieCommand command) {
+    this.title = Title.of(command.title());
+    this.releaseDate = ReleaseDate.of(command.releaseDate());
+    this.originalLanguage = OriginalLanguage.of(command.originalLanguage());
   }
   
   public OriginalLanguage originalLanguage() {

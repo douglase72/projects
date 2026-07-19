@@ -22,7 +22,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.SourceId;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -35,7 +34,7 @@ class BladeRunnerIT {
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {  
     var command = SaveMovieCommand.builder()
-        .sourceId(new SourceId("tmdb", "78"))
+        .sourceId("tmdb", "78")
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-06-25"))
         .originalLanguage("en")
@@ -57,7 +56,7 @@ class BladeRunnerIT {
   @Order(2)
   void testUpdateReleaseDate() throws IOException, InterruptedException {  
     var command = SaveMovieCommand.builder()
-        .sourceId(new SourceId("tmdb", "78"))
+        .sourceId("tmdb", "78")
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-10-04"))
         .originalLanguage("en")

@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.domain.movie;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import com.erdouglass.emdb.media.domain.shared.PublicId;
@@ -13,9 +14,7 @@ import com.erdouglass.emdb.media.domain.shared.PublicId;
 public record MovieId(UUID value) {
 
   public MovieId {
-    if (value == null) {
-      throw new IllegalArgumentException("movie id must not be null");
-    }
+    Objects.requireNonNull(value, "movie id must not be null");
   }
   
   public static MovieId of(UUID id) {

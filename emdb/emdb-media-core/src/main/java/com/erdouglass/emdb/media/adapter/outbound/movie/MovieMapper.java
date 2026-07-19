@@ -17,6 +17,7 @@ class MovieMapper {
   
   public MovieEntity toMovieEntity(Movie movie) {
     var entity = new MovieEntity(movie.id().value());
+    entity.setPublicId(movie.publicId().map(PublicId::value).orElse(null));
     entity.setSource(movie.sourceId().source().toString());
     entity.setSourceId(movie.sourceId().id());
     entity.setTitle(movie.title().value());

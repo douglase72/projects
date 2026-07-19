@@ -10,7 +10,7 @@ import jakarta.data.repository.Update;
 
 /// Jakarta Data repository over the movie table — an internal *tool* of the
 /// persistence adapter, not the DDD repository. That role belongs to
-/// [MovieRepositoryPort]; this interface is typed in [MovieEntity] and spec
+/// [MovieRepository]; this interface is typed in [MovieEntity] and spec
 /// annotations, which is exactly why it must stay package-private and below
 /// the port.
 ///
@@ -18,7 +18,7 @@ import jakarta.data.repository.Update;
 /// nothing is managed, nothing cascades, and updates are explicit — the
 /// adapter above compensates accordingly.
 @Repository(dataStore = "media")
-interface MovieRepository {
+interface MovieCrudRepository {
 
   @Insert
   MovieEntity insert(MovieEntity entity);

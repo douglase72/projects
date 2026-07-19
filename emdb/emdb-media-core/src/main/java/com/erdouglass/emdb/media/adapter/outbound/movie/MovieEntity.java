@@ -88,6 +88,10 @@ class MovieEntity {
     return originalLanguage;
   }
   
+  public void setPublicId(Long publicId) {
+    this.publicId = publicId;
+  }
+  
   public Long getPublicId() {
     return publicId;
   }

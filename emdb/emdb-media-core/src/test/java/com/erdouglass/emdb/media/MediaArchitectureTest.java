@@ -71,22 +71,6 @@ class MediaArchitectureTest {
       .matching("..media.domain.(*)..").namingSlices("aggregate '$1'")
       .should().notDependOnEachOther()
       .ignoreDependency(alwaysTrue(), resideInAPackage("..media.domain.shared.."));
-
-  /*
-  @ArchTest
-  static final ArchRule repositories_are_domain_interfaces = classes()
-      .that().areMetaAnnotatedWith("jakarta.data.repository.Repository")
-      .or().areAnnotatedWith("jakarta.data.repository.Repository")
-      .should().beInterfaces()
-      .andShould().resideInAPackage("..media.domain..");
-  */
-
-  /*
-  @ArchTest
-  static final ArchRule ports_hold_no_beans = noClasses()
-      .that().resideInAPackage("..media.application.port..")
-      .should().beAnnotatedWith("jakarta.enterprise.context.ApplicationScoped");
-  */
   
   @ArchTest
   static final ArchRule web_tech_stays_in_adapters = noClasses()
