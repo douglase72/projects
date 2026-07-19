@@ -10,6 +10,7 @@ import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.Title;
+import com.erdouglass.emdb.media.domain.shared.Version;
 import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
 
 @ApplicationScoped
@@ -20,6 +21,7 @@ class MovieMapper {
     entity.setPublicId(movie.publicId().map(PublicId::value).orElse(null));
     entity.setSource(movie.sourceId().source().toString());
     entity.setSourceId(movie.sourceId().id());
+    entity.setVersion(movie.version().map(Version::value).orElse(0L));
     entity.setTitle(movie.title().value());
     entity.setReleaseDate(movie.releaseDate().map(ReleaseDate::value).orElse(null));
     entity.setOriginalLanguage(movie.originalLanguage().toString());
@@ -31,6 +33,7 @@ class MovieMapper {
         .id(MovieId.of(entity.getId()))
         .publicId(PublicId.of(MediaType.MOVIE, entity.getPublicId()))
         .sourceId(SourceId.of(Source.from(entity.getSource()), entity.getSourceId()))
+        .version(Version.of(entity.getVersion()))
         .title(Title.of(entity.getTitle()))
         .releaseDate(ReleaseDate.of(entity.getReleaseDate()))
         .originalLanguage(OriginalLanguage.of(entity.getOriginalLanguage()))

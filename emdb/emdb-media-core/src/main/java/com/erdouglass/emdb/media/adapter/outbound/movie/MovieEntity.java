@@ -11,13 +11,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Version;
 
 import com.erdouglass.emdb.media.MediaConstants;
-import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 
-/// Persistence model of a movie row. Emphatically *not* the domain [Movie].
+/// Persistence model of a movie row.
 ///
 /// This class belongs to the adapter and is shaped by the database, not the
 /// ubiquitous language: flat columns, mutable, no behavior. The separation is
@@ -69,6 +69,9 @@ class MovieEntity {
   
   @Column(nullable = false, length = MediaConstants.TITLE_MAX_LENGTH)
   private String title;
+  
+  @Version
+  private long version;
   
   MovieEntity() {}
   
@@ -126,7 +129,15 @@ class MovieEntity {
 
   public String getTitle() {
     return title;
-  }    
+  } 
+  
+  public void setVersion(long version) {
+    this.version = version;
+  }
+  
+  public Long getVersion() {
+    return version;
+  }
   
   @Override
   public String toString() {
@@ -134,6 +145,7 @@ class MovieEntity {
         + ", publicId=" + getPublicId()
         + ", source=" + getSource()
         + ", sourceId=" + getSourceId()
+        + ", version=" + getVersion()
         + ", title=" + getTitle() 
         + ", releaseDate=" + getReleaseDate()
         + "]";

@@ -9,6 +9,7 @@
         source varchar(16) not null,
         source_id varchar(64) not null,
         title varchar(140) not null,
+        version bigint not null,
         primary key (public_id),
         constraint uq_movie_source unique (source, source_id),
         constraint uq_movie_uuid unique (id)

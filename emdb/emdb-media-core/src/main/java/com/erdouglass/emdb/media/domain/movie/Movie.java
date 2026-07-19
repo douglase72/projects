@@ -8,6 +8,7 @@ import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.Title;
+import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// Aggregate root for a movie in the media bounded context.
 ///
@@ -30,6 +31,7 @@ public final class Movie {
   private Title title;
   private ReleaseDate releaseDate;
   private OriginalLanguage originalLanguage;
+  private Version version;
   
   private Movie(Builder builder) {
     this.id = builder.id;
@@ -38,6 +40,7 @@ public final class Movie {
     this.title = builder.title;
     this.releaseDate = builder.releaseDate;
     this.originalLanguage = builder.originalLanguage;
+    this.version = builder.version;
   }
   
   public static Builder builder() {
@@ -72,7 +75,11 @@ public final class Movie {
   
   public Title title() {
     return title;
-  }  
+  }
+  
+  public Optional<Version> version() {
+    return Optional.ofNullable(version);
+  }
   
   @Override
   public int hashCode() {
@@ -96,6 +103,7 @@ public final class Movie {
     return getClass().getSimpleName() + "[id=" + id
         + ", publicId=" + publicId
         + ", sourceId=" + sourceId
+        + ", version=" + version
         + ", title=" + title
         + ", releaseDate=" + releaseDate
         + "]";
@@ -108,6 +116,7 @@ public final class Movie {
     private Title title;
     private ReleaseDate releaseDate;
     private OriginalLanguage originalLanguage;
+    private Version version;
     
     private Builder() {}
     
@@ -146,6 +155,11 @@ public final class Movie {
     
     public Builder title(Title title) {
       this.title = title;
+      return this;
+    }
+    
+    public Builder version(Version version) {
+      this.version = version;
       return this;
     }
   }
