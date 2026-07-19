@@ -12,7 +12,8 @@ import com.erdouglass.common.validation.DateRange;
 public record SaveMovieCommand(
     @NotNull @Valid SourceId sourceId,
     @NotBlank @Size(max = MediaConstants.TITLE_MAX_LENGTH) String title,
-    @DateRange(min = MediaConstants.MOVIE_MIN_DATE, max = MediaConstants.MAX_DATE) LocalDate releaseDate) {
+    @DateRange(min = MediaConstants.MOVIE_MIN_DATE, max = MediaConstants.MAX_DATE) LocalDate releaseDate,
+    @NotBlank @Size(min = MediaConstants.ISO_639_1_LENGTH, max = MediaConstants.ISO_639_1_LENGTH) String originalLanguage) {
 
   public static Builder builder() {
     return new Builder();
@@ -22,11 +23,21 @@ public record SaveMovieCommand(
     private SourceId sourceId;
     private LocalDate releaseDate;
     private String title;
+    private String originalLanguage;
     
     private Builder() {}
 
     public SaveMovieCommand build() {
-      return new SaveMovieCommand(sourceId, title, releaseDate);
+      return new SaveMovieCommand(
+          sourceId, 
+          title, 
+          releaseDate, 
+          originalLanguage);
+    }
+    
+    public Builder originalLanguage(final String originalLanguage) {
+      this.originalLanguage =originalLanguage;
+      return this;
     }
     
     public Builder sourceId(SourceId sourceId) {

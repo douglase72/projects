@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.domain.movie;
+package com.erdouglass.emdb.media.domain.shared;
 
 import java.text.Normalizer;
 
@@ -18,6 +18,10 @@ public record Title(String value) {
       throw new IllegalArgumentException(
           "title must not exceed %d characters".formatted(MediaConstants.TITLE_MAX_LENGTH));
     }
+  }
+  
+  public static Title of(String title) {
+    return new Title(title);
   }
   
   @Override

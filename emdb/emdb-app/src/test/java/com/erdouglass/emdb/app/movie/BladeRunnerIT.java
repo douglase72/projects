@@ -38,6 +38,7 @@ class BladeRunnerIT {
         .sourceId(new SourceId("tmdb", "78"))
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-06-25"))
+        .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
@@ -49,7 +50,7 @@ class BladeRunnerIT {
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
     movieId = result.id();
-    LOGGER.infof("Saved %s: Blade Runner in %d ms", movieId, et);
+    LOGGER.infof("Saved %s (Blade Runner) in %d ms", movieId, et);
   }
   
   @Test
@@ -59,6 +60,7 @@ class BladeRunnerIT {
         .sourceId(new SourceId("tmdb", "78"))
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-10-04"))
+        .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
@@ -68,6 +70,6 @@ class BladeRunnerIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());    
-    LOGGER.infof("Updated release date in %d ms", et);
+    LOGGER.infof("Updated %s (Blade Runner) in %d ms", movieId, et);
   }  
 }

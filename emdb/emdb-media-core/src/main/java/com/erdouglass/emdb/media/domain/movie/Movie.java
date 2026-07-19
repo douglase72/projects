@@ -1,8 +1,12 @@
 package com.erdouglass.emdb.media.domain.movie;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
+import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
+import com.erdouglass.emdb.media.domain.shared.Title;
 
 /// Aggregate root for a movie in the media bounded context.
 ///
@@ -18,15 +22,13 @@ import com.erdouglass.emdb.media.domain.shared.SourceId;
 /// [SourceId] (external provenance, the upsert key). 
 /// Equality and hash are by [MovieId] alone: two snapshots of the same movie 
 /// are the same movie, whatever their state.
-///
-/// Construction flows through the [Builder], whose [Builder#build()] is the
-/// aggregate's validation chokepoint.
-public class Movie {
-  private MovieId id;
-  private PublicId publicId;
-  private SourceId sourceId;
-  private Title title;
-  private ReleaseDate releaseDate;
+public final class Movie {
+  private final MovieId id;
+  private final PublicId publicId;
+  private final SourceId sourceId;
+  private final Title title;
+  private final ReleaseDate releaseDate;
+  private final OriginalLanguage originalLanguage;
   
   private Movie(Builder builder) {
     this.id = builder.id;
@@ -34,6 +36,7 @@ public class Movie {
     this.sourceId = builder.sourceId;
     this.title = builder.title;
     this.releaseDate = builder.releaseDate;
+    this.originalLanguage = builder.originalLanguage;
   }
   
   public static Builder builder() {
@@ -44,12 +47,16 @@ public class Movie {
     return id;
   }
   
-  public PublicId publicId() {
-    return publicId;
+  public OriginalLanguage originalLanguage() {
+    return originalLanguage;
   }
   
-  public ReleaseDate releaseDate() {
-    return releaseDate;
+  public Optional<PublicId> publicId() {
+    return Optional.ofNullable(publicId);
+  }
+  
+  public Optional<ReleaseDate> releaseDate() {
+    return Optional.ofNullable(releaseDate);
   }
   
   public SourceId sourceId() {
@@ -83,7 +90,7 @@ public class Movie {
         + ", publicId=" + publicId
         + ", sourceId=" + sourceId
         + ", title=" + title
-        + ", relaseDate=" + releaseDate
+        + ", releaseDate=" + releaseDate
         + "]";
   }
   
@@ -93,6 +100,7 @@ public class Movie {
     private SourceId sourceId;
     private Title title;
     private ReleaseDate releaseDate;
+    private OriginalLanguage originalLanguage;
     
     private Builder() {}
     
@@ -100,6 +108,7 @@ public class Movie {
       Objects.requireNonNull(id, "id must not be null");
       Objects.requireNonNull(sourceId, "sourceId must not be null");
       Objects.requireNonNull(title, "title must not be null");
+      Objects.requireNonNull(originalLanguage, "originalLanguage must not be null");
       return new Movie(this);
     }
     
@@ -110,6 +119,11 @@ public class Movie {
         
     public Builder publicId(PublicId publicId) {
       this.publicId = publicId;
+      return this;
+    }
+    
+    public Builder originalLanguage(OriginalLanguage originalLanguage) {
+      this.originalLanguage = originalLanguage;
       return this;
     }
     

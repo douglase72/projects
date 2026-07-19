@@ -2,6 +2,8 @@ package com.erdouglass.emdb.media.domain.movie;
 
 import java.util.UUID;
 
+import com.erdouglass.emdb.media.domain.shared.PublicId;
+
 /// Internal surrogate identity of a [Movie].
 ///
 /// Application-generated (UUIDv7), used for persistence joins and nothing
@@ -14,6 +16,10 @@ public record MovieId(UUID value) {
     if (value == null) {
       throw new IllegalArgumentException("movie id must not be null");
     }
+  }
+  
+  public static MovieId of(UUID id) {
+    return new MovieId(id);
   }
 
   @Override

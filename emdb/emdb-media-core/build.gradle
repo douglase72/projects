@@ -29,6 +29,7 @@ dependencies {
   testImplementation enforcedPlatform(libs.quarkus.bom)
   testImplementation libs.archunit.junit5
   testRuntimeOnly    libs.junit.platform.launcher
+  testImplementation libs.quarkus.junit
 }
 
 def archTest = tasks.register('archTest', Test) {

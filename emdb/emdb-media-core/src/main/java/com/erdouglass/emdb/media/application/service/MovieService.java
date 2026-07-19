@@ -13,8 +13,9 @@ import com.erdouglass.emdb.media.application.port.outbound.MovieRepositoryPort;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
-import com.erdouglass.emdb.media.domain.movie.Title;
+import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
+import com.erdouglass.emdb.media.domain.shared.Title;
 import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
@@ -30,8 +31,6 @@ import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 /// This is also the transaction boundary: `@Transactional` lives on the
 /// use-case method and nowhere else, so one command is one atomic unit
 /// regardless of how many outbound ports it touches.
-///
-/// Package-private on purpose: callers know only [SaveMovieUseCase].
 @ApplicationScoped
 class MovieService implements SaveMovieUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
@@ -44,10 +43,11 @@ class MovieService implements SaveMovieUseCase {
   @Transactional
   public SaveResult save(SaveMovieCommand command) {
     var movie = Movie.builder()
-        .id(new MovieId(GENERATOR.generate()))
-        .sourceId(new SourceId(Source.from(command.sourceId().source()), command.sourceId().id()))
-        .title(new Title(command.title()))
-        .releaseDate(new ReleaseDate(command.releaseDate()))
+        .id(MovieId.of(GENERATOR.generate()))
+        .sourceId(SourceId.of(Source.from(command.sourceId().source()), command.sourceId().id()))
+        .title(Title.of(command.title()))
+        .releaseDate(ReleaseDate.of(command.releaseDate()))
+        .originalLanguage(OriginalLanguage.of(command.originalLanguage()))
         .build();
     var result = repository.save(movie);
     LOGGER.infof("Saved: %s", result.movie());

@@ -24,6 +24,10 @@ public record SourceId(Source source, String id) {
     }
   }
   
+  public static SourceId of(Source source, String id) {
+    return new SourceId(source, id);
+  }
+  
   public enum Source {
     IMDB("imdb"),
     OMDB("omdb"),

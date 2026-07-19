@@ -25,6 +25,10 @@ public record ReleaseDate(LocalDate value) {
     }    
   }
   
+  public static ReleaseDate of(LocalDate releaseDate) {
+    return new ReleaseDate(releaseDate);
+  }
+  
   @Override
   public String toString() {
     return value.toString();

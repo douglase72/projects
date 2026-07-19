@@ -1,14 +1,15 @@
 
+    create sequence emdb_media.movie_sequence start with 1 increment by 1;
 
     create table emdb_media.movie (
-        id uuid      not null,
-        public_id    bigint generated always as identity,
-        source       varchar(16) not null,
-        source_id    varchar(64) not null,
+        public_id bigint not null,
+        id uuid not null,
+        original_language varchar(2) not null,
         release_date date,
-        title        varchar(140) not null,
-        constraint uq_movie_public_id unique (public_id),
+        source varchar(16) not null,
+        source_id varchar(64) not null,
+        title varchar(140) not null,
+        primary key (public_id),
         constraint uq_movie_source unique (source, source_id),
-        constraint ck_movie_source check (source IN ('imdb','omdb','tmdb','trakt')),
-        primary key (id)
-    );    
+        constraint uq_movie_uuid unique (id)
+    );

@@ -7,7 +7,8 @@ import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.application.port.outbound.MovieRepositoryPort;
 import com.erdouglass.emdb.media.application.port.outbound.SaveStatus;
 import com.erdouglass.emdb.media.domain.movie.Movie;
-import com.erdouglass.emdb.media.domain.movie.PublicId;
+import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
+import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 
 /// Driven adapter implementing [MovieRepositoryPort] over Jakarta Data.
@@ -39,8 +40,7 @@ class MoviePersistenceAdapter implements MovieRepositoryPort {
     var sid = movie.sourceId();
     var existing = repository.findBySourceId(sid.source().toString(), sid.id()).orElse(null);
     if (existing == null) {
-      repository.insert(mapper.toMovieEntity(movie));
-      saved = repository.findById(movie.id().value()).orElseThrow();
+      saved = repository.insert(mapper.toMovieEntity(movie));
     } else {
       merge(movie, existing);
       saved = repository.update(existing);
@@ -50,7 +50,8 @@ class MoviePersistenceAdapter implements MovieRepositoryPort {
   }
   
   public void merge(Movie movie, MovieEntity entity) {
-    entity.setReleaseDate(movie.releaseDate().value());
-    entity.setTitle(movie.title().value());
+    entity.setReleaseDate(movie.releaseDate().map(ReleaseDate::value).orElse(null));
+    entity.setTitle(movie.title().toString());
+    entity.setOriginalLanguage(movie.originalLanguage().toString());
   }
 }
