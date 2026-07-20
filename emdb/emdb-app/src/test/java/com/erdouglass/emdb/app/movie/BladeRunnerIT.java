@@ -22,6 +22,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.adapter.inbound.rest.UpdateMovieCommand;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -29,6 +31,7 @@ class BladeRunnerIT {
   private static final Logger LOGGER = Logger.getLogger(BladeRunnerIT.class);
   
   private String movieId;
+  private Long version;
   
   @Test
   @Order(1)
@@ -49,12 +52,13 @@ class BladeRunnerIT {
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
     movieId = result.id();
+    version = result.version();
     LOGGER.infof("Saved %s (Blade Runner) in %d ms", movieId, et);
   }
   
   @Test
   @Order(2)
-  void testUpdateReleaseDate() throws IOException, InterruptedException {  
+  void testSaveReleaseDate() throws IOException, InterruptedException {  
     var command = SaveMovieCommand.builder()
         .sourceId("tmdb", "78")
         .title("Blade Runner")
@@ -68,7 +72,53 @@ class BladeRunnerIT {
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());    
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());  
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
+    version = result.version();
+    LOGGER.infof("Saved %s (Blade Runner) in %d ms", movieId, et);
+  }
+  
+  @Test
+  @Order(3)
+  void testUpdateReleaseDate() throws IOException, InterruptedException {  
+    var command = UpdateMovieCommand.builder()
+        .version(version)
+        .title("Blade Runner")
+        .releaseDate(LocalDate.parse("1982-06-25"))
+        .originalLanguage("en")
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResult.class);
+    version = result.version();
     LOGGER.infof("Updated %s (Blade Runner) in %d ms", movieId, et);
+  }  
+  
+  @Test
+  @Order(4)
+  void testUpdateTitle() throws IOException, InterruptedException {  
+    var command = UpdateMovieCommand.builder()
+        .version(version)
+        .title("Blade Runner: Directors Cut")
+        .releaseDate(LocalDate.parse("1982-06-25"))
+        .originalLanguage("en")
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResult.class);
+    version = result.version();
+    LOGGER.infof("Updated %s (Blade Runner: Directors Cut) in %d ms", movieId, et);
   }  
 }

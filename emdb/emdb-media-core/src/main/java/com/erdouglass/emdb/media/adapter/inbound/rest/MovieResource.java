@@ -2,10 +2,13 @@ package com.erdouglass.emdb.media.adapter.inbound.rest;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -14,6 +17,9 @@ import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
+import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
 
 /// Driving adapter: translates HTTP into invocations of the write-side ports.
 ///
@@ -40,6 +46,9 @@ class MovieResource {
   @Inject
   SaveMovieUseCase saveUseCase;
   
+  @Inject
+  UpdateMovieUseCase updateUseCase;
+  
   @POST
   public Response save(@NotNull @Valid SaveMovieCommand command, @Context UriInfo uriInfo) {
     var result = saveUseCase.save(command);
@@ -50,5 +59,12 @@ class MovieResource {
           .build();
       case UPDATED -> Response.ok(result).build();
     };
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public UpdateResult update(
+      @NotBlank @PathParam("id") String id, @NotNull @Valid UpdateMovieCommand command) {
+    return updateUseCase.update(id, command);    
   }
 }

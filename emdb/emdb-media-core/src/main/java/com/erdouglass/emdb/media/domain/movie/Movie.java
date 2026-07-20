@@ -13,17 +13,25 @@ import com.erdouglass.emdb.media.domain.shared.Version;
 /// Aggregate root for a movie in the media bounded context.
 ///
 /// The consistency boundary of the write model: any rule spanning more than
-/// one of this movie's fields is enforced here (single-field rules live in
-/// the value objects, which arrive pre-validated). The class is pure Java by
-/// design — no framework import may ever appear in this package; persistence
-/// and transport shapes are the adapters' problem.
+/// one of this movie's fields is enforced here. Single-field rules live in
+/// the value objects — pre-built and validated when they arrive through the
+/// [Builder], constructed *inside* the mutators when raw command fields
+/// arrive, so invariants fire within the boundary either way. The class is
+/// pure Java by design — no framework import may ever appear in this
+/// package; persistence and transport shapes are the adapters' problem.
 ///
 /// Identity: a Movie carries three identifiers with strictly separated jobs —
 /// [MovieId] (internal surrogate, never leaves the hexagon)
 /// [PublicId] (URL-facing, database-assigned)
-/// [SourceId] (external provenance, the upsert key). 
-/// Equality and hash are by [MovieId] alone: two snapshots of the same movie 
+/// [SourceId] (external provenance, the upsert key).
+/// Equality and hash are by [MovieId] alone: two snapshots of the same movie
 /// are the same movie, whatever their state.
+///
+/// Lifecycle: [PublicId] and [Version] are facts about a *persisted*
+/// snapshot, minted by the database and the optimistic-lock machinery. A
+/// never-persisted Movie legitimately has neither — both are `Optional` and
+/// absent from [Builder#build]'s required set, because absence means "not
+/// yet persisted" and no placeholder is honest.
 public final class Movie {
   private final MovieId id;
   private PublicId publicId;
@@ -51,20 +59,43 @@ public final class Movie {
     return id;
   }
   
+  /// Sync mutation: replaces content with the latest truth from an external
+  /// source. Deliberately does *not* touch [Version] — the loaded version
+  /// flows through to persistence unchanged, so the optimistic guard covers
+  /// only the in-flight race between this transaction's read and write.
+  /// Sync carries no stale snapshot to defend against. Contrast
+  /// [#merge(UpdateMovie)].
   public void merge(SaveMovieCommand command) {
     this.title = Title.of(command.title());
     this.releaseDate = ReleaseDate.of(command.releaseDate());
     this.originalLanguage = OriginalLanguage.of(command.originalLanguage());
   }
   
+  /// Edit mutation: applies a human revision composed against a specific
+  /// snapshot. Stamps the caller's *claimed* version over the loaded one,
+  /// so the persistence layer's `WHERE version = ?` enforces the invariant
+  /// that an edit is only valid against the snapshot it was made from — a
+  /// stale claim fails the update rather than silently winning. Contrast
+  /// [#merge(SaveMovieCommand)], which trusts what it loaded.
+  public void merge(UpdateMovie command) {
+    this.version = Version.of(command.version());
+    this.title = Title.of(command.title());
+    this.releaseDate = ReleaseDate.of(command.releaseDate());
+    this.originalLanguage = OriginalLanguage.of(command.originalLanguage());    
+  }
+  
   public OriginalLanguage originalLanguage() {
     return originalLanguage;
   }
   
+  /// URL-facing identity, database-assigned. Empty exactly when this
+  /// aggregate has never been persisted.
   public Optional<PublicId> publicId() {
     return Optional.ofNullable(publicId);
   }
   
+  /// Empty when the date is genuinely unknown — unlike [#publicId()] and
+  /// [#version()], absence here is missing data, not a lifecycle state.
   public Optional<ReleaseDate> releaseDate() {
     return Optional.ofNullable(releaseDate);
   }
@@ -77,6 +108,8 @@ public final class Movie {
     return title;
   }
   
+  /// Optimistic-concurrency snapshot marker. Empty exactly when never
+  /// persisted; thereafter always present, bumped by every successful update.
   public Optional<Version> version() {
     return Optional.ofNullable(version);
   }
@@ -120,6 +153,12 @@ public final class Movie {
     
     private Builder() {}
     
+    /// Validates the required set — identity, provenance, title, language —
+    /// and assembles the aggregate. [PublicId] and [Version] are deliberately
+    /// not required (absent until first persistence); release date is
+    /// optional data.
+    ///
+    /// @throws NullPointerException if a required field was not supplied
     public Movie build() {
       Objects.requireNonNull(id, "id must not be null");
       Objects.requireNonNull(sourceId, "sourceId must not be null");

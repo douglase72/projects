@@ -30,5 +30,8 @@ interface MovieCrudRepository {
   Optional<MovieEntity> findById(UUID id);
   
   @Find
+  Optional<MovieEntity> findByPublicId(Long publicId);
+  
+  @Find
   Optional<MovieEntity> findBySourceId(String source, String sourceId);
 }

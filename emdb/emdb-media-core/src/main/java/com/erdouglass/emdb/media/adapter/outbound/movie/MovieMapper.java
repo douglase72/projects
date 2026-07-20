@@ -13,9 +13,19 @@ import com.erdouglass.emdb.media.domain.shared.Title;
 import com.erdouglass.emdb.media.domain.shared.Version;
 import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
 
+/// The translation toll between [Movie] and [MovieEntity], paid both ways
+/// on every repository call.
+///
+/// The mapping must stay *total*: a field that round-trips one way only
+/// fails silently, and version is the canary — dropped from [#toMovie], the
+/// adapter would send `WHERE version = 0` forever: right exactly once per
+/// row, then phantom conflicts from the second write on.
 @ApplicationScoped
 class MovieMapper {
   
+  /// Aggregate → row. The `orElse(0L)` is the insert seed and only executes
+  /// for never-persisted aggregates; both update paths arrive with a
+  /// version present.
   public MovieEntity toMovieEntity(Movie movie) {
     var entity = new MovieEntity(movie.id().value());
     entity.setPublicId(movie.publicId().map(PublicId::value).orElse(null));
@@ -28,6 +38,8 @@ class MovieMapper {
     return entity;
   }
   
+  /// Row → aggregate: total reconstitution, including the lifecycle facts
+  /// ([PublicId], [Version]) that exist only because the row does.
   public Movie toMovie(MovieEntity entity) {
     return Movie.builder()
         .id(MovieId.of(entity.getId()))

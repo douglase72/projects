@@ -2,6 +2,9 @@ package com.erdouglass.emdb.media.domain.shared;
 
 import java.util.Objects;
 
+/// Optimistic-concurrency snapshot number of an aggregate. Opaque outside
+/// the persistence machinery: compared for equality, never computed —
+/// nothing in the domain may derive "next".
 public record Version(Long value) {
 
   public Version {

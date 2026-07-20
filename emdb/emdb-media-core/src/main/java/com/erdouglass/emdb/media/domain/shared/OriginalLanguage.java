@@ -3,6 +3,8 @@ package com.erdouglass.emdb.media.domain.shared;
 import java.util.Locale;
 import java.util.Objects;
 
+/// ISO 639-1 language code, canonicalized to lowercase on construction —
+/// `"EN"`, `" en "`, and `"en"` are one value inside the hexagon.
 public record OriginalLanguage(String code) {
 
   public OriginalLanguage {

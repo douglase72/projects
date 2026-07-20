@@ -1,18 +1,14 @@
 package com.erdouglass.emdb.media;
 
 import static com.tngtech.archunit.base.DescribedPredicate.alwaysTrue;
-import static com.tngtech.archunit.base.DescribedPredicate.not;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAnyPackage;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
-import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 import java.util.regex.Pattern;
 
-import com.tngtech.archunit.base.DescribedPredicate;
-import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.core.importer.Location;
 import com.tngtech.archunit.junit.AnalyzeClasses;
@@ -24,60 +20,71 @@ import com.tngtech.archunit.lang.ArchRule;
     importOptions = { ImportOption.DoNotIncludeTests.class,
                       MediaArchitectureTest.ExcludeGenerated.class })
 class MediaArchitectureTest {
-  private static final DescribedPredicate<JavaClass> GRAPHQL_NONNULL =
-      DescribedPredicate.describe("GraphQL @NonNull annotation",
-          c -> c.getName().equals("org.eclipse.microprofile.graphql.NonNull"));  
   
-  /** Coarse direction: adapter → application → domain. Dependencies outside the
-   *  three layers (the api module, jakarta.*) are deliberately out of scope here —
-   *  domain → api is legal (ShowStatus, SaveMovie), finer rules handle the rest. */
-  /*
+  /// "No framework import may ever appear in this package" — Movie's javadoc,
+  /// made mechanical. Whitelist, not blacklist: the domain may see itself and
+  /// the JDK; everything else fails by default, no enumeration to keep current.
   @ArchTest
-  static final ArchRule layers = layeredArchitecture()
-      .consideringOnlyDependenciesInLayers()
-      .layer("Adapter").definedBy("..media.adapter..")
-      .layer("Application").definedBy("..media.application..")
-      .layer("Domain").definedBy("..media.domain..")
-      .whereLayer("Adapter").mayNotBeAccessedByAnyLayer()
-      .whereLayer("Application").mayOnlyBeAccessedByLayers("Adapter")
-      .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application");
-  */
-  
-  @ArchTest
-  static final ArchRule domain_purity = noClasses()
+  static final ArchRule domain_speaks_only_domain_and_jdk = classes()
       .that().resideInAPackage("..media.domain..")
-      .should().dependOnClassesThat(
-          resideInAnyPackage("org.hibernate..", "io.quarkus..", "com.fasterxml.jackson..",
-                             "..media.application..", "..media.adapter..")
-              .and(not(resideInAPackage("org.hibernate.annotations.."))));
+      .should().onlyDependOnClassesThat(
+          resideInAnyPackage("..media.domain..", "..emdb.media..", "java.."));
   
-  /** Adapters drive through ports: MovieResource injects MovieCommandService,
-   *  never MovieService, and never touches an aggregate — Views exist so it
-   *  doesn't have to. */
-  /*
-  @ArchTest
-  static final ArchRule adapters_use_ports_only = noClasses()
-      .that().resideInAPackage("..media.adapter..")
-      .should().dependOnClassesThat().resideInAnyPackage(
-          "..media.application.service..", "..media.domain..");
-  */
-  
-  /** Aggregates reference each other by id (PersonId from the api module), never
-   *  by object reference. Adding @ManyToOne Person to MovieCredit fails the build.
-   *  Everyone may lean on domain.shared (MediaEntity, ExternalId); shared leans
-   *  on no aggregate — the un-ignored direction still catches that. */
+  /// Unchanged. The asymmetric ignore is deliberate: anyone may lean on the
+  /// shared kernel; the kernel may lean on no aggregate.
   @ArchTest
   static final ArchRule aggregates_are_isolated = slices()
       .matching("..media.domain.(*)..").namingSlices("aggregate '$1'")
       .should().notDependOnEachOther()
       .ignoreDependency(alwaysTrue(), resideInAPackage("..media.domain.shared.."));
   
+  /// The dependency-inversion seam: arrows point inward, so nothing inside
+  /// the hexagon may ever name an adapter type.
   @ArchTest
-  static final ArchRule web_tech_stays_in_adapters = noClasses()
+  static final ArchRule hexagon_never_sees_an_adapter = noClasses()
       .that().resideOutsideOfPackage("..media.adapter..")
-      .should().dependOnClassesThat(
-          resideInAnyPackage("jakarta.ws.rs..", "org.eclipse.microprofile.graphql..")
-              .and(not(GRAPHQL_NONNULL)));
+      .should().dependOnClassesThat().resideInAPackage("..media.adapter..");
+  
+  /// MovieResource's "never on anything in adapter.outbound", generalized:
+  /// adapters compose through ports, never through each other.
+  @ArchTest
+  static final ArchRule adapters_do_not_know_each_other = slices()
+      .matching("..media.adapter.(**)").namingSlices("adapter '$1'")
+      .should().notDependOnEachOther();
+  
+  /// "The only place on the write path where HTTP vocabulary may appear."
+  /// Also the regression test for jakarta.ws.rs.NotFoundException escaping
+  /// into the service.
+  @ArchTest
+  static final ArchRule http_stays_in_the_rest_adapter = noClasses()
+      .that().resideOutsideOfPackage("..media.adapter.inbound.rest..")
+      .should().dependOnClassesThat().resideInAPackage("jakarta.ws.rs..");
+  
+  /// "No entity, SQL, or Jakarta Data type may appear in [port] signatures",
+  /// widened to the whole vocabulary. This is also what pins the exception
+  /// translation where we decided it goes: catching
+  /// OptimisticLockingFailureException in the service would name jakarta.data
+  /// and fail here — the adapter must translate to StaleVersionException.
+  @ArchTest
+  static final ArchRule persistence_stays_in_its_adapter = noClasses()
+      .that().resideOutsideOfPackage("..media.adapter.outbound..")
+      .should().dependOnClassesThat()
+      .resideInAnyPackage("jakarta.persistence..", "jakarta.data..", "org.hibernate..");
+
+  /// "@Transactional lives on the use-case methods and nowhere else." Same
+  /// containment shape: transaction vocabulary is the service's dialect.
+  @ArchTest
+  static final ArchRule transactions_begin_in_the_service = noClasses()
+      .that().resideOutsideOfPackage("..media.application.service..")
+      .should().dependOnClassesThat().resideInAPackage("jakarta.transaction..");
+
+  /// Package-private services turn "adapters depend on ports, never the
+  /// service" into a compiler guarantee; this keeps anyone from ever
+  /// loosening it.
+  @ArchTest
+  static final ArchRule services_hide_behind_ports = classes()
+      .that().resideInAPackage("..media.application.service..")
+      .should().notBePublic();  
   
   public static class ExcludeGenerated implements ImportOption {
     private static final Pattern GENERATED = Pattern.compile(".*_\\.class");

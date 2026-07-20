@@ -4,6 +4,10 @@ import java.text.Normalizer;
 
 import com.erdouglass.emdb.media.MediaConstants;
 
+/// A movie's display title, canonicalized on construction: NFC-normalized
+/// and stripped before the blank and length checks, so equality and the
+/// limit both operate on one representation — what you store is what you
+/// compared.
 public record Title(String value) {
   
   public Title {
