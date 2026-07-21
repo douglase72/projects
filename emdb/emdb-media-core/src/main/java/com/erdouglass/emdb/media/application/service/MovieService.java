@@ -1,14 +1,11 @@
 package com.erdouglass.emdb.media.application.service;
 
-import java.util.NoSuchElementException;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.MediaType;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
@@ -16,12 +13,13 @@ import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
 import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
+import com.erdouglass.emdb.media.domain.exception.MovieNotFoundException;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
+import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
 import com.erdouglass.emdb.media.domain.movie.UpdateMovie;
 import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
-import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
 import com.erdouglass.emdb.media.domain.shared.Title;
@@ -74,7 +72,7 @@ class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
     }
     LOGGER.infof("Saved: %s", movie);
     return new SaveResult(
-        movie.publicId().map(PublicId::toString).orElseThrow(), 
+        movie.publicId().map(MoviePublicId::toString).orElseThrow(), 
         movie.version().map(Version::value).orElseThrow(), 
         status);
   }
@@ -87,21 +85,13 @@ class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
   @Override
   @Transactional
   public UpdateResult update(String id, UpdateMovie command) {
-    var existing = repository.findByPublicId(moviePublicId((id)))
-        .orElseThrow(NoSuchElementException::new);
+    var existing = repository.findByPublicId(MoviePublicId.from(id))
+        .orElseThrow(() -> new MovieNotFoundException(id));
     existing.merge(command);
     var updated = repository.update(existing);
     LOGGER.infof("Updated: %s", updated);
     return new UpdateResult(
-        updated.publicId().map(PublicId::toString).orElseThrow(), 
+        updated.publicId().map(MoviePublicId::toString).orElseThrow(), 
         updated.version().map(Version::value).orElseThrow());
-  }
-  
-  private static PublicId moviePublicId(String id) {
-    var publicId = PublicId.from(id);
-    if (publicId.type() != MediaType.MOVIE) {
-      throw new NoSuchElementException(id);
-    }
-    return publicId;
   }
 }

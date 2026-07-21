@@ -1,7 +1,6 @@
 package com.erdouglass.common.rest;
 
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -23,9 +22,6 @@ public class DefaultExceptionMapper implements ExceptionMapper<Throwable> {
       cause = cause.getCause();
     }
     LOGGER.error("Internal Server Error", cause);
-    return Response.serverError()
-        .entity(new ErrorResponse(throwable.getMessage()))
-        .type(MediaType.APPLICATION_JSON)
-        .build();
+    return Response.serverError().build();
   }
 }

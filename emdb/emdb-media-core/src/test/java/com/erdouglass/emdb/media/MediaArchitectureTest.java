@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.media;
 
 import static com.tngtech.archunit.base.DescribedPredicate.alwaysTrue;
-import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAnyPackage;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
@@ -36,7 +35,7 @@ class MediaArchitectureTest {
   static final ArchRule aggregates_are_isolated = slices()
       .matching("..media.domain.(*)..").namingSlices("aggregate '$1'")
       .should().notDependOnEachOther()
-      .ignoreDependency(alwaysTrue(), resideInAPackage("..media.domain.shared.."));
+      .ignoreDependency(alwaysTrue(), resideInAnyPackage("..media.domain.shared..", "..media.domain.exception.."));
   
   /// The dependency-inversion seam: arrows point inward, so nothing inside
   /// the hexagon may ever name an adapter type.

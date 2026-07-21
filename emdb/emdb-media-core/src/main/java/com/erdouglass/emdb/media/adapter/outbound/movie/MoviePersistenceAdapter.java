@@ -7,8 +7,9 @@ import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
 import com.erdouglass.emdb.media.domain.movie.Movie;
-import com.erdouglass.emdb.media.domain.shared.PublicId;
+import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
+import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// Driven adapter: implements [MovieRepository] by translating shape via
 /// [MovieMapper] and executing via the Jakarta Data [MovieCrudRepository].
@@ -27,7 +28,7 @@ class MoviePersistenceAdapter implements MovieRepository {
   MovieCrudRepository repository;
   
   /// Persists a never-before-seen aggregate; returns it enriched with the
-  /// database-assigned facts — [PublicId] and the seed [Version].  
+  /// database-assigned facts — [MoviePublicId] and the seed [Version].  
   @Override
   public Movie insert(Movie movie) {
     return mapper.toMovie(repository.insert(mapper.toMovieEntity(movie)));        
@@ -45,7 +46,7 @@ class MoviePersistenceAdapter implements MovieRepository {
   }
   
   @Override
-  public Optional<Movie> findByPublicId(PublicId publicId) {
+  public Optional<Movie> findByPublicId(MoviePublicId publicId) {
     return repository.findByPublicId(publicId.value())
         .map(mapper::toMovie);
   }  

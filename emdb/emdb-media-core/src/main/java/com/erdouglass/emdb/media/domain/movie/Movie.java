@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
-import com.erdouglass.emdb.media.domain.shared.PublicId;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.Title;
 import com.erdouglass.emdb.media.domain.shared.Version;
@@ -34,7 +33,7 @@ import com.erdouglass.emdb.media.domain.shared.Version;
 /// yet persisted" and no placeholder is honest.
 public final class Movie {
   private final MovieId id;
-  private PublicId publicId;
+  private MoviePublicId publicId;
   private final SourceId sourceId;
   private Title title;
   private ReleaseDate releaseDate;
@@ -90,7 +89,7 @@ public final class Movie {
   
   /// URL-facing identity, database-assigned. Empty exactly when this
   /// aggregate has never been persisted.
-  public Optional<PublicId> publicId() {
+  public Optional<MoviePublicId> publicId() {
     return Optional.ofNullable(publicId);
   }
   
@@ -144,7 +143,7 @@ public final class Movie {
   
   public static final class Builder {
     private MovieId id;
-    private PublicId publicId;
+    private MoviePublicId publicId;
     private SourceId sourceId;
     private Title title;
     private ReleaseDate releaseDate;
@@ -172,7 +171,7 @@ public final class Movie {
       return this;
     }
         
-    public Builder publicId(PublicId publicId) {
+    public Builder publicId(MoviePublicId publicId) {
       this.publicId = publicId;
       return this;
     }
