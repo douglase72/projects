@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.adapter.inbound.rest;
+package com.erdouglass.emdb.media.application.port.inbound;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 
 import com.erdouglass.common.validation.DateRange;
 import com.erdouglass.emdb.media.MediaConstants;
-import com.erdouglass.emdb.media.domain.movie.UpdateMovie;
 
 /// The REST dialect's edit payload for `PUT /movies/{id}`: JSON shape and
 /// Bean Validation, implementing the domain's [UpdateMovie] contract so the
@@ -25,7 +24,7 @@ public record UpdateMovieCommand(
     @DateRange(min = MediaConstants.MOVIE_MIN_DATE, max = MediaConstants.MAX_DATE) LocalDate releaseDate,
     @NotBlank 
     @Size(min = MediaConstants.ISO_639_1_LENGTH, max = MediaConstants.ISO_639_1_LENGTH) 
-    String originalLanguage) implements UpdateMovie {
+    String originalLanguage) {
   
   public static Builder builder() {
     return new Builder();

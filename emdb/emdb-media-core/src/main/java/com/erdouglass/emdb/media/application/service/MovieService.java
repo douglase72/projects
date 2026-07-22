@@ -10,6 +10,7 @@ import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
 import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
@@ -18,7 +19,6 @@ import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
-import com.erdouglass.emdb.media.domain.movie.UpdateMovie;
 import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
@@ -27,14 +27,6 @@ import com.erdouglass.emdb.media.domain.shared.Version;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
-@ApplicationScoped
-class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
-  private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
-  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
-  
-  @Inject
-  MovieRepository repository;
-  
 /// Application service implementing the write-side movie use cases.
 ///
 /// The inside edge of the hexagon: this class *orchestrates* — mint
@@ -45,11 +37,25 @@ class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
 ///
 /// Also the transaction boundary: `@Transactional` lives on the use-case
 /// methods and nowhere else, so one command is one atomic unit.
+@ApplicationScoped
+class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
+  private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
+  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
+  
+  @Inject
+  MovieMapper mapper;
+  
+  @Inject
+  MovieRepository repository;
 
-  /// Upsert keyed by external provenance: probe by source identity, insert
-  /// on miss, merge-and-update on hit. The `uq_movie_source` constraint
-  /// backstops the probe-then-insert race — two concurrent first saves
-  /// resolve to one row and one constraint violation, never duplicates.
+  /// Upsert the given movie to the database.
+  /// 
+  /// This method is idempotent with respect to the [SourceId], meaning if a [Movie]
+  /// already exists with the same source id it will be updated, otherwise a new movie
+  /// will be created.
+  /// 
+  /// @param command - the command holding the movie to be saved
+  /// @return the result of the save
   @Override
   @Transactional
   public SaveResult save(SaveMovieCommand command) {
@@ -66,8 +72,7 @@ class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
     if (existing == null) {
       movie = repository.insert(movie);
     } else {
-      existing.merge(command);
-      movie = repository.update(existing);
+      movie = repository.update(mapper.merge(existing, command));
       status = Status.UPDATED;
     }
     LOGGER.infof("Saved: %s", movie);
@@ -77,18 +82,12 @@ class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
         status);
   }
 
-  /// Load by public id, stamp the claimed version via
-  /// [Movie#merge(UpdateMovie)], write through the version guard. Returns
-  /// facts from the *updated* aggregate — returning `existing`'s version
-  /// would hand back a pre-bump number and manufacture a phantom conflict
-  /// on the client's very next edit.
   @Override
   @Transactional
-  public UpdateResult update(String id, UpdateMovie command) {
+  public UpdateResult update(String id, UpdateMovieCommand command) {
     var existing = repository.findByPublicId(MoviePublicId.from(id))
-        .orElseThrow(() -> new MovieNotFoundException(id));
-    existing.merge(command);
-    var updated = repository.update(existing);
+        .orElseThrow(() -> new MovieNotFoundException(id));    
+    var updated = repository.update(mapper.merge(existing, command));
     LOGGER.infof("Updated: %s", updated);
     return new UpdateResult(
         updated.publicId().map(MoviePublicId::toString).orElseThrow(), 

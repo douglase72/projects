@@ -22,7 +22,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.adapter.inbound.rest.UpdateMovieCommand;
+import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
 
 @TestInstance(Lifecycle.PER_CLASS)

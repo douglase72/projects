@@ -3,7 +3,6 @@ package com.erdouglass.emdb.media.domain.movie;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
 import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.Title;
@@ -33,12 +32,12 @@ import com.erdouglass.emdb.media.domain.shared.Version;
 /// yet persisted" and no placeholder is honest.
 public final class Movie {
   private final MovieId id;
-  private MoviePublicId publicId;
+  private final MoviePublicId publicId;
   private final SourceId sourceId;
-  private Title title;
-  private ReleaseDate releaseDate;
-  private OriginalLanguage originalLanguage;
-  private Version version;
+  private final Title title;
+  private final ReleaseDate releaseDate;
+  private final OriginalLanguage originalLanguage;
+  private final Version version;
   
   private Movie(Builder builder) {
     this.id = builder.id;
@@ -56,31 +55,6 @@ public final class Movie {
   
   public MovieId id() {
     return id;
-  }
-  
-  /// Sync mutation: replaces content with the latest truth from an external
-  /// source. Deliberately does *not* touch [Version] — the loaded version
-  /// flows through to persistence unchanged, so the optimistic guard covers
-  /// only the in-flight race between this transaction's read and write.
-  /// Sync carries no stale snapshot to defend against. Contrast
-  /// [#merge(UpdateMovie)].
-  public void merge(SaveMovieCommand command) {
-    this.title = Title.of(command.title());
-    this.releaseDate = ReleaseDate.of(command.releaseDate());
-    this.originalLanguage = OriginalLanguage.of(command.originalLanguage());
-  }
-  
-  /// Edit mutation: applies a human revision composed against a specific
-  /// snapshot. Stamps the caller's *claimed* version over the loaded one,
-  /// so the persistence layer's `WHERE version = ?` enforces the invariant
-  /// that an edit is only valid against the snapshot it was made from — a
-  /// stale claim fails the update rather than silently winning. Contrast
-  /// [#merge(SaveMovieCommand)], which trusts what it loaded.
-  public void merge(UpdateMovie command) {
-    this.version = Version.of(command.version());
-    this.title = Title.of(command.title());
-    this.releaseDate = ReleaseDate.of(command.releaseDate());
-    this.originalLanguage = OriginalLanguage.of(command.originalLanguage());    
   }
   
   public OriginalLanguage originalLanguage() {
