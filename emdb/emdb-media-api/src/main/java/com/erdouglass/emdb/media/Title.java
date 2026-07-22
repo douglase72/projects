@@ -1,8 +1,6 @@
-package com.erdouglass.emdb.media.domain.shared;
+package com.erdouglass.emdb.media;
 
 import java.text.Normalizer;
-
-import com.erdouglass.emdb.media.MediaConstants;
 
 /// A movie's display title, canonicalized on construction: NFC-normalized
 /// and stripped before the blank and length checks, so equality and the

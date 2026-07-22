@@ -1,0 +1,219 @@
+package com.example.moviecatalog.adapter.in.rest;
+
+/**
+ * Driving adapter for the write side of the Movie aggregate.
+ * Reads are deliberately absent here — they are served by the GraphQL adapter.
+ *
+ * Two identifier spaces meet at this resource:
+ * <ul>
+ *   <li>PUT addresses movies by their external {@code SourceId} — a key the
+ *       client already knows, which is what lets PUT act as a true idempotent
+ *       upsert ("create or replace the movie at this location").</li>
+ *   <li>PATCH and DELETE address movies by the internal {@link MovieId}
+ *       surrogate, learned from the body of an earlier save response.</li>
+ * </ul>
+ *
+ * Note: this class knows nothing about services, repositories, or JPA.
+ * It depends only on the inbound ports and translates HTTP ⇄ commands.
+ */
+@Path("/movies")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class MovieResource {
+
+    private final SaveMovieUseCase saveMovieUseCase;
+    private final UpdateMovieUseCase updateMovieUseCase;
+    private final DeleteMovieUseCase deleteMovieUseCase;
+    private final MovieRestMapper mapper;
+
+    MovieResource(SaveMovieUseCase saveMovieUseCase,
+                  UpdateMovieUseCase updateMovieUseCase,
+                  DeleteMovieUseCase deleteMovieUseCase,
+                  MovieRestMapper mapper) {
+        this.saveMovieUseCase = saveMovieUseCase;
+        this.updateMovieUseCase = updateMovieUseCase;
+        this.deleteMovieUseCase = deleteMovieUseCase;
+        this.mapper = mapper;
+    }
+
+    /**
+     * Idempotent upsert. Replaying the same request any number of times
+     * converges on the same state and the same MovieId.
+     *
+     * Returns 201 + Location when the movie is first created,
+     * 200 when an existing movie (matched by SourceId) was replaced.
+     */
+    @PUT
+    @Path("/{sourceId}")
+    public Response save(@PathParam("sourceId") String sourceId,
+                         @Valid SaveMovieRequest request,
+                         @Context UriInfo uriInfo) {
+        var result = saveMovieUseCase.save(mapper.toSaveCommand(sourceId, request));
+        var body = mapper.toResponse(result.movie());
+        return result.created()
+                ? Response.created(uriInfo.getAbsolutePath()).entity(body).build()
+                : Response.ok(body).build();
+    }
+
+    /** Partial update of an existing movie; 404 if the id is unknown. */
+    @PATCH
+    @Path("/{id}")
+    public Response update(@PathParam("id") UUID id,
+                           @Valid UpdateMovieRequest request) {
+        var movie = updateMovieUseCase.update(mapper.toUpdateCommand(id, request));
+        return Response.ok(mapper.toResponse(movie)).build();
+    }
+
+    /**
+     * 204 on success; 404 if the id is unknown
+     * (MovieNotFoundException is translated by the DomainExceptionMapper).
+     */
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") UUID id) {
+        deleteMovieUseCase.delete(MovieId.of(id));
+        return Response.noContent().build();
+    }
+}
+
+package com.example.moviecatalog.adapter.in.rest;
+
+/**
+ * Wire-format DTO for the save (upsert) operation.
+ *
+ * The SourceId is deliberately absent from the body: it travels in the URL
+ * path, which is precisely what makes {@code PUT /movies/{sourceId}} naturally
+ * idempotent — the client names the resource location it is writing to.
+ *
+ * Only syntactic validation lives here (present, non-blank, non-empty).
+ * Business rules — valid year ranges, known genres, title length — belong to
+ * the domain value objects this request is mapped into. Keeping the DTO dumb
+ * means the wire format can evolve without touching the domain.
+ */
+public record SaveMovieRequest(
+        @NotBlank String title,
+        @NotNull Integer releaseYear,
+        @NotEmpty Set<String> genres
+) {}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.example.moviecatalog.application.port.in;
+
+/**
+ * Driving port: create-or-replace a Movie, keyed by its SourceId.
+ *
+ * Contract: this operation is idempotent with respect to SourceId. Invoking it
+ * any number of times with an identical command leaves the system in the same
+ * state and always resolves to the same Movie identity — a movie is never
+ * duplicated because its SourceId has been seen before.
+ *
+ * The idempotency guarantee is part of the port's contract, not an
+ * implementation detail: any adapter driving this port (REST today, a Kafka
+ * consumer or CSV importer tomorrow) may rely on it for safe redelivery.
+ */
+public interface SaveMovieUseCase {
+
+    SaveResult save(SaveMovieCommand command);
+
+    /**
+     * @param movie   the aggregate as it exists after the operation
+     * @param created true if this call created the movie, false if it replaced
+     *                the state of an existing one matched by SourceId — the
+     *                REST adapter uses this to choose between 201 and 200
+     */
+    record SaveResult(Movie movie, boolean created) {}
+}
+
+package com.example.moviecatalog.application.port.in;
+
+import com.example.moviecatalog.domain.Genre;
+import com.example.moviecatalog.domain.ReleaseYear;
+import com.example.moviecatalog.domain.SourceId;
+import com.example.moviecatalog.domain.Title;
+
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * The intent to create-or-replace a Movie, keyed by its external SourceId.
+ *
+ * Immutable and self-validating: an instance cannot exist in an invalid
+ * state. Note that the fields are domain value objects, not primitives —
+ * by the time a command is constructed, the raw strings and ints from the
+ * wire have already been forced through the VOs' own validation. The use
+ * case therefore never re-checks inputs; holding a SaveMovieCommand *is*
+ * the proof that the data is well-formed.
+ */
+public record SaveMovieCommand(
+        SourceId sourceId,
+        Title title,
+        ReleaseYear releaseYear,
+        Set<Genre> genres
+) {
+    public SaveMovieCommand {
+        Objects.requireNonNull(sourceId, "sourceId must not be null");
+        Objects.requireNonNull(title, "title must not be null");
+        Objects.requireNonNull(releaseYear, "releaseYear must not be null");
+        Objects.requireNonNull(genres, "genres must not be null");
+        if (genres.isEmpty()) {
+            throw new IllegalArgumentException("at least one genre is required");
+        }
+        genres = Set.copyOf(genres); // defensive, immutable copy
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.example.moviecatalog.application.service;
+
+/**
+ * Use-case implementation of the idempotent upsert.
+ *
+ * Idempotency strategy — three layers working together:
+ * <ol>
+ *   <li>SourceId is the natural key: we look it up first and either replace
+ *       the state of the existing aggregate (keeping its MovieId stable) or
+ *       create a fresh one.</li>
+ *   <li>The transaction boundary sits here, around the whole
+ *       lookup-then-write, so the decision and the write commit atomically.</li>
+ *   <li>The UNIQUE constraint on source_id (see the Flyway migration) is the
+ *       backstop for the lookup/insert race: if two first-writes for the same
+ *       SourceId collide, one transaction wins and the other fails on the
+ *       constraint — and because the operation is idempotent, the losing
+ *       caller can simply retry and will land on the "replace" branch.</li>
+ * </ol>
+ *
+ * Note what is absent: no HTTP, no JSON, no JPA. This class orchestrates
+ * domain objects through ports and could be driven by any adapter.
+ */
+@ApplicationScoped
+public class SaveMovieService implements SaveMovieUseCase {
+
+    private final MovieRepository movieRepository;
+
+    SaveMovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
+
+    @Override
+    @Transactional
+    public SaveResult save(SaveMovieCommand command) {
+        return movieRepository.findBySourceId(command.sourceId())
+                .map(existing -> replace(existing, command))
+                .orElseGet(() -> create(command));
+    }
+
+    private SaveResult replace(Movie existing, SaveMovieCommand command) {
+        existing.replaceDetails(command.title(), command.releaseYear(), command.genres());
+        return new SaveResult(movieRepository.update(existing), false);
+    }
+
+    private SaveResult create(SaveMovieCommand command) {
+        Movie movie = Movie.create(
+                command.sourceId(),
+                command.title(),
+                command.releaseYear(),
+                command.genres()
+        );
+        return new SaveResult(movieRepository.save(movie), true);
+    }
+}

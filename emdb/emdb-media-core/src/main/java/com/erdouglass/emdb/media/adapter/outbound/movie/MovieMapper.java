@@ -2,14 +2,14 @@ package com.erdouglass.emdb.media.adapter.outbound.movie;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
+import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.ReleaseDate;
+import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
-import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
-import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
-import com.erdouglass.emdb.media.domain.shared.SourceId;
-import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
-import com.erdouglass.emdb.media.domain.shared.Title;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// The translation toll between [Movie] and [MovieEntity], paid both ways

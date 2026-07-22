@@ -20,9 +20,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
+import com.erdouglass.emdb.media.adapter.inbound.rest.SaveMovieRequest;
+import com.erdouglass.emdb.media.adapter.inbound.rest.UpdateMovieRequest;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -36,14 +36,14 @@ class BladeRunnerIT {
   @Test
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {  
-    var command = SaveMovieCommand.builder()
+    var saveRequest = SaveMovieRequest.builder()
         .sourceId("tmdb", "78")
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-06-25"))
         .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
-        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
         .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).build())
         .build();    
     var start = Instant.now();
@@ -59,14 +59,14 @@ class BladeRunnerIT {
   @Test
   @Order(2)
   void testSaveReleaseDate() throws IOException, InterruptedException {  
-    var command = SaveMovieCommand.builder()
+    var saveRequest = SaveMovieRequest.builder()
         .sourceId("tmdb", "78")
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-10-04"))
         .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
-        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
         .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).build())
         .build();    
     var start = Instant.now();
@@ -81,14 +81,14 @@ class BladeRunnerIT {
   @Test
   @Order(3)
   void testUpdateReleaseDate() throws IOException, InterruptedException {  
-    var command = UpdateMovieCommand.builder()
+    var updateRequest = UpdateMovieRequest.builder()
         .version(version)
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-06-25"))
         .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
-        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
         .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
         .build();    
     var start = Instant.now();
@@ -103,14 +103,14 @@ class BladeRunnerIT {
   @Test
   @Order(4)
   void testUpdateTitle() throws IOException, InterruptedException {  
-    var command = UpdateMovieCommand.builder()
+    var updateRequest = UpdateMovieRequest.builder()
         .version(version)
         .title("Blade Runner: Directors Cut")
         .releaseDate(LocalDate.parse("1982-06-25"))
         .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
-        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(command)))
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
         .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
         .build();    
     var start = Instant.now();

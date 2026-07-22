@@ -14,8 +14,8 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
 
 import com.erdouglass.emdb.media.MediaConstants;
+import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
-import com.erdouglass.emdb.media.domain.shared.SourceId;
 
 /// Persistence model of a movie row.
 ///

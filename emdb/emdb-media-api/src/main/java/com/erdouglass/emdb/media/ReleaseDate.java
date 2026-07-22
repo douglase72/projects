@@ -1,8 +1,6 @@
-package com.erdouglass.emdb.media.domain.movie;
+package com.erdouglass.emdb.media;
 
 import java.time.LocalDate;
-
-import com.erdouglass.emdb.media.MediaConstants;
 
 /// A movie title: NFC-normalized, stripped, non-blank, length-bounded.
 ///

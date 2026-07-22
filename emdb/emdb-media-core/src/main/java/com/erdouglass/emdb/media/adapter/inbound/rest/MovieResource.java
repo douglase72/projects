@@ -15,12 +15,18 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
+import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// Driving adapter: translates HTTP into invocations of the write-side ports.
 ///
@@ -51,7 +57,13 @@ class MovieResource {
   UpdateMovieUseCase updateUseCase;
   
   @POST
-  public Response save(@NotNull @Valid SaveMovieCommand command, @Context UriInfo uriInfo) {
+  public Response save(@NotNull @Valid SaveMovieRequest request, @Context UriInfo uriInfo) {
+    var command = SaveMovieCommand.builder()
+        .sourceId(SourceId.of(Source.from(request.source()), request.sourceId()))
+        .title(Title.of(request.title()))
+        .releaseDate(ReleaseDate.of(request.releaseDate()))
+        .originalLanguage(OriginalLanguage.of(request.originalLanguage()))
+        .build();
     var result = saveUseCase.save(command);
     return switch (result.status()) {
       case CREATED -> Response
@@ -65,7 +77,13 @@ class MovieResource {
   @PUT
   @Path("/{id}")
   public UpdateResult update(
-      @NotBlank @PathParam("id") String id, @NotNull @Valid UpdateMovieCommand command) {
+      @NotBlank @PathParam("id") String id, @NotNull @Valid UpdateMovieRequest request) {
+    var command = UpdateMovieCommand.builder()
+        .version(Version.of(request.version()))
+        .title(Title.of(request.title()))
+        .releaseDate(ReleaseDate.of(request.releaseDate()))
+        .originalLanguage(OriginalLanguage.of(request.originalLanguage()))
+        .build();
     return updateUseCase.update(id, command);    
   }
 }

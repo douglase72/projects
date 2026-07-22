@@ -3,9 +3,10 @@ package com.erdouglass.emdb.media.domain.movie;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
-import com.erdouglass.emdb.media.domain.shared.SourceId;
-import com.erdouglass.emdb.media.domain.shared.Title;
+import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.ReleaseDate;
+import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// Aggregate root for a movie in the media bounded context.
@@ -24,12 +25,6 @@ import com.erdouglass.emdb.media.domain.shared.Version;
 /// [SourceId] (external provenance, the upsert key).
 /// Equality and hash are by [MovieId] alone: two snapshots of the same movie
 /// are the same movie, whatever their state.
-///
-/// Lifecycle: [PublicId] and [Version] are facts about a *persisted*
-/// snapshot, minted by the database and the optimistic-lock machinery. A
-/// never-persisted Movie legitimately has neither — both are `Optional` and
-/// absent from [Builder#build]'s required set, because absence means "not
-/// yet persisted" and no placeholder is honest.
 public final class Movie {
   private final MovieId id;
   private final MoviePublicId publicId;

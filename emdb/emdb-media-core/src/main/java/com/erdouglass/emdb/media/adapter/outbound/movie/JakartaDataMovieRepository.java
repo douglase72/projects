@@ -18,7 +18,7 @@ import jakarta.data.repository.Update;
 /// nothing is managed, nothing cascades, and updates are explicit — the
 /// adapter above compensates accordingly.
 @Repository(dataStore = "media")
-interface MovieCrudRepository {
+interface JakartaDataMovieRepository {
 
   @Insert
   MovieEntity insert(MovieEntity entity);

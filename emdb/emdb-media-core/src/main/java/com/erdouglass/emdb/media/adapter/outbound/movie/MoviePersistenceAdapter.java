@@ -5,14 +5,14 @@ import java.util.Optional;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
-import com.erdouglass.emdb.media.domain.shared.SourceId;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// Driven adapter: implements [MovieRepository] by translating shape via
-/// [MovieMapper] and executing via the Jakarta Data [MovieCrudRepository].
+/// [MovieMapper] and executing via the Jakarta Data [JakartaDataMovieRepository].
 ///
 /// Every write maps back the *returned* entity, not the input — that is how
 /// database-assigned facts (public id on insert, bumped version on update)
@@ -25,7 +25,7 @@ class MoviePersistenceAdapter implements MovieRepository {
   MovieMapper mapper;
   
   @Inject
-  MovieCrudRepository repository;
+  JakartaDataMovieRepository repository;
   
   /// Persists a never-before-seen aggregate; returns it enriched with the
   /// database-assigned facts — [MoviePublicId] and the seed [Version].  

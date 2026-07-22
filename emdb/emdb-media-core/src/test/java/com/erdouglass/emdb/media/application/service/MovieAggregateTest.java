@@ -7,16 +7,16 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.SaveMovieCommand;
+import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
-import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
-import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
-import com.erdouglass.emdb.media.domain.shared.SourceId;
-import com.erdouglass.emdb.media.domain.shared.SourceId.Source;
-import com.erdouglass.emdb.media.domain.shared.Title;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 class MovieAggregateTest {
@@ -40,10 +40,10 @@ class MovieAggregateTest {
     assertEquals("en", movie.originalLanguage().toString());
     
     var command = SaveMovieCommand.builder()
-        .sourceId("tmdb", "78")
-        .title("Blade Runner: Directors Cut")
-        .releaseDate(LocalDate.parse("2003-10-09"))
-        .originalLanguage("fr")        
+        .sourceId(SourceId.of(Source.from("tmdb"), "78"))
+        .title(Title.of("Blade Runner: Directors Cut"))
+        .releaseDate(ReleaseDate.of(LocalDate.parse("2003-10-09")))
+        .originalLanguage(OriginalLanguage.of("fr"))        
         .build();
     var merged = mapper.merge(movie, command);
     assertEquals("019f7610-29d0-7282-894f-36226da0256d", merged.id().toString());
@@ -73,10 +73,10 @@ class MovieAggregateTest {
     assertEquals("en", movie.originalLanguage().toString());
     
     var command = UpdateMovieCommand.builder()
-        .version(0L)
-        .title("Blade Runner: Directors Cut")
-        .releaseDate(LocalDate.parse("2003-10-09"))
-        .originalLanguage("fr")        
+        .version(Version.of(0L))
+        .title(Title.of("Blade Runner: Directors Cut"))
+        .releaseDate(ReleaseDate.of(LocalDate.parse("2003-10-09")))
+        .originalLanguage(OriginalLanguage.of("fr"))        
         .build();
     var merged = mapper.merge(movie, command);
     assertEquals("019f7610-29d0-7282-894f-36226da0256d", merged.id().toString());

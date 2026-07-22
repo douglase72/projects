@@ -2,9 +2,9 @@ package com.erdouglass.emdb.media.application.port.outbound;
 
 import java.util.Optional;
 
+import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
-import com.erdouglass.emdb.media.domain.shared.SourceId;
 
 /// Outbound (driven) port for persisting the [Movie] aggregate.
 ///

@@ -5,10 +5,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.domain.movie.Movie;
-import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
-import com.erdouglass.emdb.media.domain.shared.OriginalLanguage;
-import com.erdouglass.emdb.media.domain.shared.Title;
-import com.erdouglass.emdb.media.domain.shared.Version;
 
 @ApplicationScoped
 class MovieMapper {
@@ -18,9 +14,9 @@ class MovieMapper {
         .id(movie.id())
         .publicId(movie.publicId().orElseThrow())
         .sourceId(movie.sourceId())
-        .title(Title.of(command.title()))
-        .releaseDate(ReleaseDate.of(command.releaseDate()))
-        .originalLanguage(OriginalLanguage.of(command.originalLanguage()))        
+        .title(command.title())
+        .releaseDate(command.releaseDate())
+        .originalLanguage(command.originalLanguage())        
         .build();    
   }
   
@@ -29,10 +25,10 @@ class MovieMapper {
         .id(movie.id())
         .publicId(movie.publicId().orElseThrow())
         .sourceId(movie.sourceId())
-        .version(Version.of(command.version()))
-        .title(Title.of(command.title()))
-        .releaseDate(ReleaseDate.of(command.releaseDate()))
-        .originalLanguage(OriginalLanguage.of(command.originalLanguage()))        
+        .version(command.version())
+        .title(command.title())
+        .releaseDate(command.releaseDate())
+        .originalLanguage(command.originalLanguage())      
         .build();
   }  
 }

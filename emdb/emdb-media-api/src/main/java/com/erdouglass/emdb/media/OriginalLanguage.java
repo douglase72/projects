@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.domain.shared;
+package com.erdouglass.emdb.media;
 
 import java.util.Locale;
 import java.util.Objects;
