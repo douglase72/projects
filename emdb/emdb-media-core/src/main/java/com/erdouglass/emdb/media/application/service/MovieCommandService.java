@@ -34,9 +34,9 @@ import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 /// Also the transaction boundary: `@Transactional` lives on the use-case
 /// methods and nowhere else, so one command is one atomic unit.
 @ApplicationScoped
-class MovieService implements SaveMovieUseCase, UpdateMovieUseCase {
+class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
-  private static final Logger LOGGER = Logger.getLogger(MovieService.class);
+  private static final Logger LOGGER = Logger.getLogger(MovieCommandService.class);
   
   @Inject
   MovieMapper mapper;

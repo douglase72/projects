@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.app.movie;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -8,6 +9,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Map;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -120,5 +122,36 @@ class BladeRunnerIT {
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResult.class);
     version = result.version();
     LOGGER.infof("Updated %s (Blade Runner: Directors Cut) in %d ms", movieId, et);
+  }
+  
+  @Test
+  @Order(5)
+  void testFindMovie() throws IOException, InterruptedException {
+    var query = """
+        query {
+          movie(id: "%s") { 
+            id version title releaseDate originalLanguage
+          }
+        }
+        """.formatted(movieId);
+    var payload = Map.of("query", query);
+    var request = HttpRequest.newBuilder()
+        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(payload)))
+        .header("Content-Type", "application/json")
+        .uri(UriBuilder.fromUri(TestHelper.GRAPHQL_URL).build())
+        .build(); 
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
+    assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
+    
+    var movie = root.path("data").path("movie");
+    assertEquals(movieId, movie.path("id").asText());
+    assertEquals(3, movie.path("version").asLong());
+    assertEquals("Blade Runner: Directors Cut", movie.path("title").asText());
+    assertEquals("1982-06-25", movie.path("releaseDate").asText());
+    assertEquals("en", movie.path("originalLanguage").asText());
+    LOGGER.infof("Found Blade Runner in %d ms", et);    
   }  
 }
