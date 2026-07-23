@@ -10,17 +10,16 @@ export function useErrorHandler() {
                   detail: 'The server took too long to respond. Please try again.' })
       return
     }
-    if (isNotFound(e)) {
-      toast.add({ severity: 'warn', summary: 'Not found',
-                  detail: serverMessage(e) })
-      return
-    }
     console.error(e);
-    toast.add({ severity: 'error', summary: fallbackSummary,
-                detail: serverMessage(e) })
+    toast.add({ severity: 'error', summary: fallbackSummary, detail: serverMessage(e) })
   }
 
-  return { handleError }
+  const handleNotFound = (detail = 'The requested resource does not exist.') => {
+     toast.add({ severity: 'warn', summary: 'Not found', detail: detail });
+     console.warn(detail);    
+  }
+
+  return { handleError, handleNotFound }
 }
 
 function isTimeout(e: unknown): boolean {
