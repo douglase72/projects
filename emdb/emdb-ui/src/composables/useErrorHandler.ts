@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useToast } from 'primevue/usetoast'
 import { ApolloError } from '@apollo/client/core'
 
@@ -27,12 +28,17 @@ function isTimeout(e: unknown): boolean {
   return (e as { name?: string } | null)?.name === 'TimeoutError'
 }
 
-function isNotFound(e: unknown): boolean {
-  return e instanceof ApolloError &&
-    e.graphQLErrors.some(g => g.extensions?.code === 'NOT_FOUND')
-}
-
 function serverMessage(e: unknown): string | undefined {
+  if (axios.isAxiosError(e)) {
+    const data = e.response?.data
+    if (typeof data === 'string' && data.length > 0) return data
+    if (data && typeof data === 'object') { 
+      const obj = data as { error?: string; message?: string }
+      return obj.error ?? obj.message ?? e.message
+    }
+    return e.message
+  }
+
   if (!(e instanceof ApolloError)) return e instanceof Error ? e.message : undefined
   const gqlErr = e.graphQLErrors[0]
   if (gqlErr) return gqlErr.message

@@ -2,9 +2,13 @@ package com.erdouglass.emdb.media.adapter.outbound.movie;
 
 import java.util.Optional;
 
+import jakarta.data.exceptions.OptimisticLockingFailureException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.hibernate.StaleStateException;
+
+import com.erdouglass.common.rest.StaleVersionException;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
 import com.erdouglass.emdb.media.domain.movie.Movie;
@@ -38,11 +42,17 @@ class MoviePersistenceAdapter implements MovieRepository {
   /// equals the aggregate's, returning the new snapshot with its bumped
   /// version.
   ///
-  /// @throws StaleVersionException when the guard fails — a stale edit
-  ///         claim, or a concurrent writer in the in-flight race
+  /// @throws StaleStateException when a version-guarded write finds the stored version differs
+  /// from the caller's — a stale edit claim or a lost race with a
+  /// concurrent writer.
   @Override
   public Movie update(Movie movie) {
-    return mapper.toMovie(repository.update(mapper.toMovieEntity(movie)));
+    try {
+      return mapper.toMovie(repository.update(mapper.toMovieEntity(movie)));
+    } catch (OptimisticLockingFailureException e) {
+      throw new StaleVersionException(
+          "Version conflict updating movie %s".formatted(movie.publicId().orElse(null)), e);      
+    }
   }
   
   @Override

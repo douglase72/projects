@@ -12,12 +12,19 @@
       <div>Original Language</div>
       <div>{{ fromLanguageCode(movie.originalLanguage) }}</div>
     </section>
+
+    <section class="mt-8">
+      <Button label="Edit" 
+              v-if="movie" 
+              @click="router.push({ name: 'MovieEdit', params: { id: movie.id } })" />      
+    </section>    
   </main>
 </template>
 
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
+  import Button from 'primevue/button';
 
   import { findMovie, type Movie } from '@/lib/emdbQueryApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';

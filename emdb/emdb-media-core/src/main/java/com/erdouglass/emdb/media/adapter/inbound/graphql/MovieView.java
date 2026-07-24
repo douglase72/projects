@@ -3,14 +3,15 @@ package com.erdouglass.emdb.media.adapter.inbound.graphql;
 import java.util.Objects;
 
 import org.eclipse.microprofile.graphql.Name;
+import org.eclipse.microprofile.graphql.NonNull;
 
 @Name("Movie")
 public record MovieView(
-    String id,
-    Long version,
-    String title,
+    @NonNull String id,
+    @NonNull Long version,
+    @NonNull String title,
     String releaseDate,
-    String originalLanguage) {
+    @NonNull String originalLanguage) {
   
   public static Builder builder() {
     return new Builder();
