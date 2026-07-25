@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media;
 
+import java.util.Objects;
+
 public record SaveMovieCommand(
     SourceId sourceId,
     Title title,
@@ -19,6 +21,9 @@ public record SaveMovieCommand(
     private Builder() {}
 
     public SaveMovieCommand build() {
+      Objects.requireNonNull(sourceId, "sourceId must not be null");
+      Objects.requireNonNull(title, "title must not be null");
+      Objects.requireNonNull(originalLanguage, "originalLanguage must not be null");
       return new SaveMovieCommand(
           sourceId,
           title, 

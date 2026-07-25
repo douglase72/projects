@@ -61,50 +61,6 @@ class BladeRunnerIT {
   
   @Test
   @Order(2)
-  void testSaveReleaseDate() throws IOException, InterruptedException {  
-    var saveRequest = SaveMovieRequest.builder()
-        .sourceId("tmdb", "78")
-        .title("Blade Runner")
-        .releaseDate(LocalDate.parse("1982-10-04"))
-        .originalLanguage("en")
-        .build();
-    var request = HttpRequest.newBuilder()
-        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
-        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).build())
-        .build();    
-    var start = Instant.now();
-    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    var et = Duration.between(start, Instant.now()).toMillis();
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());  
-    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
-    version = result.version();
-    LOGGER.infof("Saved %s (Blade Runner) in %d ms", movieId, et);
-  }
-  
-  @Test
-  @Order(3)
-  void testUpdateReleaseDate() throws IOException, InterruptedException {  
-    var updateRequest = UpdateMovieRequest.builder()
-        .version(version)
-        .title("Blade Runner")
-        .releaseDate(LocalDate.parse("1982-06-25"))
-        .originalLanguage("en")
-        .build();
-    var request = HttpRequest.newBuilder()
-        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
-        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
-        .build();    
-    var start = Instant.now();
-    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    var et = Duration.between(start, Instant.now()).toMillis();
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
-    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResult.class);
-    version = result.version();
-    LOGGER.infof("Updated %s (Blade Runner) in %d ms", movieId, et);
-  }  
-  
-  @Test
-  @Order(4)
   void testUpdateTitle() throws IOException, InterruptedException {  
     var updateRequest = UpdateMovieRequest.builder()
         .version(version)
@@ -126,7 +82,29 @@ class BladeRunnerIT {
   }
   
   @Test
-  @Order(5)
+  @Order(3)
+  void testUpdateReleaseDate() throws IOException, InterruptedException {  
+    var updateRequest = UpdateMovieRequest.builder()
+        .version(version)
+        .title("Blade Runner: Directors Cut")
+        .releaseDate(null)
+        .originalLanguage("en")
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResult.class);
+    version = result.version();
+    LOGGER.infof("Updated %s (Blade Runner) in %d ms", movieId, et);
+  }  
+  
+  @Test
+  @Order(4)
   void testFindMovie() throws IOException, InterruptedException {
     var query = """
         query {
@@ -149,11 +127,11 @@ class BladeRunnerIT {
     
     var movie = root.path("data").path("movie");
     assertEquals(movieId, movie.path("id").asText());
-    assertEquals(3, movie.path("version").asLong());
+    assertEquals(2, movie.path("version").asLong());
     assertEquals("Blade Runner: Directors Cut", movie.path("title").asText());
-    assertEquals("1982-06-25", movie.path("releaseDate").asText());
+    assertTrue(movie.path("releaseDate").isNull());
     assertEquals("en", movie.path("originalLanguage").asText());
-    LOGGER.infof("Found Blade Runner in %d ms", et);    
+    LOGGER.infof("Found %s (Blade Runner) in %d ms", movieId, et);    
   }  
   
   @Disabled
@@ -168,6 +146,6 @@ class BladeRunnerIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(204, response.statusCode());
-    LOGGER.infof("Deleted Blade Runner in: %d ms", et);    
+    LOGGER.infof("Deleted %s (Blade Runner) in: %d ms", movieId, et);    
   }  
 }

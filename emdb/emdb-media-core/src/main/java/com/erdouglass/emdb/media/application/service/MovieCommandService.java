@@ -24,16 +24,6 @@ import com.erdouglass.emdb.media.domain.shared.Version;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
-/// Application service implementing the write-side movie use cases.
-///
-/// The inside edge of the hexagon: this class *orchestrates* — mint
-/// surrogate identity, assemble value objects from raw command fields,
-/// delegate persistence through the outbound port, shape results — but owns
-/// no business rules; if an `if` here starts encoding movie behavior, it
-/// belongs in the domain model.
-///
-/// Also the transaction boundary: `@Transactional` lives on the use-case
-/// methods and nowhere else, so one command is one atomic unit.
 @ApplicationScoped
 class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, DeleteMovieUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();

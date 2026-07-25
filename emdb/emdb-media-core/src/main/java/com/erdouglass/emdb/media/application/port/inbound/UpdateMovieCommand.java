@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.application.port.inbound;
 
+import java.util.Objects;
+
 import com.erdouglass.emdb.media.OriginalLanguage;
 import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.Title;
@@ -24,6 +26,9 @@ public record UpdateMovieCommand(
     private Builder() {}
 
     public UpdateMovieCommand build() {
+      Objects.requireNonNull(version, "version must not be null");
+      Objects.requireNonNull(title, "title must not be null");
+      Objects.requireNonNull(originalLanguage, "originalLanguage must not be null");
       return new UpdateMovieCommand(
           version,
           title, 

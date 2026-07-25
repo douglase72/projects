@@ -46,7 +46,7 @@ class MovieMapper {
         .sourceId(SourceId.of(Source.from(entity.getSource()), entity.getSourceId()))
         .version(Version.of(entity.getVersion()))
         .title(Title.of(entity.getTitle()))
-        .releaseDate(ReleaseDate.of(entity.getReleaseDate()))
+        .releaseDate(entity.getReleaseDate() == null ? null : ReleaseDate.of(entity.getReleaseDate()))
         .originalLanguage(OriginalLanguage.of(entity.getOriginalLanguage()))
         .build();
   }

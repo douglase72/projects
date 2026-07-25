@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media;
 
+import jakarta.validation.constraints.NotNull;
+
 /// Inbound (driving) port: the use-case contract for creating or updating a
 /// movie from an external source payload.
 ///
@@ -9,5 +11,5 @@ package com.erdouglass.emdb.media;
 /// domain type crosses the boundary in either direction.
 public interface SaveMovieUseCase {
 
-  SaveResult save(SaveMovieCommand command);
+  SaveResult save(@NotNull SaveMovieCommand command);
 }

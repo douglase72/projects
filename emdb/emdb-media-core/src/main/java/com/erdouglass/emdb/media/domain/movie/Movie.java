@@ -121,12 +121,6 @@ public final class Movie {
     
     private Builder() {}
     
-    /// Validates the required set — identity, provenance, title, language —
-    /// and assembles the aggregate. [PublicId] and [Version] are deliberately
-    /// not required (absent until first persistence); release date is
-    /// optional data.
-    ///
-    /// @throws NullPointerException if a required field was not supplied
     public Movie build() {
       Objects.requireNonNull(id, "id must not be null");
       Objects.requireNonNull(sourceId, "sourceId must not be null");

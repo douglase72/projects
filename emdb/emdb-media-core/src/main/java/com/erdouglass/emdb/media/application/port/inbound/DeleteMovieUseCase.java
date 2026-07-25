@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.application.port.inbound;
 
+import jakarta.validation.constraints.NotNull;
+
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 
 /// Inbound (driving) port: removes a movie from the catalog.
@@ -10,5 +12,5 @@ import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 /// REST adapter translates the exception to a 404.
 public interface DeleteMovieUseCase {
 
-  void delete(MoviePublicId id);
+  void delete(@NotNull MoviePublicId id);
 }

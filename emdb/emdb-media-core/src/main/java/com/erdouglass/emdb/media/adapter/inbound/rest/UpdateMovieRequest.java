@@ -36,7 +36,7 @@ public record UpdateMovieRequest(
           originalLanguage);
     }
     
-    public Builder originalLanguage(final String originalLanguage) {
+    public Builder originalLanguage(String originalLanguage) {
       this.originalLanguage =originalLanguage;
       return this;
     }

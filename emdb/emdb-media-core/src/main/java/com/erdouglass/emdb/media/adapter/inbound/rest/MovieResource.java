@@ -87,7 +87,7 @@ class MovieResource {
     var command = UpdateMovieCommand.builder()
         .version(Version.of(request.version()))
         .title(Title.of(request.title()))
-        .releaseDate(ReleaseDate.of(request.releaseDate()))
+        .releaseDate(request.releaseDate() == null ? null : ReleaseDate.of(request.releaseDate()))
         .originalLanguage(OriginalLanguage.of(request.originalLanguage()))
         .build();
     return updateUseCase.update(MoviePublicId.from(id), command);    
