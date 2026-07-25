@@ -21,8 +21,15 @@
         <small v-if="errors.releaseDate" class="text-red-500">{{ errors.releaseDate }}</small>
       </div>
       
-      <div>
-        <Button label="Save" :loading="isSubmitting" :disabled="isSubmitting" @click="onSubmit" />
+      <div class="mt-12">
+        <div class="flex gap-4">
+          <Button label="Save" :loading="isSubmitting" :disabled="isSubmitting" @click="onSubmit" />
+
+          <div class="ml-auto flex gap-4">
+            <Button label="Delete" icon="pi pi-trash" @click="onDelete" />
+            <Button label="Cancel" severity="secondary" @click="onCancel" />
+          </div>
+        </div>
       </div>
     </div>    
   </main>
@@ -30,22 +37,24 @@
 
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { useForm } from 'vee-validate';
+  import { useConfirm } from 'primevue/useconfirm';
   import { toTypedSchema } from '@vee-validate/zod';
+  import { useForm } from 'vee-validate';
+  import { useRoute, useRouter } from 'vue-router';
   import { z } from 'zod';
   import Button from 'primevue/button';
   import DatePicker from 'primevue/datepicker';
   import InputText from 'primevue/inputtext';
 
   import { findMovie, type Movie } from '@/lib/emdbQueryApi';
-  import { updateMovie, type UpdateMovieRequest } from '@/lib/emdbCommandApi';
+  import { deleteMovie, updateMovie, type UpdateMovieRequest } from '@/lib/emdbCommandApi';
   import { useErrorHandler } from '@/composables/useErrorHandler';
 
   const { handleError, handleNotFound } = useErrorHandler();
+
   const route = useRoute();
   const router = useRouter();
-
+  const confirm = useConfirm();
   const movie = ref<Movie>();
 
   const schema = z.object({
@@ -110,12 +119,38 @@
     }    
   });
 
- const toDate = (iso: string): Date =>
-  new Date(
-    Number(iso.slice(0, 4)),
-    Number(iso.slice(5, 7)) - 1,
-    Number(iso.slice(8, 10)),
-  );
+  const onCancel = () => {
+    router.back();
+  };
+
+  const onDelete = () => {
+    if (!movie.value) return;
+
+    confirm.require({
+      header: 'Confirm Delete',
+      message: `Delete ${movie.value.title}?`,
+      icon: 'pi pi-exclamation-triangle',
+      rejectProps: { label: 'Cancel', severity: 'secondary', outlined: true },
+      acceptProps: { label: 'Delete', severity: 'danger' },       
+      accept: async () => {
+        if (!movie.value) return;
+
+        try {
+          await deleteMovie(movie.value.id);
+          router.push('/'); 
+        } catch (e) {
+          handleError(e, 'Failed to delete movie');
+        }        
+      },
+    });
+  };    
+
+  const toDate = (iso: string): Date =>
+    new Date(
+      Number(iso.slice(0, 4)),
+      Number(iso.slice(5, 7)) - 1,
+      Number(iso.slice(8, 10)),
+    );
   
   const toIso = (date: Date): string =>
     `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;  

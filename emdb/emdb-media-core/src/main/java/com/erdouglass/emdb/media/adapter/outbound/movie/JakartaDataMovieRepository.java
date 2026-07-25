@@ -3,10 +3,13 @@ package com.erdouglass.emdb.media.adapter.outbound.movie;
 import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.data.repository.Delete;
 import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.Repository;
 import jakarta.data.repository.Update;
+
+import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
 
 /// Jakarta Data repository over the movie table — an internal *tool* of the
 /// persistence adapter, not the DDD repository. That role belongs to
@@ -25,6 +28,9 @@ interface JakartaDataMovieRepository {
   
   @Update
   MovieEntity update(MovieEntity entity);
+  
+  @Delete
+  long deleteByPublicId(Long publicId);
   
   @Find
   Optional<MovieEntity> findById(UUID id);

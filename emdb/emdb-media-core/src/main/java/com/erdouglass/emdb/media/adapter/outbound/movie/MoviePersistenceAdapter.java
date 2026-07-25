@@ -56,6 +56,11 @@ class MoviePersistenceAdapter implements MovieRepository {
   }
   
   @Override
+  public boolean deleteByPublicId(MoviePublicId publicId) {
+    return repository.deleteByPublicId(publicId.value()) > 0;
+  }
+  
+  @Override
   public Optional<Movie> findByPublicId(MoviePublicId publicId) {
     return repository.findByPublicId(publicId.value())
         .map(mapper::toMovie);

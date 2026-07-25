@@ -11,6 +11,7 @@ import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.application.port.inbound.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
@@ -34,7 +35,7 @@ import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 /// Also the transaction boundary: `@Transactional` lives on the use-case
 /// methods and nowhere else, so one command is one atomic unit.
 @ApplicationScoped
-class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase {
+class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, DeleteMovieUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
   private static final Logger LOGGER = Logger.getLogger(MovieCommandService.class);
   
@@ -80,13 +81,22 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase {
 
   @Override
   @Transactional
-  public UpdateResult update(String id, UpdateMovieCommand command) {
-    var existing = repository.findByPublicId(MoviePublicId.from(id))
-        .orElseThrow(() -> new MovieNotFoundException(id));    
+  public UpdateResult update(MoviePublicId id, UpdateMovieCommand command) {
+    var existing = repository.findByPublicId(id)
+        .orElseThrow(() -> new MovieNotFoundException(id.toString()));    
     var updated = repository.update(mapper.merge(existing, command));
     LOGGER.infof("Updated: %s", updated);
     return new UpdateResult(
         updated.publicId().map(MoviePublicId::toString).orElseThrow(), 
         updated.version().map(Version::value).orElseThrow());
+  }
+
+  @Override
+  @Transactional
+  public void delete(MoviePublicId id) {
+    boolean deleted = repository.deleteByPublicId(id);
+    if (!deleted) {
+      throw new MovieNotFoundException(id.toString());
+    }
   }
 }

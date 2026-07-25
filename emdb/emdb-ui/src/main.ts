@@ -5,9 +5,9 @@ import 'primeicons/primeicons.css';
 import { createApp } from 'vue'
 import router from './router'
 import App from './App.vue'
+import ConfirmationService from 'primevue/confirmationservice';
 import Noir from './presets/Noir';
 import PrimeVue from 'primevue/config'
-import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
 
 document.documentElement.classList.toggle('dark', true);
@@ -28,6 +28,6 @@ app.use(PrimeVue, {
   },
 });
 app.use(ToastService);
-app.component('Toast', Toast);
+app.use(ConfirmationService);
 
 app.mount('#app')

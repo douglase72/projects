@@ -19,6 +19,8 @@ public interface MovieRepository {
   
   Movie update(Movie movie);
   
+  boolean deleteByPublicId(MoviePublicId publicId);
+  
   Optional<Movie> findByPublicId(MoviePublicId publicId);
   
   Optional<Movie> findBySourceId(SourceId sourceId);

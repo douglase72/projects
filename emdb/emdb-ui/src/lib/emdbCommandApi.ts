@@ -21,3 +21,7 @@ export const updateMovie = async (id: string, request: UpdateMovieRequest): Prom
   const { data: response} = await client.put<UpdateMovieResponse>(`/movies/${id}`, request);
   return response;
 };
+
+export const deleteMovie = async (id: string) => {
+  await client.delete(`/movies/${id}`);
+}

@@ -14,6 +14,7 @@ import java.util.Map;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -153,5 +154,20 @@ class BladeRunnerIT {
     assertEquals("1982-06-25", movie.path("releaseDate").asText());
     assertEquals("en", movie.path("originalLanguage").asText());
     LOGGER.infof("Found Blade Runner in %d ms", et);    
+  }  
+  
+  @Disabled
+  @Test
+  @Order(6)
+  void testDeleteMovie() throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder()
+        .DELETE()
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
+        .build();
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(204, response.statusCode());
+    LOGGER.infof("Deleted Blade Runner in: %d ms", et);    
   }  
 }

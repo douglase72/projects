@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -23,9 +24,11 @@ import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.SourceId.Source;
 import com.erdouglass.emdb.media.Title;
+import com.erdouglass.emdb.media.application.port.inbound.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
+import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 /// Driving adapter: translates HTTP into invocations of the write-side ports.
@@ -56,6 +59,9 @@ class MovieResource {
   @Inject
   UpdateMovieUseCase updateUseCase;
   
+  @Inject
+  DeleteMovieUseCase deleteUseCase;
+  
   @POST
   public Response save(@NotNull @Valid SaveMovieRequest request, @Context UriInfo uriInfo) {
     var command = SaveMovieCommand.builder()
@@ -84,6 +90,13 @@ class MovieResource {
         .releaseDate(ReleaseDate.of(request.releaseDate()))
         .originalLanguage(OriginalLanguage.of(request.originalLanguage()))
         .build();
-    return updateUseCase.update(id, command);    
+    return updateUseCase.update(MoviePublicId.from(id), command);    
+  }
+  
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@NotBlank @PathParam("id") String id) {
+    deleteUseCase.delete(MoviePublicId.from(id));
+    return Response.noContent().build();
   }
 }
