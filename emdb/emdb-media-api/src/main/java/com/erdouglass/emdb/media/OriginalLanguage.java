@@ -6,6 +6,8 @@ import java.util.Objects;
 /// ISO 639-1 language code, canonicalized to lowercase on construction —
 /// `"EN"`, `" en "`, and `"en"` are one value inside the hexagon.
 public record OriginalLanguage(String code) {
+  public static final int LENGTH = 2;
+  
 
   public OriginalLanguage {
     Objects.requireNonNull(code, "language code must not be null");

@@ -7,14 +7,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.common.validation.DateRange;
-import com.erdouglass.emdb.media.MediaConstants;
+import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.Title;
 
 public record UpdateMovieRequest(
     @NotNull @PositiveOrZero Long version, 
-    @NotBlank @Size(max = MediaConstants.TITLE_MAX_LENGTH) String title,
-    @DateRange(min = MediaConstants.MOVIE_MIN_DATE, max = MediaConstants.MAX_DATE) LocalDate releaseDate,
-    @NotBlank @Size(min = MediaConstants.ISO_639_1_LENGTH, max = MediaConstants.ISO_639_1_LENGTH) String originalLanguage) {
+    @NotBlank @Size(max = Title.MAX_LENGTH) String title,
+    LocalDate releaseDate,
+    @NotBlank @Size(min = OriginalLanguage.LENGTH, max = OriginalLanguage.LENGTH) String originalLanguage) {
 
   public static Builder builder() {
     return new Builder();

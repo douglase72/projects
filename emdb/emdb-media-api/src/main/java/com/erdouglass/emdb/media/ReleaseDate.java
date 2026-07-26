@@ -2,25 +2,18 @@ package com.erdouglass.emdb.media;
 
 import java.time.LocalDate;
 
-/// A movie title: NFC-normalized, stripped, non-blank, length-bounded.
-///
-/// Normalizing in the compact constructor means equality is canonical —
-/// `"Amélie"` composed and decomposed are one value. Downstream code needs
-/// no blank/length checks: the type's existence is the guarantee.
 public record ReleaseDate(LocalDate value) {
+  public static final LocalDate MIN = LocalDate.of(1888, 1, 1);
+  public static final LocalDate MAX = LocalDate.of(2100, 1, 1);
 
   public ReleaseDate {
     if (value == null) {
       throw new IllegalArgumentException("release date must not be null");
     }
-    if (value.isBefore(LocalDate.parse(MediaConstants.MOVIE_MIN_DATE))) {
+    if (value.isBefore(MIN) || value.isAfter(MAX)) {
       throw new IllegalArgumentException(
-          "release date must not be before %s".formatted(MediaConstants.MOVIE_MIN_DATE));
-    }
-    if (value.isAfter(LocalDate.parse(MediaConstants.MAX_DATE))) {
-      throw new IllegalArgumentException(
-          "release date must not be after %s".formatted(MediaConstants.MAX_DATE));
-    }    
+          "release date must be between %s and %s".formatted(MIN, MAX));
+    } 
   }
   
   public static ReleaseDate of(LocalDate releaseDate) {
