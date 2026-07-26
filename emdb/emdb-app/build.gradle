@@ -11,6 +11,7 @@ dependencies {
   
   implementation project(':common-graphql')
   implementation project(':common-rest')
+  implementation project(':emdb-ingest-core')
   implementation project(':emdb-media-api')
   implementation project(':emdb-media-core')
   
@@ -22,6 +23,8 @@ dependencies {
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.jdbc.postgresql
   implementation libs.quarkus.logging
+  implementation libs.quarkus.messaging
+  implementation libs.quarkus.messaging.rabbitmq 
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
   

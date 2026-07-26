@@ -6,5 +6,18 @@ group = 'com.erdouglass.emdb'
 version = '1.0.0-SNAPSHOT'
 
 dependencies {
- 
+  compileOnly         enforcedPlatform(libs.quarkus.bom)
+  
+  implementation project(':common-messaging')
+  implementation project(':common-rest')
+  implementation project(':emdb-media-api')
+  
+  implementation libs.jug
+  
+  compileOnly libs.jakarta.cdi.api
+  compileOnly libs.jakarta.validation.api
+  compileOnly libs.jakarta.ws.rs.api
+  compileOnly libs.jboss.logging
+  compileOnly libs.smallrye.reactive.messaging.api
+  compileOnly libs.smallrye.reactive.messaging.rabbitmq  
 }

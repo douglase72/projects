@@ -15,25 +15,29 @@ import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 public class LoggingDecorator implements PublisherDecorator {
-  public static final String EVENT_TYPE = "X-Event-Type";
+  public static final String TYPE = "X-Event-Type";
 
   private static final Logger LOGGER = Logger.getLogger(LoggingDecorator.class);
   private static final String CORRELATION_ID = "correlationId";
 
   @Override
-  public Multi<? extends Message<?>> decorate(final Multi<? extends Message<?>> publisher,
-      final List<String> channelName, final boolean isConnector) {
+  public Multi<? extends Message<?>> decorate(
+      final Multi<? extends Message<?>> publisher,
+      final List<String> channelName, 
+      final boolean isConnector) {
     return publisher.invoke(message -> {
       message.getMetadata(IncomingRabbitMQMetadata.class).ifPresent(meta -> {
         var correlationId = meta.getCorrelationId().orElse(null);
         MDC.put(CORRELATION_ID, correlationId);
-        var header = meta.getHeaders().get(EVENT_TYPE);
+        var header = meta.getHeaders().get(TYPE);
         var type = header != null ? header.toString() : message.getPayload().getClass().getSimpleName();
         LOGGER.infof("Received %s message on '%s' channel", type, String.join(",", channelName));
       });
 
-      message.getMetadata(OutgoingRabbitMQMetadata.class).ifPresent(_ -> {
-        LOGGER.infof("Sent %s message on '%s' channel", message.getPayload(), String.join(",", channelName));
+      message.getMetadata(OutgoingRabbitMQMetadata.class).ifPresent(meta -> {
+        var header = meta.getHeaders().get(TYPE);
+        var type = header != null ? header.toString() : message.getPayload().getClass().getSimpleName();        
+        LOGGER.infof("Sent %s message on '%s' channel", type, String.join(",", channelName));
       });
     });
   }

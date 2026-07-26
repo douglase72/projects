@@ -12,6 +12,7 @@ public final class TestHelper {
   public static final String MOVIES_URL;
   public static final String PEOPLE_URL;
   public static final String SERIES_URL;
+  public static final String INGEST_URL;
   
   static {
     HTTP_CLIENT = HttpClient.newBuilder().build();
@@ -21,6 +22,7 @@ public final class TestHelper {
     PEOPLE_URL  = "http://localhost:60310/emdb/api/people";
     SERIES_URL  = "http://localhost:60310/emdb/api/series";
     GRAPHQL_URL = "http://localhost:60310/emdb/graphql";
+    INGEST_URL  = "http://localhost:60310/emdb/api/ingest";
   }  
 
   private TestHelper() {}

@@ -1,69 +1,78 @@
-movie-platform/                                  # Gradle multi-project root
-├── settings.gradle.kts                          # include(":movie-contracts", ":movie-ingest", ":movie-catalog")
-├── build.gradle.kts
-├── movie-contracts/                             # shared contract module
-│   └── src/main/java/com/acme/contracts/
-│       └── SaveMovieCommand.java                # both modules compile against this, not each other
-├── movie-catalog/                               # consumer of SaveMovieCommand (not detailed here)
-└── movie-ingest/
-    ├── build.gradle.kts                         # quarkus plugin + deps (rest, rest-client, panache, flyway…)
-    └── src/
-        ├── main/
-        │   ├── java/com/acme/ingest/
-        │   │   ├── domain/                              # pure Java — zero Quarkus/JPA imports
-        │   │   │   ├── model/
-        │   │   │   │   ├── IngestJob.java               # aggregate root; owns state transitions
-        │   │   │   │   ├── CorrelationId.java           # VO (UUID) — what the client gets back
-        │   │   │   │   ├── TmdbMovieId.java             # VO wrapping the TMDB id
-        │   │   │   │   ├── IngestStatus.java            # SUBMITTED→STARTED→EXTRACTED→LOADED→COMPLETED, FAILED from any
-        │   │   │   │   ├── MovieMetadata.java           # what extraction produced
-        │   │   │   │   └── FailureReason.java
-        │   │   │   ├── event/
-        │   │   │   │   ├── IngestJobSubmitted.java
-        │   │   │   │   ├── IngestJobCompleted.java
-        │   │   │   │   └── IngestJobFailed.java
-        │   │   │   └── InvalidStateTransitionException.java
-        │   │   ├── application/
-        │   │   │   ├── port/
-        │   │   │   │   ├── in/
-        │   │   │   │   │   ├── IngestMovieUseCase.java        # CorrelationId ingest(TmdbMovieId)
-        │   │   │   │   │   └── GetIngestStatusQuery.java      # optional status polling
-        │   │   │   │   └── out/
-        │   │   │   │       ├── IngestJobRepository.java       # save / update / findByCorrelationId
-        │   │   │   │       ├── FetchMovieMetadataPort.java    # "extract" — hides TMDB
-        │   │   │   │       └── SaveMovieCommandPort.java      # "load" — hands off to catalog
-        │   │   │   └── service/
-        │   │   │       ├── IngestMovieService.java            # persists SUBMITTED, triggers async, returns id
-        │   │   │       └── IngestPipeline.java                # async worker: STARTED→…→COMPLETED/FAILED
-        │   │   └── adapter/
-        │   │       ├── in/rest/
-        │   │       │   ├── MovieIngestResource.java           # POST /api/v1/ingestions → 202
-        │   │       │   ├── IngestMovieRequest.java            # { "tmdbId": 603 }
-        │   │       │   ├── IngestMovieResponse.java           # { "correlationId": "…", "status": "SUBMITTED" }
-        │   │       │   └── IngestExceptionMapper.java
-        │   │       └── out/
-        │   │           ├── tmdb/
-        │   │           │   ├── TmdbRestClient.java            # @RegisterRestClient interface
-        │   │           │   ├── TmdbMovieResponse.java         # wire DTO
-        │   │           │   └── TmdbMovieMetadataAdapter.java  # implements FetchMovieMetadataPort
-        │   │           ├── persistence/
-        │   │           │   ├── IngestJobEntity.java           # JPA/Panache entity (annotations live here)
-        │   │           │   ├── IngestJobPanacheRepository.java
-        │   │           │   ├── IngestJobMapper.java           # entity ↔ domain
-        │   │           │   └── IngestJobPersistenceAdapter.java  # implements IngestJobRepository
-        │   │           └── catalog/
-        │   │               ├── SaveMovieCommandMapper.java    # MovieMetadata → SaveMovieCommand
-        │   │               └── SaveMovieCommandDispatcher.java   # implements SaveMovieCommandPort
-        │   └── resources/
-        │       ├── application.properties                     # TMDB base-url/key, DB, executor/channel config
-        │       └── db/migration/
-        │           └── V1__create_ingest_job.sql              # Flyway: correlation_id, tmdb_id, status, timestamps, failure_reason
-        └── test/java/com/acme/ingest/
-            ├── domain/model/IngestJobTest.java                # transition rules, no framework needed
-            ├── application/service/IngestPipelineTest.java    # ports mocked
-            └── adapter/
-                ├── in/rest/MovieIngestResourceTest.java       # @QuarkusTest, asserts 202 + body
-                └── out/tmdb/TmdbMovieMetadataAdapterTest.java # WireMock against the REST client
+ingestion/
+├── src/main/java/com/acme/ingestion/
+│   ├── domain/                                   # pure Java — no framework imports
+│   │   ├── model/
+│   │   │   ├── Ingest.java                       # aggregate root; state machine with submit(), start(),
+│   │   │   │                                     #   markExtracted(), markLoaded(), complete(), fail(reason).
+│   │   │   │                                     #   Each transition appends an IngestEvent to its history.
+│   │   │   ├── IngestId.java                     # value object (UUID)
+│   │   │   ├── IngestStatus.java                 # SUBMITTED → STARTED → EXTRACTED → LOADED → COMPLETED | FAILED
+│   │   │   ├── MediaType.java                    # MOVIE | PERSON | SERIES
+│   │   │   ├── TmdbId.java                       # value object
+│   │   │   └── snapshot/
+│   │   │       ├── MovieSnapshot.java            # framework-free shape of the extracted TMDB data;
+│   │   │       ├── PersonSnapshot.java           #   keeps the TMDB wire format out of the core
+│   │   │       └── SeriesSnapshot.java
+│   │   ├── event/
+│   │   │   ├── IngestEvent.java                  # sealed interface: ingestId, occurredAt, detail
+│   │   │   ├── IngestSubmitted.java
+│   │   │   ├── IngestStarted.java
+│   │   │   ├── IngestExtracted.java              # can carry the raw payload for replay/debugging
+│   │   │   ├── IngestLoaded.java
+│   │   │   ├── IngestCompleted.java
+│   │   │   └── IngestFailed.java                 # carries the failure reason
+│   │   └── exception/
+│   │       ├── IngestNotFoundException.java
+│   │       └── InvalidIngestTransitionException.java
+│   │
+│   ├── application/
+│   │   ├── port/
+│   │   │   ├── in/                               # driving ports
+│   │   │   │   ├── SubmitIngestUseCase.java      # IngestId submit(SubmitIngestCommand)
+│   │   │   │   ├── SubmitIngestCommand.java      # mediaType + tmdbId
+│   │   │   │   ├── ProcessIngestUseCase.java     # void process(ProcessIngestCommand)
+│   │   │   │   ├── ProcessIngestCommand.java     # ingestId
+│   │   │   │   └── GetIngestUseCase.java         # status + event timeline (companion to the 202)
+│   │   │   └── out/                              # driven ports
+│   │   │       ├── IngestRepository.java         # save/find aggregate; save appends new events
+│   │   │       ├── IngestWorkQueue.java          # enqueue(IngestId) — implemented by RabbitMQ adapter
+│   │   │       ├── TmdbGateway.java              # fetchMovie / fetchPerson / fetchSeries → snapshots
+│   │   │       └── MediaCatalog.java             # ACL port → Media module (saveMovie / savePerson / saveSeries)
+│   │   └── service/
+│   │       ├── SubmitIngestService.java          # new aggregate → persist SUBMITTED → enqueue → return id
+│   │       ├── ProcessIngestService.java         # E-T-L orchestration; persists every transition
+│   │       └── GetIngestService.java
+│   │
+│   └── adapter/
+│       ├── in/
+│       │   ├── rest/
+│       │   │   ├── IngestResource.java           # POST /api/v1/ingests → 202 + Location; GET /{id}
+│       │   │   ├── SubmitIngestRequest.java
+│       │   │   ├── IngestSubmittedResponse.java  # { "ingestId": ... }
+│       │   │   ├── IngestDetailResponse.java     # status + event history for polling
+│       │   │   └── IngestRestMapper.java
+│       │   └── messaging/
+│       │       └── IngestWorkConsumer.java       # @Incoming("ingest-work") @Blocking → ProcessIngestUseCase
+│       └── out/
+│           ├── persistence/
+│           │   ├── IngestEntity.java             # JPA → table: ingest
+│           │   ├── IngestEventEntity.java        # JPA → table: ingest_event (append-only log)
+│           │   ├── IngestPersistenceMapper.java
+│           │   └── JpaIngestRepository.java      # Panache; implements IngestRepository
+│           ├── messaging/
+│           │   └── RabbitMqIngestWorkQueue.java  # Emitter on "ingest-work-out"; implements IngestWorkQueue
+│           ├── tmdb/
+│           │   ├── TmdbRestClient.java           # @RegisterRestClient(configKey = "tmdb")
+│           │   ├── TmdbMovieDto.java
+│           │   ├── TmdbPersonDto.java
+│           │   ├── TmdbSeriesDto.java
+│           │   └── TmdbGatewayAdapter.java       # implements TmdbGateway; DTO → snapshot mapping
+│           └── media/
+│               └── MediaCatalogAdapter.java      # implements MediaCatalog; snapshot → SaveMovieCommand
+│                                                 #   → in-process call to Media's SaveMovieUseCase
+└── src/main/resources/
+    ├── application.properties
+    └── db/migration/V1__create_ingest_tables.sql # ingest + ingest_event(id, ingest_id, type, occurred_at, detail)
 
 
 package com.example.moviecatalog.adapter.in.rest;

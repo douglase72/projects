@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.adapter.inbound.rest;
 
+import java.net.URI;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -11,10 +13,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.OriginalLanguage;
 import com.erdouglass.emdb.media.ReleaseDate;
@@ -63,7 +63,7 @@ class MovieResource {
   DeleteMovieUseCase deleteUseCase;
   
   @POST
-  public Response save(@NotNull @Valid SaveMovieRequest request, @Context UriInfo uriInfo) {
+  public Response save(@NotNull @Valid SaveMovieRequest request ) {
     var command = SaveMovieCommand.builder()
         .sourceId(SourceId.of(Source.from(request.source()), request.sourceId()))
         .title(Title.of(request.title()))
@@ -73,7 +73,7 @@ class MovieResource {
     var result = saveUseCase.save(command);
     return switch (result.status()) {
       case CREATED -> Response
-          .created(uriInfo.getAbsolutePathBuilder().path(result.id()).build())
+          .created(URI.create("/api/movies/" + result.id()))
           .entity(result)
           .build();
       case UPDATED -> Response.ok(result).build();
