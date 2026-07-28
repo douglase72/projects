@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outboud.rest;
+package com.erdouglass.emdb.ingest.adapter.outbound.rest;
 
 import java.time.LocalDate;
 

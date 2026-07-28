@@ -40,7 +40,7 @@ class BladeRunnerIT {
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {  
     var saveRequest = SaveMovieRequest.builder()
-        .sourceId("tmdb", "78")
+        .sourceId("TMDB", "78")
         .title("Blade Runner")
         .releaseDate(LocalDate.parse("1982-06-25"))
         .originalLanguage("en")

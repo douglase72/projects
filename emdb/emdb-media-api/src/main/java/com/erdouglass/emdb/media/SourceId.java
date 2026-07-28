@@ -21,10 +21,10 @@ public record SourceId(Source source, String id) {
   }
   
   public enum Source {
-    IMDB("imdb"),
-    OMDB("omdb"),
-    TMDB("tmdb"),
-    TRAKT("trakt");
+    IMDB("IMDB"),
+    OMDB("OMDB"),
+    TMDB("TMDB"),
+    TRAKT("Trakt");
     
     private static final Map<String, Source> CACHE = Stream.of(values())
         .collect(Collectors.toMap(Source::toString, Function.identity()));

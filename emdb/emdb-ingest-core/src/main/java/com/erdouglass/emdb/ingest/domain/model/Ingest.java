@@ -1,27 +1,40 @@
 package com.erdouglass.emdb.ingest.domain.model;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import com.erdouglass.emdb.media.MediaType;
+import com.erdouglass.emdb.media.SourceId;
 
-public class Ingest {
+public final class Ingest {
 
   private final IngestId id;
   private final MediaType mediaType;
-  private final TmdbId tmdbId;
+  private final SourceId sourceId;
+  private final Instant submittedAt;
   
-  private Ingest(IngestId id, TmdbId tmdbId, MediaType mediaType) {
-    this.id = Objects.requireNonNull(id, "id");
-    this.tmdbId = Objects.requireNonNull(tmdbId, "tmdbId"); 
-    this.mediaType = Objects.requireNonNull(mediaType, "mediaType");
+  private String message;
+  private IngestStatus status;
+  
+  private Ingest(IngestId id, SourceId sourceId, MediaType mediaType, IngestStatus status, String message) {
+    this.id = Objects.requireNonNull(id, "id must not be null");
+    this.sourceId = Objects.requireNonNull(sourceId, "source id must not be null"); 
+    this.mediaType = Objects.requireNonNull(mediaType, "media type must not be null");
+    this.submittedAt = Instant.now();
+    this.status = status;
+    this.message = message;
   }
   
-  public static Ingest submit(IngestId id, TmdbId tmdbId, MediaType mediaType) {
-    var ingest = new Ingest(id, tmdbId, mediaType);
+  public static Ingest submit(IngestId id, SourceId sourceId, MediaType mediaType) {
+    var msg = "Ingest for %s %s: %s submitted.".formatted(sourceId.source(), mediaType, sourceId.id());
+    var ingest = new Ingest(id, sourceId, mediaType, IngestStatus.SUBMITTED, msg);
     return ingest;
   }
   
   public IngestId id() { return id; }
   public MediaType mediaType() { return mediaType; }
-  public TmdbId tmdbId() { return tmdbId; }
+  public String message() { return message; }
+  public SourceId sourceId() { return sourceId; }
+  public IngestStatus status() { return status; }
+  public Instant submittedAt() { return submittedAt; }
 }
