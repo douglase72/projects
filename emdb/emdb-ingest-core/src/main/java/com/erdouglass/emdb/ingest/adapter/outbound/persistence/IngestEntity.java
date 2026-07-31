@@ -13,7 +13,7 @@ import jakarta.persistence.UniqueConstraint;
 
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.ingest.domain.model.IngestStatus;
-import com.erdouglass.emdb.media.MediaType;
+import com.erdouglass.emdb.ingest.domain.model.IngestType;
 
 @Entity 
 @Table(
@@ -30,8 +30,8 @@ class IngestEntity {
   private UUID id;
   
   @Enumerated(EnumType.STRING)
-  @Column(name = "media_type", nullable = false, length = 16)
-  private MediaType mediaType;
+  @Column(name = "ingest_type", nullable = false, length = 16)
+  private IngestType ingestType;
   
   @Column(length = 1000)
   private String message;
@@ -67,12 +67,12 @@ class IngestEntity {
     return message;
   }
   
-  public void setMediaType(MediaType mediaType) {
-    this.mediaType = mediaType;
+  public void setType(IngestType ingestType) {
+    this.ingestType = ingestType;
   }
   
-  public MediaType getMediaType() {
-    return mediaType;
+  public IngestType getType() {
+    return ingestType;
   }
   
   public void setSource(String source) {

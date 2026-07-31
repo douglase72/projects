@@ -23,6 +23,7 @@ dependencies {
   compileOnly libs.jakarta.validation.api
   compileOnly libs.jakarta.ws.rs.api
   compileOnly libs.jboss.logging
+  compileOnly libs.microprofile.rest.client.api
   compileOnly libs.quarkus.hibernate.orm
   compileOnly libs.smallrye.reactive.messaging.api
   compileOnly libs.smallrye.reactive.messaging.rabbitmq  

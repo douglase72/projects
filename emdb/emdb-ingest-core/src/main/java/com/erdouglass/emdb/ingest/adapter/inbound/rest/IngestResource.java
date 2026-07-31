@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaCommand;
-import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaUseCase;
+import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.SourceId.Source;
 
@@ -23,13 +23,13 @@ import com.erdouglass.emdb.media.SourceId.Source;
 public class IngestResource {
 
   @Inject
-  IngestMediaUseCase ingestUseCase;
+  SubmitIngestUseCase ingestUseCase;
   
   @POST
   public Response create(@NotNull @Valid IngestMediaRequest request) {
     var command = IngestMediaCommand
-        .of(SourceId.of(Source.from(request.source()), request.sourceId()), request.mediaType());
-    var id = ingestUseCase.ingest(command);
+        .of(SourceId.of(Source.from(request.source()), request.sourceId()), request.type());
+    var id = ingestUseCase.submit(command);
     return Response.accepted(id.value())
         .location(URI.create("/api/ingest/" + id.value()))
         .build();

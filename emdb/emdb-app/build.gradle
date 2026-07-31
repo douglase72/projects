@@ -27,6 +27,7 @@ dependencies {
   implementation libs.quarkus.messaging.rabbitmq 
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
+  implementation libs.quarkus.rest.client.jackson
   
   testImplementation libs.quarkus.junit
 }

@@ -15,14 +15,14 @@ import org.junit.jupiter.api.Test;
 
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.ingest.adapter.inbound.rest.IngestMediaRequest;
-import com.erdouglass.emdb.media.MediaType;
+import com.erdouglass.emdb.ingest.domain.model.IngestType;
 
 class BladeRunnerIngestIT {
   private static final Logger LOGGER = Logger.getLogger(BladeRunnerIngestIT.class);
   
   @Test
   void testIngestMovie() throws IOException, InterruptedException {
-    var ingestRequest = IngestMediaRequest.of("TMDB", "78", MediaType.MOVIE);
+    var ingestRequest = IngestMediaRequest.of("TMDB", "78", IngestType.MOVIE);
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(ingestRequest)))
         .uri(UriBuilder.fromUri(TestHelper.INGEST_URL).build())

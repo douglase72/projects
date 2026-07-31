@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.rest;
+package com.erdouglass.emdb.ingest.adapter.outbound.tmdb;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 import com.erdouglass.emdb.media.OriginalLanguage;
 import com.erdouglass.emdb.media.Title;
 
-public record TmdbMovie(    
+public record TmdbMovieResponse(    
     @NotNull @Positive Integer id,
     @NotBlank @Size(max = Title.MAX_LENGTH) String title,
     LocalDate release_date,

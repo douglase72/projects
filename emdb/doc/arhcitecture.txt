@@ -1,3 +1,135 @@
+Opus 5
+emdb-ingest/
+├── pom.xml                                    depends on emdb-media-api (compile)
+└── src/main/java/com/erdouglass/emdb/ingest/
+    │
+    ├── domain/                                ← zero framework imports, zero emdb.media imports
+    │   ├── Ingest.java                        aggregate root; rehydrates from its own event log
+    │   ├── IngestId.java                      record IngestId(String value)
+    │   ├── IngestTarget.java                  record IngestTarget(MediaType type, SourceId sourceId)
+    │   ├── MediaType.java                     MOVIE | PERSON | SERIES
+    │   ├── SourceId.java                      TMDB id — ingest's own VO, distinct from media's
+    │   ├── IngestStatus.java                  derived from the log, never stored as truth
+    │   ├── IngestFailure.java                 record IngestFailure(String code, String message)
+    │   ├── event/
+    │   │   ├── IngestEvent.java               sealed interface: ingestId(), sequence(), occurredAt()
+    │   │   ├── IngestSubmitted.java           SUBMITTED
+    │   │   ├── IngestStarted.java             STARTED
+    │   │   ├── DetailsExtracted.java          EXTRACTED
+    │   │   ├── MediaLoaded.java               LOADED — carries CatalogRef
+    │   │   ├── IngestCompleted.java           COMPLETED
+    │   │   └── IngestFailed.java              FAILED
+    │   └── media/
+    │       ├── MediaDetails.java              sealed interface
+    │       ├── MovieDetails.java
+    │       ├── PersonDetails.java
+    │       ├── SeriesDetails.java
+    │       └── CatalogRef.java                record CatalogRef(String id, long version, boolean created)
+    │
+    ├── application/
+    │   ├── port/in/
+    │   │   ├── SubmitIngestUseCase.java       IngestId submit(SubmitIngestCommand)
+    │   │   ├── RunIngestUseCase.java          void run(RunIngestCommand)
+    │   │   ├── TrackIngestUseCase.java        Multi<IngestEvent> follow(IngestId, long afterSeq)
+    │   │   ├── SubmitIngestCommand.java
+    │   │   └── RunIngestCommand.java
+    │   ├── port/out/
+    │   │   ├── IngestEventLog.java            append(IngestEvent) / load(IngestId, long)
+    │   │   ├── IngestDispatcher.java          dispatch(IngestId, IngestTarget)
+    │   │   ├── MediaSource.java               MediaDetails fetch(IngestTarget)
+    │   │   ├── MediaCatalog.java              CatalogRef load(MediaDetails)
+    │   │   └── IngestEventStream.java         publish(IngestEvent) / subscribe(IngestId)
+    │   └── service/
+    │       ├── SubmitIngestService.java
+    │       ├── RunIngestService.java          the state machine; no TMDB or Rabbit types here
+    │       ├── TrackIngestService.java        replay from log, then concat live
+    │       └── IngestEventRecorder.java       append + publish in one place
+    │
+    └── adapter/
+        ├── in/
+        │   ├── rest/
+        │   │   ├── IngestResource.java        POST /ingests → 202 + Location
+        │   │   ├── IngestEventsResource.java  GET /ingests/{id}/events (SSE, Last-Event-ID)
+        │   │   ├── SubmitIngestRequest.java
+        │   │   ├── IngestAcceptedResponse.java
+        │   │   ├── IngestEventView.java
+        │   │   ├── IngestRestMapper.java
+        │   │   └── IngestExceptionMapper.java
+        │   └── messaging/
+        │       ├── IngestCommandConsumer.java @Incoming("ingest-commands") @Blocking
+        │       └── IngestEventFanIn.java      @Incoming("ingest-events-in") → local sink
+        └── out/
+            ├── persistence/
+            │   ├── IngestEventEntity.java     @Table(schema="emdb_ingest", name="ingest_event")
+            │   ├── IngestEntity.java          projection for list/status queries
+            │   ├── IngestEventRepository.java @Repository (Jakarta Data)
+            │   ├── IngestRepository.java      @Repository
+            │   ├── JakartaDataIngestEventLog.java
+            │   └── IngestEventEntityMapper.java
+            ├── messaging/
+            │   ├── RabbitIngestDispatcher.java   implements IngestDispatcher
+            │   ├── RabbitIngestEventStream.java  implements IngestEventStream
+            │   ├── IngestCommandPayload.java
+            │   └── IngestEventPayload.java
+            ├── tmdb/
+            │   ├── TmdbApi.java               @RegisterRestClient
+            │   ├── TmdbMediaSource.java       implements MediaSource
+            │   ├── TmdbMovieResponse.java     (+ person, series)
+            │   └── TmdbMapper.java            TMDB JSON → domain MediaDetails
+            └── media/
+                ├── MediaApiCatalog.java       implements MediaCatalog
+                └── MediaCommandMapper.java    MovieDetails → SaveMovieCommand, SaveResult → CatalogRef
+
+@ApplicationScoped          
+RunIngestService implements RunIngestUseCase {
+
+  @Inject
+  MediaCatalog mediaCatalog;
+  
+  @Inject
+  MediaSource mediaSource;
+  
+  @Override
+  public void run(RunIngestCommand command) {
+  
+    MediaDetails details = mediaSource.fetch(ingest.target());
+    
+    CatalogRef ref = mediaCatalog.load(details);
+  }
+}
+
+public sealed interface MediaDetails permits MovieDetails, PersonDetails, SeriesDetails {
+  SourceId sourceId();
+  MediaType type();
+  String displayName();
+}
+
+public interface MediaCatalog {
+
+  CatalogRef load(MediaDetails details);
+}
+
+@ApplicationScoped
+public class MediaApiCatalog implements MediaCatalog {
+
+  @Inject
+  SaveMovieUseCase saveMovie;
+  
+  @Inject
+  SavePersonUseCase savePerson;  
+  
+  @Inject
+  SaveSeriesUseCase saveSeries; 
+  
+  switch (details) {
+    case MovieDetails movie -> saveMovie.save(toCommand(movie));
+    case PersonDetails person -> savePerson.save(toCommand(person));
+    case SeriesDetails series -> saveSeries.save(toCommand(series));
+  });
+}
+
+
+Fable 5
 ingestion/
 ├── src/main/java/com/acme/ingestion/
 │   ├── domain/                                   # pure Java — no framework imports

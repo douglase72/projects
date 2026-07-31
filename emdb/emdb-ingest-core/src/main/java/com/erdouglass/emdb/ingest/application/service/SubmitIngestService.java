@@ -1,20 +1,26 @@
 package com.erdouglass.emdb.ingest.application.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaCommand;
-import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaUseCase;
+import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestProducer;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
+import com.erdouglass.emdb.ingest.domain.event.IngestEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestStartedEvent;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
 @ApplicationScoped
-public class IngestMediaService implements IngestMediaUseCase {
+class SubmitIngestService implements SubmitIngestUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
+  
+  @Inject
+  Event<IngestEvent> emitter;
   
   @Inject
   IngestProducer producer;
@@ -23,9 +29,10 @@ public class IngestMediaService implements IngestMediaUseCase {
   IngestRepository repository;
 
   @Override
-  public IngestId ingest(IngestMediaCommand command) {
-    var ingest = Ingest.submit(IngestId.of(GENERATOR.generate()), command.sourceId(), command.mediaType());
+  public IngestId submit(IngestMediaCommand command) {
+    var ingest = Ingest.submit(IngestId.of(GENERATOR.generate()), command.sourceId(), command.type());
     repository.save(ingest);
+    emitter.fire(IngestStartedEvent.of(ingest.id(), ingest.message()));
     producer.publish(ingest.id());
     return ingest.id();
   }

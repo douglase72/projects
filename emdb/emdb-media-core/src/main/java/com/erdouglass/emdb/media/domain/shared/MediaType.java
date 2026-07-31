@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.domain.shared;
 
 import java.util.Map;
 import java.util.function.Function;

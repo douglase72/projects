@@ -2,8 +2,8 @@ package com.erdouglass.emdb.media.domain.movie;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.MediaType;
 import com.erdouglass.emdb.media.domain.exception.MovieNotFoundException;
+import com.erdouglass.emdb.media.domain.shared.MediaType;
 
 public record MoviePublicId(Long value) {
   
