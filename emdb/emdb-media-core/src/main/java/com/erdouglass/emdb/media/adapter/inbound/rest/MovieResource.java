@@ -67,7 +67,7 @@ class MovieResource {
     var command = SaveMovieCommand.builder()
         .sourceId(SourceId.of(Source.from(request.source()), request.sourceId()))
         .title(Title.of(request.title()))
-        .releaseDate(ReleaseDate.of(request.releaseDate()))
+        .releaseDate(ReleaseDate.from(request.releaseDate()).orElse(null))
         .originalLanguage(OriginalLanguage.of(request.originalLanguage()))
         .build();
     var result = saveUseCase.save(command);
@@ -87,7 +87,7 @@ class MovieResource {
     var command = UpdateMovieCommand.builder()
         .version(Version.of(request.version()))
         .title(Title.of(request.title()))
-        .releaseDate(request.releaseDate() == null ? null : ReleaseDate.of(request.releaseDate()))
+        .releaseDate(ReleaseDate.from(request.releaseDate()).orElse(null))
         .originalLanguage(OriginalLanguage.of(request.originalLanguage()))
         .build();
     return updateUseCase.update(MoviePublicId.from(id), command);    

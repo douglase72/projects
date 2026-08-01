@@ -26,7 +26,7 @@ class TmdbMovieAdapter {
     return Movie.builder()
         .sourceId(SourceId.of(Source.TMDB,  tmdbMovie.id().toString()))
         .title(Title.of(tmdbMovie.title()))
-        .releaseDate(ReleaseDate.of(tmdbMovie.release_date()))
+        .releaseDate(ReleaseDate.from(tmdbMovie.release_date()).orElse(null))
         .originalLanguage(OriginalLanguage.of(tmdbMovie.original_language()))
         .build();
   }

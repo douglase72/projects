@@ -1,15 +1,15 @@
 package com.erdouglass.emdb.media;
 
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
 
 public record ReleaseDate(LocalDate value) {
   public static final LocalDate MIN = LocalDate.of(1888, 1, 1);
   public static final LocalDate MAX = LocalDate.of(2100, 1, 1);
 
   public ReleaseDate {
-    if (value == null) {
-      throw new IllegalArgumentException("release date must not be null");
-    }
+    Objects.requireNonNull(value, "release date must not be null");
     if (value.isBefore(MIN) || value.isAfter(MAX)) {
       throw new IllegalArgumentException(
           "release date must be between %s and %s".formatted(MIN, MAX));
@@ -19,6 +19,12 @@ public record ReleaseDate(LocalDate value) {
   public static ReleaseDate of(LocalDate releaseDate) {
     return new ReleaseDate(releaseDate);
   }
+  
+  public static Optional<ReleaseDate> from(String releaseDate) {
+    return Optional.ofNullable(releaseDate)
+        .filter(rd -> !rd.isBlank())
+        .map(rd -> new ReleaseDate(LocalDate.parse(rd)));
+  }  
   
   @Override
   public String toString() {

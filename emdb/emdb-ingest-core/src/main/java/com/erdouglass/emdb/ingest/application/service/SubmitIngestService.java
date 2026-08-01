@@ -9,7 +9,7 @@ import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestProducer;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.event.IngestEvent;
-import com.erdouglass.emdb.ingest.domain.event.IngestStartedEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestSubmittedEvent;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.ingest.domain.model.IngestSource;
@@ -34,7 +34,7 @@ class SubmitIngestService implements SubmitIngestUseCase {
     var source = IngestSource.of(command.sourceId(), command.type());
     var ingest = Ingest.submit(IngestId.of(GENERATOR.generate()), source);
     repository.save(ingest);
-    emitter.fire(IngestStartedEvent.of(ingest.id(), ingest.message()));
+    emitter.fire(IngestSubmittedEvent.of(ingest.id(), ingest.message()));
     producer.publish(ingest.id());
     return ingest.id();
   }

@@ -8,7 +8,6 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.common.messaging.LoggingDecorator;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestProducer;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
@@ -26,7 +25,6 @@ public class RabbitMQIngestAdapter implements IngestProducer {
     emitter.send(Message.of(id)
         .addMetadata(OutgoingRabbitMQMetadata.builder()
             .withCorrelationId(id.toString())
-            .withHeader(LoggingDecorator.TYPE, id.getClass().getSimpleName())
             .build()));
   }
 }

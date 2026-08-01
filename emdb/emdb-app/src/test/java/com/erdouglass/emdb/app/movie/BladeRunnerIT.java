@@ -8,13 +8,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Map;
 
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -42,7 +40,7 @@ class BladeRunnerIT {
     var saveRequest = SaveMovieRequest.builder()
         .sourceId("TMDB", "78")
         .title("Blade Runner")
-        .releaseDate(LocalDate.parse("1982-06-25"))
+        .releaseDate("1982-06-25")
         .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
@@ -65,7 +63,7 @@ class BladeRunnerIT {
     var updateRequest = UpdateMovieRequest.builder()
         .version(version)
         .title("Blade Runner: Directors Cut")
-        .releaseDate(LocalDate.parse("1982-06-25"))
+        .releaseDate("1982-06-25")
         .originalLanguage("en")
         .build();
     var request = HttpRequest.newBuilder()
@@ -134,7 +132,6 @@ class BladeRunnerIT {
     LOGGER.infof("Found %s (Blade Runner) in %d ms", movieId, et);    
   }  
   
-  @Disabled
   @Test
   @Order(6)
   void testDeleteMovie() throws IOException, InterruptedException {

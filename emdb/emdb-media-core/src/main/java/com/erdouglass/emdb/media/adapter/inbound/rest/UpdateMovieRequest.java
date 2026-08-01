@@ -1,7 +1,5 @@
 package com.erdouglass.emdb.media.adapter.inbound.rest;
 
-import java.time.LocalDate;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -13,7 +11,7 @@ import com.erdouglass.emdb.media.Title;
 public record UpdateMovieRequest(
     @NotNull @PositiveOrZero Long version, 
     @NotBlank @Size(max = Title.MAX_LENGTH) String title,
-    LocalDate releaseDate,
+    String releaseDate,
     @NotBlank @Size(min = OriginalLanguage.LENGTH, max = OriginalLanguage.LENGTH) String originalLanguage) {
 
   public static Builder builder() {
@@ -23,7 +21,7 @@ public record UpdateMovieRequest(
   public static final class Builder {
     private Long version;
     private String title;
-    private LocalDate releaseDate;
+    private String releaseDate;
     private String originalLanguage;
     
     private Builder() {}
@@ -41,7 +39,7 @@ public record UpdateMovieRequest(
       return this;
     }
     
-    public Builder releaseDate(LocalDate releaseDate) {
+    public Builder releaseDate(String releaseDate) {
       this.releaseDate = releaseDate;
       return this;
     }
