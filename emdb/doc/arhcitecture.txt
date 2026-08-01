@@ -104,6 +104,31 @@ public sealed interface MediaDetails permits MovieDetails, PersonDetails, Series
   String displayName();
 }
 
+public interface MediaSource {
+
+  MediaDetails fetch(IngestTarget target);
+}
+
+@ApplicationScoped
+public class TmdbMediaSource implements MediaSource {
+
+  @Override
+  public MediaDetails fetch(IngestTarget target) {
+    String id = target.sourceId().value();
+    try {
+      return switch (target.type()) {
+        case MOVIE -> toMovie(api.movie(id));
+        case PERSON -> toPerson(api.person(id));
+        case SERIES -> toSeries(api.series(id));
+      };
+    } catch (WebApplicationException e) {
+      throw translate(e, target);
+    } catch (ProcessingException e) {
+      throw new MediaSourceException.Unavailable("TMDB unreachable for " + target, e);
+    }
+  }
+}
+
 public interface MediaCatalog {
 
   CatalogRef load(MediaDetails details);

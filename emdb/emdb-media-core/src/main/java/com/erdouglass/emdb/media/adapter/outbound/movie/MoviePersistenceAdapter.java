@@ -68,7 +68,7 @@ class MoviePersistenceAdapter implements MovieRepository {
   
   @Override
   public Optional<Movie> findBySourceId(SourceId sourceId) {
-    return repository.findBySourceId(sourceId.source().toString(), sourceId.id())
+    return repository.findBySourceId(sourceId.provider().toString(), sourceId.id())
         .map(mapper::toMovie);
   }
 }

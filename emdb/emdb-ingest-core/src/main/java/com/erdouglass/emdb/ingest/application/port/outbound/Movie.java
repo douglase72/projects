@@ -2,16 +2,22 @@ package com.erdouglass.emdb.ingest.application.port.outbound;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.ingest.domain.model.IngestType;
 import com.erdouglass.emdb.media.OriginalLanguage;
 import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.Title;
 
-public record MovieDto(
+public record Movie(
     SourceId sourceId,
     Title title,
     ReleaseDate releaseDate,
-    OriginalLanguage originalLanguage) {
+    OriginalLanguage originalLanguage) implements Media {
+  
+  @Override
+  public IngestType type() {
+    return IngestType.MOVIE;
+  }
   
   public static Builder builder() {
     return new Builder();
@@ -25,11 +31,11 @@ public record MovieDto(
     
     private Builder() {}
 
-    public MovieDto build() {
+    public Movie build() {
       Objects.requireNonNull(sourceId, "sourceId must not be null");
       Objects.requireNonNull(title, "title must not be null");
       Objects.requireNonNull(originalLanguage, "originalLanguage must not be null");
-      return new MovieDto(
+      return new Movie(
           sourceId,
           title, 
           releaseDate, 

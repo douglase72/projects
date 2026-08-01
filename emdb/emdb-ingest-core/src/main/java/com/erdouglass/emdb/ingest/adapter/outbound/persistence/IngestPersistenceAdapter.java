@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
+import com.erdouglass.emdb.ingest.domain.model.IngestSource;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.SourceId.Source;
 
@@ -34,11 +35,11 @@ class IngestPersistenceAdapter implements IngestRepository {
   private IngestEntity toIngestEntity(Ingest ingest) {
     IngestEntity entity = new IngestEntity();
     entity.setId(ingest.id().value());
-    entity.setSource(ingest.sourceId().source().toString());
-    entity.setSourceId(ingest.sourceId().id());
+    entity.setSource(ingest.source().provider().toString());
+    entity.setSourceId(ingest.source().id());
     entity.setStatus(ingest.status());
     entity.setSubmittedAt(ingest.submittedAt());
-    entity.setType(ingest.type());
+    entity.setType(ingest.source().type());
     entity.setMessage(ingest.message());
     return entity;
   }
@@ -46,10 +47,10 @@ class IngestPersistenceAdapter implements IngestRepository {
   private static Ingest toIngest(IngestEntity entity) {
     return Ingest.builder()
         .id(IngestId.of(entity.getId()))
-        .sourceId(SourceId.of(Source.from(entity.getSource()), entity.getSourceId()))
+        .source(IngestSource
+            .of(SourceId.of(Source.from(entity.getSource()), entity.getSourceId()), entity.getType()))
         .status(entity.getStatus())
         .submittedAt(entity.getSubmittedAt())
-        .type(entity.getType())
         .message(entity.getMessage())
         .build();
   }

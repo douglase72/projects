@@ -13,12 +13,10 @@ import com.erdouglass.emdb.ingest.domain.event.IngestFailedEvent;
 import com.erdouglass.emdb.ingest.domain.event.IngestLoadedEvent;
 import com.erdouglass.emdb.ingest.domain.event.IngestStartedEvent;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmittedEvent;
-import com.erdouglass.emdb.media.SourceId;
 
 public final class Ingest {
   private final IngestId id;
-  private final IngestType type;
-  private final SourceId sourceId;
+  private final IngestSource source;
   private final Instant submittedAt;
   private final Map<IngestStatus, IngestEvent> pendingEvents = new HashMap<>();
   
@@ -27,14 +25,12 @@ public final class Ingest {
   
   private Ingest(
       IngestId id, 
-      SourceId sourceId, 
-      IngestType type, 
+      IngestSource source, 
       Instant submittedAt, 
       IngestStatus status, 
       String message) {
     this.id = Objects.requireNonNull(id, "id must not be null");
-    this.sourceId = Objects.requireNonNull(sourceId, "source id must not be null"); 
-    this.type = Objects.requireNonNull(type, "type must not be null");
+    this.source = Objects.requireNonNull(source, "source id must not be null"); 
     this.submittedAt = submittedAt;
     this.status = status;
     this.message = message;
@@ -44,9 +40,9 @@ public final class Ingest {
     return new Builder();
   }
   
-  public static Ingest submit(IngestId id, SourceId sourceId, IngestType type) {
-    var msg = "Ingest for %s %s: %s submitted.".formatted(sourceId.source(), type, sourceId.id());
-    var ingest = new Ingest(id, sourceId, type, Instant.now(), IngestStatus.SUBMITTED, msg);
+  public static Ingest submit(IngestId id, IngestSource is) {
+    var msg = "Ingest for %s %s: %s submitted.".formatted(is.provider(), is.type(), is.id());
+    var ingest = new Ingest(id, is, Instant.now(), IngestStatus.SUBMITTED, msg);
     ingest.submitted();
     return ingest;
   }
@@ -55,7 +51,7 @@ public final class Ingest {
     status = IngestStatus.STARTED;
     var et = Duration.between(submittedAt, Instant.now()).toMillis();
     message = "Ingest for %s %s: %s sat in the 'ingest-media' queue for %d ms."
-        .formatted(sourceId.source(), type, sourceId.id(), et);
+        .formatted(source.provider(), source.type(), source.id(), et);
     pendingEvents.put(IngestStatus.STARTED, IngestStartedEvent.of(id, message));
   }
   
@@ -67,7 +63,7 @@ public final class Ingest {
     }
     var et = Duration.between(startedEvent.occurredAt(), Instant.now()).toMillis();
     message = "Ingest for %s %s: %s extracted in %d ms."
-        .formatted(sourceId.source(), type, sourceId.id(), et);  
+        .formatted(source.provider(), source.type(), source.id(), et);  
     pendingEvents.put(IngestStatus.EXTRACTED, IngestExtractedEvent.of(id, message));
   }
   
@@ -79,7 +75,7 @@ public final class Ingest {
     }
     var et = Duration.between(extractedEvent.occurredAt(), Instant.now()).toMillis();
     message = "Ingest for %s %s: %s loaded in %d ms."
-        .formatted(sourceId.source(), type, sourceId.id(), et); 
+        .formatted(source.provider(), source.type(), source.id(), et); 
     pendingEvents.put(IngestStatus.LOADED, IngestLoadedEvent.of(id, message));
   }
   
@@ -87,28 +83,26 @@ public final class Ingest {
     status = IngestStatus.COMPLETED;
     var et = Duration.between(submittedAt, Instant.now()).toMillis();
     message = "Ingest for %s %s: %s completed in %d ms."
-        .formatted(sourceId.source(), type, sourceId.id(), et);
+        .formatted(source.provider(), source.type(), source.id(), et);
     pendingEvents.put(IngestStatus.COMPLETED, IngestCompletedEvent.of(id, message));
   }
   
   public void failed() {
     status = IngestStatus.FAILED;
     message = "Ingest for %s %s: %s failed."
-        .formatted(sourceId.source(), type, sourceId.id());
+        .formatted(source.provider(), source.type(), source.id());
     pendingEvents.put(IngestStatus.FAILED, IngestFailedEvent.of(id, message));
   }
   
   public IngestId id() { return id; }
-  public IngestType type() { return type; }
   public String message() { return message; }
-  public SourceId sourceId() { return sourceId; }
+  public IngestSource source() { return source; }
   public IngestStatus status() { return status; }
   public Instant submittedAt() { return submittedAt; }
   
   public static final class Builder {
     private IngestId id;
-    private IngestType type;
-    private SourceId sourceId;
+    private IngestSource source;
     private Instant submittedAt;
     private String message;
     private IngestStatus status;  
@@ -116,16 +110,11 @@ public final class Ingest {
     private Builder() {}
     
     public Ingest build() {
-      return new Ingest(id, sourceId, type, submittedAt, status, message);
+      return new Ingest(id, source, submittedAt, status, message);
     }
     
     public Builder id(IngestId id) {
       this.id = id;
-      return this;
-    }
-    
-    public Builder type(IngestType type) {
-      this.type = type;
       return this;
     }
     
@@ -134,8 +123,8 @@ public final class Ingest {
       return this;
     }   
     
-    public Builder sourceId(SourceId sourceId) {
-      this.sourceId = sourceId;
+    public Builder source(IngestSource source) {
+      this.source = source;
       return this;
     } 
     

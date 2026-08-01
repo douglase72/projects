@@ -1,23 +1,17 @@
 package com.erdouglass.emdb.media;
 
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Locale;
+import java.util.Objects;
 
-public record SourceId(Source source, String id) {
+public record SourceId(Source provider, String id) {
 
   public SourceId {
-    if (source == null) {
-      throw new IllegalArgumentException("source must not be null");
-    }
-    if (id == null) {
-      throw new IllegalArgumentException("id must not be null");
-    }
+    Objects.requireNonNull(provider, "provider must not be null");
+    Objects.requireNonNull(id, "id must not be null");
   }
   
-  public static SourceId of(Source source, String id) {
-    return new SourceId(source, id);
+  public static SourceId of(Source provider, String id) {
+    return new SourceId(provider, id);
   }
   
   public enum Source {
@@ -26,9 +20,6 @@ public record SourceId(Source source, String id) {
     TMDB("TMDB"),
     TRAKT("Trakt");
     
-    private static final Map<String, Source> CACHE = Stream.of(values())
-        .collect(Collectors.toMap(Source::toString, Function.identity()));
-    
     private final String source;
     
     Source(String source) {
@@ -36,8 +27,7 @@ public record SourceId(Source source, String id) {
     }
     
     public static Source from(String source) {
-      var value = CACHE.get(source);
-      return value != null ? value : Source.valueOf(source);
+      return valueOf(Objects.requireNonNull(source, "value").toUpperCase(Locale.ROOT));
     }
     
     @Override
