@@ -1,15 +1,17 @@
 package com.erdouglass.emdb.media;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public record SaveMovieCommand(
-    TmdbId tmdbId,
-    MovieDetails details) {
-
+public record MovieDetails(
+    Title title,
+    Optional<ReleaseDate> releaseDate,
+    Optional<Score> score,
+    Optional<LanguageCode> originalLanguage) {
+  
   public static Builder builder() { return new Builder(); }
   
   public static final class Builder {
-    private TmdbId tmdbId;
     private Title title;
     private ReleaseDate releaseDate;
     private Score score;
@@ -17,15 +19,13 @@ public record SaveMovieCommand(
     
     private Builder() {}
 
-    public SaveMovieCommand build() {
-      Objects.requireNonNull(tmdbId, "tmdbId must not be null");
+    public MovieDetails build() {
       Objects.requireNonNull(title, "title must not be null");
-      return new SaveMovieCommand(tmdbId, MovieDetails.builder()
-          .title(title)
-          .releaseDate(releaseDate)
-          .score(score)
-          .originalLanguage(originalLanguage)
-          .build());
+      return new MovieDetails(
+          title, 
+          Optional.ofNullable(releaseDate), 
+          Optional.ofNullable(score),
+          Optional.ofNullable(originalLanguage));
     }
     
     public Builder originalLanguage(LanguageCode originalLanguage) {
@@ -45,11 +45,6 @@ public record SaveMovieCommand(
     
     public Builder title(Title title) {
       this.title = title;
-      return this;
-    }
-    
-    public Builder tmdbId(TmdbId tmdbId) {
-      this.tmdbId = tmdbId;
       return this;
     }
   }

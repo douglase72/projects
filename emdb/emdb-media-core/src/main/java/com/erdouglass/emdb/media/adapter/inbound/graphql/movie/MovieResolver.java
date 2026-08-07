@@ -1,28 +1,25 @@
-package com.erdouglass.emdb.media.adapter.inbound.graphql;
+package com.erdouglass.emdb.media.adapter.inbound.graphql.movie;
 
 import jakarta.inject.Inject;
-import jakarta.validation.constraints.NotBlank;
 
+import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Name;
+import org.eclipse.microprofile.graphql.NonNull;
 import org.eclipse.microprofile.graphql.Query;
 
-import com.erdouglass.emdb.media.application.port.inbound.FindMovieUseCase;
+import com.erdouglass.emdb.media.application.port.inbound.movie.FindMovieUseCase;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 
 @GraphQLApi
-public class MovieResolver {
+class MovieResolver {
   
-  @Inject
-  MovieMapper mapper;
-
   @Inject
   FindMovieUseCase findUseCase;
-  
-  @Query("movie") 
-  public MovieView findById(@NotBlank @Name("id") String id) {
-    return findUseCase.findById(MoviePublicId.from(id))
-        .map(mapper::toMovieView)
-        .orElse(null);
-  }  
+
+  @Query("movie")
+  @Description("A single title by its catalogue id.")
+  public MovieView movie(@Name("id") @NonNull String id) {
+    return findUseCase.findById(MoviePublicId.of(id));
+  }
 }

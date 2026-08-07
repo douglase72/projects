@@ -2,7 +2,7 @@ package com.erdouglass.emdb.media.domain.exception;
 
 public class MovieNotFoundException extends RuntimeException {
   private static final long serialVersionUID = 1L;
-  
+
   public MovieNotFoundException() {
     super();
   }
@@ -17,5 +17,5 @@ public class MovieNotFoundException extends RuntimeException {
   
   public MovieNotFoundException(final String message, final Throwable cause) {
     super(message, cause);
-  }  
+  }    
 }

@@ -3,7 +3,7 @@ package com.erdouglass.emdb.ingest.application.port.outbound;
 import java.util.Objects;
 
 import com.erdouglass.emdb.ingest.domain.model.IngestType;
-import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.LanguageCode;
 import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.Title;
@@ -12,7 +12,7 @@ public record Movie(
     SourceId sourceId,
     Title title,
     ReleaseDate releaseDate,
-    OriginalLanguage originalLanguage) implements Media {
+    LanguageCode originalLanguage) implements Media {
   
   @Override
   public IngestType type() {
@@ -27,7 +27,7 @@ public record Movie(
     private SourceId sourceId;
     private Title title;
     private ReleaseDate releaseDate;
-    private OriginalLanguage originalLanguage;
+    private LanguageCode originalLanguage;
     
     private Builder() {}
 
@@ -42,7 +42,7 @@ public record Movie(
           originalLanguage);
     }
     
-    public Builder originalLanguage(OriginalLanguage originalLanguage) {
+    public Builder originalLanguage(LanguageCode originalLanguage) {
       this.originalLanguage = originalLanguage;
       return this;
     }

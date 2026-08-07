@@ -1,26 +1,31 @@
 package com.erdouglass.emdb.media.domain.movie;
 
 import java.util.Objects;
-import java.util.UUID;
+import java.util.regex.Pattern;
 
-/// Internal surrogate identity of a [Movie].
-///
-/// Application-generated (UUIDv7), used for persistence joins and nothing
-/// else. Must never appear in URLs, payloads, or logs shown to users —
-/// that job belongs to [MoviePublicId]. Value object: immutable, self-validating,
-/// equal by value.
-public record MovieId(UUID value) {
-
-  public MovieId {
+public record MoviePublicId(String value) {
+  private static final String PREFIX = "mv_";
+  private static final Pattern SHAPE = Pattern.compile("^mv_[1-9]\\d*$");
+  
+  public MoviePublicId {
     Objects.requireNonNull(value, "movie id must not be null");
+    if (!SHAPE.matcher(value).matches()) {
+      throw new IllegalArgumentException("movie id must match mv_<n>, got: " + value);
+    }    
   }
   
-  public static MovieId of(UUID id) {
-    return new MovieId(id);
+  public static MoviePublicId of(String id) {
+    return new MoviePublicId(id);
   }
-
-  @Override
-  public String toString() {
-    return value.toString();
+  
+  public static MoviePublicId from(long id) {
+    if (id < 1) {
+      throw new IllegalArgumentException("id must be positive");
+    }
+    return new MoviePublicId(PREFIX + id);
+  }
+  
+  public Long toLong() {
+    return Long.parseLong(value.substring(PREFIX.length()));
   }
 }

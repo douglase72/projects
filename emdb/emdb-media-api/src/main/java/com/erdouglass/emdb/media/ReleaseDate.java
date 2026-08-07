@@ -2,10 +2,9 @@ package com.erdouglass.emdb.media;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
 
 public record ReleaseDate(LocalDate value) {
-  public static final LocalDate MIN = LocalDate.of(1888, 1, 1);
+  public static final LocalDate MIN = LocalDate.of(1874, 1, 1);
   public static final LocalDate MAX = LocalDate.of(2100, 1, 1);
 
   public ReleaseDate {
@@ -20,14 +19,7 @@ public record ReleaseDate(LocalDate value) {
     return new ReleaseDate(releaseDate);
   }
   
-  public static Optional<ReleaseDate> from(String releaseDate) {
-    return Optional.ofNullable(releaseDate)
-        .filter(rd -> !rd.isBlank())
-        .map(rd -> new ReleaseDate(LocalDate.parse(rd)));
-  }  
-  
-  @Override
-  public String toString() {
-    return value.toString();
+  public static ReleaseDate from(String releaseDate) {
+    return new ReleaseDate(LocalDate.parse(releaseDate));
   }
 }

@@ -2,9 +2,10 @@ package com.erdouglass.emdb.media.application.port.inbound.movie;
 
 import jakarta.validation.constraints.NotNull;
 
+import com.erdouglass.emdb.media.adapter.inbound.graphql.movie.MovieView;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 
-public interface DeleteMovieUseCase {
+public interface FindMovieUseCase {
 
-  void delete(@NotNull MoviePublicId id);
+  MovieView findById(@NotNull MoviePublicId id);
 }

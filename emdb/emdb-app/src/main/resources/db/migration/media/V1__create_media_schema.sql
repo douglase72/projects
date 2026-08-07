@@ -1,7 +1,13 @@
-create table emdb_media.movie (public_id bigint not null, id uuid not null, original_language varchar(2) not null, release_date date, source varchar(16) not null, source_id varchar(64) not null, title varchar(140) not null, version bigint not null, primary key (public_id));
-alter table if exists emdb_media.movie drop constraint if exists uq_movie_source;
-alter table if exists emdb_media.movie add constraint uq_movie_source unique (source, source_id);
-alter table if exists emdb_media.movie drop constraint if exists uq_movie_uuid;
-alter table if exists emdb_media.movie add constraint uq_movie_uuid unique (id);
-create sequence emdb_media.movie_sequence start with 1 increment by 1;
 
+create table emdb_media.movie (id bigint not null, original_language varchar(2), release_date date, score numeric(5,3), surrogate_id uuid not null, title varchar(140) not null, tmdb_id integer not null, version bigint not null, primary key (id));
+
+create table emdb_media.movie_audit (id bigint not null, field_name varchar(64) not null check ((field_name in ('TITLE','RELEASE_DATE','SCORE','ORIGINAL_LANGUAGE'))), movie_public_id varchar(32) not null, movie_surrogate_id uuid not null, new_value text, occurred_at timestamp(6) with time zone not null, old_value text, operation varchar(16) not null check ((operation in ('ADDED','UPDATED','DELETED'))), primary key (id));
+
+alter table if exists emdb_media.movie drop constraint if exists uq_movie_surrogate_id;
+alter table if exists emdb_media.movie add constraint uq_movie_surrogate_id unique (surrogate_id);
+alter table if exists emdb_media.movie drop constraint if exists uq_movie_tmdb_id;
+alter table if exists emdb_media.movie add constraint uq_movie_tmdb_id unique (tmdb_id);
+create index ix_movie_audit_movie on emdb_media.movie_audit (movie_surrogate_id, occurred_at, id);
+create index ix_movie_audit_occurred on emdb_media.movie_audit (occurred_at);
+create sequence emdb_media.movie_audit_seq start with 1 increment by 50;
+create sequence emdb_media.movie_seq start with 1 increment by 1;

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.adapter.inbound.rest;
+package com.erdouglass.emdb.media.adapter.inbound.rest.movie;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

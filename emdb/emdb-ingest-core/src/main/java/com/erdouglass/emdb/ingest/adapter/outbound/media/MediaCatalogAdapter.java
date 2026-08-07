@@ -8,6 +8,7 @@ import com.erdouglass.emdb.ingest.application.port.outbound.MediaCatalog;
 import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
+import com.erdouglass.emdb.media.TmdbId;
 
 @ApplicationScoped
 class MediaCatalogAdapter implements MediaCatalog {
@@ -24,7 +25,7 @@ class MediaCatalogAdapter implements MediaCatalog {
   
   private SaveMovieCommand toSaveMovieCommand(Movie movie) {
     return SaveMovieCommand.builder()
-        .sourceId(movie.sourceId())
+        .tmdbId(TmdbId.of(Integer.valueOf(movie.sourceId().id())))
         .title(movie.title())
         .releaseDate(movie.releaseDate())
         .originalLanguage(movie.originalLanguage())

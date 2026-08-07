@@ -6,16 +6,16 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.media.MovieDetails;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.application.port.inbound.DeleteMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieCommand;
-import com.erdouglass.emdb.media.application.port.inbound.UpdateMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.UpdateResult;
-import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
+import com.erdouglass.emdb.media.application.port.inbound.movie.DeleteMovieUseCase;
+import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieCommand;
+import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieUseCase;
+import com.erdouglass.emdb.media.application.port.outbound.movie.MovieAuditRepository;
+import com.erdouglass.emdb.media.application.port.outbound.movie.MovieCommandRepository;
 import com.erdouglass.emdb.media.domain.exception.MovieNotFoundException;
 import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
@@ -30,63 +30,62 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
   private static final Logger LOGGER = Logger.getLogger(MovieCommandService.class);
   
   @Inject
-  MovieMapper mapper;
+  MovieAuditRepository audit;
   
   @Inject
-  MovieRepository repository;
+  MovieCommandRepository movies;
 
-  /// Upsert the given movie to the database.
-  /// 
-  /// This method is idempotent with respect to the [SourceId], meaning if a [Movie]
-  /// already exists with the same source id it will be updated, otherwise a new movie
-  /// will be created.
-  /// 
-  /// @param command - the command holding the movie to be saved
-  /// @return the result of the save
   @Override
   @Transactional
   public SaveResult save(SaveMovieCommand command) {
-    var movie = Movie.builder()
-        .id(MovieId.of(GENERATOR.generate()))
-        .sourceId(command.sourceId())
-        .title(command.title())
-        .releaseDate(command.releaseDate())
-        .originalLanguage(command.originalLanguage())
-        .build();
-    var status = Status.CREATED;
-    var existing = repository.findBySourceId(command.sourceId())
-        .orElse(null);
-    if (existing == null) {
-      movie = repository.insert(movie);
-    } else {
-      movie = repository.update(mapper.merge(existing, command));
-      status = Status.UPDATED;
-    }
-    LOGGER.infof("Saved: %s", movie);
-    return new SaveResult(
-        movie.publicId().map(MoviePublicId::toString).orElseThrow(), 
-        movie.version().map(Version::value).orElseThrow(), 
-        status);
+    return movies.findByTmdbId(command.tmdbId())
+        .map(existing -> update(existing, command.details()))
+        .orElseGet(() -> insert(command));
   }
-
+  
   @Override
   @Transactional
-  public UpdateResult update(MoviePublicId id, UpdateMovieCommand command) {
-    var existing = repository.findByPublicId(id)
-        .orElseThrow(() -> new MovieNotFoundException(id.toString()));    
-    var updated = repository.update(mapper.merge(existing, command));
-    LOGGER.infof("Updated: %s", updated);
-    return new UpdateResult(
-        updated.publicId().map(MoviePublicId::toString).orElseThrow(), 
-        updated.version().map(Version::value).orElseThrow());
+  public SaveResult update(UpdateMovieCommand command) {
+    Movie movie = movies.findByPublicId(command.publicId())
+        .orElseThrow(() -> new MovieNotFoundException(command.publicId().value()));
+    movie.checkVersion(command.version());
+    return update(movie, command.details());
   }
-
+  
   @Override
   @Transactional
   public void delete(MoviePublicId id) {
-    boolean deleted = repository.deleteByPublicId(id);
-    if (!deleted) {
-      throw new MovieNotFoundException(id.toString());
+    Movie movie = movies.findByPublicId(id)
+        .orElseThrow(() -> new MovieNotFoundException(id.value())); 
+    audit.append(movie.id(), movie.publicId().orElseThrow(), movie.changesAsDeleted());
+    movies.deleteByPublicId(id);
+  }
+  
+  private SaveResult insert(SaveMovieCommand command) {
+    var movie = Movie.create(MovieId.of(GENERATOR.generate()), command.tmdbId(), command.details());
+    var inserted = movies.insert(movie);
+    audit.append(inserted.id(), inserted.publicId().orElseThrow(), inserted.changesAsAdded());
+    LOGGER.infof("Created: %s", inserted);
+    return SaveResult.of(
+        inserted.publicId().map(MoviePublicId::value).orElseThrow(), 
+        inserted.version().map(Version::value).orElseThrow(), 
+        Status.CREATED);    
+  }
+  
+  private SaveResult update(Movie movie, MovieDetails target) {
+    var changes = movie.update(target);
+    if (changes.isEmpty()) {
+      return SaveResult.of(
+          movie.publicId().map(MoviePublicId::value).orElseThrow(), 
+          movie.version().map(Version::value).orElseThrow(), 
+          Status.UNCHANGED);
     }
+    var updated = movies.update(movie);
+    audit.append(updated.id(), updated.publicId().orElseThrow(), changes);
+    LOGGER.infof("Updated: %s", updated);
+    return SaveResult.of(
+        updated.publicId().map(MoviePublicId::value).orElseThrow(), 
+        updated.version().map(Version::value).orElseThrow(), 
+        Status.UPDATED);    
   }
 }

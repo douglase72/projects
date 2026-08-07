@@ -1,28 +1,22 @@
 package com.erdouglass.emdb.media.application.service;
 
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import org.jboss.logging.Logger;
-
-import com.erdouglass.emdb.media.application.port.inbound.FindMovieUseCase;
-import com.erdouglass.emdb.media.application.port.outbound.MovieRepository;
-import com.erdouglass.emdb.media.domain.movie.Movie;
+import com.erdouglass.emdb.media.adapter.inbound.graphql.movie.MovieView;
+import com.erdouglass.emdb.media.application.port.inbound.movie.FindMovieUseCase;
+import com.erdouglass.emdb.media.application.port.outbound.movie.MovieQueryRepository;
+import com.erdouglass.emdb.media.domain.exception.MovieNotFoundException;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 
 @ApplicationScoped
 class MovieQueryService implements FindMovieUseCase {
-  private static final Logger LOGGER = Logger.getLogger(MovieQueryService.class);
-
-  @Inject
-  MovieRepository repository;
   
+  @Inject
+  MovieQueryRepository query;
+
   @Override
-  public Optional<Movie> findById(MoviePublicId id) {
-    var movie = repository.findByPublicId(id);
-    movie.ifPresent(m -> LOGGER.infof("Found: %s", m));
-    return movie;
+  public MovieView findById(MoviePublicId id) {
+    return query.findById(id).orElseThrow(() -> new MovieNotFoundException(id.value()));
   }
 }

@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
-import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.LanguageCode;
 import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.SourceId.Source;
@@ -26,8 +26,8 @@ class TmdbMovieAdapter {
     return Movie.builder()
         .sourceId(SourceId.of(Source.TMDB,  tmdbMovie.id().toString()))
         .title(Title.of(tmdbMovie.title()))
-        .releaseDate(ReleaseDate.from(tmdbMovie.release_date()).orElse(null))
-        .originalLanguage(OriginalLanguage.of(tmdbMovie.original_language()))
+        .releaseDate(ReleaseDate.from(tmdbMovie.release_date()))
+        .originalLanguage(LanguageCode.of(tmdbMovie.original_language()))
         .build();
   }
 }

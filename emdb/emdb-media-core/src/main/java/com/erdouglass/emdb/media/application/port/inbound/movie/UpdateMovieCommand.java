@@ -1,48 +1,63 @@
-package com.erdouglass.emdb.media.application.port.inbound;
+package com.erdouglass.emdb.media.application.port.inbound.movie;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.OriginalLanguage;
+import com.erdouglass.emdb.media.LanguageCode;
+import com.erdouglass.emdb.media.MovieDetails;
 import com.erdouglass.emdb.media.ReleaseDate;
+import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
+import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 public record UpdateMovieCommand(
+    MoviePublicId publicId,
     Version version, 
-    Title title,
-    ReleaseDate releaseDate,
-    OriginalLanguage originalLanguage) {
-  
+    MovieDetails details) {
+
   public static Builder builder() {
     return new Builder();
   }
   
   public static final class Builder {
+    private MoviePublicId publicId;
     private Version version;
     private Title title;
     private ReleaseDate releaseDate;
-    private OriginalLanguage originalLanguage;
+    private Score score;
+    private LanguageCode originalLanguage;
     
     private Builder() {}
 
     public UpdateMovieCommand build() {
+      Objects.requireNonNull(publicId, "publicId must not be null");
       Objects.requireNonNull(version, "version must not be null");
-      Objects.requireNonNull(title, "title must not be null");
-      Objects.requireNonNull(originalLanguage, "originalLanguage must not be null");
-      return new UpdateMovieCommand(
-          version,
-          title, 
-          releaseDate, 
-          originalLanguage);
+      return new UpdateMovieCommand(publicId, version,
+          MovieDetails.builder()
+            .title(title)
+            .releaseDate(releaseDate)
+            .score(score)
+            .originalLanguage(originalLanguage)
+            .build());
     }
     
-    public Builder originalLanguage(final OriginalLanguage originalLanguage) {
+    public Builder originalLanguage(LanguageCode originalLanguage) {
       this.originalLanguage = originalLanguage;
       return this;
     }
     
+    public Builder publicId(MoviePublicId publicId) {
+      this.publicId = publicId;
+      return this;
+    }   
+    
     public Builder releaseDate(ReleaseDate releaseDate) {
       this.releaseDate = releaseDate;
+      return this;
+    }
+    
+    public Builder score(Score score) {
+      this.score = score;
       return this;
     }
     
@@ -55,5 +70,5 @@ public record UpdateMovieCommand(
       this.version = version;
       return this;
     }
-  }
+  }  
 }

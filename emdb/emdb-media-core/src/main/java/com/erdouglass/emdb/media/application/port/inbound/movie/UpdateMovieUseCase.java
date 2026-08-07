@@ -1,10 +1,10 @@
-package com.erdouglass.emdb.media.application.port.inbound;
+package com.erdouglass.emdb.media.application.port.inbound.movie;
 
 import jakarta.validation.constraints.NotNull;
 
-import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
+import com.erdouglass.emdb.media.SaveResult;
 
 public interface UpdateMovieUseCase {
 
-  UpdateResult update(@NotNull MoviePublicId id, @NotNull UpdateMovieCommand command);
+  SaveResult update(@NotNull UpdateMovieCommand command);
 }

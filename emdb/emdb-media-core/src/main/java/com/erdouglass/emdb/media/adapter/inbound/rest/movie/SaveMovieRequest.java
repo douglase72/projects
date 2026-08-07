@@ -1,48 +1,44 @@
-package com.erdouglass.emdb.media.adapter.inbound.rest;
+package com.erdouglass.emdb.media.adapter.inbound.rest.movie;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.media.OriginalLanguage;
 import com.erdouglass.emdb.media.Title;
 
 public record SaveMovieRequest(
-    @NotBlank String source,
-    @NotBlank String sourceId,
     @NotBlank @Size(max = Title.MAX_LENGTH) String title,
-    String releaseDate,
-    @NotBlank @Size(min = OriginalLanguage.LENGTH, max = OriginalLanguage.LENGTH) String originalLanguage) {
+    Optional<String> releaseDate,
+    Optional<@Min(0) @Max(10) BigDecimal> score,
+    Optional<@Pattern(regexp = "[a-z]{2}") String> originalLanguage) {
 
   public static Builder builder() {
     return new Builder();
   }
   
   public static final class Builder {
-    private String source;
-    private String sourceId;
-    private String releaseDate;
     private String title;
+    private String releaseDate;
+    private BigDecimal score;
     private String originalLanguage;
     
     private Builder() {}
 
     public SaveMovieRequest build() {
       return new SaveMovieRequest(
-          source,
-          sourceId, 
           title, 
-          releaseDate, 
-          originalLanguage);
+          Optional.ofNullable(releaseDate), 
+          Optional.ofNullable(score),
+          Optional.ofNullable(originalLanguage));
     }
     
-    public Builder originalLanguage(final String originalLanguage) {
-      this.originalLanguage =originalLanguage;
-      return this;
-    }
-    
-    public Builder sourceId(String source, String id) {
-      this.source = source;
-      this.sourceId = id;
+    public Builder originalLanguage(String originalLanguage) {
+      this.originalLanguage = originalLanguage;
       return this;
     }
     
@@ -51,9 +47,14 @@ public record SaveMovieRequest(
       return this;
     }
     
+    public Builder score(BigDecimal score) {
+      this.score = score;
+      return this;
+    }    
+    
     public Builder title(String title) {
       this.title = title;
       return this;
     }
-  }
+  }  
 }
