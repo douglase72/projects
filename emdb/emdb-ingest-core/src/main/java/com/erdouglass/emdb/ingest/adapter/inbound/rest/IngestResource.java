@@ -14,8 +14,7 @@ import jakarta.ws.rs.core.Response;
 
 import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.TmdbId;
 
 @Path("/ingest")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,8 +26,7 @@ public class IngestResource {
   
   @POST
   public Response create(@NotNull @Valid IngestMediaRequest request) {
-    var command = IngestMediaCommand
-        .of(SourceId.of(Source.from(request.source()), request.sourceId()), request.type());
+    var command = IngestMediaCommand.of(TmdbId.of(request.tmdbId()), request.type());
     var id = ingestUseCase.submit(command);
     return Response.accepted(id.value())
         .location(URI.create("/api/ingest/" + id.value()))

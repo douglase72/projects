@@ -5,29 +5,35 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
+import com.erdouglass.emdb.ingest.application.port.outbound.MovieDto;
 import com.erdouglass.emdb.media.LanguageCode;
 import com.erdouglass.emdb.media.ReleaseDate;
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
+import com.erdouglass.emdb.media.TmdbId;
 
 /// Extract movie details from TMDB.
 @ApplicationScoped
 class TmdbMovieAdapter {
   private static final String CREDITS = "credits";
+  private static final String NULL_LANGUAGE = "xx";
   
   @Inject
   @RestClient
   TmdbClient client;
 
-  public Movie extract(String tmdbId) {
-    var tmdbMovie = client.findMovieById(Integer.valueOf(tmdbId), CREDITS);
-    return Movie.builder()
-        .sourceId(SourceId.of(Source.TMDB,  tmdbMovie.id().toString()))
-        .title(Title.of(tmdbMovie.title()))
-        .releaseDate(ReleaseDate.from(tmdbMovie.release_date()))
-        .originalLanguage(LanguageCode.of(tmdbMovie.original_language()))
+  public MovieDto extract(int tmdbId) {
+    var movie = client.findMovieById(tmdbId, CREDITS);
+    var releaseDate = movie.release_date().filter(r -> !r.isBlank()).map(ReleaseDate::from).orElse(null);
+    var score = movie.vote_count() > 0 ? Score.of(movie.vote_average()) : null;
+    var originalLanguage = movie.original_language().equals(NULL_LANGUAGE) ? null 
+                         : LanguageCode.of(movie.original_language());
+    return MovieDto.builder()
+        .tmdbId(TmdbId.of(tmdbId))
+        .title(Title.of(movie.title()))
+        .releaseDate(releaseDate)
+        .score(score)
+        .originalLanguage(originalLanguage)
         .build();
   }
 }

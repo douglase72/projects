@@ -12,7 +12,6 @@ import com.erdouglass.emdb.ingest.domain.event.IngestEvent;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmittedEvent;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
-import com.erdouglass.emdb.ingest.domain.model.IngestSource;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
@@ -31,8 +30,7 @@ class SubmitIngestService implements SubmitIngestUseCase {
 
   @Override
   public IngestId submit(IngestMediaCommand command) {
-    var source = IngestSource.of(command.sourceId(), command.type());
-    var ingest = Ingest.submit(IngestId.of(GENERATOR.generate()), source);
+    var ingest = Ingest.submit(IngestId.of(GENERATOR.generate()), command.tmdbId(), command.type());
     repository.save(ingest);
     emitter.fire(IngestSubmittedEvent.of(ingest.id(), ingest.message()));
     producer.publish(ingest.id());

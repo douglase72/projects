@@ -9,9 +9,7 @@ import jakarta.transaction.Transactional;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
-import com.erdouglass.emdb.ingest.domain.model.IngestSource;
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.TmdbId;
 
 @ApplicationScoped
 class IngestPersistenceAdapter implements IngestRepository {
@@ -35,11 +33,10 @@ class IngestPersistenceAdapter implements IngestRepository {
   private IngestEntity toIngestEntity(Ingest ingest) {
     IngestEntity entity = new IngestEntity();
     entity.setId(ingest.id().value());
-    entity.setSource(ingest.source().provider().toString());
-    entity.setSourceId(ingest.source().id());
+    entity.setTmdbId(ingest.tmdbId().value());
+    entity.setType(ingest.type());
     entity.setStatus(ingest.status());
     entity.setSubmittedAt(ingest.submittedAt());
-    entity.setType(ingest.source().type());
     entity.setMessage(ingest.message());
     return entity;
   }
@@ -47,8 +44,8 @@ class IngestPersistenceAdapter implements IngestRepository {
   private static Ingest toIngest(IngestEntity entity) {
     return Ingest.builder()
         .id(IngestId.of(entity.getId()))
-        .source(IngestSource
-            .of(SourceId.of(Source.from(entity.getSource()), entity.getSourceId()), entity.getType()))
+        .tmdbId(TmdbId.of(entity.getTmdb()))
+        .type(entity.getType())
         .status(entity.getStatus())
         .submittedAt(entity.getSubmittedAt())
         .message(entity.getMessage())

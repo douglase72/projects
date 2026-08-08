@@ -1,18 +1,21 @@
 package com.erdouglass.emdb.ingest.application.port.outbound;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import com.erdouglass.emdb.ingest.domain.model.IngestType;
 import com.erdouglass.emdb.media.LanguageCode;
 import com.erdouglass.emdb.media.ReleaseDate;
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
+import com.erdouglass.emdb.media.TmdbId;
 
-public record Movie(
-    SourceId sourceId,
+public record MovieDto(
+    TmdbId tmdbId,
     Title title,
-    ReleaseDate releaseDate,
-    LanguageCode originalLanguage) implements Media {
+    Optional<ReleaseDate> releaseDate,
+    Optional<Score> score,
+    Optional<LanguageCode> originalLanguage) implements Media {
   
   @Override
   public IngestType type() {
@@ -24,31 +27,27 @@ public record Movie(
   }
   
   public static final class Builder {
-    private SourceId sourceId;
+    private TmdbId tmdbId;
     private Title title;
     private ReleaseDate releaseDate;
+    private Score score;
     private LanguageCode originalLanguage;
     
     private Builder() {}
 
-    public Movie build() {
-      Objects.requireNonNull(sourceId, "sourceId must not be null");
+    public MovieDto build() {
+      Objects.requireNonNull(tmdbId, "tmdbId must not be null");
       Objects.requireNonNull(title, "title must not be null");
-      Objects.requireNonNull(originalLanguage, "originalLanguage must not be null");
-      return new Movie(
-          sourceId,
+      return new MovieDto(
+          tmdbId,
           title, 
-          releaseDate, 
-          originalLanguage);
+          Optional.ofNullable(releaseDate),
+          Optional.ofNullable(score),
+          Optional.ofNullable(originalLanguage));
     }
     
     public Builder originalLanguage(LanguageCode originalLanguage) {
       this.originalLanguage = originalLanguage;
-      return this;
-    }
-    
-    public Builder sourceId(SourceId sourceId) {
-      this.sourceId = sourceId;
       return this;
     }
     
@@ -57,8 +56,18 @@ public record Movie(
       return this;
     }
     
+    public Builder score(Score score) {
+      this.score = score;
+      return this;
+    }    
+    
     public Builder title(Title title) {
       this.title = title;
+      return this;
+    }
+    
+    public Builder tmdbId(TmdbId tmdbId) {
+      this.tmdbId = tmdbId;
       return this;
     }
   }  

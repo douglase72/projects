@@ -19,7 +19,7 @@ import com.erdouglass.emdb.ingest.domain.model.IngestType;
 @Table(
   name = "ingest",
   uniqueConstraints = {
-    @UniqueConstraint(name = "uq_ingest_source", columnNames = { "source", "source_id" }),
+    @UniqueConstraint(name = "uq_ingest_tmdb", columnNames = { "tmdb_id", "ingest_type" }),
   }
 )
 class IngestEntity {
@@ -36,12 +36,6 @@ class IngestEntity {
   @Column(length = 1000)
   private String message;
   
-  @Column(nullable = false, length = 16)
-  private String source;
-  
-  @Column(name = "source_id", nullable = false, length = 64)
-  private String sourceId;
-  
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, length = 16)
   private IngestStatus status;
@@ -49,61 +43,26 @@ class IngestEntity {
   @Column(name = "submitted_at", nullable = false)
   private Instant submittedAt;
   
+  @Column(name = "tmdb_id", nullable = false)
+  private Integer tmdbId;
+  
   IngestEntity() {}
   
-  public void setId(UUID id) {
-    this.id = id;
-  }
+  public void setId(UUID id) { this.id = id; }
+  public UUID getId() { return id; }
   
-  public UUID getId() {
-    return id;
-  }
+  public void setMessage(String message) { this.message = message; }
+  public String getMessage() { return message; }
   
-  public void setMessage(String message) {
-    this.message = message;
-  }
+  public void setType(IngestType ingestType) { this.ingestType = ingestType; }
+  public IngestType getType() { return ingestType; }
   
-  public String getMessage() {
-    return message;
-  }
+  public void setStatus(IngestStatus status) { this.status = status; }
+  public IngestStatus getStatus() { return status; }
   
-  public void setType(IngestType ingestType) {
-    this.ingestType = ingestType;
-  }
+  public void setSubmittedAt(Instant submittedAt) { this.submittedAt = submittedAt; }
+  public Instant getSubmittedAt() { return submittedAt; }
   
-  public IngestType getType() {
-    return ingestType;
-  }
-  
-  public void setSource(String source) {
-    this.source = source;
-  }
-  
-  public String getSource() {
-    return source;
-  }
-  
-  public void setSourceId(String sourceId) {
-    this.sourceId = sourceId;
-  }
-  
-  public String getSourceId() {
-    return sourceId;
-  }  
-  
-  public void setStatus(IngestStatus status) {
-    this.status = status;
-  }
-  
-  public IngestStatus getStatus() {
-    return status;
-  }
-  
-  public void setSubmittedAt(Instant submittedAt) {
-    this.submittedAt = submittedAt;
-  }
-  
-  public Instant getSubmittedAt() {
-    return submittedAt;
-  }
+  public void setTmdbId(Integer tmdbId) { this.tmdbId = tmdbId; }
+  public Integer getTmdb() { return tmdbId; }
 }

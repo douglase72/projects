@@ -5,10 +5,9 @@ import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.ingest.application.port.outbound.Media;
 import com.erdouglass.emdb.ingest.application.port.outbound.MediaCatalog;
-import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
+import com.erdouglass.emdb.ingest.application.port.outbound.MovieDto;
 import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.SaveMovieUseCase;
-import com.erdouglass.emdb.media.TmdbId;
 
 @ApplicationScoped
 class MediaCatalogAdapter implements MediaCatalog {
@@ -19,16 +18,17 @@ class MediaCatalogAdapter implements MediaCatalog {
   @Override
   public void load(Media media) {
     switch (media) {
-      case Movie movie -> saveMovieUseCase.save(toSaveMovieCommand(movie));
+      case MovieDto movie -> saveMovieUseCase.save(toSaveMovieCommand(movie));
     }
   }
   
-  private SaveMovieCommand toSaveMovieCommand(Movie movie) {
+  private SaveMovieCommand toSaveMovieCommand(MovieDto movie) {
     return SaveMovieCommand.builder()
-        .tmdbId(TmdbId.of(Integer.valueOf(movie.sourceId().id())))
+        .tmdbId(movie.tmdbId())
         .title(movie.title())
-        .releaseDate(movie.releaseDate())
-        .originalLanguage(movie.originalLanguage())
+        .releaseDate(movie.releaseDate().orElse(null))
+        .score(movie.score().orElse(null))
+        .originalLanguage(movie.originalLanguage().orElse(null))
         .build();    
   }
 }

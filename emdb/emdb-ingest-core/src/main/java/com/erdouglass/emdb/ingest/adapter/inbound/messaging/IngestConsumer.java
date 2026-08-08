@@ -50,7 +50,7 @@ public class IngestConsumer {
       emitter.fire(IngestStartedEvent.of(ingestId, ingest.message()));
       
       // Extract the media details from TMDB.
-      var media = mediaSource.extract(ingest.source());
+      var media = mediaSource.extract(ingest.tmdbId(), ingest.type());
       ingest.extracted();
       repository.save(ingest);
       emitter.fire(IngestExtractedEvent.of(ingestId, ingest.message()));      
