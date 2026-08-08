@@ -16,9 +16,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.LanguageCode;
-import com.erdouglass.emdb.media.ReleaseDate;
-import com.erdouglass.emdb.media.SaveMovieCommand;
-import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
@@ -28,6 +25,9 @@ import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieComma
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
+import com.erdouglass.emdb.media.movie.ReleaseDate;
+import com.erdouglass.emdb.media.movie.SaveMovieCommand;
+import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)

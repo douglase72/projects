@@ -1,6 +1,11 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.movie;
 
 import java.util.Objects;
+
+import com.erdouglass.emdb.media.LanguageCode;
+import com.erdouglass.emdb.media.Score;
+import com.erdouglass.emdb.media.Title;
+import com.erdouglass.emdb.media.TmdbId;
 
 public record SaveMovieCommand(
     TmdbId tmdbId,

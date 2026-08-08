@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import com.erdouglass.emdb.ingest.domain.model.IngestType;
 import com.erdouglass.emdb.media.LanguageCode;
-import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.TmdbId;
+import com.erdouglass.emdb.media.movie.ReleaseDate;
 
 public record MovieDto(
     TmdbId tmdbId,

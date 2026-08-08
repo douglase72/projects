@@ -7,10 +7,10 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.application.port.outbound.MovieDto;
 import com.erdouglass.emdb.media.LanguageCode;
-import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.TmdbId;
+import com.erdouglass.emdb.media.movie.ReleaseDate;
 
 /// Extract movie details from TMDB.
 @ApplicationScoped

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.movie;
 
 import java.time.LocalDate;
 import java.util.Objects;

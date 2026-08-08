@@ -6,9 +6,6 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.MovieDetails;
-import com.erdouglass.emdb.media.SaveMovieCommand;
-import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.application.port.inbound.movie.DeleteMovieUseCase;
@@ -21,6 +18,9 @@ import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
+import com.erdouglass.emdb.media.movie.MovieDetails;
+import com.erdouglass.emdb.media.movie.SaveMovieCommand;
+import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 

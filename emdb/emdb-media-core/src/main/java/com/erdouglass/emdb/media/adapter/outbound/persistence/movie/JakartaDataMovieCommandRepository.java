@@ -9,7 +9,7 @@ import jakarta.data.repository.Repository;
 import jakarta.data.repository.Update;
 
 @Repository(dataStore = "media")
-public interface JakartaDataMovieRepository {
+public interface JakartaDataMovieCommandRepository {
 
   @Insert
   MovieEntity insert(MovieEntity entity);

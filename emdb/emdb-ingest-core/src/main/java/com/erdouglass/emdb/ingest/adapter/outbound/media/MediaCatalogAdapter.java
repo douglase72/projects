@@ -6,8 +6,8 @@ import jakarta.inject.Inject;
 import com.erdouglass.emdb.ingest.application.port.outbound.Media;
 import com.erdouglass.emdb.ingest.application.port.outbound.MediaCatalog;
 import com.erdouglass.emdb.ingest.application.port.outbound.MovieDto;
-import com.erdouglass.emdb.media.SaveMovieCommand;
-import com.erdouglass.emdb.media.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.SaveMovieCommand;
+import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 
 @ApplicationScoped
 class MediaCatalogAdapter implements MediaCatalog {

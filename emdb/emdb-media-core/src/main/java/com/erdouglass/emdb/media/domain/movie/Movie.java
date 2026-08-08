@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.MovieDetails;
-import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.domain.exception.StaleMovieException;
 import com.erdouglass.emdb.media.domain.shared.Version;
+import com.erdouglass.emdb.media.movie.MovieDetails;
+import com.erdouglass.emdb.media.movie.ReleaseDate;
 
 /// Movie aggregate 
 /// 

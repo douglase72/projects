@@ -6,8 +6,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.media.LanguageCode;
-import com.erdouglass.emdb.media.MovieDetails;
-import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.TmdbId;
@@ -16,12 +14,14 @@ import com.erdouglass.emdb.media.domain.movie.Movie;
 import com.erdouglass.emdb.media.domain.movie.MovieId;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
+import com.erdouglass.emdb.media.movie.MovieDetails;
+import com.erdouglass.emdb.media.movie.ReleaseDate;
 
 @ApplicationScoped
 class MovieCommandAdapter implements MovieCommandRepository {
   
   @Inject
-  JakartaDataMovieRepository repository;
+  JakartaDataMovieCommandRepository repository;
 
   @Override
   public Movie insert(Movie movie) {

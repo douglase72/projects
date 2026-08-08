@@ -3,12 +3,12 @@ package com.erdouglass.emdb.media.application.port.inbound.movie;
 import java.util.Objects;
 
 import com.erdouglass.emdb.media.LanguageCode;
-import com.erdouglass.emdb.media.MovieDetails;
-import com.erdouglass.emdb.media.ReleaseDate;
 import com.erdouglass.emdb.media.Score;
 import com.erdouglass.emdb.media.Title;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
+import com.erdouglass.emdb.media.movie.MovieDetails;
+import com.erdouglass.emdb.media.movie.ReleaseDate;
 
 public record UpdateMovieCommand(
     MoviePublicId publicId,

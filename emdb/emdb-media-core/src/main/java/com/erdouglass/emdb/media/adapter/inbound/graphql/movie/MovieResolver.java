@@ -12,7 +12,7 @@ import com.erdouglass.emdb.media.application.port.inbound.movie.FindMovieUseCase
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 
 @GraphQLApi
-class MovieResolver {
+public class MovieResolver {
   
   @Inject
   FindMovieUseCase findUseCase;

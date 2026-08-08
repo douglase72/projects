@@ -1,7 +1,11 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.movie;
 
 import java.util.Objects;
 import java.util.Optional;
+
+import com.erdouglass.emdb.media.LanguageCode;
+import com.erdouglass.emdb.media.Score;
+import com.erdouglass.emdb.media.Title;
 
 public record MovieDetails(
     Title title,
