@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.adapter.inbound.graphql.movie.MovieView;
+import com.erdouglass.emdb.media.adapter.inbound.movie.MovieView;
 import com.erdouglass.emdb.media.application.port.inbound.movie.FindMovieUseCase;
 import com.erdouglass.emdb.media.application.port.outbound.movie.MovieQueryRepository;
 import com.erdouglass.emdb.media.domain.exception.MovieNotFoundException;

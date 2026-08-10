@@ -4,15 +4,18 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
+import com.erdouglass.emdb.media.TmdbId;
 
 public record IngestLoadedEvent(
     IngestId id,
+    TmdbId tmdbId,
     Instant occurredAt,
     String message) implements IngestEvent {
 
-  public static IngestLoadedEvent of(IngestId id, String message) {
+  public static IngestLoadedEvent of(IngestId id, TmdbId tmdbId, String message) {
     Objects.requireNonNull(id, "id must not be null");
+    Objects.requireNonNull(tmdbId, "tmdbId must not be null");
     Objects.requireNonNull(message, "message must not be null");
-    return new IngestLoadedEvent(id, Instant.now(), message);
+    return new IngestLoadedEvent(id, tmdbId, Instant.now(), message);
   }
 }

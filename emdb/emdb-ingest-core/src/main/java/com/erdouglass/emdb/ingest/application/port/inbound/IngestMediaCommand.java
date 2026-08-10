@@ -6,7 +6,7 @@ import com.erdouglass.emdb.ingest.domain.model.IngestType;
 import com.erdouglass.emdb.media.TmdbId;
 
 public record IngestMediaCommand(TmdbId tmdbId, IngestType type) {
-
+  
   public IngestMediaCommand {
     Objects.requireNonNull(tmdbId, "TMDB id must not be null");
     Objects.requireNonNull(type, "type must not be null");

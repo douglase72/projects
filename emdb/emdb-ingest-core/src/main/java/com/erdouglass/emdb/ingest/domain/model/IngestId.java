@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record IngestId(UUID value) {
-
+  
   public IngestId {
     Objects.requireNonNull(value, "ingest id must not be null");
   }
@@ -12,9 +12,8 @@ public record IngestId(UUID value) {
   public static IngestId of(UUID id) {
     return new IngestId(id);
   }
-
-  @Override
-  public String toString() {
-    return value.toString();
-  }  
+  
+  public static IngestId from(String id) {
+    return new IngestId(UUID.fromString(id));
+  }
 }

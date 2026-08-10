@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Optional;
 
-public record TmdbMovieResponse(    
+public record TmdbMovieResponse(
     Integer id,
     String title,
     Optional<String> release_date,
@@ -17,6 +17,7 @@ public record TmdbMovieResponse(
   public TmdbMovieResponse {
     Objects.requireNonNull(id, "id must not be null");
     Objects.requireNonNull(title, "title must not be null");
+    Objects.requireNonNull(release_date, "release_date must not be null");
     Objects.requireNonNull(vote_average, "vote_average must not be null");
     Objects.requireNonNull(vote_count, "vote_count must not be null");
     Objects.requireNonNull(original_language, "original_language must not be null");

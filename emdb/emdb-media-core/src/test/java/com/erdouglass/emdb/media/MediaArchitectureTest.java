@@ -58,7 +58,7 @@ class MediaArchitectureTest {
   /// into the service.
   @ArchTest
   static final ArchRule http_stays_in_the_rest_adapter = noClasses()
-      .that().resideOutsideOfPackage("..media.adapter.inbound.rest..")
+      .that().resideOutsideOfPackage("..media.adapter.inbound..")
       .should().dependOnClassesThat().resideInAPackage("jakarta.ws.rs..");
   
   /// "No entity, SQL, or Jakarta Data type may appear in [port] signatures",

@@ -7,27 +7,34 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
+import com.erdouglass.emdb.ingest.domain.event.IngestCompletedEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestExtractedEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestFailedEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestLoadedEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestStartedEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestSubmittedEvent;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
+import com.erdouglass.emdb.ingest.domain.model.IngestStatus;
 import com.erdouglass.emdb.media.TmdbId;
 
+@Transactional
 @ApplicationScoped
 class IngestPersistenceAdapter implements IngestRepository {
   
   @Inject
   JakartaDataIngestRepository repository;
-
+  
   @Override
-  @Transactional
   public void save(Ingest ingest) {
     repository.save(toIngestEntity(ingest));
+    repository.insert(toIngestEventEntity(ingest.lastEvent()));
   }
 
   @Override
-  @Transactional
   public Optional<Ingest> findById(IngestId id) {
-    return repository.findById(id.value())
-        .map(IngestPersistenceAdapter::toIngest);
+    return repository.findById(id.value()).map(this::toIngest);
   }
   
   private IngestEntity toIngestEntity(Ingest ingest) {
@@ -37,18 +44,33 @@ class IngestPersistenceAdapter implements IngestRepository {
     entity.setType(ingest.type());
     entity.setStatus(ingest.status());
     entity.setSubmittedAt(ingest.submittedAt());
-    entity.setMessage(ingest.message());
     return entity;
   }
   
-  private static Ingest toIngest(IngestEntity entity) {
+  private Ingest toIngest(IngestEntity entity) {
     return Ingest.builder()
         .id(IngestId.of(entity.getId()))
         .tmdbId(TmdbId.of(entity.getTmdb()))
         .type(entity.getType())
         .status(entity.getStatus())
         .submittedAt(entity.getSubmittedAt())
-        .message(entity.getMessage())
         .build();
+  }
+  
+  private IngestEventEntity toIngestEventEntity(IngestEvent event) {
+    var status = switch (event) {
+      case IngestSubmittedEvent _ -> IngestStatus.SUBMITTED;
+      case IngestStartedEvent   _ -> IngestStatus.STARTED;
+      case IngestExtractedEvent _ -> IngestStatus.EXTRACTED;
+      case IngestLoadedEvent    _ -> IngestStatus.LOADED;
+      case IngestCompletedEvent _ -> IngestStatus.COMPLETED;
+      case IngestFailedEvent    _ -> IngestStatus.FAILED;
+    };
+    var entity = new IngestEventEntity();
+    entity.setIngestId(event.id().value());
+    entity.setOccurredAt(event.occurredAt());
+    entity.setStatus(status);
+    entity.setMessage(event.message());
+    return entity;
   }
 }

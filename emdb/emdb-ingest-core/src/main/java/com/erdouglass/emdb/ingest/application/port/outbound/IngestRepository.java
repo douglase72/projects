@@ -8,7 +8,7 @@ import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
 public interface IngestRepository {
-
+  
   void save(@NotNull Ingest ingest);
   
   Optional<Ingest> findById(@NotNull IngestId id);

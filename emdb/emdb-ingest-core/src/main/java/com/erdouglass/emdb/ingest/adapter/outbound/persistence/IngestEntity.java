@@ -30,29 +30,23 @@ class IngestEntity {
   private UUID id;
   
   @Enumerated(EnumType.STRING)
-  @Column(name = "ingest_type", nullable = false, length = 16)
+  @Column(name = "ingest_type", nullable = false, updatable = false, length = 16)
   private IngestType ingestType;
-  
-  @Column(length = 1000)
-  private String message;
   
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, length = 16)
   private IngestStatus status;
   
-  @Column(name = "submitted_at", nullable = false)
+  @Column(name = "submitted_at", nullable = false, updatable = false)
   private Instant submittedAt;
   
-  @Column(name = "tmdb_id", nullable = false)
+  @Column(name = "tmdb_id", nullable = false, updatable = false)
   private Integer tmdbId;
   
   IngestEntity() {}
   
   public void setId(UUID id) { this.id = id; }
   public UUID getId() { return id; }
-  
-  public void setMessage(String message) { this.message = message; }
-  public String getMessage() { return message; }
   
   public void setType(IngestType ingestType) { this.ingestType = ingestType; }
   public IngestType getType() { return ingestType; }

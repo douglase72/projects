@@ -11,6 +11,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
@@ -20,16 +21,22 @@ import com.erdouglass.emdb.media.TmdbId;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class IngestResource {
-
+  
   @Inject
-  SubmitIngestUseCase ingestUseCase;
+  SubmitIngestUseCase submitUseCase;
+  
+  @Inject
+  UriInfo uriInfo;
   
   @POST
-  public Response create(@NotNull @Valid IngestMediaRequest request) {
+  public Response submit(@NotNull @Valid IngestMediaRequest request) {
     var command = IngestMediaCommand.of(TmdbId.of(request.tmdbId()), request.type());
-    var id = ingestUseCase.submit(command);
-    return Response.accepted(id.value())
-        .location(URI.create("/api/ingest/" + id.value()))
+    var id = submitUseCase.submit(command);
+    URI location = uriInfo.getAbsolutePathBuilder()
+        .path(id.value().toString())
         .build();
-  }  
+    return Response.accepted(id.value())
+        .location(location)
+        .build();
+  }
 }

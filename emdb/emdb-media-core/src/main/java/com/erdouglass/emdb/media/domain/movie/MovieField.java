@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-import com.erdouglass.emdb.media.movie.MovieDetails;
-
 public enum MovieField {
   TITLE(MovieDetails::title),
   RELEASE_DATE(MovieDetails::releaseDate),
