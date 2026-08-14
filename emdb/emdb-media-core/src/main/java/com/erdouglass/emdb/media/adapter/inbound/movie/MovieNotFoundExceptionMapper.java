@@ -16,6 +16,7 @@ class MovieNotFoundExceptionMapper implements ExceptionMapper<MovieNotFoundExcep
   public Response toResponse(MovieNotFoundException e) {
     LOGGER.error("Not found", e);
     return Response.status(Response.Status.NOT_FOUND)
+        .entity(e.getMessage())
         .build();
   }
 }

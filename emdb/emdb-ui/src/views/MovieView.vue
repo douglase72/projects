@@ -9,8 +9,12 @@
       <div>{{ movie.title }}</div>
       <div>Release Date</div>
       <div>{{ movie.releaseDate }}</div>
+      <div>Score</div>
+      <div>{{ movie.score }}</div>
       <div>Original Language</div>
       <div>{{ fromLanguageCode(movie.originalLanguage) }}</div>
+      <div>Overview</div>
+      <div>{{ movie.overview }}</div>
     </section>
 
     <section class="mt-8">

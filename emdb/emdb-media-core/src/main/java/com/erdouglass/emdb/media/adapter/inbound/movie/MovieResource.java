@@ -76,14 +76,14 @@ class MovieResource {
   public SaveResult update(
       @NotBlank @PathParam("id") String id, 
       @NotNull @Valid UpdateMovieRequest request) {
-    var command = UpdateMovieCommand.builder()
-        .publicId(MoviePublicId.of(id))
-        .version(Version.of(request.version()))
+    var details = MovieDetails.builder()
         .title(Title.of(request.title()))
         .releaseDate(request.releaseDate().map(r -> ReleaseDate.from(r)).orElse(null))
         .score(request.score().map(s -> Score.of(s)).orElse(null))
-        .originalLanguage(request.originalLanguage().map(l ->  LanguageCode.of(l)).orElse(null))
+        .originalLanguage(request.originalLanguage().map(l -> LanguageCode.of(l)).orElse(null))
+        .overview(request.overview().map(o -> Overview.of(o)).orElse(null))
         .build();
+    var command = UpdateMovieCommand.of(MoviePublicId.of(id), Version.of(request.version()), details);
     return updateUseCase.update(command);
   }
   

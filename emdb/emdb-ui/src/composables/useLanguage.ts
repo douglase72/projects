@@ -53,20 +53,26 @@ export const SUPPORTED_CODES = [
   'sw', // Swahili
 ] as const;
 
+export type LanguageCode = (typeof SUPPORTED_CODES)[number];
+
+const fromLanguageCode = (isoCode: string | null | undefined): string => {
+  if (!isoCode) return 'Unknown';
+  try {
+    return DISPLAY_NAMES.of(isoCode) ?? isoCode;
+  } catch {
+    return isoCode;
+  }
+};
+
+const toLanguageCode = (value: string | null | undefined): LanguageCode | null =>
+  value != null && (SUPPORTED_CODES as readonly string[]).includes(value)
+    ? (value as LanguageCode)
+    : null;
+
+const languageCodes = SUPPORTED_CODES
+  .map(code => ({ label: fromLanguageCode(code), value: code }))
+  .sort((a, b) => a.label.localeCompare(b.label, 'en'));
+
 export function useLanguage() {
-
-  const fromLanguageCode = (isoCode: string | null): string => {
-    if (!isoCode) return 'Unknown';
-    try {
-      return DISPLAY_NAMES.of(isoCode) || isoCode;
-    } catch (e) {
-      return isoCode;
-    }    
-  };
-
-  const languageCodes = computed(() => {
-    return SUPPORTED_CODES.map(code => ({ label: fromLanguageCode(code), value: code }))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  });
-  return { fromLanguageCode, languageCodes };
+  return { fromLanguageCode, toLanguageCode, languageCodes };
 }

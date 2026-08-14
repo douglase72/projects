@@ -122,9 +122,9 @@ public final class Movie {
     return getClass().getSimpleName() + "[id=" + id.value()
         + ", publicId=" + publicId().map(MoviePublicId::value).orElse(null)
         + ", tmdbId=" + tmdbId().value()
-        + ", version=" + version.value()
+        + ", version=" + version().map(Version::value).orElse(null)
         + ", title=" + details.title().value()
-        + ", releaseDate=" + details.releaseDate().map(ReleaseDate::value).orElse(null)
+        + ", releaseDate=" + details.releaseDate().map(ReleaseDate::toLocalDate).orElse(null)
         + ", score=" + details.score().map(Score::value).orElse(null)
         + "]";
   }  

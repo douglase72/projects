@@ -9,7 +9,9 @@ export interface UpdateMovieRequest {
   version: number;
   title: string;
   releaseDate: string | null;
+  score: number | null;
   originalLanguage: string | null;
+  overview: string | null;
 }
 
 export interface UpdateMovieResponse {

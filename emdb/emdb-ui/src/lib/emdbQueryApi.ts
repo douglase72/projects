@@ -6,7 +6,7 @@ import { graphql } from '@/gql'
 export const MovieDocument = graphql(`
   query Movie($id: String!) {
     movie(id: $id) {
-      id version title releaseDate originalLanguage
+      id version title releaseDate score originalLanguage overview
     }
   }
 `)

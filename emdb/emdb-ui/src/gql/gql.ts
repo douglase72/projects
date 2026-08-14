@@ -14,10 +14,10 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate originalLanguage\n    }\n  }\n": typeof types.MovieDocument,
+    "\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate score originalLanguage overview\n    }\n  }\n": typeof types.MovieDocument,
 };
 const documents: Documents = {
-    "\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate originalLanguage\n    }\n  }\n": types.MovieDocument,
+    "\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate score originalLanguage overview\n    }\n  }\n": types.MovieDocument,
 };
 
 /**
@@ -37,7 +37,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate originalLanguage\n    }\n  }\n"): (typeof documents)["\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate originalLanguage\n    }\n  }\n"];
+export function graphql(source: "\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate score originalLanguage overview\n    }\n  }\n"): (typeof documents)["\n  query Movie($id: String!) {\n    movie(id: $id) {\n      id version title releaseDate score originalLanguage overview\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
