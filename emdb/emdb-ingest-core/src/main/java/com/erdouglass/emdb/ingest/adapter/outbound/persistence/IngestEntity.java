@@ -9,19 +9,13 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.ingest.domain.model.IngestStatus;
 import com.erdouglass.emdb.ingest.domain.model.IngestType;
 
 @Entity 
-@Table(
-  name = "ingest",
-  uniqueConstraints = {
-    @UniqueConstraint(name = "uq_ingest_tmdb", columnNames = { "tmdb_id", "ingest_type" }),
-  }
-)
+@Table(name = "ingest")
 class IngestEntity {
 
   /// Internal surrogate key, application-generated ([IngestId] on the domain
@@ -58,5 +52,5 @@ class IngestEntity {
   public Instant getSubmittedAt() { return submittedAt; }
   
   public void setTmdbId(Integer tmdbId) { this.tmdbId = tmdbId; }
-  public Integer getTmdb() { return tmdbId; }
+  public Integer getTmdbId() { return tmdbId; }
 }

@@ -50,7 +50,7 @@ class IngestPersistenceAdapter implements IngestRepository {
   private Ingest toIngest(IngestEntity entity) {
     return Ingest.builder()
         .id(IngestId.of(entity.getId()))
-        .tmdbId(TmdbId.of(entity.getTmdb()))
+        .tmdbId(TmdbId.of(entity.getTmdbId()))
         .type(entity.getType())
         .status(entity.getStatus())
         .submittedAt(entity.getSubmittedAt())
