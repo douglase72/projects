@@ -40,6 +40,7 @@ class BladeRunnerCommandIT {
         .releaseDate("1982-06-25")
         .score(BigDecimal.valueOf(7.893))
         .originalLanguage("en")
+        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
@@ -63,6 +64,7 @@ class BladeRunnerCommandIT {
         .releaseDate("1982-06-25")
         .score(BigDecimal.valueOf(7.893))
         .originalLanguage("en")
+        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
@@ -87,6 +89,7 @@ class BladeRunnerCommandIT {
         .releaseDate(null)
         .score(BigDecimal.valueOf(7.893))
         .originalLanguage("en")
+        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))

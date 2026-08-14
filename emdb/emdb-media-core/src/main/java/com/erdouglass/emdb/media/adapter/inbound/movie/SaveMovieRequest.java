@@ -15,7 +15,8 @@ public record SaveMovieRequest(
     @NotBlank @Size(max = Title.MAX_LENGTH) String title,
     Optional<String> releaseDate,
     Optional<@Min(0) @Max(10) BigDecimal> score,
-    Optional<@Pattern(regexp = "[a-z]{2}") String> originalLanguage) {
+    Optional<@Pattern(regexp = "[a-z]{2}") String> originalLanguage,
+    Optional<String> overview) {
 
   public static Builder builder() {
     return new Builder();
@@ -26,6 +27,7 @@ public record SaveMovieRequest(
     private String releaseDate;
     private BigDecimal score;
     private String originalLanguage;
+    private String overview;
     
     private Builder() {}
 
@@ -34,13 +36,19 @@ public record SaveMovieRequest(
           title, 
           Optional.ofNullable(releaseDate), 
           Optional.ofNullable(score),
-          Optional.ofNullable(originalLanguage));
+          Optional.ofNullable(originalLanguage),
+          Optional.ofNullable(overview));
     }
     
     public Builder originalLanguage(String originalLanguage) {
       this.originalLanguage = originalLanguage;
       return this;
     }
+    
+    public Builder overview(String overview) {
+      this.overview = overview;
+      return this;
+    }    
     
     public Builder releaseDate(String releaseDate) {
       this.releaseDate = releaseDate;

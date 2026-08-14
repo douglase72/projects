@@ -1,27 +1,27 @@
 package com.erdouglass.common.validation;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.format.DateTimeParseException;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class DateRangeValidator implements ConstraintValidator<DateRange, LocalDate> {
-  private LocalDate minDate;
-  private LocalDate maxDate;
+public class DateRangeValidator implements ConstraintValidator<DateRange, Instant> {
+  private Instant minDate;
+  private Instant maxDate;
 
   @Override
   public void initialize(DateRange constraintAnnotation) {
     try {
-      minDate = LocalDate.parse(constraintAnnotation.min());
-      maxDate = LocalDate.parse(constraintAnnotation.max());
+      minDate = Instant.parse(constraintAnnotation.min());
+      maxDate = Instant.parse(constraintAnnotation.max());
     } catch (DateTimeParseException e) {
       throw new IllegalArgumentException("Invalid date format. Use 'yyyy-MM-dd'", e);
     }
   }
 
   @Override
-  public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
+  public boolean isValid(Instant value, ConstraintValidatorContext context) {
     if (value == null) {
       return true;
     }

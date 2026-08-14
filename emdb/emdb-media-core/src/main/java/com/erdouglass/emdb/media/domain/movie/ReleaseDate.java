@@ -3,9 +3,12 @@ package com.erdouglass.emdb.media.domain.movie;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public record ReleaseDate(LocalDate value) {
-  public static final LocalDate MIN = LocalDate.of(1874, 1, 1);
-  public static final LocalDate MAX = LocalDate.of(2100, 1, 1);
+import com.erdouglass.common.util.DateTime;
+import com.erdouglass.common.util.DateTimeFactory;
+
+public record ReleaseDate(DateTime value) {
+  public static final DateTime MIN = DateTimeFactory.from(1874, 1, 1);
+  public static final DateTime MAX = DateTimeFactory.from(2100, 1, 1);
 
   public ReleaseDate {
     Objects.requireNonNull(value, "release date must not be null");
@@ -15,11 +18,19 @@ public record ReleaseDate(LocalDate value) {
     } 
   }
   
-  public static ReleaseDate of(LocalDate releaseDate) {
+  public static ReleaseDate of(DateTime releaseDate) {
     return new ReleaseDate(releaseDate);
   }
   
+  public static ReleaseDate from(LocalDate releaseDate) {
+    return new ReleaseDate(DateTimeFactory.from(releaseDate));
+  }
+  
   public static ReleaseDate from(String releaseDate) {
-    return new ReleaseDate(LocalDate.parse(releaseDate));
+    return new ReleaseDate(DateTimeFactory.from(releaseDate));
+  }
+  
+  public LocalDate toLocalDate() {
+    return value.toLocalDate();
   }
 }

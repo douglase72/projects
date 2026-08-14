@@ -22,10 +22,12 @@ import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieUseCase
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieUseCase;
+import com.erdouglass.emdb.media.domain.movie.MovieDetails;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
 import com.erdouglass.emdb.media.domain.movie.Title;
 import com.erdouglass.emdb.media.domain.shared.LanguageCode;
+import com.erdouglass.emdb.media.domain.shared.Overview;
 import com.erdouglass.emdb.media.domain.shared.Score;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
@@ -51,13 +53,14 @@ class MovieResource {
   public Response save(
       @NotNull @Positive @PathParam("tmdbId") Integer tmdbId,
       @NotNull @Valid SaveMovieRequest request) {
-    var command = SaveMovieCommand.builder()
-        .tmdbId(TmdbId.of(tmdbId))
+    var details = MovieDetails.builder()
         .title(Title.of(request.title()))
         .releaseDate(request.releaseDate().map(r -> ReleaseDate.from(r)).orElse(null))
         .score(request.score().map(s -> Score.of(s)).orElse(null))
-        .originalLanguage(request.originalLanguage().map(l ->  LanguageCode.of(l)).orElse(null))
+        .originalLanguage(request.originalLanguage().map(l -> LanguageCode.of(l)).orElse(null))
+        .overview(request.overview().map(o -> Overview.of(o)).orElse(null))
         .build();
+    var command = SaveMovieCommand.of(TmdbId.of(tmdbId), details);
     var result = saveUseCase.save(command);
     return switch (result.status()) {
       case CREATED -> Response

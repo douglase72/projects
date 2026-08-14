@@ -1,6 +1,5 @@
 package com.erdouglass.emdb.ingest.adapter.outbound.tmdb;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -8,6 +7,7 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
 import com.erdouglass.emdb.ingest.application.port.outbound.MovieSource;
 import com.erdouglass.emdb.media.TmdbId;
@@ -24,15 +24,15 @@ class TmdbMovieAdapter implements MovieSource {
   @Override
   public Movie extract(TmdbId tmdbId) {
     var movie = client.findMovieById(tmdbId.value(), CREDITS);
-    var releaseDate = movie.release_date().filter(r -> !r.isBlank()).map(LocalDate::parse);
     var score = movie.vote_count() > 0 ? movie.vote_average() : null;
     var originalLanguage = movie.original_language().equals(NULL_LANGUAGE) ? null 
                          : movie.original_language();
     return new Movie(
         tmdbId, 
         movie.title(), 
-        releaseDate,
-        Optional.ofNullable(score), 
-        Optional.ofNullable(originalLanguage));
+        movie.release_date().filter(r -> !r.isBlank()).map(DateTimeFactory::from),
+        Optional.ofNullable(score),
+        Optional.ofNullable(originalLanguage),
+        movie.overview().filter(o -> !o.isBlank()));
   }
 }

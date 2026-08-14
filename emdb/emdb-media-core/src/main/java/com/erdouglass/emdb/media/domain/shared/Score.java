@@ -13,8 +13,8 @@ public record Score(BigDecimal value) {
     Objects.requireNonNull(value, "score is required");
     value = value.setScale(SCALE, RoundingMode.HALF_UP);
     if (value.compareTo(MIN) < 0 || value.compareTo(MAX) > 0) {
-        throw new IllegalArgumentException(
-                "score must be between 0 and 10, was %s".formatted(value.toPlainString()));
+        throw new IllegalArgumentException("score must be between 0 and 10, was %s"
+            .formatted(value.toPlainString()));
     }
   }
   

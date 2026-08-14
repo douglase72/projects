@@ -26,6 +26,8 @@ include 'common-messaging'
 project(':common-messaging').projectDir = file('common-api/common-messaging')
 include 'common-rest'
 project(':common-rest').projectDir = file('common-api/common-rest')
+include 'common-util'
+project(':common-util').projectDir = file('common-api/common-util')
 include 'common-validation'
 project(':common-validation').projectDir = file('common-api/common-validation')
 

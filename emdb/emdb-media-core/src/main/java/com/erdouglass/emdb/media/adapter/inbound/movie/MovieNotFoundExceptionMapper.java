@@ -15,6 +15,7 @@ class MovieNotFoundExceptionMapper implements ExceptionMapper<MovieNotFoundExcep
   @Override
   public Response toResponse(MovieNotFoundException e) {
     LOGGER.error("Not found", e);
-    return Response.status(Response.Status.NOT_FOUND).build();
+    return Response.status(Response.Status.NOT_FOUND)
+        .build();
   }
 }

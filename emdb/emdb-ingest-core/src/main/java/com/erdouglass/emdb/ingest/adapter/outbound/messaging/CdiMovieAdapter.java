@@ -13,11 +13,13 @@ class CdiMovieAdapter implements MovieEmitter {
   
   @Inject
   Event<MovieExtractedEvent> emitter;
+  
+  @Inject
+  MovieMapper mapper;
 
   @Override
   public void emit(Movie movie) {
-    var event = new MovieExtractedEvent(
-        movie.tmdbId(), movie.title(), movie.releaseDate(), movie.score(), movie.originalLanguage());
+    var event = mapper.toMovieExtractedEvent(movie);
     emitter.fire(event);
   }
 }

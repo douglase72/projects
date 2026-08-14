@@ -7,9 +7,11 @@ import jakarta.inject.Inject;
 import com.erdouglass.emdb.media.MovieExtractedEvent;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieUseCase;
+import com.erdouglass.emdb.media.domain.movie.MovieDetails;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
 import com.erdouglass.emdb.media.domain.movie.Title;
 import com.erdouglass.emdb.media.domain.shared.LanguageCode;
+import com.erdouglass.emdb.media.domain.shared.Overview;
 import com.erdouglass.emdb.media.domain.shared.Score;
 
 @ApplicationScoped
@@ -19,13 +21,14 @@ class MovieObserver {
   SaveMovieUseCase saveUseCase;
   
   public void onMovieExtractedEvent(@Observes MovieExtractedEvent event) {
-    var command = SaveMovieCommand.builder()
-        .tmdbId(event.tmdbId())
+    var details = MovieDetails.builder()
         .title(Title.of(event.title()))
-        .releaseDate(event.releaseDate().map(r -> ReleaseDate.of(r)).orElse(null))
-        .score(event.score().map(s -> Score.of(s)).orElse(null))
-        .originalLanguage(event.originalLanguage().map(l ->  LanguageCode.of(l)).orElse(null))
-        .build(); 
+        .releaseDate(event.releaseDate().map(ReleaseDate::of).orElse(null))
+        .score(event.score().map(Score::of).orElse(null))
+        .originalLanguage(event.originalLanguage().map(LanguageCode::of).orElse(null))
+        .overview(event.overview().map(Overview::of).orElse(null))
+        .build();
+    var command = SaveMovieCommand.of(event.tmdbId(), details);
     saveUseCase.save(command);
   }
 }

@@ -11,7 +11,7 @@ import com.erdouglass.emdb.media.adapter.inbound.movie.MovieView;
 public interface JakartaDataMovieQueryRepository {
 
   @Query("""
-    select m.id, m.version, m.title, m.releaseDate, m.score, m.originalLanguage
+    select m.id, m.version, m.title, m.releaseDate, m.score, m.originalLanguage, m.overview
     from MovieEntity m
     where m.id = :id          
           """)

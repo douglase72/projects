@@ -1,8 +1,5 @@
-
-create table emdb_media.movie (id bigint not null, original_language varchar(2), release_date date, score numeric(5,3), surrogate_id uuid not null, title varchar(140) not null, tmdb_id integer not null, version bigint not null, primary key (id));
-
-create table emdb_media.movie_audit (id bigint not null, field_name varchar(64) not null check ((field_name in ('TITLE','RELEASE_DATE','SCORE','ORIGINAL_LANGUAGE'))), movie_public_id varchar(32) not null, movie_surrogate_id uuid not null, new_value text, occurred_at timestamp(6) with time zone not null, old_value text, operation varchar(16) not null check ((operation in ('ADDED','UPDATED','DELETED'))), primary key (id));
-
+create table emdb_media.movie (id bigint not null, original_language varchar(2), overview varchar(4000), release_date date, score numeric(5,3), surrogate_id uuid not null, title varchar(140) not null, tmdb_id integer not null, version bigint not null, primary key (id));
+create table emdb_media.movie_audit (id bigint not null, field_name varchar(64) not null check ((field_name in ('TITLE','RELEASE_DATE','SCORE','ORIGINAL_LANGUAGE','OVERVIEW'))), movie_public_id varchar(32) not null, movie_surrogate_id uuid not null, new_value text, occurred_at timestamp(6) with time zone not null, old_value text, operation varchar(16) not null check ((operation in ('ADDED','UPDATED','DELETED'))), primary key (id));
 alter table if exists emdb_media.movie drop constraint if exists uq_movie_surrogate_id;
 alter table if exists emdb_media.movie add constraint uq_movie_surrogate_id unique (surrogate_id);
 alter table if exists emdb_media.movie drop constraint if exists uq_movie_tmdb_id;

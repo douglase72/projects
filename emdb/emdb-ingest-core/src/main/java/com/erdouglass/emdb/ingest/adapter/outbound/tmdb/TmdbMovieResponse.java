@@ -11,7 +11,8 @@ public record TmdbMovieResponse(
     Optional<String> release_date,
     BigDecimal vote_average,
     Integer vote_count,
-    String original_language) {
+    String original_language,
+    Optional<String> overview) {
   private static final int SCALE = 3;
 
   public TmdbMovieResponse {
@@ -21,6 +22,7 @@ public record TmdbMovieResponse(
     Objects.requireNonNull(vote_average, "vote_average must not be null");
     Objects.requireNonNull(vote_count, "vote_count must not be null");
     Objects.requireNonNull(original_language, "original_language must not be null");
+    Objects.requireNonNull(overview, "overview must not be null");
     vote_average = vote_average.setScale(SCALE, RoundingMode.HALF_UP);
   }
 }

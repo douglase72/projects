@@ -4,13 +4,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.erdouglass.emdb.media.domain.shared.LanguageCode;
+import com.erdouglass.emdb.media.domain.shared.Overview;
 import com.erdouglass.emdb.media.domain.shared.Score;
 
 public record MovieDetails(
     Title title,
     Optional<ReleaseDate> releaseDate,
     Optional<Score> score,
-    Optional<LanguageCode> originalLanguage) {
+    Optional<LanguageCode> originalLanguage,
+    Optional<Overview> overview) {
   
   public static Builder builder() { return new Builder(); }
   
@@ -19,6 +21,7 @@ public record MovieDetails(
     private ReleaseDate releaseDate;
     private Score score;
     private LanguageCode originalLanguage;
+    private Overview overview;
     
     private Builder() {}
 
@@ -28,11 +31,17 @@ public record MovieDetails(
           title, 
           Optional.ofNullable(releaseDate), 
           Optional.ofNullable(score),
-          Optional.ofNullable(originalLanguage));
+          Optional.ofNullable(originalLanguage),
+          Optional.ofNullable(overview));
     }
     
     public Builder originalLanguage(LanguageCode originalLanguage) {
       this.originalLanguage = originalLanguage;
+      return this;
+    }
+    
+    public Builder overview(Overview overview) {
+      this.overview = overview;
       return this;
     }
     

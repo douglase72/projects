@@ -14,6 +14,7 @@ import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
 import com.erdouglass.emdb.media.domain.movie.Title;
 import com.erdouglass.emdb.media.domain.shared.LanguageCode;
+import com.erdouglass.emdb.media.domain.shared.Overview;
 import com.erdouglass.emdb.media.domain.shared.Score;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
@@ -55,9 +56,10 @@ class MovieCommandAdapter implements MovieCommandRepository {
     entity.setTmdbId(movie.tmdbId().value());
     entity.setVersion(movie.version().map(Version::value).orElse(0L));
     entity.setTitle(movie.details().title().value());
-    entity.setReleaseDate(movie.details().releaseDate().map(ReleaseDate::value).orElse(null));
+    entity.setReleaseDate(movie.details().releaseDate().map(ReleaseDate::toLocalDate).orElse(null));
     entity.setScore(movie.details().score().map(Score::value).orElse(null));
     entity.setOriginalLanguage(movie.details().originalLanguage().map(LanguageCode::value).orElse(null));
+    entity.setOverview(movie.details().overview().map(Overview::value).orElse(null));
     return entity;
   }
   
@@ -67,9 +69,10 @@ class MovieCommandAdapter implements MovieCommandRepository {
     var tmdbId = TmdbId.of(entity.getTmdbId());
     var details = MovieDetails.builder()
         .title(Title.of(entity.getTitle()))
-        .releaseDate(entity.getReleaseDate().map(r -> ReleaseDate.of(r)).orElse(null))
-        .score(entity.getScore().map(s -> Score.of(s)).orElse(null))
-        .originalLanguage(entity.getOriginalLanguage().map(l -> LanguageCode.of(l)).orElse(null))
+        .releaseDate(entity.getReleaseDate().map(ReleaseDate::from).orElse(null))
+        .score(entity.getScore().map(Score::of).orElse(null))
+        .originalLanguage(entity.getOriginalLanguage().map(LanguageCode::of).orElse(null))
+        .overview(entity.getOverview().map(Overview::of).orElse(null))
         .build();
     return Movie.rehydrate(id, publicId, tmdbId, details, Version.of(entity.getVersion()));
   }

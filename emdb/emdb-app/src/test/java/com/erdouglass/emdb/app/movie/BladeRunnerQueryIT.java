@@ -40,6 +40,7 @@ class BladeRunnerQueryIT {
         .releaseDate("1982-06-25")
         .score(BigDecimal.valueOf(7.893))
         .originalLanguage("en")
+        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
@@ -60,7 +61,7 @@ class BladeRunnerQueryIT {
     var query = """
         query {
           movie(id: "%s") { 
-            id version title releaseDate score originalLanguage
+            id version title releaseDate score originalLanguage overview
           }
         }
         """.formatted(movieId);
@@ -83,6 +84,7 @@ class BladeRunnerQueryIT {
     assertEquals("1982-06-25", movie.path("releaseDate").asText());
     assertEquals(7.893, movie.path("score").asDouble(), 0.001);
     assertEquals("en", movie.path("originalLanguage").asText());
+    assertEquals("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.", movie.path("overview").asText());
     LOGGER.infof("Found %s (Blade Runner) in %d ms", movieId, et);    
   }
 }

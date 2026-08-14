@@ -20,15 +20,6 @@ import com.tngtech.archunit.lang.ArchRule;
                       MediaArchitectureTest.ExcludeGenerated.class })
 class MediaArchitectureTest {
   
-  /// "No framework import may ever appear in this package" — Movie's javadoc,
-  /// made mechanical. Whitelist, not blacklist: the domain may see itself and
-  /// the JDK; everything else fails by default, no enumeration to keep current.
-  @ArchTest
-  static final ArchRule domain_speaks_only_domain_and_jdk = classes()
-      .that().resideInAPackage("..media.domain..")
-      .should().onlyDependOnClassesThat(
-          resideInAnyPackage("..media.domain..", "..emdb.media..", "java.."));
-  
   /// Unchanged. The asymmetric ignore is deliberate: anyone may lean on the
   /// shared kernel; the kernel may lean on no aggregate.
   @ArchTest

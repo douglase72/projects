@@ -17,6 +17,7 @@ import jakarta.persistence.Version;
 
 import com.erdouglass.emdb.media.domain.movie.Title;
 import com.erdouglass.emdb.media.domain.shared.LanguageCode;
+import com.erdouglass.emdb.media.domain.shared.Overview;
 
 @Entity 
 @Table(
@@ -37,6 +38,9 @@ class MovieEntity {
   
   @Column(name = "original_language", length = LanguageCode.LENGTH)
   private String originalLanguage;
+  
+  @Column(length = Overview.MAX_LENGTH)
+  private String overview;
   
   @Column(name = "release_date")
   private LocalDate releaseDate;
@@ -83,4 +87,7 @@ class MovieEntity {
   
   public void setOriginalLanguage(String originalLanguage) { this.originalLanguage = originalLanguage; }
   public Optional<String> getOriginalLanguage() { return Optional.ofNullable(originalLanguage); }
+  
+  public void setOverview(String overview) { this.overview = overview; }
+  public Optional<String> getOverview() { return Optional.ofNullable(overview); }
 }

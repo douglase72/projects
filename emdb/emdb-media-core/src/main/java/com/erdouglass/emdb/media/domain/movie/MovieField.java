@@ -9,7 +9,8 @@ public enum MovieField {
   TITLE(MovieDetails::title),
   RELEASE_DATE(MovieDetails::releaseDate),
   SCORE(MovieDetails::score),
-  ORIGINAL_LANGUAGE(MovieDetails::originalLanguage);
+  ORIGINAL_LANGUAGE(MovieDetails::originalLanguage),
+  OVERVIEW(MovieDetails::overview);
   
   private final Function<MovieDetails, Object> extractor;
 

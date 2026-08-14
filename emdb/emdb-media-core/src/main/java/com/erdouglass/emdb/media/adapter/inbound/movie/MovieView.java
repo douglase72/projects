@@ -13,7 +13,8 @@ public record MovieView(
     @NonNull String title,
     LocalDate releaseDate,
     BigDecimal score,
-    String originalLanguage) {
+    String originalLanguage,
+    String overview) {
 
   public MovieView(
       Long id, 
@@ -21,7 +22,15 @@ public record MovieView(
       String title, 
       LocalDate releaseDate, 
       BigDecimal score, 
-      String originalLanguage) {
-    this(MoviePublicId.from(id).value(), version, title, releaseDate, score, originalLanguage);
+      String originalLanguage,
+      String overview) {
+    this(
+        MoviePublicId.from(id).value(), 
+        version, 
+        title, 
+        releaseDate, 
+        score, 
+        originalLanguage,
+        overview);
   }
 }
