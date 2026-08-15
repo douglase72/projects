@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.application.port.inbound.movie;
+package com.erdouglass.emdb.media;
 
 public record SaveResult(String id, Long version, Status status) {
   

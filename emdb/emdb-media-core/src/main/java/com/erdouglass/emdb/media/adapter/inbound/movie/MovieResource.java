@@ -15,22 +15,14 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import com.erdouglass.emdb.media.SaveMovieUseCase;
+import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.application.port.inbound.movie.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieCommand;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
-import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieUseCase;
-import com.erdouglass.emdb.media.domain.movie.MovieDetails;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
-import com.erdouglass.emdb.media.domain.movie.ReleaseDate;
-import com.erdouglass.emdb.media.domain.movie.Title;
-import com.erdouglass.emdb.media.domain.shared.LanguageCode;
-import com.erdouglass.emdb.media.domain.shared.Overview;
-import com.erdouglass.emdb.media.domain.shared.Score;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
 @Path("/movies")
@@ -51,6 +43,9 @@ class MovieResource {
   DeleteMovieUseCase deleteUseCase;
   
   @Inject
+  CommandMapper mapper;
+  
+  @Inject
   UriInfo uriInfo;
 
   @PUT
@@ -58,14 +53,7 @@ class MovieResource {
   public Response save(
       @NotNull @Positive @PathParam("tmdbId") Integer tmdbId,
       @NotNull @Valid SaveMovieRequest request) {
-    var details = MovieDetails.builder()
-        .title(Title.of(request.title()))
-        .releaseDate(request.releaseDate().map(r -> ReleaseDate.from(r)).orElse(null))
-        .score(request.score().map(s -> Score.of(s)).orElse(null))
-        .originalLanguage(request.originalLanguage().map(l -> LanguageCode.of(l)).orElse(null))
-        .overview(request.overview().map(o -> Overview.of(o)).orElse(null))
-        .build();
-    var command = SaveMovieCommand.of(TmdbId.of(tmdbId), details);
+    var command = mapper.toSaveMovieCommand(TmdbId.of(tmdbId), request);
     var result = saveUseCase.save(command);
     return switch (result.status()) {
       case CREATED -> Response
@@ -81,14 +69,7 @@ class MovieResource {
   public SaveResult update(
       @NotBlank @PathParam("id") String id, 
       @NotNull @Valid UpdateMovieRequest request) {
-    var details = MovieDetails.builder()
-        .title(Title.of(request.title()))
-        .releaseDate(request.releaseDate().map(r -> ReleaseDate.from(r)).orElse(null))
-        .score(request.score().map(s -> Score.of(s)).orElse(null))
-        .originalLanguage(request.originalLanguage().map(l -> LanguageCode.of(l)).orElse(null))
-        .overview(request.overview().map(o -> Overview.of(o)).orElse(null))
-        .build();
-    var command = new UpdateMovieCommand(MoviePublicId.of(id), Version.of(request.version()), details);
+    var command = mapper.toUpdateMovieCommand(id, request);
     return updateUseCase.update(command);
   }
   

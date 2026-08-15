@@ -10,6 +10,7 @@ dependencies {
   compileOnly         enforcedPlatform(libs.quarkus.bom)
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   annotationProcessor libs.hibernate.processor
+   annotationProcessor libs.mapstruct.processor
   
   implementation project(':common-graphql')
   implementation project(':common-rest')
@@ -24,6 +25,7 @@ dependencies {
   compileOnly libs.jakarta.validation.api
   compileOnly libs.jakarta.ws.rs.api
   compileOnly libs.jboss.logging
+  compileOnly libs.mapstruct
   compileOnly libs.microprofile.graphql.api
   compileOnly libs.quarkus.hibernate.orm
   

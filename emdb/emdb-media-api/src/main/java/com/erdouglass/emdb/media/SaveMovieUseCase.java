@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.application.port.inbound.movie;
+package com.erdouglass.emdb.media;
 
 import jakarta.validation.constraints.NotNull;
 

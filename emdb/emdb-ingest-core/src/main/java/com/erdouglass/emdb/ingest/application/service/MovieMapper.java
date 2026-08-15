@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.messaging;
+package com.erdouglass.emdb.ingest.application.service;
 
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
@@ -6,7 +6,7 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
-import com.erdouglass.emdb.media.MovieExtractedEvent;
+import com.erdouglass.emdb.media.SaveMovieCommand;
 
 @Mapper(
     componentModel = "cdi", 
@@ -16,5 +16,5 @@ import com.erdouglass.emdb.media.MovieExtractedEvent;
 )
 interface MovieMapper {
 
-  MovieExtractedEvent toMovieExtractedEvent(Movie movie);
+  SaveMovieCommand toSaveMovieCommand(Movie movie);
 }

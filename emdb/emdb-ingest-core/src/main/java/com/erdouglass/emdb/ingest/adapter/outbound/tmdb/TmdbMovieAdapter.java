@@ -7,7 +7,6 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
 import com.erdouglass.emdb.ingest.application.port.outbound.MovieSource;
 import com.erdouglass.emdb.media.TmdbId;
@@ -30,7 +29,7 @@ class TmdbMovieAdapter implements MovieSource {
     return new Movie(
         tmdbId, 
         movie.title(), 
-        movie.release_date().filter(r -> !r.isBlank()).map(DateTimeFactory::from),
+        movie.release_date().filter(r -> !r.isBlank()),
         Optional.ofNullable(score),
         Optional.ofNullable(originalLanguage),
         movie.overview().filter(o -> !o.isBlank()));

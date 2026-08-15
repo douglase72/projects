@@ -1,20 +1,18 @@
-package com.erdouglass.emdb.ingest.application.port.outbound;
+package com.erdouglass.emdb.media;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.TmdbId;
-
-public record Movie(
+public record SaveMovieCommand(
     TmdbId tmdbId,
     String title,
     Optional<String> releaseDate,
     Optional<BigDecimal> score,
     Optional<String> originalLanguage,
-    Optional<String> overview) {
-
-  public Movie {
+    Optional<String> overview) implements UpsertMovieCommand {
+  
+  public SaveMovieCommand {
     Objects.requireNonNull(tmdbId, "tmdbId must not be null");
     Objects.requireNonNull(title, "title must not be null");
   }

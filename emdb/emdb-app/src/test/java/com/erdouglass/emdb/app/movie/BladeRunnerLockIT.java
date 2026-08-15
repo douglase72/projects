@@ -20,10 +20,10 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
+import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.adapter.inbound.movie.LockMovieRequest;
 import com.erdouglass.emdb.media.adapter.inbound.movie.SaveMovieRequest;
 import com.erdouglass.emdb.media.adapter.inbound.movie.UpdateMovieRequest;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

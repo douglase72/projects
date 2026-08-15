@@ -6,13 +6,14 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.media.SaveMovieCommand;
+import com.erdouglass.emdb.media.SaveMovieUseCase;
+import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.SaveResult.Status;
+import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.application.port.inbound.movie.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieCommand;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult.Status;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.application.port.outbound.movie.MovieAuditRepository;
@@ -40,18 +41,20 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   @Override
   @Transactional
   public SaveResult save(SaveMovieCommand command) {
+    var details = MovieMapper.toMovieDetails(command);
     return movies.findByTmdbId(command.tmdbId())
-        .map(existing -> update(existing, command.details()))
-        .orElseGet(() -> insert(command));
+        .map(existing -> update(existing, details))
+        .orElseGet(() -> insert(command.tmdbId(), details));
   }
   
   @Override
   @Transactional
   public SaveResult update(UpdateMovieCommand command) {
-    Movie movie = movies.findByPublicId(command.publicId())
-        .orElseThrow(() -> new MovieNotFoundException(command.publicId().value()));
-    movie.checkVersion(command.version());
-    return update(movie, command.details());
+    var details = MovieMapper.toMovieDetails(command);
+    Movie existing = movies.findByPublicId(MoviePublicId.of(command.publicId()))
+        .orElseThrow(() -> new MovieNotFoundException(command.publicId()));
+    existing.checkVersion(Version.of(command.version()));
+    return update(existing, details);
   }
   
   @Override
@@ -78,8 +81,8 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
     movies.deleteByPublicId(id);
   }
   
-  private SaveResult insert(SaveMovieCommand command) {
-    var movie = Movie.create(MovieId.of(GENERATOR.generate()), command.tmdbId(), command.details());
+  private SaveResult insert(TmdbId tmdbId, MovieDetails details) {
+    var movie = Movie.create(MovieId.of(GENERATOR.generate()), tmdbId, details);
     var inserted = movies.insert(movie);
     audit.append(inserted.id(), inserted.publicId().orElseThrow(), inserted.changesAsAdded());
     LOGGER.infof("Created: %s", inserted);
