@@ -7,12 +7,14 @@ import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.media.application.port.inbound.movie.DeleteMovieUseCase;
+import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieCommand;
+import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
+import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult.Status;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.UpdateMovieUseCase;
-import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult.Status;
 import com.erdouglass.emdb.media.application.port.outbound.movie.MovieAuditRepository;
 import com.erdouglass.emdb.media.application.port.outbound.movie.MovieCommandRepository;
 import com.erdouglass.emdb.media.domain.exception.MovieNotFoundException;
@@ -25,7 +27,7 @@ import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
 @ApplicationScoped
-class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, DeleteMovieUseCase {
+class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockMovieUseCase, DeleteMovieUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
   private static final Logger LOGGER = Logger.getLogger(MovieCommandService.class);
   
@@ -50,6 +52,21 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
         .orElseThrow(() -> new MovieNotFoundException(command.publicId().value()));
     movie.checkVersion(command.version());
     return update(movie, command.details());
+  }
+  
+  @Override
+  @Transactional
+  public SaveResult lock(LockMovieCommand command) {
+    Movie movie = movies.findByPublicId(command.publicId())
+        .orElseThrow(() -> new MovieNotFoundException(command.publicId().value()));
+    movie.checkVersion(command.version());
+    movie.lock(command.lock());
+    var updated = movies.update(movie);
+    LOGGER.infof("Updated: %s", updated);
+    return SaveResult.of(
+        updated.publicId().map(MoviePublicId::value).orElseThrow(), 
+        updated.version().map(Version::value).orElseThrow(), 
+        Status.UPDATED);
   }
   
   @Override

@@ -17,6 +17,8 @@ import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.application.port.inbound.movie.DeleteMovieUseCase;
+import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieCommand;
+import com.erdouglass.emdb.media.application.port.inbound.movie.LockMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieCommand;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveMovieUseCase;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
@@ -41,6 +43,9 @@ class MovieResource {
   
   @Inject
   UpdateMovieUseCase updateUseCase;
+  
+  @Inject
+  LockMovieUseCase lockUseCase;
   
   @Inject
   DeleteMovieUseCase deleteUseCase;
@@ -83,8 +88,17 @@ class MovieResource {
         .originalLanguage(request.originalLanguage().map(l -> LanguageCode.of(l)).orElse(null))
         .overview(request.overview().map(o -> Overview.of(o)).orElse(null))
         .build();
-    var command = UpdateMovieCommand.of(MoviePublicId.of(id), Version.of(request.version()), details);
+    var command = new UpdateMovieCommand(MoviePublicId.of(id), Version.of(request.version()), details);
     return updateUseCase.update(command);
+  }
+  
+  @PUT
+  @Path("/lock/{id}")
+  public SaveResult lock(
+      @NotBlank @PathParam("id") String id, 
+      @NotNull @Valid LockMovieRequest request) {
+    var command = new LockMovieCommand(MoviePublicId.of(id), Version.of(request.version()), request.lock());
+    return lockUseCase.lock(command);
   }
   
   @DELETE

@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.erdouglass.emdb.media.TmdbId;
+import com.erdouglass.emdb.media.domain.exception.LockedMovieException;
 import com.erdouglass.emdb.media.domain.exception.StaleMovieException;
 import com.erdouglass.emdb.media.domain.shared.Score;
 import com.erdouglass.emdb.media.domain.shared.Version;
@@ -24,16 +25,19 @@ public final class Movie {
   private final Version version;
   
   private MovieDetails details;
+  private boolean locked;
   
   private Movie(
       MovieId id, 
       MoviePublicId publicId, 
       TmdbId tmdbId, 
+      boolean locked,
       MovieDetails details, 
       Version version) {
     this.id = Objects.requireNonNull(id, "id is required");
     this.publicId = publicId;
     this.tmdbId = Objects.requireNonNull(tmdbId, "tmdbId is required");
+    this.locked = locked;
     this.details = Objects.requireNonNull(details, "details are required");
     this.version = version;
   }
@@ -43,7 +47,7 @@ public final class Movie {
   /// The movie public id and version will be null until its persisted in the 
   /// database.
   public static Movie create(MovieId id, TmdbId tmdbId, MovieDetails details) {
-    return new Movie(id, null, tmdbId, details, null);
+    return new Movie(id, null, tmdbId, false, details, null);
   }
   
   /// Create a complete movie aggregate.
@@ -53,26 +57,25 @@ public final class Movie {
       MovieId id, 
       MoviePublicId publicId, 
       TmdbId tmdbId, 
+      boolean locked,
       MovieDetails details, 
       Version version) {
-    return new Movie(id, publicId, tmdbId, details, version);
+    return new Movie(id, publicId, tmdbId, locked, details, version);
   }
   
   /// Update movie details.
   public List<FieldChange> update(MovieDetails targetDetails) {
-    Objects.requireNonNull(targetDetails, "details are required");  
+    Objects.requireNonNull(targetDetails, "details are required");
+    if (locked == true) {
+      throw new LockedMovieException(publicId().map(MoviePublicId::value).orElse(details.title().value()));
+    }
     var changes = MovieField.diff(this.details, targetDetails);
     this.details = targetDetails;
     return changes;
   }
   
-  public List<FieldChange> changesAsAdded() {
-    return MovieField.diff(null, details);
-  }
-  
-  public List<FieldChange> changesAsDeleted() {
-    return MovieField.diff(details, null);
-  }
+  public List<FieldChange> changesAsAdded() { return MovieField.diff(null, details); }  
+  public List<FieldChange> changesAsDeleted() { return MovieField.diff(details, null); }
   
   public void checkVersion(Version expected) {
     if (version == null || !version.equals(expected)) {
@@ -80,25 +83,15 @@ public final class Movie {
     }
   }
   
-  public MovieDetails details() {
-    return details;
-  }
+  public void lock(boolean lock) { this.locked = lock; }
   
-  public MovieId id() {
-    return id;
-  }
-  
-  public Optional<MoviePublicId> publicId() {
-    return Optional.ofNullable(publicId);
-  }
-  
-  public TmdbId tmdbId() {
-    return tmdbId;
-  }
-  
-  public Optional<Version> version() {
-    return Optional.ofNullable(version);
-  }
+  /// Getters
+  public MovieDetails details() { return details; }  
+  public MovieId id() { return id; }  
+  public boolean isLocked() { return locked; }
+  public Optional<MoviePublicId> publicId() { return Optional.ofNullable(publicId); }
+  public TmdbId tmdbId() { return tmdbId; }
+  public Optional<Version> version() { return Optional.ofNullable(version); }
   
   @Override
   public int hashCode() {
@@ -123,6 +116,7 @@ public final class Movie {
         + ", publicId=" + publicId().map(MoviePublicId::value).orElse(null)
         + ", tmdbId=" + tmdbId().value()
         + ", version=" + version().map(Version::value).orElse(null)
+        + ", locked=" + locked
         + ", title=" + details.title().value()
         + ", releaseDate=" + details.releaseDate().map(ReleaseDate::toLocalDate).orElse(null)
         + ", score=" + details.score().map(Score::value).orElse(null)

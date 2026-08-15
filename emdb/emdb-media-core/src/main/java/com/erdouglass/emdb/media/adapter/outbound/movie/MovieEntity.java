@@ -36,6 +36,8 @@ class MovieEntity {
   @SequenceGenerator(name = "movie_seq", sequenceName = "movie_seq", initialValue = 1, allocationSize = 1)
   private Long id;
   
+  private boolean locked;
+  
   @Column(name = "original_language", length = LanguageCode.LENGTH)
   private String originalLanguage;
   
@@ -67,17 +69,14 @@ class MovieEntity {
   public void setId(Long id) { this.id = id; }
   public Long getId() { return id; }
   
-  public void setSurrogateId(UUID surrogateId) { this.surrogateId = surrogateId; }
-  public UUID getSurrogateId() { return surrogateId; }
+  public void setLocked(boolean locked) { this.locked = locked; }
+  public boolean getLocked() { return locked; }
   
-  public void setTmdbId(int tmdbId) { this.tmdbId = tmdbId; }
-  public Integer getTmdbId() { return tmdbId; }
+  public void setOriginalLanguage(String originalLanguage) { this.originalLanguage = originalLanguage; }
+  public Optional<String> getOriginalLanguage() { return Optional.ofNullable(originalLanguage); }
   
-  public void setVersion(long version) { this.version = version; }
-  public Long getVersion() { return version; }
-  
-  public void setTitle(String title) { this.title = title; }
-  public String getTitle() { return title; }
+  public void setOverview(String overview) { this.overview = overview; }
+  public Optional<String> getOverview() { return Optional.ofNullable(overview); }
   
   public void setReleaseDate(LocalDate releaseDate) { this.releaseDate = releaseDate; }
   public Optional<LocalDate> getReleaseDate() { return Optional.ofNullable(releaseDate); }
@@ -85,9 +84,15 @@ class MovieEntity {
   public void setScore(BigDecimal score) { this.score = score; }
   public Optional<BigDecimal> getScore() { return Optional.ofNullable(score); }
   
-  public void setOriginalLanguage(String originalLanguage) { this.originalLanguage = originalLanguage; }
-  public Optional<String> getOriginalLanguage() { return Optional.ofNullable(originalLanguage); }
+  public void setSurrogateId(UUID surrogateId) { this.surrogateId = surrogateId; }
+  public UUID getSurrogateId() { return surrogateId; }
   
-  public void setOverview(String overview) { this.overview = overview; }
-  public Optional<String> getOverview() { return Optional.ofNullable(overview); }
+  public void setTitle(String title) { this.title = title; }
+  public String getTitle() { return title; }
+  
+  public void setTmdbId(int tmdbId) { this.tmdbId = tmdbId; }
+  public Integer getTmdbId() { return tmdbId; }
+  
+  public void setVersion(long version) { this.version = version; }
+  public Long getVersion() { return version; }
 }

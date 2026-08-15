@@ -10,7 +10,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status.Family;
 
 public enum ResponseStatus implements Response.StatusType {
-  MULTI_STATUS(207, "Multi-Status");
+  MULTI_STATUS(207, "Multi-Status"),
+  LOCKED(423, "Locked");
   
   private static final Map<Integer, ResponseStatus> CACHE = Stream.of(values())
       .collect(Collectors.toMap(ResponseStatus::getStatusCode, Function.identity()));

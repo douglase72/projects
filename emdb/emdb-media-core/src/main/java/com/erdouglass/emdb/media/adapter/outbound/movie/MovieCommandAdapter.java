@@ -55,6 +55,7 @@ class MovieCommandAdapter implements MovieCommandRepository {
     entity.setSurrogateId(movie.id().value());
     entity.setTmdbId(movie.tmdbId().value());
     entity.setVersion(movie.version().map(Version::value).orElse(0L));
+    entity.setLocked(movie.isLocked());
     entity.setTitle(movie.details().title().value());
     entity.setReleaseDate(movie.details().releaseDate().map(ReleaseDate::toLocalDate).orElse(null));
     entity.setScore(movie.details().score().map(Score::value).orElse(null));
@@ -74,6 +75,6 @@ class MovieCommandAdapter implements MovieCommandRepository {
         .originalLanguage(entity.getOriginalLanguage().map(LanguageCode::of).orElse(null))
         .overview(entity.getOverview().map(Overview::of).orElse(null))
         .build();
-    return Movie.rehydrate(id, publicId, tmdbId, details, Version.of(entity.getVersion()));
+    return Movie.rehydrate(id, publicId, tmdbId, entity.getLocked(), details, Version.of(entity.getVersion()));
   }
 }

@@ -2,18 +2,17 @@ package com.erdouglass.emdb.media.application.port.inbound.movie;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.domain.movie.MovieDetails;
 import com.erdouglass.emdb.media.domain.movie.MoviePublicId;
 import com.erdouglass.emdb.media.domain.shared.Version;
 
-public record UpdateMovieCommand(
+public record LockMovieCommand(
     MoviePublicId publicId,
     Version version,
-    MovieDetails details) {
+    Boolean lock) {
 
-  public UpdateMovieCommand {
+  public LockMovieCommand {
     Objects.requireNonNull(publicId, "publicId is required");
     Objects.requireNonNull(version, "version is required");    
-    Objects.requireNonNull(details, "movie details are reqired");
+    Objects.requireNonNull(lock, "lock details are reqired");
   }
 }

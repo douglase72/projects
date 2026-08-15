@@ -1,7 +1,6 @@
 package com.erdouglass.emdb.app.movie;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,7 +8,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
 
 import jakarta.ws.rs.core.UriBuilder;
 
@@ -22,15 +20,18 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
+import com.erdouglass.emdb.media.adapter.inbound.movie.LockMovieRequest;
 import com.erdouglass.emdb.media.adapter.inbound.movie.SaveMovieRequest;
+import com.erdouglass.emdb.media.adapter.inbound.movie.UpdateMovieRequest;
 import com.erdouglass.emdb.media.application.port.inbound.movie.SaveResult;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class BladeRunnerQueryIT {
-  private static final Logger LOGGER = Logger.getLogger(BladeRunnerQueryIT.class);
+class BladeRunnerLockIT {
+  private static final Logger LOGGER = Logger.getLogger(BladeRunnerLockIT.class);
   
   private String movieId;
+  private Long version;
   
   @Test
   @Order(1)
@@ -52,39 +53,43 @@ class BladeRunnerQueryIT {
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
     movieId = result.id();
-    LOGGER.infof("Saved %s (Blade Runner) in %d ms", movieId, et);
+    version = result.version();
+    LOGGER.infof("Saved %s movie in %d ms", movieId, et);
   }
   
   @Test
   @Order(2)
-  void testFindMovie() throws IOException, InterruptedException {
-    var query = """
-        query {
-          movie(id: "%s") { 
-            id version title releaseDate score originalLanguage overview
-          }
-        }
-        """.formatted(movieId);
-    var payload = Map.of("query", query);
+  void testLockMovie() throws IOException, InterruptedException {  
+    var lockRequest = new LockMovieRequest(true, version);
     var request = HttpRequest.newBuilder()
-        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(payload)))
-        .header("Content-Type", "application/json")
-        .uri(UriBuilder.fromUri(TestHelper.GRAPHQL_URL).build())
-        .build(); 
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(lockRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path("lock").path(movieId).build())
+        .build();    
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
-    var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
-    assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
-    
-    var movie = root.path("data").path("movie");
-    assertEquals(movieId, movie.path("id").asText());
-    assertEquals(0, movie.path("version").asLong());
-    assertEquals("Blade Runner", movie.path("title").asText());
-    assertEquals("1982-06-25", movie.path("releaseDate").asText());
-    assertEquals(7.893, movie.path("score").asDouble(), 0.001);
-    assertEquals("en", movie.path("originalLanguage").asText());
-    assertEquals("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.", movie.path("overview").asText());
-    LOGGER.infof("Found %s (Blade Runner) in %d ms", movieId, et);    
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
+    version = result.version();
+    LOGGER.infof("Locked %s movie in %d ms", movieId, et);
+  }
+  
+  @Test
+  @Order(3)
+  void testUpdateLockedMovie() throws IOException, InterruptedException {  
+    var updateRequest = UpdateMovieRequest.builder()
+        .version(version)
+        .title("Blade Runner: Directors Cut")
+        .releaseDate(null)
+        .score(BigDecimal.valueOf(7.001))
+        .originalLanguage("fr")
+        .overview("Test overview.")
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId).build())
+        .build();    
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    assertEquals(423, response.statusCode(), "Server failed with response: " + response.body());
   }
 }
