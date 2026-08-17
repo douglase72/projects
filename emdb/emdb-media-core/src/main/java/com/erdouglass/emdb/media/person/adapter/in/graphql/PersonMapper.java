@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.movie.adapter.in.graphql;
+package com.erdouglass.emdb.media.person.adapter.in.graphql;
 
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
@@ -7,8 +7,8 @@ import org.mapstruct.Named;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.movie.application.port.out.MovieView;
-import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
+import com.erdouglass.emdb.media.person.application.port.out.PersonView;
+import com.erdouglass.emdb.media.person.domain.PersonPublicId;
 
 @Mapper(
     componentModel = "cdi", 
@@ -16,13 +16,13 @@ import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
     unmappedTargetPolicy = ReportingPolicy.ERROR,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-interface MovieMapper {
+interface PersonMapper {
 
   @Mapping(target = "id", source = "id", qualifiedByName = "toPublicId")
-  MovieResponse toMovieResponse(MovieView view);
+  PersonResponse toPersonResponse(PersonView view);
   
   @Named("toPublicId")
   default String toPublicId(Long id) {
-    return MoviePublicId.from(id).value();
+    return PersonPublicId.from(id).value();
   }
 }

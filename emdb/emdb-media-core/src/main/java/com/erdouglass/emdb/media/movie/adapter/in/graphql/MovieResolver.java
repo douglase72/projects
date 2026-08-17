@@ -44,7 +44,7 @@ public class MovieResolver {
   @Description("A single title by its catalogue id.")
   public MovieResponse movie(@Name("id") @NonNull String id) {
     var movie = findUseCase.findById(MoviePublicId.of(id))
-        .map(mapper::yoMovieResponse);
+        .map(mapper::toMovieResponse);
     movie.ifPresent(m -> LOGGER.debugf("Found: %s", m));
     return movie.orElse(null);
   }

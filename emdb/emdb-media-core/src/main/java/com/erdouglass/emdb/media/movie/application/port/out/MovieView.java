@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.erdouglass.emdb.media.movie.domain.Movie;
-import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
 /// The read model of a title, as clients see it.
 ///
@@ -29,44 +28,10 @@ import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 /// @param originalLanguage the ISO 639-1 code, or `null` if unknown
 /// @param overview the synopsis, or `null` if unavailable
 public record MovieView(
-    String id,
+    Long id,
     Long version,
     String title,
     LocalDate releaseDate,
     BigDecimal score,
     String originalLanguage,
-    String overview) {
-
-  /// Constructs a view from raw persistence values.
-  ///
-  /// This is the constructor the query repository projects into, which is why it
-  /// takes the numeric primary key rather than the prefixed id: it converts the
-  /// key on the way out so that no caller has to remember to. Everything else is
-  /// passed through unchanged.
-  ///
-  /// @param id the numeric primary key, must be positive
-  /// @param version the stored version
-  /// @param title the stored title
-  /// @param releaseDate the stored release date, or `null`
-  /// @param score the stored rating, or `null`
-  /// @param originalLanguage the stored language code, or `null`
-  /// @param overview the stored synopsis, or `null`
-  /// @throws IllegalArgumentException if `id` is less than `1`
-  public MovieView(
-      Long id, 
-      long version, 
-      String title, 
-      LocalDate releaseDate, 
-      BigDecimal score, 
-      String originalLanguage,
-      String overview) {
-    this(
-        MoviePublicId.from(id).value(), 
-        version, 
-        title, 
-        releaseDate, 
-        score, 
-        originalLanguage,
-        overview);
-  }
-}
+    String overview) {}

@@ -36,10 +36,10 @@
 
   const { fromLanguageCode } = useLanguage();
   const { handleError, handleNotFound } = useErrorHandler();
-  const route = useRoute();
-  const router = useRouter();
 
   const movie = ref<Movie>();
+  const route = useRoute();
+  const router = useRouter();
   
   onMounted(async () => {
     const raw = route.params.id;

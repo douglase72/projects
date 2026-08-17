@@ -139,7 +139,7 @@
       title: values.title,
       releaseDate: values.releaseDate ? toIso(values.releaseDate) : null,
       score: values.score,
-      originalLanguage: movie.value.originalLanguage,
+      originalLanguage: values.language,
       overview: values.overview,
     };
 

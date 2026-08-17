@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import MovieView from '@/views/MovieView.vue'
 import MovieEditView from '@/views/MovieEditView.vue'
+import PersonView from '@/views/PersonView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/movie/:id/edit',
       name: 'MovieEdit',
       component: MovieEditView,
+    },
+    {
+      path: '/person/:id',
+      name: 'Person',
+      component: PersonView,
     },    
   ],
 })
