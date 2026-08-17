@@ -11,7 +11,7 @@ import jakarta.data.repository.Repository;
 /// audit trail that can be rewritten is not evidence. Reading history is a
 /// reporting concern and is not served from this interface.
 @Repository(dataStore = "media")
-public interface JakartaDataMovieAuditRepository {
+interface JakartaDataMovieAuditRepository {
 
   /// Appends a batch of audit rows.
   ///

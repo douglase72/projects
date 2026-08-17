@@ -1,8 +1,10 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.movie;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
+
+import com.erdouglass.emdb.media.TmdbId;
 
 /// The intended state of a title, addressed by its TMDB id.
 ///
@@ -30,7 +32,7 @@ public record SaveMovieCommand(
     Optional<String> releaseDate,
     Optional<BigDecimal> score,
     Optional<String> originalLanguage,
-    Optional<String> overview) implements UpsertMovieCommand {
+    Optional<String> overview) implements MovieCommand {
   
   public SaveMovieCommand {
     Objects.requireNonNull(tmdbId, "tmdbId must not be null");

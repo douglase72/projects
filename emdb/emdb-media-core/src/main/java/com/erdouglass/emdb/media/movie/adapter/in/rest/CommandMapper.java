@@ -5,8 +5,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.TmdbId;
+import com.erdouglass.emdb.media.movie.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieCommand;
 
 @Mapper(

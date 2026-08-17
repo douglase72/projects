@@ -5,9 +5,9 @@ import java.util.Optional;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.media.movie.adapter.in.graphql.MovieView;
 import com.erdouglass.emdb.media.movie.application.port.in.FindMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieQueryRepository;
+import com.erdouglass.emdb.media.movie.application.port.out.MovieView;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
 /// Serves client reads of the movie catalogue.

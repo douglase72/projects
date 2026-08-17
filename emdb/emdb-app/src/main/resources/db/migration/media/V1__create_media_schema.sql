@@ -1,10 +1,21 @@
-create table emdb_media.movie (id bigint not null, locked boolean not null, original_language varchar(2), overview varchar(4000), release_date date, score numeric(5,3), surrogate_id uuid not null, title varchar(140) not null, tmdb_id integer not null, version bigint not null, primary key (id));
+
+create table emdb_media.movie (id bigint not null, locked boolean not null, original_language varchar(2), overview varchar(1000), release_date date, score numeric(5,3), surrogate_id uuid not null, title varchar(140) not null, tmdb_id integer not null, version bigint not null, primary key (id));
 create table emdb_media.movie_audit (id bigint not null, field_name varchar(64) not null check ((field_name in ('TITLE','RELEASE_DATE','SCORE','ORIGINAL_LANGUAGE','OVERVIEW'))), movie_public_id varchar(32) not null, movie_surrogate_id uuid not null, new_value text, occurred_at timestamp(6) with time zone not null, old_value text, operation varchar(16) not null check ((operation in ('ADDED','UPDATED','DELETED'))), primary key (id));
+create table emdb_media.person (id bigint not null, biography varchar(4000), birth_date date, death_date date, gender varchar(10) check ((gender in ('UNKNOWN','FEMALE','MALE','NON_BINARY'))), locked boolean not null, name varchar(80) not null, surrogate_id uuid not null, tmdb_id integer not null, version bigint not null, primary key (id));
+create table emdb_media.person_audit (id bigint not null, field_name varchar(64) not null check ((field_name in ('NAME','BIRTH_DATE','DEATH_DATE','GENDER','BIOGRAPHY'))), new_value text, occurred_at timestamp(6) with time zone not null, old_value text, operation varchar(16) not null check ((operation in ('ADDED','UPDATED','DELETED'))), person_public_id varchar(32) not null, person_surrogate_id uuid not null, primary key (id));
 alter table if exists emdb_media.movie drop constraint if exists uq_movie_surrogate_id;
 alter table if exists emdb_media.movie add constraint uq_movie_surrogate_id unique (surrogate_id);
 alter table if exists emdb_media.movie drop constraint if exists uq_movie_tmdb_id;
 alter table if exists emdb_media.movie add constraint uq_movie_tmdb_id unique (tmdb_id);
 create index ix_movie_audit_movie on emdb_media.movie_audit (movie_surrogate_id, occurred_at, id);
 create index ix_movie_audit_occurred on emdb_media.movie_audit (occurred_at);
+alter table if exists emdb_media.person drop constraint if exists uq_person_surrogate_id;
+alter table if exists emdb_media.person add constraint uq_person_surrogate_id unique (surrogate_id);
+alter table if exists emdb_media.person drop constraint if exists uq_person_tmdb_id;
+alter table if exists emdb_media.person add constraint uq_person_tmdb_id unique (tmdb_id);
+create index ix_person_audit_person on emdb_media.person_audit (person_surrogate_id, occurred_at, id);
+create index ix_person_audit_occurred on emdb_media.person_audit (occurred_at);
 create sequence emdb_media.movie_audit_seq start with 1 increment by 50;
 create sequence emdb_media.movie_seq start with 1 increment by 1;
+create sequence emdb_media.person_audit_seq start with 1 increment by 50;
+create sequence emdb_media.person_seq start with 1 increment by 1;

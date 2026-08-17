@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
 import com.erdouglass.emdb.ingest.application.port.outbound.MovieSource;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
-import com.erdouglass.emdb.media.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 
 @ApplicationScoped
 class MovieIngestService {

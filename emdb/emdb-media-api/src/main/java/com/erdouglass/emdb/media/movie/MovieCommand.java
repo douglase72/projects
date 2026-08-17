@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.movie;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -12,7 +12,7 @@ import java.util.Optional;
 ///
 /// Every implementation carries replacement semantics: an empty optional means
 /// "clear this field", never "skip this field".
-public interface UpsertMovieCommand {
+public interface MovieCommand {
   
   /// {@return the display title; required, and never blank once validated}
   String title();

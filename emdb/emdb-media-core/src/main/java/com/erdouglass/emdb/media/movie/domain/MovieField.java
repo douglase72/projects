@@ -51,15 +51,15 @@ public enum MovieField {
   /// @implNote values are compared and stringified exactly as the components are
   ///           declared, so optional components are handled as `Optional`
   ///           instances rather than as their unwrapped contents
-  static List<FieldChange> diff(MovieDetails oldDetails, MovieDetails newDetails) {
-    List<FieldChange> changes = new ArrayList<>();
+  static List<MovieFieldChange> diff(MovieDetails oldDetails, MovieDetails newDetails) {
+    List<MovieFieldChange> changes = new ArrayList<>();
     for (MovieField field : values()) {
       Object oldValue = field.valueIn(oldDetails);
       Object newValue = field.valueIn(newDetails);
       if (Objects.equals(oldValue, newValue)) continue;
-      if (oldValue == null) changes.add(FieldChange.added(field, newValue));
-      else if (newValue == null) changes.add(FieldChange.deleted(field, oldValue));
-      else changes.add(FieldChange.updated(field, oldValue, newValue));
+      if (oldValue == null) changes.add(MovieFieldChange.added(field, newValue));
+      else if (newValue == null) changes.add(MovieFieldChange.deleted(field, oldValue));
+      else changes.add(MovieFieldChange.updated(field, oldValue, newValue));
     }
     return List.copyOf(changes);
   }  

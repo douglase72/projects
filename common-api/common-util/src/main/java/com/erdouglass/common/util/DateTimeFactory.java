@@ -16,12 +16,24 @@ import java.util.Locale;
 import java.util.Objects;
 
 public final class DateTimeFactory {
+  private static final DateTimeFormatter TIME = new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.HOUR_OF_DAY, 2)
+      .appendLiteral(':')
+      .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+      .optionalStart()
+        .appendLiteral(':')
+        .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+        .optionalStart()
+          .appendFraction(ChronoField.NANO_OF_SECOND, 1, 9, true)
+        .optionalEnd()
+      .optionalEnd()
+      .optionalStart().appendOffsetId().optionalEnd()
+      .toFormatter(Locale.ROOT);
+  
   private static final List<DateTimeFormatter> PARSERS = List.of(
-      parser("uuuu-MM-dd", ' '),
-      parser("uuuu-MM-dd", 'T'),
-      parser("dd-MMM-uuuu", 'T'),
-      DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ROOT)
-        .withResolverStyle(ResolverStyle.STRICT));
+      parser("uuuu-MM-dd"),
+      parser("dd-MMM-uuuu"),
+      parser("dd MMM uuuu"));
 
   private DateTimeFactory() {}
   
@@ -69,19 +81,12 @@ public final class DateTimeFactory {
     throw new IllegalArgumentException("Unparseable date/time: " + dateTime);
   }
   
-  private static DateTimeFormatter parser(String datePattern, char timeSeparator) {
+  private static DateTimeFormatter parser(String datePattern) {
     return new DateTimeFormatterBuilder()
+        .parseCaseInsensitive()
         .appendPattern(datePattern)
-        .optionalStart()
-          .appendLiteral(timeSeparator)
-          .appendPattern("HH:mm:ss")
-          .optionalStart()
-            .appendFraction(ChronoField.NANO_OF_SECOND, 1, 9, true)
-          .optionalEnd()
-          .optionalStart()
-            .appendOffsetId()
-          .optionalEnd()
-        .optionalEnd()
+        .optionalStart().appendLiteral('T').append(TIME).optionalEnd()
+        .optionalStart().appendLiteral(' ').append(TIME).optionalEnd()
         .toFormatter(Locale.ROOT)
         .withResolverStyle(ResolverStyle.STRICT);
   }

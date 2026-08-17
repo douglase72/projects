@@ -2,7 +2,6 @@ package com.erdouglass.emdb.media.movie.application.port.out;
 
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.movie.adapter.in.graphql.MovieView;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
 /// Outbound port for client-facing reads.

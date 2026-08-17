@@ -20,9 +20,9 @@ public interface UpdateMovieUseCase {
   ///        read
   /// @return the catalogue id, the version afterwards, and which outcome occurred
   /// @throws MovieNotFoundException if no title carries the command's id
-  /// @throws StaleMovieException if the stored version differs from the one
+  /// @throws StalePersonException if the stored version differs from the one
   ///         supplied
-  /// @throws LockedMovieException if the title is locked, including when the
+  /// @throws LockedPersonException if the title is locked, including when the
   ///         incoming details are identical
   /// @throws IllegalArgumentException if the command's id is not a well-formed
   ///         catalogue id

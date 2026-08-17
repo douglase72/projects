@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.media.movie.application.port.out.MovieAuditRepository;
-import com.erdouglass.emdb.media.movie.domain.FieldChange;
+import com.erdouglass.emdb.media.movie.domain.MovieFieldChange;
 import com.erdouglass.emdb.media.movie.domain.MovieId;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
@@ -36,7 +36,7 @@ class MovieAuditAdapter implements MovieAuditRepository {
   /// @param publicId the catalogue id of the changed title
   /// @param changes the field-level differences; an empty list writes nothing
   @Override
-  public void append(MovieId id, MoviePublicId publicId, List<FieldChange> changes) {
+  public void append(MovieId id, MoviePublicId publicId, List<MovieFieldChange> changes) {
     var occurredAt = Instant.now();
     var rows = changes.stream()
         .map(change -> toMovieAuditEntity(id, publicId, change, occurredAt))
@@ -54,7 +54,7 @@ class MovieAuditAdapter implements MovieAuditRepository {
   private MovieAuditEntity toMovieAuditEntity(
       MovieId id, 
       MoviePublicId publicId, 
-      FieldChange change, 
+      MovieFieldChange change, 
       Instant occurredAt) {
     var entity = new MovieAuditEntity();
     entity.setOccurredAt(occurredAt);

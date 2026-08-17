@@ -1,10 +1,9 @@
-package com.erdouglass.emdb.media.movie.adapter.in.graphql;
+package com.erdouglass.emdb.media.movie.application.port.out;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.eclipse.microprofile.graphql.NonNull;
-
+import com.erdouglass.emdb.media.movie.domain.Movie;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
 /// The read model of a title, as clients see it.
@@ -30,9 +29,9 @@ import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 /// @param originalLanguage the ISO 639-1 code, or `null` if unknown
 /// @param overview the synopsis, or `null` if unavailable
 public record MovieView(
-    @NonNull String id,
-    @NonNull Long version,
-    @NonNull String title,
+    String id,
+    Long version,
+    String title,
     LocalDate releaseDate,
     BigDecimal score,
     String originalLanguage,

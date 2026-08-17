@@ -5,7 +5,7 @@ import java.util.Optional;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
-import com.erdouglass.emdb.media.movie.adapter.in.graphql.MovieView;
+import com.erdouglass.emdb.media.movie.application.port.out.MovieView;
 
 /// Jakarta Data repository for the read side of the movie table.
 ///
@@ -14,7 +14,7 @@ import com.erdouglass.emdb.media.movie.adapter.in.graphql.MovieView;
 /// aggregate. Internal columns — the surrogate id, the TMDB id, the lock flag —
 /// are absent from the projection by design.
 @Repository(dataStore = "media")
-public interface JakartaDataMovieQueryRepository {
+interface JakartaDataMovieQueryRepository {
 
   /// Projects a single title by primary key.
   ///

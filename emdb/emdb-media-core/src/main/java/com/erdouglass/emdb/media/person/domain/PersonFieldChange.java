@@ -1,10 +1,10 @@
-package com.erdouglass.emdb.media.movie.domain;
+package com.erdouglass.emdb.media.person.domain;
 
 import java.util.Objects;
 
 import com.erdouglass.emdb.media.kernel.FieldOperation;
 
-/// One row of the audit trail: a single field of a single title moving from one
+/// One row of the audit trail: a single field of a single person moving from one
 /// value to another.
 ///
 /// Values are held as strings rather than as their domain types so that a row is
@@ -21,9 +21,9 @@ import com.erdouglass.emdb.media.kernel.FieldOperation;
 /// | `UPDATED` | present    | present    |
 /// | `DELETED` | present    | absent     |
 ///
-/// Prefer the [#added][#added(MovieField, Object)],
-/// [#updated][#updated(MovieField, Object, Object)] and
-/// [#deleted][#deleted(MovieField, Object)] factories over the canonical
+/// Prefer the [#added][#added(PersonField, Object)],
+/// [#updated][#updated(PersonField, Object, Object)] and
+/// [#deleted][#deleted(PersonField, Object)] factories over the canonical
 /// constructor; they pick the operation for you and cannot produce an
 /// inconsistent row.
 ///
@@ -31,9 +31,9 @@ import com.erdouglass.emdb.media.kernel.FieldOperation;
 /// @param oldValue the value before the change, `null` when the field had none
 /// @param newValue the value after the change, `null` when the field has none
 /// @param operation how the field changed
-public record FieldChange(MovieField field, String oldValue, String newValue, FieldOperation operation) {
+public record PersonFieldChange(PersonField field, String oldValue, String newValue, FieldOperation operation) {
 
-  public FieldChange {
+  public PersonFieldChange {
     Objects.requireNonNull(field, "field");
     Objects.requireNonNull(operation, "operation");
     switch (operation) {
@@ -50,8 +50,8 @@ public record FieldChange(MovieField field, String oldValue, String newValue, Fi
   /// @return the audit row
   /// @throws IllegalArgumentException if `newValue` is `null`, since that would
   ///         describe a change that did not happen
-  public static FieldChange added(MovieField field, Object newValue) {
-    return new FieldChange(field, null, str(newValue), FieldOperation.ADDED);
+  public static PersonFieldChange added(PersonField field, Object newValue) {
+    return new PersonFieldChange(field, null, str(newValue), FieldOperation.ADDED);
   }
 
   /// Records a field moving from one value to another.
@@ -64,8 +64,8 @@ public record FieldChange(MovieField field, String oldValue, String newValue, Fi
   /// @param newValue the value after, rendered with `toString()`
   /// @return the audit row
   /// @throws IllegalArgumentException if either value is `null`
-  public static FieldChange updated(MovieField field, Object oldValue, Object newValue) {
-    return new FieldChange(field, str(oldValue), str(newValue), FieldOperation.UPDATED);
+  public static PersonFieldChange updated(PersonField field, Object oldValue, Object newValue) {
+    return new PersonFieldChange(field, str(oldValue), str(newValue), FieldOperation.UPDATED);
   }
 
   /// Records a field losing the value it had.
@@ -74,8 +74,8 @@ public record FieldChange(MovieField field, String oldValue, String newValue, Fi
   /// @param oldValue the value it held, rendered with `toString()`
   /// @return the audit row
   /// @throws IllegalArgumentException if `oldValue` is `null`
-  public static FieldChange deleted(MovieField field, Object oldValue) {
-    return new FieldChange(field, str(oldValue), null, FieldOperation.DELETED);
+  public static PersonFieldChange deleted(PersonField field, Object oldValue) {
+    return new PersonFieldChange(field, str(oldValue), null, FieldOperation.DELETED);
   }
 
   private static String str(Object value) { return value == null ? null : value.toString(); }

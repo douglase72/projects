@@ -20,7 +20,7 @@ public interface LockMovieUseCase {
   ///        desired state
   /// @return the catalogue id and new version, always reported as an update
   /// @throws MovieNotFoundException if no title carries the command's id
-  /// @throws StaleMovieException if the stored version differs from the one
+  /// @throws StalePersonException if the stored version differs from the one
   ///         supplied
   SaveResult lock(LockMovieCommand command);
 }

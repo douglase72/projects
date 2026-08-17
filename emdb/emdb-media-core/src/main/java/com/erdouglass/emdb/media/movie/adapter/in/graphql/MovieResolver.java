@@ -26,6 +26,9 @@ public class MovieResolver {
   
   @Inject
   FindMovieUseCase findUseCase;
+  
+  @Inject
+  MovieMapper mapper;
 
   /// Looks up a single title by its catalogue id.
   ///
@@ -39,8 +42,9 @@ public class MovieResolver {
   /// @throws IllegalArgumentException if `id` is not a well-formed catalogue id
   @Query("movie")
   @Description("A single title by its catalogue id.")
-  public MovieView movie(@Name("id") @NonNull String id) {
-    var movie = findUseCase.findById(MoviePublicId.of(id));
+  public MovieResponse movie(@Name("id") @NonNull String id) {
+    var movie = findUseCase.findById(MoviePublicId.of(id))
+        .map(mapper::yoMovieResponse);
     movie.ifPresent(m -> LOGGER.debugf("Found: %s", m));
     return movie.orElse(null);
   }

@@ -2,7 +2,7 @@ package com.erdouglass.emdb.media.movie.application.port.out;
 
 import java.util.List;
 
-import com.erdouglass.emdb.media.movie.domain.FieldChange;
+import com.erdouglass.emdb.media.movie.domain.MovieFieldChange;
 import com.erdouglass.emdb.media.movie.domain.MovieId;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
@@ -24,5 +24,5 @@ public interface MovieAuditRepository {
   /// @param id the surrogate id of the changed title
   /// @param publicId the catalogue id as it stood at the time of the change
   /// @param changes the differences to record; an empty list records nothing
-  void append(MovieId id, MoviePublicId publicId, List<FieldChange> changes);
+  void append(MovieId id, MoviePublicId publicId, List<MovieFieldChange> changes);
 }

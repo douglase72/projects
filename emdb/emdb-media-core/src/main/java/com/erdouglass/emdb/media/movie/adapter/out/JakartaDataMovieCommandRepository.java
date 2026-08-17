@@ -18,7 +18,7 @@ import jakarta.data.repository.Update;
 /// The `Long` ids in these signatures are the numeric primary key, not the
 /// prefixed catalogue id, and not the surrogate UUID.
 @Repository(dataStore = "media")
-public interface JakartaDataMovieCommandRepository {
+interface JakartaDataMovieCommandRepository {
 
   /// Inserts a new row and returns it with the database-assigned key and
   /// version populated.

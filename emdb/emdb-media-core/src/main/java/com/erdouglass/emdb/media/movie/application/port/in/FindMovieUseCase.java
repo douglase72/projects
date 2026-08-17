@@ -2,7 +2,7 @@ package com.erdouglass.emdb.media.movie.application.port.in;
 
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.movie.adapter.in.graphql.MovieView;
+import com.erdouglass.emdb.media.movie.application.port.out.MovieView;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
 /// Inbound port for reading a single title.

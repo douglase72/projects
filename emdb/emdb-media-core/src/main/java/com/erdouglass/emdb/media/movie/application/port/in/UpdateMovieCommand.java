@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.UpsertMovieCommand;
+import com.erdouglass.emdb.media.movie.MovieCommand;
 
 /// The intended state of a title, addressed by catalogue id and guarded by a
 /// version.
@@ -34,7 +34,7 @@ public record UpdateMovieCommand(
     Optional<String> releaseDate,
     Optional<BigDecimal> score,
     Optional<String> originalLanguage,
-    Optional<String> overview) implements UpsertMovieCommand {
+    Optional<String> overview) implements MovieCommand {
 
   public UpdateMovieCommand {
     Objects.requireNonNull(publicId, "publicId is required");

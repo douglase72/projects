@@ -6,12 +6,12 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.SaveMovieCommand;
-import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.SaveResult.Status;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.movie.SaveMovieCommand;
+import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.LockMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.LockMovieUseCase;
@@ -83,9 +83,9 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   /// @param command the intended state, target id and the version the caller read
   /// @return the catalogue id, the version afterwards, and which outcome occurred
   /// @throws MovieNotFoundException if no title carries the command's id
-  /// @throws StaleMovieException if the stored version differs from the supplied
+  /// @throws StalePersonException if the stored version differs from the supplied
   ///         one
-  /// @throws LockedMovieException if the title is locked
+  /// @throws LockedPersonException if the title is locked
   /// @throws IllegalArgumentException if the command's id is malformed
   @Override
   @Transactional
@@ -108,7 +108,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   ///        desired lock state
   /// @return the catalogue id and the version afterwards
   /// @throws MovieNotFoundException if no title carries the command's id
-  /// @throws StaleMovieException if the version is stale
+  /// @throws StalePersonException if the version is stale
   @Override
   @Transactional
   public SaveResult lock(LockMovieCommand command) {
@@ -179,7 +179,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   /// @param target the complete intended details
   /// @return the catalogue id and version, reported as unchanged when the
   ///         details already matched
-  /// @throws LockedMovieException if the title is locked, raised before the diff
+  /// @throws LockedPersonException if the title is locked, raised before the diff
   ///         is taken and therefore even when nothing would have changed
   private SaveResult update(Movie movie, MovieDetails target) {
     var changes = movie.update(target);

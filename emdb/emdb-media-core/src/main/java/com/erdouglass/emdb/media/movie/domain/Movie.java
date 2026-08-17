@@ -113,7 +113,7 @@ public final class Movie {
   /// @throws NullPointerException if `targetDetails` is `null`
   /// @throws LockedMovieException if the movie is locked, including when the
   ///         incoming details are identical to the current ones
-  public List<FieldChange> update(MovieDetails targetDetails) {
+  public List<MovieFieldChange> update(MovieDetails targetDetails) {
     Objects.requireNonNull(targetDetails, "details are required");
     var changes = MovieField.diff(this.details, targetDetails);
     if (changes.isEmpty()) {
@@ -132,7 +132,7 @@ public final class Movie {
   /// with a complete picture rather than with nothing.
   ///
   /// @return one addition per populated field, in declaration order
-  public List<FieldChange> changesAsAdded() { return MovieField.diff(null, details); }  
+  public List<MovieFieldChange> changesAsAdded() { return MovieField.diff(null, details); }  
   
   /// Renders the current details as if every populated field had just been
   /// removed.
@@ -141,7 +141,7 @@ public final class Movie {
   /// what was lost rather than ending abruptly.
   ///
   /// @return one removal per populated field, in declaration order
-  public List<FieldChange> changesAsDeleted() { return MovieField.diff(details, null); }
+  public List<MovieFieldChange> changesAsDeleted() { return MovieField.diff(details, null); }
   
   /// Asserts that the caller's view of this movie is current.
   ///

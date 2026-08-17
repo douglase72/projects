@@ -15,10 +15,10 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.media.SaveMovieUseCase;
 import com.erdouglass.emdb.media.SaveResult;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.LockMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.LockMovieUseCase;
@@ -81,7 +81,7 @@ class MovieResource {
   /// @param request the complete intended state of the title
   /// @return `201` with a `Location` header when the title was created, `200`
   ///         otherwise; the body carries the result either way
-  /// @throws LockedMovieException if the title exists and is locked, mapped to
+  /// @throws LockedPersonException if the title exists and is locked, mapped to
   ///         `423`
   @PUT
   @Path("/tmdb/{tmdbId}")
@@ -109,9 +109,9 @@ class MovieResource {
   /// @param request the complete intended state plus the version the client read
   /// @return the outcome and the version to hold going forward
   /// @throws MovieNotFoundException if no title carries `id`, mapped to `404`
-  /// @throws StaleMovieException if the stored version differs from the one
+  /// @throws StalePersonException if the stored version differs from the one
   ///         supplied, mapped to `409`
-  /// @throws LockedMovieException if the title is locked, mapped to `423`
+  /// @throws LockedPersonException if the title is locked, mapped to `423`
   @PUT
   @Path("/{id}")
   public SaveResult update(
@@ -133,7 +133,7 @@ class MovieResource {
   /// @param request the desired lock state and the version the client read
   /// @return the outcome and the version after the write
   /// @throws MovieNotFoundException if no title carries `id`, mapped to `404`
-  /// @throws StaleMovieException if the version is stale, mapped to `409`
+  /// @throws StalePersonException if the version is stale, mapped to `409`
   @PUT
   @Path("/lock/{id}")
   public SaveResult lock(

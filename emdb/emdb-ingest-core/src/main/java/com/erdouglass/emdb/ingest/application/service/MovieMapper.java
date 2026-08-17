@@ -6,7 +6,7 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
-import com.erdouglass.emdb.media.SaveMovieCommand;
+import com.erdouglass.emdb.media.movie.SaveMovieCommand;
 
 @Mapper(
     componentModel = "cdi", 

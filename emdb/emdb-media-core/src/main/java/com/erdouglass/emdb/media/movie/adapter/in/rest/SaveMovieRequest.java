@@ -38,9 +38,7 @@ public record SaveMovieRequest(
     Optional<@Pattern(regexp = "[a-z]{2}") String> originalLanguage,
     Optional<String> overview) {
 
-  public static Builder builder() {
-    return new Builder();
-  }
+  public static Builder builder() { return new Builder(); }
   
   public static final class Builder {
     private String title;
