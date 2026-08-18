@@ -93,11 +93,10 @@ class BladeRunnerCrudIT {
   
   @Test
   @Order(3)
-  void testUpdateMovie() throws IOException, InterruptedException {  
+  void testUpdateMovie() throws IOException, InterruptedException {
     var updateRequest = UpdateMovieRequest.builder()
         .version(version)
         .title("Blade Runner: Directors Cut")
-        .releaseDate(null)
         .score(BigDecimal.valueOf(7.001))
         .originalLanguage("fr")
         .overview("Test overview.")
