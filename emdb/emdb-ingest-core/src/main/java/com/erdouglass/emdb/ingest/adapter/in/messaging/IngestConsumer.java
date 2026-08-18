@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.inbound.messaging;
+package com.erdouglass.emdb.ingest.adapter.in.messaging;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.ingest.application.port.inbound.ExecuteIngestUseCase;
+import com.erdouglass.emdb.ingest.application.port.in.ExecuteIngestUseCase;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.tmdb;
+package com.erdouglass.emdb.ingest.adapter.out.tmdb;
 
 import java.util.Optional;
 
@@ -7,8 +7,8 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.emdb.ingest.application.port.outbound.Movie;
-import com.erdouglass.emdb.ingest.application.port.outbound.MovieSource;
+import com.erdouglass.emdb.ingest.application.port.out.Movie;
+import com.erdouglass.emdb.ingest.application.port.out.MovieSource;
 import com.erdouglass.emdb.media.TmdbId;
 
 @ApplicationScoped
@@ -29,9 +29,9 @@ class TmdbMovieAdapter implements MovieSource {
     return new Movie(
         tmdbId, 
         movie.title(), 
-        movie.release_date().filter(r -> !r.isBlank()),
+        Optional.ofNullable(movie.release_date()).filter(r -> !r.isBlank()),
         Optional.ofNullable(score),
         Optional.ofNullable(originalLanguage),
-        movie.overview().filter(o -> !o.isBlank()));
+        Optional.ofNullable(movie.overview()).filter(r -> !r.isBlank()));
   }
 }

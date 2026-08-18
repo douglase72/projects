@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.application.port.inbound;
+package com.erdouglass.emdb.ingest.application.port.in;
 
 import java.util.Objects;
 

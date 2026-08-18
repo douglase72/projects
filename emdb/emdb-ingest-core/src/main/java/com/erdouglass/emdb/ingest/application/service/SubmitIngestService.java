@@ -4,10 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaCommand;
-import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
-import com.erdouglass.emdb.ingest.application.port.outbound.IngestCommandQueue;
-import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
+import com.erdouglass.emdb.ingest.application.port.in.IngestMediaCommand;
+import com.erdouglass.emdb.ingest.application.port.in.SubmitIngestUseCase;
+import com.erdouglass.emdb.ingest.application.port.out.IngestCommandQueue;
+import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmittedEvent;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.tmdb;
+package com.erdouglass.emdb.ingest.adapter.out.tmdb;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

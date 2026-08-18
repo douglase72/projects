@@ -14,7 +14,7 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.ingest.adapter.inbound.rest.IngestMediaRequest;
+import com.erdouglass.emdb.ingest.adapter.in.rest.IngestMediaRequest;
 import com.erdouglass.emdb.ingest.domain.model.IngestType;
 
 class BladeRunnerIngestIT {

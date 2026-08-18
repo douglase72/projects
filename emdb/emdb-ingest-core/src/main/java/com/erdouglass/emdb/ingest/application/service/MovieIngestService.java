@@ -3,22 +3,19 @@ package com.erdouglass.emdb.ingest.application.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
-import com.erdouglass.emdb.ingest.application.port.outbound.MovieSource;
+import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
+import com.erdouglass.emdb.ingest.application.port.out.Media;
+import com.erdouglass.emdb.ingest.application.port.out.MovieSource;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
-import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
 
 @ApplicationScoped
 class MovieIngestService {
   
   @Inject
-  MovieMapper mapper;
+  Media media;
   
   @Inject
   IngestRepository repository;
-  
-  @Inject
-  SaveMovieUseCase saveUseCase;
   
   @Inject
   MovieSource source;
@@ -31,7 +28,7 @@ class MovieIngestService {
     repository.save(ingest);
     
     // Load the movie details into the database.
-    saveUseCase.save(mapper.toSaveMovieCommand(movie));
+    media.save(movie);
     ingest.loaded();
     repository.save(ingest);
   }

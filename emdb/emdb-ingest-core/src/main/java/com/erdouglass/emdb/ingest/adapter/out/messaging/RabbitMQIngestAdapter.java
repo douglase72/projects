@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.messaging;
+package com.erdouglass.emdb.ingest.adapter.out.messaging;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -7,7 +7,7 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.ingest.application.port.outbound.IngestCommandQueue;
+import com.erdouglass.emdb.ingest.application.port.out.IngestCommandQueue;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
 @ApplicationScoped

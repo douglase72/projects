@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.persistence;
+package com.erdouglass.emdb.ingest.adapter.out.persistence;
 
 import java.util.Optional;
 import java.util.UUID;

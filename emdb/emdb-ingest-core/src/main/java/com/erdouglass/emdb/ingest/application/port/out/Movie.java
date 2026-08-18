@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.application.port.outbound;
+package com.erdouglass.emdb.ingest.application.port.out;
 
 import java.math.BigDecimal;
 import java.util.Objects;

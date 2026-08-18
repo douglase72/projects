@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.outbound.persistence;
+package com.erdouglass.emdb.ingest.adapter.out.persistence;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
+import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.event.IngestCompletedEvent;
 import com.erdouglass.emdb.ingest.domain.event.IngestEvent;
 import com.erdouglass.emdb.ingest.domain.event.IngestExtractedEvent;

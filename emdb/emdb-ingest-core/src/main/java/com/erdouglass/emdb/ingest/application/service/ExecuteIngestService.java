@@ -5,8 +5,8 @@ import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.application.port.inbound.ExecuteIngestUseCase;
-import com.erdouglass.emdb.ingest.application.port.outbound.IngestRepository;
+import com.erdouglass.emdb.ingest.application.port.in.ExecuteIngestUseCase;
+import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.exception.IngestNotFoundException;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 

@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.application.port.outbound;
+package com.erdouglass.emdb.ingest.application.port.out;
 
 import jakarta.validation.constraints.NotNull;
 

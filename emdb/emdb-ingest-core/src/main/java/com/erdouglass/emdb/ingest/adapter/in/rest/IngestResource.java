@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.adapter.inbound.rest;
+package com.erdouglass.emdb.ingest.adapter.in.rest;
 
 import java.net.URI;
 
@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.ingest.application.port.inbound.IngestMediaCommand;
-import com.erdouglass.emdb.ingest.application.port.inbound.SubmitIngestUseCase;
+import com.erdouglass.emdb.ingest.application.port.in.IngestMediaCommand;
+import com.erdouglass.emdb.ingest.application.port.in.SubmitIngestUseCase;
 import com.erdouglass.emdb.media.TmdbId;
 
 @Path("/ingest")
