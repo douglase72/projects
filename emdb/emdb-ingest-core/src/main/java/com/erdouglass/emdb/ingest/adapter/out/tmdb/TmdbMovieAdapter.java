@@ -7,7 +7,7 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.erdouglass.emdb.ingest.application.port.out.Movie;
+import com.erdouglass.emdb.ingest.application.dto.Movie;
 import com.erdouglass.emdb.ingest.application.port.out.MovieSource;
 import com.erdouglass.emdb.media.TmdbId;
 
@@ -22,16 +22,18 @@ class TmdbMovieAdapter implements MovieSource {
 
   @Override
   public Movie extract(TmdbId tmdbId) {
-    var movie = client.findMovieById(tmdbId.value(), CREDITS);
-    var score = movie.vote_count() > 0 ? movie.vote_average() : null;
-    var originalLanguage = movie.original_language().equals(NULL_LANGUAGE) ? null 
-                         : movie.original_language();
-    return new Movie(
-        tmdbId, 
-        movie.title(), 
-        Optional.ofNullable(movie.release_date()).filter(r -> !r.isBlank()),
-        Optional.ofNullable(score),
-        Optional.ofNullable(originalLanguage),
-        Optional.ofNullable(movie.overview()).filter(r -> !r.isBlank()));
+    var tmdbMovie = client.findMovieById(tmdbId.value(), CREDITS);
+    var score = tmdbMovie.vote_count() > 0 ? tmdbMovie.vote_average() : null;
+    var originalLanguage = tmdbMovie.original_language().equals(NULL_LANGUAGE) ? null 
+                         : tmdbMovie.original_language();
+    var movie = Movie.builder()
+        .tmdbId(TmdbId.of(tmdbMovie.id()))
+        .title(tmdbMovie.title())
+        .releaseDate(Optional.ofNullable(tmdbMovie.release_date()).filter(r -> !r.isBlank()))
+        .score(Optional.ofNullable(score))
+        .originalLanguage(Optional.ofNullable(originalLanguage))
+        .overview(Optional.ofNullable(tmdbMovie.overview()).filter(r -> !r.isBlank()))
+        .build();
+    return movie;
   }
 }

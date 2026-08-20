@@ -17,8 +17,7 @@ final class PersonMapper {
         .name(Name.of(command.name()))
         .birthDate(command.birthDate().map(BirthDate::from).orElse(null))
         .deathDate(command.deathDate().map(DeathDate::from).orElse(null))
-        .gender(Gender.from(command.gender())
-            .orElseThrow(() -> new IllegalArgumentException("Invalid gender: " + command.gender())))
+        .gender(command.gender().flatMap(Gender::from).orElse(null))
         .biography(command.biography().map(Biography::of).orElse(null))
         .build();
   }

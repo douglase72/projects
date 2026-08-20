@@ -15,12 +15,11 @@ public record UpdatePersonCommand(
     @NotBlank @Size(max = Name.MAX_LENGTH) String name,
     Optional<String> birthDate,
     Optional<String> deathDate,
-    String gender,
+    Optional<String>  gender,
     Optional<String> biography) implements PersonCommand {
 
   public UpdatePersonCommand {
     Objects.requireNonNull(publicId, "publicId is required");
     Objects.requireNonNull(version, "version is required");    
-    Objects.requireNonNull(name, "name is reqired");
   }
 }

@@ -1,20 +1,26 @@
 import type { Gender } from "@/gql/graphql";
 
-const GenderMap = {
+const GenderMap: Record<Gender, string> = {
   FEMALE: 'Female',
   MALE: 'Male',
   NON_BINARY: 'Non-binary',
-  UNKNOWN: 'Unknown',
+};
+
+export const genderValues = Object.keys(GenderMap) as [Gender, ...Gender[]];
+
+export const genderOptions = genderValues.map(value => ({
+  label: GenderMap[value],
+  value,
+}));
+
+export function formatGender(gender: Gender | null): string | null {
+  return gender != null ? GenderMap[gender] ?? fallbackLabel(gender) : null;
 }
 
 function fallbackLabel(value: string): string {
   return value.toLowerCase().split('_')
     .map(w => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
-}
-
-export function formatGender(gender: Gender): string {
-  return GenderMap[gender] ?? fallbackLabel(gender);
 }
 
 export const toDate = (iso: string): Date => new Date(

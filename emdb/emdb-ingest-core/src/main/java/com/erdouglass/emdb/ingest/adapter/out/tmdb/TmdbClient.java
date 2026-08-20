@@ -17,4 +17,8 @@ interface TmdbClient {
   public TmdbMovieResponse findMovieById(
       @PathParam("id") Integer id, 
       @QueryParam("append_to_response") String append);
+  
+  @GET
+  @Path("/person/{id}")
+  public TmdbPersonResponse findPersonById(@PathParam("id") Integer id); 
 }

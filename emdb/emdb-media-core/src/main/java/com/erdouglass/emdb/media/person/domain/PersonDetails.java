@@ -18,13 +18,14 @@ import java.util.Optional;
 ///
 /// @param name the display name, never `null`
 /// @param birthDate the date of birth, if known
-/// @param gender the gender, if rated
-/// @param biography the synopsis, if available
+/// @param deathDate the date of birth, if known
+/// @param gender the gender, if known
+/// @param biography the persons biography, if available
 public record PersonDetails(
     Name name,
     Optional<BirthDate> birthDate,
     Optional<DeathDate> deathDate,
-    Gender gender,
+    Optional<Gender> gender,
     Optional<Biography> biography) {
 
   public static Builder builder() { return new Builder(); }
@@ -40,7 +41,6 @@ public record PersonDetails(
     
     public PersonDetails build() {
       Objects.requireNonNull(name, "name is required");
-      Objects.requireNonNull(gender, "gender is required");
       if (birthDate != null && deathDate != null) {
         if (deathDate.value().isBefore(birthDate.value())) {
           throw new IllegalArgumentException("death date %s precedes birth date %s"
@@ -51,7 +51,7 @@ public record PersonDetails(
           name, 
           Optional.ofNullable(birthDate), 
           Optional.ofNullable(deathDate), 
-          gender, 
+          Optional.ofNullable(gender), 
           Optional.ofNullable(biography));
     }
     

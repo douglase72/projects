@@ -12,5 +12,5 @@ public record PersonResponse(
     @NonNull String name,
     LocalDate birthDate,
     LocalDate deathDate,
-    @NonNull Gender gender,
+    Gender gender,
     String biography) {}

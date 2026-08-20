@@ -9,6 +9,8 @@ version = '1.0.0-SNAPSHOT'
 dependencies {
   compileOnly         enforcedPlatform(libs.quarkus.bom)
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
+  annotationProcessor libs.lombok
+  annotationProcessor libs.lombok.mapstruct.binding
   annotationProcessor libs.hibernate.processor
   annotationProcessor libs.mapstruct.processor
   
@@ -25,6 +27,7 @@ dependencies {
   compileOnly libs.jakarta.validation.api
   compileOnly libs.jakarta.ws.rs.api
   compileOnly libs.jboss.logging
+  compileOnly libs.lombok
   compileOnly libs.mapstruct
   compileOnly libs.microprofile.rest.client.api
   compileOnly libs.quarkus.hibernate.orm

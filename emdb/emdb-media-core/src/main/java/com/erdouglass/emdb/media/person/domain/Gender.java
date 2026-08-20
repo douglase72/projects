@@ -8,28 +8,19 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Gender {
-  UNKNOWN("Unknown", 0),
-  FEMALE("Female", 1),
-  MALE("Male", 2),
-  NON_BINARY("Non-Binary", 3);
+  FEMALE("Female"),
+  MALE("Male"),
+  NON_BINARY("Non-Binary");
   
   public static final int MAX_LENGTH  = 10;
   
-  private static final Map<Integer, Gender> BY_ID = Arrays.stream(values())
-      .collect(Collectors.toUnmodifiableMap(Gender::id, Function.identity()));  
   private static final Map<String, Gender> BY_LABEL = Arrays.stream(values())
       .collect(Collectors.toUnmodifiableMap(g -> normalize(g.value), Function.identity()));
   
   private final String value;
-  private final Integer id;
   
-  Gender(String value, int id) {
+  Gender(String value) {
     this.value = value;
-    this.id = id;
-  }
-  
-  public static Optional<Gender> from(Integer id) {
-    return id == null ? Optional.empty() : Optional.ofNullable(BY_ID.get(id));
   }
   
   public static Optional<Gender> from(String gender) {
@@ -37,10 +28,6 @@ public enum Gender {
       return Optional.empty();
     }
     return Optional.ofNullable(BY_LABEL.get(normalize(gender)));
-  }
-  
-  public Integer id() {
-    return id;
   }
   
   public String value() {

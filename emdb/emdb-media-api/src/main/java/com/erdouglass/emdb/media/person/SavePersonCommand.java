@@ -24,7 +24,7 @@ public record SavePersonCommand(
     String name,
     Optional<String> birthDate,
     Optional<String> deathDate,
-    String gender,
+    Optional<String> gender,
     Optional<String> biography) implements PersonCommand {
 
   public SavePersonCommand {

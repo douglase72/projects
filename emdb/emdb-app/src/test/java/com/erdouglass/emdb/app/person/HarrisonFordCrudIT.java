@@ -13,7 +13,6 @@ import java.util.Map;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -57,7 +56,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Saved person: %s in %d ms", personId, et);
   }
   
-  @Disabled
   @Test
   @Order(2)
   void testFindSavedPerson() throws IOException, InterruptedException {
@@ -91,7 +89,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Found saved person: %s in %d ms", personId, et);    
   }
   
-  @Disabled
   @Test
   @Order(3)
   void testUpdatePerson() throws IOException, InterruptedException {
@@ -116,7 +113,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Updated person: %s in %d ms", personId, et);
   }
   
-  @Disabled
   @Test
   @Order(4)
   void testFindUpdatedPerson() throws IOException, InterruptedException {
@@ -150,7 +146,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Found updated person: %s in %d ms", personId, et);    
   }
   
-  @Disabled
   @Test
   @Order(5)
   void testDeletePerson() throws IOException, InterruptedException {

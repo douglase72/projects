@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.application.port.out;
+package com.erdouglass.emdb.ingest.application.dto;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import com.erdouglass.emdb.media.TmdbId;
 
+import lombok.Builder;
+
+@Builder
 public record Movie(
     TmdbId tmdbId,
     String title,

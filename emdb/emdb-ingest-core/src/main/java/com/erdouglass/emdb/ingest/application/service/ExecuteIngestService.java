@@ -18,6 +18,9 @@ class ExecuteIngestService implements ExecuteIngestUseCase {
   MovieIngestService movies;
   
   @Inject
+  PersonIngestService people;
+  
+  @Inject
   IngestRepository repository;
   
   @Override
@@ -32,7 +35,7 @@ class ExecuteIngestService implements ExecuteIngestUseCase {
       
       switch (ingest.type()) {
         case MOVIE -> movies.execute(ingest);
-        case PERSON -> throw new UnsupportedOperationException();
+        case PERSON -> people.execute(ingest);
         case SERIES -> throw new UnsupportedOperationException();
       }      
       

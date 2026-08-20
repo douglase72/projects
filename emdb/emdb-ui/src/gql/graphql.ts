@@ -7,8 +7,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 export type Gender =
   | 'FEMALE'
   | 'MALE'
-  | 'NON_BINARY'
-  | 'UNKNOWN';
+  | 'NON_BINARY';
 
 export type MovieQueryVariables = Exact<{
   id: string;
@@ -22,7 +21,7 @@ export type PersonQueryVariables = Exact<{
 }>;
 
 
-export type PersonQuery = { person: { id: string, version: number, name: string, birthDate: string | null, deathDate: string | null, gender: Gender, biography: string | null } | null };
+export type PersonQuery = { person: { id: string, version: number, name: string, birthDate: string | null, deathDate: string | null, gender: Gender | null, biography: string | null } | null };
 
 
 export const MovieDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Movie"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"movie"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"version"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"releaseDate"}},{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"originalLanguage"}},{"kind":"Field","name":{"kind":"Name","value":"overview"}}]}}]}}]} as unknown as DocumentNode<MovieQuery, MovieQueryVariables>;

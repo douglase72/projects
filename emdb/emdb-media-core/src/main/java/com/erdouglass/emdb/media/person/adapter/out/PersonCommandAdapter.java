@@ -112,7 +112,7 @@ class PersonCommandAdapter implements PersonCommandRepository {
     entity.setName(person.details().name().value());
     entity.setBirthDate(person.details().birthDate().map(BirthDate::toLocalDate).orElse(null));
     entity.setDeathDate(person.details().deathDate().map(DeathDate::toLocalDate).orElse(null));
-    entity.setGender(person.details().gender());
+    entity.setGender(person.details().gender().orElse(null));
     entity.setBiography(person.details().biography().map(Biography::value).orElse(null));
     return entity;
   }
@@ -135,7 +135,7 @@ class PersonCommandAdapter implements PersonCommandRepository {
         .name(Name.of(entity.getName()))
         .birthDate(entity.getBirthDate().map(BirthDate::from).orElse(null))
         .deathDate(entity.getDeathDate().map(DeathDate::from).orElse(null))
-        .gender(entity.getGender())
+        .gender(entity.getGender().orElse(null))
         .biography(entity.getBiography().map(Biography::of).orElse(null))
         .build();
     return Person.rehydrate(id, publicId, tmdbId, entity.getLocked(), details, Version.of(entity.getVersion()));

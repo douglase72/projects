@@ -23,7 +23,7 @@ public interface PersonCommand {
   Optional<String> deathDate();
   
   /// {@return the gender, or empty to clear it}
-  String gender();
+  Optional<String> gender();
   
   /// {@return the biography, or empty to clear it}
   Optional<String> biography();

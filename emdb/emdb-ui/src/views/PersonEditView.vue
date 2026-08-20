@@ -19,7 +19,16 @@
         <DatePicker id="deathDate" v-model="deathDate" v-bind="deathDateAttrs" 
                     :invalid="!!errors.deathDate" dateFormat="yy-mm-dd" show-icon />
         <small v-if="errors.deathDate" class="text-red-500">{{ errors.deathDate }}</small>
-      </div>      
+      </div>
+      
+      <div class="flex flex-col items-start">
+        <label for="gender" class="font-bold">Gender</label>
+        <Select inputId="gender" v-model="gender" v-bind="genderAttrs"
+                :options="genderOptions" optionLabel="label" optionValue="value"
+                placeholder="Unknown" show-clear
+                :invalid="!!errors.gender" />
+         <small class="text-red-500">{{ errors.gender }}</small>       
+      </div>
     </div>
 
     <div class="flex flex-col">
@@ -46,11 +55,12 @@
   import Button from 'primevue/button';
   import DatePicker from 'primevue/datepicker';
   import InputText from 'primevue/inputtext';
+  import Select from 'primevue/select';
   import Textarea from 'primevue/textarea';
 
   import { findPerson, type Person } from '@/lib/emdbQueryApi';
   import { deletePerson, updatePerson, type UpdatePersonRequest } from '@/lib/emdbCommandApi';
-  import { toDate, toIso } from '@/lib/formatter';
+  import { genderOptions, genderValues, toDate, toIso } from '@/lib/formatter';
   import { useNotificationService } from '@/composables/useNotificationService';
 
   const confirm = useConfirm();
@@ -63,6 +73,7 @@
     name: z.string({ required_error: 'Name is required' }).min(1, 'Name is required'),
     birthDate: z.date().nullable().default(null),
     deathDate: z.date().nullable().default(null),
+    gender: z.enum(genderValues).nullable().default(null),
     biography: z.string().nullable(),  
   });
 
@@ -74,7 +85,8 @@
   
   const [name, nameAttrs] = defineField('name');
   const [birthDate, birthDateAttrs] = defineField('birthDate'); 
-  const [deathDate, deathDateAttrs] = defineField('deathDate'); 
+  const [deathDate, deathDateAttrs] = defineField('deathDate');
+  const [gender, genderAttrs] = defineField('gender');
   const [biography] = defineField('biography');
 
   const onCancel = () => {
@@ -126,6 +138,7 @@
           name: found.name,
           birthDate: found.birthDate ? toDate(found.birthDate) : null,
           deathDate: found.deathDate ? toDate(found.deathDate) : null,
+          gender: found.gender,
           biography: found.biography,
         },
       });
@@ -143,7 +156,7 @@
       name: values.name,
       birthDate: values.birthDate ? toIso(values.birthDate) : null,
       deathDate: values.deathDate ? toIso(values.deathDate) : null,
-      gender: person.value.gender,
+      gender: values.gender,
       biography: values.biography,
     };
 

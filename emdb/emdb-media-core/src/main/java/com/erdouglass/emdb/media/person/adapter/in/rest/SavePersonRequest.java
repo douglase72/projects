@@ -12,5 +12,5 @@ public record SavePersonRequest(
     @NotBlank @Size(max = Name.MAX_LENGTH) String name,
     String birthDate,
     String deathDate,
-    @NotBlank String gender,
+    String gender,
     String biography) {}
