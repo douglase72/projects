@@ -11,8 +11,8 @@ export function useErrorHandler() {
                   detail: 'The server took too long to respond. Please try again.' })
       return
     }
-    console.error(e);
     toast.add({ severity: 'error', summary: fallbackSummary, detail: serverMessage(e) })
+    console.error(e);
   }
 
   const handleNotFound = (detail = 'The requested resource does not exist.') => {

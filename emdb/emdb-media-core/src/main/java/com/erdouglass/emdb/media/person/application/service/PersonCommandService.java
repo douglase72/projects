@@ -12,6 +12,9 @@ import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.person.SavePersonCommand;
 import com.erdouglass.emdb.media.person.SavePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.DeletePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonCommand;
+import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.out.PersonAuditRepository;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
 import com.erdouglass.emdb.media.person.domain.Person;
@@ -19,6 +22,8 @@ import com.erdouglass.emdb.media.person.domain.PersonDetails;
 import com.erdouglass.emdb.media.person.domain.PersonId;
 import com.erdouglass.emdb.media.person.domain.PersonPublicId;
 import com.erdouglass.emdb.media.person.domain.exception.LockedPersonException;
+import com.erdouglass.emdb.media.person.domain.exception.PersonNotFoundException;
+import com.erdouglass.emdb.media.person.domain.exception.StalePersonException;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
@@ -39,7 +44,7 @@ import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 /// Package-private and stateless beyond its injected collaborators; the CDI
 /// container hands it out through the port interfaces.
 @ApplicationScoped
-class PersonCommandService implements SavePersonUseCase{
+class PersonCommandService implements SavePersonUseCase, UpdatePersonUseCase, DeletePersonUseCase {
   private static final TimeBasedEpochGenerator GENERATOR = Generators.timeBasedEpochGenerator();
   private static final Logger LOGGER = Logger.getLogger(PersonCommandService.class);
   
@@ -67,6 +72,49 @@ class PersonCommandService implements SavePersonUseCase{
     return people.findByTmdbId(command.tmdbId())
         .map(existing -> update(existing, details))
         .orElseGet(() -> insert(command.tmdbId(), details));
+  }
+  
+  /// Edits an existing person, refusing the write if the caller's version is
+  /// stale.
+  ///
+  /// The version is checked before the details are applied, so a stale request
+  /// leaves the aggregate untouched and writes no audit rows.
+  ///
+  /// @param command the intended state, target id and the version the caller read
+  /// @return the catalogue id, the version afterwards, and which outcome occurred
+  /// @throws PersonNotFoundException if no person carries the command's id
+  /// @throws StalePersonException if the stored version differs from the supplied
+  ///         one
+  /// @throws LockedPersonException if the person[] is locked
+  /// @throws IllegalArgumentException if the command's id is malformed
+  @Override
+  @Transactional
+  public SaveResult update(UpdatePersonCommand command) {
+    var details = PersonMapper.toPersonDetails(command);
+    Person existing = people.findByPublicId(PersonPublicId.of(command.publicId()))
+        .orElseThrow(() -> new PersonNotFoundException(command.publicId()));
+    existing.checkVersion(Version.of(command.version()));
+    return update(existing, details);
+  }
+  
+  /// Removes a person, closing out its history first.
+  ///
+  /// The load is what makes the audit possible: the person has to be read before
+  /// it can be described as removed. Both writes share the transaction, so
+  /// history cannot be recorded for a delete that then rolls back.
+  ///
+  /// Neither the version nor the lock is checked — deletion is not a content
+  /// change, and there is no state to merge.
+  ///
+  /// @param id the catalogue id of the title to remove
+  /// @throws PersonNotFoundException if no title carries `id`
+  @Override
+  @Transactional
+  public void delete(PersonPublicId id) {
+    Person person = people.findByPublicId(id)
+        .orElseThrow(() -> new PersonNotFoundException(id.value())); 
+    audit.append(person.id(), person.publicId().orElseThrow(), person.changesAsDeleted());
+    people.deleteByPublicId(id);
   }
   
   /// Creates and persists a person that the catalogue has not seen before.

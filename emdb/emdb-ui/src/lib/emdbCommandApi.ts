@@ -14,16 +14,34 @@ export interface UpdateMovieRequest {
   overview: string | null;
 }
 
-export interface UpdateMovieResponse {
+export interface UpdatePersonRequest {
+  version: number;
+  name: string;
+  birthDate: string | null;
+  deathDate: string | null;
+  gender: string | null;
+  biography: string | null;
+}
+
+export interface UpdateResponse {
   id: string,
   version: number;
 }
 
-export const updateMovie = async (id: string, request: UpdateMovieRequest): Promise<UpdateMovieResponse> => {
-  const { data: response} = await client.put<UpdateMovieResponse>(`/movies/${id}`, request);
+export const updateMovie = async (id: string, request: UpdateMovieRequest): Promise<UpdateResponse> => {
+  const { data: response} = await client.put<UpdateResponse>(`/movies/${id}`, request);
   return response;
 };
 
 export const deleteMovie = async (id: string) => {
   await client.delete(`/movies/${id}`);
+}
+
+export const updatePerson = async (id: string, request: UpdatePersonRequest): Promise<UpdateResponse> => {
+  const { data: response} = await client.put<UpdateResponse>(`/people/${id}`, request);
+  return response;
+};
+
+export const deletePerson = async (id: string) => {
+  await client.delete(`/people/${id}`);
 }

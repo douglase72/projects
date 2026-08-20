@@ -97,6 +97,26 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
     return update(existing, details);
   }
   
+  /// Removes a title, closing out its history first.
+  ///
+  /// The load is what makes the audit possible: the title has to be read before
+  /// it can be described as removed. Both writes share the transaction, so
+  /// history cannot be recorded for a delete that then rolls back.
+  ///
+  /// Neither the version nor the lock is checked — deletion is not a content
+  /// change, and there is no state to merge.
+  ///
+  /// @param id the catalogue id of the title to remove
+  /// @throws MovieNotFoundException if no title carries `id`
+  @Override
+  @Transactional
+  public void delete(MoviePublicId id) {
+    Movie movie = movies.findByPublicId(id)
+        .orElseThrow(() -> new MovieNotFoundException(id.value())); 
+    audit.append(movie.id(), movie.publicId().orElseThrow(), movie.changesAsDeleted());
+    movies.deleteByPublicId(id);
+  }
+  
   /// Freezes or releases a title's details.
   ///
   /// Always reports an update, even when the requested state is the state the
@@ -122,26 +142,6 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
         updated.publicId().map(MoviePublicId::value).orElseThrow(), 
         updated.version().map(Version::value).orElseThrow(), 
         Status.UPDATED);
-  }
-  
-  /// Removes a title, closing out its history first.
-  ///
-  /// The load is what makes the audit possible: the title has to be read before
-  /// it can be described as removed. Both writes share the transaction, so
-  /// history cannot be recorded for a delete that then rolls back.
-  ///
-  /// Neither the version nor the lock is checked — deletion is not a content
-  /// change, and there is no state to merge.
-  ///
-  /// @param id the catalogue id of the title to remove
-  /// @throws MovieNotFoundException if no title carries `id`
-  @Override
-  @Transactional
-  public void delete(MoviePublicId id) {
-    Movie movie = movies.findByPublicId(id)
-        .orElseThrow(() -> new MovieNotFoundException(id.value())); 
-    audit.append(movie.id(), movie.publicId().orElseThrow(), movie.changesAsDeleted());
-    movies.deleteByPublicId(id);
   }
   
   /// Creates and persists a title that the catalogue has not seen before.

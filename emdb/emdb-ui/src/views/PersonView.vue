@@ -1,6 +1,6 @@
 <template>
   <main class="m-8">
-        <section v-if="person" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
+    <section v-if="person" class="inline-grid grid-cols-[auto_1fr] gap-x-12 gap-y-2 items-center mt-8">
       <div>ID</div>
       <div>{{ person.id }}</div>
       <div>Version</div>
@@ -16,12 +16,19 @@
       <div>Biography</div>
       <div>{{ person.biography }}</div>           
     </section>
+
+    <section class="mt-8">
+      <Button label="Edit" 
+              v-if="person" 
+              @click="router.push({ name: 'PersonEdit', params: { id: person.id } })" />      
+    </section>    
   </main>
 </template>
 
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
+  import Button from 'primevue/button';
 
   import { findPerson, type Person } from '@/lib/emdbQueryApi';
   import { formatGender } from '@/lib/formatter';
