@@ -32,10 +32,9 @@
 
   import { findPerson, type Person } from '@/lib/emdbQueryApi';
   import { formatGender } from '@/lib/formatter';
-  import { useErrorHandler } from '@/composables/useErrorHandler';
+  import { useNotificationService } from '@/composables/useNotificationService';
 
-  const { handleError, handleNotFound } = useErrorHandler();
-
+  const notify = useNotificationService();
   const person = ref<Person>();
   const route = useRoute();
   const router = useRouter();
@@ -51,13 +50,13 @@
     try {
       const found = await findPerson(id);
       if (!found) {
-        handleNotFound(`No person exists with id ${id}`);
+        notify.warn(`No person exists with id ${id}`);
         router.replace('/');
         return;
       }
       person.value = found;
     } catch (e) {
-      handleError(e, 'Failed to load person');
+      notify.error('Failed to load person', e);
       router.replace('/');
     }
   });

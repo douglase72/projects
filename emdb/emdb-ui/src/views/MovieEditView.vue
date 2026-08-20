@@ -49,7 +49,6 @@
   import { toTypedSchema } from '@vee-validate/zod';
   import { useForm } from 'vee-validate';
   import { useRoute, useRouter } from 'vue-router';
-  import { useToast } from 'primevue/usetoast'
   import { z } from 'zod';
   import Button from 'primevue/button';
   import DatePicker from 'primevue/datepicker';
@@ -61,17 +60,16 @@
   import { findMovie, type Movie } from '@/lib/emdbQueryApi';
   import { deleteMovie, updateMovie, type UpdateMovieRequest } from '@/lib/emdbCommandApi';
   import { toDate, toIso } from '@/lib/formatter';
-  import { useErrorHandler } from '@/composables/useErrorHandler';
   import { SUPPORTED_CODES, useLanguage } from '@/composables/useLanguage';
+  import { useNotificationService } from '@/composables/useNotificationService';
 
-  const { handleError, handleNotFound } = useErrorHandler();
+  const { languageCodes, toLanguageCode } = useLanguage();
 
   const confirm = useConfirm();
   const movie = ref<Movie>();
-  const { languageCodes, toLanguageCode } = useLanguage();
+  const notify = useNotificationService();
   const route = useRoute();
   const router = useRouter();
-  const toast = useToast();
 
   const schema = z.object({
     title: z.string({ required_error: 'Title is required' }).min(1, 'Title is required'),
@@ -112,9 +110,9 @@
         try {
           await deleteMovie(movie.value.id);
           router.push('/'); 
-          toast.add({ severity: 'info', summary: `${movie.value.title} deleted` });
+          notify.info(`Deleted ${movie.value.title}`);
         } catch (e) {
-          handleError(e, 'Failed to delete movie');
+          notify.error(`Failed to delete ${movie.value.title}`, e);
         }        
       },
     });
@@ -131,7 +129,7 @@
     try {
       const found = await findMovie(id);
       if (!found) {
-        handleNotFound(`No movie exists with id ${id}`);
+        notify.warn(`No movie exists with id ${id}`);
         router.replace('/');
         return;
       }
@@ -147,7 +145,7 @@
         },
       });      
     } catch (e) {
-      handleError(e, 'Failed to load movie');
+      notify.error('Failed to load movie', e);
       router.replace('/');
     }
   });
@@ -168,9 +166,9 @@
       const response = await updateMovie(movie.value.id, request);
       movie.value = { ...movie.value, version: response.version };
       resetForm({ values });
-      toast.add({ severity: 'info', summary: `${movie.value.title} saved` });
+      notify.info(`Saved ${movie.value.title}`);
     } catch (e) {
-      handleError(e, 'Failed to save movie');
+      notify.error(`Failed to save ${movie.value.title}`, e);
     }    
   });
 </script>

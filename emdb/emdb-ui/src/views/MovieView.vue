@@ -31,13 +31,13 @@
   import Button from 'primevue/button';
 
   import { findMovie, type Movie } from '@/lib/emdbQueryApi';
-  import { useErrorHandler } from '@/composables/useErrorHandler';
   import { useLanguage } from '@/composables/useLanguage';
+  import { useNotificationService } from '@/composables/useNotificationService';
 
   const { fromLanguageCode } = useLanguage();
-  const { handleError, handleNotFound } = useErrorHandler();
 
   const movie = ref<Movie>();
+  const notify = useNotificationService();
   const route = useRoute();
   const router = useRouter();
   
@@ -52,13 +52,13 @@
     try {
       const found = await findMovie(id);
       if (!found) {
-        handleNotFound(`No movie exists with id ${id}`);
+        notify.warn(`No movie exists with id ${id}`);
         router.replace('/');
         return;
       }
       movie.value = found;
     } catch (e) {
-      handleError(e, 'Failed to load movie');
+      notify.error('Failed to load movie', e);
       router.replace('/');
     }
   });

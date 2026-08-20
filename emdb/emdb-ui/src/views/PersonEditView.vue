@@ -42,7 +42,6 @@
   import { toTypedSchema } from '@vee-validate/zod';
   import { useForm } from 'vee-validate';
   import { useRoute, useRouter } from 'vue-router';
-  import { useToast } from 'primevue/usetoast'
   import { z } from 'zod';
   import Button from 'primevue/button';
   import DatePicker from 'primevue/datepicker';
@@ -52,15 +51,13 @@
   import { findPerson, type Person } from '@/lib/emdbQueryApi';
   import { deletePerson, updatePerson, type UpdatePersonRequest } from '@/lib/emdbCommandApi';
   import { toDate, toIso } from '@/lib/formatter';
-  import { useErrorHandler } from '@/composables/useErrorHandler';
-
-  const { handleError, handleNotFound } = useErrorHandler();
+  import { useNotificationService } from '@/composables/useNotificationService';
 
   const confirm = useConfirm();
+  const notify = useNotificationService();
   const person = ref<Person>();
   const route = useRoute();
   const router = useRouter();
-  const toast = useToast();
 
   const schema = z.object({
     name: z.string({ required_error: 'Name is required' }).min(1, 'Name is required'),
@@ -99,9 +96,9 @@
         try {
           await deletePerson(person.value.id);
           router.push('/');
-          toast.add({ severity: 'info', summary: `${person.value.name} deleted` });
+          notify.info(`Deleted ${person.value.name}`);
         } catch (e) {
-          handleError(e, 'Failed to delete person');
+          notify.error(`Failed to delete ${person.value.name}`, e);
         }        
       },
     });
@@ -118,7 +115,7 @@
     try {
       const found = await findPerson(id);
       if (!found) {
-        handleNotFound(`No person exists with id ${id}`);
+        notify.warn(`No person exists with id ${id}`);
         router.replace('/');
         return;
       }
@@ -133,7 +130,7 @@
         },
       });
     } catch (e) {
-      handleError(e, 'Failed to load person');
+      notify.error('Failed to load person', e);
       router.replace('/');
     }
   });
@@ -154,9 +151,9 @@
       const response = await updatePerson(person.value.id, request);
       person.value = { ...person.value, version: response.version };
       resetForm({ values });
-      toast.add({ severity: 'info', summary: `${person.value.name} saved` });
+      notify.info(`Saved ${person.value.name}`);
     } catch (e) {
-      handleError(e, 'Failed to save person');
+      notify.error(`Failed to save ${person.value.name}`, e);
     }    
   });
 </script>
