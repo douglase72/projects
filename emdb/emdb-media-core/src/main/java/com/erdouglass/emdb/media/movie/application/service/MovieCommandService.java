@@ -6,8 +6,8 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.SaveResult.Status;
+import com.erdouglass.emdb.media.Result;
+import com.erdouglass.emdb.media.Result.Status;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.movie.SaveMovieCommand;
@@ -67,7 +67,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   ///         when the incoming details are identical
   @Override
   @Transactional
-  public SaveResult save(SaveMovieCommand command) {
+  public Result save(SaveMovieCommand command) {
     var details = MovieMapper.toMovieDetails(command);
     return movies.findByTmdbId(command.tmdbId())
         .map(existing -> update(existing, details))
@@ -89,7 +89,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   /// @throws IllegalArgumentException if the command's id is malformed
   @Override
   @Transactional
-  public SaveResult update(UpdateMovieCommand command) {
+  public Result update(UpdateMovieCommand command) {
     var details = MovieMapper.toMovieDetails(command);
     Movie existing = movies.findByPublicId(MoviePublicId.of(command.publicId()))
         .orElseThrow(() -> new MovieNotFoundException(command.publicId()));
@@ -131,14 +131,14 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   /// @throws StalePersonException if the version is stale
   @Override
   @Transactional
-  public SaveResult lock(LockMovieCommand command) {
+  public Result lock(LockMovieCommand command) {
     Movie movie = movies.findByPublicId(command.publicId())
         .orElseThrow(() -> new MovieNotFoundException(command.publicId().value()));
     movie.checkVersion(command.version());
     movie.lock(command.lock());
     var updated = movies.update(movie);
     LOGGER.infof("Updated: %s", updated);
-    return SaveResult.of(
+    return Result.of(
         updated.publicId().map(MoviePublicId::value).orElseThrow(), 
         updated.version().map(Version::value).orElseThrow(), 
         Status.UPDATED);
@@ -153,12 +153,12 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   /// @param tmdbId the natural id of the new title
   /// @param details the initial details
   /// @return the catalogue id and initial version, reported as a creation
-  private SaveResult insert(TmdbId tmdbId, MovieDetails details) {
+  private Result insert(TmdbId tmdbId, MovieDetails details) {
     var movie = Movie.create(MovieId.of(GENERATOR.generate()), tmdbId, details);
     var inserted = movies.insert(movie);
     audit.append(inserted.id(), inserted.publicId().orElseThrow(), inserted.changesAsAdded());
     LOGGER.infof("Created: %s", inserted);
-    return SaveResult.of(
+    return Result.of(
         inserted.publicId().map(MoviePublicId::value).orElseThrow(), 
         inserted.version().map(Version::value).orElseThrow(), 
         Status.CREATED);    
@@ -181,10 +181,10 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
   ///         details already matched
   /// @throws LockedPersonException if the title is locked, raised before the diff
   ///         is taken and therefore even when nothing would have changed
-  private SaveResult update(Movie movie, MovieDetails target) {
+  private Result update(Movie movie, MovieDetails target) {
     var changes = movie.update(target);
     if (changes.isEmpty()) {
-      return SaveResult.of(
+      return Result.of(
           movie.publicId().map(MoviePublicId::value).orElseThrow(), 
           movie.version().map(Version::value).orElseThrow(), 
           Status.UNCHANGED);
@@ -192,7 +192,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, LockM
     var updated = movies.update(movie);
     audit.append(updated.id(), updated.publicId().orElseThrow(), changes);
     LOGGER.infof("Updated: %s", updated);
-    return SaveResult.of(
+    return Result.of(
         updated.publicId().map(MoviePublicId::value).orElseThrow(), 
         updated.version().map(Version::value).orElseThrow(), 
         Status.UPDATED);    

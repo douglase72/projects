@@ -1,6 +1,6 @@
 package com.erdouglass.emdb.media.person.application.port.in;
 
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 import com.erdouglass.emdb.media.person.domain.exception.LockedPersonException;
 import com.erdouglass.emdb.media.person.domain.exception.StalePersonException;
 
@@ -28,5 +28,5 @@ public interface UpdatePersonUseCase {
   ///         incoming details are identical
   /// @throws IllegalArgumentException if the command's id is not a well-formed
   ///         catalogue id
-  SaveResult update(UpdatePersonCommand command);
+  Result update(UpdatePersonCommand command);
 }

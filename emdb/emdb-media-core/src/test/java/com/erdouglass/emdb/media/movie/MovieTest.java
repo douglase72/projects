@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import org.jboss.logging.Logger;
@@ -15,7 +16,9 @@ import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
+import com.erdouglass.emdb.media.movie.domain.CreditId;
 import com.erdouglass.emdb.media.movie.domain.Movie;
+import com.erdouglass.emdb.media.movie.domain.MovieCredit;
 import com.erdouglass.emdb.media.movie.domain.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.MovieId;
 import com.erdouglass.emdb.media.movie.domain.ReleaseDate;
@@ -27,12 +30,17 @@ class MovieTest {
   
   @Test
   void testCreateCompleteMovie() {
+    var credits = List.of(MovieCredit.builder()
+        .id(CreditId.of(UUID.fromString("01a00bcf-1e3a-76b6-980c-f08e90e21a96")))
+        .tmdbId(TmdbId.of("52fe427bc3a36847f8022183"))
+        .build());
     var details = MovieDetails.builder()
         .title(Title.of("Blade Runner"))
         .releaseDate(ReleaseDate.from("1982-06-25"))
         .score(Score.of(BigDecimal.valueOf(7.893)))
         .originalLanguage(LanguageCode.of("en"))
         .overview(Overview.of("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans."))
+        .credits(null)
         .build();
     var movie = Movie.create(MovieId.of(ID), TmdbId.of(78), details);
     assertEquals("01a00bcf-1e3a-76b6-980c-f08e90e21a95", movie.id().value().toString());

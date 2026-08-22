@@ -1,6 +1,6 @@
 package com.erdouglass.emdb.media.movie;
 
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 import com.erdouglass.emdb.media.TmdbId;
 
 /// Ingestion port: upserts a title keyed by its TMDB id.
@@ -20,12 +20,12 @@ public interface SaveMovieUseCase {
   ///
   /// Every field-level difference is appended to the audit trail. When the
   /// incoming details already match what is stored, nothing is written and the
-  /// result reports [SaveResult.Status#UNCHANGED].
+  /// result reports [Result.Status#UNCHANGED].
   ///
   /// @param command the complete intended state of the title
   /// @return the catalogue id, the version as of the end of the call, and which
   ///         of create / update / no-op occurred
   /// @throws LockedMovieException if a movie with this TMDB id exists and is
   ///         locked, even when the incoming details are identical
-  SaveResult save(SaveMovieCommand command);
+  Result save(SaveMovieCommand command);
 }

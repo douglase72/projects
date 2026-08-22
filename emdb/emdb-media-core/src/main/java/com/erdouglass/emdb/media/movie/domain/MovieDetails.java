@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.movie.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,7 +33,8 @@ public record MovieDetails(
     Optional<ReleaseDate> releaseDate,
     Optional<Score> score,
     Optional<LanguageCode> originalLanguage,
-    Optional<Overview> overview) {
+    Optional<Overview> overview,
+    List<MovieCredit> credits) {
   
   public static Builder builder() { return new Builder(); }
   
@@ -41,6 +44,7 @@ public record MovieDetails(
     private Score score;
     private LanguageCode originalLanguage;
     private Overview overview;
+    private List<MovieCredit> credits = new ArrayList<>();
     
     private Builder() {}
 
@@ -51,7 +55,13 @@ public record MovieDetails(
           Optional.ofNullable(releaseDate), 
           Optional.ofNullable(score),
           Optional.ofNullable(originalLanguage),
-          Optional.ofNullable(overview));
+          Optional.ofNullable(overview),
+          credits);
+    }
+    
+    public Builder credits(List<MovieCredit> credits) {
+      this.credits = new ArrayList<>(credits);
+      return this;
     }
     
     public Builder originalLanguage(LanguageCode originalLanguage) {

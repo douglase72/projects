@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.person.SavePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.in.DeletePersonUseCase;
@@ -91,7 +91,7 @@ class PersonResource {
   /// @throws LockedPersonException if the person is locked, mapped to `423`
   @PUT
   @Path("/{id}")
-  public SaveResult update(
+  public Result update(
       @NotBlank @PathParam("id") String id, 
       @NotNull @Valid UpdatePersonRequest request) {
     var command = mapper.toUpdatePersonCommand(id, request);

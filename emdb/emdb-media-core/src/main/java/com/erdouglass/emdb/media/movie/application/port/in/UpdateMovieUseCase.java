@@ -1,6 +1,6 @@
 package com.erdouglass.emdb.media.movie.application.port.in;
 
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 
 /// Inbound port for editing a title the caller has already read.
 ///
@@ -26,5 +26,5 @@ public interface UpdateMovieUseCase {
   ///         incoming details are identical
   /// @throws IllegalArgumentException if the command's id is not a well-formed
   ///         catalogue id
-  SaveResult update(UpdateMovieCommand command);
+  Result update(UpdateMovieCommand command);
 }

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.UpdateMovieRequest;
 
@@ -52,7 +52,7 @@ class BladeRunnerCrudIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
-    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), Result.class);
     movieId = result.id();
     version = result.version();
     LOGGER.infof("Saved %s movie in %d ms", movieId, et);
@@ -109,7 +109,7 @@ class BladeRunnerCrudIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
-    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResult.class);
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), Result.class);
     version = result.version();
     LOGGER.infof("Updated %s movie in %d ms", movieId, et);
   }

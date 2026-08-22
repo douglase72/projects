@@ -1,6 +1,6 @@
 package com.erdouglass.emdb.media.movie.application.port.in;
 
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 
 /// Inbound port for freezing and releasing a title's details.
 ///
@@ -22,5 +22,5 @@ public interface LockMovieUseCase {
   /// @throws MovieNotFoundException if no title carries the command's id
   /// @throws StalePersonException if the stored version differs from the one
   ///         supplied
-  SaveResult lock(LockMovieCommand command);
+  Result lock(LockMovieCommand command);
 }

@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.media.SaveResult;
+import com.erdouglass.emdb.media.Result;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
@@ -114,7 +114,7 @@ class MovieResource {
   /// @throws LockedPersonException if the title is locked, mapped to `423`
   @PUT
   @Path("/{id}")
-  public SaveResult update(
+  public Result update(
       @NotBlank @PathParam("id") String id, 
       @NotNull @Valid UpdateMovieRequest request) {
     var command = mapper.toUpdateMovieCommand(id, request);
@@ -136,7 +136,7 @@ class MovieResource {
   /// @throws StalePersonException if the version is stale, mapped to `409`
   @PUT
   @Path("/lock/{id}")
-  public SaveResult lock(
+  public Result lock(
       @NotBlank @PathParam("id") String id, 
       @NotNull @Valid LockMovieRequest request) {
     var command = new LockMovieCommand(MoviePublicId.of(id), Version.of(request.version()), request.lock());

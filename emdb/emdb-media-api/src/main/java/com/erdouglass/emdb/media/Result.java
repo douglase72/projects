@@ -10,10 +10,10 @@ package com.erdouglass.emdb.media;
 /// @param id the public catalogue id of the affected title, e.g. `mv_42`
 /// @param version the optimistic-locking version as of the end of the call
 /// @param status which outcome occurred
-public record SaveResult(String id, Long version, Status status) {
+public record Result(String id, Long version, Status status) {
   
-  public static SaveResult of(String id, Long version, Status status) {
-    return new SaveResult(id, version, status);
+  public static Result of(String id, Long version, Status status) {
+    return new Result(id, version, status);
   }
 
   /// The three outcomes a write can have.

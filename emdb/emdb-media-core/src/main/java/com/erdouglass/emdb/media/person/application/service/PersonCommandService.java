@@ -6,8 +6,8 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.SaveResult;
-import com.erdouglass.emdb.media.SaveResult.Status;
+import com.erdouglass.emdb.media.Result;
+import com.erdouglass.emdb.media.Result.Status;
 import com.erdouglass.emdb.media.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.person.SavePersonCommand;
@@ -67,7 +67,7 @@ class PersonCommandService implements SavePersonUseCase, UpdatePersonUseCase, De
   ///         when the incoming details are identical
   @Override
   @Transactional
-  public SaveResult save(SavePersonCommand command) {
+  public Result save(SavePersonCommand command) {
     var details = PersonMapper.toPersonDetails(command);
     return people.findByTmdbId(command.tmdbId())
         .map(existing -> update(existing, details))
@@ -89,7 +89,7 @@ class PersonCommandService implements SavePersonUseCase, UpdatePersonUseCase, De
   /// @throws IllegalArgumentException if the command's id is malformed
   @Override
   @Transactional
-  public SaveResult update(UpdatePersonCommand command) {
+  public Result update(UpdatePersonCommand command) {
     var details = PersonMapper.toPersonDetails(command);
     Person existing = people.findByPublicId(PersonPublicId.of(command.publicId()))
         .orElseThrow(() -> new PersonNotFoundException(command.publicId()));
@@ -126,12 +126,12 @@ class PersonCommandService implements SavePersonUseCase, UpdatePersonUseCase, De
   /// @param tmdbId the natural id of the new title
   /// @param details the initial details
   /// @return the catalogue id and initial version, reported as a creation
-  private SaveResult insert(TmdbId tmdbId, PersonDetails details) {    
+  private Result insert(TmdbId tmdbId, PersonDetails details) {    
     var person = Person.create(PersonId.of(GENERATOR.generate()), tmdbId, details);
     var inserted = people.insert(person);
     audit.append(inserted.id(), inserted.publicId().orElseThrow(), inserted.changesAsAdded());
     LOGGER.infof("Created: %s", inserted);
-    return SaveResult.of(
+    return Result.of(
         inserted.publicId().map(PersonPublicId::value).orElseThrow(), 
         inserted.version().map(Version::value).orElseThrow(), 
         Status.CREATED); 
@@ -154,10 +154,10 @@ class PersonCommandService implements SavePersonUseCase, UpdatePersonUseCase, De
   ///         details already matched
   /// @throws LockedPersonException if the title is locked, raised before the diff
   ///         is taken and therefore even when nothing would have changed
-  private SaveResult update(Person person, PersonDetails target) {
+  private Result update(Person person, PersonDetails target) {
     var changes = person.update(target);
     if (changes.isEmpty()) {
-      return SaveResult.of(
+      return Result.of(
           person.publicId().map(PersonPublicId::value).orElseThrow(), 
           person.version().map(Version::value).orElseThrow(), 
           Status.UNCHANGED);
@@ -165,7 +165,7 @@ class PersonCommandService implements SavePersonUseCase, UpdatePersonUseCase, De
     var updated = people.update(person);
     audit.append(updated.id(), updated.publicId().orElseThrow(), changes);
     LOGGER.infof("Updated: %s", updated);
-    return SaveResult.of(
+    return Result.of(
         updated.publicId().map(PersonPublicId::value).orElseThrow(), 
         updated.version().map(Version::value).orElseThrow(), 
         Status.UPDATED);

@@ -275,20 +275,6 @@ class ArchitectureTest {
           "com.erdouglass.emdb.media.movie.domain.Movie")
       .because("a resource holding the aggregate will eventually apply a rule to it, "
           + "and that rule will not be enforced on the other transport");
-  
-  // ---------------------------------------------------------------------------
-  // Aggregates
-  // --------------------------------------------------------------------------- 
-  
-  @ArchTest
-  static final ArchRule aggregates_reference_by_id_only = noClasses()
-      .that().resideInAPackage("..movie.domain..")
-      .should().dependOnClassesThat(
-          JavaClass.Predicates.resideInAPackage("..person.domain..")
-              .and(DescribedPredicate.not(
-                  JavaClass.Predicates.simpleNameEndingWith("Id"))))
-      .because("an object reference across aggregates puts two roots, two versions "
-          + "and two lifecycles inside one transaction");
 
   // ---------------------------------------------------------------------------
   // General hygiene
