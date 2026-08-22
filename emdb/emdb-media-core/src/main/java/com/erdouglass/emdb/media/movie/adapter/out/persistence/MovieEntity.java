@@ -84,7 +84,7 @@ class MovieEntity {
   private String title;
   
   @Version
-  private long version;
+  private Long version;
   
   MovieEntity() {}
 

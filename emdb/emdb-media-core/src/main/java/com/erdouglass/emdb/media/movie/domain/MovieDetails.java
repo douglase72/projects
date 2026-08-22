@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.movie.domain;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import com.erdouglass.emdb.media.kernel.LanguageCode;
@@ -30,4 +31,9 @@ public record MovieDetails(
     Optional<ReleaseDate> releaseDate,
     Optional<Score> score,
     Optional<LanguageCode> originalLanguage,
-    Optional<Overview> overview) {}
+    Optional<Overview> overview) {
+  
+  public MovieDetails {
+    Objects.requireNonNull(title, "title is required");
+  }
+}

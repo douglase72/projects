@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.movie.adapter.out.persistence;
+package com.erdouglass.emdb.media.person.adapter.out.persistence;
 
 import java.util.Optional;
 
@@ -11,17 +11,17 @@ import jakarta.data.repository.Update;
 
 import com.erdouglass.emdb.media.SourceId.Source;
 
-/// Jakarta Data repository for the write side of the movie table.
+/// Jakarta Data repository for the write side of the person table.
 ///
 /// Deals in entities and raw keys; translating between those and the aggregate
-/// is [MovieCommandAdapter]'s job. Reads here exist to load an aggregate for
+/// is [PersonCommandAdapter]'s job. Reads here exist to load an aggregate for
 /// modification, not to serve queries — client reads go through
-/// [JakartaDataMovieQueryRepository], which projects instead of loading.
+/// [JakartaDataPersonQueryRepository], which projects instead of loading.
 ///
 /// The `Long` ids in these signatures are the numeric primary key, not the
 /// prefixed catalogue id, and not the surrogate UUID.
 @Repository(dataStore = "media")
-interface JakartaDataMovieCommandRepository {
+interface JakartaDataPersonCommandRepository {
 
   /// Inserts a new row and returns it with the database-assigned key and
   /// version populated.
@@ -30,7 +30,7 @@ interface JakartaDataMovieCommandRepository {
   ///        supplies one
   /// @return the inserted row, now carrying its key
   @Insert
-  MovieEntity insert(MovieEntity entity);
+  PersonEntity insert(PersonEntity entity);
   
   /// Updates an existing row, checking the optimistic-locking version.
   ///
@@ -39,7 +39,7 @@ interface JakartaDataMovieCommandRepository {
   /// @throws OptimisticLockingFailureException if the stored version has moved
   ///         on since the entity was read
   @Update
-  MovieEntity update(MovieEntity entity);
+  PersonEntity update(PersonEntity entity);
   
   /// Deletes the row with the given key.
   ///
@@ -52,8 +52,8 @@ interface JakartaDataMovieCommandRepository {
   /// @param id the numeric primary key
   /// @return the row, or empty if none carries that key
   @Find
-  Optional<MovieEntity> findById(Long id);
-
+  Optional<PersonEntity> findById(Long id);
+  
   /// Loads a row by its source id, the lookup that makes ingestion an upsert.
   ///
   /// Backed by a unique constraint, so at most one row can match.
@@ -61,5 +61,5 @@ interface JakartaDataMovieCommandRepository {
   /// @param sourceId the natural id from the upstream catalogue
   /// @return the row, or empty if the title has not been ingested yet
   @Find
-  Optional<MovieEntity> findBySourceId(Source source, String sourceId);
+  Optional<PersonEntity> findBySourceId(Source source, String sourceId);
 }
