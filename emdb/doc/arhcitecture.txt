@@ -1,0 +1,248 @@
+Opus 5
+Show me the package structure for a Quarkus emdb-ingest module using DDD + Hexagonal architecture that ingests movie 
+data from TMDB and loads it into my local database via CDI MovieExtractedEvent that is observed in my emdb-media 
+module that writes the data in its own transaction. A client will start the ingest by sending a request via REST and 
+immediately get back a 202 with the ingest id. I want to use RabbitMQ to control the flow so that each message is 
+consumed one at a time. The ingest aggregate should ensure the process follows the correct sequence and that the 
+submitted, started, extracted, loaded, completed, and failed events are persisted in an audit log.
+
+emdb-ingest/
+├── pom.xml
+└── src/main/
+    ├── java/com/erdouglass/emdb/ingest/
+    │   │
+    │   ├── domain/                                  ← no Quarkus, no jakarta.*, no JPA
+    │   │   ├── model/
+    │   │   │   ├── Ingest.java                      ← aggregate root: owns the state machine
+    │   │   │   ├── IngestId.java
+    │   │   │   ├── IngestStatus.java                ← SUBMITTED STARTED EXTRACTED LOADED COMPLETED FAILED
+    │   │   │   ├── IngestRequest.java               ← what the client asked for (query, page, filters)
+    │   │   │   ├── IngestSource.java                ← TMDB_DISCOVER, TMDB_MOVIE_BY_ID, ...
+    │   │   │   └── MovieRef.java                    ← tmdbId + title as the ingest knows it
+    │   │   ├── event/
+    │   │   │   ├── IngestEvent.java                 ← sealed interface: ingestId, sequence, occurredAt
+    │   │   │   ├── IngestSubmitted.java
+    │   │   │   ├── IngestStarted.java
+    │   │   │   ├── MovieExtracted.java              ← DOMAIN event — not media's record
+    │   │   │   ├── MovieLoaded.java
+    │   │   │   ├── IngestCompleted.java
+    │   │   │   └── IngestFailed.java
+    │   │   └── error/
+    │   │       ├── InvalidIngestTransition.java
+    │   │       └── IngestNotFound.java
+    │   │
+    │   ├── application/
+    │   │   ├── port/in/
+    │   │   │   ├── SubmitIngest.java                ← + SubmitIngestCommand
+    │   │   │   ├── ExecuteIngest.java               ← + ExecuteIngestCommand(IngestId)
+    │   │   │   └── GetIngest.java
+    │   │   ├── port/out/
+    │   │   │   ├── IngestRepository.java            ← load/save aggregate
+    │   │   │   ├── IngestAuditLog.java              ← append(IngestEvent) — append-only
+    │   │   │   ├── IngestCommandQueue.java          ← enqueue(IngestId)
+    │   │   │   ├── MovieSource.java                 ← extract(IngestRequest) : Stream<MovieRef+details>
+    │   │   │   └── MoviePublisher.java              ← publish(...) → media module
+    │   │   └── service/
+    │   │       ├── SubmitIngestService.java
+    │   │       ├── ExecuteIngestService.java        ← drives start→extract→load→complete/fail
+    │   │       ├── IngestTransactions.java          ← @Transactional(REQUIRES_NEW) step recorder
+    │   │       └── GetIngestService.java
+    │   │
+    │   └── adapter/
+    │       ├── in/rest/
+    │       │   ├── IngestResource.java              ← POST /ingests → 202 + Location
+    │       │   ├── SubmitIngestRequestDto.java
+    │       │   ├── IngestAcceptedDto.java
+    │       │   ├── IngestStatusDto.java
+    │       │   └── IngestExceptionMapper.java
+    │       ├── in/messaging/
+    │       │   ├── IngestCommandConsumer.java       ← @Incoming("ingest-commands")
+    │       │   └── IngestCommandMessage.java        ← wire DTO
+    │       └── out/
+    │           ├── persistence/
+    │           │   ├── IngestEntity.java
+    │           │   ├── IngestAuditEntryEntity.java
+    │           │   ├── IngestPanacheRepository.java
+    │           │   ├── IngestRepositoryAdapter.java
+    │           │   ├── IngestAuditLogAdapter.java
+    │           │   └── IngestEntityMapper.java
+    │           ├── messaging/
+    │           │   └── RabbitIngestCommandQueue.java ← @Channel("ingest-commands-out")
+    │           ├── tmdb/
+    │           │   ├── TmdbRestClient.java          ← @RegisterRestClient
+    │           │   ├── TmdbDiscoverResponse.java
+    │           │   ├── TmdbMovieResponse.java
+    │           │   └── TmdbMovieSourceAdapter.java  ← implements MovieSource
+    │
+
+Fable 5
+com.erdouglass.emdb.ingest
+│
+├── domain                                      // pure Java, no framework imports
+│   ├── Ingest.java                             // aggregate root: state machine + event recording
+│   ├── IngestId.java
+│   ├── IngestStatus.java                       // SUBMITTED, STARTED, EXTRACTED, LOADED, COMPLETED, FAILED
+│   ├── ExtractedMovie.java                     // ingest's own model of the TMDB payload
+│   ├── FailureReason.java
+│   ├── IllegalIngestTransition.java
+│   └── event
+│       ├── IngestEvent.java                    // sealed interface: ingestId() + occurredAt()
+│       ├── IngestSubmitted.java
+│       ├── IngestStarted.java
+│       ├── IngestExtracted.java
+│       ├── IngestLoaded.java
+│       ├── IngestCompleted.java
+│       └── IngestFailed.java
+│
+├── application
+│   ├── port
+│   │   ├── in
+│   │   │   ├── SubmitIngestUseCase.java        // IngestId submit(TmdbId)
+│   │   │   ├── ProcessIngestUseCase.java       // void process(IngestId)
+│   │   │   └── GetIngestUseCase.java           // status + audit trail, for polling
+│   │   └── out
+│   │       ├── IngestRepository.java           // getById / save (state + append events)
+│   │       ├── MovieExtractionPort.java        // ExtractedMovie extract(TmdbId)
+│   │       ├── MovieLoadPort.java              // void load(TmdbId, ExtractedMovie)
+│   │       └── IngestQueuePort.java            // void enqueue(IngestId)
+│   └── service
+│       ├── SubmitIngestService.java
+│       ├── ProcessIngestService.java           // start → extract → load → complete, catch → fail
+│       └── GetIngestService.java
+│
+└── adapter
+    ├── in
+    │   ├── rest
+    │   │   ├── IngestResource.java             // POST /ingests → 202 + Location; GET /ingests/{id}
+    │   │   └── dto                             // SubmitIngestRequest, IngestResponse
+    │   └── messaging
+    │       └── IngestRequestConsumer.java      // @Incoming, drives ProcessIngestUseCase
+    └── out
+        ├── tmdb
+        │   ├── TmdbExtractionAdapter.java      // implements MovieExtractionPort
+        │   ├── TmdbApi.java                    // @RegisterRestClient
+        │   └── TmdbMovieDto.java
+        ├── persistence
+        │   ├── IngestPersistenceAdapter.java   // implements IngestRepository
+        │   ├── IngestEntity.java
+        │   ├── IngestEventEntity.java          // append-only audit table
+        │   └── IngestMapper.java
+        ├── messaging
+        │   └── RabbitMqIngestQueueAdapter.java // implements IngestQueuePort via Emitter
+        └── media
+            └── CdiMovieLoadAdapter.java        // implements MovieLoadPort: maps ExtractedMovie →
+                                                //   media MovieExtractedEvent, fires CDI event
+
+
+Opus 5
+Show me the package structure for a Quarkus module using Jakarta Data and DDD + Hexagonal architecture that performs 
+CRUD operations on a Movie aggregate that has several fields. The aggregate will carry three identifiers, a surrogate 
+UUID assigned by the application for equals and hashCode, a public id like “mv_1” where the number is a database 
+sequence and the primary key as Long, and the Integer TMDB id. The aggregate will also have a version corresponding to 
+@Version on the entity. The write operations, save, update, and delete, will be handled via REST. The save operation is 
+an upsert and idempotent with respect to the external TMDB id. There is no need for any retry logic so the 
+transactional boundary should be in the service. I need an audit log (no Envers) that persists the operation (ADDED, 
+UPDATED, DELETED) performed on each mutable field. The read operations will be handled via GraphQL. Follow hexagonal 
+purity so no ports or services are in the domain.
+
+src/main/java/com/example/movies
+│
+├── domain/                                    ← pure Java: no CDI, no JPA, no ports, no services
+│   ├── movie/
+│   │   ├── Movie.java                         aggregate root; equals/hashCode on MovieUuid only
+│   │   ├── MovieUuid.java                     app-assigned UUID, set at construction
+│   │   ├── MovieId.java                       Long PK from the sequence; absent until persisted
+│   │   ├── MoviePublicId.java                 derived VO: "mv_" + MovieId.value()
+│   │   ├── TmdbId.java                        Integer natural key, immutable after creation
+│   │   ├── MovieVersion.java                  mirrors @Version
+│   │   ├── MovieAttributes.java               VO holding the mutable payload as a unit
+│   │   ├── MovieField.java                    enum: TITLE, OVERVIEW, RELEASE_DATE, RUNTIME, RATING, GENRES
+│   │   ├── Title.java
+│   │   ├── Overview.java
+│   │   ├── ReleaseDate.java
+│   │   ├── Runtime.java
+│   │   ├── Rating.java
+│   │   └── Genre.java
+│   ├── audit/
+│   │   ├── AuditOperation.java                ADDED | UPDATED | DELETED
+│   │   ├── FieldChange.java                   (MovieField, oldValue, newValue, AuditOperation)
+│   │   └── ChangeSet.java                     ordered FieldChange list; isEmpty() drives idempotency
+│   └── error/
+│       ├── MovieNotFound.java
+│       ├── MovieVersionConflict.java
+│       └── InvalidMovieState.java
+│
+├── application/
+│   ├── port/
+│   │   ├── in/
+│   │   │   ├── SaveMovieUseCase.java          upsert, idempotent on TmdbId
+│   │   │   ├── UpdateMovieUseCase.java
+│   │   │   ├── DeleteMovieUseCase.java
+│   │   │   └── FindMoviesUseCase.java         driving port behind GraphQL
+│   │   └── out/
+│   │       ├── MovieRepositoryPort.java       byTmdbId / byPublicId / persist / remove
+│   │       ├── MovieFinderPort.java           read-side projections + paging
+│   │       ├── AuditTrailPort.java            append(ChangeSet, AuditContext)
+│   │       ├── UuidSourcePort.java            keeps UUID generation deterministic in tests
+│   │       └── TimeSourcePort.java            audit timestamps
+│   ├── command/
+│   │   ├── SaveMovieCommand.java
+│   │   ├── UpdateMovieCommand.java            carries expectedVersion
+│   │   └── DeleteMovieCommand.java
+│   ├── query/
+│   │   ├── MovieByPublicIdQuery.java
+│   │   ├── MovieByTmdbIdQuery.java
+│   │   └── MovieSearchQuery.java              filters + page/sort
+│   ├── view/
+│   │   ├── MovieView.java
+│   │   ├── MovieSummaryView.java
+│   │   └── MovieAuditView.java
+│   └── service/
+│       ├── MovieCommandService.java           @Transactional lives here and nowhere else
+│       └── MovieQueryService.java             @Transactional(SUPPORTS)
+│
+└── infrastructure/
+    ├── in/
+    │   ├── rest/
+    │   │   ├── MovieWriteResource.java        POST /movies · PUT /movies/{publicId} · DELETE /movies/{publicId}
+    │   │   ├── dto/
+    │   │   │   ├── SaveMovieRequest.java
+    │   │   │   ├── UpdateMovieRequest.java
+    │   │   │   └── MovieResponse.java         publicId + version (ETag)
+    │   │   ├── mapper/MovieRestMapper.java
+    │   │   └── error/
+    │   │       ├── MovieNotFoundMapper.java           → 404
+    │   │       ├── VersionConflictMapper.java         → 409
+    │   │       ├── ConstraintViolationMapper.java     → 409 on tmdb_id uniqueness
+    │   │       └── InvalidMovieStateMapper.java       → 400
+    │   └── graphql/
+    │       ├── MovieGraphQLApi.java           @GraphQLApi, @Query only
+    │       ├── type/
+    │       │   ├── MovieType.java
+    │       │   ├── MoviePage.java
+    │       │   └── MovieFilterInput.java
+    │       └── mapper/MovieGraphQLMapper.java
+    └── out/
+        ├── persistence/
+        │   ├── entity/
+        │   │   ├── MovieEntity.java           @Id Long (SEQUENCE), @Version, uuid unique, tmdb_id unique
+        │   │   └── MovieAuditEntity.java      one row per changed field
+        │   ├── repository/
+        │   │   ├── MovieEntityRepository.java @Repository extends CrudRepository<MovieEntity, Long>
+        │   │   └── MovieAuditEntityRepository.java
+        │   ├── mapper/
+        │   │   ├── MovieEntityMapper.java
+        │   │   └── MovieAuditEntityMapper.java
+        │   └── adapter/
+        │       ├── MovieRepositoryAdapter.java     implements MovieRepositoryPort
+        │       ├── MovieFinderAdapter.java         implements MovieFinderPort
+        │       └── AuditTrailAdapter.java          implements AuditTrailPort
+        └── system/
+            ├── RandomUuidSource.java
+            └── SystemTimeSource.java
+
+src/main/resources/
+├── application.properties
+└── db/migration/
+    ├── V1__movie.sql                          movie table + movie_seq
+    └── V2__movie_audit.sql

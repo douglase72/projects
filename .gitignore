@@ -1,0 +1,69 @@
+# Application
+*.log
+*.~lock*
+logs/
+trash/
+emdb/media-data/
+emdb/media-data-dev/
+emdb/emdb-ui/movies/
+emdb/emdb-ui/series/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+.flattened-pom.xml
+.mvn/
+
+# Gradle
+.gradle
+build/
+
+# Quarkus
+.quarkus/
+*-runner
+*-native-image-source-jar/
+.test-containers
+
+# Node.js
+*.tsbuildinfo
+dist/
+node_modules/
+
+# Vite cache
+.vite/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej
+
+# Local environment
+.env
+.env.*
+
+# Plugin directory
+/.quarkus/cli/plugins/
+# TLS Certificates
+.certs/

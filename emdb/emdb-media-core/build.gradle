@@ -1,0 +1,66 @@
+plugins {
+  id 'java-library'
+  id 'eclipse'
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+  compileOnly         enforcedPlatform(libs.quarkus.bom)
+  annotationProcessor enforcedPlatform(libs.quarkus.bom)
+  annotationProcessor libs.lombok
+  annotationProcessor libs.lombok.mapstruct.binding
+  annotationProcessor libs.hibernate.processor
+  annotationProcessor libs.mapstruct.processor
+  
+  implementation project(':common-graphql')
+  implementation project(':common-rest')
+  implementation project(':common-util')
+  implementation project(':emdb-media-api')
+    
+  implementation libs.jug
+    
+  compileOnly libs.jakarta.cdi.api
+  compileOnly libs.jakarta.data.api
+  compileOnly libs.jakarta.persistence.api
+  compileOnly libs.jakarta.validation.api
+  compileOnly libs.jakarta.ws.rs.api
+  compileOnly libs.jboss.logging
+  compileOnly libs.lombok
+  compileOnly libs.mapstruct
+  compileOnly libs.microprofile.graphql.api
+  compileOnly libs.quarkus.hibernate.orm
+  
+  testImplementation enforcedPlatform(libs.quarkus.bom)
+  testImplementation libs.archunit.junit5
+  testRuntimeOnly    libs.junit.platform.launcher
+  testImplementation libs.quarkus.junit
+}
+
+def archTest = tasks.register('archTest', Test) {
+    group = 'verification'
+    description = 'Architecture rules only'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform {
+        includeEngines 'archunit'
+    }
+}
+
+test {
+    useJUnitPlatform {
+        excludeEngines 'archunit'
+    }
+}
+
+check.dependsOn archTest
+
+eclipse {
+  classpath {
+    file.whenMerged { classpath ->
+      def generatedSrcDir = 'build/generated/sources/annotationProcessor/java/main'
+      classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(generatedSrcDir, null))
+    }
+  }
+}

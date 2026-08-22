@@ -1,0 +1,18 @@
+plugins {
+  id 'java-library'
+}
+
+group = 'com.erdouglass.emdb'
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+  compileOnly enforcedPlatform(libs.quarkus.bom)
+  
+  implementation project(':common-util')
+  implementation project(':common-validation')
+ 
+  compileOnly libs.jackson.annotations
+  compileOnly libs.jakarta.validation.api
+}
+
+
