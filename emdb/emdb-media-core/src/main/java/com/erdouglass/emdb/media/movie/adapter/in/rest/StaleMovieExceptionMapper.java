@@ -15,6 +15,8 @@ class StaleMovieExceptionMapper implements ExceptionMapper<StaleMovieException> 
   @Override
   public Response toResponse(StaleMovieException e) {
     LOGGER.error("Conflict", e);
-    return Response.status(Response.Status.CONFLICT).build();
+    return Response.status(Response.Status.CONFLICT)
+        .entity(e.getMessage())
+        .build();
   }
 }

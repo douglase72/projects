@@ -147,7 +147,8 @@ public final class Movie {
   /// @throws NullPointerException if `expected` is `null`
   public void checkVersion(Version expected) {
     if (version == null || !version.equals(expected)) {
-      throw new StaleMovieException(version.value().toString());
+      throw new StaleMovieException("movie %s has invalid version: %d"
+          .formatted(publicId.value(), version.value()));
     }
   }
   

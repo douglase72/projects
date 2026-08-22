@@ -18,6 +18,9 @@ import com.erdouglass.emdb.media.Result;
 import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.SourceId.Source;
 import com.erdouglass.emdb.media.movie.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.in.DeleteMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
+import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 import com.erdouglass.emdb.media.movie.domain.exception.MovieNotFoundException;
 
 /// REST write surface for the movie catalogue.
@@ -47,6 +50,12 @@ class MovieResource {
   
   @Inject
   SaveMovieUseCase saveUseCase;
+  
+  @Inject
+  UpdateMovieUseCase updateUseCase;
+  
+  @Inject
+  DeleteMovieUseCase deleteUseCase;
   
   @Inject
   CommandMapper mapper;
@@ -102,7 +111,8 @@ class MovieResource {
   public Result update(
       @NotBlank @PathParam("id") String id, 
       @NotNull @Valid UpdateMovieRequest request) {
-    throw new UnsupportedOperationException();
+    var command = mapper.toUpdateMovieCommand(id, request);
+    return updateUseCase.update(command);
   }
   
   /// Removes a title from the catalogue.
@@ -117,6 +127,7 @@ class MovieResource {
   @DELETE
   @Path("/{id}")
   public Response delete(@NotBlank  @PathParam("id") String id) {
-    throw new UnsupportedOperationException();
+    deleteUseCase.delete(MoviePublicId.of(id));
+    return Response.noContent().build();
   }
 }

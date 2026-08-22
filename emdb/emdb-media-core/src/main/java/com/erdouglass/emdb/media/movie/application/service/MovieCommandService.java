@@ -83,7 +83,6 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
   /// @throws MovieNotFoundException if no title carries the command's id
   /// @throws StalePersonException if the stored version differs from the supplied
   ///         one
-  /// @throws LockedPersonException if the title is locked
   /// @throws IllegalArgumentException if the command's id is malformed
   @Override
   @Transactional
@@ -101,9 +100,6 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
   /// it can be described as removed. Both writes share the transaction, so
   /// history cannot be recorded for a delete that then rolls back.
   ///
-  /// Neither the version nor the lock is checked — deletion is not a content
-  /// change, and there is no state to merge.
-  ///
   /// @param id the catalogue id of the title to remove
   /// @throws MovieNotFoundException if no title carries `id`
   @Override
@@ -113,6 +109,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
         .orElseThrow(() -> new MovieNotFoundException(id.value())); 
     audit.append(movie.id(), movie.publicId().orElseThrow(), movie.changesAsDeleted());
     movies.deleteByPublicId(id);
+    LOGGER.infof("Deleted: %s", movie);
   }
   
   /// Creates and persists a title that the catalogue has not seen before.
@@ -150,8 +147,6 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
   /// @param target the complete intended details
   /// @return the catalogue id and version, reported as unchanged when the
   ///         details already matched
-  /// @throws LockedPersonException if the title is locked, raised before the diff
-  ///         is taken and therefore even when nothing would have changed
   private Result update(Movie movie, MovieDetails target) {
     var changes = movie.update(target);
     if (changes.isEmpty()) {
