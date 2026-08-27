@@ -6,14 +6,18 @@ import jakarta.data.exceptions.OptimisticLockingFailureException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.media.SourceId;
 import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
+import com.erdouglass.emdb.media.kernel.SourceId;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.movie.adapter.out.persistence.MovieCreditEntity.CreditType;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
+import com.erdouglass.emdb.media.movie.domain.CastCredit;
+import com.erdouglass.emdb.media.movie.domain.CrewCredit;
 import com.erdouglass.emdb.media.movie.domain.Movie;
+import com.erdouglass.emdb.media.movie.domain.MovieCredit;
 import com.erdouglass.emdb.media.movie.domain.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.MovieId;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
@@ -30,7 +34,6 @@ import com.erdouglass.emdb.media.movie.domain.ReleaseDate;
 /// Holds no transaction of its own; callers supply one.
 @ApplicationScoped
 class MovieCommandAdapter implements MovieCommandRepository {
-  private static final long INITIAL_VERSION = 0L;
   
   @Inject
   JakartaDataMovieCommandRepository repository;
@@ -45,8 +48,13 @@ class MovieCommandAdapter implements MovieCommandRepository {
   /// @param movie the unpersisted aggregate
   /// @return the persisted aggregate, now reporting a public id and version
   @Override
-  public Movie insert(Movie movie) {
-    return toMovie(repository.insert(toMovieEntity(movie, INITIAL_VERSION)));
+  public Movie add(Movie movie) {
+    var entity = repository.insert(toMovieEntity(movie));
+    var credits = movie.credits().stream().map(c -> toMovieCreditEntity(c, entity)).toList();
+    if (!credits.isEmpty()) {
+      repository.insertCredits(credits);
+    }
+    return toMovie(entity);
   }
 
   /// Writes a modified title, checking the optimistic-locking version.
@@ -57,9 +65,7 @@ class MovieCommandAdapter implements MovieCommandRepository {
   ///         on since the aggregate was loaded
   @Override
   public Movie update(Movie movie) {
-    var version = movie.version().map(Version::value)
-        .orElseThrow(() -> new IllegalArgumentException("invalid version"));
-    return toMovie(repository.update(toMovieEntity(movie, version)));
+    return toMovie(repository.update(toMovieEntity(movie)));
   }
   
   /// Removes the title with the given catalogue id.
@@ -71,7 +77,7 @@ class MovieCommandAdapter implements MovieCommandRepository {
   /// @param publicId the catalogue id of the title to remove
   @Override
   public void deleteByPublicId(MoviePublicId publicId) {
-    repository.deleteById(publicId.toLong());
+    //repository.deleteById(publicId.toLong());
   }
   
   /// Loads a title by its catalogue id.
@@ -101,18 +107,19 @@ class MovieCommandAdapter implements MovieCommandRepository {
   ///
   /// @param movie the aggregate to flatten
   /// @return the row to write
-  private MovieEntity toMovieEntity(Movie movie, long version) {
+  private MovieEntity toMovieEntity(Movie movie) {
+    var details = movie.details();
     var entity = new MovieEntity();
     entity.setId(movie.publicId().map(MoviePublicId::toLong).orElse(null));
     entity.setSurrogateId(movie.id().value());
     entity.setSource(movie.sourceId().provider());
     entity.setSourceId(movie.sourceId().id());
-    entity.setVersion(version);
+    entity.setVersion(movie.version().value());
     entity.setTitle(movie.details().title().value());
-    entity.setReleaseDate(movie.details().releaseDate().map(ReleaseDate::toLocalDate).orElse(null));
-    entity.setScore(movie.details().score().map(Score::value).orElse(null));
-    entity.setOriginalLanguage(movie.details().originalLanguage().map(LanguageCode::value).orElse(null));
-    entity.setOverview(movie.details().overview().map(Overview::value).orElse(null));
+    entity.setReleaseDate(details.releaseDate() != null ? details.releaseDate().toLocalDate() : null);
+    entity.setScore(details.score() != null ? details.score().value() : null);
+    entity.setOriginalLanguage(details.originalLanguage() != null ? details.originalLanguage().value() : null);
+    entity.setOverview(details.overview() != null ? details.overview().value() : null);
     return entity;
   }
   
@@ -131,12 +138,36 @@ class MovieCommandAdapter implements MovieCommandRepository {
     var id = MovieId.of(entity.getSurrogateId());
     var publicId = MoviePublicId.from(entity.getId());
     var sourceId = SourceId.of(entity.getSource(), entity.getSourceId());
-    var details = new MovieDetails(
-        Title.of(entity.getTitle()),
-        entity.getReleaseDate().map(ReleaseDate::from),
-        entity.getScore().map(Score::of),
-        entity.getOriginalLanguage().map(LanguageCode::of),
-        entity.getOverview().map(Overview::of));
+    var details = MovieDetails.builder()
+        .title(Title.of(entity.getTitle()))
+        .releaseDate(entity.getReleaseDate().map(ReleaseDate::from).orElse(null))
+        .score(entity.getScore().map(Score::of).orElse(null))
+        .originalLanguage(entity.getOriginalLanguage().map(LanguageCode::of).orElse(null))
+        .overview(entity.getOverview().map(Overview::of).orElse(null))
+        .build();
     return Movie.rehydrate(id, publicId, sourceId, details, Version.of(entity.getVersion()));
+  }
+  
+  private MovieCreditEntity toMovieCreditEntity(MovieCredit credit, MovieEntity movie) {
+    var entity = new MovieCreditEntity();
+    entity.id(credit.id().value());
+    entity.movie(movie);
+    entity.source(credit.sourceId().provider());
+    entity.sourceId(credit.sourceId().id());
+    entity.personId(credit.personId());
+    entity.name(credit.name().value());
+    switch (credit) {
+      case CastCredit c -> {
+        entity.creditType(CreditType.CAST);
+        entity.role(c.character().value());
+        entity.order(c.order().value());
+      }
+      case CrewCredit c -> {
+        entity.creditType(CreditType.CREW);
+        entity.role(c.job().value());
+        entity.department(c.department().value());
+      }
+    }
+    return entity;
   }
 }

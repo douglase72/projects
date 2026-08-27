@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.kernel;
 
 import java.util.Locale;
 import java.util.Objects;

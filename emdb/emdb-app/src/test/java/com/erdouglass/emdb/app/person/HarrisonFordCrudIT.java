@@ -13,7 +13,6 @@ import java.util.Map;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.app.TestHelper;
-import com.erdouglass.emdb.media.Result;
+import com.erdouglass.emdb.media.movie.application.port.out.Result;
 import com.erdouglass.emdb.media.person.adapter.in.rest.SavePersonRequest;
 import com.erdouglass.emdb.media.person.adapter.in.rest.UpdatePersonRequest;
 
@@ -50,14 +49,13 @@ class HarrisonFordCrudIT {
     var start = Instant.now();
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
-    //assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
+    assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), Result.class);
     personId = result.id();
     version = result.version();    
     LOGGER.infof("Saved person: %s in %d ms", personId, et);
   }
   
-  @Disabled
   @Test
   @Order(2)
   void testFindSavedPerson() throws IOException, InterruptedException {
@@ -91,7 +89,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Found saved person: %s in %d ms", personId, et);    
   }
   
-  @Disabled
   @Test
   @Order(3)
   void testUpdatePerson() throws IOException, InterruptedException {
@@ -116,7 +113,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Updated person: %s in %d ms", personId, et);
   }
   
-  @Disabled
   @Test
   @Order(4)
   void testFindUpdatedPerson() throws IOException, InterruptedException {
@@ -150,7 +146,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Found updated person: %s in %d ms", personId, et);    
   }
   
-  @Disabled
   @Test
   @Order(5)
   void testDeletePerson() throws IOException, InterruptedException {

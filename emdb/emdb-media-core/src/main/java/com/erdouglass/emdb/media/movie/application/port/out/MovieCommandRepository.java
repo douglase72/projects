@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import jakarta.data.exceptions.OptimisticLockingFailureException;
 
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId;
 import com.erdouglass.emdb.media.movie.domain.Movie;
 import com.erdouglass.emdb.media.movie.domain.MoviePublicId;
 
@@ -26,7 +26,7 @@ public interface MovieCommandRepository {
   ///
   /// @param movie the unpersisted aggregate
   /// @return the persisted aggregate, now reporting a public id and version
-  Movie insert(Movie movie);
+  Movie add(Movie movie);
   
   /// Persists changes to an existing title, checking the version.
   ///

@@ -1,9 +1,9 @@
-package com.erdouglass.emdb.media.person;
+package com.erdouglass.emdb.media.person.application.port.in;
 
 import java.util.Objects;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId;
 
 /// The intended state of a person, addressed by its source id.
 ///

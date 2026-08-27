@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
 
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.kernel.SourceId.Source;
 import com.erdouglass.emdb.media.person.domain.Biography;
 import com.erdouglass.emdb.media.person.domain.Gender;
 import com.erdouglass.emdb.media.person.domain.Name;

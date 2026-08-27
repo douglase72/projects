@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import jakarta.data.exceptions.OptimisticLockingFailureException;
 
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId;
 import com.erdouglass.emdb.media.person.domain.Person;
 import com.erdouglass.emdb.media.person.domain.PersonPublicId;
 

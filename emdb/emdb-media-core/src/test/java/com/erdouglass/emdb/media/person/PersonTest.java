@@ -11,8 +11,8 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.erdouglass.common.util.DateTimeFactory;
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.kernel.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId.Source;
 import com.erdouglass.emdb.media.person.domain.Biography;
 import com.erdouglass.emdb.media.person.domain.BirthDate;
 import com.erdouglass.emdb.media.person.domain.DeathDate;

@@ -1,12 +1,13 @@
 package com.erdouglass.emdb.media.movie.domain;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
+
+import lombok.Builder;
 
 /// The mutable content of a title — everything about a movie that can change
 /// without it becoming a different movie.
@@ -26,12 +27,14 @@ import com.erdouglass.emdb.media.kernel.Title;
 /// @param score the aggregate rating from 0 to 10, if rated
 /// @param originalLanguage the language the title was produced in, if known
 /// @param overview the synopsis, if available
+/// @param credits the movie credits
+@Builder
 public record MovieDetails(
     Title title,
-    Optional<ReleaseDate> releaseDate,
-    Optional<Score> score,
-    Optional<LanguageCode> originalLanguage,
-    Optional<Overview> overview) {
+    ReleaseDate releaseDate,
+    Score score,
+    LanguageCode originalLanguage,
+    Overview overview) {
   
   public MovieDetails {
     Objects.requireNonNull(title, "title is required");

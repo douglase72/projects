@@ -1,14 +1,17 @@
 package com.erdouglass.emdb.media.person.adapter.out.persistence;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import jakarta.data.exceptions.OptimisticLockingFailureException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
+import com.erdouglass.emdb.media.person.application.port.out.PersonDirectory;
 import com.erdouglass.emdb.media.person.domain.Biography;
 import com.erdouglass.emdb.media.person.domain.BirthDate;
 import com.erdouglass.emdb.media.person.domain.DeathDate;
@@ -28,7 +31,7 @@ import com.erdouglass.emdb.media.person.domain.PersonPublicId;
 ///
 /// Holds no transaction of its own; callers supply one.
 @ApplicationScoped
-class PersonCommandAdapter implements PersonCommandRepository {
+class PersonCommandAdapter implements PersonCommandRepository, PersonDirectory {
   private static final long INITIAL_VERSION = 0L;
   
   @Inject
@@ -94,6 +97,11 @@ class PersonCommandAdapter implements PersonCommandRepository {
   @Override
   public Optional<Person> findBySourceId(SourceId sourceId) {
     return repository.findBySourceId(sourceId.provider(), sourceId.id()).map(this::toPerson);
+  }
+  
+  @Override
+  public Map<SourceId, PersonId> resolve(Set<SourceId> sourceIds) {
+    throw new UnsupportedOperationException();
   }
   
   /// Flattens an aggregate into a row.

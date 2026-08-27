@@ -6,8 +6,8 @@ import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.person.SavePersonCommand;
+import com.erdouglass.emdb.media.kernel.SourceId;
+import com.erdouglass.emdb.media.person.application.port.in.SavePersonCommand;
 import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonCommand;
 
 @Mapper(

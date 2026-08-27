@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media;
+package com.erdouglass.emdb.media.movie.application.port.out;
 
 /// What a write actually did, and the state the caller should hold afterwards.
 ///

@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.movie.adapter.out.persistence;
 
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.data.exceptions.OptimisticLockingFailureException;
@@ -9,7 +10,7 @@ import jakarta.data.repository.Insert;
 import jakarta.data.repository.Repository;
 import jakarta.data.repository.Update;
 
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.kernel.SourceId.Source;
 
 /// Jakarta Data repository for the write side of the movie table.
 ///
@@ -44,8 +45,8 @@ interface JakartaDataMovieCommandRepository {
   /// Deletes the row with the given key.
   ///
   /// @param id the numeric primary key
-  @Delete
-  void deleteById(Long id);
+  //@Delete
+  //void deleteById(Long id);
   
   /// Loads a row by primary key.
   ///
@@ -62,4 +63,7 @@ interface JakartaDataMovieCommandRepository {
   /// @return the row, or empty if the title has not been ingested yet
   @Find
   Optional<MovieEntity> findBySourceId(Source source, String sourceId);
+  
+  @Insert
+  void insertCredits(List<MovieCreditEntity> credits);
 }

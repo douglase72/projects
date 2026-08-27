@@ -1,6 +1,6 @@
 package com.erdouglass.emdb.media.person.application.port.in;
 
-import com.erdouglass.emdb.media.Result;
+import com.erdouglass.emdb.media.movie.application.port.out.Result;
 import com.erdouglass.emdb.media.person.domain.exception.PersonNotFoundException;
 import com.erdouglass.emdb.media.person.domain.exception.StalePersonException;
 

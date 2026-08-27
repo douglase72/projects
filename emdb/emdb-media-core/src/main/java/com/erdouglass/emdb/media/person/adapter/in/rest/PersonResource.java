@@ -14,11 +14,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.media.Result;
-import com.erdouglass.emdb.media.SourceId;
-import com.erdouglass.emdb.media.SourceId.Source;
-import com.erdouglass.emdb.media.person.SavePersonUseCase;
+import com.erdouglass.emdb.media.kernel.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId.Source;
+import com.erdouglass.emdb.media.movie.application.port.out.Result;
 import com.erdouglass.emdb.media.person.application.port.in.DeletePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonUseCase;
 import com.erdouglass.emdb.media.person.domain.PersonPublicId;
 import com.erdouglass.emdb.media.person.domain.exception.PersonNotFoundException;

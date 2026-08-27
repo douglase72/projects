@@ -1,21 +1,20 @@
-package com.erdouglass.emdb.media.movie;
+package com.erdouglass.emdb.media.person.application.port.in;
 
-import com.erdouglass.emdb.media.Result;
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.movie.application.port.out.Result;
 
-/// Ingestion port: upserts a title keyed by its source id.
+/// Ingestion port: upserts a person keyed by its source id.
 ///
-/// This is the entry point used when a caller pushes the state of a title as an
+/// This is the entry point used when a caller pushes the state of a person as an
 /// upstream source knows it, without knowing or caring whether the catalogue
-/// already holds that title. Because the key is [SourceId] rather than the
+/// already holds that person. Because the key is [TmdbId] rather than the
 /// catalogue id, the caller needs no prior read.
 ///
-/// Contrast with `UpdateMovieUseCase`, which keys on the catalogue id and
+/// Contrast with `UpdatePersonUseCase`, which keys on the catalogue id and
 /// requires the caller to supply the version it read. This port performs no
 /// optimistic-lock check: concurrent saves are last-writer-wins.
-public interface SaveMovieUseCase {
+public interface SavePersonUseCase {
 
-  /// Creates the title if no movie carries this source id, otherwise replaces the
+  /// Creates the person if no person carries this source id, otherwise replaces the
   /// stored details with the command's details.
   ///
   /// Every field-level difference is appended to the audit trail. When the
@@ -25,5 +24,5 @@ public interface SaveMovieUseCase {
   /// @param command the complete intended state of the title
   /// @return the catalogue id, the version as of the end of the call, and which
   ///         of create / update / no-op occurred
-  Result save(SaveMovieCommand command);
+  Result save(SavePersonCommand command);
 }

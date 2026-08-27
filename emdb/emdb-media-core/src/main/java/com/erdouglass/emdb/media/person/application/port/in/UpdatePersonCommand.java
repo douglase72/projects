@@ -6,7 +6,6 @@ import java.util.Optional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import com.erdouglass.emdb.media.person.PersonCommand;
 import com.erdouglass.emdb.media.person.domain.Name;
 
 public record UpdatePersonCommand(

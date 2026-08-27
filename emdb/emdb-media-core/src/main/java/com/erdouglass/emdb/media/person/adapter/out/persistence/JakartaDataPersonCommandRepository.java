@@ -9,7 +9,7 @@ import jakarta.data.repository.Insert;
 import jakarta.data.repository.Repository;
 import jakarta.data.repository.Update;
 
-import com.erdouglass.emdb.media.SourceId.Source;
+import com.erdouglass.emdb.media.kernel.SourceId.Source;
 
 /// Jakarta Data repository for the write side of the person table.
 ///

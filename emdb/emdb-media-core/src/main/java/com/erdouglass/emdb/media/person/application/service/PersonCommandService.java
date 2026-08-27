@@ -6,13 +6,13 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.Result;
-import com.erdouglass.emdb.media.Result.Status;
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.kernel.SourceId;
 import com.erdouglass.emdb.media.kernel.Version;
-import com.erdouglass.emdb.media.person.SavePersonCommand;
-import com.erdouglass.emdb.media.person.SavePersonUseCase;
+import com.erdouglass.emdb.media.movie.application.port.out.Result;
+import com.erdouglass.emdb.media.movie.application.port.out.Result.Status;
 import com.erdouglass.emdb.media.person.application.port.in.DeletePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.SavePersonCommand;
+import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonCommand;
 import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.out.PersonAuditRepository;

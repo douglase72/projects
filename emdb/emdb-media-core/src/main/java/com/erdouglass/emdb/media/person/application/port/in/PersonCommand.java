@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.person;
+package com.erdouglass.emdb.media.person.application.port.in;
 
 import java.util.Optional;
 
