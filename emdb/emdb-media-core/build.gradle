@@ -17,7 +17,6 @@ dependencies {
   implementation project(':common-graphql')
   implementation project(':common-rest')
   implementation project(':common-util')
-  implementation project(':emdb-media-api')
     
   implementation libs.jug
     

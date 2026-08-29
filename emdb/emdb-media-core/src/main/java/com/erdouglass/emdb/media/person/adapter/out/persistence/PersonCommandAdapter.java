@@ -1,140 +1,100 @@
 package com.erdouglass.emdb.media.person.adapter.out.persistence;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import jakarta.data.exceptions.OptimisticLockingFailureException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.erdouglass.emdb.media.SourceId;
+import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
-import com.erdouglass.emdb.media.person.domain.Biography;
-import com.erdouglass.emdb.media.person.domain.BirthDate;
-import com.erdouglass.emdb.media.person.domain.DeathDate;
-import com.erdouglass.emdb.media.person.domain.Name;
-import com.erdouglass.emdb.media.person.domain.Person;
-import com.erdouglass.emdb.media.person.domain.PersonDetails;
-import com.erdouglass.emdb.media.person.domain.PersonId;
-import com.erdouglass.emdb.media.person.domain.PersonPublicId;
+import com.erdouglass.emdb.media.person.application.port.out.PersonDirectory;
+import com.erdouglass.emdb.media.person.application.port.out.PersonStub;
+import com.erdouglass.emdb.media.person.domain.model.Biography;
+import com.erdouglass.emdb.media.person.domain.model.BirthDate;
+import com.erdouglass.emdb.media.person.domain.model.DeathDate;
+import com.erdouglass.emdb.media.person.domain.model.Name;
+import com.erdouglass.emdb.media.person.domain.model.Person;
+import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
+import com.erdouglass.emdb.media.person.domain.model.PersonId;
+import com.erdouglass.emdb.media.person.domain.model.PersonPublicId;
 
-/// Translates between the person aggregate and its persistent row.
-///
-/// The seam that keeps JPA out of the domain: everything above this class works
-/// in aggregates and value objects, everything below in entities and column
-/// types. Validation runs in both directions as a side effect of that
-/// translation, since rebuilding value objects re-applies their invariants — a
-/// row that violates them fails loudly on load rather than propagating.
-///
-/// Holds no transaction of its own; callers supply one.
 @ApplicationScoped
-class PersonCommandAdapter implements PersonCommandRepository {
-  private static final long INITIAL_VERSION = 0L;
+class PersonCommandAdapter implements PersonCommandRepository, PersonDirectory {
   
   @Inject
   JakartaDataPersonCommandRepository repository;
 
-  /// Writes a new person and returns it with its database-assigned identity.
-  ///
-  /// The returned aggregate is not the one passed in: it carries the public id
-  /// and version the database supplied, which the argument could not have had.
-  /// Callers must use the return value for anything that needs those, including
-  /// audit attribution.
-  ///
-  /// @param person the unpersisted aggregate
-  /// @return the persisted aggregate, now reporting a public id and version
   @Override
   public Person insert(Person person) {
-    return toPerson(repository.insert(toPersonEntity(person, INITIAL_VERSION)));
+    var entity = repository.insert(toPersonEntity(person)); 
+    return toPerson(entity);
   }
 
-  /// Writes a modified person, checking the optimistic-locking version.
-  ///
-  /// @param person the aggregate to persist, carrying the version it was read at
-  /// @return the persisted aggregate with the incremented version
-  /// @throws OptimisticLockingFailureException if the stored version has moved
-  ///         on since the aggregate was loaded
   @Override
   public Person update(Person person) {
-    var version = person.version().map(Version::value)
-        .orElseThrow(() -> new IllegalArgumentException("invalid version"));
-    return toPerson(repository.update(toPersonEntity(person, version)));
+    throw new UnsupportedOperationException();
   }
 
-  /// Removes the person with the given catalogue id.
-  ///
-  /// Deleting an id that no longer exists is not reported as an error here; the
-  /// service checks existence before calling, so it can produce a `404` and can
-  /// close out the audit trail first.
-  ///
-  /// @param publicId the catalogue id of the title to remove
   @Override
-  public void deleteByPublicId(PersonPublicId publicId) {
-    repository.deleteById(publicId.toLong());
-  }
-
-  /// Loads a person by its catalogue id.
-  ///
-  /// @param publicId the catalogue id
-  /// @return the rehydrated aggregate, or empty if none carries that id
-  /// @throws IllegalArgumentException if a stored value no longer satisfies its
-  ///         domain invariants
-  @Override
-  public Optional<Person> findByPublicId(PersonPublicId publicId) {
-    return repository.findById(publicId.toLong()).map(this::toPerson);
-  }
-
-  /// Loads a person by its natural id, the lookup that turns ingestion into an
-  /// upsert.
-  ///
-  /// @param sourceId the natural id from the upstream catalogue
-  /// @return the rehydrated aggregate, or empty if the title is new
-  /// @throws IllegalArgumentException if a stored value no longer satisfies its
-  ///         domain invariants
-  @Override
-  public Optional<Person> findBySourceId(SourceId sourceId) {
-    return repository.findBySourceId(sourceId.provider(), sourceId.id()).map(this::toPerson);
+  public Optional<Person> findByTmdbId(TmdbId tmdbId) {
+    return repository.findByTmdbIdId(tmdbId.value()).map(this::toPerson);
   }
   
-  /// Flattens an aggregate into a row.
-  ///
-  /// @param person the aggregate to flatten
-  /// @return the row to write
-  private PersonEntity toPersonEntity(Person person, long version) {
+  @Override
+  public Map<TmdbId, PersonPublicId> register(Set<PersonStub> stubs) {
+    var tmdbIds = stubs.stream().map(s -> s.tmdbId().value()).toList();
+    var existing = repository.findByTmdbIdIn(tmdbIds).stream()
+        .collect(Collectors.toMap(PersonEntity::getTmdbId, Function.identity()));
+    var stubsToInsert = stubs.stream()
+        .filter(c -> !existing.containsKey(c.tmdbId().value()))
+        .map(this::toPersonEntity)
+        .toList();
+    for (var stub : repository.insertAll(stubsToInsert)) {
+      existing.put(stub.getTmdbId(), stub);
+    }
+    return existing.entrySet().stream().collect(Collectors
+        .toMap(e -> TmdbId.of(e.getKey()), e -> PersonPublicId.from(e.getValue().getId())));
+  }
+  
+  private PersonEntity toPersonEntity(Person person) {
     var entity = new PersonEntity();
     entity.setId(person.publicId().map(PersonPublicId::toLong).orElse(null));
     entity.setSurrogateId(person.id().value());
-    entity.setSource(person.sourceId().provider());
-    entity.setSourceId(person.sourceId().id());
-    entity.setVersion(version);
-    entity.setName(person.details().name().value());
-    entity.setBirthDate(person.details().birthDate().map(BirthDate::toLocalDate).orElse(null));
-    entity.setDeathDate(person.details().deathDate().map(DeathDate::toLocalDate).orElse(null));
-    entity.setGender(person.details().gender().orElse(null));
-    entity.setBiography(person.details().biography().map(Biography::value).orElse(null));
+    entity.setTmdbId(person.tmdbId().value());
+    entity.setVersion(person.version().value());
+    entity.setName(person.name().value());
+    entity.setBirthDate(person.birthDate().map(BirthDate::toLocalDate).orElse(null));
+    entity.setDeathDate(person.deathDate().map(DeathDate::toLocalDate).orElse(null));
+    entity.setGender(person.gender().orElse(null));
+    entity.setBiography(person.biography().map(Biography::value).orElse(null));
     return entity;
   }
   
-  /// Rebuilds an aggregate from a row.
-  ///
-  /// Goes through `Person.rehydrate` rather than the creation factory, so a
-  /// locked title can be loaded and its stored identity is preserved rather than
-  /// regenerated. Every column passes back through its value object, so an
-  /// invalid row surfaces here.
-  ///
-  /// @param entity the row to rebuild from
-  /// @return the aggregate
-  /// @throws IllegalArgumentException if a stored value violates a domain invariant
+  private PersonEntity toPersonEntity(PersonStub stub) {
+    var entity = new PersonEntity();
+    entity.setSurrogateId(PersonId.newId().value());
+    entity.setTmdbId(stub.tmdbId().value());
+    entity.setName(stub.name().value());
+    return entity;
+  }
+  
   private Person toPerson(PersonEntity entity) {
     var id = PersonId.of(entity.getSurrogateId());
     var publicId = PersonPublicId.from(entity.getId());
-    var sourceId = SourceId.of(entity.getSource(), entity.getSourceId());
-    var details = new PersonDetails(
-        Name.of(entity.getName()),
-        entity.getBirthDate().map(BirthDate::from),
-        entity.getDeathDate().map(DeathDate::from),
-        entity.getGender(),
-        entity.getBiography().map(Biography::of));
-    return Person.rehydrate(id, publicId, sourceId, details, Version.of(entity.getVersion()));
+    var tmdbId = TmdbId.of(entity.getTmdbId());
+    var version = Version.of(entity.getVersion());
+    var details = PersonDetails.builder()
+        .name(Name.of(entity.getName()))
+        .birthDate(entity.getBirthDate().map(BirthDate::from).orElse(null))
+        .deathDate(entity.getDeathDate().map(DeathDate::from).orElse(null))
+        .gender(entity.getGender().orElse(null))
+        .biography(entity.getBiography().map(Biography::of).orElse(null))
+        .build();
+    return Person.rehydrate(id, publicId, tmdbId, version, details);
   }
 }
