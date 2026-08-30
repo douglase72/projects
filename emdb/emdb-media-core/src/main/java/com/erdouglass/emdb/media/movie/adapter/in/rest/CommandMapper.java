@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.erdouglass.emdb.media.kernel.LanguageCode;
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
@@ -20,7 +21,6 @@ import com.erdouglass.emdb.media.movie.domain.model.Department;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 import com.erdouglass.emdb.media.movie.domain.model.Role;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 
 final class CommandMapper {
 

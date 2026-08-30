@@ -2,6 +2,8 @@ package com.erdouglass.emdb.media.person.domain.model;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.media.kernel.Name;
+
 import lombok.Builder;
 
 @Builder

@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.movie.application.port.in;
 import java.util.List;
 import java.util.Objects;
 
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.TmdbCreditId;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.domain.model.CastDetails;
@@ -12,7 +13,6 @@ import com.erdouglass.emdb.media.movie.domain.model.CrewDetails;
 import com.erdouglass.emdb.media.movie.domain.model.Department;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.Role;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 import com.erdouglass.emdb.media.person.domain.model.PersonPublicId;
 
 import lombok.Builder;

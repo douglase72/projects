@@ -17,30 +17,6 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 
-/// Executable statement of the module's architecture.
-///
-/// The rules below are the ones that reviews keep having to make by hand:
-/// dependencies point inwards, the domain knows nothing about frameworks, and
-/// the outside world reaches the application only through ports. Each rule
-/// carries a `because` clause explaining what breaks if it is relaxed — read
-/// those before deleting one.
-///
-/// The layout the rules assume:
-///
-/// ```text
-/// media
-///  ├─ kernel                     value objects shared across media types
-///  └─ movie
-///      ├─ domain                 aggregate, value objects, domain rules
-///      ├─ application
-///      │   ├─ port.in            use case interfaces + their commands
-///      │   ├─ port.out           repository interfaces + read models
-///      │   └─ service            orchestration, transaction boundary
-///      └─ adapter
-///          ├─ in.rest            JAX-RS resources + request bodies
-///          ├─ in.graphql         GraphQL resolvers
-///          └─ out                JPA entities, Jakarta Data repositories
-/// ```
 @AnalyzeClasses(
     packages = ArchitectureTest.ROOT,
     importOptions = { ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludeJars.class })
@@ -49,7 +25,7 @@ class ArchitectureTest {
   static final String ROOT = "com.erdouglass.emdb";
 
   private static final String KERNEL = "com.erdouglass.emdb.media.kernel..";
-  private static final String DOMAIN = "com.erdouglass.emdb.media.domain..model..";
+  private static final String DOMAIN = "com.erdouglass.emdb.media..domain.model..";
   private static final String PORTS = "com.erdouglass.emdb.media..application.port..";
   private static final String PORTS_IN = "com.erdouglass.emdb.media..application.port.in..";
   private static final String PORTS_OUT = "com.erdouglass.emdb.media..application.port.out..";
@@ -72,7 +48,6 @@ class ArchitectureTest {
   /// `consideringOnlyDependenciesInLayers` ignores everything outside these
   /// packages — the JDK, the frameworks — so the rule speaks only about our own
   /// code. Framework leakage is handled separately below.
-  /*
   @ArchTest
   static final ArchRule layers_point_inwards = layeredArchitecture()
       .consideringOnlyDependenciesInLayers()
@@ -90,7 +65,6 @@ class ArchitectureTest {
 
       .because("an inward dependency can be tested and reasoned about in isolation; "
           + "an outward one drags the database and the HTTP layer into every test");
-  */
   
   /// Inbound and outbound adapters must not know about each other.
   ///
@@ -105,14 +79,12 @@ class ArchitectureTest {
           + "the persistence adapter means editing the REST layer");
 
   /// The domain must not reach outwards, in either direction.
-  /*
   @ArchTest
   static final ArchRule domain_depends_on_nothing_outside_itself = noClasses()
       .that().resideInAPackage(DOMAIN)
       .should().dependOnClassesThat().resideInAnyPackage(PORTS, SERVICES, ADAPTERS)
       .because("the aggregate defines the rules; it cannot also depend on the code "
           + "that invokes them without becoming untestable and circular");
-   */
   
   /// Ports are the boundary, so they may not name anything on the far side of it.
   @ArchTest
@@ -197,7 +169,6 @@ class ArchitectureTest {
       .because("the use case is the contract adapters compile against; a class "
           + "there is an implementation that has escaped the service package");
 
-  /*
   @ArchTest
   static final ArchRule outbound_ports_are_interfaces = classes()
       .that().resideInAPackage(PORTS_OUT)
@@ -207,7 +178,6 @@ class ArchitectureTest {
       .andShould().bePublic()
       .because("the application must be able to name its persistence needs without "
           + "naming an implementation of them");
-  */
 
   /// Every use case interface lives in `port.in` and nowhere else.
   ///
@@ -254,7 +224,6 @@ class ArchitectureTest {
   // Persistence stays behind the port
   // ---------------------------------------------------------------------------
 
-  /*
   @ArchTest
   static final ArchRule entities_live_in_the_persistence_adapter = classes()
       .that().areAnnotatedWith("jakarta.persistence.Entity")
@@ -262,7 +231,6 @@ class ArchitectureTest {
       .andShould().bePackagePrivate()
       .because("an entity is a row, not a model; the moment one is visible outside "
           + "the adapter it starts being passed around as if it were the domain");
-  */
   
   @ArchTest
   static final ArchRule entities_are_not_referenced_outside_the_adapter = noClasses()
@@ -280,14 +248,13 @@ class ArchitectureTest {
   static final ArchRule inbound_adapters_do_not_touch_the_aggregate = noClasses()
       .that().resideInAPackage(ADAPTERS_IN)
       .should().dependOnClassesThat().haveFullyQualifiedName(
-          "com.erdouglass.emdb.media.movie.domain.Movie")
+          "com.erdouglass.emdb.media.movie.domain.model.Movie")
       .because("a resource holding the aggregate will eventually apply a rule to it, "
           + "and that rule will not be enforced on the other transport");
   
   // ---------------------------------------------------------------------------
   // Aggregates
   // --------------------------------------------------------------------------- 
-  /*
   @ArchTest
   static final ArchRule aggregates_reference_by_id_only = noClasses()
       .that().resideInAPackage("..movie.domain..")
@@ -297,7 +264,6 @@ class ArchitectureTest {
                   JavaClass.Predicates.simpleNameEndingWith("Id"))))
       .because("an object reference across aggregates puts two roots, two versions "
           + "and two lifecycles inside one transaction");
-  */
   
   // ---------------------------------------------------------------------------
   // General hygiene

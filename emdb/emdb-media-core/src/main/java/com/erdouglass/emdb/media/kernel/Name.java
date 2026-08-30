@@ -1,9 +1,7 @@
-package com.erdouglass.emdb.media.person.domain.model;
+package com.erdouglass.emdb.media.kernel;
 
 import java.text.Normalizer;
 import java.util.Objects;
-
-import com.erdouglass.emdb.media.kernel.ValueObject;
 
 public record Name(String value) implements ValueObject<String> {
   public static final int MAX_LENGTH = 80;

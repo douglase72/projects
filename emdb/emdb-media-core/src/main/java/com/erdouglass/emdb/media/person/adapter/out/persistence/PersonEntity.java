@@ -16,9 +16,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
 
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.person.domain.model.Biography;
 import com.erdouglass.emdb.media.person.domain.model.Gender;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 
 @Entity
 @Table(

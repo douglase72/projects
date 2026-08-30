@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
@@ -17,7 +18,6 @@ import com.erdouglass.emdb.media.person.application.port.out.PersonStub;
 import com.erdouglass.emdb.media.person.domain.model.Biography;
 import com.erdouglass.emdb.media.person.domain.model.BirthDate;
 import com.erdouglass.emdb.media.person.domain.model.DeathDate;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 import com.erdouglass.emdb.media.person.domain.model.Person;
 import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
 import com.erdouglass.emdb.media.person.domain.model.PersonId;

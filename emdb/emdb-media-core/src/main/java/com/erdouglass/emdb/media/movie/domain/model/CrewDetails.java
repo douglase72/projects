@@ -2,8 +2,8 @@ package com.erdouglass.emdb.media.movie.domain.model;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.TmdbCreditId;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 import com.erdouglass.emdb.media.person.domain.model.PersonPublicId;
 
 import lombok.Builder;

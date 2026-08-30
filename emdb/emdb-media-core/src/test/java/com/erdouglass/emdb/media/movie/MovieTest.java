@@ -10,6 +10,7 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.erdouglass.emdb.media.kernel.LanguageCode;
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
@@ -24,7 +25,6 @@ import com.erdouglass.emdb.media.movie.domain.model.Movie;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 import com.erdouglass.emdb.media.movie.domain.model.Role;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 import com.erdouglass.emdb.media.person.domain.model.PersonPublicId;
 
 class MovieTest {

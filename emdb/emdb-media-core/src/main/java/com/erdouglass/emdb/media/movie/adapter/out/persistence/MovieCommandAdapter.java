@@ -1,6 +1,5 @@
 package com.erdouglass.emdb.media.movie.adapter.out.persistence;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
-import com.erdouglass.emdb.media.movie.adapter.out.persistence.MovieCreditEntity.CreditType;
+import com.erdouglass.emdb.media.movie.application.port.in.CreditType;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
 import com.erdouglass.emdb.media.movie.domain.model.CastDetails;
 import com.erdouglass.emdb.media.movie.domain.model.CrewDetails;
@@ -95,7 +94,7 @@ class MovieCommandAdapter implements MovieCommandRepository {
         .originalLanguage(entity.getOriginalLanguage().map(LanguageCode::of).orElse(null))
         .overview(entity.getOverview().map(Overview::of).orElse(null))
         .build();
-    return Movie.rehydrate(id, publicId, tmdbId, version, details, List.of());
+    return Movie.rehydrate(id, publicId, tmdbId, version, details);
   }
   
   private MovieCreditEntity toMovieCreditEntity(MovieCredit credit, MovieEntity movie) {

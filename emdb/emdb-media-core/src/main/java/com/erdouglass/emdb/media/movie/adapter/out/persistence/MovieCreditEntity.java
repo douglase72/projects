@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+import com.erdouglass.emdb.media.movie.application.port.in.CreditType;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
 import com.erdouglass.emdb.media.movie.domain.model.MovieCredit;
 import com.erdouglass.emdb.media.movie.domain.model.Role;
@@ -60,6 +61,4 @@ class MovieCreditEntity {
   private String tmdbId;
   
   MovieCreditEntity() {}
-  
-  public enum CreditType { CAST, CREW }
 }

@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.person.domain.model;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 

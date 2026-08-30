@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.movie.domain.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -64,9 +65,8 @@ public final class Movie {
       MoviePublicId publicId, 
       TmdbId tmdbId, 
       Version version, 
-      MovieDetails details, 
-      List<MovieCredit> credits) {
-    return new Movie(id, publicId, tmdbId, version, details, credits);
+      MovieDetails details) {
+    return new Movie(id, publicId, tmdbId, version, details, List.of());
   }
   
   public void update(MovieDetails details, List<CreditDetails> credits) {
@@ -120,7 +120,7 @@ public final class Movie {
         .collect(Collectors.toMap(MovieCredit::tmdbId, Function.identity()));
     var seen = new HashSet<TmdbCreditId>();
     
-    for (var credit : incoming) {
+    for (var credit : rankCast(incoming)) {
       if (!seen.add(credit.tmdbId())) {
         throw new IllegalArgumentException("duplicate credit: " + credit);
       }
@@ -135,5 +135,26 @@ public final class Movie {
       }
     }
     credits.removeIf(c -> !seen.contains(c.tmdbId()));
+  }
+  
+  /// Renumber the incoming cast to a dense, zero-based [CastOrder].
+  ///
+  /// TMDB's order is a hint: it may be absent, sparse, duplicated, or out of
+  /// sequence. Credits carrying a hint rank ahead of those without it; ties
+  /// keep the order in which TMDB listed them. Crew passes through untouched.
+  private static List<CreditDetails> rankCast(List<CreditDetails> incoming) {
+    var cast = incoming.stream()
+        .filter(CastDetails.class::isInstance)
+        .map(CastDetails.class::cast)
+        .sorted(Comparator.comparing(
+            CastDetails::order,
+            Comparator.nullsLast(Comparator.comparingInt(CastOrder::value))))
+        .toList();
+    var ranked = new ArrayList<CreditDetails>(incoming.size());
+    for (int i = 0; i < cast.size(); i++) {
+      ranked.add(cast.get(i).withOrder(CastOrder.of(i)));
+    }
+    incoming.stream().filter(CrewDetails.class::isInstance).forEach(ranked::add);
+    return ranked;    
   }
 }

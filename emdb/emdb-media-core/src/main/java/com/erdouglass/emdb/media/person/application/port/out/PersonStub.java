@@ -2,8 +2,8 @@ package com.erdouglass.emdb.media.person.application.port.out;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.TmdbId;
-import com.erdouglass.emdb.media.person.domain.model.Name;
 
 public record PersonStub(TmdbId tmdbId, Name name) {
 
