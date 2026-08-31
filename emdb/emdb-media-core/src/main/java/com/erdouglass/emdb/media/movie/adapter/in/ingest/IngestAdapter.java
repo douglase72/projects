@@ -4,18 +4,27 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.media.api.LoadMovieCommand;
+import com.erdouglass.emdb.media.api.LoadPersonCommand;
 import com.erdouglass.emdb.media.api.MediaFacade;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 
 @ApplicationScoped
 class IngestAdapter implements MediaFacade {
   
   @Inject
-  SaveMovieUseCase saveUseCase;
+  SaveMovieUseCase saveMovieUseCase;
+  
+  @Inject
+  SavePersonUseCase savePersonUseCase;
 
   @Override
   public void load(LoadMovieCommand command) {
-    var cmd = CommandMapper.toSaveMovieCommand(command);
-    saveUseCase.save(cmd);
+    saveMovieUseCase.save(MovieCommandMapper.toSaveMovieCommand(command));
+  }
+
+  @Override
+  public void load(LoadPersonCommand command) {
+    savePersonUseCase.save(PersonCommandMapper.toSavePersonCommand(command));    
   }
 }

@@ -2,6 +2,8 @@ package com.erdouglass.emdb.ingest.domain.model;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.ingest.api.IngestType;
+
 public final class Ingest {
   private final IngestId id;
   private final TmdbId tmdbId;

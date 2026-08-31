@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.domain.model;
+package com.erdouglass.emdb.ingest.api;
 
 import java.util.Map;
 import java.util.Objects;
@@ -14,23 +14,23 @@ public enum IngestType {
   private static final Map<String, IngestType> LOOKUP = Stream.of(values())
       .collect(Collectors.toMap(Object::toString, Function.identity()));
   
-  private final String type;
+  private final String mediaType;
   
-  IngestType(String type) {
-    this.type = type;
+  IngestType(String mediaType) {
+    this.mediaType = mediaType;
   }
   
-  public static IngestType from(String type) {
-    Objects.requireNonNull(type, "type is required");
-    var result = LOOKUP.get(type.toLowerCase().trim());
+  public static IngestType from(String mediaType) {
+    Objects.requireNonNull(mediaType, "type is required");
+    var result = LOOKUP.get(mediaType.toLowerCase().trim());
     if (result == null) {
-      throw new IllegalArgumentException("invalid type: " + type);
+      throw new IllegalArgumentException("invalid mediaType: " + mediaType);
     }
     return result;
   }
   
   @Override
   public String toString() {
-    return type;
+    return mediaType;
   }
 }

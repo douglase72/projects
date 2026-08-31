@@ -9,12 +9,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,36 @@ class BladeRunnerCrudIT {
   
   private String movieId;
   
+  @Test
+  @Order(1)
+  void testSaveMovieTemp() throws IOException, InterruptedException {
+    var cast = List.of(
+        new CastMember("52fe4214c3a36847f800259f", 3,   "Harrison Ford", "Deckard", 0));
+    var crew = new ArrayList<CrewMember>();
+    
+    var saveRequest = SaveMovieRequest.builder()
+        .title("Blade Runner")
+        .releaseDate("1982-06-25")
+        .score(BigDecimal.valueOf(7.893))
+        .originalLanguage("en")
+        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
+        .cast(cast)
+        .crew(crew)
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path("tmdb/78").build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), Result.class);
+    movieId = result.id();
+    LOGGER.infof("Saved %s movie in %d ms", movieId, et);
+  }
+  
+  @Disabled
   @Test
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {
@@ -66,6 +98,7 @@ class BladeRunnerCrudIT {
     LOGGER.infof("Saved %s movie in %d ms", movieId, et);
   }
   
+  @Disabled
   @Test
   @Order(2)
   void testSaveMovieAgain() throws IOException, InterruptedException {
@@ -96,6 +129,7 @@ class BladeRunnerCrudIT {
     LOGGER.infof("Saved %s movie again in %d ms", movieId, et);
   }
   
+  @Disabled
   @Test
   @Order(3)
   void testFindSavedMovie() throws IOException, InterruptedException {

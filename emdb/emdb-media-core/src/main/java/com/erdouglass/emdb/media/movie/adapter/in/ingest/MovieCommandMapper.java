@@ -12,9 +12,9 @@ import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
-final class CommandMapper {
+final class MovieCommandMapper {
 
-  private CommandMapper() { }
+  private MovieCommandMapper() { }
   
   public static SaveMovieCommand toSaveMovieCommand(LoadMovieCommand command) { 
     var details = MovieDetails.builder()

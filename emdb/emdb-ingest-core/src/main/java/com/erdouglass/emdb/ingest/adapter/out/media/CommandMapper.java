@@ -8,8 +8,10 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.ingest.application.port.out.Movie;
+import com.erdouglass.emdb.ingest.application.port.out.Person;
 import com.erdouglass.emdb.ingest.domain.model.TmdbId;
 import com.erdouglass.emdb.media.api.LoadMovieCommand;
+import com.erdouglass.emdb.media.api.LoadPersonCommand;
 
 @Mapper(
     componentModel = "cdi", 
@@ -20,7 +22,10 @@ import com.erdouglass.emdb.media.api.LoadMovieCommand;
 interface CommandMapper {
 
   @Mapping(source = "tmdbId", target = "tmdbId", qualifiedByName = "toValue")
-  LoadMovieCommand toSaveMovieCommand(Movie movie);
+  LoadMovieCommand toLoadMovieCommand(Movie movie);
+  
+  @Mapping(source = "tmdbId", target = "tmdbId", qualifiedByName = "toValue")
+  LoadPersonCommand toLoadPersonCommand(Person person);
   
   @Named("toValue")
   default Integer toTmdbId(TmdbId tmdbId) {

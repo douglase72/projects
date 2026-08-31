@@ -9,8 +9,12 @@ import com.erdouglass.emdb.media.movie.domain.model.CreditDetails;
 import com.erdouglass.emdb.media.person.domain.model.PersonPublicId;
 
 public sealed interface CreditSpec permits CastSpec, CrewSpec {
+  
   TmdbCreditId tmdbId();
+  
   TmdbId personId();
+  
   Name name();
+  
   CreditDetails toDetails(PersonPublicId person);
 }

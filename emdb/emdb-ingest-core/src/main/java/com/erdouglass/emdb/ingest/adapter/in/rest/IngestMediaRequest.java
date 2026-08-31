@@ -6,9 +6,9 @@ import jakarta.validation.constraints.Positive;
 
 public record IngestMediaRequest(
     @NotNull @Positive Integer tmdbId,
-    @NotBlank String type) {
+    @NotBlank String ingestType) {
   
-  public static IngestMediaRequest of(Integer tmdbId, String type) {
-    return new IngestMediaRequest(tmdbId, type);
+  public static IngestMediaRequest of(Integer tmdbId, String ingestType) {
+    return new IngestMediaRequest(tmdbId, ingestType);
   }
 }

@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.ingest.application.port.out.Media;
 import com.erdouglass.emdb.ingest.application.port.out.Movie;
+import com.erdouglass.emdb.ingest.application.port.out.Person;
 import com.erdouglass.emdb.media.api.MediaFacade;
 
 /// Anti-corruption layer between the Ingest bounded context and the Media 
@@ -21,7 +22,13 @@ class MediaAdapter implements Media {
 
   @Override
   public void save(Movie movie) {
-    var command = mapper.toSaveMovieCommand(movie);
+    var command = mapper.toLoadMovieCommand(movie);
+    facade.load(command);
+  }
+
+  @Override
+  public void save(Person person) {
+    var command = mapper.toLoadPersonCommand(person);
     facade.load(command);
   }
 }

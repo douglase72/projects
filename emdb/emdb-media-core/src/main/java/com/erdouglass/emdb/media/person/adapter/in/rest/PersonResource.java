@@ -9,6 +9,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
@@ -22,15 +23,13 @@ class PersonResource {
   
   @Inject
   SavePersonUseCase saveUseCase;
-
-  @Inject
-  UriInfo uriInfo;
   
   @PUT
   @Path("/tmdb/{id}")
   public Response save(
       @NotNull @Positive @PathParam("id") Integer id,
-      @NotNull @Valid SavePersonRequest request) {
+      @NotNull @Valid SavePersonRequest request,
+      @Context UriInfo uriInfo) {
     var command = CommandMapper.toSavePersonCommand(id, request);
     var result = saveUseCase.save(command);
     return switch (result.status()) {

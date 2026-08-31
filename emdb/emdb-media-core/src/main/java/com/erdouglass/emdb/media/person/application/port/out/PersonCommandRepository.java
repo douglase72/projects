@@ -9,7 +9,7 @@ public interface PersonCommandRepository {
   
   Person insert(Person person);
   
-  Person update(Person person);
+  void update(Person person);
   
   Optional<Person> findByTmdbId(TmdbId tmdbId);
 }

@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
 import com.erdouglass.emdb.media.kernel.Name;
@@ -27,6 +28,9 @@ import com.erdouglass.emdb.media.person.domain.model.PersonPublicId;
 class PersonCommandAdapter implements PersonCommandRepository, PersonDirectory {
   
   @Inject
+  Event<PersonsRegisteredEvent> emitter;
+  
+  @Inject
   JakartaDataPersonCommandRepository repository;
 
   @Override
@@ -36,8 +40,8 @@ class PersonCommandAdapter implements PersonCommandRepository, PersonDirectory {
   }
 
   @Override
-  public Person update(Person person) {
-    throw new UnsupportedOperationException();
+  public void update(Person person) {
+    repository.update(toPersonEntity(person)); 
   }
 
   @Override
@@ -54,9 +58,10 @@ class PersonCommandAdapter implements PersonCommandRepository, PersonDirectory {
         .filter(c -> !existing.containsKey(c.tmdbId().value()))
         .map(this::toPersonEntity)
         .toList();
-    for (var stub : repository.insertAll(stubsToInsert)) {
-      existing.put(stub.getTmdbId(), stub);
+    for (var entity : repository.insertAll(stubsToInsert)) {
+      existing.put(entity.getTmdbId(), entity);
     }
+    emitter.fire(PersonsRegisteredEvent.of(stubsToInsert.stream().map(PersonEntity::getTmdbId).toList()));
     return existing.entrySet().stream().collect(Collectors
         .toMap(e -> TmdbId.of(e.getKey()), e -> PersonPublicId.from(e.getValue().getId())));
   }

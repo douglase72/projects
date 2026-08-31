@@ -22,7 +22,7 @@ class IngestConsumer {
   @Incoming("ingest-media-in")
   Uni<Void> onMessage(Message<IngestId> message) {
     try {
-      ingestUseCase.execute(message.getPayload());
+      ingestUseCase.ingest(message.getPayload());
       return Uni.createFrom().completionStage(message.ack());
     } catch (Exception e) {
       return Uni.createFrom().completionStage(message.nack(e));

@@ -17,7 +17,7 @@ class SubmitIngestService implements SubmitIngestUseCase {
 
   @Override
   public IngestId submit(IngestMediaCommand command) {
-    var ingest = Ingest.submit(command.tmdbId(), command.type());
+    var ingest = Ingest.submit(command.tmdbId(), command.mediaType());
     queue.publish(ingest.id());
     return ingest.id();
   }

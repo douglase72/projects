@@ -47,6 +47,12 @@ class PersonCommandService implements SavePersonUseCase {
   }
   
   private Result update(Person existing, SavePersonCommand command) {
-    throw new UnsupportedOperationException();
+    existing.update(command.details());
+    people.update(existing);
+    LOGGER.infof("Saved: %s", existing);
+    return Result.of(
+        existing.publicId().map(PersonPublicId::value).orElseThrow(),
+        existing.version().value(), 
+        Status.UPDATED);
   }
 }
