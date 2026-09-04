@@ -1,32 +1,35 @@
 package com.erdouglass.emdb.media.person.application.service;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.kernel.Result;
-import com.erdouglass.emdb.media.kernel.Result.Status;
+import com.erdouglass.emdb.media.kernel.AggregateId;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand.Reference;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.Result;
+import com.erdouglass.emdb.media.person.application.port.in.Result.Status;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonCommand;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
 import com.erdouglass.emdb.media.person.domain.model.Person;
+import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
 
 @ApplicationScoped
-class PersonCommandService implements SavePersonUseCase {
+class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
   private static final Logger LOGGER = Logger.getLogger(PersonCommandService.class);
   
   @Inject
   PersonCommandRepository people;
 
-  /// Save the person described by the command.
-  /// 
-  /// Create the person if they do not already exist, otherwise update the 
-  /// existing person.
-  /// 
-  /// @param command the command that describes the [Person]
-  /// @return the result
   @Override
   @Transactional
   public Result save(SavePersonCommand command) {
@@ -35,17 +38,35 @@ class PersonCommandService implements SavePersonUseCase {
         .orElseGet(() -> insert(command));
   }
   
+  @Override
+  @Transactional
+  public Map<TmdbId, AggregateId> resolve(ResolvePersonCommand command) {
+    var tmdbIds = command.references().stream().map(Reference::tmdbId).toList();
+    var existing = people.findByTmdbIdIn(tmdbIds).stream()
+        .collect(Collectors.toMap(Person::tmdbId, Function.identity()));    
+    var stubs = command.references().stream()
+        .filter(r -> !existing.containsKey(r.tmdbId()))
+        .map(r -> Person.create(r.tmdbId(), PersonDetails.builder().name(r.name()).build()))
+        .toList();
+    for (var person : people.insertAll(stubs)) {
+      existing.put(person.tmdbId(), person);
+      LOGGER.debugf("Resolved: %s", person);
+    } 
+    return existing.values().stream()
+        .collect(Collectors.toMap(Person::tmdbId, Person::id));
+  }
+  
   private Result insert(SavePersonCommand command) {
     var person = Person.create(command.tmdbId(), command.details());
     var inserted = people.insert(person);
-    LOGGER.infof("Saved: %s", inserted);
+    LOGGER.debugf("Saved: %s", inserted);
     return Result.of(inserted.id(), inserted.version(), Status.CREATED);
   }
   
   private Result update(Person existing, SavePersonCommand command) {
     existing.update(command.details());
     var updated = people.update(existing);
-    LOGGER.infof("Saved: %s", updated);
+    LOGGER.debugf("Saved: %s", updated);
     return Result.of(updated.id(), updated.version(), Status.UPDATED);
   }
 }

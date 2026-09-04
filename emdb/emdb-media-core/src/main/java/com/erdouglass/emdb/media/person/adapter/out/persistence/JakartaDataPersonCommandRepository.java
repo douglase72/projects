@@ -15,9 +15,15 @@ interface JakartaDataPersonCommandRepository {
   @Insert
   PersonEntity insert(PersonEntity entity);
   
+  @Insert
+  List<PersonEntity> insertAll(List<PersonEntity> people);
+  
   @Update
   PersonEntity update(PersonEntity entity);
   
   @Find
-  Optional<PersonEntity> findByTmdbIdId(Integer tmdbId);
+  Optional<PersonEntity> findByTmdbId(Integer tmdbId);
+  
+  @Query("WHERE tmdbId IN :tmdbIds")
+  List<PersonEntity> findByTmdbIdIn(List<Integer> tmdbIds);
 }

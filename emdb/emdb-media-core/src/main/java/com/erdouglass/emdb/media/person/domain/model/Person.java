@@ -9,14 +9,12 @@ import com.erdouglass.emdb.media.kernel.Version;
 
 /// Person aggregate.
 ///
-/// A person carries three identifiers, each with a different lifetime and a
+/// A person carries two identifiers, each with a different lifetime and a
 /// different audience:
 ///
 /// * [PersonId] — surrogate id assigned by the application when the aggregate is
 ///   created. This is the Java identity used by [#equals(Object)] and
 ///   [#hashCode()], and it is never exposed to the public.
-/// * [PersonPublicId] — public-facing id derived from the key the database
-///   assigns on first insert. Absent until the aggregate has been persisted.
 /// * [TmdbId] — natural id supplied by the upstream catalogue, present from
 ///   creation and never reassigned.
 public final class Person {

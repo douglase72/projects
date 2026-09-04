@@ -21,8 +21,10 @@ import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
     packages = ArchitectureTest.ROOT,
     importOptions = { ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludeJars.class })
 class ArchitectureTest {
-
   static final String ROOT = "com.erdouglass.emdb";
+  private static final DescribedPredicate<JavaClass> BUILDERS =
+      DescribedPredicate.describe("builders",
+          c -> c.isAnnotatedWith("lombok.Generated") || c.getSimpleName().endsWith("Builder"));
 
   private static final String KERNEL = "com.erdouglass.emdb.media.kernel..";
   private static final String DOMAIN = "com.erdouglass.emdb.media..domain.model..";
@@ -100,7 +102,7 @@ class ArchitectureTest {
       .should().beFreeOfCycles()
       .because("a cycle between domain, application and adapter means none of the "
           + "three can be understood, tested or replaced on its own");
-
+  
   // ---------------------------------------------------------------------------
   // Domain purity
   // ---------------------------------------------------------------------------
@@ -150,6 +152,7 @@ class ArchitectureTest {
   @ArchTest
   static final ArchRule kernel_fields_are_final = fields()
       .that().areDeclaredInClassesThat().resideInAPackage(KERNEL)
+      .and().areDeclaredInClassesThat(DescribedPredicate.not(BUILDERS))
       .and().areNotStatic()
       .should().beFinal()
       .because("a value object that can change is not a value; equality and the "
@@ -264,6 +267,12 @@ class ArchitectureTest {
                   JavaClass.Predicates.simpleNameEndingWith("Id"))))
       .because("an object reference across aggregates puts two roots, two versions "
           + "and two lifecycles inside one transaction");
+  
+  @ArchTest
+  static final ArchRule movie_core_never_touches_person =
+          noClasses().that().resideInAPackage("..media.movie..")
+                  .and().resideOutsideOfPackage("..media.movie.adapter..")
+                  .should().dependOnClassesThat().resideInAPackage("..media.person..");
   
   // ---------------------------------------------------------------------------
   // General hygiene

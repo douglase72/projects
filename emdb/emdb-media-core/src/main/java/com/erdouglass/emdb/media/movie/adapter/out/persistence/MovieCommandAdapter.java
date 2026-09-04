@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.media.movie.adapter.out.persistence;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -11,8 +13,12 @@ import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.movie.adapter.out.persistence.MovieCreditEntity.CreditType;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
+import com.erdouglass.emdb.media.movie.domain.model.CastCredit;
+import com.erdouglass.emdb.media.movie.domain.model.CrewCredit;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
+import com.erdouglass.emdb.media.movie.domain.model.MovieCredit;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.MovieId;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
@@ -25,12 +31,36 @@ class MovieCommandAdapter implements MovieCommandRepository {
 
   @Override
   public Movie insert(Movie movie) {
-    return toMovie(repository.insert(toMovieEntity(movie))); 
+    var entity = repository.insert(toMovieEntity(movie)); 
+    var credits = movie.credits().stream().map(c -> toMovieCreditEntity(c, entity)).toList();
+    if (!credits.isEmpty()) {
+      repository.insertCredits(credits);
+    }
+    return toMovie(entity); 
   }
 
   @Override
   public Movie update(Movie movie) {
-    return toMovie(repository.update(toMovieEntity(movie))); 
+    var entity = repository.update(toMovieEntity(movie)); 
+    var current = movie.credits().stream().map(c -> toMovieCreditEntity(c, entity)).toList();
+    var currentIds = current.stream().map(MovieCreditEntity::getId).collect(Collectors.toSet());
+    var storedIds = Set.copyOf(repository.findCreditIds(entity.getId()));
+    
+    var creditsToDelete = storedIds.stream().filter(id -> !currentIds.contains(id)).toList();
+    if (!creditsToDelete.isEmpty()) {
+      repository.deleteCredits(entity.getId(), creditsToDelete);
+    }
+    
+    var creditsToUpdate = current.stream().filter(c -> storedIds.contains(c.getId())).toList();
+    if (!creditsToUpdate.isEmpty()) {
+      repository.updateCredits(creditsToUpdate);
+    }
+    
+    var creditsToInsert = current.stream().filter(c -> !storedIds.contains(c.getId())).toList();
+    if (!creditsToInsert.isEmpty()) {
+      repository.insertCredits(creditsToInsert);
+    }    
+    return toMovie(entity); 
   }
 
   @Override
@@ -63,5 +93,27 @@ class MovieCommandAdapter implements MovieCommandRepository {
         .overview(entity.getOverview().map(Overview::of).orElse(null))
         .build();
     return Movie.rehydrate(id, tmdbId, version, details);
+  }
+  
+  private MovieCreditEntity toMovieCreditEntity(MovieCredit credit, MovieEntity movie) {
+    var entity = new MovieCreditEntity();
+    entity.setId(credit.id().value());
+    entity.setTmdbId(credit.tmdbId().value());
+    entity.setMovie(movie);
+    entity.setPersonId(credit.personId().value());
+    entity.setName(credit.name().value());
+    switch (credit) {
+      case CastCredit c -> {
+        entity.setCreditType(CreditType.CAST);
+        entity.setRole(c.character().value());
+        entity.setOrder(c.order().value());
+      }
+      case CrewCredit c -> {
+        entity.setCreditType(CreditType.CREW);
+        entity.setRole(c.job().value());
+        entity.setDepartment(c.department().value());
+      }
+    }
+    return entity;
   }
 }

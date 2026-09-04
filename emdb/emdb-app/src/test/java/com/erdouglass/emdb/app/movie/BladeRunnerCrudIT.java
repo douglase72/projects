@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.ws.rs.core.UriBuilder;
@@ -23,6 +24,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.MovieResponse;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest;
+import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest.CastMember;
+import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest.CrewMember;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -34,12 +37,20 @@ class BladeRunnerCrudIT {
   @Test
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {
+    var cast = List.of(
+        new CastMember("52fe4214c3a36847f800259f", 3,   "Harrison Ford", "Deckard", 0),
+        new CastMember("52fe4214c3a36847f80025a3", 585, "Rutger Hauer", "Batty", 1));
+    var crew = List.of(
+        new CrewMember("52fe4214c3a36847f8002595", 578, "Ridley Scott", "Director", "Directing"));  
+    
     var saveRequest = SaveMovieRequest.builder()
         .title("Blade Runner")
         .releaseDate("1982-06-25")
         .score(BigDecimal.valueOf(7.893))
         .originalLanguage("en")
         .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
+        .cast(cast)
+        .crew(crew)
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
@@ -57,11 +68,18 @@ class BladeRunnerCrudIT {
   @Test
   @Order(2)
   void testSaveMovieAgain() throws IOException, InterruptedException {
+    var cast = List.of(
+        new CastMember("52fe4214c3a36847f800259f", 3,   "Harrison Ford", "Deckard", 0));
+    var crew = List.of(
+        new CrewMember("52fe4214c3a36847f8002595", 578, "Ridley Scott", "Producer", "Directing")); 
+    
     var saveRequest = SaveMovieRequest.builder()
         .title("X")
         .score(BigDecimal.valueOf(5.6))
         .originalLanguage("en")
         .overview("Test overview.")
+        .cast(cast)
+        .crew(crew)
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))

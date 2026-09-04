@@ -1,5 +1,6 @@
 package com.erdouglass.emdb.media.person.adapter.out.persistence;
 
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,6 +27,14 @@ class PersonCommandAdapter implements PersonCommandRepository {
   public Person insert(Person person) {
     return toPerson(repository.insert(toPersonEntity(person)));
   }
+  
+  @Override
+  public List<Person> insertAll(List<Person> people) {
+    return repository.insertAll(people.stream().map(this::toPersonEntity).toList())
+        .stream()
+        .map(this::toPerson)
+        .toList();
+  }
 
   @Override
   public Person update(Person person) {
@@ -34,7 +43,15 @@ class PersonCommandAdapter implements PersonCommandRepository {
 
   @Override
   public Optional<Person> findByTmdbId(TmdbId tmdbId) {
-    return repository.findByTmdbIdId(tmdbId.value()).map(this::toPerson);
+    return repository.findByTmdbId(tmdbId.value()).map(this::toPerson);
+  }
+  
+  @Override
+  public List<Person> findByTmdbIdIn(List<TmdbId> tmdbIds) {
+    return repository.findByTmdbIdIn(tmdbIds.stream().map(TmdbId::value).toList())
+        .stream()
+        .map(this::toPerson)
+        .toList();
   }
   
   private PersonEntity toPersonEntity(Person person) {
