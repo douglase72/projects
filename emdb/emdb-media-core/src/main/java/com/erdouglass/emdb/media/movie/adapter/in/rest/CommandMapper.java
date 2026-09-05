@@ -2,6 +2,7 @@ package com.erdouglass.emdb.media.movie.adapter.in.rest;
 
 import java.util.stream.Stream;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.CastOrder;
 import com.erdouglass.emdb.media.kernel.Department;
 import com.erdouglass.emdb.media.kernel.LanguageCode;
@@ -11,7 +12,6 @@ import com.erdouglass.emdb.media.kernel.Role;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbCreditId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest.CastMember;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest.CrewMember;
 import com.erdouglass.emdb.media.movie.application.port.in.CreditSpec;
@@ -34,8 +34,8 @@ final class CommandMapper {
         .overview(request.overview() != null ? Overview.of(request.overview()) : null)
         .build();
     var credits = Stream.<CreditSpec>concat(
-        request.cast().stream().map(CommandMapper::toCastSpec),
-        request.crew().stream().map(CommandMapper::toCrewSpec))
+        request.cast() != null ? request.cast().stream().map(CommandMapper::toCastSpec) : Stream.empty(),
+        request.crew() != null ? request.crew().stream().map(CommandMapper::toCrewSpec) : Stream.empty())
         .toList();
     return SaveMovieCommand.of(TmdbId.of(tmdbId), details, credits);
   }

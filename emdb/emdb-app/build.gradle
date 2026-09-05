@@ -10,6 +10,7 @@ dependencies {
   implementation enforcedPlatform(libs.quarkus.bom)
   
   implementation project(':common-rest')
+  implementation project(':emdb-ingest-core')
   implementation project(':emdb-media-core')
   
   implementation libs.jakarta.data.api
@@ -19,6 +20,8 @@ dependencies {
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.jdbc.postgresql
   implementation libs.quarkus.logging
+  implementation libs.quarkus.messaging
+  implementation libs.quarkus.messaging.rabbitmq 
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
   implementation libs.quarkus.rest.client.jackson

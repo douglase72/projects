@@ -193,7 +193,13 @@ private Result insert(SaveMovieCommand command) {
 ```java
 package com.example.catalog.application;
 
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toMap; /// Save the person described by the command.
+  /// 
+  /// Create the person if they do not already exist, otherwise update the 
+  /// existing person.
+  /// 
+  /// @param command the command that describes the [Person]
+  /// @return the result
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.Credit;
 import com.erdouglass.emdb.media.kernel.Credit.CastDto;
 import com.erdouglass.emdb.media.kernel.Credit.CrewDto;
@@ -16,7 +17,6 @@ import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbCreditId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 
 /// Movie aggregate.

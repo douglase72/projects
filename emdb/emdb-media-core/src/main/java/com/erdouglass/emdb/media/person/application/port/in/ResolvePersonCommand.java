@@ -3,8 +3,8 @@ package com.erdouglass.emdb.media.person.application.port.in;
 import java.util.Objects;
 import java.util.Set;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.Name;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 
 public record ResolvePersonCommand(Set<Reference> references) {
 

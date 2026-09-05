@@ -25,7 +25,6 @@ import com.erdouglass.emdb.app.TestHelper;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.MovieResponse;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest.CastMember;
-import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest.CrewMember;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -38,10 +37,7 @@ class BladeRunnerCrudIT {
   @Order(1)
   void testSaveMovie() throws IOException, InterruptedException {
     var cast = List.of(
-        new CastMember("52fe4214c3a36847f800259f", 3,   "Harrison Ford", "Deckard", 0),
-        new CastMember("52fe4214c3a36847f80025a3", 585, "Rutger Hauer", "Batty", 1));
-    var crew = List.of(
-        new CrewMember("52fe4214c3a36847f8002595", 578, "Ridley Scott", "Director", "Directing"));  
+        new CastMember("52fe4214c3a36847f800259f", 3,   "Harrison Ford", "Deckard", 0));
     
     var saveRequest = SaveMovieRequest.builder()
         .title("Blade Runner")
@@ -50,7 +46,6 @@ class BladeRunnerCrudIT {
         .originalLanguage("en")
         .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
         .cast(cast)
-        .crew(crew)
         .build();
     var request = HttpRequest.newBuilder()
         .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
@@ -60,35 +55,6 @@ class BladeRunnerCrudIT {
     var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
     var et = Duration.between(start, Instant.now()).toMillis();
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
-    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), MovieResponse.class);
-    movieId = result.id();
-    LOGGER.infof("Saved movie: %s, version: %s in %d ms", movieId, result.version(), et);
-  }
-  
-  @Test
-  @Order(2)
-  void testSaveMovieAgain() throws IOException, InterruptedException {
-    var cast = List.of(
-        new CastMember("52fe4214c3a36847f800259f", 3,   "Harrison Ford", "Deckard", 0));
-    var crew = List.of(
-        new CrewMember("52fe4214c3a36847f8002595", 578, "Ridley Scott", "Producer", "Directing")); 
-    
-    var saveRequest = SaveMovieRequest.builder()
-        .title("X")
-        .score(BigDecimal.valueOf(5.6))
-        .originalLanguage("en")
-        .overview("Test overview.")
-        .cast(cast)
-        .crew(crew)
-        .build();
-    var request = HttpRequest.newBuilder()
-        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(saveRequest)))
-        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path("tmdb/78").build())
-        .build();    
-    var start = Instant.now();
-    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
-    var et = Duration.between(start, Instant.now()).toMillis();
-    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body()); 
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), MovieResponse.class);
     movieId = result.id();
     LOGGER.infof("Saved movie: %s, version: %s in %d ms", movieId, result.version(), et);

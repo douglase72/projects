@@ -2,8 +2,8 @@ package com.erdouglass.emdb.media.person.application.port.in;
 
 import java.util.Map;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.AggregateId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 
 public interface ResolvePersonUseCase {
 

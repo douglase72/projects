@@ -2,7 +2,7 @@ package com.erdouglass.emdb.media.person.application.port.in;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
 
 public record SavePersonCommand(

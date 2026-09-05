@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.AggregateId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.application.port.out.PersonCredit;
 import com.erdouglass.emdb.media.movie.application.port.out.ResolvePeople;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand;

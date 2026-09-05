@@ -10,6 +10,7 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.CastOrder;
 import com.erdouglass.emdb.media.kernel.Credit;
 import com.erdouglass.emdb.media.kernel.Credit.CastDto;
@@ -22,7 +23,6 @@ import com.erdouglass.emdb.media.kernel.Role;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbCreditId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.domain.model.CastCredit;
 import com.erdouglass.emdb.media.movie.domain.model.CrewCredit;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;

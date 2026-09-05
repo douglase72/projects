@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.movie.adapter.out.persistence.MovieCreditEntity.CreditType;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;

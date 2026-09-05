@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.kernel;
+package com.erdouglass.emdb.media.api;
 
 import java.util.Objects;
 

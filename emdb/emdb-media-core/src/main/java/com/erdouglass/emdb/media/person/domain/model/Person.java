@@ -1,10 +1,15 @@
 package com.erdouglass.emdb.media.person.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.erdouglass.common.util.DateTimeFactory;
+import com.erdouglass.emdb.media.api.EventId;
+import com.erdouglass.emdb.media.api.PersonStubCreated;
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.Name;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 
 /// Person aggregate.
@@ -21,6 +26,7 @@ public final class Person {
   private final PersonId id;
   private final TmdbId tmdbId;
   private final Version version;
+  private final List<PersonStubCreated> events = new ArrayList<>();
   
   private PersonDetails details;
   
@@ -40,6 +46,13 @@ public final class Person {
     return person;
   }
   
+  public static Person stub(TmdbId tmdbId, Name name) {
+    var details = PersonDetails.builder().name(name).build();
+    Person person = new Person(PersonId.newId(), tmdbId, Version.of(0L), details);
+    person.events.add(PersonStubCreated.of(EventId.newId(), DateTimeFactory.now(), tmdbId));
+    return person;
+  }  
+  
   public static Person rehydrate(
       PersonId id, 
       TmdbId tmdbId, 
@@ -50,6 +63,12 @@ public final class Person {
   
   public void update(PersonDetails details) {
     this.details = Objects.requireNonNull(details, "details are required");
+  }
+  
+  public List<PersonStubCreated> pullEvents() {
+    List<PersonStubCreated> toReturn = List.copyOf(events);
+    events.clear();
+    return toReturn;
   }
   
   public PersonId id() { return id; } 

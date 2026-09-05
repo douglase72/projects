@@ -3,7 +3,7 @@ package com.erdouglass.emdb.media.person.application.port.out;
 import java.util.List;
 import java.util.Optional;
 
-import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.person.domain.model.Person;
 
 public interface PersonCommandRepository {

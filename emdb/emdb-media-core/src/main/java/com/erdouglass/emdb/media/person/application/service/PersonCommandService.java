@@ -10,8 +10,8 @@ import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.AggregateId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand.Reference;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonUseCase;
@@ -20,12 +20,15 @@ import com.erdouglass.emdb.media.person.application.port.in.Result.Status;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonCommand;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
+import com.erdouglass.emdb.media.person.application.port.out.PersonEventPublisher;
 import com.erdouglass.emdb.media.person.domain.model.Person;
-import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
 
 @ApplicationScoped
 class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
   private static final Logger LOGGER = Logger.getLogger(PersonCommandService.class);
+  
+  @Inject
+  PersonEventPublisher events;
   
   @Inject
   PersonCommandRepository people;
@@ -39,19 +42,19 @@ class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
   }
   
   @Override
-  @Transactional
   public Map<TmdbId, AggregateId> resolve(ResolvePersonCommand command) {
     var tmdbIds = command.references().stream().map(Reference::tmdbId).toList();
     var existing = people.findByTmdbIdIn(tmdbIds).stream()
         .collect(Collectors.toMap(Person::tmdbId, Function.identity()));    
     var stubs = command.references().stream()
         .filter(r -> !existing.containsKey(r.tmdbId()))
-        .map(r -> Person.create(r.tmdbId(), PersonDetails.builder().name(r.name()).build()))
+        .map(r -> Person.stub(r.tmdbId(), r.name()))
         .toList();
     for (var person : people.insertAll(stubs)) {
       existing.put(person.tmdbId(), person);
       LOGGER.debugf("Resolved: %s", person);
     } 
+    events.publish(stubs.stream().flatMap(s -> s.pullEvents().stream()).toList());
     return existing.values().stream()
         .collect(Collectors.toMap(Person::tmdbId, Person::id));
   }

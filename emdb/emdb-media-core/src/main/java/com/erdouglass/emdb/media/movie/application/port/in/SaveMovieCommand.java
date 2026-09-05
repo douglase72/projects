@@ -3,7 +3,7 @@ package com.erdouglass.emdb.media.movie.application.port.in;
 import java.util.List;
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 
 public record SaveMovieCommand(

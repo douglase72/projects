@@ -2,12 +2,12 @@ package com.erdouglass.emdb.media.movie.application.port.in;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.CastOrder;
 import com.erdouglass.emdb.media.kernel.Department;
 import com.erdouglass.emdb.media.kernel.Name;
 import com.erdouglass.emdb.media.kernel.Role;
 import com.erdouglass.emdb.media.kernel.TmdbCreditId;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.application.port.in.CreditSpec.CastSpec;
 import com.erdouglass.emdb.media.movie.application.port.in.CreditSpec.CrewSpec;
 

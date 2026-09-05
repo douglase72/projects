@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.Name;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.person.domain.model.Biography;
 import com.erdouglass.emdb.media.person.domain.model.BirthDate;
 import com.erdouglass.emdb.media.person.domain.model.Gender;

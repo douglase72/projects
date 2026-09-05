@@ -1,7 +1,7 @@
 package com.erdouglass.emdb.media.person.adapter.in.rest;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.Name;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonCommand;
 import com.erdouglass.emdb.media.person.domain.model.Biography;
 import com.erdouglass.emdb.media.person.domain.model.BirthDate;

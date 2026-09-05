@@ -2,8 +2,8 @@ package com.erdouglass.emdb.media.movie.application.port.out;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.Name;
-import com.erdouglass.emdb.media.kernel.TmdbId;
 
 public record PersonCredit(TmdbId tmdbId, Name name) {
 
