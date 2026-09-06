@@ -1,0 +1,8 @@
+curl -X POST -s -w "\nHTTP Status: %{http_code}\n" http://localhost:60310/emdb/graphql \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "query { movie(id: 1) { id tmdbId title releaseDate score status runtime budget revenue 
+              backdrop poster homepage originalLanguage tagline overview credits 
+              { cast { creditId id name gender profile character order } 
+                crew { creditId id name gender profile job } } } }"
+  }'

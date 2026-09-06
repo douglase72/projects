@@ -1,0 +1,603 @@
+Fable 5.1
+
+com.erdouglass.emdb.media
+├── kernel                          TmdbId, Name, AggregateId — the only types both slices speak
+├── movie
+│   ├── application.port.out        ResolvePersonsPort            what movie needs, in movie's words
+│   ├── application.service         MovieCommandService           injects the port; imports nothing from person
+│   └── adapter.out.person          ResolvePersonsAdapter         implements the port by calling person's in-port
+└── person
+    ├── application.port.in         ResolvePersonsUseCase, ResolvePersonsCommand   (was PersonResolver)
+    └── application.service         ResolvePersonsService, package-private          (was StubbingPersonResolver)
+
+# CatalogMovie — application service
+
+# Person resolution across feature slices
+
+## person/application/port/in — the person slice's public API
+
+```java
+package com.erdouglass.emdb.media.person.application.port.in;
+
+import java.util.List;
+
+import com.erdouglass.emdb.media.kernel.Name;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+
+public record ResolvePersonsCommand(List<Reference> references) {
+
+    public ResolvePersonsCommand {
+        references = List.copyOf(references);
+    }
+
+    public record Reference(TmdbId tmdbId, Name name) {}
+}
+```
+
+```java
+package com.erdouglass.emdb.media.person.application.port.in;
+
+import java.util.Map;
+
+import com.erdouglass.emdb.media.kernel.AggregateId;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+
+public interface ResolvePersonsUseCase {
+
+    /**
+     * Guarantees a Person exists for every reference, creating stubs for unknown people, and
+     * returns their ids keyed by TmdbId. Joins the caller's transaction; each new stub's
+     * PersonStubCreated is in the outbox when this returns.
+     */
+    Map<TmdbId, AggregateId> resolve(ResolvePersonsCommand command);
+}
+```
+
+## person/application/service/ResolvePersonsService.java
+
+```java
+package com.erdouglass.emdb.media.person.application.service;
+
+import static java.util.stream.Collectors.toMap;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.erdouglass.emdb.media.kernel.AggregateId;
+import com.erdouglass.emdb.media.kernel.Name;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonsCommand;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonsCommand.Reference;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonsUseCase;
+import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
+import com.erdouglass.emdb.media.person.application.port.out.PublishEventsPort;
+import com.erdouglass.emdb.media.person.domain.model.Person;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
+@ApplicationScoped
+class ResolvePersonsService implements ResolvePersonsUseCase {
+
+    @Inject PersonCommandRepository persons;
+    @Inject PublishEventsPort events;   // person's own out-port; the shared outbox adapter sits behind it
+
+    @Override
+    @Transactional   // REQUIRED: joins MovieCommandService's transaction when called through the movie adapter
+    public Map<TmdbId, AggregateId> resolve(ResolvePersonsCommand command) {
+        Map<TmdbId, Name> wanted = command.references().stream()
+                .collect(toMap(Reference::tmdbId, Reference::name, (first, dup) -> first, LinkedHashMap::new));
+        if (wanted.isEmpty()) {
+            return Map.of();
+        }
+
+        Map<TmdbId, AggregateId> ids = new HashMap<>();
+        for (Person known : persons.findByTmdbIdIn(wanted.keySet())) {
+            ids.put(known.tmdbId(), known.id());
+        }
+
+        List<Person> stubs = wanted.entrySet().stream()
+                .filter(e -> !ids.containsKey(e.getKey()))
+                .map(e -> Person.stub(AggregateId.next(), e.getKey(), e.getValue()))
+                .toList();
+        if (stubs.isEmpty()) {
+            return ids;
+        }
+
+        // Unique constraint on person.tmdb_id makes the concurrent-insert race fail the transaction;
+        // the driving adapter's retry re-runs the whole use case and finds the stub on attempt two.
+        persons.insertAll(stubs);
+        events.publish(stubs.stream().flatMap(stub -> stub.pullDomainEvents().stream()).toList());
+
+        stubs.forEach(stub -> ids.put(stub.tmdbId(), stub.id()));
+        return ids;
+    }
+}
+```
+
+## movie/application/port/out/ResolvePersonsPort.java — what movie needs, in movie's words
+
+```java
+package com.erdouglass.emdb.media.movie.application.port.out;
+
+import java.util.Collection;
+import java.util.Map;
+
+import com.erdouglass.emdb.media.kernel.AggregateId;
+import com.erdouglass.emdb.media.kernel.Name;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+
+public interface ResolvePersonsPort {
+
+    Map<TmdbId, AggregateId> resolve(Collection<CreditedPerson> people);
+
+    record CreditedPerson(TmdbId tmdbId, Name name) {}
+}
+```
+
+## movie/adapter/out/person/ResolvePersonsAdapter.java — the only crossing point
+
+```java
+package com.erdouglass.emdb.media.movie.adapter.out.person;
+
+import java.util.Collection;
+import java.util.Map;
+
+import com.erdouglass.emdb.media.kernel.AggregateId;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.movie.application.port.out.ResolvePersonsPort;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonsCommand;
+import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonsUseCase;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
+class ResolvePersonsAdapter implements ResolvePersonsPort {
+
+    @Inject ResolvePersonsUseCase resolvePersons;   // the only import from the person slice anywhere in movie
+
+    @Override
+    public Map<TmdbId, AggregateId> resolve(Collection<CreditedPerson> people) {
+        var references = people.stream()
+                .map(p -> new ResolvePersonsCommand.Reference(p.tmdbId(), p.name()))
+                .toList();
+        return resolvePersons.resolve(new ResolvePersonsCommand(references));
+    }
+}
+```
+
+## movie/application/service/MovieCommandService.java — the change
+
+```java
+@Inject MovieCommandRepository movies;
+@Inject ResolvePersonsPort persons;   // movie's own port; the adapter above is wired in by CDI
+
+private Result insert(SaveMovieCommand command) {
+    var personIds = persons.resolve(command.credits().stream()
+            .map(c -> new CreditedPerson(c.tmdbId(), c.name()))
+            .toList());
+
+    var movie = Movie.create(command.tmdbId(), command.details(), command.credits(), personIds); // however Movie builds its MovieCredits
+    var inserted = movies.insert(movie);
+    LOGGER.infof("Saved: %s", inserted);
+    return Result.of(inserted.id(), inserted.version(), Status.CREATED);
+}
+
+// update(existing, command) makes the same persons.resolve(...) call if credits can change.
+```
+
+## application/CatalogMovieService.java
+
+```java
+package com.example.catalog.application;
+
+import static java.util.stream.Collectors.toMap; /// Save the person described by the command.
+  /// 
+  /// Create the person if they do not already exist, otherwise update the 
+  /// existing person.
+  /// 
+  /// @param command the command that describes the [Person]
+  /// @return the result
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.example.catalog.application.CatalogMovieCommand.Credit;
+import com.example.catalog.application.port.DomainEvents;
+import com.example.catalog.application.port.MovieRepository;
+import com.example.catalog.application.port.PersonRepository;
+import com.example.catalog.domain.DomainEvent;
+import com.example.catalog.domain.Movie;
+import com.example.catalog.domain.MovieCredit;
+import com.example.catalog.domain.MovieId;
+import com.example.catalog.domain.Person;
+import com.example.catalog.domain.PersonId;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
+/**
+ * Catalogs a movie coming from an external source (TMDB).
+ *
+ * The transaction boundary lives here: person stubs, the Movie aggregate and the outbox rows
+ * for their domain events commit or roll back together. Nothing in this class talks to a
+ * broker or to TMDB; enrichment happens later, driven by the events written to the outbox.
+ */
+@ApplicationScoped
+public class CatalogMovieService implements CatalogMovieUseCase {
+
+    @Inject MovieRepository movies;
+    @Inject PersonRepository people;
+    @Inject DomainEvents events;
+
+    @Override
+    @Transactional
+    public MovieId catalog(CatalogMovieCommand command) {
+        // Idempotent on the movie's natural key: a re-run of the importer, or the second attempt
+        // after a stub-insert conflict (see TransientFailures), just returns the existing id.
+        return movies.byTmdbId(command.tmdbId())
+                .map(Movie::id)
+                .orElseGet(() -> catalogNew(command));
+    }
+
+    private MovieId catalogNew(CatalogMovieCommand command) {
+        ResolvedPeople resolved = resolvePeople(command.credits());
+
+        // Credits reference people by identity only; the Movie aggregate never holds a Person.
+        List<MovieCredit> credits = command.credits().stream()
+                .map(c -> new MovieCredit(resolved.ids().get(c.personTmdbId()), c.kind(), c.role(), c.order()))
+                .toList();
+
+        Movie movie = Movie.catalog(MovieId.next(), command.tmdbId(), command.title(),
+                command.releaseDate(), credits);
+        movies.insert(movie);
+
+        // Events raised by the aggregates (one PersonStubCreated per new stub, MovieCataloged)
+        // go to the outbox inside this same transaction. The relay publishes them after commit.
+        List<DomainEvent> raised = new ArrayList<>();
+        resolved.newStubs().forEach(stub -> raised.addAll(stub.pullDomainEvents()));
+        raised.addAll(movie.pullDomainEvents());
+        events.publish(raised);
+
+        return movie.id();
+    }
+
+    /**
+     * Maps every credited TMDB person id to our PersonId, creating stubs for people we have
+     * never seen. Identity is generated in the domain, so a MovieCredit can hold its PersonId
+     * before anything is written.
+     */
+    private ResolvedPeople resolvePeople(List<Credit> credits) {
+        // The same person can appear several times in one credit list (actor and producer, say).
+        Map<Long, String> wanted = credits.stream()
+                .collect(toMap(Credit::personTmdbId, Credit::personName, (first, dup) -> first, LinkedHashMap::new));
+        if (wanted.isEmpty()) {
+            return new ResolvedPeople(Map.of(), List.of());
+        }
+
+        Map<Long, PersonId> ids = new HashMap<>();
+        for (Person known : people.byTmdbIds(wanted.keySet())) {
+            ids.put(known.tmdbId(), known.id());
+        }
+
+        List<Person> stubs = wanted.entrySet().stream()
+                .filter(e -> !ids.containsKey(e.getKey()))
+                .map(e -> Person.stub(PersonId.next(), e.getKey(), e.getValue()))
+                .toList();
+
+        // Race: another import may insert one of these tmdbIds between the lookup above and this
+        // insert. The unique constraint on person.tmdb_id then fails the flush or the commit, and
+        // JPA marks the transaction rollback-only — it cannot be caught and recovered here. The
+        // caller retries the whole use case outside the transaction; attempt two finds the stub.
+        people.insertAll(stubs);
+        stubs.forEach(stub -> ids.put(stub.tmdbId(), stub.id()));
+
+        return new ResolvedPeople(ids, stubs);
+    }
+
+    private record ResolvedPeople(Map<Long, PersonId> ids, List<Person> newStubs) {}
+}
+```
+
+## application/CatalogMovieUseCase.java and CatalogMovieCommand.java
+
+```java
+package com.example.catalog.application;
+
+import com.example.catalog.domain.MovieId;
+
+/** Driving port. Adapters (TMDB importer, REST endpoint, ...) depend on this, never on the service. */
+public interface CatalogMovieUseCase {
+    MovieId catalog(CatalogMovieCommand command);
+}
+```
+
+```java
+package com.example.catalog.application;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import com.example.catalog.domain.CreditKind;
+
+public record CatalogMovieCommand(long tmdbId, String title, LocalDate releaseDate, List<Credit> credits) {
+
+    public CatalogMovieCommand {
+        credits = List.copyOf(credits);
+    }
+
+    /** One line of a TMDB credit list. The person's name is all a stub needs. */
+    public record Credit(long personTmdbId, String personName, CreditKind kind, String role, int order) {}
+}
+```
+
+## application/port — Jakarta Data repositories as driven ports
+
+The repository interfaces *are* the ports; the Jakarta Data provider generates the adapter. `CrudRepository` gives `insert`/`insertAll`, which fail on an existing row instead of silently upserting — that is what makes the stub race visible.
+
+```java
+package com.example.catalog.application.port;
+
+import java.util.Optional;
+
+import com.example.catalog.domain.Movie;
+import com.example.catalog.domain.MovieId;
+import jakarta.data.repository.By;
+import jakarta.data.repository.CrudRepository;
+import jakarta.data.repository.Find;
+import jakarta.data.repository.Repository;
+
+@Repository
+public interface MovieRepository extends CrudRepository<Movie, MovieId> {
+
+    @Find
+    Optional<Movie> byTmdbId(@By("tmdbId") long tmdbId);
+}
+```
+
+```java
+package com.example.catalog.application.port;
+
+import java.util.List;
+import java.util.Set;
+
+import com.example.catalog.domain.Person;
+import com.example.catalog.domain.PersonId;
+import jakarta.data.repository.CrudRepository;
+import jakarta.data.repository.Param;
+import jakarta.data.repository.Query;
+import jakarta.data.repository.Repository;
+
+@Repository
+public interface PersonRepository extends CrudRepository<Person, PersonId> {
+
+    /**
+     * Batch lookup by natural key. JDQL itself only spells out `in` items explicitly; a
+     * collection-valued parameter relies on the JPA-backed provider accepting JPQL/HQL here.
+     */
+    @Query("where tmdbId in :ids")
+    List<Person> byTmdbIds(@Param("ids") Set<Long> ids);
+}
+```
+
+## application/port/DomainEvents.java and adapter/out/outbox/TransactionalOutbox.java
+
+```java
+package com.example.catalog.application.port;
+
+import java.util.List;
+
+import com.example.catalog.domain.DomainEvent;
+
+/**
+ * Driven port. The adapter must enlist in the caller's transaction (write through the same
+ * persistence unit as the aggregates). Publishing straight to a broker from here would break
+ * the "events commit with the state" guarantee.
+ */
+public interface DomainEvents {
+    void publish(List<? extends DomainEvent> events);
+}
+```
+
+```java
+package com.example.catalog.adapter.out.outbox;
+
+import java.util.List;
+import java.util.UUID;
+
+import com.example.catalog.application.port.DomainEvents;
+import com.example.catalog.domain.DomainEvent;
+import jakarta.data.repository.CrudRepository;
+import jakarta.data.repository.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+
+@ApplicationScoped
+public class TransactionalOutbox implements DomainEvents {
+
+    @Inject OutboxMessages outbox;
+    private final Jsonb jsonb = JsonbBuilder.create();
+
+    @Override
+    public void publish(List<? extends DomainEvent> events) {
+        // Same persistence unit as Movie and Person, so these rows are part of the caller's
+        // transaction. A poller or Debezium relays rows with published_at IS NULL to the broker.
+        outbox.insertAll(events.stream().map(this::toMessage).toList());
+    }
+
+    private OutboxMessage toMessage(DomainEvent event) {
+        return new OutboxMessage(
+                event.eventId(),
+                event.getClass().getSimpleName(),   // "PersonStubCreated" — what the relay routes on
+                event.aggregateId(),                // message key: keeps one person's events ordered
+                jsonb.toJson(event),
+                event.occurredAt());                // published_at stays null until the relay sends it
+    }
+}
+
+@Repository
+interface OutboxMessages extends CrudRepository<OutboxMessage, UUID> {}
+```
+
+## domain — the parts the service relies on
+
+```java
+package com.example.catalog.domain;
+
+import java.util.UUID;
+
+public record PersonId(UUID value) {
+    /** Time-ordered (UUIDv7) so inserts stay index-friendly; generated here, not by the database. */
+    public static PersonId next() { return new PersonId(Uuids.v7()); }
+}
+// MovieId has the same shape.
+```
+
+```java
+package com.example.catalog.domain;
+
+import java.time.Instant;
+import java.util.UUID;
+
+public interface DomainEvent {
+    UUID eventId();
+    Instant occurredAt();
+    String aggregateId();
+}
+
+public record PersonStubCreated(UUID eventId, Instant occurredAt, PersonId personId, long tmdbId)
+        implements DomainEvent {
+
+    @Override
+    public String aggregateId() { return personId.value().toString(); }
+}
+```
+
+```java
+package com.example.catalog.domain;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+/** Person aggregate. Mapping elided except for what the use case depends on. */
+@Entity
+@Table(name = "person", uniqueConstraints = @UniqueConstraint(columnNames = "tmdb_id"))
+public class Person {
+
+    @EmbeddedId private PersonId id;             // or map the record via an AttributeConverter
+    @Column(name = "tmdb_id") private long tmdbId;
+    private String name;
+    @Enumerated(EnumType.STRING) private Status status;
+    // gender, birthDate, deathDate, biography, placeOfBirth, profilePath, lastSyncedAt ...
+    @Version private long version;
+
+    @Transient private final List<DomainEvent> pendingEvents = new ArrayList<>();
+
+    protected Person() {} // JPA
+
+    /** The only way a movie import brings a Person into existence: identity, natural key, display name. */
+    public static Person stub(PersonId id, long tmdbId, String name) {
+        Person person = new Person();
+        person.id = id;
+        person.tmdbId = tmdbId;
+        person.name = name;
+        person.status = Status.STUB;
+        person.pendingEvents.add(new PersonStubCreated(UUID.randomUUID(), Instant.now(), id, tmdbId));
+        return person;
+    }
+
+    /** Called by EnrichPersonDetails, in its own transaction, with the ACL-translated TMDB profile. */
+    public void enrich(PersonProfile profile) {
+        // copy fields, status = ENRICHED, lastSyncedAt = now, raise PersonEnriched
+    }
+
+    public List<DomainEvent> pullDomainEvents() {
+        List<DomainEvent> events = List.copyOf(pendingEvents);
+        pendingEvents.clear();
+        return events;
+    }
+
+    public PersonId id() { return id; }
+    public long tmdbId() { return tmdbId; }
+
+    public enum Status { STUB, ENRICHED }
+}
+```
+
+## adapter/in/tmdb — where the stub-race retry lives
+
+The retry has to sit outside the `@Transactional` method. Once a flush or commit fails, JPA marks the JTA transaction rollback-only, so a try/catch inside `CatalogMovieService` — or a CDI decorator around it, since interceptors run before decorators — would retry inside a doomed transaction. The driving adapter is the natural place; it already owns per-item failure handling.
+
+```java
+package com.example.catalog.adapter.in.tmdb;
+
+import com.example.catalog.application.CatalogMovieCommand;
+import com.example.catalog.application.CatalogMovieUseCase;
+import com.example.catalog.domain.MovieId;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
+public class TmdbMovieImporter {
+
+    @Inject CatalogMovieUseCase catalogMovie;
+    @Inject TmdbClient tmdb;   // MicroProfile Rest Client or similar
+
+    public MovieId importMovie(long tmdbMovieId) {
+        // Anti-corruption layer: TMDB DTOs → command in our vocabulary
+        CatalogMovieCommand command = TmdbTranslator.toCommand(tmdb.movieWithCredits(tmdbMovieId));
+
+        // A lost stub-insert race (or a concurrent import of the same movie) surfaces as a
+        // rolled-back transaction. The second attempt finds the stub — or the movie — and succeeds.
+        return TransientFailures.retry(3, () -> catalogMovie.catalog(command));
+    }
+}
+```
+
+```java
+package com.example.catalog.adapter.in.tmdb;
+
+import java.sql.SQLException;
+import java.util.function.Supplier;
+
+final class TransientFailures {
+
+    private TransientFailures() {}
+
+    static <T> T retry(int attempts, Supplier<T> action) {
+        for (int attempt = 1; ; attempt++) {
+            try {
+                return action.get();
+            } catch (RuntimeException e) {
+                if (attempt == attempts || !isTransient(e)) {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    /**
+     * Walks the cause chain — TransactionalException → RollbackException → provider exception →
+     * SQLException — and looks at the SQLState class: 23 = integrity constraint (our stub race),
+     * 40 = serialization failure / deadlock. Both are safe to retry from a fresh transaction.
+     */
+    private static boolean isTransient(Throwable t) {
+        for (Throwable cause = t; cause != null; cause = cause.getCause()) {
+            if (cause instanceof SQLException sql && sql.getSQLState() != null
+                    && (sql.getSQLState().startsWith("23") || sql.getSQLState().startsWith("40"))) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
