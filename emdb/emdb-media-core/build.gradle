@@ -9,12 +9,15 @@ version = '1.0.0-SNAPSHOT'
 dependencies {
   compileOnly         enforcedPlatform(libs.quarkus.bom)
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
-  annotationProcessor libs.lombok
+  annotationProcessor libs.lombok 
   annotationProcessor libs.hibernate.processor
+  annotationProcessor libs.mapstruct.processor
   
   implementation project(':common-rest')
   implementation project(':common-util')
   implementation project(':emdb-media-api')
+  
+  implementation libs.jug
         
   compileOnly libs.jakarta.cdi.api
   compileOnly libs.jakarta.data.api
@@ -23,6 +26,8 @@ dependencies {
   compileOnly libs.jakarta.ws.rs.api
   compileOnly libs.jboss.logging
   compileOnly libs.lombok
+  compileOnly libs.mapstruct
+  compileOnly libs.microprofile.graphql.api
   compileOnly libs.quarkus.hibernate.orm
   
   testImplementation enforcedPlatform(libs.quarkus.bom)

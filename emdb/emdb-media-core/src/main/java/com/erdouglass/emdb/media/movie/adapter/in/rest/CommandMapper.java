@@ -6,14 +6,13 @@ import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovie;
-import com.erdouglass.emdb.media.movie.domain.command.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
 final class CommandMapper {
   
   private CommandMapper() { }
   
-  public static SaveMovieCommand toSaveMovieCommand(Integer tmdbId, SaveMovieRequest request) {
+  public static SaveMovie toSaveMovieCommand(Integer tmdbId, SaveMovieRequest request) {
     return SaveMovie.builder()
         .tmdbId(TmdbId.of(tmdbId))
         .title(Title.of(request.title()))

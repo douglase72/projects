@@ -9,10 +9,11 @@ import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.Score;
+import com.erdouglass.emdb.media.kernel.SurrogateId;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.Version;
-import com.erdouglass.emdb.media.movie.domain.command.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.domain.command.RehydrateMovieCommand;
+import com.erdouglass.emdb.media.movie.domain.command.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.domain.command.UpdateMovieCommand;
 import com.erdouglass.emdb.media.movie.domain.exception.StaleMovieException;
 
@@ -24,8 +25,8 @@ public final class Movie extends AggregateRoot {
   private Overview overview;
   
   private Movie(
-      MovieId id, 
-      PublicId publicId, 
+      PublicId id, 
+      SurrogateId surrogateId, 
       TmdbId tmdbId,
       Version version,
       Title title,
@@ -33,7 +34,7 @@ public final class Movie extends AggregateRoot {
       Score score,
       LanguageCode originalLanguage,
       Overview overview) {
-    super(id, publicId, tmdbId, version);
+    super(id, surrogateId, tmdbId, version);
     this.title = Objects.requireNonNull(title, "movie title is required");
     this.releaseDate = releaseDate;
     this.score = score;
@@ -43,7 +44,7 @@ public final class Movie extends AggregateRoot {
   
   public static Movie create(SaveMovieCommand command) {
     return new Movie(
-        MovieId.newId(), 
+        PublicId.newId(), 
         null, 
         command.tmdbId(),
         Version.of(0L),
@@ -57,7 +58,7 @@ public final class Movie extends AggregateRoot {
   public static Movie rehydrate(RehydrateMovieCommand command) {
     return new Movie(
         command.id(), 
-        command.publicId(), 
+        command.surrogateId(), 
         command.tmdbId(),
         command.version(),
         command.title(),
@@ -87,7 +88,7 @@ public final class Movie extends AggregateRoot {
   @Override
   public String toString() {
     return getClass().getSimpleName() + "[id=" + id().value() 
-        + ", publicId=" + publicId().map(PublicId::value).orElse(null)
+        + ", surrogateId=" + surrogateId().map(SurrogateId::value).orElse(null)
         + ", tmdbId=" + tmdbId().value()
         + ", version=" + version().value()
         + ", title=" + title().value()

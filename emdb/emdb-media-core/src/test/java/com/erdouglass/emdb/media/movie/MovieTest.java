@@ -14,7 +14,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.erdouglass.emdb.media.api.TmdbId;
 import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
-import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.Version;
@@ -68,7 +67,7 @@ class MovieTest {
     assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview().get().value());
     
     var updateCommand = UpdateMovie.builder()
-        .publicId(PublicId.of(1L))
+        .id(movie.id())
         .version(Version.of(0L))
         .title(Title.of("X"))
         .score(Score.of(BigDecimal.valueOf(1.2)))

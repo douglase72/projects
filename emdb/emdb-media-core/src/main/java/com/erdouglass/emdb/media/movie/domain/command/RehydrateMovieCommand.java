@@ -5,15 +5,15 @@ import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.Score;
+import com.erdouglass.emdb.media.kernel.SurrogateId;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.Version;
-import com.erdouglass.emdb.media.movie.domain.model.MovieId;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
 public interface RehydrateMovieCommand {
 
-  MovieId id();
-  PublicId publicId();
+  PublicId id();
+  SurrogateId surrogateId();
   TmdbId tmdbId();
   Version version();
   Title title();

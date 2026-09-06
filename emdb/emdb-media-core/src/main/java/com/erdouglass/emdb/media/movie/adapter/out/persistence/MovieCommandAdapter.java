@@ -10,11 +10,11 @@ import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.Score;
+import com.erdouglass.emdb.media.kernel.SurrogateId;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
-import com.erdouglass.emdb.media.movie.domain.model.MovieId;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
 @ApplicationScoped
@@ -34,8 +34,8 @@ class MovieCommandAdapterimplements implements MovieCommandRepository {
   }
 
   @Override
-  public Optional<Movie> findByPublicId(PublicId publicId) {
-    return repository.findByPublicId(publicId.value()).map(this::toMovie);
+  public Optional<Movie> findBySurrogateId(SurrogateId surrogateId) {
+    return repository.findBySurrogateId(surrogateId.value()).map(this::toMovie);
   }
 
   @Override
@@ -45,8 +45,8 @@ class MovieCommandAdapterimplements implements MovieCommandRepository {
   
   private MovieEntity toMovieEntity(Movie movie) {
     var entity = new MovieEntity();
-    entity.setId(movie.publicId().map(PublicId::value).orElse(null));
-    entity.setAggregateId(movie.id().value());
+    entity.setId(movie.surrogateId().map(SurrogateId::value).orElse(null));
+    entity.setPublicId(movie.id().value());
     entity.setTmdbId(movie.tmdbId().value());
     entity.setVersion(movie.version().value());
     entity.setTitle(movie.title().value());
@@ -59,8 +59,8 @@ class MovieCommandAdapterimplements implements MovieCommandRepository {
   
   private Movie toMovie(MovieEntity entity) {
     var command = RehydrateMovie.builder()
-        .id(MovieId.of(entity.getAggregateId()))
-        .publicId(PublicId.of(entity.getId()))
+        .id(PublicId.of(entity.getPublicId()))
+        .surrogateId(SurrogateId.of(entity.getId()))
         .tmdbId(TmdbId.of(entity.getTmdbId()))
         .version(Version.of(entity.getVersion()))
         .title(Title.of(entity.getTitle()))

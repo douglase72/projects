@@ -34,7 +34,10 @@ class MovieResource {
     var result = saveUseCase.save(command);
     return switch (result.status()) {
       case CREATED -> Response
-        .created(uriInfo.getBaseUriBuilder().path(MovieResource.class).path(result.id().toString()).build())
+        .created(uriInfo.getBaseUriBuilder()
+            .path(MovieResource.class)
+            .path(result.id().value().toString())
+            .build())
         .entity(MovieResponse.of(result.id().value(), result.version().value(), result.status().toString()))
         .build();
       case UPDATED, UNCHANGED -> Response

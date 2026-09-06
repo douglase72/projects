@@ -1,13 +1,18 @@
 package com.erdouglass.emdb.media.kernel;
 
 import java.util.Objects;
+import java.util.UUID;
 
-public record PublicId(Long value) {
+import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.impl.TimeBasedEpochGenerator;
 
+public record PublicId(UUID value) {
+  private static final TimeBasedEpochGenerator ID_GENERATOR = Generators.timeBasedEpochGenerator();
+  
   public PublicId {
-    Objects.requireNonNull(value, "public id is required");
-    if (value <= 0) throw new IllegalArgumentException("public id must be positive");
+    Objects.requireNonNull(value, "id is required");
   }
   
-  public static PublicId of(Long id) { return new PublicId(id); }
+  public static PublicId newId() { return new PublicId(ID_GENERATOR.generate()); }
+  public static PublicId of(UUID id) { return new PublicId(id); }
 }

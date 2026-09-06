@@ -17,7 +17,7 @@ interface JakartaDataMovieCommandRepository {
   MovieEntity update(MovieEntity entity);
   
   @Find
-  Optional<MovieEntity> findByPublicId(Long id);
+  Optional<MovieEntity> findBySurrogateId(Long id);
   
   @Find
   Optional<MovieEntity> findByTmdbId(Integer tmdbId);

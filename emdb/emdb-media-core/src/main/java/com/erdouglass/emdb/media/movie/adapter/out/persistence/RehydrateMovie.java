@@ -7,18 +7,18 @@ import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.Score;
+import com.erdouglass.emdb.media.kernel.SurrogateId;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.movie.domain.command.RehydrateMovieCommand;
-import com.erdouglass.emdb.media.movie.domain.model.MovieId;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
 import lombok.Builder;
 
 @Builder
 public record RehydrateMovie(
-    MovieId id, 
-    PublicId publicId, 
+    PublicId id, 
+    SurrogateId surrogateId, 
     TmdbId tmdbId,
     Version version,
     Title title,
@@ -29,7 +29,7 @@ public record RehydrateMovie(
 
   public RehydrateMovie {
     Objects.requireNonNull(id, "movie id is required");
-    Objects.requireNonNull(publicId, "public id is required");
+    Objects.requireNonNull(surrogateId, "surrogate id is required");
     Objects.requireNonNull(tmdbId, "TMDB id is required");
     Objects.requireNonNull(version, "version is required");
     Objects.requireNonNull(title, "title is required");

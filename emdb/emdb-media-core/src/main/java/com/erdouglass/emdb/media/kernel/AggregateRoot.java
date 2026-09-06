@@ -6,20 +6,20 @@ import java.util.Optional;
 import com.erdouglass.emdb.media.api.TmdbId;
 
 public abstract class AggregateRoot {
-  private final AggregateId id;
-  private final PublicId publicId;
+  private final PublicId id;
+  private final SurrogateId surrogateId;
   private final TmdbId tmdbId;
   private final Version version;
   
-  protected AggregateRoot(AggregateId id, PublicId publicId, TmdbId tmdbId, Version version) {
-    this.id = Objects.requireNonNull(id, "aggregate id is required");
-    this.publicId = publicId;
-    this.tmdbId = Objects.requireNonNull(tmdbId, "aggregate TMDB id is required");
-    this.version = Objects.requireNonNull(version, "aggregate version id is required");
+  protected AggregateRoot(PublicId id, SurrogateId surrogateId, TmdbId tmdbId, Version version) {
+    this.id = Objects.requireNonNull(id, "id is required");
+    this.surrogateId = surrogateId;
+    this.tmdbId = Objects.requireNonNull(tmdbId, "TMDB id is required");
+    this.version = Objects.requireNonNull(version, "version is required");
   }
   
-  public AggregateId id() { return id; }
-  public Optional<PublicId> publicId() { return Optional.ofNullable(publicId); }
+  public PublicId id() { return id; }
+  public Optional<SurrogateId> surrogateId() { return Optional.ofNullable(surrogateId); }
   public TmdbId tmdbId() { return tmdbId; }
   public Version version() { return version; }
   
