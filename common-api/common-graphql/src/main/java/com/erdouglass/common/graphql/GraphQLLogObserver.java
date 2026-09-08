@@ -1,6 +1,9 @@
 package com.erdouglass.common.graphql;
 
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
@@ -11,7 +14,11 @@ import graphql.ExceptionWhileDataFetching;
 import graphql.ExecutionResult;
 import graphql.GraphQLError;
 import graphql.language.Field;
+import graphql.language.ObjectValue;
 import graphql.language.OperationDefinition;
+import graphql.language.StringValue;
+import graphql.language.Value;
+import graphql.language.VariableReference;
 import graphql.parser.Parser;
 import io.smallrye.graphql.api.Context;
 import io.smallrye.graphql.api.ErrorCode;
@@ -23,7 +30,8 @@ public class GraphQLLogObserver {
   private static final Logger LOGGER = Logger.getLogger(GraphQLLogObserver.class);
 
   public void onRequest(@Observes @BeforeExecute Context context) {
-    LOGGER.infof("Request: POST /graphql/%s", queryName(context.getQuery()));
+    var variables = context.getVariables().orElseGet(Map::of);
+    LOGGER.infof("Request: POST /graphql/%s", path(context.getQuery(), variables));
   }
   
   public void onResponse(@Observes @AfterExecute Context context) {
@@ -51,15 +59,47 @@ public class GraphQLLogObserver {
     return String.valueOf(error.getErrorType());
   }
   
-  private static String queryName(String query) {
+  private static String path(String query, Map<String, Object> variables) {
     try {
       return Parser.parse(query).getDefinitionsOfType(OperationDefinition.class).stream()
           .flatMap(op -> op.getSelectionSet().getSelections().stream())
           .filter(Field.class::isInstance)
-          .map(field -> ((Field) field).getName())
+          .map(Field.class::cast)
+          .map(field -> field.getName() + findId(field, variables).map(id -> "/" + id).orElse(""))
           .collect(Collectors.joining(", "));
     } catch (Exception e) {
       return query;
     }
-  }  
+  }
+
+  private static Optional<String> findId(Field field, Map<String, Object> variables) {
+    return field.getArguments().stream()
+        .flatMap(arg -> fromAst(arg.getName(), arg.getValue(), variables))
+        .findFirst();
+  }
+
+  private static Stream<String> fromAst(String name, Value<?> value, Map<String, Object> variables) {
+    if (value instanceof VariableReference ref) {
+      return fromVariable(name, variables.get(ref.getName()));
+    }
+    if (value instanceof ObjectValue object) {
+      return object.getObjectFields().stream()
+          .flatMap(f -> fromAst(f.getName(), f.getValue(), variables));
+    }
+    if (!"id".equals(name)) {
+      return Stream.empty();
+    }
+    return Stream.of(value instanceof StringValue s ? s.getValue() : String.valueOf(value));
+  }
+
+  private static Stream<String> fromVariable(String name, Object value) {
+    if (value instanceof Map<?, ?> map) {
+      return map.entrySet().stream()
+          .flatMap(e -> fromVariable(String.valueOf(e.getKey()), e.getValue()));
+    }
+    if ("id".equals(name) && value != null) {
+      return Stream.of(String.valueOf(value));
+    }
+    return Stream.empty();
+  }
 }

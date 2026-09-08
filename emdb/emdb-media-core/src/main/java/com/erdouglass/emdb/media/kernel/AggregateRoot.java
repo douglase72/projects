@@ -1,25 +1,28 @@
 package com.erdouglass.emdb.media.kernel;
 
 import java.util.Objects;
-import java.util.Optional;
 
+import com.erdouglass.common.rest.StaleVersionException;
 import com.erdouglass.emdb.media.api.TmdbId;
 
 public abstract class AggregateRoot {
   private final PublicId id;
-  private final SurrogateId surrogateId;
   private final TmdbId tmdbId;
   private final Version version;
   
-  protected AggregateRoot(PublicId id, SurrogateId surrogateId, TmdbId tmdbId, Version version) {
+  protected AggregateRoot(PublicId id, TmdbId tmdbId, Version version) {
     this.id = Objects.requireNonNull(id, "id is required");
-    this.surrogateId = surrogateId;
     this.tmdbId = Objects.requireNonNull(tmdbId, "TMDB id is required");
     this.version = Objects.requireNonNull(version, "version is required");
   }
   
+  public void checkVersion(Version expected) {
+    if (version == null || !version.equals(expected)) {
+      throw new StaleVersionException(version.value().toString());
+    }
+  }
+  
   public PublicId id() { return id; }
-  public Optional<SurrogateId> surrogateId() { return Optional.ofNullable(surrogateId); }
   public TmdbId tmdbId() { return tmdbId; }
   public Version version() { return version; }
   

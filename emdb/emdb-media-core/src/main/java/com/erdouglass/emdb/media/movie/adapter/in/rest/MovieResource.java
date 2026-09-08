@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.movie.adapter.in.rest;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +17,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
 
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -23,6 +26,9 @@ class MovieResource {
 
   @Inject
   SaveMovieUseCase saveUseCase;
+  
+  @Inject
+  UpdateMovieUseCase updateUseCase;
   
   @PUT
   @Path("/tmdb/{id}")
@@ -34,15 +40,23 @@ class MovieResource {
     var result = saveUseCase.save(command);
     return switch (result.status()) {
       case CREATED -> Response
-        .created(uriInfo.getBaseUriBuilder()
-            .path(MovieResource.class)
-            .path(result.id().value().toString())
-            .build())
-        .entity(MovieResponse.of(result.id().value(), result.version().value(), result.status().toString()))
+        .created(uriInfo.getBaseUriBuilder().path(MovieResource.class).path(result.id().value().toString()).build())
+        .entity(SaveMovieResponse.of(result.id().value(), result.status().toString()))
         .build();
       case UPDATED, UNCHANGED -> Response
-        .ok(MovieResponse.of(result.id().value(), result.version().value(), result.status().toString()))
-        .build();
+        .ok(SaveMovieResponse.of(result.id().value(), result.status().toString())).build();
+    };
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public UpdateMovieResponse update(
+      @NotNull @PathParam("id") UUID id, 
+      @NotNull @Valid UpdateMovieRequest request) {
+    var command = CommandMapper.totoUpdateMovieCommand(id, request);
+    var result = updateUseCase.update(command);
+    return switch (result.status()) {
+      case UPDATED, UNCHANGED -> UpdateMovieResponse.of(id, result.version().value(), result.status().toString());
     };
   }
 }

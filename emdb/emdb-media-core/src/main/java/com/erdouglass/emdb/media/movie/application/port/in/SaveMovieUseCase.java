@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.media.movie.application.port.in;
 
+import com.erdouglass.emdb.media.dto.SaveResult;
+
 public interface SaveMovieUseCase {
 
-  MovieResult save(SaveMovie command);
+  SaveResult save(SaveMovieCommand command);
 }

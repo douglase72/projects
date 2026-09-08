@@ -14,10 +14,10 @@ import com.erdouglass.emdb.media.movie.application.port.out.MovieView;
 class MovieQueryService implements FindMovieUseCase {
   
   @Inject
-  MovieQueryRepository query;
+  MovieQueryRepository movies;
 
   @Override
   public Optional<MovieView> findById(PublicId id) {
-    return query.findById(id);
+    return movies.findById(id);
   }
 }

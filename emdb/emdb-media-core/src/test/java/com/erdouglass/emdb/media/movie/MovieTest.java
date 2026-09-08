@@ -16,10 +16,8 @@ import com.erdouglass.emdb.media.kernel.LanguageCode;
 import com.erdouglass.emdb.media.kernel.Overview;
 import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
-import com.erdouglass.emdb.media.kernel.Version;
-import com.erdouglass.emdb.media.movie.application.port.in.SaveMovie;
-import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovie;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
+import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -29,15 +27,14 @@ class MovieTest {
   @Test
   @Order(1)
   void testCreateMovie() {
-    var command = SaveMovie.builder()
-        .tmdbId(TmdbId.of(818))
+    var details = MovieDetails.builder()
         .title(Title.of("Austin Powers in Goldmember"))
         .releaseDate(ReleaseDate.from("2002-07-26"))
         .score(Score.of(BigDecimal.valueOf(5.992)))
         .originalLanguage(LanguageCode.of("en"))
-        .overview(Overview.of("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend."))
+        .overview(Overview.of("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend."))        
         .build();
-    var movie = Movie.create(command);
+    var movie = Movie.create(TmdbId.of(818), details);
     assertEquals(818, movie.tmdbId().value());
     assertEquals("Austin Powers in Goldmember", movie.title().value());
     assertEquals("2002-07-26", movie.releaseDate().get().value().toDateString());
@@ -50,15 +47,14 @@ class MovieTest {
   @Test
   @Order(2)
   void testUpdateMovie() {
-    var saveCommand = SaveMovie.builder()
-        .tmdbId(TmdbId.of(818))
+    var details = MovieDetails.builder()
         .title(Title.of("Austin Powers in Goldmember"))
         .releaseDate(ReleaseDate.from("2002-07-26"))
         .score(Score.of(BigDecimal.valueOf(5.992)))
         .originalLanguage(LanguageCode.of("en"))
-        .overview(Overview.of("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend."))
+        .overview(Overview.of("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend."))        
         .build();
-    var movie = Movie.create(saveCommand);
+    var movie = Movie.create(TmdbId.of(818), details);
     assertEquals(818, movie.tmdbId().value());
     assertEquals("Austin Powers in Goldmember", movie.title().value());
     assertEquals("2002-07-26", movie.releaseDate().get().value().toDateString());
@@ -66,15 +62,13 @@ class MovieTest {
     assertEquals("en", movie.originalLanguage().get().value());
     assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview().get().value());
     
-    var updateCommand = UpdateMovie.builder()
-        .id(movie.id())
-        .version(Version.of(0L))
+    details = MovieDetails.builder()
         .title(Title.of("X"))
         .score(Score.of(BigDecimal.valueOf(1.2)))
         .originalLanguage(LanguageCode.of("en"))
         .overview(Overview.of("Test overview."))
         .build();
-    movie.update(updateCommand);
+    movie.update(details);
     assertEquals(818, movie.tmdbId().value());
     assertEquals("X", movie.title().value());
     assertTrue(movie.releaseDate().isEmpty());

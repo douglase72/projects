@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.movie.adapter.out.persistence;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
@@ -17,7 +18,7 @@ interface JakartaDataMovieCommandRepository {
   MovieEntity update(MovieEntity entity);
   
   @Find
-  Optional<MovieEntity> findBySurrogateId(Long id);
+  Optional<MovieEntity> findById(UUID id);
   
   @Find
   Optional<MovieEntity> findByTmdbId(Integer tmdbId);

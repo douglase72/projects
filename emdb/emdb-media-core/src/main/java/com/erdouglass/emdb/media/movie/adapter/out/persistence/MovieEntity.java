@@ -7,10 +7,7 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
@@ -23,19 +20,13 @@ import com.erdouglass.emdb.media.kernel.Title;
 @Table(
     name = "movie",
     uniqueConstraints = {
-      @UniqueConstraint(name = "uq_movie_public_id", columnNames = { "public_id" }),
       @UniqueConstraint(name = "uq_movie_tmdb_id", columnNames = { "tmdb_id" }),
     }
   )
 class MovieEntity {
   
-  @Column(name = "public_id", nullable = false, updatable = false)
-  private UUID publicId;
-  
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
-  @SequenceGenerator(name = "movie_seq", sequenceName = "movie_seq", initialValue = 1, allocationSize = 1)
-  private Long id;
+  private UUID id;
   
   @Column(name = "tmdb_id", nullable = false, updatable = false)
   private Integer tmdbId;
@@ -66,11 +57,8 @@ class MovieEntity {
   public void setOverview(String overview) { this.overview = overview; }
   public Optional<String> getOverview() { return Optional.ofNullable(overview); }
   
-  public void setPublicId(UUID publicId) { this.publicId = publicId; }
-  public UUID getPublicId() { return publicId; }
-  
-  public void setId(Long id) { this.id = id; }
-  public Long getId() { return id; }
+  public void setId(UUID id) { this.id = id; }
+  public UUID getId() { return id; }
   
   public void setReleaseDate(LocalDate releaseDate) { this.releaseDate = releaseDate; }
   public Optional<LocalDate> getReleaseDate() { return Optional.ofNullable(releaseDate); }

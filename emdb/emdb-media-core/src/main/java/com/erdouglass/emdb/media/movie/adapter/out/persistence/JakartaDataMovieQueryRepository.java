@@ -12,9 +12,9 @@ import com.erdouglass.emdb.media.movie.application.port.out.MovieView;
 interface JakartaDataMovieQueryRepository {
 
   @Query("""
-      select m.publicId, m.version, m.title, m.releaseDate, m.score, m.originalLanguage, m.overview
+      select m.id, m.version, m.title, m.releaseDate, m.score, m.originalLanguage, m.overview
       from MovieEntity m
-      where m.publicId = :id          
+      where m.id = :id          
             """)
-    Optional<MovieView> findByPublicId(UUID id);
+    Optional<MovieView> findById(UUID id);
 }

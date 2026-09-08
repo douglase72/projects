@@ -17,6 +17,6 @@ class MovieQueryAdapter implements MovieQueryRepository {
 
   @Override
   public Optional<MovieView> findById(PublicId id) {
-    return repository.findByPublicId(id.value());
+    return repository.findById(id.value());
   }
 }
