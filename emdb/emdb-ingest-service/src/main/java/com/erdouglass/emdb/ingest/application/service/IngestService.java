@@ -26,7 +26,7 @@ class IngestService implements IngestMediaUseCase {
     var ingest = Ingest.submit(command.tmdbId(), command.ingestType());
     LOGGER.infof("ingest: %s", ingest);
     var movie = Movie.builder()
-        .tmdbId(0)
+        .tmdbId(78)
         .title("Blade Runner")
         .releaseDate("1982-06-25")
         .score(BigDecimal.valueOf(7.893))
