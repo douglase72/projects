@@ -5,8 +5,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.ingest.application.port.out.Movie;
-import com.erdouglass.emdb.media.SaveMovieCommand;
+import com.erdouglass.emdb.ingest.application.port.out.Person;
+import com.erdouglass.emdb.media.SavePersonCommand;
 
 @Mapper(
     componentModel = "cdi", 
@@ -14,7 +14,7 @@ import com.erdouglass.emdb.media.SaveMovieCommand;
     unmappedTargetPolicy = ReportingPolicy.ERROR,
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-interface MovieMapper {
+interface PersonMapper {
 
-  SaveMovieCommand toSaveMovieCommand(Movie moive);
+  SavePersonCommand toSavePersonCommand(Person person);
 }

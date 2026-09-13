@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.movie.adapter.in.messaging;
+package com.erdouglass.emdb.media.person.adapter.in.messaging;
 
 import java.util.concurrent.CompletionStage;
 
@@ -9,27 +9,27 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.SaveMovieCommand;
-import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.SavePersonCommand;
+import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
 @ApplicationScoped
-class MovieConsumer {
-  private static final Logger LOGGER = Logger.getLogger(MovieConsumer.class);
+class PersonConsumer {
+  private static final Logger LOGGER = Logger.getLogger(PersonConsumer.class);
   
   @Inject
-  SaveMovieUseCase saveUseCase;
+  SavePersonUseCase saveUseCase;
   
   @RunOnVirtualThread
-  @Incoming("ingest-movie-in")
-  public CompletionStage<Void> onMessage(Message<SaveMovieCommand> message) {    
+  @Incoming("ingest-person-in")
+  public CompletionStage<Void> onMessage(Message<SavePersonCommand> message) {
     try {
       var command = message.getPayload();
       saveUseCase.save(command);
       return message.ack();
     } catch (Exception e) {
-      LOGGER.errorf(e , "Failed to save movie");
+      LOGGER.errorf(e , "Failed to save person");
       return message.nack(e);
     }
   }

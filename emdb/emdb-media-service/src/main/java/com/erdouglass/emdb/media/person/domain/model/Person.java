@@ -1,0 +1,39 @@
+package com.erdouglass.emdb.media.person.domain.model;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.erdouglass.emdb.media.kernel.AggregateRoot;
+import com.erdouglass.emdb.media.kernel.PublicId;
+import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.kernel.Version;
+
+public final class Person extends AggregateRoot {
+  private PersonDetails details;
+  
+  private Person(PublicId id, TmdbId tmdbId, Version version, PersonDetails details) {
+    super(id, tmdbId, version);
+    this.details = Objects.requireNonNull(details, "details are required");
+  }
+  
+  public static Person create(TmdbId tmdbId, PersonDetails details) {
+    var person = new Person(PublicId.newId(), tmdbId, Version.of(0L), details);
+    return person;
+  }
+  
+  public Name name() { return details.name(); }
+  public Optional<BirthDate> birthDate() { return Optional.ofNullable(details.birthDate()); }
+  public Optional<DeathDate> deathDate() { return Optional.ofNullable(details.deathDate()); }
+  public Optional<Gender> gender() { return Optional.ofNullable(details.gender()); }
+  public Optional<Biography> biography() { return Optional.ofNullable(details.biography()); }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "[id=" + id().value()
+        + ", tmdbId=" + tmdbId().value()
+        + ", version=" + version().value()
+        + ", name=" + name().value()
+        + ", birthDate=" + birthDate().map(BirthDate::toLocalDate).orElse(null)
+        + "]";
+  }
+}

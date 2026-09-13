@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.media.movie.adapter.in.messaging;
+package com.erdouglass.emdb.media.person.adapter.in.messaging;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,14 +18,14 @@ import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;
 import io.vertx.core.json.JsonObject;
 
 @ApplicationScoped
-class MovieDlqConsumer {
-  private static final Logger LOGGER = Logger.getLogger(MovieDlqConsumer.class);
+class PersonDlqConsumer {
+  private static final Logger LOGGER = Logger.getLogger(PersonDlqConsumer.class);
   
-  @ConfigProperty(name = "emdb.movies.data")
+  @ConfigProperty(name = "emdb.people.data")
   Path directory;
   
   @RunOnVirtualThread
-  @Incoming("ingest-movie-dlq-in")
+  @Incoming("ingest-person-dlq-in")
   public CompletionStage<Void> onMessage(Message<JsonObject> message) {
     try {
       var file = park(message);
@@ -43,7 +43,7 @@ class MovieDlqConsumer {
         .flatMap(IncomingRabbitMQMetadata::getCorrelationId)
         .orElse("unknown");
     Files.createDirectories(directory);        
-    var file = directory.resolve("SaveMovieCommand-%s.json".formatted(correlationId));
+    var file = directory.resolve("SavePersonCommand-%s.json".formatted(correlationId));
     Files.writeString(file, message.getPayload().encodePrettily(), StandardCharsets.UTF_8);
     return file;
   }
