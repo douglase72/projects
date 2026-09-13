@@ -11,8 +11,10 @@ dependencies {
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   annotationProcessor libs.lombok
   annotationProcessor libs.mapstruct.processor
-    
+  
+  implementation project(':common-messaging')  
   implementation project(':common-rest')
+  implementation project(':emdb-ingest-api')
   implementation project(':emdb-media-api')
   
   compileOnly libs.lombok

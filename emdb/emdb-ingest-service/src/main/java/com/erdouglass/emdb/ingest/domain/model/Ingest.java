@@ -2,6 +2,8 @@ package com.erdouglass.emdb.ingest.domain.model;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.ingest.IngestMediaCommand.IngestType;
+
 import lombok.Getter;
 import lombok.experimental.Accessors;
 

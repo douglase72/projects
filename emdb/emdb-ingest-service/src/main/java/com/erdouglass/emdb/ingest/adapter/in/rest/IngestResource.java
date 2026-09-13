@@ -12,10 +12,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
-import com.erdouglass.emdb.ingest.application.port.in.IngestMediaCommand;
-import com.erdouglass.emdb.ingest.application.port.in.IngestMediaUseCase;
-import com.erdouglass.emdb.ingest.domain.model.IngestType;
-import com.erdouglass.emdb.ingest.domain.model.TmdbId;
+import com.erdouglass.emdb.ingest.IngestMediaCommand;
+import com.erdouglass.emdb.ingest.IngestMediaCommand.IngestType;
+import com.erdouglass.emdb.ingest.application.port.in.SubmitIngestUseCase;
 
 @Path("/ingest")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -23,12 +22,12 @@ import com.erdouglass.emdb.ingest.domain.model.TmdbId;
 class IngestResource {
 
   @Inject
-  IngestMediaUseCase ingestUseCase;
+  SubmitIngestUseCase ingestUseCase;
   
   @POST
   public Response ingest(@NotNull @Valid IngestMediaRequest request, @Context UriInfo uriInfo) {
-    var command = IngestMediaCommand.of(TmdbId.of(request.tmdbId()), IngestType.from(request.ingestType()));
-    var id = ingestUseCase.ingest(command);
+    var command = IngestMediaCommand.of(request.tmdbId(), IngestType.from(request.ingestType()));
+    var id = ingestUseCase.submit(command);
     return Response.accepted(id.value())
         .location(uriInfo.getAbsolutePathBuilder().path(id.value().toString()).build())
         .build();    

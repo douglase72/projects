@@ -25,6 +25,10 @@ public final class Movie extends AggregateRoot {
     return movie;
   }
   
+  public static Movie rehydrate(PublicId id, TmdbId tmdbId, Version version, MovieDetails details) {
+    return new Movie(id, tmdbId, version, details);
+  }
+  
   public Title title() { return details.title(); }
   public Optional<ReleaseDate> releaseDate() { return Optional.ofNullable(details.releaseDate()); }
   public Optional<Score> score() { return Optional.ofNullable(details.score()); }

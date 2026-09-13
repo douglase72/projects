@@ -1,36 +1,35 @@
 package com.erdouglass.emdb.media.movie.application.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.media.SaveMovieCommand;
-import com.erdouglass.emdb.media.kernel.LanguageCode;
-import com.erdouglass.emdb.media.kernel.Overview;
-import com.erdouglass.emdb.media.kernel.Score;
-import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
-import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
-import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 
 @ApplicationScoped
 class MovieCommandService implements SaveMovieUseCase {
   private static final Logger LOGGER = Logger.getLogger(MovieCommandService.class);
   
+  @Inject
+  MovieCommandRepository movies;
+  
+  /// Save the movie described by the command to the database.
+  /// 
+  /// This method is idempotent with respect to the movies TMDB id. If a movie
+  /// with a matching TMDB id does not already exist, one will be created. 
+  /// Otherwise, the movie details are updated making retries safe.
   @Override
+  @Transactional
   public void save(SaveMovieCommand command) {
-    var details = MovieDetails.builder()
-        .title(Title.of(command.title()))
-        .releaseDate(command.releaseDate() != null ? 
-            ReleaseDate.of(DateTimeFactory.from(command.releaseDate())) : null)
-        .score(command.score() != null ? Score.of(command.score()) : null)
-        .originalLanguage(command.originalLanguage() != null ? LanguageCode.of(command.originalLanguage()) : null)
-        .overview(command.overview() != null ? Overview.of(command.overview()) : null)
-        .build();
+    var details = MovieDetailsMapper.toMovieDetails(command);
     var movie = Movie.create(TmdbId.of(command.tmdbId()), details);
-    LOGGER.infof("movie: %s", movie);
+    var inserted = movies.insert(movie);
+    LOGGER.infof("movie: %s", inserted);
   }
 }

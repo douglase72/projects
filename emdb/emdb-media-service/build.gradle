@@ -11,23 +11,30 @@ dependencies {
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   annotationProcessor libs.lombok 
   annotationProcessor libs.mapstruct.processor
+  annotationProcessor libs.hibernate.processor
   
   implementation project(':common-messaging')
   implementation project(':common-rest')
   implementation project(':common-util')
+  implementation project(':emdb-ingest-api')
   implementation project(':emdb-media-api')
   
   compileOnly libs.lombok
   compileOnly libs.mapstruct
   
+  implementation libs.jakarta.data.api
   implementation libs.jug
   implementation libs.quarkus.arc
+  implementation libs.quarkus.flyway
+  implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
+  implementation libs.quarkus.jdbc.postgresql
   implementation libs.quarkus.logging
   implementation libs.quarkus.messaging
   implementation libs.quarkus.messaging.rabbitmq   
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
+  implementation libs.quarkus.scheduler
     
   testImplementation libs.quarkus.junit
 }

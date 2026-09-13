@@ -32,6 +32,9 @@ include 'common-validation'
 project(':common-validation').projectDir = file('common-api/common-validation')
 
 // EMDB
+include 'emdb-ingest-api'
+project(':emdb-ingest-api').projectDir = file('emdb/emdb-ingest-api')
+
 include 'emdb-media-api'
 project(':emdb-media-api').projectDir = file('emdb/emdb-media-api')
 

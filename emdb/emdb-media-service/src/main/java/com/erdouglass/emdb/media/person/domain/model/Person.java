@@ -21,6 +21,10 @@ public final class Person extends AggregateRoot {
     return person;
   }
   
+  public static Person rehydrate(PublicId id, TmdbId tmdbId, Version version, PersonDetails details) {
+    return new Person(id, tmdbId, version, details);
+  }
+  
   public Name name() { return details.name(); }
   public Optional<BirthDate> birthDate() { return Optional.ofNullable(details.birthDate()); }
   public Optional<DeathDate> deathDate() { return Optional.ofNullable(details.deathDate()); }

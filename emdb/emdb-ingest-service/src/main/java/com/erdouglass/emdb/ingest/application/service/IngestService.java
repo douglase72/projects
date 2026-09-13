@@ -7,7 +7,7 @@ import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.application.port.in.IngestMediaCommand;
+import com.erdouglass.emdb.ingest.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.application.port.in.IngestMediaUseCase;
 import com.erdouglass.emdb.ingest.application.port.out.Movie;
 import com.erdouglass.emdb.ingest.application.port.out.MovieRepository;
@@ -15,6 +15,7 @@ import com.erdouglass.emdb.ingest.application.port.out.Person;
 import com.erdouglass.emdb.ingest.application.port.out.PersonRepository;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
+import com.erdouglass.emdb.ingest.domain.model.TmdbId;
 
 @ApplicationScoped
 class IngestService implements IngestMediaUseCase {
@@ -28,7 +29,7 @@ class IngestService implements IngestMediaUseCase {
 
   @Override
   public IngestId ingest(IngestMediaCommand command) {
-    var ingest = Ingest.submit(command.tmdbId(), command.ingestType());
+    var ingest = Ingest.submit(TmdbId.of(command.tmdbId()), command.ingestType());
     LOGGER.infof("ingest: %s", ingest);
 
     switch (command.ingestType()) {
