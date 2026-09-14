@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.movie.application.service;
 
+import java.util.Set;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -10,7 +12,10 @@ import com.erdouglass.emdb.media.SaveMovieCommand;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
+import com.erdouglass.emdb.media.movie.application.port.out.PersonStub;
+import com.erdouglass.emdb.media.movie.application.port.out.ResolvePersonStub;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
+import com.erdouglass.emdb.media.person.domain.model.Name;
 
 @ApplicationScoped
 class MovieCommandService implements SaveMovieUseCase {
@@ -18,6 +23,9 @@ class MovieCommandService implements SaveMovieUseCase {
   
   @Inject
   MovieCommandRepository movies;
+  
+  @Inject
+  ResolvePersonStub people;
   
   /// Save the movie described by the command to the database.
   /// 
@@ -30,6 +38,7 @@ class MovieCommandService implements SaveMovieUseCase {
     var details = MovieDetailsMapper.toMovieDetails(command);
     var movie = Movie.create(TmdbId.of(command.tmdbId()), details);
     var inserted = movies.insert(movie);
+    people.resolve(Set.of(PersonStub.of(TmdbId.of(3), Name.of("Harrison Ford"))));
     LOGGER.infof("movie: %s", inserted);
   }
 }

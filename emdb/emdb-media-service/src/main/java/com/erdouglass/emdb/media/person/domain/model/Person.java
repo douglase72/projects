@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.person.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -7,9 +9,12 @@ import com.erdouglass.emdb.media.kernel.AggregateRoot;
 import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.person.domain.event.DomainEvent;
+import com.erdouglass.emdb.media.person.domain.event.PersonCreated;
 
 public final class Person extends AggregateRoot {
   private PersonDetails details;
+  private final List<DomainEvent> domainEvents = new ArrayList<>();
   
   private Person(PublicId id, TmdbId tmdbId, Version version, PersonDetails details) {
     super(id, tmdbId, version);
@@ -18,11 +23,18 @@ public final class Person extends AggregateRoot {
   
   public static Person create(TmdbId tmdbId, PersonDetails details) {
     var person = new Person(PublicId.newId(), tmdbId, Version.of(0L), details);
+    person.raise(PersonCreated.of(person.id(), person.tmdbId(), person.name()));
     return person;
   }
   
   public static Person rehydrate(PublicId id, TmdbId tmdbId, Version version, PersonDetails details) {
     return new Person(id, tmdbId, version, details);
+  }
+  
+  public List<DomainEvent> pullEvents() {
+    var events = List.copyOf(domainEvents);
+    domainEvents.clear();
+    return events;
   }
   
   public Name name() { return details.name(); }
@@ -39,5 +51,9 @@ public final class Person extends AggregateRoot {
         + ", name=" + name().value()
         + ", birthDate=" + birthDate().map(BirthDate::toLocalDate).orElse(null)
         + "]";
+  }
+  
+  private void raise(DomainEvent event) {
+    domainEvents.add(event);
   }
 }

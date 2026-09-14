@@ -24,3 +24,11 @@
         primary key (id),
         constraint uq_person_tmdb_id unique (tmdb_id)
     );
+
+    create table media.person_outbox (
+        id uuid not null,
+        created_at timestamp(6) with time zone not null,
+        name varchar(80) not null,
+        tmdb_id integer not null,
+        primary key (id)
+    );
