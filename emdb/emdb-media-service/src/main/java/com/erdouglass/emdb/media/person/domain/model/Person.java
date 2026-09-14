@@ -27,6 +27,10 @@ public final class Person extends AggregateRoot {
     return person;
   }
   
+  public void update(PersonDetails details) {
+    this.details = details;
+  }
+  
   public static Person rehydrate(PublicId id, TmdbId tmdbId, Version version, PersonDetails details) {
     return new Person(id, tmdbId, version, details);
   }

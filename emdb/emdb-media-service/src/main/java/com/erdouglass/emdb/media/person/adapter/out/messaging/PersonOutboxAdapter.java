@@ -1,6 +1,8 @@
 package com.erdouglass.emdb.media.person.adapter.out.messaging;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.TransactionPhase;
 import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
@@ -11,6 +13,7 @@ import org.jboss.logging.Logger;
 import com.erdouglass.emdb.ingest.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.IngestMediaCommand.IngestType;
 import com.erdouglass.emdb.media.person.adapter.out.persistence.JakartaDataPersonOutboxRepository;
+import com.erdouglass.emdb.media.person.domain.event.PersonCreated;
 
 import io.quarkus.scheduler.Scheduled;
 import io.quarkus.scheduler.Scheduled.ConcurrentExecution;
@@ -30,7 +33,15 @@ class PersonOutboxAdapter {
       every = "{emdb.media.outbox.interval}", 
       delayed = "{emdb.media.outbox.delay}",
       concurrentExecution = ConcurrentExecution.SKIP)
-  void publish() {
+  void execute() {
+    publish();
+  }
+  
+  void onCreated(@Observes(during = TransactionPhase.AFTER_SUCCESS) PersonCreated event) {
+    publish();
+  }
+  
+  private void publish() {
     var people = repository.findAll();
     for (var person : people) {
       var command = IngestMediaCommand.of(person.getTmdbId(), IngestType.PERSON);

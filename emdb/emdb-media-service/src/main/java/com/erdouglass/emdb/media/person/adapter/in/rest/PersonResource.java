@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import com.erdouglass.emdb.media.dto.SaveResponse;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
 
 @Path("/people")
@@ -34,7 +35,15 @@ class PersonResource {
       @NotNull @Valid SavePersonRequest request,
       @Context UriInfo uriInfo) {
     var command = mapper.toSavePersonCommand(id, request);
-    saveUseCase.save(command);
-    return Response.ok().build();
+    var result = saveUseCase.save(command);
+    return switch (result.status()) {
+    case CREATED -> Response
+      .created(uriInfo.getBaseUriBuilder().path(PersonResource.class).path(result.id().value().toString()).build())
+      .entity(SaveResponse.of(result.id().value(), result.status().toString()))
+      .build();
+    case UPDATED, UNCHANGED -> Response
+      .ok(SaveResponse.of(result.id().value(), result.status().toString()))
+      .build();
+  };
   }
 }
