@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.movie.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -11,9 +13,13 @@ import com.erdouglass.emdb.media.kernel.Score;
 import com.erdouglass.emdb.media.kernel.Title;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.movie.domain.event.DomainEvent;
+import com.erdouglass.emdb.media.movie.domain.event.MovieCreated;
+import com.erdouglass.emdb.media.movie.domain.event.MovieUpdated;
 
 public final class Movie extends AggregateRoot {
   private MovieDetails details;
+  private List<DomainEvent> domainEvents = new ArrayList<>();
   
   private Movie(PublicId id, TmdbId tmdbId, Version version, MovieDetails details) {
     super(id, tmdbId, version);
@@ -22,11 +28,23 @@ public final class Movie extends AggregateRoot {
   
   public static Movie create(TmdbId tmdbId, MovieDetails details) {
     var movie = new Movie(PublicId.newId(), tmdbId, Version.of(0L), details);
+    movie.raise(MovieCreated.of(movie.id(), movie.tmdbId(), movie.title()));
     return movie;
+  }
+  
+  public void update(MovieDetails details) {
+    this.details = details;
+    raise(MovieUpdated.of(id(), tmdbId(), title()));
   }
   
   public static Movie rehydrate(PublicId id, TmdbId tmdbId, Version version, MovieDetails details) {
     return new Movie(id, tmdbId, version, details);
+  }
+  
+  public List<DomainEvent> pullEvents() {
+    var events = List.copyOf(domainEvents);
+    domainEvents.clear();
+    return events;
   }
   
   public Title title() { return details.title(); }
@@ -43,5 +61,9 @@ public final class Movie extends AggregateRoot {
         + ", title=" + title().value()
         + ", releaseDate=" + releaseDate().map(ReleaseDate::toLocalDate).orElse(null)
         + "]";
+  }
+  
+  private void raise(DomainEvent event) {
+    domainEvents.add(event);
   }
 }

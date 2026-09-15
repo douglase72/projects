@@ -46,6 +46,7 @@ class HarrisonFordCrudIT {
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResponse.class);
     personId = result.id();
     assertEquals(201, response.statusCode(), "Server failed with response: " + response.body()); 
+    assertEquals(personId, result.id());
     assertEquals("CREATED", result.status());
     LOGGER.infof("Created person in %d ms", et);
   }
@@ -68,6 +69,7 @@ class HarrisonFordCrudIT {
     var et = Duration.between(start, Instant.now()).toMillis();
     var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), SaveResponse.class);
     assertEquals(200, response.statusCode(), "Server failed with response: " + response.body()); 
+    assertEquals(personId, result.id());
     assertEquals("UPDATED", result.status());
     LOGGER.infof("Updated person in %d ms", et);
   }

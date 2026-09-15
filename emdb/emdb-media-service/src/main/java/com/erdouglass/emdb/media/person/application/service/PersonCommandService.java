@@ -9,8 +9,6 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import org.jboss.logging.Logger;
-
 import com.erdouglass.emdb.media.SavePersonCommand;
 import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.SaveResult;
@@ -28,7 +26,6 @@ import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
 
 @ApplicationScoped
 class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
-  private static final Logger LOGGER = Logger.getLogger(PersonCommandService.class);
   
   @Inject
   Event<DomainEvent> emitter;
@@ -74,14 +71,14 @@ class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
   private SaveResult insert(SavePersonCommand command) {
     var person = Person.create(TmdbId.of(command.tmdbId()), PersonDetailsMapper.toPersonDetails(command));
     var inserted = people.insert(person);
-    LOGGER.infof("Created: %s", person);
+    person.pullEvents().forEach(emitter::fire);
     return SaveResult.of(inserted.id(), Status.CREATED);
   }
   
   private SaveResult update(Person existing, SavePersonCommand command) {
     existing.update(PersonDetailsMapper.toPersonDetails(command));
     var updated = people.update(existing);
-    LOGGER.infof("Updated: %s", updated);
+    existing.pullEvents().forEach(emitter::fire);
     return SaveResult.of(updated.id(), Status.UPDATED);
   }
 }

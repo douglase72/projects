@@ -3,23 +3,27 @@ package com.erdouglass.emdb.media.movie.application.service;
 import java.util.Set;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import org.jboss.logging.Logger;
-
 import com.erdouglass.emdb.media.SaveMovieCommand;
+import com.erdouglass.emdb.media.kernel.SaveResult;
+import com.erdouglass.emdb.media.kernel.SaveResult.Status;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
 import com.erdouglass.emdb.media.movie.application.port.out.PersonStub;
 import com.erdouglass.emdb.media.movie.application.port.out.ResolvePersonStub;
+import com.erdouglass.emdb.media.movie.domain.event.DomainEvent;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
 import com.erdouglass.emdb.media.person.domain.model.Name;
 
 @ApplicationScoped
 class MovieCommandService implements SaveMovieUseCase {
-  private static final Logger LOGGER = Logger.getLogger(MovieCommandService.class);
+  
+  @Inject
+  Event<DomainEvent> emitter;
   
   @Inject
   MovieCommandRepository movies;
@@ -34,11 +38,24 @@ class MovieCommandService implements SaveMovieUseCase {
   /// Otherwise, the movie details are updated making retries safe.
   @Override
   @Transactional
-  public void save(SaveMovieCommand command) {
-    var details = MovieDetailsMapper.toMovieDetails(command);
-    var movie = Movie.create(TmdbId.of(command.tmdbId()), details);
+  public SaveResult save(SaveMovieCommand command) {
+    return movies.findByTmdbId(TmdbId.of(command.tmdbId()))
+        .map(existing -> update(existing, command))
+        .orElseGet(() -> insert(command));
+  }
+  
+  private SaveResult insert(SaveMovieCommand command) {
+    var movie = Movie.create(TmdbId.of(command.tmdbId()), MovieDetailsMapper.toMovieDetails(command));
     var inserted = movies.insert(movie);
     people.resolve(Set.of(PersonStub.of(TmdbId.of(3), Name.of("Harrison Ford"))));
-    LOGGER.infof("movie: %s", inserted);
+    movie.pullEvents().forEach(emitter::fire);
+    return SaveResult.of(inserted.id(), Status.CREATED);
+  }
+  
+  private SaveResult update(Movie existing, SaveMovieCommand command) {
+    existing.update(MovieDetailsMapper.toMovieDetails(command));
+    var updated = movies.update(existing);
+    existing.pullEvents().forEach(emitter::fire);
+    return SaveResult.of(updated.id(), Status.UPDATED);
   }
 }

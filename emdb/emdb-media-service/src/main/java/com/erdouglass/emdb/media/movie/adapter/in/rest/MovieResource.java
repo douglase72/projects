@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import com.erdouglass.emdb.media.dto.SaveResponse;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 
 @Path("/movies")
@@ -34,7 +35,16 @@ class MovieResource {
       @NotNull @Valid SaveMovieRequest request,
       @Context UriInfo uriInfo) {
     var command = mapper.toSaveMovieCommand(id, request);
-    saveUseCase.save(command);
-    return Response.ok().build();
+    var result = saveUseCase.save(command);
+    return switch (result.status()) {
+      case CREATED -> Response.created(uriInfo.getBaseUriBuilder()
+          .path(MovieResource.class)
+          .path(result.id().value().toString())
+          .build())
+        .entity(SaveResponse.of(result.id().value(), result.status().toString()))
+        .build();
+      case UPDATED, UNCHANGED -> Response
+        .ok(SaveResponse.of(result.id().value(), result.status().toString())).build();
+    };    
   }
 }

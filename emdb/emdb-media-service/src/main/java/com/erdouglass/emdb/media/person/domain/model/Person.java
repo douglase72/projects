@@ -11,6 +11,7 @@ import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.person.domain.event.DomainEvent;
 import com.erdouglass.emdb.media.person.domain.event.PersonCreated;
+import com.erdouglass.emdb.media.person.domain.event.PersonUpdated;
 
 public final class Person extends AggregateRoot {
   private PersonDetails details;
@@ -29,6 +30,7 @@ public final class Person extends AggregateRoot {
   
   public void update(PersonDetails details) {
     this.details = details;
+    raise(PersonUpdated.of(id(), tmdbId(), name()));
   }
   
   public static Person rehydrate(PublicId id, TmdbId tmdbId, Version version, PersonDetails details) {
