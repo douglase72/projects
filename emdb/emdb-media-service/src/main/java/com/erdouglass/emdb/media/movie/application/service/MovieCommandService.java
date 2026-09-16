@@ -8,19 +8,25 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.emdb.media.SaveMovieCommand;
+import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.SaveResult;
 import com.erdouglass.emdb.media.kernel.SaveResult.Status;
 import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.kernel.UpdateResult;
+import com.erdouglass.emdb.media.kernel.Version;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieCommand;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
 import com.erdouglass.emdb.media.movie.application.port.out.PersonStub;
 import com.erdouglass.emdb.media.movie.application.port.out.ResolvePersonStub;
 import com.erdouglass.emdb.media.movie.domain.event.DomainEvent;
+import com.erdouglass.emdb.media.movie.domain.exception.MovieNotFoundException;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
 import com.erdouglass.emdb.media.person.domain.model.Name;
 
 @ApplicationScoped
-class MovieCommandService implements SaveMovieUseCase {
+class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase {
   
   @Inject
   Event<DomainEvent> emitter;
@@ -42,6 +48,18 @@ class MovieCommandService implements SaveMovieUseCase {
     return movies.findByTmdbId(TmdbId.of(command.tmdbId()))
         .map(existing -> update(existing, command))
         .orElseGet(() -> insert(command));
+  }
+  
+  @Override
+  @Transactional
+  public UpdateResult update(UpdateMovieCommand command) {
+    var existing = movies.findById(PublicId.of(command.id()))
+        .orElseThrow(() -> new MovieNotFoundException(command.id().toString()));
+    existing.checkVersion(Version.of(command.version()));
+    existing.update(MovieDetailsMapper.toMovieDetails(command));
+    var updated = movies.update(existing);
+    existing.pullEvents().forEach(emitter::fire);
+    return UpdateResult.of(updated.id(), updated.version(), UpdateResult.Status.UPDATED);
   }
   
   private SaveResult insert(SaveMovieCommand command) {

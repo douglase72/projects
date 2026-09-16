@@ -37,4 +37,31 @@ class MovieTest {
     assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview().get().value());
     LOGGER.info(movie);
   }
+  
+  @Test
+  void testUpdateMovie() {
+    var details = MovieDetails.builder()
+        .title(Title.of("Austin Powers in Goldmember"))
+        .build();
+    var movie = Movie.create(TmdbId.of(818), details);
+    assertEquals(818, movie.tmdbId().value());
+    assertEquals("Austin Powers in Goldmember", movie.title().value());
+    LOGGER.info(movie);
+    
+    var updatedDetails = MovieDetails.builder()
+        .title(Title.of("Austin Powers in Goldmember"))
+        .releaseDate(ReleaseDate.from("2002-07-26"))
+        .score(Score.of(BigDecimal.valueOf(5.992)))
+        .originalLanguage(LanguageCode.of("en"))
+        .overview(Overview.of("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend."))
+        .build();
+    movie.update(updatedDetails);
+    assertEquals(818, movie.tmdbId().value());
+    assertEquals("Austin Powers in Goldmember", movie.title().value());
+    assertEquals("2002-07-26", movie.releaseDate().get().value().toDateString());
+    assertEquals(5.992, movie.score().get().value().doubleValue(), 0.001);
+    assertEquals("en", movie.originalLanguage().get().value());
+    assertEquals("The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.", movie.overview().get().value());
+    LOGGER.info(movie);
+  }
 }

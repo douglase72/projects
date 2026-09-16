@@ -22,7 +22,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.media.TestHelper;
 import com.erdouglass.emdb.media.dto.SaveResponse;
+import com.erdouglass.emdb.media.dto.UpdateResponse;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest;
+import com.erdouglass.emdb.media.movie.adapter.in.rest.UpdateMovieRequest;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -74,6 +76,32 @@ class BladeRunnerCrudIT {
     assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
     assertEquals(movieId, result.id());
     assertEquals("UPDATED", result.status());
+    LOGGER.infof("Updated movie in %d ms", et);
+  }
+  
+  @Test
+  @Order(3)
+  void testUpdateMovie() throws IOException, InterruptedException {
+    var updateRequest = UpdateMovieRequest.builder()
+        .version(1L)
+        .title("X")
+        .releaseDate("1982-10-04")
+        .score(BigDecimal.valueOf(1.2))
+        .originalLanguage("en")
+        .overview("Test overview")
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId.toString()).build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResponse.class);
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    assertEquals(movieId, result.id());
+    assertEquals("UPDATED", result.status());
+    assertEquals(2, result.version());    
     LOGGER.infof("Updated movie in %d ms", et);
   }
 }
