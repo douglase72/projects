@@ -22,7 +22,7 @@ public final class TestHelper {
     MOVIES_URL  = "http://localhost:60312/emdb-media/api/movies";
     PEOPLE_URL  = "http://localhost:60312/emdb-media/api/people";
     SERIES_URL  = "http://localhost:60312/emdb-media/api/series";
-    GRAPHQL_URL = "http://localhost:60312/emdb-media/graphql";
+    GRAPHQL_URL = "http://localhost:60312/emdb-media/api/graphql";
   }  
 
   private TestHelper() { }

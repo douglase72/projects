@@ -12,7 +12,7 @@ public class StaleVersionExceptionMapper implements ExceptionMapper<StaleVersion
   
   @Override
   public Response toResponse(StaleVersionException e) {
-    LOGGER.error("Stale Version", e);
+    LOGGER.error("Conflict", e);
     return Response.status(Response.Status.CONFLICT)
         .entity(e.getMessage())
         .build();

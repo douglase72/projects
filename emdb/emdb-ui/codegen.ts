@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'http://localhost:60310/emdb/graphql',
+  schema: 'http://localhost:60312/emdb-media/api/graphql',
   documents: ['src/**/*.{ts,vue}', '!src/gql/**/*'], 
   ignoreNoDocuments: true,
   generates: {

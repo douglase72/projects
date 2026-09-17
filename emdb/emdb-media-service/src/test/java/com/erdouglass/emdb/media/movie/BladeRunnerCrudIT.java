@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.media.movie;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,11 +9,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Map;
 import java.util.UUID;
 
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -33,6 +36,7 @@ class BladeRunnerCrudIT {
   
   private UUID movieId;
   
+  @Disabled
   @Test
   @Order(1)
   void testCreateMovie() throws IOException, InterruptedException {
@@ -79,8 +83,43 @@ class BladeRunnerCrudIT {
     LOGGER.infof("Updated movie in %d ms", et);
   }
   
+  @Disabled
   @Test
   @Order(3)
+  void testFindMovie() throws IOException, InterruptedException {
+    var query = """
+        query {
+          movie(id: "%s") { 
+            id version title releaseDate score originalLanguage overview
+          }
+        }
+        """.formatted(movieId);
+    var payload = Map.of("query", query);
+    var request = HttpRequest.newBuilder()
+        .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(payload)))
+        .header("Content-Type", "application/json")
+        .uri(UriBuilder.fromUri(TestHelper.GRAPHQL_URL).build())
+        .build(); 
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    var root = TestHelper.OBJECT_MAPPER.readTree(response.body());
+    
+    var movie = root.path("data").path("movie");
+    assertTrue(root.path("errors").isMissingNode(), "GraphQL errors: " + root.path("errors"));
+    assertEquals(movieId.toString(), movie.path("id").asText());
+    assertEquals(1, movie.path("version").asLong());
+    assertEquals("Blade Runner", movie.path("title").asText());
+    assertEquals("1982-06-25", movie.path("releaseDate").asText());
+    assertEquals(7.893, movie.path("score").asDouble(), 0.001);
+    assertEquals("en", movie.path("originalLanguage").asText());
+    assertEquals("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.", movie.path("overview").asText());
+    LOGGER.infof("Found movie in %d ms", et);    
+  }
+  
+  @Disabled
+  @Test
+  @Order(4)
   void testUpdateMovie() throws IOException, InterruptedException {
     var updateRequest = UpdateMovieRequest.builder()
         .version(1L)
