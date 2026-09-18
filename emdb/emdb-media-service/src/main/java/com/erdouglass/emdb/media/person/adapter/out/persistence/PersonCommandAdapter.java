@@ -39,6 +39,11 @@ class PersonCommandAdapter implements PersonCommandRepository {
   public Person update(Person person) {
     return toPerson(repository.update(toPersonEntity(person)));
   }
+  
+  @Override
+  public void deleteById(PublicId id) {
+    repository.deleteById(id.value());
+  }
 
   @Override
   public Optional<Person> findById(PublicId id) {

@@ -15,6 +15,8 @@ public interface PersonCommandRepository {
   
   Person update(Person person);
   
+  void deleteById(PublicId id);
+  
   Optional<Person> findById(PublicId id);
   
   Optional<Person> findByTmdbId(TmdbId tmdbId);

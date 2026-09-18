@@ -14,12 +14,12 @@ class PersonLoggingAdapter {
   private static final Logger LOGGER = Logger.getLogger(PersonLoggingAdapter.class);
   
   void onCreated(@Observes(during = TransactionPhase.AFTER_SUCCESS) PersonCreated event) {
-    LOGGER.infof("Created person: id=%s, tmdbId=%d, title=%s", 
+    LOGGER.debugf("Created person: id=%s, tmdbId=%d, name=%s", 
         event.id().value(), event.tmdbId().value(), event.name().value());
   }
   
   void onUpdated(@Observes(during = TransactionPhase.AFTER_SUCCESS) PersonUpdated event) {
-    LOGGER.infof("Updated person: id=%s, tmdbId=%d, title=%s", 
+    LOGGER.debugf("Updated person: id=%s, tmdbId=%d, name=%s", 
         event.id().value(), event.tmdbId().value(), event.name().value());
   }  
 }

@@ -12,6 +12,8 @@ public interface MovieCommandRepository {
   
   Movie update(Movie movie);
   
+  void deleteById(PublicId id);
+  
   Optional<Movie> findById(PublicId id);
     
   Optional<Movie> findByTmdbId(TmdbId tmdbId);

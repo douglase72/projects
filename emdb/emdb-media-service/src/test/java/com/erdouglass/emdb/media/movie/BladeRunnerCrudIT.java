@@ -15,7 +15,6 @@ import java.util.UUID;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -36,7 +35,6 @@ class BladeRunnerCrudIT {
   
   private UUID movieId;
   
-  @Disabled
   @Test
   @Order(1)
   void testCreateMovie() throws IOException, InterruptedException {
@@ -83,7 +81,6 @@ class BladeRunnerCrudIT {
     LOGGER.infof("Updated movie in %d ms", et);
   }
   
-  @Disabled
   @Test
   @Order(3)
   void testFindMovie() throws IOException, InterruptedException {
@@ -117,7 +114,6 @@ class BladeRunnerCrudIT {
     LOGGER.infof("Found movie in %d ms", et);    
   }
   
-  @Disabled
   @Test
   @Order(4)
   void testUpdateMovie() throws IOException, InterruptedException {
@@ -142,5 +138,19 @@ class BladeRunnerCrudIT {
     assertEquals("UPDATED", result.status());
     assertEquals(2, result.version());    
     LOGGER.infof("Updated movie in %d ms", et);
+  }
+  
+  @Test
+  @Order(5)
+  void testDeleteMovie() throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder()
+        .DELETE()
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId.toString()).build())
+        .build();
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(204, response.statusCode());
+    LOGGER.infof("Deleted movie in: %d ms", et);    
   }
 }

@@ -2,10 +2,11 @@ package com.erdouglass.emdb.media.movie.application.port.in;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
+
+import com.erdouglass.emdb.media.kernel.PublicId;
 
 public record UpdateMovieCommand(
-    UUID id,
+    PublicId id,
     Long version,
     String title,
     String releaseDate,

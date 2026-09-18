@@ -21,7 +21,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.media.TestHelper;
 import com.erdouglass.emdb.media.dto.SaveResponse;
+import com.erdouglass.emdb.media.dto.UpdateResponse;
 import com.erdouglass.emdb.media.person.adapter.in.rest.SavePersonRequest;
+import com.erdouglass.emdb.media.person.adapter.in.rest.UpdatePersonRequest;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -72,5 +74,46 @@ class HarrisonFordCrudIT {
     assertEquals(personId, result.id());
     assertEquals("UPDATED", result.status());
     LOGGER.infof("Updated person in %d ms", et);
+  }
+  
+  @Test
+  @Order(4)
+  void testUpdatePerson() throws IOException, InterruptedException {
+    var updateRequest = UpdatePersonRequest.builder()
+        .version(1L)
+        .name("Henrietta J. Ford")
+        .birthDate("1962-01-01")
+        .deathDate("2020-12-31")
+        .gender("Female")
+        .biography("Test biography") 
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.PEOPLE_URL).path(personId.toString()).build())
+        .build();
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body()); 
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResponse.class);
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    assertEquals(personId, result.id());
+    assertEquals("UPDATED", result.status());
+    assertEquals(2, result.version()); 
+    LOGGER.infof("Updated person in %d ms", et);
+  }
+  
+  @Test
+  @Order(5)
+  void testDeletePerson() throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder()
+        .DELETE()
+        .uri(UriBuilder.fromUri(TestHelper.PEOPLE_URL).path(personId.toString()).build())
+        .build();
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    assertEquals(204, response.statusCode());
+    LOGGER.infof("Deleted person in: %d ms", et);    
   }
 }

@@ -32,6 +32,11 @@ class MovieCommandAdapter implements MovieCommandRepository {
   public Movie update(Movie movie) {
     return toMovie(repository.update(toMovieEntity(movie)));
   }
+  
+  @Override
+  public void deleteById(PublicId id) {
+    repository.deleteById(id.value());
+  }
 
   @Override
   public Optional<Movie> findById(PublicId id) {

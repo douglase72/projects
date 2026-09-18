@@ -1,10 +1,13 @@
 package com.erdouglass.emdb.media.person.adapter.in.rest;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -15,7 +18,11 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.dto.SaveResponse;
+import com.erdouglass.emdb.media.dto.UpdateResponse;
+import com.erdouglass.emdb.media.kernel.PublicId;
+import com.erdouglass.emdb.media.person.application.port.in.DeletePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonUseCase;
 
 @Path("/people")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,6 +31,12 @@ class PersonResource {
   
   @Inject
   SavePersonUseCase saveUseCase;
+  
+  @Inject
+  UpdatePersonUseCase updateUseCase;
+  
+  @Inject
+  DeletePersonUseCase deleteUseCase;
   
   @Inject
   CommandMapper mapper;
@@ -44,6 +57,25 @@ class PersonResource {
     case UPDATED, UNCHANGED -> Response
       .ok(SaveResponse.of(result.id().value(), result.status().toString()))
       .build();
-  };
+    };
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public UpdateResponse update(
+      @NotNull @PathParam("id") UUID id, 
+      @NotNull @Valid UpdatePersonRequest request) {
+    var command = mapper.toUpdatePersonCommand(PublicId.of(id), request);
+    var result = updateUseCase.update(command);
+    return switch (result.status()) {
+      case UPDATED, UNCHANGED -> UpdateResponse.of(id, result.version().value(), result.status().toString());
+    };
+  }
+  
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@NotNull @PathParam("id") UUID id) {
+    deleteUseCase.deleteById(PublicId.of(id));
+    return Response.noContent().build();
   }
 }

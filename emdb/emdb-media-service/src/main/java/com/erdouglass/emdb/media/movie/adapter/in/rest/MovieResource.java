@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -18,6 +19,8 @@ import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.dto.SaveResponse;
 import com.erdouglass.emdb.media.dto.UpdateResponse;
+import com.erdouglass.emdb.media.kernel.PublicId;
+import com.erdouglass.emdb.media.movie.application.port.in.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
 
@@ -31,6 +34,9 @@ class MovieResource {
   
   @Inject
   UpdateMovieUseCase updateUseCase;
+  
+  @Inject
+  DeleteMovieUseCase deleteUseCase;
   
   @Inject
   CommandMapper mapper;
@@ -60,10 +66,17 @@ class MovieResource {
   public UpdateResponse update(
       @NotNull @PathParam("id") UUID id, 
       @NotNull @Valid UpdateMovieRequest request) {
-    var command = mapper.toUpdateMovieCommand(id, request);
+    var command = mapper.toUpdateMovieCommand(PublicId.of(id), request);
     var result = updateUseCase.update(command);
     return switch (result.status()) {
       case UPDATED, UNCHANGED -> UpdateResponse.of(id, result.version().value(), result.status().toString());
     };
-  }  
+  } 
+  
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@NotNull @PathParam("id") UUID id) {
+    deleteUseCase.deleteById(PublicId.of(id));
+    return Response.noContent().build();
+  }
 }

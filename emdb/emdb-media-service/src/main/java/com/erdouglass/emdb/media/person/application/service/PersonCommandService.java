@@ -14,18 +14,24 @@ import com.erdouglass.emdb.media.kernel.PublicId;
 import com.erdouglass.emdb.media.kernel.SaveResult;
 import com.erdouglass.emdb.media.kernel.SaveResult.Status;
 import com.erdouglass.emdb.media.kernel.TmdbId;
+import com.erdouglass.emdb.media.kernel.UpdateResult;
+import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.person.application.port.in.DeletePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonCommand.Reference;
 import com.erdouglass.emdb.media.person.application.port.in.ResolvePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.in.SavePersonUseCase;
+import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonCommand;
+import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonUseCase;
 import com.erdouglass.emdb.media.person.application.port.out.PersonCommandRepository;
 import com.erdouglass.emdb.media.person.application.port.out.PersonOutboxRepository;
 import com.erdouglass.emdb.media.person.domain.event.DomainEvent;
+import com.erdouglass.emdb.media.person.domain.exception.PersonNotFoundException;
 import com.erdouglass.emdb.media.person.domain.model.Person;
 import com.erdouglass.emdb.media.person.domain.model.PersonDetails;
 
 @ApplicationScoped
-class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
+class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase, UpdatePersonUseCase, DeletePersonUseCase {
   
   @Inject
   Event<DomainEvent> emitter;
@@ -48,7 +54,7 @@ class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
         .map(existing -> update(existing, command))
         .orElseGet(() -> insert(command));
   }
-
+  
   @Override
   @Transactional
   public Map<TmdbId, PublicId> resolve(ResolvePersonCommand command) {
@@ -66,6 +72,26 @@ class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase {
     events.stream().findAny().ifPresent(emitter::fire);
     return existing.values().stream()
         .collect(Collectors.toMap(Person::tmdbId, Person::id));
+  }
+  
+  @Override
+  @Transactional
+  public UpdateResult update(UpdatePersonCommand command) {
+    var existing = people.findById(command.id())
+        .orElseThrow(() -> new PersonNotFoundException(command.id().value().toString()));
+    existing.checkVersion(Version.of(command.version()));
+    existing.update(PersonDetailsMapper.toPersonDetails(command));
+    var updated = people.update(existing);
+    existing.pullEvents().forEach(emitter::fire);
+    return UpdateResult.of(updated.id(), updated.version(), UpdateResult.Status.UPDATED);
+  }
+  
+  @Override
+  @Transactional
+  public void deleteById(PublicId id) {
+    var existing = people.findById(id)
+        .orElseThrow(() -> new PersonNotFoundException(id.toString()));
+    people.deleteById(existing.id());
   }
   
   private SaveResult insert(SavePersonCommand command) {

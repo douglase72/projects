@@ -6,6 +6,8 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.erdouglass.emdb.media.SavePersonCommand;
+import com.erdouglass.emdb.media.kernel.PublicId;
+import com.erdouglass.emdb.media.person.application.port.in.UpdatePersonCommand;
 
 @Mapper(
     componentModel = "cdi", 
@@ -16,4 +18,6 @@ import com.erdouglass.emdb.media.SavePersonCommand;
 interface CommandMapper {
 
   SavePersonCommand toSavePersonCommand(Integer tmdbId, SavePersonRequest request);
+  
+  UpdatePersonCommand toUpdatePersonCommand(PublicId id, UpdatePersonRequest request);
 }

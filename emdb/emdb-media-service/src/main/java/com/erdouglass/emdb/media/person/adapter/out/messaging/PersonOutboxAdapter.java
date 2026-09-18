@@ -8,7 +8,6 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
-import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.ingest.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.IngestMediaCommand.IngestType;
@@ -20,7 +19,6 @@ import io.quarkus.scheduler.Scheduled.ConcurrentExecution;
 
 @ApplicationScoped
 class PersonOutboxAdapter {
-  private static final Logger LOGGER = Logger.getLogger(PersonOutboxAdapter.class);
   
   @Inject
   @Channel("ingest-media-out")
@@ -46,7 +44,6 @@ class PersonOutboxAdapter {
     for (var person : people) {
       var command = IngestMediaCommand.of(person.getTmdbId(), IngestType.PERSON);
       emitter.send(Message.of(command));
-      LOGGER.debugf("Sent: %s", command);
     }
     repository.deleteAll(people);
   }

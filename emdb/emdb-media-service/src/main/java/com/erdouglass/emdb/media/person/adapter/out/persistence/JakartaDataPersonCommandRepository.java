@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.data.repository.Delete;
 import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.Query;
@@ -21,6 +22,9 @@ interface JakartaDataPersonCommandRepository {
   
   @Update
   PersonEntity update(PersonEntity entity);
+  
+  @Delete
+  void deleteById(UUID id);
   
   @Find
   Optional<PersonEntity> findById(UUID id);

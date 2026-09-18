@@ -14,6 +14,7 @@ import com.erdouglass.emdb.media.kernel.SaveResult.Status;
 import com.erdouglass.emdb.media.kernel.TmdbId;
 import com.erdouglass.emdb.media.kernel.UpdateResult;
 import com.erdouglass.emdb.media.kernel.Version;
+import com.erdouglass.emdb.media.movie.application.port.in.DeleteMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
@@ -26,7 +27,7 @@ import com.erdouglass.emdb.media.movie.domain.model.Movie;
 import com.erdouglass.emdb.media.person.domain.model.Name;
 
 @ApplicationScoped
-class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase {
+class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, DeleteMovieUseCase {
   
   @Inject
   Event<DomainEvent> emitter;
@@ -53,13 +54,21 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase {
   @Override
   @Transactional
   public UpdateResult update(UpdateMovieCommand command) {
-    var existing = movies.findById(PublicId.of(command.id()))
+    var existing = movies.findById(command.id())
         .orElseThrow(() -> new MovieNotFoundException(command.id().toString()));
     existing.checkVersion(Version.of(command.version()));
     existing.update(MovieDetailsMapper.toMovieDetails(command));
     var updated = movies.update(existing);
     existing.pullEvents().forEach(emitter::fire);
     return UpdateResult.of(updated.id(), updated.version(), UpdateResult.Status.UPDATED);
+  }
+  
+  @Override
+  @Transactional
+  public void deleteById(PublicId id) {
+    var existing = movies.findById(id)
+        .orElseThrow(() -> new MovieNotFoundException(id.toString()));
+    movies.deleteById(existing.id());
   }
   
   private SaveResult insert(SaveMovieCommand command) {
