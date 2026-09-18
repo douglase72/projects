@@ -14,7 +14,6 @@ import java.util.UUID;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -79,7 +78,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Updated person in %d ms", et);
   }
   
-  @Disabled
   @Test
   @Order(3)
   void testFindPerson() throws IOException, InterruptedException {
@@ -113,7 +111,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Found person in %d ms", et);    
   }
   
-  @Disabled
   @Test
   @Order(4)
   void testUpdatePerson() throws IOException, InterruptedException {
@@ -141,7 +138,6 @@ class HarrisonFordCrudIT {
     LOGGER.infof("Updated person in %d ms", et);
   }
   
-  @Disabled
   @Test
   @Order(5)
   void testDeletePerson() throws IOException, InterruptedException {
