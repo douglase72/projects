@@ -12,6 +12,15 @@ export const MovieDocument = graphql(`
 `)
 export type Movie = NonNullable<ResultOf<typeof MovieDocument>['movie']>
 
+export const PersonDocument = graphql(`
+  query Person($id: String!) {
+    person(id: $id) {
+      id version name birthDate deathDate gender biography
+    }
+  }
+`)
+export type Person = NonNullable<ResultOf<typeof PersonDocument>['person']>
+
 const defaultOptions: DefaultOptions = {
   query: {
     fetchPolicy: 'network-only',
@@ -32,4 +41,12 @@ export const findMovie = async (id: string): Promise<Movie | null> => {
     variables: { id },
   });
   return data.movie;
+};
+
+export const findPerson = async (id: string): Promise<Person | null> => {
+  const { data } = await client.query<{ person: Person | null }>({
+    query: PersonDocument,
+    variables: { id },
+  });
+  return data.person;
 };
