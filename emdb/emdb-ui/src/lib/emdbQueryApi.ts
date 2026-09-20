@@ -7,6 +7,10 @@ export const MovieDocument = graphql(`
   query Movie($id: String!) {
     movie(id: $id) {
       id version title releaseDate score originalLanguage overview
+      credits {
+        cast { id personId name character order }
+        crew { id personId name job department }
+      }
     }
   }
 `)

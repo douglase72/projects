@@ -1,6 +1,9 @@
 package com.erdouglass.emdb.media.movie.application.service;
 
+import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
@@ -57,7 +60,7 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
     var existing = movies.findById(command.id())
         .orElseThrow(() -> new MovieNotFoundException(command.id().toString()));
     existing.checkVersion(Version.of(command.version()));
-    existing.update(MovieDetailsMapper.toMovieDetails(command));
+    existing.update(MovieMapper.toMovieDetails(command));
     var updated = movies.update(existing);
     existing.pullEvents().forEach(emitter::fire);
     return UpdateResult.of(updated.id(), updated.version(), UpdateResult.Status.UPDATED);
@@ -72,17 +75,28 @@ class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, Delet
   }
   
   private SaveResult insert(SaveMovieCommand command) {
-    var movie = Movie.create(TmdbId.of(command.tmdbId()), MovieDetailsMapper.toMovieDetails(command));
+    var stubs = people.resolve(toStubs(command));
+    var movie = Movie.create(TmdbId.of(command.tmdbId()), MovieMapper.toMovieDto(command, stubs));
     var inserted = movies.insert(movie);
-    people.resolve(Set.of(PersonStub.of(TmdbId.of(3), Name.of("Harrison Ford"))));
     movie.pullEvents().forEach(emitter::fire);
     return SaveResult.of(inserted.id(), Status.CREATED);
   }
   
   private SaveResult update(Movie existing, SaveMovieCommand command) {
-    existing.update(MovieDetailsMapper.toMovieDetails(command));
+    var stubs = people.resolve(toStubs(command));
+    existing.update(MovieMapper.toMovieDto(command, stubs));
     var updated = movies.update(existing);
     existing.pullEvents().forEach(emitter::fire);
     return SaveResult.of(updated.id(), Status.UPDATED);
+  }
+  
+  private Set<PersonStub> toStubs(SaveMovieCommand command) {
+    var cast = Stream.ofNullable(command.cast())
+        .flatMap(Collection::stream)
+        .map(m -> PersonStub.of(TmdbId.of(m.tmdbPersonId()), Name.of(m.name())));
+    var crew = Stream.ofNullable(command.crew())
+        .flatMap(Collection::stream)
+        .map(m -> PersonStub.of(TmdbId.of(m.tmdbPersonId()), Name.of(m.name())));
+    return Stream.concat(cast, crew).collect(Collectors.toSet());
   }
 }

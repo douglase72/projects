@@ -69,7 +69,7 @@ class PersonCommandService implements SavePersonUseCase, ResolvePersonUseCase, U
     }
     var events = stubs.stream().flatMap(s -> s.pullEvents().stream()).toList();
     outbox.saveAll(events);
-    events.stream().findAny().ifPresent(emitter::fire);
+    events.stream().forEach(emitter::fire);
     return existing.values().stream()
         .collect(Collectors.toMap(Person::tmdbId, Person::id));
   }

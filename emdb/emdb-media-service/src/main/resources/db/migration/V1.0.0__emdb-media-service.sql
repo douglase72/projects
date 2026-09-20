@@ -12,6 +12,20 @@
         constraint uq_movie_tmdb_id unique (tmdb_id)
     );
 
+    create table media.movie_credit (
+        id uuid not null,
+        credit_type varchar(8) not null check ((credit_type in ('CAST','CREW'))),
+        department varchar(255),
+        name varchar(255) not null,
+        credit_order integer,
+        person_id uuid not null,
+        role varchar(250),
+        tmdb_id varchar(255) not null,
+        movie_id uuid not null,
+        primary key (id),
+        unique (movie_id, tmdb_id)
+    );
+
     create table media.person (
         id uuid not null,
         biography varchar(4000),
@@ -32,3 +46,8 @@
         tmdb_id integer not null,
         primary key (id)
     );
+
+    alter table if exists media.movie_credit 
+       add constraint FKnhguhhky9w4rsrxfcttovvey9 
+       foreign key (movie_id) 
+       references media.movie;
