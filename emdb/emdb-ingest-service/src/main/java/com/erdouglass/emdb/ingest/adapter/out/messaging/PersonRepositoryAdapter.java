@@ -10,10 +10,7 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.ingest.application.port.out.Person;
 import com.erdouglass.emdb.ingest.application.port.out.PersonRepository;
-import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.media.SavePersonCommand;
-
-import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 class PersonRepositoryAdapter implements PersonRepository {
@@ -27,11 +24,14 @@ class PersonRepositoryAdapter implements PersonRepository {
   PersonMapper mapper;
 
   @Override
-  public void save(IngestId id, Person person) {
+  public void save( Person person) {
     var command = mapper.toSavePersonCommand(person);
-    LOGGER.infof("command: %s", command);
-    emitter.send(Message.of(command).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withCorrelationId(id.value().toString())
-        .build()));
+    
+    try {
+      emitter.send(Message.of(command));
+    }  catch (Exception e) {
+      LOGGER.errorf(e, "Failed to publish command: %s", command);
+      throw e;
+    }
   }
 }

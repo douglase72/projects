@@ -10,10 +10,7 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.ingest.application.port.out.Movie;
 import com.erdouglass.emdb.ingest.application.port.out.MovieRepository;
-import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.media.SaveMovieCommand;
-
-import io.smallrye.reactive.messaging.rabbitmq.OutgoingRabbitMQMetadata;
 
 @ApplicationScoped
 class MovieRepositoryAdapter implements MovieRepository {
@@ -27,11 +24,14 @@ class MovieRepositoryAdapter implements MovieRepository {
   MovieMapper mapper;
 
   @Override
-  public void save(IngestId id, Movie movie) {
+  public void save(Movie movie) {
     var command = mapper.toSaveMovieCommand(movie);
-    LOGGER.infof("command: %s", command);
-    emitter.send(Message.of(command).addMetadata(OutgoingRabbitMQMetadata.builder()
-        .withCorrelationId(id.value().toString())
-        .build()));
+    
+    try {
+      emitter.send(Message.of(command));
+    } catch (Exception e) {
+      LOGGER.errorf(e, "Failed to publish command: %s", command);
+      throw e;
+    }
   }
 }

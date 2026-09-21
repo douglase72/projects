@@ -9,8 +9,8 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.application.port.in.IngestMediaUseCase;
+import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 
@@ -23,12 +23,14 @@ class IngestConsumer {
 
   @RunOnVirtualThread
   @Incoming("ingest-media-in")
-  CompletionStage<Void> onMessage(Message<IngestMediaCommand> message) {
+  CompletionStage<Void> onMessage(Message<IngestId> message) {
+    var id = message.getPayload();
+    
     try {
-      ingestUseCase.ingest(message.getPayload());
+      ingestUseCase.ingest(id);
       return message.ack();
     } catch (Exception e) {
-      LOGGER.errorf(e , "Failed to ingest media");
+      LOGGER.errorf(e , "Ingest job %s failed", id.value());
       return message.nack(e);
     }
   }

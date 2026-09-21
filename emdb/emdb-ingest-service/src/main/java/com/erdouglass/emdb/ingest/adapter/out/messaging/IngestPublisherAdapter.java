@@ -7,18 +7,18 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import com.erdouglass.emdb.ingest.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.application.port.out.IngestPublisher;
+import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
 @ApplicationScoped
 class IngestPublisherAdapter implements IngestPublisher {
   
   @Inject
   @Channel("ingest-media-out")
-  Emitter<IngestMediaCommand> emitter;
+  Emitter<IngestId> emitter;
 
   @Override
-  public void publish(IngestMediaCommand command) {
-    emitter.send(Message.of(command));
+  public void publish(IngestId id) {
+    emitter.send(Message.of(id));
   }
 }

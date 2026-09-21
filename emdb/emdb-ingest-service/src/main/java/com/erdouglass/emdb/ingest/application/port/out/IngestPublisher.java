@@ -1,8 +1,8 @@
 package com.erdouglass.emdb.ingest.application.port.out;
 
-import com.erdouglass.emdb.ingest.IngestMediaCommand;
+import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
 public interface IngestPublisher {
 
-  void publish(IngestMediaCommand command);
+  void publish(IngestId id);
 }

@@ -1,3 +1,70 @@
+Ingest Service
+com.example.ingest
+├── domain                                   # plain Java, no framework imports
+│   ├── model
+│   │   ├── IngestJob.java                   # aggregate root: stage state machine + audit trail
+│   │   ├── IngestJobId.java                 # value object (UUID)
+│   │   ├── TmdbId.java                      # value object
+│   │   ├── MediaType.java                   # enum: MOVIE (TV later)
+│   │   ├── IngestStage.java                 # enum: SUBMITTED, STARTED, EXTRACTED, COMPLETED, FAILED
+│   │   ├── IngestAuditEntry.java            # entity: stage, occurredAt, detail (append-only)
+│   │   ├── ExtractedMovie.java              # value object: source-agnostic movie data
+│   │   └── InvalidStageTransitionException.java
+│   └── event                                # optional: IngestSubmitted, IngestStarted, MovieExtracted,
+│                                            #   IngestCompleted, IngestFailed — raised from the same transitions
+├── application
+│   ├── command
+│   │   ├── IngestMediaCommand.java          # record(jobId, tmdbId, mediaType)
+│   │   └── SaveMovieCommand.java            # record built from ExtractedMovie
+│   ├── port
+│   │   ├── in                               # driving ports
+│   │   │   ├── SubmitIngestUseCase.java     # IngestJobId submit(TmdbId, MediaType)
+│   │   │   ├── ProcessIngestUseCase.java    # void process(IngestMediaCommand)
+│   │   │   └── IngestAuditQuery.java        # IngestJob byId(IngestJobId)
+│   │   └── out                              # driven ports
+│   │       ├── IngestJobRepository.java     # save(IngestJob), findById(IngestJobId)
+│   │       ├── IngestCommandPublisher.java  # publish(IngestMediaCommand)
+│   │       ├── MovieSource.java             # ExtractedMovie fetchMovie(TmdbId)
+│   │       └── MediaCommandSender.java      # send(SaveMovieCommand)
+│   └── service
+│       ├── SubmitIngestService.java         # new job → SUBMITTED → save → publish
+│       └── ProcessIngestService.java        # STARTED → fetch → EXTRACTED → send → COMPLETED | FAILED
+│
+├── adapter                                  # everything Quarkus-specific lives here
+│   ├── in
+│   │   ├── rest
+│   │   │   ├── IngestResource.java          # POST /ingest → 202 + jobId; GET /ingest/{id}/audit
+│   │   │   └── dto
+│   │   │       ├── IngestRequest.java
+│   │   │       ├── IngestAcceptedResponse.java
+│   │   │       └── IngestAuditResponse.java
+│   │   └── messaging
+│   │       └── IngestCommandConsumer.java   # @Incoming("ingest-commands") @Blocking
+│   └── out
+│       ├── persistence
+│       │   ├── IngestJobEntity.java         # @Entity
+│       │   ├── IngestAuditEntryEntity.java  # @Entity, FK to job
+│       │   ├── IngestJobs.java              # @Repository extends CrudRepository<IngestJobEntity, UUID>
+│       │   ├── IngestAuditEntries.java      # @Repository (Jakarta Data)
+│       │   ├── IngestJobPersistenceAdapter.java  # implements IngestJobRepository
+│       │   └── IngestJobMapper.java         # domain ↔ entity
+│       ├── messaging
+│       │   ├── RabbitIngestCommandPublisher.java  # implements IngestCommandPublisher (Emitter)
+│       │   ├── RabbitMediaCommandSender.java      # implements MediaCommandSender
+│       │   └── message
+│       │       ├── IngestMediaMessage.java  # wire contract (JSON)
+│       │       └── SaveMovieMessage.java    # wire contract shared with Media service
+│       └── tmdb
+│           ├── TmdbClient.java              # @RegisterRestClient(configKey = "tmdb")
+│           ├── TmdbMovieResponse.java       # DTO (details, credits…)
+│           ├── TmdbRateLimiter.java         # blocking token bucket
+│           ├── TmdbMovieMapper.java         # DTO → ExtractedMovie
+│           └── TmdbMovieSource.java         # implements MovieSource
+└── config
+    └── IngestConfig.java                    # @ConfigMapping for tmdb.*, ingest.*
+
+
+
 Fable 5.1
 
 com.erdouglass.emdb.media

@@ -11,7 +11,7 @@ public record Person(
     String birthDate,
     String deathDate,
     String gender,
-    String biography) {
+    String biography) implements Media {
   
   public Person {
     Objects.requireNonNull(tmdbId, "tmdbId must not be null");

@@ -16,4 +16,8 @@ public record IngestId(UUID value) {
   public static IngestId newId() {
     return new IngestId(ID_GENERATOR.generate());
   }
+  
+  public static IngestId of(UUID id) {
+    return new IngestId(id);
+  }
 }
