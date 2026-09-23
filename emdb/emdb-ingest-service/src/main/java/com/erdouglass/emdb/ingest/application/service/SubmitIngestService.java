@@ -35,7 +35,7 @@ class SubmitIngestService implements SubmitIngestUseCase {
     
     try {
       publisher.publish(job.id());
-      job.pullEvents().forEach(emitter::fire);
+      emitter.fire(job.events().getLast());
     } catch (Exception e) {
       LOGGER.errorf(e, "Failed to publish command: %s", command);
       throw e;

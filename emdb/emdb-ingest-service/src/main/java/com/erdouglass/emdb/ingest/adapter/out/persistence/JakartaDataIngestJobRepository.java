@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.data.repository.Find;
+import jakarta.data.repository.Insert;
 import jakarta.data.repository.Repository;
 import jakarta.data.repository.Save;
 
@@ -15,4 +16,7 @@ interface JakartaDataIngestJobRepository {
   
   @Find
   Optional<IngestJobEntity> findById(UUID id);
+  
+  @Insert
+  void insert(IngestStageEntity stage);
 }

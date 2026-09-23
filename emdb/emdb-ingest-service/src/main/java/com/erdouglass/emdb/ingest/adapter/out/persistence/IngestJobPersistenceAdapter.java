@@ -28,6 +28,7 @@ class IngestJobPersistenceAdapter implements IngestJobRepository {
     entity.setSubmittedAt(job.submittedAt().toInstant());
     entity.setStage(job.stage());
     jobs.save(entity);
+    jobs.insert(toIngestStageEntity(job));
   }
 
   @Override
@@ -41,5 +42,14 @@ class IngestJobPersistenceAdapter implements IngestJobRepository {
     var tmdbId = TmdbId.of(entity.getTmdbId());
     var submittedAt = DateTimeFactory.from(entity.getSubmittedAt());
     return IngestJob.rehydrate(id, tmdbId, entity.getIngestType(), submittedAt, entity.getStage());
+  }
+  
+  private IngestStageEntity toIngestStageEntity(IngestJob job) {
+    var entity = new IngestStageEntity();
+    entity.setJobId(job.id().value());
+    entity.setStage(job.stage());
+    entity.setOccurredAt(job.events().getLast().occurredAt().toInstant());
+    entity.setMessage(job.events().getLast().message());
+    return entity;
   }
 }

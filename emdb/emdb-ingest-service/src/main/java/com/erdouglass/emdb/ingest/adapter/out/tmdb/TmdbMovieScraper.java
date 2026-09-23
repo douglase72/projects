@@ -1,23 +1,36 @@
 package com.erdouglass.emdb.ingest.adapter.out.tmdb;
 
-import java.math.BigDecimal;
-
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.erdouglass.emdb.ingest.application.port.out.Movie;
 import com.erdouglass.emdb.ingest.domain.model.TmdbId;
 
+/// Anti-corruption layer between the TMDB API and the Ingest domain.
 @ApplicationScoped
 class TmdbMovieScraper {
+  private static final String CREDITS = "credits";
+  private static final String NULL_LANGUAGE = "xx"; 
+  
+  @Inject
+  @RestClient
+  TmdbClient client;
 
   public Movie scrape(TmdbId tmdbId) {
-    return Movie.builder()
-        .tmdbId(78)
-        .title("Blade Runner")
-        .releaseDate("1982-06-25")
-        .score(BigDecimal.valueOf(7.893))
-        .originalLanguage("en")
-        .overview("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.")
+    var tmdbMovie = client.findMovieById(tmdbId.value(), CREDITS);
+    var score = tmdbMovie.vote_count() > 0 ? tmdbMovie.vote_average() : null;
+    var originalLanguage = tmdbMovie.original_language().equals(NULL_LANGUAGE) ? null 
+                         : tmdbMovie.original_language();
+    var movie = Movie.builder()
+        .tmdbId(tmdbMovie.id())
+        .title(tmdbMovie.title())
+        .releaseDate(tmdbMovie.release_date())
+        .score(score)
+        .originalLanguage(originalLanguage)
+        .overview(tmdbMovie.overview())
         .build();
+    return movie;    
   }
 }

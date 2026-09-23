@@ -42,13 +42,13 @@ class IngestService implements IngestMediaUseCase {
     try {
       job.start();
       jobs.save(job);
-      job.pullEvents().forEach(emitter::fire);
+      emitter.fire(job.events().getLast());
       
       // Extract the media from TMDB.
       var media = source.extract(job.tmdbId(), job.type());
       job.markExtracted();
       jobs.save(job);
-      job.pullEvents().forEach(emitter::fire);
+      emitter.fire(job.events().getLast());
       
       // Send the media to the broker.
       switch (media) {
@@ -58,7 +58,7 @@ class IngestService implements IngestMediaUseCase {
     } catch (Exception e) {
       job.fail(e.getMessage());
       jobs.save(job);
-      job.pullEvents().forEach(emitter::fire);   
+      emitter.fire(job.events().getLast());
       throw e;
     }
   }

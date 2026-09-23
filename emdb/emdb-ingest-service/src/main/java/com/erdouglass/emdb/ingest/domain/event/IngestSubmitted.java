@@ -2,22 +2,21 @@ package com.erdouglass.emdb.ingest.domain.event;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.ingest.IngestMediaCommand.IngestType;
+import com.erdouglass.common.util.DateTime;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
-import com.erdouglass.emdb.ingest.domain.model.TmdbId;
 
 public record IngestSubmitted(
     IngestId id, 
-    TmdbId tmdbId, 
-    IngestType type) implements IngestEvent {
+    DateTime occurredAt, 
+    String message) implements IngestEvent {
 
   public IngestSubmitted {
     Objects.requireNonNull(id, "id is required");
-    Objects.requireNonNull(tmdbId, "tmdbId is required");
-    Objects.requireNonNull(type, "type is required");
+    Objects.requireNonNull(occurredAt, "occurredAt is required");
+    Objects.requireNonNull(message, "type is required");
   }
   
-  public static IngestSubmitted of(IngestId id, TmdbId tmdbId, IngestType type) {
-    return new IngestSubmitted(id, tmdbId, type);
+  public static IngestSubmitted of(IngestId id, DateTime occurredAt, String message) {
+    return new IngestSubmitted(id, occurredAt, message);
   }
 }

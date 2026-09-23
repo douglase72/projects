@@ -7,14 +7,14 @@ public enum IngestStage {
   COMPLETED("Completed"),
   FAILED("Failed");
   
-  private final String status;
+  private final String stage;
   
-  IngestStage(String status) {
-    this.status = status;
+  IngestStage(String stage) {
+    this.stage = stage;
   }
   
   @Override
   public String toString() {
-    return status;
+    return stage;
   }  
 }

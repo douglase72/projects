@@ -1,14 +1,14 @@
 package com.erdouglass.emdb.ingest.domain.event;
 
-import com.erdouglass.emdb.ingest.IngestMediaCommand.IngestType;
+import com.erdouglass.common.util.DateTime;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
-import com.erdouglass.emdb.ingest.domain.model.TmdbId;
 
-public sealed interface IngestEvent permits IngestSubmitted, IngestStarted, IngestExtracted, IngestFailed {
+public sealed interface IngestEvent permits IngestSubmitted, IngestStarted, IngestExtracted, 
+                                            IngestFailed {
 
   IngestId id();
   
-  TmdbId tmdbId();
+  DateTime occurredAt();
   
-  IngestType type();
+  String message();
 }
