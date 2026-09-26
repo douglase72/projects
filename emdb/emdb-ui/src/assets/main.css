@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+@theme {
+  --font-sans: 'Montserrat Variable', sans-serif;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  font-size: 14px;
+  font-weight: 500;
+}

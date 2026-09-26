@@ -1,0 +1,90 @@
+services:
+
+  rabbitmq:
+    image: rabbitmq:4.3-management
+    container_name: rabbitmq 
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq   
+    networks:
+      - projects
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  emdb-ingest:
+    image: emdb-ingest:latest
+    container_name: emdb-ingest
+    build:
+      context: ./emdb-ingest/emdb-ingest-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60334:60314
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-ingest/emdb-ingest-service/.env
+    networks:
+      - projects
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:60314/emdb/api/q/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        
+  emdb-media:
+    image: emdb-media:latest
+    container_name: emdb-media
+    build:
+      context: ./emdb-media/emdb-media-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60336:60316
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-media/emdb-media-service/.env
+    volumes:
+      - /home/erdouglass/projects/emdb/media-data/images:/images
+      - /home/erdouglass/projects/emdb/media-data/movies:/movies
+      - /home/erdouglass/projects/emdb/media-data/people:/people
+      - /home/erdouglass/projects/emdb/media-data/series:/series
+    networks:
+      - projects
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:60316/emdb/api/q/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5      
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  emdb-ui:
+    image: emdb-ui:latest
+    container_name: emdb-ui
+    build:
+      context: .
+      dockerfile: emdb-ui/Dockerfile
+    networks:
+      - projects
+    depends_on:
+      emdb-ingest:
+        condition: service_healthy
+      emdb-media:
+        condition: service_healthy
+      
+volumes:
+  rabbitmq_data:
+      
+networks:
+  projects:
+    name: projects
+    external: true

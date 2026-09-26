@@ -1,0 +1,25 @@
+services:
+  
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ../emdb/media-data/images:/usr/share/nginx/html/images:ro
+      - ../emdb/media-data-dev/images:/usr/share/nginx/html/images-dev:ro
+    networks:
+      - projects
+      
+  emdb-imgproxy:
+    image: darthsim/imgproxy:latest
+    container_name: imgproxy
+    networks:
+      - projects      
+
+networks:
+  projects:
+    external: true
