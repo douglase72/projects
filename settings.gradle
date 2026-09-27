@@ -34,12 +34,13 @@ project(':common-validation').projectDir = file('common-api/common-validation')
 // EMDB
 include 'emdb-ingest-api'
 project(':emdb-ingest-api').projectDir = file('emdb/emdb-ingest-api')
-
-include 'emdb-media-api'
-project(':emdb-media-api').projectDir = file('emdb/emdb-media-api')
-
 include 'emdb-ingest-service'
 project(':emdb-ingest-service').projectDir = file('emdb/emdb-ingest-service')
 
+include 'emdb-scraper-service'
+project(':emdb-scraper-service').projectDir = file('emdb/emdb-scraper-service')
+
+include 'emdb-media-api'
+project(':emdb-media-api').projectDir = file('emdb/emdb-media-api')
 include 'emdb-media-service'
 project(':emdb-media-service').projectDir = file('emdb/emdb-media-service')

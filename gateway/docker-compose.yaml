@@ -12,14 +12,15 @@ services:
       - ../emdb/media-data/images:/usr/share/nginx/html/images:ro
       - ../emdb/media-data-dev/images:/usr/share/nginx/html/images-dev:ro
     networks:
-      - projects
+      - erd
       
   emdb-imgproxy:
     image: darthsim/imgproxy:latest
     container_name: imgproxy
     networks:
-      - projects      
+      - erd      
 
 networks:
-  projects:
+  erd:
     external: true
+    
