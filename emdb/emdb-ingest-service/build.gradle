@@ -11,8 +11,9 @@ dependencies {
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   annotationProcessor libs.lombok 
   
-  implementation project(':common-rest')
+  implementation project(':common-rest')  
   implementation project(':emdb-ingest-api')
+  implementation project(':emdb-shared-kernel')
   
   compileOnly libs.lombok
   

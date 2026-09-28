@@ -6,10 +6,10 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.media.messaging.SaveMovieMessage;
+import com.erdouglass.emdb.ingest.messaging.MovieScraped;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 
-import io.smallrye.common.annotation.RunOnVirtualThread;
+import io.smallrye.common.annotation.Blocking;
 
 @ApplicationScoped
 class MovieConsumer {
@@ -18,11 +18,11 @@ class MovieConsumer {
   @Inject
   SaveMovieUseCase saveUseCase;
 
-  @RunOnVirtualThread
-  @Incoming("save-movie")
-  void onMessage(SaveMovieMessage message) {
-    LOGGER.infof("Received: %s", message);
-    var command = MovieMapper.toSaveMovieCommand(message);
+  @Blocking
+  @Incoming("movies-scraped")
+  void onMessage(MovieScraped event) {
+    LOGGER.infof("Received: %s", event);
+    var command = MovieMapper.toMovieScrapedEvent(event);
     saveUseCase.save(command);
   }
 }

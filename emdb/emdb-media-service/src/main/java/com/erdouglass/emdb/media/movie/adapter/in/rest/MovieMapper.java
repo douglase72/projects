@@ -7,7 +7,7 @@ import com.erdouglass.emdb.media.shared.domain.model.LanguageCode;
 import com.erdouglass.emdb.media.shared.domain.model.Overview;
 import com.erdouglass.emdb.media.shared.domain.model.Score;
 import com.erdouglass.emdb.media.shared.domain.model.Title;
-import com.erdouglass.emdb.media.shared.domain.model.TmdbId;
+import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 final class MovieMapper {
   

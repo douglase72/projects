@@ -9,8 +9,8 @@ import com.erdouglass.emdb.media.shared.domain.model.Overview;
 import com.erdouglass.emdb.media.shared.domain.model.PublicId;
 import com.erdouglass.emdb.media.shared.domain.model.Score;
 import com.erdouglass.emdb.media.shared.domain.model.Title;
-import com.erdouglass.emdb.media.shared.domain.model.TmdbId;
 import com.erdouglass.emdb.media.shared.domain.model.Version;
+import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 public final class Movie extends AggregateRoot {
   private MovieDetails details;

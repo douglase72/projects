@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.shared.domain.model;
 import java.util.Objects;
 
 import com.erdouglass.common.rest.StaleVersionException;
+import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 import lombok.Getter;
 import lombok.experimental.Accessors;

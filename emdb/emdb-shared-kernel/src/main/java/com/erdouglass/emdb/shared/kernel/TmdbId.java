@@ -1,4 +1,4 @@
-package com.erdouglass.emdb.ingest.domain.model;
+package com.erdouglass.emdb.shared.kernel;
 
 import java.util.Objects;
 

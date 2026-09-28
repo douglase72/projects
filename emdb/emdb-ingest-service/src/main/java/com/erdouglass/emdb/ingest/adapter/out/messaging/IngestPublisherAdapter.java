@@ -22,7 +22,7 @@ class IngestPublisherAdapter implements IngestPublisher {
   /// Publish the message to the RabbitMQ exchange.
   @Override
   public void publish(Ingest job) {
-    var message = IngestMediaMessage.of(job.tmdbId().value(), job.mediaType().toString());
+    var message = IngestMediaMessage.of(job.tmdbId(), job.mediaType());
     emitter.send(message);
     LOGGER.infof("Published: %s", message);
   }

@@ -2,6 +2,9 @@ package com.erdouglass.emdb.ingest.domain.model;
 
 import java.util.Objects;
 
+import com.erdouglass.emdb.shared.kernel.MediaType;
+import com.erdouglass.emdb.shared.kernel.TmdbId;
+
 import lombok.Getter;
 import lombok.experimental.Accessors;
 

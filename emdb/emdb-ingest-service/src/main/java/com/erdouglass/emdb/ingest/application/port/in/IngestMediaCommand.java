@@ -2,8 +2,8 @@ package com.erdouglass.emdb.ingest.application.port.in;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.ingest.domain.model.MediaType;
-import com.erdouglass.emdb.ingest.domain.model.TmdbId;
+import com.erdouglass.emdb.shared.kernel.MediaType;
+import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 public record IngestMediaCommand(TmdbId tmdbId, MediaType mediaType) {
 

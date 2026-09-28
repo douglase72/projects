@@ -14,6 +14,9 @@ gradle :emdb-ingest-service:clean :emdb-ingest-service:build -x :emdb-ingest-ser
 echo "Building emdb-scraper-service..."
 gradle :emdb-scraper-service:clean :emdb-scraper-service:build -x :emdb-scraper-service:test
 
+echo "Building emdb-media-service..."
+gradle :emdb-media-service:clean :emdb-media-service:build -x :emdb-media-service:test
+
 echo "Cleaning media data..."
 docker run --rm \
   -v /home/erdouglass/projects/emdb/media-data/images:/images \

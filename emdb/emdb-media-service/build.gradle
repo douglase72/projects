@@ -14,16 +14,18 @@ dependencies {
   implementation project(':common-messaging')
   implementation project(':common-rest')
   implementation project(':common-util')
-  implementation project(':emdb-media-api')
+  implementation project(':emdb-ingest-api')
+  implementation project(':emdb-shared-kernel')
   
   compileOnly libs.lombok
   
   implementation libs.jug
   implementation libs.quarkus.arc
+  implementation libs.quarkus.health
   implementation libs.quarkus.hibernate.validator
   implementation libs.quarkus.logging
   implementation libs.quarkus.messaging
-  implementation libs.quarkus.messaging.rabbitmq 
+  implementation libs.quarkus.messaging.kafka
   implementation libs.quarkus.rest
   implementation libs.quarkus.rest.jackson
     

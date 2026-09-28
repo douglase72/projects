@@ -67,6 +67,7 @@ quarkus-jdbc-postgresql     = { module = "io.quarkus:quarkus-jdbc-postgresql" }
 quarkus-junit               = { module = "io.quarkus:quarkus-junit" }
 quarkus-logging             = { module = "io.quarkiverse.loggingjson:quarkus-logging-json", version.ref = "quarkus-logging-json" }
 quarkus-messaging           = { module = "io.quarkus:quarkus-messaging" }
+quarkus-messaging-kafka     = { module = "io.quarkus:quarkus-messaging-kafka" }
 quarkus-messaging-rabbitmq  = { module = "io.quarkus:quarkus-messaging-rabbitmq" }
 quarkus-prometheus          = { module = "io.quarkus:quarkus-micrometer-registry-prometheus" }
 quarkus-rest                = { module = "io.quarkus:quarkus-rest" }

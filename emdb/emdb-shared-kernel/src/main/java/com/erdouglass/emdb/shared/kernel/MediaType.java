@@ -1,5 +1,6 @@
-package com.erdouglass.emdb.ingest.domain.model;
+package com.erdouglass.emdb.shared.kernel;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -22,9 +23,9 @@ public enum MediaType {
   
   public static MediaType from(String type) {
     Objects.requireNonNull(type, "type is required");
-    var result = LOOKUP.get(type.toLowerCase().trim());
+    var result = LOOKUP.get(type.toLowerCase(Locale.ROOT).trim());
     if (result == null) {
-      throw new IllegalArgumentException("invalid ingest type: " + type);
+      throw new IllegalArgumentException("invalid media type: " + type);
     }
     return result;
   }
