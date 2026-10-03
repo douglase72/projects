@@ -20,7 +20,7 @@ class MediaConsumer {
   @Incoming("ingest-media")
   void onMessage(IngestMediaMessage message) {
     switch (message.mediaType()) {
-      case MOVIE  -> movieUseCase.scrape(message.tmdbId());
+      case MOVIE  -> movieUseCase.scrape(message.ingestId(), message.tmdbId(), message.submittedAt());
       case PERSON -> throw new UnsupportedOperationException();
       case SERIES -> throw new UnsupportedOperationException();
     }

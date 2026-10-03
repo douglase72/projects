@@ -92,6 +92,8 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-ingest-service/.env
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - erd
     healthcheck:
@@ -117,6 +119,8 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-scraper-service/.env
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092      
     networks:
       - erd
     healthcheck:
@@ -142,6 +146,8 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-media-service/.env
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092      
     networks:
       - erd
     healthcheck:

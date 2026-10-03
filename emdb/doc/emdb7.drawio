@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" pages="2">
   <diagram id="Z5Q2kCjBCEKGMgLstgz3" name="Architecture Diagram">
-    <mxGraphModel dx="1036" dy="1121" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="978" dy="1121" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -35,7 +35,7 @@
         <mxCell id="Mg9n53XavDK6-vuygM9_-8" edge="1" parent="1" source="flDRzemcL60NHW9v6TfR-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="flDRzemcL60NHW9v6TfR-3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Mg9n53XavDK6-vuygM9_-9" connectable="0" parent="Mg9n53XavDK6-vuygM9_-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="ExtractMedia&lt;div&gt;Command&lt;/div&gt;" vertex="1">
+        <mxCell id="Mg9n53XavDK6-vuygM9_-9" connectable="0" parent="Mg9n53XavDK6-vuygM9_-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="IngestMedia&lt;div&gt;Command&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.1662" y="2" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -51,7 +51,7 @@
         <mxCell id="Mg9n53XavDK6-vuygM9_-14" edge="1" parent="1" source="flDRzemcL60NHW9v6TfR-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="flDRzemcL60NHW9v6TfR-7">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ELYslNAESZO4HLPhLi9y-2" connectable="0" parent="Mg9n53XavDK6-vuygM9_-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="ExtractMedia&lt;div&gt;Command&lt;/div&gt;" vertex="1">
+        <mxCell id="ELYslNAESZO4HLPhLi9y-2" connectable="0" parent="Mg9n53XavDK6-vuygM9_-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="IngestMedia&lt;div&gt;Command&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.04" y="-1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -69,7 +69,7 @@
             <mxPoint x="-1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <object placeholders="1" c4Name="Kafka" c4Type="media-events" c4Description="" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;%c4Description%&lt;/font&gt;&lt;/div&gt;" id="Mg9n53XavDK6-vuygM9_-23">
+        <object placeholders="1" c4Name="Kafka" c4Type="ingest-events" c4Description="" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;%c4Description%&lt;/font&gt;&lt;/div&gt;" id="Mg9n53XavDK6-vuygM9_-23">
           <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=light-dark(#1061B0,#FFFFCC);fontColor=#ffffff;align=center;arcSize=10;strokeColor=#0D5091;metaEdit=1;resizable=1;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1">
             <mxGeometry height="60" width="160" x="320" y="430" as="geometry" />
           </mxCell>
@@ -77,7 +77,7 @@
         <mxCell id="Mg9n53XavDK6-vuygM9_-24" edge="1" parent="1" source="Mg9n53XavDK6-vuygM9_-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="Mg9n53XavDK6-vuygM9_-23">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Mg9n53XavDK6-vuygM9_-26" connectable="0" parent="Mg9n53XavDK6-vuygM9_-24" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="MovieSaved&lt;div&gt;Event&lt;/div&gt;" vertex="1">
+        <mxCell id="Mg9n53XavDK6-vuygM9_-26" connectable="0" parent="Mg9n53XavDK6-vuygM9_-24" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="LOADED&lt;br&gt;&lt;div&gt;Event&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" y="1" as="geometry">
             <mxPoint y="-1" as="offset" />
           </mxGeometry>
@@ -88,7 +88,7 @@
             <mxPoint x="220" y="480" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="LlCcT-IaZPKCd_8ZC-K2-1" connectable="0" parent="Mg9n53XavDK6-vuygM9_-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="MovieSaved&lt;div&gt;Event&lt;/div&gt;" vertex="1">
+        <mxCell id="LlCcT-IaZPKCd_8ZC-K2-1" connectable="0" parent="Mg9n53XavDK6-vuygM9_-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="LOADED&lt;br&gt;&lt;div&gt;Event&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="0.1" y="1" as="geometry">
             <mxPoint x="5" as="offset" />
           </mxGeometry>
@@ -96,7 +96,7 @@
         <mxCell id="Tk2T1HNk7EG1cQ_Ul6Dd-1" edge="1" parent="1" source="flDRzemcL60NHW9v6TfR-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="Mg9n53XavDK6-vuygM9_-23">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Tk2T1HNk7EG1cQ_Ul6Dd-2" connectable="0" parent="Tk2T1HNk7EG1cQ_Ul6Dd-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="MovieStarted/MovieExtracted&lt;div&gt;Event&lt;/div&gt;" vertex="1">
+        <mxCell id="Tk2T1HNk7EG1cQ_Ul6Dd-2" connectable="0" parent="Tk2T1HNk7EG1cQ_Ul6Dd-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="STARTED/EXTRACTED&lt;div&gt;Event&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.05" y="-1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -120,9 +120,9 @@
             <mxPoint x="320" y="450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="LlCcT-IaZPKCd_8ZC-K2-3" connectable="0" parent="LlCcT-IaZPKCd_8ZC-K2-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="MovieSubmitted&lt;div&gt;Event&lt;/div&gt;" vertex="1">
+        <mxCell id="LlCcT-IaZPKCd_8ZC-K2-3" connectable="0" parent="LlCcT-IaZPKCd_8ZC-K2-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;SUBMITTED&lt;div&gt;Event&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.1" as="geometry">
-            <mxPoint x="5" as="offset" />
+            <mxPoint x="5" y="-10" as="offset" />
           </mxGeometry>
         </mxCell>
         <object placeholders="1" c4Name="Kafka" c4Type="movies-scraped" c4Description="" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;%c4Description%&lt;/font&gt;&lt;/div&gt;" id="4BDT8OjA7oXmpZXpyth3-1">

@@ -13,6 +13,7 @@ dependencies {
   annotationProcessor libs.mapstruct.processor
   
   implementation project(':common-messaging')
+  implementation project(':common-util')
   implementation project(':emdb-ingest-api')
   implementation project(':emdb-shared-kernel')
   
