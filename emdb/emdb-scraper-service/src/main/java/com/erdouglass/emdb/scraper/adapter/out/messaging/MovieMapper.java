@@ -5,8 +5,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.erdouglass.emdb.ingest.messaging.MovieScraped;
 import com.erdouglass.emdb.scraper.domain.model.Movie;
+import com.erdouglass.emdb.scraper.messaging.MovieScrapedMessage;
 
 @Mapper(
     componentModel = "cdi", 
@@ -16,5 +16,5 @@ import com.erdouglass.emdb.scraper.domain.model.Movie;
 )
 interface MovieMapper {
 
-  MovieScraped toMovieScraped(Movie movie);
+  MovieScrapedMessage toMovieScraped(Movie movie);
 }

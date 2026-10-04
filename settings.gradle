@@ -40,6 +40,8 @@ project(':emdb-ingest-api').projectDir = file('emdb/emdb-ingest-api')
 include 'emdb-ingest-service'
 project(':emdb-ingest-service').projectDir = file('emdb/emdb-ingest-service')
 
+include 'emdb-scraper-api'
+project(':emdb-scraper-api').projectDir = file('emdb/emdb-scraper-api')
 include 'emdb-scraper-service'
 project(':emdb-scraper-service').projectDir = file('emdb/emdb-scraper-service')
 

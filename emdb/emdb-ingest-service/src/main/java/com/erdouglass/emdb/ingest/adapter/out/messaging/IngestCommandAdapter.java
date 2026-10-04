@@ -4,26 +4,22 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.jboss.logging.Logger;
 
-import com.erdouglass.emdb.ingest.application.port.out.IngestPublisher;
-import com.erdouglass.emdb.ingest.domain.model.Ingest;
+import com.erdouglass.emdb.ingest.application.port.out.IngestCommandPublisher;
 import com.erdouglass.emdb.ingest.messaging.IngestMediaMessage;
 
+import io.smallrye.reactive.messaging.MutinyEmitter;
+
 @ApplicationScoped
-class IngestPublisherAdapter implements IngestPublisher {
-  private static final Logger LOGGER = Logger.getLogger(IngestPublisherAdapter.class);
+class IngestCommandAdapter implements IngestCommandPublisher {
   
   @Inject
   @Channel("ingest-media")
-  Emitter<IngestMediaMessage> emitter;
+  MutinyEmitter<IngestMediaMessage> emitter;
 
-  /// Publish the message to the RabbitMQ exchange.
+  /// Publish the message to the RabbitMQ broker.
   @Override
-  public void publish(Ingest job) {
-    var message = IngestMediaMessage.of(job.tmdbId(), job.mediaType());
-    emitter.send(message);
-    LOGGER.infof("Published: %s", message);
+  public void publish(IngestMediaMessage message) {
+    emitter.sendAndAwait(message);
   }
 }

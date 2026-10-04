@@ -41,6 +41,9 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 # JBoss
 jboss-logging = { module = "org.jboss.logging:jboss-logging" }
 
+# Kafka
+kafka-clients = { module = "org.apache.kafka:kafka-clients" }
+
 # Lombok
 lombok                   = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
@@ -82,6 +85,7 @@ quarkus-scheduler-api = { module = "io.quarkus:quarkus-scheduler-api" }
 smallrye-common-annotation           = { module = "io.smallrye.common:smallrye-common-annotation" }
 smallrye-graphql-api                 = { module = "io.smallrye:smallrye-graphql-api" }
 smallrye-reactive-messaging-api      = { module = "io.smallrye.reactive:smallrye-reactive-messaging-api" }
+smallrye-reactive-messaging-kafka    = { module = "io.smallrye.reactive:smallrye-reactive-messaging-kafka-api" }
 smallrye-reactive-messaging-rabbitmq = { module = "io.smallrye.reactive:smallrye-reactive-messaging-rabbitmq" }
 
 [plugins]

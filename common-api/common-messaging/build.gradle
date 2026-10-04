@@ -8,6 +8,8 @@ version = '1.0.0-SNAPSHOT'
 dependencies {
   compileOnly enforcedPlatform(libs.quarkus.bom)
   
+  compileOnly libs.kafka.clients 
   compileOnly libs.smallrye.reactive.messaging.api
+  compileOnly libs.smallrye.reactive.messaging.kafka
   compileOnly libs.smallrye.reactive.messaging.rabbitmq
 }

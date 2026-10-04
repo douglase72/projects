@@ -2,7 +2,7 @@ package com.erdouglass.emdb.media.shared.application;
 
 import java.util.Objects;
 
-import com.erdouglass.emdb.media.shared.domain.model.PublicId;
+import com.erdouglass.emdb.shared.kernel.PublicId;
 
 public record SaveResult(PublicId id, Status status) {
 

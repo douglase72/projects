@@ -3,6 +3,7 @@ package com.erdouglass.emdb.media.shared.domain.model;
 import java.util.Objects;
 
 import com.erdouglass.common.rest.StaleVersionException;
+import com.erdouglass.emdb.shared.kernel.PublicId;
 import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 public abstract class AggregateRoot {
-  private final PublicId id;
+  private final PublicId id;    
   private final TmdbId tmdbId;
   private final Version version;
   
