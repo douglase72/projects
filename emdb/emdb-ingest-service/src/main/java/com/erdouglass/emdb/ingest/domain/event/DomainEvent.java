@@ -2,12 +2,16 @@ package com.erdouglass.emdb.ingest.domain.event;
 
 import java.time.Instant;
 
+import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.emdb.shared.kernel.MediaType;
 import com.erdouglass.emdb.shared.kernel.PublicId;
 import com.erdouglass.emdb.shared.kernel.TmdbId;
 
-public sealed interface IngestEvent permits IngestSubmitted {
+public sealed interface DomainEvent permits IngestSubmitted, IngestStarted, IngestExtracted, 
+                                            IngestCompleted {
 
+  MessageId messageId();
+  
   PublicId ingestId();
 
   MediaType mediaType();

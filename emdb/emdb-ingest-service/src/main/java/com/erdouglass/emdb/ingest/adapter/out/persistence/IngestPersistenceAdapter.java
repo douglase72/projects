@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
+import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.shared.kernel.PublicId;
 import com.erdouglass.emdb.shared.kernel.TmdbId;
@@ -19,7 +19,6 @@ class IngestPersistenceAdapter implements IngestRepository {
   JakartaDataIngestRepository jobs;
 
   @Override
-  @Transactional
   public void save(Ingest job) {
     var entity = new IngestEntity();
     entity.setId(job.id().value());
@@ -32,7 +31,6 @@ class IngestPersistenceAdapter implements IngestRepository {
   }
 
   @Override
-  @Transactional
   public Optional<Ingest> findById(PublicId id) {
     return jobs.findById(id.value()).map(this::toIngest);
   }
@@ -50,6 +48,9 @@ class IngestPersistenceAdapter implements IngestRepository {
     entity.setIngestId(job.id().value());
     entity.setOccurredAt(event.occurredAt());
     entity.setStatus(job.status());
+    if (event instanceof IngestStarted e) {
+      entity.setQueueDuration(e.queued());
+    }
     return entity;
   }
 }

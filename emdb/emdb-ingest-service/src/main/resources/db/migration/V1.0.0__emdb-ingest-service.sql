@@ -1,4 +1,10 @@
 
+    create table ingest.ingest_event (
+        id uuid not null,
+        processed_at timestamp(6) with time zone not null,
+        primary key (id)
+    );
+
     create table ingest.ingest_job (
         id uuid not null,
         media_type varchar(16) not null check ((media_type in ('MOVIE','PERSON','SERIES'))),
