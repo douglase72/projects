@@ -1,0 +1,5 @@
+http://localhost:60312/emdb-media/api/graphql/schema.graphql
+
+curl -X POST -s -w "\nHTTP Status: %{http_code}\n" http://localhost:60312/emdb-media/api/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "query { movie(id: \"01a0bc4f-6a6a-7252-94cc-8bdf542ecd33\") { id version title releaseDate score originalLanguage overview credits { cast { id personId name character order } crew { id personId name job department } } } }"}'
