@@ -25,7 +25,7 @@ class IngestResource {
   SubmitIngestUseCase ingestUseCase;
   
   @POST
-  public Response ingest(@NotNull @Valid IngestMediaRequest request, @Context UriInfo uriInfo) {
+  public Response ingest(@NotNull @Valid IngestRequest request, @Context UriInfo uriInfo) {
     var command = IngestMediaCommand.of(
         TmdbId.of(request.tmdbId()), 
         com.erdouglass.emdb.shared.kernel.MediaType.from(request.mediaType()));

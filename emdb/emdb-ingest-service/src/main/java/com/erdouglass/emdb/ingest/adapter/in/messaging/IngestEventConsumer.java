@@ -24,8 +24,8 @@ class IngestEventConsumer {
   void onMessage(IngestEvent message) {
     var ingestId = IngestId.of(message.correlationId().value());
     var event = switch (message.eventType()) {
-      case SUBMITTED -> IngestSubmitted.of(message.messageId(), ingestId, message.tmdbId(), message.mediaType());
-      case STARTED   -> IngestStarted.of(message.messageId(), ingestId, message.tmdbId(), message.mediaType());
+      case SUBMITTED -> IngestSubmitted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+      case STARTED   -> IngestStarted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
       default -> throw new IllegalArgumentException();
     };
     saveUseCase.save(event);

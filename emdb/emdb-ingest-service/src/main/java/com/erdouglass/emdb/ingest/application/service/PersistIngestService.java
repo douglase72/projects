@@ -27,7 +27,7 @@ class PersistIngestService implements SaveIngestEventUseCase {
   @Override
   @Transactional
   public void save(DomainEvent event) {
-    if (events.existsById(event.messageId())) {
+    if (events.existsById(event.id())) {
       return;
     }
     var job = jobs.findById(event.ingestId())

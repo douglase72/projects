@@ -4,26 +4,19 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.data.Limit;
-import jakarta.data.repository.Find;
 import jakarta.data.repository.Insert;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
 @Repository
-public interface JakartaDataIngestEventRepository {
+public interface JakartaDataIngestCommandRepository {
 
   @Insert
-  void insert(IngestEventEntity entity);
+  void insert(IngestCommandEntity entity);
   
-  @Query("update IngestEventEntity set published = true where id = :id")
+  @Query("update IngestCommandEntity set published = true where id = :id")
   void markPublished(UUID id);
   
-  @Find
-  List<IngestEventEntity> findAll();
-  
-  @Find
-  IngestEventEntity findById(UUID id);
-  
   @Query("where published = false order by id")
-  List<IngestEventEntity> findUnpublished(Limit limit);
+  List<IngestCommandEntity> findUnpublished(Limit limit);
 }

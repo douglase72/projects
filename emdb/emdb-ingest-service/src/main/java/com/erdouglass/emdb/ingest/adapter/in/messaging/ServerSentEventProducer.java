@@ -13,7 +13,7 @@ class ServerSentEventProducer {
 
   @Incoming("ingest-events-sse")
   void onMessage(IngestEvent event) {
-    LOGGER.infof("SSE correlation id: %s, message id: %s, time: %s, status: %s", 
-        event.correlationId().value(), event.messageId().value(), event.occurredAt(), event.eventType());
+    LOGGER.infof("SSE correlation id: %s, event id: %s, time: %s, status: %s", 
+        event.correlationId().value(), event.id().value(), event.occurredAt(), event.eventType());
   }
 }

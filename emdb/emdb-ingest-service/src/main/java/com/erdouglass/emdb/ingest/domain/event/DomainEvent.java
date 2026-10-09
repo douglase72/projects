@@ -9,7 +9,7 @@ import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 public sealed interface DomainEvent permits IngestSubmitted, IngestStarted {
   
-  MessageId messageId();
+  MessageId id();
   
   IngestId ingestId();
 

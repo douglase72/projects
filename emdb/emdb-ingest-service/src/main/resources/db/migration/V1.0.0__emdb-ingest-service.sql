@@ -1,10 +1,22 @@
 
+    create table ingest.ingest_command (
+        id uuid not null,
+        ingest_id uuid not null,
+        media_type varchar(16) not null check ((media_type in ('MOVIE','PERSON','SERIES'))),
+        published boolean not null,
+        submitted_at timestamp(6) with time zone not null,
+        tmdb_id integer not null,
+        primary key (id)
+    );
+
     create table ingest.ingest_event (
         id uuid not null,
         ingest_id uuid not null,
+        media_type varchar(16) not null check ((media_type in ('MOVIE','PERSON','SERIES'))),
         occurred_at timestamp(6) with time zone not null,
         published boolean not null,
         ingest_status varchar(16) not null check ((ingest_status in ('SUBMITTED','STARTED','EXTRACTED','COMPLETED','FAILED'))),
+        tmdb_id integer not null,
         primary key (id)
     );
 

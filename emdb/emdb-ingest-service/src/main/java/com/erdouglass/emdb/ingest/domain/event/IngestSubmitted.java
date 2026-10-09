@@ -10,21 +10,21 @@ import com.erdouglass.emdb.shared.kernel.MediaType;
 import com.erdouglass.emdb.shared.kernel.TmdbId;
 
 public record IngestSubmitted(
-    MessageId messageId,
+    MessageId id,
     IngestId ingestId, 
     Instant occurredAt, 
     TmdbId tmdbId,
     MediaType mediaType) implements DomainEvent {
 
   public IngestSubmitted {
-    Objects.requireNonNull(messageId, "messageId is required");
+    Objects.requireNonNull(id, "id is required");
     Objects.requireNonNull(ingestId, "ingestId is required");
     Objects.requireNonNull(occurredAt, "occurredAt is required");
     Objects.requireNonNull(tmdbId, "tmdbId is required");
     Objects.requireNonNull(mediaType, "mediaType is required");
   }
   
-  public static IngestSubmitted of(MessageId messageId, IngestId ingestId, TmdbId tmdbId, MediaType mediaType) {
-    return new IngestSubmitted(messageId, ingestId, DateTimeFactory.now().toInstant(), tmdbId, mediaType);
+  public static IngestSubmitted of(MessageId id, IngestId ingestId, TmdbId tmdbId, MediaType mediaType) {
+    return new IngestSubmitted(id, ingestId, DateTimeFactory.now().toInstant(), tmdbId, mediaType);
   }  
 }

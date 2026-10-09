@@ -14,14 +14,14 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.erdouglass.emdb.ingest.TestHelper;
-import com.erdouglass.emdb.ingest.adapter.in.rest.IngestMediaRequest;
+import com.erdouglass.emdb.ingest.adapter.in.rest.IngestRequest;
 
 class BladeRunnerIngestIT {
   private static final Logger LOGGER = Logger.getLogger(BladeRunnerIngestIT.class);
   
   @Test
   void testIngestMovie() throws IOException, InterruptedException {
-    var ingestRequest = IngestMediaRequest.of(78, "movie");
+    var ingestRequest = IngestRequest.of(78, "movie");
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(ingestRequest)))
         .uri(UriBuilder.fromUri(TestHelper.INGEST_URL).build())

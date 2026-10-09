@@ -60,9 +60,11 @@ class IngestPersistenceAdapter implements IngestRepository, IngestEventRepositor
   
   private IngestEventEntity toIngestEventEntity(DomainEvent event) {
     var entity = new IngestEventEntity();
-    entity.setId(event.messageId().value());
+    entity.setId(event.id().value());
     entity.setIngestId(event.ingestId().value());
     entity.setOccurredAt(event.occurredAt());
+    entity.setTmdbId(event.tmdbId().value());
+    entity.setMediaType(event.mediaType());
     switch (event) {
       case IngestSubmitted _ -> entity.setStatus(IngestStatus.SUBMITTED);
       case IngestStarted   _ -> entity.setStatus(IngestStatus.STARTED);

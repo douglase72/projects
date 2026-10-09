@@ -11,28 +11,18 @@ import com.erdouglass.emdb.shared.kernel.TmdbId;
 import lombok.Builder;
 
 @Builder
-public record IngestEvent(
+public record IngestCommand(
     MessageId id,
     CorrelationId correlationId,
-    Instant occurredAt,
+    Instant submittedAt,
     TmdbId tmdbId,
-    MediaType mediaType,
-    EventType eventType) {
+    MediaType mediaType) {
 
-  public IngestEvent {
+  public IngestCommand {
     Objects.requireNonNull(id, "id is required");
     Objects.requireNonNull(correlationId, "correlationId is required");
-    Objects.requireNonNull(occurredAt, "occurredAt is required");
+    Objects.requireNonNull(submittedAt, "submittedAt is required");
     Objects.requireNonNull(tmdbId, "tmdbId is required");
     Objects.requireNonNull(mediaType, "mediaType is required");
-    Objects.requireNonNull(eventType, "eventType is required");
   }
-
-  public enum EventType {
-    SUBMITTED,
-    STARTED,
-    EXTRACTED,
-    COMPLETED,
-    FAILED;
-  }  
 }
