@@ -5,8 +5,8 @@ import java.util.Optional;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 
-public interface IngestRepository {
-  
+public interface IngestJobRepository {
+
   void save(Ingest job);
   
   Optional<Ingest> findById(IngestId id);  

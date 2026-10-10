@@ -21,8 +21,7 @@ import lombok.Setter;
 @Getter
 @Entity 
 @Table(name = "ingest_job")
-public class IngestEntity {
-
+class IngestJobEntity {
   @Id
   private UUID id;
   
@@ -44,5 +43,5 @@ public class IngestEntity {
   @Column(name = "version", nullable = false)
   Long version;
   
-  IngestEntity() { }
+  IngestJobEntity() { }
 }

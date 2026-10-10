@@ -7,7 +7,8 @@ import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.shared.kernel.MediaType;
 import com.erdouglass.emdb.shared.kernel.TmdbId;
 
-public sealed interface DomainEvent permits IngestSubmitted, IngestStarted, IngestExtracted {
+public sealed interface DomainEvent permits IngestSubmitted, IngestStarted, IngestExtracted, 
+                                            IngestCompleted, IngestFailed {
   
   MessageId id();
   

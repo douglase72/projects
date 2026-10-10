@@ -8,11 +8,11 @@ import jakarta.data.repository.Repository;
 import jakarta.data.repository.Save;
 
 @Repository
-public interface JakartaDataIngestRepository {
-  
+interface JakartaDataIngestJobRepository {
+
   @Save
-  void save(IngestEntity job);
+  void save(IngestJobEntity job);
   
   @Find
-  Optional<IngestEntity> findById(UUID id);
+  Optional<IngestJobEntity> findById(UUID id);
 }

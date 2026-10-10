@@ -8,8 +8,10 @@ import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.application.port.in.IngestMediaCommand;
 import com.erdouglass.emdb.ingest.application.port.in.SubmitIngestUseCase;
-import com.erdouglass.emdb.ingest.application.port.out.IngestCommandRepository;
-import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
+import com.erdouglass.emdb.ingest.application.port.out.IngestCommandOutbox;
+import com.erdouglass.emdb.ingest.application.port.out.IngestEventOutbox;
+import com.erdouglass.emdb.ingest.application.port.out.IngestJobRepository;
+import com.erdouglass.emdb.ingest.domain.event.DomainEvent;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.ingest.messaging.IngestCommand;
@@ -19,15 +21,18 @@ import com.erdouglass.emdb.shared.kernel.CorrelationId;
 class SubmitIngestService implements SubmitIngestUseCase {
   
   @Inject
-  IngestCommandRepository commands;
+  IngestCommandOutbox commands;
   
   @Inject
-  IngestRepository jobs;
+  IngestEventOutbox events;
+  
+  @Inject
+  IngestJobRepository jobs;
 
   /// Publish the command to the broker.
   /// 
-  /// Commit the [Ingest] job and the [IngestCommand] in the same transaction
-  /// to avoid a duel write.
+  /// Commit the [Ingest] job, the [IngestCommand], and the [DomainEvent] in 
+  /// the same transaction.
   @Override
   @Transactional
   public IngestId submit(IngestMediaCommand command) {
@@ -40,6 +45,7 @@ class SubmitIngestService implements SubmitIngestUseCase {
         .tmdbId(job.tmdbId())
         .mediaType(job.mediaType())
         .build());
+    job.events().forEach(events::save);
     return job.id();
   }
 }

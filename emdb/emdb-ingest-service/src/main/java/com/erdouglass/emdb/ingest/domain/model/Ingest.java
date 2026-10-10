@@ -8,7 +8,9 @@ import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.common.util.DateTime;
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.domain.event.DomainEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestCompleted;
 import com.erdouglass.emdb.ingest.domain.event.IngestExtracted;
+import com.erdouglass.emdb.ingest.domain.event.IngestFailed;
 import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmitted;
 import com.erdouglass.emdb.ingest.domain.exception.IllegalTransitionException;
@@ -53,15 +55,22 @@ public final class Ingest {
     raise(IngestExtracted.of(MessageId.newId(), id, tmdbId, mediaType));
   }
   
+  public void complete() {
+    transition(IngestStatus.EXTRACTED, IngestStatus.COMPLETED);
+    raise(IngestCompleted.of(MessageId.newId(), id, tmdbId, mediaType));
+  }
+  
+  public void failed() {
+    raise(IngestFailed.of(MessageId.newId(), id, tmdbId, mediaType));
+  }
+  
   public static Ingest rehydrate(
       IngestId id, 
       TmdbId tmdbId, 
       MediaType mediaType,
       DateTime submittedAt,
-      IngestStatus status,
-      List<DomainEvent> events) {
+      IngestStatus status) {
     var job = new Ingest(id, tmdbId, mediaType, submittedAt, status);
-    events.forEach(job::raise);
     return job;
   }
   

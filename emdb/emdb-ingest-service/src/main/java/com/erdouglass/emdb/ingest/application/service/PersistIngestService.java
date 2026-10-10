@@ -8,9 +8,11 @@ import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.ingest.application.port.in.SaveIngestEventUseCase;
 import com.erdouglass.emdb.ingest.application.port.out.IngestEventRepository;
-import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
+import com.erdouglass.emdb.ingest.application.port.out.IngestJobRepository;
 import com.erdouglass.emdb.ingest.domain.event.DomainEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestCompleted;
 import com.erdouglass.emdb.ingest.domain.event.IngestExtracted;
+import com.erdouglass.emdb.ingest.domain.event.IngestFailed;
 import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmitted;
 import com.erdouglass.emdb.ingest.domain.exception.IngestNotFoundException;
@@ -23,12 +25,13 @@ class PersistIngestService implements SaveIngestEventUseCase {
   IngestEventRepository events;
   
   @Inject
-  IngestRepository jobs;
+  IngestJobRepository jobs;
 
   @Override
   @Transactional
   public void save(DomainEvent event) {
     LOGGER.debugf("Received: %s", event);
+    
     if (events.existsById(event.id())) {
       return;
     }
@@ -38,6 +41,8 @@ class PersistIngestService implements SaveIngestEventUseCase {
       case IngestSubmitted _ -> { }
       case IngestStarted   _ -> { job.start(); jobs.save(job); }
       case IngestExtracted _ -> { job.extract(); jobs.save(job); }
+      case IngestCompleted _ -> { job.complete(); jobs.save(job); }
+      case IngestFailed    _ -> { job.failed(); jobs.save(job); }
     }
     LOGGER.debugf("job: %s", job);
   }

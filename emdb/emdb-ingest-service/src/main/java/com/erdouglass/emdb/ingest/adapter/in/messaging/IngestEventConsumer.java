@@ -6,7 +6,9 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import com.erdouglass.emdb.ingest.application.port.in.SaveIngestEventUseCase;
+import com.erdouglass.emdb.ingest.domain.event.IngestCompleted;
 import com.erdouglass.emdb.ingest.domain.event.IngestExtracted;
+import com.erdouglass.emdb.ingest.domain.event.IngestFailed;
 import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmitted;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
@@ -28,7 +30,8 @@ class IngestEventConsumer {
       case SUBMITTED -> IngestSubmitted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
       case STARTED   -> IngestStarted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
       case EXTRACTED -> IngestExtracted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-      default -> throw new IllegalArgumentException();
+      case COMPLETED -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+      case FAILED    -> IngestFailed.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
     };
     saveUseCase.save(event);
   }
