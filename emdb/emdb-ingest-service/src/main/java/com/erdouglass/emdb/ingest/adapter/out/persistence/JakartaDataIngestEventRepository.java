@@ -1,6 +1,7 @@
 package com.erdouglass.emdb.ingest.adapter.out.persistence;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.data.Limit;
@@ -22,7 +23,7 @@ public interface JakartaDataIngestEventRepository {
   List<IngestEventEntity> findAll();
   
   @Find
-  IngestEventEntity findById(UUID id);
+  Optional<IngestEventEntity> findById(UUID id);
   
   @Query("where published = false order by id")
   List<IngestEventEntity> findUnpublished(Limit limit);

@@ -10,6 +10,7 @@ import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.application.port.out.IngestEventRepository;
 import com.erdouglass.emdb.ingest.application.port.out.IngestRepository;
 import com.erdouglass.emdb.ingest.domain.event.DomainEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestExtracted;
 import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmitted;
 import com.erdouglass.emdb.ingest.domain.model.Ingest;
@@ -46,7 +47,7 @@ class IngestPersistenceAdapter implements IngestRepository, IngestEventRepositor
   
   @Override
   public boolean existsById(MessageId id) {
-    return events.findById(id.value()) != null;
+    return events.findById(id.value()).isPresent();
   }
   
   private Ingest toIngest(IngestEntity entity) {
@@ -68,6 +69,7 @@ class IngestPersistenceAdapter implements IngestRepository, IngestEventRepositor
     switch (event) {
       case IngestSubmitted _ -> entity.setStatus(IngestStatus.SUBMITTED);
       case IngestStarted   _ -> entity.setStatus(IngestStatus.STARTED);
+      case IngestExtracted _ -> entity.setStatus(IngestStatus.EXTRACTED);
     }
     return entity;
   }

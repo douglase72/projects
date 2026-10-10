@@ -8,6 +8,7 @@ import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.common.util.DateTime;
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.domain.event.DomainEvent;
+import com.erdouglass.emdb.ingest.domain.event.IngestExtracted;
 import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmitted;
 import com.erdouglass.emdb.ingest.domain.exception.IllegalTransitionException;
@@ -45,6 +46,11 @@ public final class Ingest {
   public void start() {
     transition(IngestStatus.SUBMITTED, IngestStatus.STARTED);
     raise(IngestStarted.of(MessageId.newId(), id, tmdbId, mediaType));
+  }
+  
+  public void extract() {
+    transition(IngestStatus.STARTED, IngestStatus.EXTRACTED);
+    raise(IngestExtracted.of(MessageId.newId(), id, tmdbId, mediaType));
   }
   
   public static Ingest rehydrate(

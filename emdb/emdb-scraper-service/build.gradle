@@ -11,6 +11,7 @@ dependencies {
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   annotationProcessor libs.lombok
   annotationProcessor libs.mapstruct.processor
+  annotationProcessor libs.hibernate.processor
   
   implementation project(':common-messaging')
   implementation project(':common-util')
@@ -21,8 +22,13 @@ dependencies {
   compileOnly libs.lombok
   compileOnly libs.mapstruct
   
+  implementation libs.jakarta.data.api
   implementation libs.quarkus.arc
+  implementation libs.quarkus.flyway
+  implementation libs.quarkus.health
+  implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
+  implementation libs.quarkus.jdbc.postgresql
   implementation libs.quarkus.logging
   implementation libs.quarkus.messaging
   implementation libs.quarkus.messaging.kafka

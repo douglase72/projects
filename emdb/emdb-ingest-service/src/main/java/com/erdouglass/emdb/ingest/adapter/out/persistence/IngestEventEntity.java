@@ -35,9 +35,6 @@ public class IngestEventEntity {
   @Column(name = "occurred_at", nullable = false, updatable = false)
   private Instant occurredAt;
   
-  @Column(nullable = false)
-  private boolean published;
-  
   @Enumerated(EnumType.STRING)
   @Column(name = "ingest_status", nullable = false, length = 16)
   private IngestStatus status;
