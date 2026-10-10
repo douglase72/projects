@@ -18,7 +18,7 @@ import io.quarkus.scheduler.Scheduled.ConcurrentExecution;
 import io.smallrye.reactive.messaging.MutinyEmitter;
 
 @ApplicationScoped
-class IngestCommandOutbox {
+class IngestCommandOutboxAdapter {
 
   @Inject
   @Channel("ingest-commands")

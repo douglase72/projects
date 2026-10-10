@@ -23,7 +23,7 @@ import io.smallrye.reactive.messaging.MutinyEmitter;
 import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
 
 @ApplicationScoped
-class IngestEventOutbox {
+class IngestEventOutboxAdapter {
 
   @Inject
   @Channel("ingest-events-out")

@@ -29,9 +29,7 @@ class PersistIngestService implements SaveIngestEventUseCase {
 
   @Override
   @Transactional
-  public void save(DomainEvent event) {
-    LOGGER.debugf("Received: %s", event);
-    
+  public void save(DomainEvent event) {    
     if (events.existsById(event.id())) {
       return;
     }
@@ -39,10 +37,10 @@ class PersistIngestService implements SaveIngestEventUseCase {
         .orElseThrow(() -> new IngestNotFoundException(event.ingestId()));
     switch (event) {
       case IngestSubmitted _ -> { }
-      case IngestStarted   _ -> { job.start(); jobs.save(job); }
-      case IngestExtracted _ -> { job.extract(); jobs.save(job); }
+      case IngestStarted   _ -> { job.start();    jobs.save(job); }
+      case IngestExtracted _ -> { job.extract();  jobs.save(job); }
       case IngestCompleted _ -> { job.complete(); jobs.save(job); }
-      case IngestFailed    _ -> { job.failed(); jobs.save(job); }
+      case IngestFailed    _ -> { job.failed();   jobs.save(job); }
     }
     LOGGER.debugf("job: %s", job);
   }
