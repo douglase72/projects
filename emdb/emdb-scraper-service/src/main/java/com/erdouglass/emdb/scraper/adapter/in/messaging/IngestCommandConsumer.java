@@ -30,6 +30,6 @@ class IngestCommandConsumer {
       case MOVIE  -> movieUseCase.scrape(cmd);
       case PERSON -> throw new UnsupportedOperationException();
       case SERIES -> throw new UnsupportedOperationException();
-    }    
+    }
   }
 }

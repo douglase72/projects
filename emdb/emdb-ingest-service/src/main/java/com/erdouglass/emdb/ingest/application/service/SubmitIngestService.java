@@ -4,6 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import org.jboss.logging.Logger;
+
 import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.application.port.in.IngestMediaCommand;
@@ -19,6 +21,7 @@ import com.erdouglass.emdb.shared.kernel.CorrelationId;
 
 @ApplicationScoped
 class SubmitIngestService implements SubmitIngestUseCase {
+  private static final Logger LOGGER = Logger.getLogger(SubmitIngestService.class);
   
   @Inject
   IngestCommandOutbox commands;
@@ -38,6 +41,8 @@ class SubmitIngestService implements SubmitIngestUseCase {
   public IngestId submit(IngestMediaCommand command) {
     var job = Ingest.submit(command.tmdbId(), command.mediaType());
     jobs.save(job);
+    LOGGER.infof("Ingest job for TMDB %s %s submitted", job.mediaType(), job.tmdbId().value());
+    
     commands.save(IngestCommand.builder()
         .id(MessageId.newId())
         .correlationId(CorrelationId.of(job.id().value()))

@@ -49,23 +49,6 @@ services:
       retries: 10
       start_period: 20s
 
-  kafka-init:                              
-    image: apache/kafka:4.3.0
-    container_name: kafka-init
-    networks:
-      - erd
-    depends_on:
-      kafka:
-        condition: service_healthy
-    entrypoint: ["/bin/sh", "-c"]
-    command: |
-      "
-      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic movies-scraped     --partitions 6 --replication-factor 1 --config cleanup.policy=compact
-      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic movies-scraped-dlq --partitions 1 --replication-factor 1
-      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic movie-events       --partitions 6 --replication-factor 1
-      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic ingest-events      --partitions 6 --replication-factor 1
-      "
-
   kafka-ui:                                
     image: ghcr.io/kafbat/kafka-ui:v1.5.0
     container_name: kafka-ui
@@ -102,9 +85,55 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-      kafka-init:
-        condition: service_completed_successfully
-                
+      kafka:
+        condition: service_healthy
+        
+  emdb-scraper:
+    image: emdb-scraper:latest
+    container_name: emdb-scraper
+    build:
+      context: ./emdb-scraper-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60334:60314
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-scraper-service/.env
+    networks:
+      - erd
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:60314/api/v1/q/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      emdb-ingest:
+        condition: service_healthy
+
+  emdb-media:
+    image: emdb-media:latest
+    container_name: emdb-media
+    build:
+      context: ./emdb-media-service
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - 60332:60312
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./emdb-media-service/.env
+    networks:
+      - erd
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:60312/api/v1/q/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      emdb-scraper:
+        condition: service_healthy
+                        
 volumes:
   rabbitmq_data:
   kafka_data:

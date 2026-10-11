@@ -24,7 +24,7 @@ class IngestEventConsumer {
 
   @Blocking
   @Incoming("ingest-events-in")
-  void onMessage(IngestEvent message) {
+  void onMessage(IngestEvent message) {    
     var ingestId = IngestId.of(message.correlationId().value());
     var event = switch (message.eventType()) {
       case SUBMITTED -> IngestSubmitted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
@@ -32,7 +32,7 @@ class IngestEventConsumer {
       case EXTRACTED -> IngestExtracted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
       case COMPLETED -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
       case FAILED    -> IngestFailed.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-    };
+    };      
     saveUseCase.save(event);
   }
 }

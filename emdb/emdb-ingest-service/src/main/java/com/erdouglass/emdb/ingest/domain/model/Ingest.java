@@ -93,7 +93,7 @@ public final class Ingest {
   
   @Override
   public String toString() {
-    return getClass().getSimpleName() + "[id" + id.value()
+    return getClass().getSimpleName() + "[id=" + id.value()
       + ", tmdbId=" + tmdbId.value()
       + ", mediaType=" + mediaType
       + ", submittedAt=" + submittedAt
