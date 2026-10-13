@@ -25,7 +25,7 @@ class MovieCommandService implements SaveMovieUseCase {
       return;
     }
     var movie = Movie.create(command.correlationId(), command.tmdbId(), command.details());
-    LOGGER.infof("Saved %s: %s for TMDB id: %d", movie.title().value(), movie.id().value(), movie.tmdbId().value());
+    LOGGER.infof("Saved movie: %s for TMDB id: %d", movie.id().value(), movie.tmdbId().value());
     movie.pullEvents().forEach(outbox::markProcessed);
   }
 }

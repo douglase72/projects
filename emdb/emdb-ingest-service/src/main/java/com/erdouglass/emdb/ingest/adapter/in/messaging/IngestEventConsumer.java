@@ -13,6 +13,8 @@ import com.erdouglass.emdb.ingest.domain.event.IngestStarted;
 import com.erdouglass.emdb.ingest.domain.event.IngestSubmitted;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.ingest.messaging.IngestEvent;
+import com.erdouglass.emdb.shared.kernel.CorrelationId;
+import com.erdouglass.emdb.shared.kernel.CorrelationScope;
 
 import io.smallrye.common.annotation.Blocking;
 
@@ -26,13 +28,15 @@ class IngestEventConsumer {
   @Incoming("ingest-events-in")
   void onMessage(IngestEvent message) {    
     var ingestId = IngestId.of(message.correlationId().value());
-    var event = switch (message.eventType()) {
-      case SUBMITTED -> IngestSubmitted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-      case STARTED   -> IngestStarted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-      case EXTRACTED -> IngestExtracted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-      case COMPLETED -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-      case FAILED    -> IngestFailed.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-    };      
-    saveUseCase.save(event);
+    try (var _ = CorrelationScope.open(CorrelationId.of(ingestId.value()))) {
+      var event = switch (message.eventType()) {
+        case SUBMITTED -> IngestSubmitted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+        case STARTED   -> IngestStarted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+        case EXTRACTED -> IngestExtracted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+        case COMPLETED -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+        case FAILED    -> IngestFailed.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+      };      
+      saveUseCase.save(event);
+    }
   }
 }

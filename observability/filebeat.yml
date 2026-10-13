@@ -19,10 +19,13 @@ processors:
   - add_host_metadata:
       netinfo.enabled: true
   - decode_json_fields:
+      when:
+        regexp:
+          container.name: "^emdb-"
       fields: ["message"]
       target: ""
       overwrite_keys: true
-      add_error_key: true  
+      add_error_key: true
 
 setup.kibana:
   host: "kibana:5601"

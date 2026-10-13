@@ -9,6 +9,8 @@ import com.erdouglass.emdb.ingest.application.port.in.SaveIngestEventUseCase;
 import com.erdouglass.emdb.ingest.domain.event.IngestCompleted;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.media.messaging.MediaEvent;
+import com.erdouglass.emdb.shared.kernel.CorrelationId;
+import com.erdouglass.emdb.shared.kernel.CorrelationScope;
 
 import io.smallrye.common.annotation.Blocking;
 
@@ -22,11 +24,13 @@ class MediaEventConsumer {
   @Incoming("media-events")
   void onMessage(MediaEvent message) {
     var ingestId = IngestId.of(message.correlationId().value());
-    var event = switch (message.eventType()) {
-      case SAVED   -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
-      case UPDATED -> throw new IllegalStateException();
-      case DELETED -> throw new IllegalStateException();
-    };
-    saveUseCase.save(event);
+    try (var _ = CorrelationScope.open(CorrelationId.of(ingestId.value()))) {
+      var event = switch (message.eventType()) {
+        case SAVED   -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+        case UPDATED -> throw new IllegalStateException();
+        case DELETED -> throw new IllegalStateException();
+      };
+      saveUseCase.save(event);
+    }
   }
 }

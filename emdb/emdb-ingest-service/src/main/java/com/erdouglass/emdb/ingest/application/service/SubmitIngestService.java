@@ -18,6 +18,7 @@ import com.erdouglass.emdb.ingest.domain.model.Ingest;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.ingest.messaging.IngestCommand;
 import com.erdouglass.emdb.shared.kernel.CorrelationId;
+import com.erdouglass.emdb.shared.kernel.CorrelationScope;
 
 @ApplicationScoped
 class SubmitIngestService implements SubmitIngestUseCase {
@@ -40,17 +41,19 @@ class SubmitIngestService implements SubmitIngestUseCase {
   @Transactional
   public IngestId submit(IngestMediaCommand command) {
     var job = Ingest.submit(command.tmdbId(), command.mediaType());
-    jobs.save(job);
-    LOGGER.infof("Ingest job for TMDB %s %s submitted", job.mediaType(), job.tmdbId().value());
-    
-    commands.save(IngestCommand.builder()
-        .id(MessageId.newId())
-        .correlationId(CorrelationId.of(job.id().value()))
-        .submittedAt(DateTimeFactory.now().toInstant())
-        .tmdbId(job.tmdbId())
-        .mediaType(job.mediaType())
-        .build());
-    job.events().forEach(events::save);
-    return job.id();
+    var correlationId = CorrelationId.of(job.id().value());
+    try (var _ = CorrelationScope.open(correlationId)) {
+      jobs.save(job);
+      LOGGER.infof("Ingest job for TMDB %s %s submitted", job.mediaType(), job.tmdbId().value());    
+      commands.save(IngestCommand.builder()
+          .id(MessageId.newId())
+          .correlationId(CorrelationId.of(job.id().value()))
+          .submittedAt(DateTimeFactory.now().toInstant())
+          .tmdbId(job.tmdbId())
+          .mediaType(job.mediaType())
+          .build());
+      job.events().forEach(events::save);
+      return job.id();
+    }
   }
 }

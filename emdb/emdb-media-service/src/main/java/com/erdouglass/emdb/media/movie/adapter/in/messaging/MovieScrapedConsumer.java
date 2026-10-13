@@ -14,6 +14,8 @@ import com.erdouglass.emdb.media.shared.domain.model.Overview;
 import com.erdouglass.emdb.media.shared.domain.model.Score;
 import com.erdouglass.emdb.media.shared.domain.model.Title;
 import com.erdouglass.emdb.scraper.messaging.MovieScraped;
+import com.erdouglass.emdb.shared.kernel.CorrelationId;
+import com.erdouglass.emdb.shared.kernel.CorrelationScope;
 
 import io.smallrye.common.annotation.Blocking;
 
@@ -26,13 +28,15 @@ class MovieScrapedConsumer {
   @Blocking
   @Incoming("movies-scraped")
   void onMessage(MovieScraped event) {
-    var command = SaveMovieCommand.builder()
-        .id(event.id())
-        .correlationId(event.correlationId())
-        .tmdbId(event.tmdbId())
-        .details(toMovieDetails(event))
-        .build();
-    saveUseCase.save(command);
+    try (var _ = CorrelationScope.open(CorrelationId.of(event.correlationId().value()))) {
+      var command = SaveMovieCommand.builder()
+          .id(event.id())
+          .correlationId(event.correlationId())
+          .tmdbId(event.tmdbId())
+          .details(toMovieDetails(event))
+          .build();
+      saveUseCase.save(command);
+    }
   }
   
   private MovieDetails toMovieDetails(MovieScraped event) {
