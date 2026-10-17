@@ -5,10 +5,10 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import com.erdouglass.common.messaging.MessageId;
-import com.erdouglass.emdb.scraper.application.port.out.CommandRepository;
+import com.erdouglass.emdb.scraper.application.port.out.CommandInbox;
 
 @ApplicationScoped
-class CommandPersistenceAdapter implements CommandRepository {
+class CommandPersistenceAdapter implements CommandInbox {
   
   @Inject
   JakartaDataCommandRepository commands;

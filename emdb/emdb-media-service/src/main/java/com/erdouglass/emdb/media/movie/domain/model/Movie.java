@@ -6,8 +6,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.erdouglass.common.messaging.MessageId;
+import com.erdouglass.emdb.media.movie.domain.event.MovieCreated;
 import com.erdouglass.emdb.media.movie.domain.event.MovieEvent;
-import com.erdouglass.emdb.media.movie.domain.event.MovieSaved;
+import com.erdouglass.emdb.media.movie.domain.event.MovieUpdated;
 import com.erdouglass.emdb.media.shared.domain.model.AggregateRoot;
 import com.erdouglass.emdb.media.shared.domain.model.LanguageCode;
 import com.erdouglass.emdb.media.shared.domain.model.MediaId;
@@ -22,20 +23,40 @@ public final class Movie extends AggregateRoot {
   private MovieDetails details;
   private final List<MovieEvent> events = new ArrayList<>();
   
-  private Movie(MediaId id, TmdbId tmdbId, Version version, MovieDetails details) {
+  private Movie(
+      MediaId id, 
+      TmdbId tmdbId, 
+      Version version, 
+      MovieDetails details) {
     super(id, tmdbId, version);
     this.details = Objects.requireNonNull(details, "details must not be null");
   }
   
   public static Movie create(CorrelationId correlationId, TmdbId tmdbId, MovieDetails details) {
     var movie = new Movie(MediaId.newId(), tmdbId, Version.of(0L), details);
-    movie.raise(MovieSaved.builder()
+    movie.raise(MovieCreated.builder()
         .id(MessageId.newId())
         .correlationId(correlationId)
         .mediaId(movie.id())
         .tmdbId(tmdbId)
+        .title(movie.title())
         .build());
     return movie;
+  }
+  
+  public void update(CorrelationId correlationId, MovieDetails details) {
+    this.details = details;
+    raise(MovieUpdated.builder()
+        .id(MessageId.newId())
+        .correlationId(correlationId)
+        .mediaId(id())
+        .tmdbId(tmdbId())
+        .title(title())
+        .build());
+  }
+  
+  public static Movie rehydrate(MediaId id, TmdbId tmdbId, Version version, MovieDetails details) {
+    return new Movie(id, tmdbId, version, details);
   }
   
   public List<MovieEvent> pullEvents() {

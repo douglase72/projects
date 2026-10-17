@@ -74,6 +74,12 @@ public final class Ingest {
     return job;
   }
   
+  public List<DomainEvent> pullEvents() {
+    var pulledEvents = List.copyOf(events);
+    events.clear();
+    return pulledEvents;
+  }
+  
   @Override
   public int hashCode() {
     return Objects.hash(id);

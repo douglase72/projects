@@ -8,7 +8,6 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Message;
-import org.jboss.logging.Logger;
 
 import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.common.util.DateTimeFactory;
@@ -27,7 +26,6 @@ import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
 
 @ApplicationScoped
 class MovieOutboxProducer {
-  private static final Logger LOGGER = Logger.getLogger(MovieOutboxProducer.class);
 
   @Inject
   @Channel("media-events")
@@ -55,7 +53,6 @@ class MovieOutboxProducer {
           .build();    
       emitter.sendMessageAndAwait(Message.of(message).addMetadata(metadata));
       QuarkusTransaction.requiringNew().run(() -> events.delete(event)); 
-      LOGGER.debugf("Published: %s", message);
     }
   }
 }

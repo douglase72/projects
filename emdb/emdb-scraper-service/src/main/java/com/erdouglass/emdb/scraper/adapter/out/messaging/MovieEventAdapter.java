@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.ingest.messaging.IngestEvent;
 import com.erdouglass.emdb.ingest.messaging.IngestEvent.EventType;
-import com.erdouglass.emdb.scraper.application.port.out.MovieEventEmitter;
+import com.erdouglass.emdb.scraper.application.port.out.MovieEventProducer;
 import com.erdouglass.emdb.scraper.domain.event.MovieEvent;
 import com.erdouglass.emdb.scraper.domain.event.MovieExtracted;
 import com.erdouglass.emdb.scraper.domain.event.MovieStarted;
@@ -23,8 +23,8 @@ import io.smallrye.reactive.messaging.MutinyEmitter;
 import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
 
 @ApplicationScoped
-class MovieEventProducer implements MovieEventEmitter {
-  private static final Logger LOGGER = Logger.getLogger(MovieEventProducer.class);
+class MovieEventAdapter implements MovieEventProducer {
+  private static final Logger LOGGER = Logger.getLogger(MovieEventAdapter.class);
   
   @Inject
   @Channel("ingest-events")
@@ -35,14 +35,14 @@ class MovieEventProducer implements MovieEventEmitter {
   MutinyEmitter<MovieScraped> movies;
 
   @Override
-  public void emit(MovieEvent event) {
+  public void send(MovieEvent event) {
     switch (event) {
-      case MovieStarted   e -> publishStartedEvent(e);
-      case MovieExtracted e -> { publishScrapedEvent(e); publishExtractedEvent(e); }
+      case MovieStarted   e -> sendStartedEvent(e);
+      case MovieExtracted e -> { sendScrapedEvent(e); sendExtractedEvent(e); }
     }
   }
   
-  private void publishExtractedEvent(MovieExtracted event) {
+  private void sendExtractedEvent(MovieExtracted event) {
     var message = IngestEvent.builder()
         .id(event.id())
         .correlationId(event.correlationId())
@@ -58,7 +58,7 @@ class MovieEventProducer implements MovieEventEmitter {
     LOGGER.debugf("Published: %s", message);
   }
   
-  private void publishScrapedEvent(MovieExtracted event) {
+  private void sendScrapedEvent(MovieExtracted event) {
     var movie = event.details();
     var message = MovieScraped.builder()
         .id(event.id())
@@ -77,7 +77,7 @@ class MovieEventProducer implements MovieEventEmitter {
     LOGGER.debugf("Published: %s", message);
   }
   
-  private void publishStartedEvent(MovieStarted event) {
+  private void sendStartedEvent(MovieStarted event) {
     var message = IngestEvent.builder()
         .id(event.id())
         .correlationId(event.correlationId())
