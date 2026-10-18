@@ -14,7 +14,8 @@ public record IngestFailed(
     IngestId ingestId, 
     Instant occurredAt, 
     TmdbId tmdbId,
-    MediaType mediaType) implements DomainEvent {
+    MediaType mediaType,
+    String reason) implements DomainEvent {
 
   public IngestFailed {
     Objects.requireNonNull(id, "id is required");
@@ -25,6 +26,10 @@ public record IngestFailed(
   }
   
   public static IngestFailed of(MessageId id, IngestId ingestId, TmdbId tmdbId, MediaType mediaType) {
-    return new IngestFailed(id, ingestId, DateTimeFactory.now().toInstant(), tmdbId, mediaType);
+    return new IngestFailed(id, ingestId, DateTimeFactory.now().toInstant(), tmdbId, mediaType, null);
+  }
+  
+  public static IngestFailed of(MessageId id, IngestId ingestId, TmdbId tmdbId, MediaType mediaType, String reason) {
+    return new IngestFailed(id, ingestId, DateTimeFactory.now().toInstant(), tmdbId, mediaType, reason);
   }  
 }

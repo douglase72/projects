@@ -38,10 +38,10 @@ class PersistIngestService implements SaveIngestEventUseCase {
         .orElseThrow(() -> new IngestNotFoundException(event.ingestId()));
     switch (event) {
       case IngestSubmitted _ -> { }
-      case IngestStarted   _ -> { job.start();    jobs.save(job); }
-      case IngestExtracted _ -> { job.extract();  jobs.save(job); }
-      case IngestCompleted _ -> { job.complete(); jobs.save(job); }
-      case IngestFailed    _ -> { job.failed();   jobs.save(job); }
+      case IngestStarted   _ -> { job.start();            jobs.save(job); }
+      case IngestExtracted _ -> { job.extract();          jobs.save(job); }
+      case IngestCompleted _ -> { job.complete();         jobs.save(job); }
+      case IngestFailed    e -> { job.failed(e.reason()); jobs.save(job); }
     }
     job.pullEvents().forEach(emitter::fire);
   }

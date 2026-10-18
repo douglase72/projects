@@ -17,7 +17,8 @@ public record MediaEvent(
     Instant occurredAt,
     TmdbId tmdbId,    
     MediaType mediaType,
-    EventType eventType) {
+    EventType eventType,
+    String reason) {
 
   public MediaEvent {
     Objects.requireNonNull(id, "id is required");
@@ -29,8 +30,9 @@ public record MediaEvent(
   }
   
   public enum EventType {
-    SAVED,
+    CREATED,
     UPDATED,
-    DELETED;
+    DELETED,
+    FAILED;
   }
 }

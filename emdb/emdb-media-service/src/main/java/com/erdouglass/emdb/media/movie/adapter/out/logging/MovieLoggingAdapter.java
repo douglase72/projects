@@ -7,6 +7,7 @@ import jakarta.enterprise.event.TransactionPhase;
 import org.jboss.logging.Logger;
 
 import com.erdouglass.emdb.media.movie.domain.event.MovieCreated;
+import com.erdouglass.emdb.media.movie.domain.event.MovieFailed;
 import com.erdouglass.emdb.media.movie.domain.event.MovieUpdated;
 
 @ApplicationScoped
@@ -21,5 +22,9 @@ class MovieLoggingAdapter {
   void onUpdated(@Observes(during = TransactionPhase.AFTER_SUCCESS) MovieUpdated event) {
     LOGGER.infof("Updated movie: id: %s, TMDB id: %d, title: %s", 
         event.mediaId().value(), event.tmdbId().value(), event.title().value());    
+  }
+  
+  void onFailed(@Observes MovieFailed event) {
+    LOGGER.errorf("TMDB movie %d error: %s", event.tmdbId().value(), event.reason());    
   }  
 }

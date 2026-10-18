@@ -60,8 +60,8 @@ public final class Ingest {
     raise(IngestCompleted.of(MessageId.newId(), id, tmdbId, mediaType));
   }
   
-  public void failed() {
-    raise(IngestFailed.of(MessageId.newId(), id, tmdbId, mediaType));
+  public void failed(String reason) {
+    raise(IngestFailed.of(MessageId.newId(), id, tmdbId, mediaType, reason));
   }
   
   public static Ingest rehydrate(

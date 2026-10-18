@@ -28,6 +28,6 @@ class LoggingAdapter {
   }
   
   void onFailed(@Observes(during = TransactionPhase.AFTER_SUCCESS) IngestFailed event) {
-    LOGGER.errorf("Ingest job for TMDB %s %s failed", event.mediaType(), event.tmdbId().value());
+    LOGGER.errorf("Ingest job for TMDB %s %s failed, %s", event.mediaType(), event.tmdbId().value(), event.reason());
   }  
 }

@@ -5,8 +5,10 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
+import com.erdouglass.emdb.media.movie.application.port.in.ReportMovieFailureUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.domain.event.MovieFailed;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 import com.erdouglass.emdb.media.shared.domain.model.LanguageCode;
@@ -24,6 +26,9 @@ class MovieScrapedConsumer {
   
   @Inject
   SaveMovieUseCase saveUseCase;
+  
+  @Inject
+  ReportMovieFailureUseCase failures;
 
   @Blocking
   @Incoming("movies-scraped")
@@ -36,6 +41,14 @@ class MovieScrapedConsumer {
           .details(toMovieDetails(event))
           .build();
       saveUseCase.save(command);
+    } catch (IllegalArgumentException e) {
+      failures.report(MovieFailed.builder()
+          .id(event.id())
+          .correlationId(event.correlationId())
+          .tmdbId(event.tmdbId())
+          .reason(e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName())
+          .build());
+      throw e;
     }
   }
   

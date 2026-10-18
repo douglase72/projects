@@ -7,6 +7,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import com.erdouglass.emdb.ingest.application.port.in.SaveIngestEventUseCase;
 import com.erdouglass.emdb.ingest.domain.event.IngestCompleted;
+import com.erdouglass.emdb.ingest.domain.event.IngestFailed;
 import com.erdouglass.emdb.ingest.domain.model.IngestId;
 import com.erdouglass.emdb.media.messaging.MediaEvent;
 import com.erdouglass.emdb.shared.kernel.CorrelationId;
@@ -26,9 +27,11 @@ class MediaEventConsumer {
     var ingestId = IngestId.of(message.correlationId().value());
     try (var _ = CorrelationScope.open(CorrelationId.of(ingestId.value()))) {
       var event = switch (message.eventType()) {
-        case SAVED   -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
+        case CREATED -> IngestCompleted.of(message.id(), ingestId, message.tmdbId(), message.mediaType());
         case UPDATED -> throw new IllegalStateException();
         case DELETED -> throw new IllegalStateException();
+        case FAILED  -> IngestFailed
+          .of(message.id(), ingestId, message.tmdbId(), message.mediaType(), message.reason());
       };
       saveUseCase.save(event);
     }

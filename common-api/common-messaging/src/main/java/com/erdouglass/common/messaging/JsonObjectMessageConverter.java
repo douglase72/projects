@@ -14,31 +14,35 @@ import io.vertx.core.json.JsonObject;
 @Priority(100)
 @ApplicationScoped
 public class JsonObjectMessageConverter implements MessageConverter {
+  private static final String RABBITMQ_METADATA = "io.smallrye.reactive.messaging.rabbitmq.";
 
   @Override
   public boolean canConvert(Message<?> in, Type target) {
+    if (!(target instanceof Class<?> cls) || cls == Object.class || cls == JsonObject.class) {
+      return false;
+    }
     var payload = in.getPayload();
-    return (payload instanceof JsonObject
-            || payload instanceof Buffer
-            || payload instanceof byte[])
-        && target instanceof Class<?> cls
-        && cls != JsonObject.class
-        && cls != Object.class;
+    return payload instanceof JsonObject
+        || (payload instanceof Buffer || payload instanceof byte[]) && fromRabbitMq(in);
   }
 
   @Override
   public Message<?> convert(Message<?> in, Type target) {
-    var json = toJsonObject(in.getPayload());
+    var json = switch (in.getPayload()) {
+      case JsonObject object -> object;
+      case Buffer buffer     -> buffer.toJsonObject();
+      case byte[] bytes      -> Buffer.buffer(bytes).toJsonObject();
+      default -> throw new IllegalStateException("unexpected payload " + in.getPayload().getClass());
+    };
     return in.withPayload(json.mapTo((Class<?>) target));
   }
 
-  private static JsonObject toJsonObject(Object payload) {
-    return switch (payload) {
-      case JsonObject json -> json;
-      case Buffer buffer   -> buffer.toJsonObject();
-      case byte[] bytes    -> Buffer.buffer(bytes).toJsonObject();
-      default -> throw new IllegalStateException(
-          "Unexpected payload type: " + payload.getClass().getName());
-    };
+  private static boolean fromRabbitMq(Message<?> in) {
+    for (Object meta : in.getMetadata()) {
+      if (meta.getClass().getName().startsWith(RABBITMQ_METADATA)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

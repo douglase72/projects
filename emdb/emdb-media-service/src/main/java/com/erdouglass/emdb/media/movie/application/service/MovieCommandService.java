@@ -4,7 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
+import com.erdouglass.emdb.media.movie.application.port.in.ReportMovieFailureUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
@@ -15,7 +17,7 @@ import com.erdouglass.emdb.media.shared.application.SaveResult;
 import com.erdouglass.emdb.media.shared.application.SaveResult.Status;
 
 @ApplicationScoped
-class MovieCommandService implements SaveMovieUseCase {  
+class MovieCommandService implements SaveMovieUseCase, ReportMovieFailureUseCase {  
   
   @Inject
   Event<MovieEvent> emitter;
@@ -32,6 +34,13 @@ class MovieCommandService implements SaveMovieUseCase {
     return movies.findByTmdbId(command.tmdbId())
         .map(existing -> update(existing, command))
         .orElseGet(() -> insert(command));
+  }
+  
+  @Override
+  @Transactional(TxType.REQUIRES_NEW)
+  public void report(MovieEvent event) {
+    outbox.save(event);
+    emitter.fire(event);
   }
   
   private SaveResult insert(SaveMovieCommand command) {

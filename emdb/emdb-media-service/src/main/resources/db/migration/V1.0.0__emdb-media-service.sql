@@ -15,7 +15,9 @@
     create table media.movie_outbox (
         id uuid not null,
         correlation_id uuid not null,
-        media_id uuid not null,
+        media_id uuid,
+        reason varchar(255),
         tmdb_id integer not null,
+        event_type varchar(16) not null check ((event_type in ('CREATED','UPDATED','DELETED','FAILED'))),
         primary key (id)
     );

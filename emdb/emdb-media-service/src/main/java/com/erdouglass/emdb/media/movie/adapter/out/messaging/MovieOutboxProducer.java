@@ -12,7 +12,6 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import com.erdouglass.common.messaging.MessageId;
 import com.erdouglass.common.util.DateTimeFactory;
 import com.erdouglass.emdb.media.messaging.MediaEvent;
-import com.erdouglass.emdb.media.messaging.MediaEvent.EventType;
 import com.erdouglass.emdb.media.movie.adapter.out.persistence.MovieOutboxRepository;
 import com.erdouglass.emdb.shared.kernel.CorrelationId;
 import com.erdouglass.emdb.shared.kernel.MediaType;
@@ -46,7 +45,8 @@ class MovieOutboxProducer {
           .occurredAt(DateTimeFactory.now().toInstant())
           .tmdbId(TmdbId.of(event.getTmdbId()))
           .mediaType(MediaType.MOVIE)
-          .eventType(EventType.SAVED)
+          .eventType(event.getType())
+          .reason(event.getReason().orElse(null))
           .build();
       var metadata = OutgoingKafkaRecordMetadata.<UUID>builder()
           .withKey(event.getCorrelationId())

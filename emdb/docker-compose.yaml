@@ -123,6 +123,11 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./emdb-media-service/.env
+    volumes:
+      - /home/erdouglass/projects/emdb/media-data/images:/images
+      - /home/erdouglass/projects/emdb/media-data/movies:/movies
+      - /home/erdouglass/projects/emdb/media-data/people:/people
+      - /home/erdouglass/projects/emdb/media-data/series:/series      
     networks:
       - erd
     healthcheck:
