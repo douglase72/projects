@@ -5,10 +5,10 @@ import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
+import com.erdouglass.emdb.media.movie.application.port.in.ReportMovieFailureCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.ReportMovieFailureUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
-import com.erdouglass.emdb.media.movie.domain.event.MovieFailed;
 import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.media.movie.domain.model.ReleaseDate;
 import com.erdouglass.emdb.media.shared.domain.model.LanguageCode;
@@ -34,20 +34,12 @@ class MovieScrapedConsumer {
   @Incoming("movies-scraped")
   void onMessage(MovieScraped event) {
     try (var _ = CorrelationScope.open(CorrelationId.of(event.correlationId().value()))) {
-      var command = SaveMovieCommand.builder()
-          .id(event.id())
-          .correlationId(event.correlationId())
-          .tmdbId(event.tmdbId())
-          .details(toMovieDetails(event))
-          .build();
+      var command = SaveMovieCommand.of(event.id(), event.correlationId(), event.tmdbId(), toMovieDetails(event));
       saveUseCase.save(command);
     } catch (IllegalArgumentException e) {
-      failures.report(MovieFailed.builder()
-          .id(event.id())
-          .correlationId(event.correlationId())
-          .tmdbId(event.tmdbId())
-          .reason(e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName())
-          .build());
+      var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+      var command = ReportMovieFailureCommand.of(event.id(), event.correlationId(), event.tmdbId(), msg);
+      failures.report(command);
       throw e;
     }
   }

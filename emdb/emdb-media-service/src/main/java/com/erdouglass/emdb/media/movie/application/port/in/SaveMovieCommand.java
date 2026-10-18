@@ -7,9 +7,6 @@ import com.erdouglass.emdb.media.movie.domain.model.MovieDetails;
 import com.erdouglass.emdb.shared.kernel.CorrelationId;
 import com.erdouglass.emdb.shared.kernel.TmdbId;
 
-import lombok.Builder;
-
-@Builder
 public record SaveMovieCommand(
     MessageId id,
     CorrelationId correlationId,
@@ -21,5 +18,13 @@ public record SaveMovieCommand(
     Objects.requireNonNull(correlationId, "correlationId must not be null");
     Objects.requireNonNull(tmdbId, "tmdbId must not be null");
     Objects.requireNonNull(details, "details must not be null");
+  }
+  
+  public static SaveMovieCommand of(
+      MessageId id, 
+      CorrelationId correlationId, 
+      TmdbId tmdbId, 
+      MovieDetails details) {
+    return new SaveMovieCommand(id, correlationId, tmdbId, details);
   }
 }

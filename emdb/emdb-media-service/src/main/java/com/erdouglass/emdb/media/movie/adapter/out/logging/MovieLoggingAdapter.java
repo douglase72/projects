@@ -15,12 +15,12 @@ class MovieLoggingAdapter {
   private static final Logger LOGGER = Logger.getLogger(MovieLoggingAdapter.class);
   
   void onCreated(@Observes(during = TransactionPhase.AFTER_SUCCESS) MovieCreated event) {
-    LOGGER.infof("Created movie: id: %s, TMDB id: %d, title: %s", 
+    LOGGER.infof("Created movie: %s, TMDB id: %d, title: %s", 
         event.mediaId().value(), event.tmdbId().value(), event.title().value());    
   }
   
   void onUpdated(@Observes(during = TransactionPhase.AFTER_SUCCESS) MovieUpdated event) {
-    LOGGER.infof("Updated movie: id: %s, TMDB id: %d, title: %s", 
+    LOGGER.infof("Updated movie: %s, TMDB id: %d, title: %s", 
         event.mediaId().value(), event.tmdbId().value(), event.title().value());    
   }
   

@@ -14,6 +14,8 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
   @Override
   public Response toResponse(ConstraintViolationException exception) {
     LOGGER.error("Validation failed", exception);
-    return Response.status(Response.Status.BAD_REQUEST).build();
+    return Response.status(Response.Status.BAD_REQUEST)
+        .entity(exception.getMessage())
+        .build();
   }
 }
