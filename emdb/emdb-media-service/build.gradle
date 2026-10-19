@@ -11,7 +11,9 @@ dependencies {
   annotationProcessor enforcedPlatform(libs.quarkus.bom)
   annotationProcessor libs.lombok
   annotationProcessor libs.hibernate.processor
+  annotationProcessor libs.mapstruct.processor
   
+  implementation project(':common-graphql')
   implementation project(':common-messaging')
   implementation project(':common-rest')
   implementation project(':common-util')
@@ -20,11 +22,13 @@ dependencies {
   implementation project(':emdb-scraper-api')
   
   compileOnly libs.lombok
+  compileOnly libs.mapstruct
   
   implementation libs.jakarta.data.api
   implementation libs.jug
   implementation libs.quarkus.arc
   implementation libs.quarkus.flyway
+  implementation libs.quarkus.graphql
   implementation libs.quarkus.health
   implementation libs.quarkus.hibernate.orm
   implementation libs.quarkus.hibernate.validator
