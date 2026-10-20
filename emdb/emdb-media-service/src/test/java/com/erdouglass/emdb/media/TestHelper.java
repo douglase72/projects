@@ -17,11 +17,11 @@ public final class TestHelper {
     OBJECT_MAPPER = JsonMapper.builder()
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         .build();
-    //MOVIES_URL  = "http://localhost:60312/api/v1/movies";
-    //GRAPHQL_URL = "http://localhost:60312/api/v1/graphql";
+    MOVIES_URL  = "http://localhost:60312/api/v1/movies";
+    GRAPHQL_URL = "http://localhost:60312/api/v1/graphql";
     
-    MOVIES_URL  = "http://localhost/api/v1/movies";
-    GRAPHQL_URL = "http://localhost/api/v1/graphql";
+    //MOVIES_URL  = "http://localhost/api/v1/movies";
+    //GRAPHQL_URL = "http://localhost/api/v1/graphql";
   }  
 
   private TestHelper() { }

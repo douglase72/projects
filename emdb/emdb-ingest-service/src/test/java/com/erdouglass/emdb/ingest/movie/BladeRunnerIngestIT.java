@@ -21,7 +21,7 @@ class BladeRunnerIngestIT {
   
   @Test
   void testIngestMovie() throws IOException, InterruptedException {
-    var ingestRequest = IngestRequest.of(78, "movie");
+    var ingestRequest = IngestRequest.of(78, "MOVIE");
     var request = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(ingestRequest)))
         .uri(UriBuilder.fromUri(TestHelper.INGEST_URL).build())
