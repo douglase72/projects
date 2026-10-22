@@ -23,7 +23,6 @@ public record MovieUpdated(
   
   public MovieUpdated {
     Objects.requireNonNull(id, "id must not be null");
-    Objects.requireNonNull(correlationId, "correlationId must not be null");
     occurredAt = DateTimeFactory.now().toInstant();
     Objects.requireNonNull(mediaId, "mediaId must not be null");
     Objects.requireNonNull(tmdbId, "tmdbId must not be null");

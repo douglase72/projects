@@ -30,8 +30,7 @@
   import { ref } from 'vue';
   import { Button, Fieldset, InputGroup, InputNumber } from 'primevue';
 
-  import { ingest } from '@/lib/emdbIngestApi';
-  import { type IngestRequest } from '@/models/IngestRequest';
+  import { type IngestRequest, ingest } from '@/lib/emdbIngestApi';
   import { MediaType } from '@/models/MediaType';
   import { useNotificationService } from '@/composables/useNotificationService';
 

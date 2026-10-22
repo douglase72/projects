@@ -1,5 +1,7 @@
 package com.erdouglass.emdb.media.movie.adapter.in.rest;
 
+import java.util.UUID;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +17,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.shared.adapter.SaveResponse;
+import com.erdouglass.emdb.media.shared.adapter.UpdateResponse;
 
 @Path("/movies")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,6 +28,9 @@ class MovieResource {
 
   @Inject
   SaveMovieUseCase saveUseCase;
+  
+  @Inject
+  UpdateMovieUseCase updateUseCase;
   
   @PUT
   @Path("/tmdb/{id}")
@@ -43,5 +50,17 @@ class MovieResource {
       case UPDATED, UNCHANGED -> Response
         .ok(SaveResponse.of(result.id().value(), result.status().toString())).build();
     };    
+  }
+  
+  @PUT
+  @Path("/{id}")
+  public UpdateResponse update(
+      @NotNull @PathParam("id") UUID id, 
+      @NotNull @Valid UpdateMovieRequest request) {
+    var command = MovieMapper.totoUpdateMovieCommand(id, request);
+    var result = updateUseCase.update(command);
+    return switch (result.status()) {
+      case UPDATED, UNCHANGED -> UpdateResponse.of(id, result.version().value(), result.status().toString());
+    };
   }
 }

@@ -11,16 +11,20 @@ import com.erdouglass.emdb.media.movie.application.port.in.ReportMovieFailureCom
 import com.erdouglass.emdb.media.movie.application.port.in.ReportMovieFailureUseCase;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieCommand;
 import com.erdouglass.emdb.media.movie.application.port.in.SaveMovieUseCase;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieCommand;
+import com.erdouglass.emdb.media.movie.application.port.in.UpdateMovieUseCase;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieCommandRepository;
 import com.erdouglass.emdb.media.movie.application.port.out.MovieOutbox;
 import com.erdouglass.emdb.media.movie.domain.event.MovieEvent;
 import com.erdouglass.emdb.media.movie.domain.event.MovieFailed;
+import com.erdouglass.emdb.media.movie.domain.exception.MovieNotFoundException;
 import com.erdouglass.emdb.media.movie.domain.model.Movie;
 import com.erdouglass.emdb.media.shared.application.SaveResult;
 import com.erdouglass.emdb.media.shared.application.SaveResult.Status;
+import com.erdouglass.emdb.media.shared.application.UpdateResult;
 
 @ApplicationScoped
-class MovieCommandService implements SaveMovieUseCase, ReportMovieFailureUseCase {  
+class MovieCommandService implements SaveMovieUseCase, UpdateMovieUseCase, ReportMovieFailureUseCase {  
   
   @Inject
   Event<MovieEvent> emitter;
@@ -37,6 +41,18 @@ class MovieCommandService implements SaveMovieUseCase, ReportMovieFailureUseCase
     return movies.findByTmdbId(command.tmdbId())
         .map(existing -> update(existing, command))
         .orElseGet(() -> insert(command));
+  }
+  
+  @Override
+  @Transactional
+  public UpdateResult update(UpdateMovieCommand command) {
+    var existing = movies.findById(command.id())
+        .orElseThrow(() -> new MovieNotFoundException(command.id().value().toString()));
+    existing.checkVersion(command.version());
+    existing.update(command.details());
+    var updated = movies.update(existing);
+    existing.pullEvents().forEach(emitter::fire);
+    return UpdateResult.of(updated.id(), updated.version(), UpdateResult.Status.UPDATED);
   }
   
   @Override

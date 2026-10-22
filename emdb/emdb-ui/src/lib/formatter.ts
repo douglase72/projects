@@ -1,21 +1,3 @@
-import type { Gender } from "@/gql/graphql";
-
-const GenderMap: Record<Gender, string> = {
-  FEMALE: 'Female',
-  MALE: 'Male',
-  NON_BINARY: 'Non-binary',
-};
-
-export const genderValues = Object.keys(GenderMap) as [Gender, ...Gender[]];
-
-export const genderOptions = genderValues.map(value => ({
-  label: GenderMap[value],
-  value,
-}));
-
-export function formatGender(gender: Gender | null): string | null {
-  return gender != null ? GenderMap[gender] ?? fallbackLabel(gender) : null;
-}
 
 function fallbackLabel(value: string): string {
   return value.toLowerCase().split('_')

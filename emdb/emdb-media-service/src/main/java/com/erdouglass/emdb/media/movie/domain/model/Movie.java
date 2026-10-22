@@ -44,6 +44,16 @@ public final class Movie extends AggregateRoot {
     return movie;
   }
   
+  public void update(MovieDetails details) {
+    this.details = details;
+    raise(MovieUpdated.builder()
+        .id(MessageId.newId())
+        .mediaId(id())
+        .tmdbId(tmdbId())
+        .title(title())
+        .build());
+  }
+  
   public void update(CorrelationId correlationId, MovieDetails details) {
     this.details = details;
     raise(MovieUpdated.builder()

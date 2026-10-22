@@ -24,7 +24,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.erdouglass.emdb.media.TestHelper;
 import com.erdouglass.emdb.media.movie.adapter.in.rest.SaveMovieRequest;
+import com.erdouglass.emdb.media.movie.adapter.in.rest.UpdateMovieRequest;
 import com.erdouglass.emdb.media.shared.adapter.SaveResponse;
+import com.erdouglass.emdb.media.shared.adapter.UpdateResponse;
 import com.erdouglass.emdb.shared.kernel.CorrelationId;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -90,5 +92,30 @@ class BladeRunnerCrudIT {
     assertEquals("en", movie.path("originalLanguage").asText());
     assertEquals("In the smog-choked dystopian Los Angeles of 2019, blade runner Rick Deckard is called out of retirement to terminate a quartet of replicants who have escaped to Earth seeking their creator for a way to extend their short life spans.", movie.path("overview").asText());
     LOGGER.infof("Found movie in %d ms", et);    
+  }
+  
+  @Test
+  @Order(3)
+  void testUpdateMovie() throws IOException, InterruptedException {
+    var updateRequest = UpdateMovieRequest.builder()
+        .version(0L)
+        .title("X")
+        .releaseDate("1982-10-04")
+        .score(BigDecimal.valueOf(1.2))
+        .originalLanguage("en")
+        .overview("Test overview")
+        .build();
+    var request = HttpRequest.newBuilder()
+        .PUT(HttpRequest.BodyPublishers.ofString(TestHelper.OBJECT_MAPPER.writeValueAsString(updateRequest)))
+        .uri(UriBuilder.fromUri(TestHelper.MOVIES_URL).path(movieId.toString()).build())
+        .build();    
+    var start = Instant.now();
+    var response = TestHelper.HTTP_CLIENT.send(request, BodyHandlers.ofString());
+    var et = Duration.between(start, Instant.now()).toMillis();
+    var result = TestHelper.OBJECT_MAPPER.readValue(response.body(), UpdateResponse.class);
+    assertEquals(200, response.statusCode(), "Server failed with response: " + response.body());
+    assertEquals("UPDATED", result.status());
+    assertEquals(1, result.version());    
+    LOGGER.infof("Updated movie in %d ms", et);
   }
 }

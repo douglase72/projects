@@ -138,6 +138,18 @@ services:
     depends_on:
       emdb-scraper:
         condition: service_healthy
+
+  emdb-ui:
+    image: emdb-ui:latest
+    container_name: emdb-ui
+    build:
+      context: .
+      dockerfile: emdb-ui/Dockerfile
+    networks:
+      - erd
+    depends_on:
+      emdb-media:
+        condition: service_healthy
                         
 volumes:
   rabbitmq_data:

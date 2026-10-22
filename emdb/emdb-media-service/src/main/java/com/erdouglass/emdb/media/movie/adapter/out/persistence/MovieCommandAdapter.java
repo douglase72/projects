@@ -31,8 +31,8 @@ class MovieCommandAdapter implements MovieCommandRepository {
 
   @Override
   public Movie update(Movie movie) {
-    // TODO Auto-generated method stub
-    return null;
+    var entity = movies.update(toMovieEntity(movie));
+    return toMovie(entity);
   }
 
   @Override

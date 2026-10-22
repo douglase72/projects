@@ -23,7 +23,7 @@ public abstract class AggregateRoot {
   
   public void checkVersion(Version expected) {
     if (version == null || !version.equals(expected)) {
-      throw new StaleVersionException("Sate version: %d".formatted(expected.value()));
+      throw new StaleVersionException("Stale version: %d".formatted(expected.value()));
     }
   }
   
